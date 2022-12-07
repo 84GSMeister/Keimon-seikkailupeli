@@ -690,11 +690,8 @@ public class Peli {
         Timer ajastin = new Timer(10, e -> {
             if (peliKäynnissä) {
                 aika += 0.01;
-                double sekunnit = aika;
+                double sekunnit = aika % 60;
                 int minuutit = (int)aika / 60;
-                if (sekunnit >= 60) {
-                    sekunnit = 0;
-                }
                 PääIkkuna.aikaTeksti.setText("Aika: " + minuutit + ":" + kaksiDesimaalia.format(sekunnit));
                 pelinKulku();
             }

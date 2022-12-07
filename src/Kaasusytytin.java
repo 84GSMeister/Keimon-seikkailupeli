@@ -44,7 +44,7 @@ public class Kaasusytytin extends Esine{
     Kaasusytytin(){
         this.nimi = "Toimiva kaasusytytin";
         this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi = "Nuotio";
+        this.sopiiKäytettäväksi.add("Nuotio");
         this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
     }
 }

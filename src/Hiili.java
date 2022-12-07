@@ -39,7 +39,7 @@ public class Hiili extends Esine {
     Hiili(){
         this.nimi = "Hiili";
         this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi = "Nuotio";
+        this.sopiiKäytettäväksi.add("Nuotio");
         this.kuvake = new ImageIcon("tiedostot/kuvat/hiili.png");
     }
 }

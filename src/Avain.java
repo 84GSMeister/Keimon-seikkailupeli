@@ -43,7 +43,7 @@ public class Avain extends Esine {
     Avain(){
         this.nimi = "Avain";
         this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi = "Kirstu";
+        this.sopiiKäytettäväksi.add("Kirstu");
         this.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
     }
 }

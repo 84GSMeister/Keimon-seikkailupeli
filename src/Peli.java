@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -39,6 +40,7 @@ public class Peli {
     int valY;
     int esineValInt = 0;
     double aika = 0f;
+    DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
     GrafiikanPäivitysSäie gThread = new GrafiikanPäivitysSäie();
     ÄänentoistamisSäie sThread = new ÄänentoistamisSäie();
@@ -242,7 +244,7 @@ public class Peli {
                     valY = p.sijY;
 
                     if (pelikenttä[valX][valY] instanceof Kiintopiste) {
-                        if (pelikenttä[valX][valY].annaNimi() == valittuEsine.sopiiKäytettäväksi) {
+                        if (valittuEsine.sopiiKäytettäväksi.contains(pelikenttä[valX][valY].annaNimi())) {
                             PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
                             PääIkkuna.hudTeksti.setText(pelikenttä[valX][valY].kokeileEsinettä(valittuEsine));
                         }
@@ -576,7 +578,7 @@ public class Peli {
         peliKäynnissä = false;
         switch (sulkuTapa) {
             case 0:
-                CustomViestiIkkunat.Loppuonnittelu.showDialog();
+                CustomViestiIkkunat.Loppuonnittelu.showDialog(aika);
                 PääIkkuna.ikkuna.dispose();
                 break;
             case 1:
@@ -688,6 +690,12 @@ public class Peli {
         Timer ajastin = new Timer(10, e -> {
             if (peliKäynnissä) {
                 aika += 0.01;
+                double sekunnit = aika;
+                int minuutit = (int)aika / 60;
+                if (sekunnit >= 60) {
+                    sekunnit = 0;
+                }
+                PääIkkuna.aikaTeksti.setText("Aika: " + minuutit + ":" + kaksiDesimaalia.format(sekunnit));
                 pelinKulku();
             }
         });

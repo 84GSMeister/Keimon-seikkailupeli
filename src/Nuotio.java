@@ -8,47 +8,47 @@ public class Nuotio extends Kiintopiste {
     
     String kokeileEsinettä(Esine e) {
         
+        String statusTeksti = "";
         if (tavoiteSuoritettu) {    
-            return("Nuotion liekit leimuavat komeasti");
+            statusTeksti = "Nuotion liekit leimuavat komeasti";
         }
-        else {
-            if (e instanceof Paperi) {
-                this.sytyke = true;
-                this.vuorovaikutus = true;
-                System.out.println("Nuotioon lisättiin sytyke.");
-                return "Nuotioon lisättiin sytyke.";
-            }
-            else if (e instanceof Hiili) {
-                this.polttoaine = true;
-                this.vuorovaikutus = true;
-                System.out.println("Nuotioon lisättiin palavaa ainetta.");
-                return "Nuotioon lisättiin palavaa ainetta.";
-            }
-            else if (e instanceof Kaasusytytin) {
-                if (polttoaine){
-                    if (sytyke) {
-                        this.tavoiteSuoritettu = true;
-                        this.sytytetty = true;
-                        this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio.png");
-                        System.out.println("Nuotio sytytettiin!");
-                        return "Nuotio sytytettiin!";
-                    }
-                    else {
-                        System.out.println("Nuotio tarvitsee jonkin sytykkeen.");
-                        return "Nuotio tarvitsee jonkin sytykkeen.";
-                    }
+        if (e instanceof Paperi) {
+            this.sytyke = true;
+            this.vuorovaikutus = true;
+            statusTeksti = "Nuotioon lisättiin sytyke.";
+        }
+        else if (e instanceof Hiili) {
+            this.polttoaine = true;
+            this.vuorovaikutus = true;
+            statusTeksti = "Nuotioon lisättiin palavaa ainetta.";
+        }
+        else if (e instanceof Kaasusytytin) {
+            if (polttoaine){
+                if (sytyke) {
+                    this.tavoiteSuoritettu = true;
+                    this.sytytetty = true;
+                    this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio.png");
+                    statusTeksti = "Nuotio sytytettiin!";
                 }
                 else {
-                    System.out.println("Nuotio tarvitsee palavaa ainetta.");
-                    return "Nuotio tarvitsee palavaa ainetta.";
+                    statusTeksti = "Nuotio tarvitsee jonkin sytykkeen.";
                 }
             }
             else {
-                System.out.println("Mitään ei tapahtunut.");
-                return "Mitään ei tapahtunut.";
+                statusTeksti = "Nuotio tarvitsee palavaa ainetta.";
             }
         }
-    }
+        else if (e instanceof Vesiämpäri) {
+            this.sytytetty = false;
+            this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
+            statusTeksti = "Nuotio sammutettiin";
+        }
+        else {
+            System.out.println("Mitään ei tapahtunut.");
+            statusTeksti = "Mitään ei tapahtunut.";
+        }
+        return statusTeksti;
+        }
 
     String katso(){
         if (tavoiteSuoritettu) {    

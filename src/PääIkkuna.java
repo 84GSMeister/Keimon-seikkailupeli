@@ -16,7 +16,7 @@ public class PääIkkuna {
     static JMenuItem uusiPeli, mukauta, asetukset, ohjeet, tekijät, näytäFPS;
     static JMenuItem kaksoispistedeeValikkoItemi, kaksoispistedeeValikkoItemi2, kaksoispistedeeValikkoItemi3, kaksoispistedeeValikkoSubmenu2, kaksoispistedeeValikkoSubmenu3;
     static JPanel peliKenttä, hud, yläPaneeli;
-    static JLabel hudTeksti, yläteksti1, yläteksti2, yläteksti3, yläteksti4, yläteksti5, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
+    static JLabel hudTeksti, aikaTeksti, yläteksti1, yläteksti2, yläteksti3, yläteksti4, yläteksti5, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
     static JPanel tekstiPaneli, infoPaneli, invaPaneli, tavaraPaneli, osoitinPaneli;
     static JLabel[] esineLabel = new JLabel[5];
     static JLabel[] osoitinLabel = new JLabel[5];
@@ -30,7 +30,7 @@ public class PääIkkuna {
         ikkunanLeveys = EsineenKokoPx * Main.kentänKoko + 50;
         ikkunanKorkeus = EsineenKokoPx * Main.kentänKoko + 300;
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.2.1 alpha (7.12.2022)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.2.2 alpha (7.12.2022)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -252,6 +252,10 @@ public class PääIkkuna {
         hud.revalidate();
         hud.repaint();
 
+        aikaTeksti = new JLabel("Aika: ");
+        aikaTeksti.setVisible(true);
+        aikaTeksti.setBounds(210, 5, 200, 20);
+
         yläteksti1 = new JLabel("Paina nuolinäppäimiä liikkuaksesi");
         yläteksti1.setVisible(true);
         yläteksti1.setBounds(10,5, 500, 20);
@@ -288,6 +292,7 @@ public class PääIkkuna {
         yläPaneeli.setLayout(null);
         yläPaneeli.setPreferredSize(new Dimension(ikkunanLeveys -30, 60));
         yläPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        yläPaneeli.add(aikaTeksti);
         yläPaneeli.add(yläteksti1);
         yläPaneeli.add(yläteksti2);
         yläPaneeli.add(yläteksti3);

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public abstract class Esine extends KenttäKohde {
 
     Random r = new Random();
-    String sopiiKäytettäväksi;
 
     boolean poista = false;
     boolean poistoon(){
@@ -26,6 +25,7 @@ public abstract class Esine extends KenttäKohde {
         return yhdistettävä;
     }
     ArrayList<String> kelvollisetYhdistettävät = new ArrayList<String>();
+    ArrayList<String> sopiiKäytettäväksi = new ArrayList<String>();
 
     String käytä(){
         poista = true;

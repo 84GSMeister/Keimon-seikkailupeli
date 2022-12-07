@@ -1,6 +1,7 @@
 import javax.swing.JOptionPane;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.text.DecimalFormat;
 
 public class CustomViestiIkkunat {
     
@@ -12,9 +13,13 @@ public class CustomViestiIkkunat {
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
         static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
         static String[] vaihtoehdot = {"Jee!"};
+        static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
-        static int showDialog() {
-            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        static int showDialog(double aika) {
+            int minuutit = (int)aika / 60;
+            double sekunnit = (aika % 60);
+            String sekunnit2Desimaalia = kaksiDesimaalia.format(sekunnit);
+            return JOptionPane.showOptionDialog(null, viesti + "\n\nAikasi: " + minuutit + ":" + sekunnit2Desimaalia, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
 

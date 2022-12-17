@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
@@ -16,16 +17,11 @@ public class Peli {
     /**
      * Puutteet sovelluksessa:
      *  -joitain luokkia ei kommentoitu
-     *  -vaillinaiset tai puutuvat poikkeuksenkäsittelijät joissakin syötettä vaativissa metodeissa
      *  -esineiden käytä() -metodeissa bugeja ja puuttuvia toteutuksia
      */
     
-    //final int kentänKoko = 10;
-    //final int kentänAlaraja = 0;
-    //final int kentänYläraja = kentänAlaraja + kentänKoko - 1;
     KenttäKohde[][] pelikenttä = Main.pelikenttä;
     int esineitäKentällä = 0;
-    //Tarkastettava[][] pelikenttä = new Tarkastettava[Main.kentänKoko][Main.kentänKoko];
     Random r = new Random();
     Pelaaja p = new Pelaaja();
     Scanner sc = new Scanner(System.in);
@@ -39,38 +35,12 @@ public class Peli {
     int valX;
     int valY;
     int esineValInt = 0;
-    double aika = 0f;
     DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
+    HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
 
     GrafiikanPäivitysSäie gThread = new GrafiikanPäivitysSäie();
     ÄänentoistamisSäie sThread = new ÄänentoistamisSäie();
-
-    /**
-     * Arpoo satunnaisesti pelikentän x- ja y-koordinaatit.
-     * Lisää arvottuun kohtaan syötteenä saadun Tarkastetta-tyyppisen olion
-     * eli jonkin Esine-luokan tai Kiintopiste-luokan alaluokan olioista.
-     * @.pre {
-     * @param t instanceof Tarkastettava
-     * }
-     * @.post pelikenttä[randX][randY] != null
-     */
-
-    void sijoitaSatunnaiseenRuutuun(KenttäKohde t){
-        int randX = r.nextInt(Main.kentänKoko);
-        int randY = r.nextInt(Main.kentänKoko);
-        if (pelikenttä[randX][randY] == null) {
-            pelikenttä[randX][randY] = t;
-            esineitäKentällä++;
-        }
-        else {
-            if (esineitäKentällä < Main.kentänKoko * Main.kentänKoko) {
-                sijoitaSatunnaiseenRuutuun(t);
-            }
-            else {
-                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }
+    AikaSäie tThread = new AikaSäie();
 
     /**
      * Poimii esineen kentältä tavaraluetteloon.
@@ -99,6 +69,10 @@ public class Peli {
             else {
                 PääIkkuna.hudTeksti.setText("Ei voida poimia! Tavaraluettelo täynnä! Kokeile pudottaa jokin esine tyhjään ruutuun");
             }
+        }
+        else if (pelikenttä[x][y] instanceof Ämpärikone) {
+            annaÄmpäri();
+            PääIkkuna.hudTeksti.setText("Sait uuden ämpärin.");
         }
         else if (pelikenttä[x][y] == null) {
             PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään poimittavaa");
@@ -185,7 +159,7 @@ public class Peli {
      */
     void yhdistäEsineet(int a, int b) {
         if ((p.esineet[a].annaNimi() == "Kaasupullo" && p.esineet[b].annaNimi() == "Tyhjä kaasusytytin") || (p.esineet[a].annaNimi() == "Tyhjä kaasusytytin" && p.esineet[b].annaNimi() == "Kaasupullo")) {
-            p.esineet[a] = new Kaasusytytin();
+            p.esineet[a] = new Kaasusytytin("toimiva");
             p.esineet[b] = null;
         }
         PääIkkuna.hudTeksti.setText("Yhdistys onnistui! " + "Sait uuden esineen: " + p.esineet[a].annaNimi());
@@ -228,6 +202,18 @@ public class Peli {
         }
     }
 
+    void käyttö(int esine) {
+        valittuEsine = p.esineet[esine];
+        if (pelikenttä[p.sijX][p.sijY] instanceof Warp) {
+            Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
+            lataaHuone(warp.annaKohdeHuone());
+            p.teleport(warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY());
+        }
+        else {
+            käytäEsinettä(esine);
+        }
+    }
+
     void käytäEsinettä(int esine) {
         
         if (pelikenttä[p.sijX][p.sijY] instanceof Ämpärikone) {
@@ -238,46 +224,18 @@ public class Peli {
                 PääIkkuna.hudTeksti.setText("Ei valittua esinettä.");
             }
             else {
-                valittuEsine =  p.esineet[esine];
-                if (valittuEsine.onkoKenttäkäyttöön()) {
-                    valX = p.sijX;
-                    valY = p.sijY;
-
-                    if (pelikenttä[valX][valY] instanceof Kiintopiste) {
-                        if (valittuEsine.sopiiKäytettäväksi.contains(pelikenttä[valX][valY].annaNimi())) {
-                            PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
-                            PääIkkuna.hudTeksti.setText(pelikenttä[valX][valY].kokeileEsinettä(valittuEsine));
-                        }
-                        else {
-                            PääIkkuna.hudTeksti.setText(valittuEsine.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + pelikenttä[valX][valY].annaNimiSijamuodossa("illatiivi"));
-                        }
+                if (p.esineet[esine].onkoKäyttö()) {
+                    if (valittuEsine instanceof Ruoka) {
+                        Ruoka ruoka = (Ruoka)valittuEsine;
+                        PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
+                        p.syöRuoka(ruoka.annaParannusMäärä());
                     }
-                    else if (pelikenttä[valX][valY] instanceof NPC) {
-                        if (pelikenttä[valX][valY] instanceof Vihollinen) {
-                            Vihollinen vihollinen = (Vihollinen)pelikenttä[valX][valY];
-                            if (vihollinen.tehoavatAseet.contains(valittuEsine.annaNimi())) {
-                                PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
-                                vihollinen.kukista();
-                            }
-                        }
-                    }
-                    else if (pelikenttä[valX][valY] == null) {
-                        PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään mihin käyttää esinettä");
-                    }
-                    else {
-                        PääIkkuna.hudTeksti.setText("Ei voi käyttää kentällä lojuviin esineisiin. Kokeile etsiä muita kiintopisteitä.");
+                    if (valittuEsine.poistoon()){
+                        p.esineet[esine] = null;
                     }
                 }
-                else{
-                    PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
-                }
-                if (valittuEsine instanceof Ruoka) {
-                    Ruoka ruoka = (Ruoka)valittuEsine;
-                    valittuEsine.käytä();
-                    p.syöRuoka(ruoka.annaParannusMäärä());
-                }
-                if (valittuEsine.poistoon()){
-                    p.esineet[esine] = null;
+                else {
+                    PääIkkuna.hudTeksti.setText(p.esineet[esine].katso());
                 }
             }
         }
@@ -285,25 +243,65 @@ public class Peli {
     }
 
     void erikoisKäyttö(int esine) {
+        valittuEsine = p.esineet[esine];
         if (p.esineet[esine] == null) {
             PääIkkuna.hudTeksti.setText("Ei valittua esinettä.");
         }
-        else if (p.esineet[esine].erikoiskäyttö) {
-            valittuEsine =  p.esineet[esine];
-            if (valittuEsine instanceof Makkara) {
-                if (pelikenttä[p.sijX][p.sijY] instanceof Nuotio){
-                    Nuotio nuotio = (Nuotio)pelikenttä[p.sijX][p.sijY];
-                    if (nuotio.onSytytetty()) {
-                        Makkara makkara = (Makkara)valittuEsine;
-                        makkara.paista();
+        else if (valittuEsine.onkoKenttäkäyttöön()) {
+            valX = p.sijX;
+            valY = p.sijY;
+
+            if (pelikenttä[valX][valY] instanceof Kiintopiste) {
+                if (valittuEsine.sopiiKäytettäväksi.contains(pelikenttä[valX][valY].annaNimi())) {
+                    
+                    valittuEsine =  p.esineet[esine];
+                    if (valittuEsine instanceof Makkara) {
+                        if (pelikenttä[valX][valY] instanceof Nuotio) {
+                            Nuotio nuotio = (Nuotio)pelikenttä[valX][valY];
+                            if (nuotio.onSytytetty()) {
+                                Makkara makkara = (Makkara)valittuEsine;
+                                makkara.paista();
+                            }
+                            else {
+                                PääIkkuna.hudTeksti.setText("Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.");
+                            }
+                        }
+                        else {
+                            PääIkkuna.hudTeksti.setText(valittuEsine.annaNimiSijamuodossa("allatiivi") + " saattaa olla käyttöä toisessa kohteessa.");
+                        }
                     }
                     else {
-                        PääIkkuna.hudTeksti.setText("Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.");
+                        PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
+                        PääIkkuna.hudTeksti.setText(pelikenttä[valX][valY].kokeileEsinettä(valittuEsine));
                     }
                 }
                 else {
-                    PääIkkuna.hudTeksti.setText("Tällä esineellä on ehkä erikoiskäyttö jossain muussa kohteessa.");
+                    PääIkkuna.hudTeksti.setText(valittuEsine.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + pelikenttä[valX][valY].annaNimiSijamuodossa("illatiivi"));
                 }
+            }
+            else if (pelikenttä[valX][valY] instanceof NPC) {
+                if (pelikenttä[valX][valY] instanceof Vihollinen) {
+                    Vihollinen vihollinen = (Vihollinen)pelikenttä[valX][valY];
+                    if (vihollinen.tehoavatAseet.contains(valittuEsine.annaNimi())) {
+                        PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
+                        vihollinen.kukista();
+                    }
+                    else {
+                        PääIkkuna.hudTeksti.setText(valittuEsine.annaNimi() + " ei tehonnut " + vihollinen.annaNimiSijamuodossa("illatiivi"));
+                    }
+                }
+            }
+            else if (pelikenttä[valX][valY] == null) {
+                PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään mihin käyttää esinettä");
+            }
+            else if (pelikenttä[valX][valY] instanceof Esine) {
+                PääIkkuna.hudTeksti.setText("Ei voi käyttää kentällä lojuviin esineisiin. Kokeile etsiä muita kiintopisteitä.");
+            }
+            else if (pelikenttä[valX][valY] instanceof Warp) {
+                PääIkkuna.hudTeksti.setText("Ei voi käyttää oviruutuihin.");
+            }
+            else {
+                PääIkkuna.hudTeksti.setText("Käyttö ei onnistunut. Häire sovelluksessa? Ilmoitathan kehittäjille.");
             }
         }
         else {
@@ -426,22 +424,18 @@ public class Peli {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT, KeyEvent.VK_A:
-                        //p.siirry("vasen");
                         p.siirry(new LiikkuminenVasemmalle());
                         pelaajaSiirtyi = true;
                         break;
                     case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
-                        //p.siirry("oikea");
                         p.siirry(new LiikkuminenOikealle());
                         pelaajaSiirtyi = true;
                         break;
                     case KeyEvent.VK_DOWN, KeyEvent.VK_S:
-                        //p.siirry("ylös");
                         p.siirry(new LiikkuminenYlös());
                         pelaajaSiirtyi = true;
                         break;
                     case KeyEvent.VK_UP, KeyEvent.VK_W:
-                        //p.siirry("alas");
                         p.siirry(new LiikkuminenAlas());
                         pelaajaSiirtyi = true;
                         break;
@@ -472,7 +466,7 @@ public class Peli {
                         esinepaikkaVaihtui = true;
                         break;
                     case KeyEvent.VK_SPACE:
-                        käytäEsinettä(esineValInt);
+                        käyttö(esineValInt);
                         break;
                     case KeyEvent.VK_Z:
                         
@@ -535,7 +529,7 @@ public class Peli {
                 }
                 if (pelaajaSiirtyi) {
                     suoritaKohtaaminen();
-                    PääIkkuna.yläteksti1.setText("Pelaaja siirrettiin sijaintiin (" + p.sijX + ", " + p.sijY + ")");
+                    PääIkkuna.ylätekstiSij.setText("Pelaaja siirrettiin sijaintiin (" + p.sijX + ", " + p.sijY + ")");
                     Main.pelaajanSijX = p.sijX;
                     Main.pelaajanSijY = p.sijY;
                     PääIkkuna.vaatiiPäivityksen = true;
@@ -561,10 +555,10 @@ public class Peli {
                 }
                 
                 if (pelikenttä[p.sijX][p.sijY] == null) {
-                    PääIkkuna.yläteksti2.setText("Kohteessa ei ole mitään");
+                    PääIkkuna.ylätekstiKohde.setText("Kohteessa ei ole mitään");
                 }
                 else {
-                    PääIkkuna.yläteksti2.setText("Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimi());
+                    PääIkkuna.ylätekstiKohde.setText("Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimi());
                 }
             }
     
@@ -578,7 +572,7 @@ public class Peli {
         peliKäynnissä = false;
         switch (sulkuTapa) {
             case 0:
-                CustomViestiIkkunat.Loppuonnittelu.showDialog(aika);
+                CustomViestiIkkunat.Loppuonnittelu.showDialog(AikaSäie.kulunutAika);
                 PääIkkuna.ikkuna.dispose();
                 break;
             case 1:
@@ -601,48 +595,20 @@ public class Peli {
         ÄänentoistamisSäie.musiikkiSoitin.stop();
         gThread.stop();
         sThread.stop();
+        tThread.stop();
     }
 
-    void luoAloitusKenttä() {
-        
-        // Luodaan pelikentälle satunnaiseen sijaintiin esineitä ja kiintopisteitä.
+    void lataaHuone(int huoneenId) {
+        Huone huone = huoneKartta.get(huoneenId);
+        pelikenttä = huone.annaHuoneenSisältö();
+        Main.pelikenttä = pelikenttä;
+        PääIkkuna.hudTeksti.setText("Ladattiin huone " + huone.annaNimi());
+    }
 
-        sijoitaSatunnaiseenRuutuun(new Kaasupullo());
-        sijoitaSatunnaiseenRuutuun(new TyhjäKaasusytytin());
-        sijoitaSatunnaiseenRuutuun(new Vesiämpäri());
-        sijoitaSatunnaiseenRuutuun(new Kilpi());
-        sijoitaSatunnaiseenRuutuun(new Avain());
-        sijoitaSatunnaiseenRuutuun(new Paperi());
-        sijoitaSatunnaiseenRuutuun(new Hiili());
+    void luoHuone(int huoneenId, String huoneenNimi) {
 
-        sijoitaSatunnaiseenRuutuun(new Kirstu());
-        sijoitaSatunnaiseenRuutuun(new Nuotio());
-        sijoitaSatunnaiseenRuutuun(new Ämpärikone());
-
-        for (int i = 0; i < Main.suklaidenMäärä; i++) {
-            sijoitaSatunnaiseenRuutuun(new Suklaalevy());
-        }
-
-        for (int i = 0; i < Main.makkaroidenMäärä; i++) {
-            sijoitaSatunnaiseenRuutuun(new Makkara());
-        }
-
-        for (int i = 0; i < Main.vihujenMäärä; i++) {
-            sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-        }
-
-        if (esineitäKentällä >= Main.kentänKoko * Main.kentänKoko) {
-            JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnatut esineet hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
-        }
-
-        /*  
-        Annetaan pelaajalle aloitustavarat.
-
-        p.esineet[0] = new Kaasupullo();
-        p.esineet[1] = new TyhjäKaasusytytin();
-        p.esineet[2] = new Vesiämpäri();
-        p.esineet[3] = new Suklaalevy();
-        */
+        Huone huone = new Huone(huoneenId, Main.kentänKoko, huoneenNimi);
+        huoneKartta.put(huoneenId, huone);
     }
 
     /**
@@ -652,6 +618,11 @@ public class Peli {
 
         void pelinKulku() {
 
+            if (Main.huoneVaihdettava) {
+                lataaHuone(Main.uusiHuone);
+                Main.huoneVaihdettava = false;
+            }
+            
             if (peliHävitty) {
                 suljePeli(1);
             }
@@ -659,6 +630,8 @@ public class Peli {
             if (PääIkkuna.uusiIkkuna) {
                 suljePeli(2);
                 PääIkkuna.uusiIkkuna = false;
+                Main.uusiHuone = 0;
+                Main.huoneVaihdettava = true;
                 Main.uusiPeli();
             }
 
@@ -668,59 +641,41 @@ public class Peli {
                 peliKäynnissä = false;
             }
             else {
-                //try{
-                    //Thread.sleep(16);
-                    //PääIkkuna.päivitäIkkuna(p.sijX, p.sijY, p.kuvake);
-                    for (int i = 0; i < 5; i++) {
-                        if (p.esineet[i] == null) {
-                            PääIkkuna.esineLabel[i].setText(null);
-                            PääIkkuna.esineLabel[i].setIcon(null);
-                        }
-                        else {
-                            PääIkkuna.esineLabel[i].setIcon(p.esineet[i].annaKuvake());
-                        }
+                for (int i = 0; i < 5; i++) {
+                    if (p.esineet[i] == null) {
+                        PääIkkuna.esineLabel[i].setText(null);
+                        PääIkkuna.esineLabel[i].setIcon(null);
                     }
-                //}
-                //catch (InterruptedException e) {
-
-                //}
+                    else {
+                        PääIkkuna.esineLabel[i].setIcon(p.esineet[i].annaKuvake());
+                    }
+                }
             }
         }
     
         Timer ajastin = new Timer(10, e -> {
             if (peliKäynnissä) {
-                aika += 0.01;
-                double sekunnit = aika % 60;
-                int minuutit = (int)aika / 60;
-                PääIkkuna.aikaTeksti.setText("Aika: " + minuutit + ":" + kaksiDesimaalia.format(sekunnit));
                 pelinKulku();
             }
         });
 
     public Peli() {
-        
-        //try {
-        //    Thread.sleep(500);
-        //}
-        //catch (InterruptedException e) {
-
-        //}
 
         PääIkkuna.luoPääikkuna();
         PääIkkuna.ikkuna.addKeyListener(new Näppäinkomennot());
+        AikaSäie.kulunutAika = 0;
 
-        luoAloitusKenttä();
+        luoHuone(0, "Aloitushuone");
+        luoHuone(1, "Testihuone 1");
+        luoHuone(2, "Testihuone 2");
+        luoHuone(3, "Testihuone 3");
         PääIkkuna.luoAlkuIkkuna(0, 0, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
 
         ajastin.start();
         gThread.start();
         sThread.start();
+        tThread.start();
         
-        
-
-        //while (peliKäynnissä) {
-        //    pelinKulku();
-        //}
     }
 
 }

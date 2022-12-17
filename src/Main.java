@@ -6,13 +6,12 @@ public class Main {
     static KenttäKohde[][] pelikenttä;// = new Tarkastettava[Main.kentänKoko][Main.kentänKoko];
     static String häviönSyy = "";
     static int uusiKentänKoko = 10;
-    static int suklaidenMäärä = 10;
-    static int makkaroidenMäärä = 3;
-    static int vihujenMäärä = 5;
     static int aloitusHp = 10;
     static int pelaajanSijX;
     static int pelaajanSijY;
     static int pelaajanKylläisyys = 0;
+    static boolean huoneVaihdettava = true;
+    static int uusiHuone = 0;
     
     static void uusiPeli() {
         

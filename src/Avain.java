@@ -3,12 +3,11 @@ import javax.swing.ImageIcon;
 public class Avain extends Esine {
     
     String katso(){
-        System.out.println("Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.");
-        return "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
+        return katsomisTeksti;
     }
 
     String käytä(){
-        return "";
+        return käyttöTeksti;
     }
 
     String annaNimiSijamuodossa(String sijamuoto) {
@@ -45,5 +44,6 @@ public class Avain extends Esine {
         this.kenttäkäyttö = true;
         this.sopiiKäytettäväksi.add("Kirstu");
         this.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
+        this.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
     }
 }

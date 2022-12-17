@@ -8,13 +8,12 @@ public abstract class KenttäKohde {
 
     boolean vaatiiPäivityksen = true;
 
+    String katsomisTeksti = "vakioteksti";
     String katso() {
-        System.out.println("Vakiometodi");
-        return "vakiometodi";
+        return katsomisTeksti;
     }
 
     String kokeileEsinettä(Esine e) {
-        System.out.println("Mitään ei tapahtunut!");
         return "Mitään ei tapahtunut!";
     }
 

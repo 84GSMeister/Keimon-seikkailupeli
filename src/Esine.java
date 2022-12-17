@@ -15,9 +15,9 @@ public abstract class Esine extends KenttäKohde {
         return kenttäkäyttö;
     }
 
-    boolean erikoiskäyttö = false;
-    boolean onkoErikoiskäyttö() {
-        return erikoiskäyttö;
+    boolean käyttö = false;
+    boolean onkoKäyttö() {
+        return käyttö;
     }
 
     boolean yhdistettävä = false;
@@ -27,9 +27,10 @@ public abstract class Esine extends KenttäKohde {
     ArrayList<String> kelvollisetYhdistettävät = new ArrayList<String>();
     ArrayList<String> sopiiKäytettäväksi = new ArrayList<String>();
 
+    String käyttöTeksti = "Mitään ei tapahtunut.";
     String käytä(){
         poista = true;
-        return "mitään ei tapahtunut";
+        return käyttöTeksti;
     }
 
     String annaNimi(){

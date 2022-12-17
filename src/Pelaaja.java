@@ -127,6 +127,13 @@ public class Pelaaja {
         }
     }
 
+    void teleport(int kohdeX, int kohdeY) {
+        sijX = kohdeX;
+        sijY = kohdeY;
+        Main.pelaajanSijX = sijX;
+        Main.pelaajanSijY = sijY;
+    }
+
     int annaEsineidenMäärä() {
         int määrä = 0;
         for (int i = 0; i < esineet.length; i++) {
@@ -146,12 +153,12 @@ public class Pelaaja {
 
     void vahingoita(int määrä) {
         this.hp -= määrä;
-        PääIkkuna.yläteksti3.setText("HP:" + hp);
+        PääIkkuna.ylätekstiHP.setText("HP:" + hp);
     }
 
     void paranna(int määrä) {
         this.hp += määrä;
-        PääIkkuna.yläteksti3.setText("HP:" + hp);
+        PääIkkuna.ylätekstiHP.setText("HP:" + hp);
     }
 
     Pelaaja() {

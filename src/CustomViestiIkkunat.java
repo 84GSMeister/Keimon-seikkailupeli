@@ -29,7 +29,7 @@ public class CustomViestiIkkunat {
         static String otsikko = "Hävisit pelin!";
         static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
-        static Icon kuvake = new ImageIcon("kuvat/surunaama.png");
+        static Icon kuvake = new ImageIcon("tiedostot/kuvat/surunaama.png");
         static String[] vaihtoehdot = {"Uusi peli", "Lopeta"};
 
         static int showDialog(String hävionSyy) {

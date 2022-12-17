@@ -3,8 +3,7 @@ import javax.swing.ImageIcon;
 public class Vesiämpäri extends Esine {
 
     String katso() {
-        System.out.println("Tästä voisi olla hyötyä.");
-        return "Tästä voisi olla hyötyä.";
+        return "Näyttää juuri oikean kokoiselta vihollisen päähän.";
     }
 
     String käytä() {

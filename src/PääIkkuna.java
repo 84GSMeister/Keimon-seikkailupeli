@@ -13,10 +13,13 @@ public class PääIkkuna {
     static JMenuBar yläPalkki;
     static JMenu peli, tietoja, debug;
     static JMenu kaksoispistedeeValikko, kaksoispistedeeValikkoSubmenu;
-    static JMenuItem uusiPeli, mukauta, asetukset, ohjeet, tekijät, näytäFPS;
+    static JMenu huoneSubmenu;
+    static JMenuItem testiHuoneOletus, testiHuone1, testiHuone2, testiHuone3;
+    static JMenuItem uusiPeli, mukauta, asetukset, ohjeet, tekijät;
+    static JCheckBoxMenuItem näytäSijainti, näytäFPS;
     static JMenuItem kaksoispistedeeValikkoItemi, kaksoispistedeeValikkoItemi2, kaksoispistedeeValikkoItemi3, kaksoispistedeeValikkoSubmenu2, kaksoispistedeeValikkoSubmenu3;
     static JPanel peliKenttä, hud, yläPaneeli;
-    static JLabel hudTeksti, aikaTeksti, yläteksti1, yläteksti2, yläteksti3, yläteksti4, yläteksti5, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
+    static JLabel hudTeksti, ylätekstiAika, ylätekstiSij, ylätekstiKohde, ylätekstiHP, ylätekstiViive, ylätekstiFPS, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
     static JPanel tekstiPaneli, infoPaneli, invaPaneli, tavaraPaneli, osoitinPaneli;
     static JLabel[] esineLabel = new JLabel[5];
     static JLabel[] osoitinLabel = new JLabel[5];
@@ -24,13 +27,14 @@ public class PääIkkuna {
     static JLabel peliTestiLabel, pelaajaLabel;
     static boolean vaatiiPäivityksen = false;
     static boolean fpsNäkyvissä = false;
+    static boolean sijaintiNäkyvissä = false;
 
     static void luoPääikkuna() {
         
         ikkunanLeveys = EsineenKokoPx * Main.kentänKoko + 50;
         ikkunanKorkeus = EsineenKokoPx * Main.kentänKoko + 300;
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.2.2 alpha (7.12.2022)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.3 alpha (16.12.2022)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -132,15 +136,63 @@ public class PääIkkuna {
         kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu2);
         kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu);
 
-        näytäFPS = new JMenuItem("Näytä FPS");
+        näytäSijainti = new JCheckBoxMenuItem("Näytä Sijainti");
+        näytäSijainti.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showPos();
+            }
+        });
+
+        näytäFPS = new JCheckBoxMenuItem("Näytä FPS");
         näytäFPS.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showFPS();
             }
         });
+
+        testiHuoneOletus = new JMenuItem("Oletushuone");
+        testiHuoneOletus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Main.uusiHuone = 0;
+                Main.huoneVaihdettava = true;
+            }
+        });
+
+        testiHuone1 = new JMenuItem("Testihuone 1");
+        testiHuone1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Main.uusiHuone = 1;
+                Main.huoneVaihdettava = true;
+            }
+        });
+
+        testiHuone2 = new JMenuItem("Testihuone 2");
+        testiHuone2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Main.uusiHuone = 2;
+                Main.huoneVaihdettava = true;
+            }
+        });
+
+        testiHuone3 = new JMenuItem("Testihuone 3");
+        testiHuone3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Main.uusiHuone = 3;
+                Main.huoneVaihdettava = true;
+            }
+        });
+        
+        huoneSubmenu = new JMenu("Huone");
+        huoneSubmenu.add(testiHuoneOletus);
+        huoneSubmenu.add(testiHuone1);
+        huoneSubmenu.add(testiHuone2);
+        huoneSubmenu.add(testiHuone3);
         
         debug = new JMenu("Debug");
+        debug.add(näytäSijainti);
         debug.add(näytäFPS);
+        debug.add(new JSeparator());
+        debug.add(huoneSubmenu);
 
         yläPalkki = new JMenuBar();
         yläPalkki.setPreferredSize(new Dimension(ikkunanLeveys -20,20));
@@ -252,29 +304,29 @@ public class PääIkkuna {
         hud.revalidate();
         hud.repaint();
 
-        aikaTeksti = new JLabel("Aika: ");
-        aikaTeksti.setVisible(true);
-        aikaTeksti.setBounds(210, 5, 200, 20);
+        ylätekstiAika = new JLabel("Aika: ");
+        ylätekstiAika.setVisible(true);
+        ylätekstiAika.setBounds(210, 5, 200, 20);
 
-        yläteksti1 = new JLabel("Paina nuolinäppäimiä liikkuaksesi");
-        yläteksti1.setVisible(true);
-        yläteksti1.setBounds(10,5, 500, 20);
+        ylätekstiSij = new JLabel("Paina nuolinäppäimiä liikkuaksesi");
+        ylätekstiSij.setVisible(sijaintiNäkyvissä);
+        ylätekstiSij.setBounds(10,20, 500, 20);
 
-        yläteksti2 = new JLabel("Kohteen sisältö näkyy tässä");
-        yläteksti2.setVisible(true);
-        yläteksti2.setBounds(10,20, 500, 20);
+        ylätekstiKohde = new JLabel("Kohteen sisältö näkyy tässä");
+        ylätekstiKohde.setVisible(sijaintiNäkyvissä);
+        ylätekstiKohde.setBounds(10,35, 500, 20);
 
-        yläteksti3 = new JLabel("HP: " + 10);
-        yläteksti3.setVisible(true);
-        yläteksti3.setBounds(10,35, 200, 20);
+        ylätekstiHP = new JLabel("HP: " + 10);
+        ylätekstiHP.setVisible(true);
+        ylätekstiHP.setBounds(10,5, 200, 20);
 
-        yläteksti4 = new JLabel("Päivitysaika");
-        yläteksti4.setVisible(false);
-        yläteksti4.setBounds(210,20, 200, 20);
+        ylätekstiViive = new JLabel("Päivitysaika");
+        ylätekstiViive.setVisible(fpsNäkyvissä);
+        ylätekstiViive.setBounds(210,20, 200, 20);
 
-        yläteksti5 = new JLabel("FPS");
-        yläteksti5.setVisible(false);
-        yläteksti5.setBounds(210,35, 200, 20);
+        ylätekstiFPS = new JLabel("FPS");
+        ylätekstiFPS.setVisible(fpsNäkyvissä);
+        ylätekstiFPS.setBounds(210,35, 200, 20);
 
         tavoiteTeksti1 = new JLabel("Tavoite 1");
         tavoiteTeksti1.setVisible(true);
@@ -292,12 +344,12 @@ public class PääIkkuna {
         yläPaneeli.setLayout(null);
         yläPaneeli.setPreferredSize(new Dimension(ikkunanLeveys -30, 60));
         yläPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        yläPaneeli.add(aikaTeksti);
-        yläPaneeli.add(yläteksti1);
-        yläPaneeli.add(yläteksti2);
-        yläPaneeli.add(yläteksti3);
-        yläPaneeli.add(yläteksti4);
-        yläPaneeli.add(yläteksti5);
+        yläPaneeli.add(ylätekstiAika);
+        yläPaneeli.add(ylätekstiSij);
+        yläPaneeli.add(ylätekstiKohde);
+        yläPaneeli.add(ylätekstiHP);
+        yläPaneeli.add(ylätekstiViive);
+        yläPaneeli.add(ylätekstiFPS);
         yläPaneeli.add(tavoiteTeksti1);
         yläPaneeli.add(tavoiteTeksti2);
         yläPaneeli.add(tavoiteTeksti3);
@@ -315,13 +367,26 @@ public class PääIkkuna {
     static void showFPS() {
         if (!fpsNäkyvissä) {
             fpsNäkyvissä = true;
-            yläteksti4.setVisible(true);
-            yläteksti5.setVisible(true);
+            ylätekstiViive.setVisible(true);
+            ylätekstiFPS.setVisible(true);
         }
         else {
             fpsNäkyvissä = false;
-            yläteksti4.setVisible(false);
-            yläteksti5.setVisible(false);
+            ylätekstiViive.setVisible(false);
+            ylätekstiFPS.setVisible(false);
+        }
+    }
+
+    static void showPos() {
+        if (!sijaintiNäkyvissä) {
+            sijaintiNäkyvissä = true;
+            ylätekstiSij.setVisible(true);
+            ylätekstiKohde.setVisible(true);
+        }
+        else {
+            sijaintiNäkyvissä = false;
+            ylätekstiSij.setVisible(false);
+            ylätekstiKohde.setVisible(false);
         }
     }
 
@@ -359,6 +424,9 @@ public class PääIkkuna {
                                 peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
                             }
                             
+                        }
+                        else if (Main.pelikenttä[j][i] instanceof Warp) {
+                            peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(80,200,100), 1, true));
                         }
                         pelaajaLabel = new JLabel("");
                     }

@@ -50,8 +50,8 @@ public class GrafiikanPäivitysSäie extends Thread {
             long aikaErotusUs = (loppuAika - alkuAika)/1000;
             long aikaErotusMs = aikaErotusUs/1000;
             int fps = 1000000/ (int)aikaErotusUs;
-            PääIkkuna.yläteksti4.setText("Päivitysaika: " + aikaErotusMs + " ms");
-            PääIkkuna.yläteksti5.setText("FPS: " + fps);
+            PääIkkuna.ylätekstiViive.setText("Päivitysaika: " + aikaErotusMs + " ms");
+            PääIkkuna.ylätekstiFPS.setText("FPS: " + fps);
         }
     }
 }

@@ -15,5 +15,6 @@ public class Suklaalevy extends Ruoka {
         this.nimi = "Suklaalevy";
         this.kuvake = new ImageIcon("tiedostot/kuvat/suklaalevy.png");
         this.heal = 2;
+        this.käyttö = true;
     }
 }

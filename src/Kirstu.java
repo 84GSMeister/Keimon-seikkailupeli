@@ -11,11 +11,9 @@ public class Kirstu extends Kiintopiste {
                 this.vuorovaikutus = true;
                 this.tavoiteSuoritettu = true;
                 this.kuvake = new ImageIcon("tiedostot/kuvat/kirstu_avattu.png");
-                System.out.println("Kirstu avattiin.");
                 return "Kirstu avattiin.";
             }
             else {
-                System.out.println("Mitään ei tapahtunut.");
                 return "Mitään ei tapahtunut.";
             }
         }
@@ -23,11 +21,9 @@ public class Kirstu extends Kiintopiste {
 
     String katso(){
         if (tavoiteSuoritettu) {    
-            System.out.println("Avattu kirstu");
             return "Avattu kirstu";
         }
         else {
-            System.out.println("Kirstu on lukittu. Siihen tarvitsee varmaankin avaimen. Löytyisiköhän kentältä sellainen?");
             return "Kirstu on lukittu. Siihen tarvitsee varmaankin avaimen. Löytyisiköhän kentältä sellainen?";
         }
     }

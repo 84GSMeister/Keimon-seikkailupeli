@@ -3,22 +3,7 @@ import javax.swing.ImageIcon;
 public class Ämpärikone extends Kiintopiste{
     
     String kokeileEsinettä(Esine e) {
-        if (tavoiteSuoritettu) {
-            return "Kirstu on jo avattu.";
-        }
-        else {
-            if (e instanceof Avain) {
-                this.vuorovaikutus = true;
-                this.tavoiteSuoritettu = true;
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kirstu_avattu.png");
-                System.out.println("Kirstu avattiin.");
-                return "Kirstu avattiin.";
-            }
-            else {
-                System.out.println("Mitään ei tapahtunut.");
-                return "Mitään ei tapahtunut.";
-            }
-        }
+        return "Mitään ei tapahtunut.";
     }
 
     Vesiämpäri annaÄmpäri () {

@@ -5,26 +5,27 @@ import java.awt.event.*;
 public class MukautusIkkuna {
     
     static final int ikkunanLeveys = 250;
-    static final int ikkunanKorkeus = 180;
+    static final int ikkunanKorkeus = 210;
     static JFrame ikkuna;
-    static String[] tekstit = {"Kentän koko", "Suklaiden määrä", "Makkaroiden määrä", "Vihollisten määrä"};
+    static String[] tekstit = {"Kentän koko", "Vaikeusaste", "Suklaiden määrä", "Makkaroiden määrä", "Vihollisten määrä"};
     static int valintojenMäärä = tekstit.length;
     static JTextField[] tekstiKentät = new JTextField[valintojenMäärä];
 
     static void tarkistaArvot() {
         try {
             int kentänKoko = Integer.parseInt(tekstiKentät[0].getText());
-            int suklaidenMäärä = Integer.parseInt(tekstiKentät[1].getText());
-            int makkaroidenMäärä = Integer.parseInt(tekstiKentät[2].getText());
-            int vihujenMäärä = Integer.parseInt(tekstiKentät[3].getText());
+            int vaikeusAste = Integer.parseInt(tekstiKentät[1].getText());
+            int suklaidenMäärä = Integer.parseInt(tekstiKentät[2].getText());
+            int makkaroidenMäärä = Integer.parseInt(tekstiKentät[3].getText());
+            int vihujenMäärä = Integer.parseInt(tekstiKentät[4].getText());
             if (kentänKoko > 15) {
                 int kentänKokoVaroitus = CustomViestiIkkunat.IsoKenttäVaroitus.showDialog();
                 if (kentänKokoVaroitus == JOptionPane.OK_OPTION) {
-                    asetaArvot(kentänKoko, suklaidenMäärä, makkaroidenMäärä, vihujenMäärä);
+                    asetaArvot(kentänKoko, vaikeusAste, suklaidenMäärä, makkaroidenMäärä, vihujenMäärä);
                 }
             }
             else {
-                asetaArvot(kentänKoko, suklaidenMäärä, makkaroidenMäärä, vihujenMäärä);
+                asetaArvot(kentänKoko, vaikeusAste, suklaidenMäärä, makkaroidenMäärä, vihujenMäärä);
             }
         }
         catch (NumberFormatException e) {
@@ -32,13 +33,14 @@ public class MukautusIkkuna {
         }
     }
 
-    static void asetaArvot(int asetettuKentänKoko, int suklaidenMäärä, int makkaroidenMäärä, int vihujenMäärä) {
+    static void asetaArvot(int asetettuKentänKoko, int vaikeusAste, int suklaidenMäärä, int makkaroidenMäärä, int vihujenMäärä) {
         PääIkkuna.uusiIkkuna = true;
         ikkuna.dispose();
         Main.uusiKentänKoko = asetettuKentänKoko;
-        Main.suklaidenMäärä = suklaidenMäärä;
-        Main.makkaroidenMäärä = makkaroidenMäärä;
-        Main.vihujenMäärä = vihujenMäärä;
+        PelinAsetukset.suklaidenMäärä = suklaidenMäärä;
+        PelinAsetukset.makkaroidenMäärä = makkaroidenMäärä;
+        PelinAsetukset.vihujenMäärä = vihujenMäärä;
+        PelinAsetukset.vaikeusAste = vaikeusAste;
     }
 
     static void luoMukautusikkuna() {
@@ -51,6 +53,10 @@ public class MukautusIkkuna {
             teksti.setLabelFor(tekstiKentät[i]);
             paneli.add(tekstiKentät[i]);
         }
+        tekstiKentät[1] = new JTextField("" + PelinAsetukset.vaikeusAste);
+        tekstiKentät[2] = new JTextField("" + PelinAsetukset.suklaidenMäärä);
+        tekstiKentät[3] = new JTextField("" + PelinAsetukset.makkaroidenMäärä);
+        tekstiKentät[4] = new JTextField("" + PelinAsetukset.vihujenMäärä);
 
         JButton okNappi = new JButton("OK");
         okNappi.addMouseListener(new MouseAdapter() {
@@ -73,7 +79,7 @@ public class MukautusIkkuna {
         paneli.add(okNappi);
         paneli.add(cancelNappi);
 
-        SpringUtilities.makeCompactGrid(paneli, 5, 2, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(paneli, 6, 2, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Mukauta");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());

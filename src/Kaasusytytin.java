@@ -3,13 +3,11 @@ import javax.swing.ImageIcon;
 public class Kaasusytytin extends Esine{
     
     String katso(){
-        System.out.println("Tätä voisi käyttää nuotion sytyttämiseen.");
-        return "Tätä voisi käyttää nuotion sytyttämiseen.";
+        return katsomisTeksti;
     }
 
     String käytä(){
-        System.out.println("Leimahti!");
-        return "Leimahti!";
+        return käyttöTeksti;
     }
 
     String annaNimiSijamuodossa(String sijamuoto) {
@@ -41,10 +39,33 @@ public class Kaasusytytin extends Esine{
         }
     }
     
-    Kaasusytytin(){
-        this.nimi = "Toimiva kaasusytytin";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Nuotio");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+    Kaasusytytin(String toimivuus){
+        switch (toimivuus) {
+            case "toimiva":
+                this.nimi = "Toimiva kaasusytytin";
+                this.kenttäkäyttö = true;
+                this.sopiiKäytettäväksi.add("Nuotio");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
+                this.käyttöTeksti = "Leimahti!";
+                break;
+            case "tyhjä":
+                this.nimi = "Tyhjä kaasusytytin";
+                this.yhdistettävä = true;
+                this.kelvollisetYhdistettävät.add("Kaasupullo");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/tyhjäkaasusytytin.png");
+                this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
+                this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
+                break;
+            default:
+                this.nimi = "Toimiva kaasusytytin";
+                this.kenttäkäyttö = true;
+                this.sopiiKäytettäväksi.add("Nuotio");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
+                this.käyttöTeksti = "Leimahti!";
+                break;
+        }
+        
     }
 }

@@ -51,10 +51,41 @@ public class Makkara extends Ruoka{
         }
     }
 
+    String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi":
+                return "Makkara";
+            case "genetiivi":
+                return "Makkaran";
+            case "esiivi":
+                return "Makkarana";
+            case "partitiivi":
+                return "Makkaraa";
+            case "translatiivi":
+                return "Makkaraksi";
+            case "inessiivi":
+                return "Makkarassa";
+            case "elatiivi":
+                return "Makkarasta";
+            case "illatiivi":
+                return "Makkaraan";
+            case "adessiivi":
+                return "Makkaralla";
+            case "ablatiivi":
+                return "Makkaralta";
+            case "allatiivi":
+                return "Makkaralle";
+            default:
+                return "Makkara";
+        }
+    }
+
     Makkara(){
         this.nimi = "Makkara";
         this.kuvake = new ImageIcon("tiedostot/kuvat/makkarat.png");
         this.heal = 1;
-        this.erikoiskäyttö = true;
+        this.käyttö = true;
+        this.kenttäkäyttö = true;
+        this.sopiiKäytettäväksi.add("Nuotio");
     }
 }

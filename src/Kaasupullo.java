@@ -3,13 +3,11 @@ import javax.swing.ImageIcon;
 public class Kaasupullo extends Esine {
 
     String katso(){
-        System.out.println("Tätä tarvitaan varmaankin kaasusytyttimen kanssa.");
-        return "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
+        return katsomisTeksti;
     }
 
     String käytä(){
-        System.out.println("Päästit kaasua vapaaksi, mitään ei tapahtunut.");
-        return "Päästit kaasua vapaaksi, mitään ei tapahtunut.";
+        return käyttöTeksti;
     }
     
     Kaasupullo(){
@@ -17,5 +15,7 @@ public class Kaasupullo extends Esine {
         this.yhdistettävä = true;
         this.kelvollisetYhdistettävät.add("Tyhjä kaasusytytin");
         this.kuvake = new ImageIcon("tiedostot/kuvat/kaasupullo.png");
+        this.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
+        this.käyttöTeksti ="Päästit kaasua vapaaksi, mitään ei tapahtunut.";
     }
 }

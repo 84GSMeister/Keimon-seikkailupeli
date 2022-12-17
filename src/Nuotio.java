@@ -39,38 +39,38 @@ public class Nuotio extends Kiintopiste {
             }
         }
         else if (e instanceof Vesiämpäri) {
-            this.sytytetty = false;
-            this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
-            statusTeksti = "Nuotio sammutettiin";
+            if (sytytetty) {
+                this.sytytetty = false;
+                this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
+                statusTeksti = "Nuotio sammutettiin";
+            }
+            else {
+                statusTeksti = "Kaadoit vettä sammuneeseen nuotioon. Mitään ei tapahtunut.";
+            }
+            
         }
         else {
-            System.out.println("Mitään ei tapahtunut.");
             statusTeksti = "Mitään ei tapahtunut.";
         }
         return statusTeksti;
         }
 
     String katso(){
-        if (tavoiteSuoritettu) {    
-            System.out.println("Nuotion liekit leimuavat komeasti");
-            return "Nuotion liekit leimuavat komeasti";
+        if (sytytetty) {    
+            return "Nuotion liekit leimuavat komeasti.";
         }
         else {
             if (sytyke && !polttoaine) {
-                System.out.println("Pelkkä paperi ei pala kovin kauan. Tarvitaan jotain muuta palavaa.");
                 return "Pelkkä paperi ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
             }
             else if (polttoaine && !sytyke) {
-                System.out.println("Nuotiossa on poltettavaa, mutta tarvitaan vielä jotain sytykkeeksi");
-                return "Nuotiossa on poltettavaa, mutta tarvitaan vielä jotain sytykkeeksi";
+                return "Nuotiossa on poltettavaa, mutta tarvitaan vielä jotain sytykkeeksi.";
             }
             else if (sytyke && polttoaine) {
-                System.out.println("Nuotiossa on polttoainetta ja sytykettä. Enää tarvitsee vain työkalun, jolla sen voi sytyttää.");
                 return "Nuotiossa on polttoainetta ja sytykettä. Enää tarvitsee vain työkalun, jolla sen voi sytyttää.";
             }
             else {
-                System.out.println("Nuotio on tyhjä. Siihen pitäisi varmaankin lisätä jotain palavaa");
-                return "Nuotio on tyhjä. Siihen pitäisi varmaankin lisätä jotain palavaa";
+                return "Nuotio on tyhjä. Siihen pitäisi varmaankin lisätä jotain palavaa.";
             }            
         }
     }

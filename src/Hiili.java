@@ -3,8 +3,7 @@ import javax.swing.ImageIcon;
 public class Hiili extends Esine {
 
     String katso(){
-        System.out.println("Tämä sopisi hyvin nuotiossa poltettavaksi.");
-        return "Tämä sopisi hyvin nuotiossa poltettavaksi.";
+        return katsomisTeksti;
     }
 
     String annaNimiSijamuodossa(String sijamuoto) {
@@ -41,5 +40,6 @@ public class Hiili extends Esine {
         this.kenttäkäyttö = true;
         this.sopiiKäytettäväksi.add("Nuotio");
         this.kuvake = new ImageIcon("tiedostot/kuvat/hiili.png");
+        this.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
     }
 }

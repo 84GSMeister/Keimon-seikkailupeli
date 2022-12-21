@@ -4,7 +4,8 @@ public class PelinAsetukset {
     static boolean musiikkiPäällä = false;
     static int musiikkiValinta = 0;
 
-    static int suklaidenMäärä = 10;
-    static int makkaroidenMäärä = 3;
+    static int suklaidenMäärä = 12;
+    static int makkaroidenMäärä = 6;
     static int vihujenMäärä = 5;
+    static int tavoiteFPS = 100_000;
 }

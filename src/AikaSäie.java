@@ -1,5 +1,8 @@
 import java.text.DecimalFormat;
 
+import javax.swing.JLabel;
+import javax.swing.SwingWorker;
+
 public class AikaSäie extends Thread {
 
     static boolean ajastinKäynnissä = true;
@@ -9,7 +12,8 @@ public class AikaSäie extends Thread {
 
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
-    public static void odotaMillisekunteja(long millisekunnit){
+    /**
+    public static void odotaMillisekunteja(long millisekunnit) {
         
         long waitUntil = System.nanoTime() + (millisekunnit * 1_000_000);
         
@@ -23,11 +27,22 @@ public class AikaSäie extends Thread {
             ;
         }
     }
+    class AjastimenPäivittäjä extends SwingWorker<Void, JLabel> {
+        @Override
+        protected Void doInBackground() {
+        
+            while (!isCancelled()) {
+                odotaMillisekunteja(10);
+            //publish(PääIkkuna.päivitäIkkuna());
+            return null;
+        }
+    }
+    */
 
     static void ajastin() {
         
         while (ajastinKäynnissä) {
-            odotaMillisekunteja(10);
+            //odotaMillisekunteja(10);
         }
     }
 

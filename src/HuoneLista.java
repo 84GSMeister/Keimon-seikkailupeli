@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class HuoneLista {
@@ -5,6 +6,11 @@ public class HuoneLista {
     static KenttäKohde[][] pelikenttä = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
     static int esineitäKentällä = 0;
     static Random r = new Random();
+
+    static ArrayList<KenttäKohde> huone0 = new ArrayList<KenttäKohde>();
+    static ArrayList<KenttäKohde> huone1 = new ArrayList<KenttäKohde>();
+    static ArrayList<KenttäKohde> huone2 = new ArrayList<KenttäKohde>();
+    static ArrayList<KenttäKohde> huone3 = new ArrayList<KenttäKohde>();
 
     /**
      * Arpoo satunnaisesti pelikentän x- ja y-koordinaatit.
@@ -38,43 +44,49 @@ public class HuoneLista {
         pelikenttä = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
         switch (huoneenId) {
             default:
-                sijoitaSatunnaiseenRuutuun(new Nuotio());
-                sijoitaSatunnaiseenRuutuun(new Kirstu());
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new Ämpärikone());
+                huone0.removeAll(huone0);
+                huone0.add(new Nuotio());
+                huone0.add(new Kirstu());
+                huone0.add(new Makkara());
+                huone0.add(new Ämpärikone());
+                huone0.add(new ReunaWarppi(1, 2, 2, ReunaWarppi.Suunta.OIKEA));
                 break;
             case 1:
-                sijoitaSatunnaiseenRuutuun(new Hiili());
-                sijoitaSatunnaiseenRuutuun(new Kaasusytytin("tyhjä"));
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new Suklaalevy());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new Kilpi());
-                sijoitaSatunnaiseenRuutuun(new ReunaWarppi(2, 0, 0, ReunaWarppi.Suunta.OIKEA));
+                huone1.removeAll(huone1);    
+                huone1.add(new Hiili());
+                huone1.add(new Kaasusytytin("tyhjä"));
+                huone1.add(new Makkara());
+                huone1.add(new Suklaalevy());
+                huone1.add(new PikkuVihu());
+                huone1.add(new Kilpi());
+                huone1.add(new Makkara());
+                huone1.add(new ReunaWarppi(2, 0, 0, ReunaWarppi.Suunta.OIKEA));   
                 break;
             case 2:
-                sijoitaSatunnaiseenRuutuun(new Suklaalevy());
-                sijoitaSatunnaiseenRuutuun(new Kaasupullo());
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new ReunaWarppi(3, 0, 0, ReunaWarppi.Suunta.OIKEA));
+                huone2.removeAll(huone2);
+                huone2.add(new Suklaalevy());
+                huone2.add(new Kaasupullo());
+                huone2.add(new Makkara());
+                huone2.add(new Makkara());
+                huone2.add(new PikkuVihu());
+                huone2.add(new PikkuVihu());
+                huone2.add(new PikkuVihu());
+                huone2.add(new PikkuVihu());
+                huone2.add(new PikkuVihu());
+                huone2.add(new ReunaWarppi(3, 5, 5, ReunaWarppi.Suunta.OIKEA));
                 break;
             case 3:
-                sijoitaSatunnaiseenRuutuun(new Vesiämpäri());
-                sijoitaSatunnaiseenRuutuun(new Avain());
-                sijoitaSatunnaiseenRuutuun(new Paperi());
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new Makkara());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new PikkuVihu());
-                sijoitaSatunnaiseenRuutuun(new ReunaWarppi(1, 0, 0, ReunaWarppi.Suunta.OIKEA));
+                huone3.removeAll(huone3);
+                huone3.add(new Vesiämpäri());
+                huone3.add(new Avain());
+                huone3.add(new Paperi());
+                huone3.add(new Makkara());
+                huone3.add(new Makkara());
+                huone3.add(new Makkara());
+                huone3.add(new PikkuVihu());
+                huone3.add(new PikkuVihu());
+                huone3.add(new PikkuVihu());
+                huone3.add(new ReunaWarppi(1, 0, 0, ReunaWarppi.Suunta.OIKEA));
                 break;
         }
         return pelikenttä;

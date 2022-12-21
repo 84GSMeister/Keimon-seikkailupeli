@@ -107,4 +107,18 @@ public class CustomViestiIkkunat {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
+
+    public static class SulkumerkkiVaroitus {
+        
+        static String viesti = "Sulkumerkit nimessä eivät ole sallittuja.";
+        static String otsikko = "Virheellinen merkki";
+        static int valitaTyyppi = JOptionPane.OK_OPTION;
+        static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"Aasia kunnossa"};
+
+        static int showDialog() {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
 }

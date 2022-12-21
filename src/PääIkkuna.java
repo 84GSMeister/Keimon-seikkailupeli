@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import java.text.DecimalFormat;
 
 public class PääIkkuna {
     static final int EsineenKokoPx = 64;
@@ -14,27 +15,46 @@ public class PääIkkuna {
     static JMenu peli, tietoja, debug;
     static JMenu kaksoispistedeeValikko, kaksoispistedeeValikkoSubmenu;
     static JMenu huoneSubmenu;
-    static JMenuItem testiHuoneOletus, testiHuone1, testiHuone2, testiHuone3;
+    static JMenuItem huoneenVaihto, testiHuoneOletus, testiHuone1, testiHuone2, testiHuone3;
     static JMenuItem uusiPeli, mukauta, asetukset, ohjeet, tekijät;
-    static JCheckBoxMenuItem näytäSijainti, näytäFPS;
+    static JCheckBoxMenuItem näytäSijainti, näytäFPS, näytäReunat;
     static JMenuItem kaksoispistedeeValikkoItemi, kaksoispistedeeValikkoItemi2, kaksoispistedeeValikkoItemi3, kaksoispistedeeValikkoSubmenu2, kaksoispistedeeValikkoSubmenu3;
-    static JPanel peliKenttä, hud, yläPaneeli;
+    static JPanel peliKenttäAlue;
+    static KenttäTakataustalla peliKenttä;
+    static JPanel hud, yläPaneeli;
     static JLabel hudTeksti, ylätekstiAika, ylätekstiSij, ylätekstiKohde, ylätekstiHP, ylätekstiViive, ylätekstiFPS, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
     static JPanel tekstiPaneli, infoPaneli, invaPaneli, tavaraPaneli, osoitinPaneli;
     static JLabel[] esineLabel = new JLabel[5];
     static JLabel[] osoitinLabel = new JLabel[5];
     static JLabel[] kontrolliInfoLabel = new JLabel[9];
-    static JLabel peliTestiLabel, pelaajaLabel;
+    static JLabel peliTestiLabel, pelaajaLabel, taustaLabel;
+    static JLabel[][] kenttäKohteenKuvake;
     static boolean vaatiiPäivityksen = false;
+    static boolean vaatiiTäysPäivityksen = false;
+    static boolean uudelleenpiirräKaikki = false;
+    static boolean pelaajaSiirtyi = false;
     static boolean fpsNäkyvissä = false;
     static boolean sijaintiNäkyvissä = false;
+    static boolean reunatNäkyvissä = true;
+
+    static class KenttäTakataustalla extends JPanel{
+        
+        //Image tausta = Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/kaboom_tausta.png");
+        Image tausta = Toolkit.getDefaultToolkit().createImage("");
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(tausta, 0, 0, null);
+        }
+    }
 
     static void luoPääikkuna() {
         
         ikkunanLeveys = EsineenKokoPx * Main.kentänKoko + 50;
         ikkunanKorkeus = EsineenKokoPx * Main.kentänKoko + 300;
+        kenttäKohteenKuvake = new JLabel[Main.kentänKoko][Main.kentänKoko];
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.3 alpha (16.12.2022)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.3.1 alpha (18.12.2022)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -136,17 +156,34 @@ public class PääIkkuna {
         kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu2);
         kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu);
 
-        näytäSijainti = new JCheckBoxMenuItem("Näytä Sijainti");
+        näytäSijainti = new JCheckBoxMenuItem("Näytä sijainti");
+        näytäSijainti.setSelected(sijaintiNäkyvissä);
         näytäSijainti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showPos();
+                näytäSijainti();
             }
         });
 
         näytäFPS = new JCheckBoxMenuItem("Näytä FPS");
+        näytäFPS.setSelected(fpsNäkyvissä);
         näytäFPS.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showFPS();
+                näytäFPS();
+            }
+        });
+
+        näytäReunat = new JCheckBoxMenuItem("Näytä reunat");
+        näytäReunat.setSelected(reunatNäkyvissä);
+        näytäReunat.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                näytäReunat();
+            }
+        });
+
+        huoneenVaihto = new JMenuItem("Warppaa huoneeseen");
+        huoneenVaihto.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                HuoneenVaihtoIkkuna.luoHuoneenVaihtoikkuna();
             }
         });
 
@@ -183,6 +220,8 @@ public class PääIkkuna {
         });
         
         huoneSubmenu = new JMenu("Huone");
+        huoneSubmenu.add(huoneenVaihto);
+        huoneSubmenu.add(new JSeparator());
         huoneSubmenu.add(testiHuoneOletus);
         huoneSubmenu.add(testiHuone1);
         huoneSubmenu.add(testiHuone2);
@@ -191,6 +230,7 @@ public class PääIkkuna {
         debug = new JMenu("Debug");
         debug.add(näytäSijainti);
         debug.add(näytäFPS);
+        debug.add(näytäReunat);
         debug.add(new JSeparator());
         debug.add(huoneSubmenu);
 
@@ -201,10 +241,17 @@ public class PääIkkuna {
         yläPalkki.add(debug);
         yläPalkki.add(kaksoispistedeeValikko);
         
-        peliKenttä = new JPanel();
+        peliKenttäAlue = new JPanel();
+        peliKenttäAlue.setLayout(null);
+        peliKenttäAlue.setBounds(10, 10, 10, 10);
+        peliKenttäAlue.setPreferredSize(new Dimension(ikkunanLeveys-30, ikkunanLeveys -30));
+        peliKenttäAlue.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        
+        peliKenttä = new KenttäTakataustalla();
         peliKenttä.setLayout(null);
         peliKenttä.setPreferredSize(new Dimension(ikkunanLeveys-30, ikkunanLeveys -30));
         peliKenttä.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        peliKenttä.add(peliKenttäAlue);
         peliKenttä.revalidate();
         peliKenttä.repaint();
 
@@ -306,27 +353,27 @@ public class PääIkkuna {
 
         ylätekstiAika = new JLabel("Aika: ");
         ylätekstiAika.setVisible(true);
-        ylätekstiAika.setBounds(210, 5, 200, 20);
+        ylätekstiAika.setBounds(210, 5, 220, 20);
 
         ylätekstiSij = new JLabel("Paina nuolinäppäimiä liikkuaksesi");
         ylätekstiSij.setVisible(sijaintiNäkyvissä);
-        ylätekstiSij.setBounds(10,20, 500, 20);
+        ylätekstiSij.setBounds(10,20, 220, 20);
 
         ylätekstiKohde = new JLabel("Kohteen sisältö näkyy tässä");
         ylätekstiKohde.setVisible(sijaintiNäkyvissä);
-        ylätekstiKohde.setBounds(10,35, 500, 20);
+        ylätekstiKohde.setBounds(10,35, 220, 20);
 
         ylätekstiHP = new JLabel("HP: " + 10);
         ylätekstiHP.setVisible(true);
-        ylätekstiHP.setBounds(10,5, 200, 20);
+        ylätekstiHP.setBounds(10,5, 220, 20);
 
         ylätekstiViive = new JLabel("Päivitysaika");
         ylätekstiViive.setVisible(fpsNäkyvissä);
-        ylätekstiViive.setBounds(210,20, 200, 20);
+        ylätekstiViive.setBounds(210,20, 220, 20);
 
         ylätekstiFPS = new JLabel("FPS");
         ylätekstiFPS.setVisible(fpsNäkyvissä);
-        ylätekstiFPS.setBounds(210,35, 200, 20);
+        ylätekstiFPS.setBounds(210,35, 220, 20);
 
         tavoiteTeksti1 = new JLabel("Tavoite 1");
         tavoiteTeksti1.setVisible(true);
@@ -362,9 +409,10 @@ public class PääIkkuna {
         ikkuna.add(hud);
         ikkuna.revalidate();
         ikkuna.repaint();
+
     }
 
-    static void showFPS() {
+    static void näytäFPS() {
         if (!fpsNäkyvissä) {
             fpsNäkyvissä = true;
             ylätekstiViive.setVisible(true);
@@ -377,7 +425,7 @@ public class PääIkkuna {
         }
     }
 
-    static void showPos() {
+    static void näytäSijainti() {
         if (!sijaintiNäkyvissä) {
             sijaintiNäkyvissä = true;
             ylätekstiSij.setVisible(true);
@@ -390,62 +438,99 @@ public class PääIkkuna {
         }
     }
 
+    static void näytäReunat() {
+        if (!reunatNäkyvissä) {
+            reunatNäkyvissä = true;
+        }
+        else {
+            reunatNäkyvissä = false;
+        }
+        vaatiiTäysPäivityksen = true;
+    }
+
     static void luoAlkuIkkuna(int sijX, int sijY, Icon pelaajaKuvake) {
 
         peliKenttä.removeAll();
+        peliKenttäAlue.setBackground(new Color(0, 0, 0));
+        
         int kohteenSijX = 10;
         int kohteensijY = 10;
         
+        for (int i = 0; i < Main.kentänKoko; i++) {
+            for (int j = 0; j < Main.kentänKoko; j++) {
+                kenttäKohteenKuvake[j][i] = new JLabel();
+            }
+        }
+        pelaajaLabel = new JLabel(pelaajaKuvake);
+        pelaajaLabel.setBounds(Main.pelaajanSijX * PelaajanKokoPx + 10, Main.pelaajanSijY * PelaajanKokoPx + 10, PelaajanKokoPx, PelaajanKokoPx);
+        taustaLabel = new JLabel(new ImageIcon());
+        taustaLabel.setBounds(0, 0, Main.kentänKoko * EsineenKokoPx + 20, Main.kentänKoko * EsineenKokoPx + 20);
+        
         try {
+            peliKenttä.add(pelaajaLabel);
+            peliKenttä.add(taustaLabel);
             for (int i = 0; i < Main.kentänKoko; i++) {
                 for (int j = 0; j < Main.kentänKoko; j++) {
                     if (j == sijX && i == sijY) {
                         if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
-                            peliTestiLabel = new JLabel(Main.pelikenttä[j][i].annaKuvake());
+                            kenttäKohteenKuvake[j][i].setIcon(Main.pelikenttä[j][i].annaKuvake());
+                        }
+                    }
+                    //if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
+                        if (reunatNäkyvissä) {
+                            if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
+                                if (Main.pelaajanSijX == j && Main.pelaajanSijY == i) {
+                                    kenttäKohteenKuvake[j][i].setBorder(null);
+                                }
+                                else if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
+                                    kenttäKohteenKuvake[j][i].setIcon(Main.pelikenttä[j][i].annaKuvake());
+                                    if (Main.pelikenttä[j][i] instanceof Kiintopiste) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
+                                    }
+                                    else if (Main.pelikenttä[j][i] instanceof Esine) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
+                                    }
+                                    else if (Main.pelikenttä[j][i] instanceof NPC) {
+                                        if (Main.pelikenttä[j][i] instanceof Vihollinen) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
+                                        }
+                                        else {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
+                                        }
+                                        
+                                    }
+                                    else if (Main.pelikenttä[j][i] instanceof Warp) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
+                                    }
+                                }
+                            }
+                            else if (Main.pelikenttä[j][i] == null) {
+                                kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                            }
                         }
                         else {
-                            peliTestiLabel = new JLabel("");
+                            kenttäKohteenKuvake[j][i].setBorder(null);
                         }
-                        pelaajaLabel = new JLabel(pelaajaKuvake);
-                    }
-                    else if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
-                        peliTestiLabel = new JLabel(Main.pelikenttä[j][i].annaKuvake());
-                        if (Main.pelikenttä[j][i] instanceof Kiintopiste) {
-                            peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
+                        if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
+                            kenttäKohteenKuvake[j][i].setIcon(Main.pelikenttä[j][i].annaKuvake());
                         }
-                        else if (Main.pelikenttä[j][i] instanceof Esine) {
-                            peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
-                        }
-                        else if (Main.pelikenttä[j][i] instanceof NPC) {
-                            if (Main.pelikenttä[j][i] instanceof Vihollinen) {
-                                peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
-                            }
-                            else {
-                                peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
-                            }
-                            
-                        }
-                        else if (Main.pelikenttä[j][i] instanceof Warp) {
-                            peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(80,200,100), 1, true));
-                        }
-                        pelaajaLabel = new JLabel("");
-                    }
-                    else {
-                        peliTestiLabel = new JLabel("");
-                        peliTestiLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-                        pelaajaLabel = new JLabel("");
-                    }
-                    peliTestiLabel.setBounds(kohteenSijX, kohteensijY, EsineenKokoPx, EsineenKokoPx);
-                    pelaajaLabel.setBounds(kohteenSijX, kohteensijY, PelaajanKokoPx, PelaajanKokoPx);
-                    peliKenttä.add(peliTestiLabel);
-                    peliKenttä.add(pelaajaLabel);
-                    peliKenttä.setComponentZOrder(pelaajaLabel, 0);
-                    peliKenttä.setComponentZOrder(peliTestiLabel, 1);
+                        
+                    //}
+                    //else {
+                    //    kenttäKohteenKuvake[j][i].setIcon(null);
+                    //    kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                    //}
+                    kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, EsineenKokoPx, EsineenKokoPx);
+                    peliKenttä.add(kenttäKohteenKuvake[j][i]);
+                    peliKenttä.setComponentZOrder(kenttäKohteenKuvake[j][i], 1);
                     kohteenSijX += EsineenKokoPx;
                 }
                 kohteenSijX = 10;
                 kohteensijY += EsineenKokoPx;
             }
+            
+            peliKenttä.setComponentZOrder(pelaajaLabel, 0);
+            //peliKenttä.setComponentZOrder(taustaLabel, 2);
         }
         catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
@@ -458,75 +543,133 @@ public class PääIkkuna {
         peliKenttä.repaint();
     }
 
-    static void päivitäIkkuna(int sijX, int sijY, Icon pelaajaKuvake) {
+    //static void päivitäIkkuna(int sijX, int sijY, Icon pelaajaKuvake) {
+    static JPanel päivitäIkkuna() {
         
-        peliKenttä.removeAll();
-        int kohteenSijX = 10;
-        int kohteensijY = 10;
+        //peliKenttä.removeAll();
+        //int kohteenSijX = 10;
+        //int kohteenSijY = 10;
         
         if (vaatiiPäivityksen) {
             try {
                 for (int i = 0; i < Main.kentänKoko; i++) {
                     for (int j = 0; j < Main.kentänKoko; j++) {
-                        if (j == sijX && i == sijY) {
-                            if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
-                                peliTestiLabel = new JLabel(Main.pelikenttä[j][i].annaKuvake());
-                            }
-                            else {
-                                peliTestiLabel = new JLabel("");
-                            }
-                            pelaajaLabel = new JLabel(pelaajaKuvake);
-                        }
-                        else if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
-                            peliTestiLabel = new JLabel(Main.pelikenttä[j][i].annaKuvake());
-                            if (Main.pelikenttä[j][i] instanceof Kiintopiste) {
-                                peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
-                            }
-                            else if (Main.pelikenttä[j][i] instanceof Esine) {
-                                peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
-                            }
-                            else if (Main.pelikenttä[j][i] instanceof NPC) {
-                                if (Main.pelikenttä[j][i] instanceof Vihollinen) {
-                                    peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
-                                }
-                                else {
-                                    peliTestiLabel.setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
-                                }
-                                
-                            }
-                            pelaajaLabel = new JLabel("");
+                        if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
+                            kenttäKohteenKuvake[j][i].setIcon(Main.pelikenttä[j][i].annaKuvake());
                         }
                         else {
-                            peliTestiLabel = new JLabel("");
-                            peliTestiLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-                            pelaajaLabel = new JLabel("");
+                            kenttäKohteenKuvake[j][i].setIcon(null);
                         }
-                        peliTestiLabel.setBounds(kohteenSijX, kohteensijY, EsineenKokoPx, EsineenKokoPx);
-                        pelaajaLabel.setBounds(kohteenSijX, kohteensijY, PelaajanKokoPx, PelaajanKokoPx);
-                        peliKenttä.add(peliTestiLabel);
-                        peliKenttä.add(pelaajaLabel);
-                        peliKenttä.setComponentZOrder(pelaajaLabel, 0);
-                        peliKenttä.setComponentZOrder(peliTestiLabel, 1);
-                        kohteenSijX += EsineenKokoPx;
-                        
+
+                        if (vaatiiTäysPäivityksen) {
+                            if (reunatNäkyvissä) {
+                                if (Main.pelaajanSijX == j && Main.pelaajanSijY == i) {
+                                    kenttäKohteenKuvake[j][i].setBorder(null);
+                                }
+                                else if (Main.pelikenttä[j][i] instanceof KenttäKohde) {
+                                    kenttäKohteenKuvake[j][i].setIcon(Main.pelikenttä[j][i].annaKuvake());
+                                    if (Main.pelikenttä[j][i] instanceof Kiintopiste) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
+                                    }
+                                    else if (Main.pelikenttä[j][i] instanceof Esine) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
+                                    }
+                                    else if (Main.pelikenttä[j][i] instanceof NPC) {
+                                        if (Main.pelikenttä[j][i] instanceof Vihollinen) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
+                                        }
+                                        else {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
+                                        }
+                                        
+                                    }
+                                    else if (Main.pelikenttä[j][i] instanceof Warp) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
+                                    }
+                                }
+                                else if (Main.pelikenttä[j][i] == null) {
+                                    kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                                }
+                            }
+                            else {
+                                kenttäKohteenKuvake[j][i].setBorder(null);
+                            }
+                        }
                     }
-                    kohteenSijX = 10;
-                    kohteensijY += EsineenKokoPx;
+                }
+
+                if (pelaajaSiirtyi || vaatiiTäysPäivityksen) {
+                    pelaajaLabel.setBounds(Main.pelaajanSijX * PelaajanKokoPx + 10, Main.pelaajanSijY * PelaajanKokoPx + 10, PelaajanKokoPx, PelaajanKokoPx);;
+                    pelaajaSiirtyi = false;
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+                GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                uusiIkkuna = true;
             }
             catch (NullPointerException e) {
                 System.out.println("Ongelma ruudunpäivityksessä");
             }
             catch (IllegalArgumentException e) {
-                //System.out.println("Ongelma ruudunpäivityksessä");
+                System.out.println("Ongelma ruudunpäivityksessä");
             }
 
             peliKenttä.revalidate();
             peliKenttä.repaint();
             vaatiiPäivityksen = false;
+            vaatiiTäysPäivityksen = false;
+        }
+        return peliKenttä;
+    }
+    static void vaihdaTausta(ImageIcon tausta) {
+        if (tausta == null) {
+            taustaLabel.setVisible(false);
+        }
+        else{
+            taustaLabel.setIcon(tausta);
+            taustaLabel.setVisible(true);
+        }
+    }
+
+    
+    class AjastimenPäivittäjä extends SwingWorker<Void, JLabel> {
+        
+        boolean ajastinKäynnissä = true;
+        double kulunutAika = 0;
+        int kulunutAikaMin = 0;
+        double kulunutAikaSek = 0;
+    
+        DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
+
+        @Override
+        protected Void doInBackground() {
+        
+            while (!isCancelled()) {
+                odotaMillisekunteja(10);
+                //publish(PääIkkuna.päivitäIkkuna());
+            }
+            return null;
+        }
+
+        protected void process() {
+            JLabel label = PääIkkuna.ylätekstiAika;
+            label.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
+        }
+
+        public void odotaMillisekunteja(long millisekunnit) {
+        
+            long odotaKunnes = System.nanoTime() + (millisekunnit * 1_000_000);
+            
+            kulunutAika += 0.01;
+            kulunutAikaSek = kulunutAika % 60;
+            kulunutAikaMin = (int)kulunutAika / 60;
+    
+            //PääIkkuna.ylätekstiAika.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
+            
+            while(odotaKunnes > System.nanoTime()){
+                ;
+            }
         }
     }
 }

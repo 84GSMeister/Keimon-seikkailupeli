@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import jaco.mp3.player.MP3Player;
 import java.util.HashMap;
 

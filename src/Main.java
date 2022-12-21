@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Main {
     
     static int kentänKoko = 10;
@@ -12,10 +14,13 @@ public class Main {
     static int pelaajanKylläisyys = 0;
     static boolean huoneVaihdettava = true;
     static int uusiHuone = 0;
+    static HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
+    static int huoneidenMäärä = 0;
     
     static void uusiPeli() {
         
         kentänKoko = uusiKentänKoko;
+        kentänYläraja = kentänAlaraja + kentänKoko - 1;
         pelikenttä = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
         Peli peli = new Peli();
     }

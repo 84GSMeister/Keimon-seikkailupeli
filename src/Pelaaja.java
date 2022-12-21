@@ -3,7 +3,7 @@ import javax.swing.Icon;
 
 public class Pelaaja {
     
-    Esine[] esineet = new Esine[5];
+    static Esine[] esineet = new Esine[5];
     int sijX;
     int sijY;
     protected int hp;
@@ -106,23 +106,23 @@ public class Pelaaja {
 
     void siirry (Liikkuminen liikkuminen) {
         if (liikkuminen instanceof LiikkuminenVasemmalle) {
-            if (sijX > 0) {
+            if (sijX > Main.kentänAlaraja) {
                 sijX--;
             }
         }
         else if (liikkuminen instanceof LiikkuminenOikealle) {
-            if (sijX < Main.kentänKoko -1) {
+            if (sijX < Main.kentänYläraja) {
                 sijX++;
             }
         }
         else if (liikkuminen instanceof LiikkuminenYlös) {
-            if (sijY < Main.kentänKoko -1) {
-                sijY++;
+            if (sijY > Main.kentänAlaraja) {
+                sijY--;
             }
         }
         else if (liikkuminen instanceof LiikkuminenAlas) {
-            if (sijY > 0) {
-                sijY--;
+            if (sijY < Main.kentänYläraja) {
+                sijY++;
             }
         }
     }
@@ -153,12 +153,12 @@ public class Pelaaja {
 
     void vahingoita(int määrä) {
         this.hp -= määrä;
-        PääIkkuna.ylätekstiHP.setText("HP:" + hp);
+        PääIkkuna.ylätekstiHP.setText("HP: " + hp);
     }
 
     void paranna(int määrä) {
         this.hp += määrä;
-        PääIkkuna.ylätekstiHP.setText("HP:" + hp);
+        PääIkkuna.ylätekstiHP.setText("HP: " + hp);
     }
 
     Pelaaja() {

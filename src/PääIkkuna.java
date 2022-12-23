@@ -54,7 +54,7 @@ public class PääIkkuna {
         ikkunanKorkeus = EsineenKokoPx * Main.kentänKoko + 300;
         kenttäKohteenKuvake = new JLabel[Main.kentänKoko][Main.kentänKoko];
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.3.1 alpha (18.12.2022)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.3.2 alpha (23.12.2022)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));

@@ -13,21 +13,20 @@ public class ReunaWarppi extends Warp {
 
         switch (suunta) {
             case YLÖS:
-                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_ylös.png");
+                asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_ylös.png"), KenttäKohde.Suunta.YLÖS);
                 break;
             case ALAS:
-                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_alas.png");
+                asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_alas.png"), KenttäKohde.Suunta.ALAS);
                 break;
             case VASEN:
-                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_vasen.png");
+                asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.VASEN);    
                 break;
             case OIKEA:
-                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
+                asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.OIKEA);        
                 break;
             default:
-                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
+                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
                 break;
         }
-        
     }
 }

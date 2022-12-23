@@ -116,4 +116,12 @@ public class Nuotio extends Kiintopiste {
         this.nimi = "Nuotio";
         this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
     }
+
+    Nuotio(int sijX, int sijY) {
+        this.määritettySijainti = true;
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.nimi = "Nuotio";
+        this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
+    }
 }

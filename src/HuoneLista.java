@@ -45,8 +45,8 @@ public class HuoneLista {
         switch (huoneenId) {
             default:
                 huone0.removeAll(huone0);
-                huone0.add(new Nuotio());
-                huone0.add(new Kirstu());
+                huone0.add(new Nuotio(2,2));
+                huone0.add(new Kirstu(4,2));
                 huone0.add(new Makkara());
                 huone0.add(new Ämpärikone());
                 huone0.add(new ReunaWarppi(1, 2, 2, ReunaWarppi.Suunta.OIKEA));
@@ -60,7 +60,7 @@ public class HuoneLista {
                 huone1.add(new PikkuVihu());
                 huone1.add(new Kilpi());
                 huone1.add(new Makkara());
-                huone1.add(new ReunaWarppi(2, 0, 0, ReunaWarppi.Suunta.OIKEA));   
+                huone1.add(new ReunaWarppi(2, 0, 0, ReunaWarppi.Suunta.VASEN));   
                 break;
             case 2:
                 huone2.removeAll(huone2);
@@ -73,7 +73,7 @@ public class HuoneLista {
                 huone2.add(new PikkuVihu());
                 huone2.add(new PikkuVihu());
                 huone2.add(new PikkuVihu());
-                huone2.add(new ReunaWarppi(3, 5, 5, ReunaWarppi.Suunta.OIKEA));
+                huone2.add(new ReunaWarppi(3, 5, 5, ReunaWarppi.Suunta.YLÖS));
                 break;
             case 3:
                 huone3.removeAll(huone3);
@@ -86,7 +86,7 @@ public class HuoneLista {
                 huone3.add(new PikkuVihu());
                 huone3.add(new PikkuVihu());
                 huone3.add(new PikkuVihu());
-                huone3.add(new ReunaWarppi(1, 0, 0, ReunaWarppi.Suunta.OIKEA));
+                huone3.add(new ReunaWarppi(1, 0, 0, ReunaWarppi.Suunta.ALAS));
                 break;
         }
         return pelikenttä;

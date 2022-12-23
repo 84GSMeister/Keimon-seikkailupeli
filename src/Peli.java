@@ -737,6 +737,7 @@ public class Peli {
         luoHuone(1, "Testihuone 1", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_2.jpg"), HuoneLista.huone1);
         luoHuone(2, "Testihuone 2", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_3.png"), HuoneLista.huone2);
         luoHuone(3, "Testihuone 3", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_kaboom.png"), HuoneLista.huone3);
+        luoHuone(4, "Testihuone 4", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/apu_pesukone.gif"), HuoneLista.huone3);
         PääIkkuna.luoAlkuIkkuna(0, 0, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
         PääIkkuna.päivitäIkkuna();
 

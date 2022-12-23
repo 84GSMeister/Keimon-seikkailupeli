@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.LockSupport;
+
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
@@ -69,13 +71,14 @@ public class GrafiikanPäivitysSäie extends Thread {
         
         long odotaKunnes = System.nanoTime() + (mikrosekunnit * 1_000);
         
-        while(odotaKunnes > System.nanoTime()){
-            ;
-        }
+        //while(odotaKunnes > System.nanoTime()){
+        //    ;
+        //}
+        LockSupport.parkNanos(odotaKunnes - System.nanoTime());
     }
 
     Timer päivitysTiheys = new Timer(16, e -> {
-        PääIkkuna.ylätekstiViive.setText("Päivitysaika: " + aikaErotusUs + " μs, kuvia: " + frameja);
+        PääIkkuna.ylätekstiViive.setText("Päivitysaika: " + aikaErotusMs + " ms, kuvia: " + frameja);
     });
 
     Timer sekuntiKello = new Timer(50, e -> {
@@ -170,6 +173,7 @@ public class GrafiikanPäivitysSäie extends Thread {
             while(odotaKunnes > System.nanoTime()){
                 ;
             }
+            //LockSupport.parkNanos(odotaKunnes - System.nanoTime());
         }
     }
 

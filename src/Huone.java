@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.JOptionPane;
+
 import java.awt.Image;
 
 public class Huone {
@@ -50,6 +53,22 @@ public class Huone {
         }
     }
 
+    void sijoitaMäärättyynRuutuun(int sijX, int sijY, KenttäKohde t){
+        if (huoneenSisältö[sijX][sijY] == null) {
+            huoneenSisältö[sijX][sijY] = t;
+            esineitäKentällä++;
+        }
+        else {
+            if (esineitäKentällä < Main.kentänKoko * Main.kentänKoko) {
+                //sijoitaMäärättyynRuutuun(sijX, sijY, t);
+            }
+            else {
+                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+            }
+            JOptionPane.showMessageDialog(null, "Ei voi sijoittaa ruutuun, jossa on jo jotakin.", "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     Huone(int luontiId, int luontiKoko, String luontiNimi, Image luontiTausta, ArrayList<KenttäKohde> luontiSisältö) {
         this.id = luontiId;
         this.nimi = luontiNimi;
@@ -63,7 +82,12 @@ public class Huone {
             }
         }
         for (KenttäKohde k : luontiSisältö) {
-            sijoitaSatunnaiseenRuutuun(k);
+            if (k.määritettySijainti) {
+                sijoitaMäärättyynRuutuun(k.sijX, k.sijY, k);
+            }
+            else {
+                sijoitaSatunnaiseenRuutuun(k);
+            }
         }
         Main.huoneidenMäärä++;
     }

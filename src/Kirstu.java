@@ -65,4 +65,12 @@ public class Kirstu extends Kiintopiste {
         this.nimi = "Kirstu";
         this.kuvake = new ImageIcon("tiedostot/kuvat/kirstu.png");
     }
+
+    Kirstu(int sijX, int sijY) {
+        this.määritettySijainti = true;
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.nimi = "Kirstu";
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kirstu.png");
+    }
 }

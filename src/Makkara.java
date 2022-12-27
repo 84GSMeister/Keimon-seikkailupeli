@@ -81,11 +81,12 @@ public class Makkara extends Ruoka{
     }
 
     Makkara(){
-        this.nimi = "Makkara";
-        this.kuvake = new ImageIcon("tiedostot/kuvat/makkarat.png");
-        this.heal = 1;
-        this.käyttö = true;
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Nuotio");
+        super.nimi = "Makkara";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/makkarat.png");
+        super.heal = 1;
+        super.käyttö = true;
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.asetaTiedot();
     }
 }

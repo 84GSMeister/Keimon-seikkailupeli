@@ -13,6 +13,7 @@ public class MukautusIkkuna {
     static JTextField[] tekstiKentät = new JTextField[valintojenMäärä];
     static KenttäKohde[][] huoneenSisältö = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
     static ArrayList<KenttäKohde> huoneenSisältöLista = new ArrayList<KenttäKohde>();
+    static ArrayList<Maasto> huoneenMaastoLista = new ArrayList<Maasto>();
 
     static void tarkistaArvot() {
         try {
@@ -87,10 +88,11 @@ public class MukautusIkkuna {
             huoneenSisältöString += k.annaNimi() + ", ";
         }
         System.out.println("Huoneeseen asetetaan " + huoneenSisältöString);
-        Peli.luoHuone(huoneenId, huoneenNimi, new ImageIcon().getImage(), huoneenSisältöLista);
+        Peli.luoHuone(huoneenId, huoneenNimi, new ImageIcon().getImage(), huoneenSisältöLista, huoneenMaastoLista, false, "");
         Main.huoneVaihdettava = true;
         Main.uusiHuone = huoneenId;
         huoneenSisältöLista.removeAll(huoneenSisältöLista);
+        huoneenMaastoLista.removeAll(huoneenMaastoLista);
     }
 
     static void luoMukautusikkuna() {

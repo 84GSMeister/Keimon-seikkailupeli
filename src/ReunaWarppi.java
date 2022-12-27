@@ -2,7 +2,7 @@ import javax.swing.ImageIcon;
 
 public class ReunaWarppi extends Warp {
     
-    public ReunaWarppi(int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
+    public ReunaWarppi(int sijX, int sijY, int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
         
         this.nimi = "Oviruutu";
         this.katsomisTeksti = "Paina Spacea tai nuolen suuntaista nuolinäppäintä kulkeaksesi oviruudusta!";
@@ -10,8 +10,12 @@ public class ReunaWarppi extends Warp {
         this.kohdeRuutuX = luontiKohdeRuutuX;
         this.kohdeRuutuY = luontiKohdeRuutuY;
         this.suunta = luontiSuunta;
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.määritettySijainti = true;
 
         switch (suunta) {
+            /**
             case YLÖS:
                 asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_ylös.png"), KenttäKohde.Suunta.YLÖS);
                 break;
@@ -24,8 +28,9 @@ public class ReunaWarppi extends Warp {
             case OIKEA:
                 asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.OIKEA);        
                 break;
+                */
             default:
-                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
                 break;
         }
     }

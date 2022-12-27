@@ -6,6 +6,6 @@ public class Ruoka extends Esine{
     }
     
     Ruoka() {
-
+        
     }
 }

@@ -37,9 +37,10 @@ public class Paperi extends Esine {
     }
 
     Paperi(){
-        this.nimi = "Paperi";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Nuotio");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/paperi.png");
+        super.nimi = "Paperi";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/paperi.png");
+        super.annaTiedot();
     }
 }

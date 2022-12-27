@@ -1,6 +1,13 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (23.12.2022): 0.3.2
+## Uusin versio (27.12.2022): 0.4
+
+### Versio 0.4
+
+  - alkuvalikko
+  - liikkuvat viholliset
+  - maastotyypit
+  - pelin voi pausettaa
 
 ### Versio 0.3.2:
   - fps-ongelmaa parannettu jälleen hieman

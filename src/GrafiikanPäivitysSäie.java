@@ -30,6 +30,7 @@ public class GrafiikanPäivitysSäie extends Thread {
     AjastimenPäivittäjä ajastimenPäivittäjä = new AjastimenPäivittäjä();
     PeliKentänPäivittäjä peliKentänPäivittäjä = new PeliKentänPäivittäjä();
 
+    /**
     static ImageIcon valitsePelaajanKuvake() {
         int pelaajanKuvakeInt = Main.pelaajanKylläisyys;
         switch (pelaajanKuvakeInt) {
@@ -54,6 +55,7 @@ public class GrafiikanPäivitysSäie extends Thread {
         }
         return pelaajanKuvake;
     }
+    */
 
     public static void päivitäHUD() {
         for (int i = 0; i < 5; i++) {
@@ -95,36 +97,39 @@ public class GrafiikanPäivitysSäie extends Thread {
         @Override
         protected Void doInBackground() {
         
-            try {
-                while (!isCancelled()) {
-                    alkuAika = System.nanoTime();
-                    odotaMikrosekunteja(odotusAikaUs);
+            //if (!Main.pause) {
+                try {
+                    while (!isCancelled()) {
+                        alkuAika = System.nanoTime();
+                        odotaMikrosekunteja(odotusAikaUs);
 
-                    PääIkkuna.vaatiiPäivityksen = true;
-                    valitsePelaajanKuvake();
-                    päivitäHUD();
-                    PääIkkuna.päivitäIkkuna();
+                        PääIkkuna.vaatiiPäivityksen = true;
+                        //valitsePelaajanKuvake();
+                        päivitäHUD();
+                        PääIkkuna.päivitäIkkuna();
 
-                    kertymänAika += aikaErotusUs;
+                        kertymänAika += aikaErotusUs;
 
-                    if (PääIkkuna.uudelleenpiirräKaikki) {
-                        PääIkkuna.luoAlkuIkkuna(Main.pelaajanSijX, Main.pelaajanSijY, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
-                        PääIkkuna.vaihdaTausta(uusiTausta);
-                        valitsePelaajanKuvake();
-                        PääIkkuna.uudelleenpiirräKaikki = false;
+                        if (PääIkkuna.uudelleenpiirräKaikki) {
+                            PääIkkuna.luoAlkuIkkuna(Main.pelaajanSijX, Main.pelaajanSijY, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
+                            PääIkkuna.vaihdaTausta(uusiTausta);
+                            //valitsePelaajanKuvake();
+                            PääIkkuna.uudelleenpiirräKaikki = false;
+                        }
+                        frameja++;
+                        kuviaKertymässä++;
+                        loppuAika = System.nanoTime();
+                        aikaErotusNs = (loppuAika - alkuAika);
+                        aikaErotusUs = aikaErotusNs/1000;
+                        aikaErotusMs = aikaErotusUs/1000;
                     }
-                    frameja++;
-                    kuviaKertymässä++;
-                    loppuAika = System.nanoTime();
-                    aikaErotusNs = (loppuAika - alkuAika);
-                    aikaErotusUs = aikaErotusNs/1000;
-                    aikaErotusMs = aikaErotusUs/1000;
                 }
-            }
-                
-            catch (Exception ignore) {
-                JOptionPane.showMessageDialog(null, "Paskan möivät.\n\nKannattais varmaan koodata paremmin.", "vittu", JOptionPane.ERROR_MESSAGE);
-            }
+                    
+                catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Paskan möivät.\n\nKannattais varmaan koodata paremmin.", "vittu", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                }
+            //}
 
             //publish(PääIkkuna.päivitäIkkuna());
             return null;
@@ -139,7 +144,7 @@ public class GrafiikanPäivitysSäie extends Thread {
     class AjastimenPäivittäjä extends SwingWorker<Void, JLabel> {
         
         boolean ajastinKäynnissä = true;
-        double kulunutAika = 0;
+        static double kulunutAika = 0;
         int kulunutAikaMin = 0;
         double kulunutAikaSek = 0;
     
@@ -149,8 +154,10 @@ public class GrafiikanPäivitysSäie extends Thread {
         protected Void doInBackground() {
         
             while (!isCancelled()) {
-                odotaMillisekunteja(10);
-                publish(PääIkkuna.ylätekstiAika);
+                if (!Main.pause) {
+                    odotaMillisekunteja(10);
+                    publish(PääIkkuna.ylätekstiAika);
+                }
             }
             return null;
         }
@@ -179,8 +186,7 @@ public class GrafiikanPäivitysSäie extends Thread {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        //super.run();
+
         frameja = 0;
         odotusAikaUs = 1_000_000 / PelinAsetukset.tavoiteFPS;
         päivitysTiheys.start();

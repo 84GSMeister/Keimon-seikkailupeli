@@ -48,11 +48,12 @@ public class PikkuVihu extends Vihollinen{
     }
 
     PikkuVihu() {
-        this.vahinko = 1 * PelinAsetukset.vaikeusAste;
-        this.hp = 3 * PelinAsetukset.vaikeusAste;
-        this.nimi = "Pikkuvihu";
-        this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
-        this.tehoavatAseet.add("Vesiämpäri");
+        super.vahinko = 1 * PelinAsetukset.vaikeusAste;
+        super.hp = 3 * PelinAsetukset.vaikeusAste;
+        super.nimi = "Pikkuvihu";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
+        super.tehoavatAseet.add("Vesiämpäri");
+        super.asetaTiedot();
     }
 
 }

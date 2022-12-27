@@ -40,10 +40,11 @@ public class Avain extends Esine {
     }
 
     Avain(){
-        this.nimi = "Avain";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Kirstu");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
-        this.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
+        super.nimi = "Avain";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Kirstu");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
+        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
+        super.asetaTiedot();
     }
 }

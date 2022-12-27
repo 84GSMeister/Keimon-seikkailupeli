@@ -77,6 +77,16 @@ public abstract class KenttäKohde {
         return kuvake;
     }
 
+    String tiedot = "";
+    void asetaTiedot() {
+        tiedot += "Nimi: " + this.annaNimi() + "\n";
+        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei" + "\n");
+    }
+    
+    String annaTiedot() {
+        return tiedot;
+    }
+
     //void asetaKuvake(ImageIcon kuvake, Suunta suunta) {
     //    this.kuvake = rotateImageIcon(kuvake, suunta);
     //}

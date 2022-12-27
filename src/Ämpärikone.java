@@ -48,7 +48,8 @@ public class Ämpärikone extends Kiintopiste{
     }
 
     Ämpärikone() {
-        this.nimi = "Ämpärikone";
-        this.kuvake = new ImageIcon("tiedostot/kuvat/ämpärikone.png");
+        super.nimi = "Ämpärikone";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/ämpärikone.png");
+        super.asetaTiedot();
     }
 }

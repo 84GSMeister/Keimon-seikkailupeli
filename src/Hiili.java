@@ -36,10 +36,11 @@ public class Hiili extends Esine {
     }
 
     Hiili(){
-        this.nimi = "Hiili";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Nuotio");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/hiili.png");
-        this.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
+        super.nimi = "Hiili";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/hiili.png");
+        super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
+        super.asetaTiedot();
     }
 }

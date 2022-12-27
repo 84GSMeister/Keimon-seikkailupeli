@@ -121,4 +121,18 @@ public class CustomViestiIkkunat {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
+
+    public static class HuoneenVaihtoDialogi {
+        
+        //static String viesti = "Tämä teksti tulee kun vaihtaa huonetta.";
+        static String otsikko = "Otsikko";
+        static int valitaTyyppi = JOptionPane.OK_OPTION;
+        static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
+        static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee_sivuttain.png");
+        static String[] vaihtoehdot = {"Täytyyks tästä painaa joka helvetin kerta?"};
+
+        static int showDialog(String dialogiTeksti) {
+            return JOptionPane.showOptionDialog(null, dialogiTeksti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
 }

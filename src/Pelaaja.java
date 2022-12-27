@@ -6,7 +6,7 @@ public class Pelaaja {
     static Esine[] esineet = new Esine[5];
     int sijX;
     int sijY;
-    protected int hp;
+    protected static int hp;
     boolean kylläinen = false;
     int syödytRuoat = 0;
     protected Icon kuvake;
@@ -104,27 +104,90 @@ public class Pelaaja {
         }
     }
 
-    void siirry (Liikkuminen liikkuminen) {
+    boolean kokeileLiikkumista(String suunta) {
+        boolean pelaajaSiirtyi = false;
+        switch (suunta) {
+            case "vasen":
+                if (sijX > 0) {
+                    if (Main.maastokenttä[sijX-1][sijY] == null) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                    }
+                    else {
+                        if (!Main.maastokenttä[sijX-1][sijY].estääLiikkumisen) {
+                            pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                        }
+                    }
+                }
+                break;
+            case "oikea":
+                if (sijX < Main.kentänKoko -1) {
+                    if (Main.maastokenttä[sijX+1][sijY] == null) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                    }
+                    else {
+                        if (!Main.maastokenttä[sijX+1][sijY].estääLiikkumisen) {
+                            pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                        }
+                    }
+                }
+                break;
+            case "alas":
+                if (sijY < Main.kentänKoko -1) {
+                    if (Main.maastokenttä[sijX][sijY+1] == null) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                    }
+                    else {
+                        if (!Main.maastokenttä[sijX][sijY+1].estääLiikkumisen) {
+                            pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                        }
+                    }
+                }
+                break;
+            case "ylös":
+                if (sijY > 0) {
+                    if (Main.maastokenttä[sijX][sijY-1] == null) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                    }
+                    else {
+                        if (!Main.maastokenttä[sijX][sijY-1].estääLiikkumisen) {
+                            pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return pelaajaSiirtyi;
+    }
+
+    boolean siirry (Liikkuminen liikkuminen) {
+        boolean pelaajaSiirtyi = false;
         if (liikkuminen instanceof LiikkuminenVasemmalle) {
             if (sijX > Main.kentänAlaraja) {
                 sijX--;
+                pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenOikealle) {
             if (sijX < Main.kentänYläraja) {
                 sijX++;
+                pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenYlös) {
             if (sijY > Main.kentänAlaraja) {
                 sijY--;
+                pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenAlas) {
             if (sijY < Main.kentänYläraja) {
                 sijY++;
+                pelaajaSiirtyi = true;
             }
         }
+        return pelaajaSiirtyi;
     }
 
     void teleport(int kohdeX, int kohdeY) {
@@ -151,8 +214,8 @@ public class Pelaaja {
         return hp;
     }
 
-    void vahingoita(int määrä) {
-        this.hp -= määrä;
+    static void vahingoita(int määrä) {
+        hp -= määrä;
         PääIkkuna.ylätekstiHP.setText("HP: " + hp);
     }
 

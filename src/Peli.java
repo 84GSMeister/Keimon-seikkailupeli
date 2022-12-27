@@ -23,6 +23,7 @@ public class Peli {
      */
     
     KenttäKohde[][] pelikenttä = Main.pelikenttä;
+    Maasto[][] maastokenttä = Main.maastokenttä;
     int esineitäKentällä = 0;
     Random r = new Random();
     Pelaaja p = new Pelaaja();
@@ -213,12 +214,15 @@ public class Peli {
         }
         else if (pelikenttä[p.sijX][p.sijY] instanceof Warp) {
             Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
-            lataaHuone(warp.annaKohdeHuone());
-            p.teleport(warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY());
+            voiWarpata = true;
+            if (lataaHuone(warp.annaKohdeHuone())) {
+                p.teleport(warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY());
+            }
         }
         else {
             käytäEsinettä(esine);
         }
+        PääIkkuna.vaatiiKentänPäivityksen = true;
     }
 
     void käytäEsinettä(int esine) {
@@ -245,7 +249,12 @@ public class Peli {
     void erikoisKäyttö(int esine) {
         valittuEsine = p.esineet[esine];
         if (p.esineet[esine] == null) {
-            PääIkkuna.hudTeksti.setText("Ei valittua esinettä.");
+            if (pelikenttä[p.sijX][p.sijY] == null) {
+                PääIkkuna.hudTeksti.setText("Ei valittua esinettä.");
+            }
+            else {
+                PääIkkuna.hudTeksti.setText(pelikenttä[p.sijX][p.sijY].katso());
+            }
         }
         else if (valittuEsine.onkoKenttäkäyttöön()) {
             valX = p.sijX;
@@ -307,6 +316,7 @@ public class Peli {
         else {
             PääIkkuna.hudTeksti.setText(valittuEsine.annaNimiSijamuodossa("adessiivi") + " ei ole erikoiskäyttöä.");
         }
+        PääIkkuna.vaatiiKentänPäivityksen = true;
     }
 
     void suoritaKohtaaminen() {
@@ -325,14 +335,14 @@ public class Peli {
     }
 
     void vihollisKohtaaminen() {
-        if (pelikenttä[p.sijX][p.sijY] instanceof PikkuVihu) {
-            PikkuVihu pikkuVihu = (PikkuVihu)pelikenttä[p.sijX][p.sijY];
-            if (pikkuVihu.onkoKukistettu() || (p.esineet[esineValInt] instanceof Kilpi)) {
+        if (pelikenttä[p.sijX][p.sijY] instanceof Vihollinen) {
+            Vihollinen vihu = (Vihollinen)pelikenttä[p.sijX][p.sijY];
+            if (vihu.onkoKukistettu() || ((p.esineet[esineValInt] instanceof Kilpi) && vihu.kilpiTehoaa)) {
                 
             }
             else {
-                p.vahingoita(pikkuVihu.vahinko);
-                PääIkkuna.hudTeksti.setText("Osuit viholliseen! Menetit " + pikkuVihu.vahinko +" elämäpisteen.");
+                p.vahingoita(vihu.vahinko);
+                PääIkkuna.hudTeksti.setText("Osuit viholliseen! Menetit " + vihu.vahinko +" elämäpisteen.");
             }
         }
     }
@@ -425,196 +435,227 @@ public class Peli {
                 boolean pelaajaSiirtyi = false;
                 boolean esinepaikkaVaihtui = false;
 
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT, KeyEvent.VK_A:
-                        if (voiWarpata) {    
-                            Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
-                            if (warp.annaSuunta() == Warp.Suunta.VASEN) {
-                                käyttö(esineValInt);
-                            }
-                            else {
-                                p.siirry(new LiikkuminenVasemmalle());
-                                pelaajaSiirtyi = true;
-                            }
-                            voiWarpata = false;
-                        }
-                        else {
-                            p.siirry(new LiikkuminenVasemmalle());
-                            pelaajaSiirtyi = true;
-                        }
-                        break;
-                    case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
-                        if (voiWarpata) {    
-                            Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
-                            if (warp.annaSuunta() == Warp.Suunta.OIKEA) {
-                                käyttö(esineValInt);
-                            }
-                            else {
-                                p.siirry(new LiikkuminenOikealle());
-                                pelaajaSiirtyi = true;
-                            }
-                            voiWarpata = false;
-                        }
-                        else {
-                            p.siirry(new LiikkuminenOikealle());
-                            pelaajaSiirtyi = true;
-                        }
-                        break;
-                    case KeyEvent.VK_DOWN, KeyEvent.VK_S:
-                        if (voiWarpata) {    
-                            Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
-                            if (warp.annaSuunta() == Warp.Suunta.ALAS) {
-                                käyttö(esineValInt);
-                            }
-                            else {
-                                p.siirry(new LiikkuminenAlas());
-                                pelaajaSiirtyi = true;
-                            }
-                            voiWarpata = false;
-                        }
-                        else {
-                            p.siirry(new LiikkuminenAlas());
-                            pelaajaSiirtyi = true;
-                        }
-                        break;
-                    case KeyEvent.VK_UP, KeyEvent.VK_W:
-                        if (voiWarpata) {    
-                            Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
-                            if (warp.annaSuunta() == Warp.Suunta.YLÖS) {
-                                käyttö(esineValInt);
-                            }
-                            else {
-                                p.siirry(new LiikkuminenYlös());
-                                pelaajaSiirtyi = true;
-                            }
-                            voiWarpata = false;
-                        }
-                        else {
-                            p.siirry(new LiikkuminenYlös());
-                            pelaajaSiirtyi = true;
-                        }
-                        break;
-                    case KeyEvent.VK_E:
-                        poimi(p.sijX, p.sijY);
-                        break;
-                    case KeyEvent.VK_Q:
-                        pudota(p.sijX, p.sijY, esineValInt);
-                        break;
-                    case KeyEvent.VK_1:
-                        esineValInt = 0;
-                        esinepaikkaVaihtui = true;
-                        break;
-                    case KeyEvent.VK_2:
-                        esineValInt = 1;
-                        esinepaikkaVaihtui = true;
-                        break;
-                    case KeyEvent.VK_3:
-                        esineValInt = 2;
-                        esinepaikkaVaihtui = true;
-                        break;
-                    case KeyEvent.VK_4:
-                        esineValInt = 3;
-                        esinepaikkaVaihtui = true;
-                        break;
-                    case KeyEvent.VK_5:
-                        esineValInt = 4;
-                        esinepaikkaVaihtui = true;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        käyttö(esineValInt);
-                        break;
-                    case KeyEvent.VK_Z:
-                        
-                        if (yhdistäminenKäynnissä) {
-                            yhdistäminenKäynnissä = false;
-                            vaihdaKuvakkeet(esineValInt, -1, false);
-                            if (!(yhdistettäväTavarapaikka < 0)) {
-                                if (kokeileYhdistämistä(yhdistettäväTavarapaikka, esineValInt)) {
-                                    yhdistäEsineet(yhdistettäväTavarapaikka, esineValInt);
+                if (!Main.pause) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_LEFT, KeyEvent.VK_A:
+                            if (voiWarpata) {    
+                                Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
+                                if (warp.annaSuunta() == Warp.Suunta.VASEN) {
+                                    käyttö(esineValInt);
                                 }
-                            } 
-                        }    
-                        else if (tarkistaYhdistettävyys(esineValInt)) {
-                            PääIkkuna.hudTeksti.setText("Mihin haluat yhdistää? (valitse tavarapaikka näppäimillä 1-5)");
-                            PääIkkuna.osoitinLabel[esineValInt].setIcon(new ImageIcon("tiedostot/kuvat/osoitin_valittu.png"));
-                            yhdistettäväTavarapaikka = esineValInt;
-                            yhdistäminenKäynnissä = true;
+                                else {
+                                    pelaajaSiirtyi = p.kokeileLiikkumista("vasen");
+                                    //pelaajaSiirtyi = true;
+                                }
+                                voiWarpata = false;
+                            }
+                            else {
+                                pelaajaSiirtyi = p.kokeileLiikkumista("vasen");
+                                //pelaajaSiirtyi = true;
+                            }
+                            break;
+                        case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
+                            if (voiWarpata) {    
+                                Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
+                                if (warp.annaSuunta() == Warp.Suunta.OIKEA) {
+                                    käyttö(esineValInt);
+                                }
+                                else {
+                                    pelaajaSiirtyi = p.kokeileLiikkumista("oikea");
+                                    //pelaajaSiirtyi = true;
+                                }
+                                voiWarpata = false;
+                            }
+                            else {
+                                pelaajaSiirtyi = p.kokeileLiikkumista("oikea");
+                                //pelaajaSiirtyi = true;
+                            }
+                            break;
+                        case KeyEvent.VK_DOWN, KeyEvent.VK_S:
+                            if (voiWarpata) {    
+                                Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
+                                if (warp.annaSuunta() == Warp.Suunta.ALAS) {
+                                    käyttö(esineValInt);
+                                }
+                                else {
+                                    pelaajaSiirtyi = p.kokeileLiikkumista("alas");
+                                    //pelaajaSiirtyi = true;
+                                }
+                                voiWarpata = false;
+                            }
+                            else {
+                                pelaajaSiirtyi = p.kokeileLiikkumista("alas");
+                                //pelaajaSiirtyi = true;
+                            }
+                            break;
+                        case KeyEvent.VK_UP, KeyEvent.VK_W:
+                            if (voiWarpata) {    
+                                Warp warp = (Warp)pelikenttä[p.sijX][p.sijY];
+                                if (warp.annaSuunta() == Warp.Suunta.YLÖS) {
+                                    käyttö(esineValInt);
+                                }
+                                else {
+                                    pelaajaSiirtyi = p.kokeileLiikkumista("ylös");
+                                    //pelaajaSiirtyi = true;
+                                }
+                                voiWarpata = false;
+                            }
+                            else {
+                                pelaajaSiirtyi = p.kokeileLiikkumista("ylös");
+                                //pelaajaSiirtyi = true;
+                            }
+                            break;
+                        case KeyEvent.VK_E:
+                            poimi(p.sijX, p.sijY);
+                            PääIkkuna.vaatiiKentänPäivityksen = true;
+                            break;
+                        case KeyEvent.VK_Q:
+                            pudota(p.sijX, p.sijY, esineValInt);
+                            PääIkkuna.vaatiiKentänPäivityksen = true;
+                            break;
+                        case KeyEvent.VK_1:
+                            esineValInt = 0;
+                            esinepaikkaVaihtui = true;
+                            break;
+                        case KeyEvent.VK_2:
+                            esineValInt = 1;
+                            esinepaikkaVaihtui = true;
+                            break;
+                        case KeyEvent.VK_3:
+                            esineValInt = 2;
+                            esinepaikkaVaihtui = true;
+                            break;
+                        case KeyEvent.VK_4:
+                            esineValInt = 3;
+                            esinepaikkaVaihtui = true;
+                            break;
+                        case KeyEvent.VK_5:
+                            esineValInt = 4;
+                            esinepaikkaVaihtui = true;
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            käyttö(esineValInt);
+                            break;
+                        case KeyEvent.VK_Z:
+                            
+                            if (yhdistäminenKäynnissä) {
+                                yhdistäminenKäynnissä = false;
+                                vaihdaKuvakkeet(esineValInt, -1, false);
+                                if (!(yhdistettäväTavarapaikka < 0)) {
+                                    if (kokeileYhdistämistä(yhdistettäväTavarapaikka, esineValInt)) {
+                                        yhdistäEsineet(yhdistettäväTavarapaikka, esineValInt);
+                                    }
+                                } 
+                            }    
+                            else if (tarkistaYhdistettävyys(esineValInt)) {
+                                PääIkkuna.hudTeksti.setText("Mihin haluat yhdistää? (valitse tavarapaikka näppäimillä 1-5)");
+                                PääIkkuna.osoitinLabel[esineValInt].setIcon(new ImageIcon("tiedostot/kuvat/osoitin_valittu.png"));
+                                yhdistettäväTavarapaikka = esineValInt;
+                                yhdistäminenKäynnissä = true;
 
-                        }
-                        break;
+                            }
+                            break;
 
-                    case KeyEvent.VK_X:
-                        if (p.esineet[esineValInt] == null) {
-                            PääIkkuna.hudTeksti.setText("Ei valittua esinettä");
-                        }
-                        else {
-                            PääIkkuna.hudTeksti.setText(p.esineet[esineValInt].katso());
-                        }
-                        break;
-                    case KeyEvent.VK_C:
-                        if (pelikenttä[p.sijX][p.sijY] == null) {
-                            PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään.");
-                        }
-                        else {
-                            PääIkkuna.hudTeksti.setText(pelikenttä[p.sijX][p.sijY].katso());
-                        }
-                        break;
-                    case KeyEvent.VK_R:
-                        järjestäUudelleen();
-                        break;
+                        case KeyEvent.VK_X:
+                            if (p.esineet[esineValInt] == null) {
+                                PääIkkuna.hudTeksti.setText("Ei valittua esinettä");
+                            }
+                            else {
+                                PääIkkuna.hudTeksti.setText(p.esineet[esineValInt].katso());
+                            }
+                            break;
+                        case KeyEvent.VK_C:
+                            if (pelikenttä[p.sijX][p.sijY] == null) {
+                                PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään.");
+                            }
+                            else {
+                                PääIkkuna.hudTeksti.setText(pelikenttä[p.sijX][p.sijY].katso());
+                            }
+                            break;
+                        case KeyEvent.VK_R:
+                            järjestäUudelleen();
+                            break;
+                        
+                        case KeyEvent.VK_P:
+                            Main.pause = true;
+                            PääIkkuna.hudTeksti.setText("Pause");
+                            break;
 
-                    case KeyEvent.VK_F:
-                        erikoisKäyttö(esineValInt);
-                        break;
+                        case KeyEvent.VK_F:
+                            erikoisKäyttö(esineValInt);
+                            break;
 
-                    case KeyEvent.VK_F2:
+                        case KeyEvent.VK_F2:
+                            PääIkkuna.vaatiiPäivityksen = true;
+                            PääIkkuna.uudelleenpiirräKaikki = true;
+                            PääIkkuna.hudTeksti.setText("Ruudunpäivitys pakotettiin");
+                            break;
+
+                        case KeyEvent.VK_F3:
+                            PääIkkuna.vaatiiKentänPäivityksen = true;
+                            PääIkkuna.hudTeksti.setText("Kentänpäivitys pakotettiin");
+                            break;
+
+                        case KeyEvent.VK_F4:
+                            PääIkkuna.näytäTiedot();
+                            break;
+
+                        default:
+                            System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
+                            break;
+                    }
+                    if (pelaajaSiirtyi) {
+                        suoritaKohtaaminen();
+                        PääIkkuna.ylätekstiSij.setText("Pelaaja siirrettiin sijaintiin (" + p.sijX + ", " + p.sijY + ")");
+                        Main.pelaajanSijX = p.sijX;
+                        Main.pelaajanSijY = p.sijY;
                         PääIkkuna.vaatiiPäivityksen = true;
-                        PääIkkuna.uudelleenpiirräKaikki = true;
-                        PääIkkuna.hudTeksti.setText("Ruudunpäivitys pakotettiin");
-                        break;
-
-                    case KeyEvent.VK_F3:
-                        PääIkkuna.vaatiiTäysPäivityksen = true;
-                        PääIkkuna.hudTeksti.setText("Kentänpäivitys pakotettiin");
-                        break;
-
-                    default:
-                        System.out.println("Other Key Pressed");
-                        break;
-                }
-                if (pelaajaSiirtyi) {
-                    suoritaKohtaaminen();
-                    PääIkkuna.ylätekstiSij.setText("Pelaaja siirrettiin sijaintiin (" + p.sijX + ", " + p.sijY + ")");
-                    Main.pelaajanSijX = p.sijX;
-                    Main.pelaajanSijY = p.sijY;
-                    PääIkkuna.vaatiiPäivityksen = true;
-                    PääIkkuna.pelaajaSiirtyi = true;
-                }
-                else if (esinepaikkaVaihtui) {
-                    vaihdaKuvakkeet(esineValInt, yhdistettäväTavarapaikka, yhdistäminenKäynnissä);
-                    if (yhdistäminenKäynnissä) {
-                        if (p.esineet[esineValInt] == null) {
-                            PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt + " (tyhjä paikka)");
+                        PääIkkuna.pelaajaSiirtyi = true;
+                    }
+                    else if (esinepaikkaVaihtui) {
+                        vaihdaKuvakkeet(esineValInt, yhdistettäväTavarapaikka, yhdistäminenKäynnissä);
+                        if (yhdistäminenKäynnissä) {
+                            if (p.esineet[esineValInt] == null) {
+                                PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt + " (tyhjä paikka)");
+                            }
+                            else {
+                                PääIkkuna.hudTeksti.setText("Paina Z yhdistääksesi tavarapaikan " + esineValInt + " esineeseen " + p.esineet[esineValInt].annaNimi());
+                            }
                         }
                         else {
-                            PääIkkuna.hudTeksti.setText("Paina Z yhdistääksesi tavarapaikan " + esineValInt + " esineeseen " + p.esineet[esineValInt].annaNimi());
+                            if (p.esineet[esineValInt] == null) {
+                                PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt);
+                            }
+                            else {
+                                PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt + ": " + p.esineet[esineValInt].annaNimi());
+                            }
                         }
+                    }
+                    String kohdeteksti = "";
+                    String maastoTeksti = "";
+                    if (pelikenttä[p.sijX][p.sijY] == null) {
+                        //PääIkkuna.ylätekstiKohde.setText("Kohteessa ei ole mitään");
+                        kohdeteksti = "Kohteessa ei ole mitään";
                     }
                     else {
-                        if (p.esineet[esineValInt] == null) {
-                            PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt);
-                        }
-                        else {
-                            PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt + ": " + p.esineet[esineValInt].annaNimi());
-                        }
+                        //PääIkkuna.ylätekstiKohde.setText("Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimi());
+                        kohdeteksti = "Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimi();
                     }
-                }
-                
-                if (pelikenttä[p.sijX][p.sijY] == null) {
-                    PääIkkuna.ylätekstiKohde.setText("Kohteessa ei ole mitään");
+                    if (maastokenttä[p.sijX][p.sijY] == null) {
+                        maastoTeksti = "Maasto: normaali";
+                    }
+                    else {
+                        maastoTeksti = "Maasto: " + maastokenttä[p.sijX][p.sijY].annaNimi();
+                    }
+                    PääIkkuna.ylätekstiKohde.setText("" + kohdeteksti + ", " + maastoTeksti);
                 }
                 else {
-                    PääIkkuna.ylätekstiKohde.setText("Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimi());
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_P:
+                            Main.pause = false;
+                            PääIkkuna.hudTeksti.setText("Peli jatkuu.");
+                            break;
+                    }
                 }
             }
     
@@ -626,9 +667,12 @@ public class Peli {
 
     void suljePeli(int sulkuTapa) {
         peliKäynnissä = false;
+        for (int i = 0; i < p.esineet.length; i++) {
+            p.esineet[i] = null;
+        }
         switch (sulkuTapa) {
             case 0:
-                CustomViestiIkkunat.Loppuonnittelu.showDialog(AikaSäie.kulunutAika);
+                CustomViestiIkkunat.Loppuonnittelu.showDialog(GrafiikanPäivitysSäie.AjastimenPäivittäjä.kulunutAika);
                 PääIkkuna.ikkuna.dispose();
                 break;
             case 1:
@@ -656,22 +700,39 @@ public class Peli {
         gThread.ajastimenPäivittäjä.cancel(true);
         sThread.stop();
         tThread.stop();
+        PeliKenttäMetodit.päivitysTiheys.stop();
     }
 
-    void lataaHuone(int huoneenId) {
-        Huone huone = Main.huoneKartta.get(huoneenId);
-        pelikenttä = huone.annaHuoneenSisältö();
-        Main.pelikenttä = pelikenttä;
-        if (huone.annaTausta() != null) {
-            GrafiikanPäivitysSäie.uusiTausta = new ImageIcon(huone.annaTausta());
+    boolean lataaHuone(int huoneenId) {
+        try{
+            Huone huone = Main.huoneKartta.get(huoneenId);
+            pelikenttä = huone.annaHuoneenKenttäSisältö();
+            maastokenttä = huone.annaHuoneenMaastoSisältö();
+            Main.pelikenttä = pelikenttä;
+            Main.maastokenttä = maastokenttä;
+            if (huone.annaTausta() != null) {
+                GrafiikanPäivitysSäie.uusiTausta = new ImageIcon(huone.annaTausta());
+            }
+            PääIkkuna.hudTeksti.setText("Ladattiin huone " + huone.annaNimi() + " (ID: " + huone.annaId() + ")");
+            PääIkkuna.uudelleenpiirräKaikki = true;
+            if (Main.huoneKartta.get(huoneenId).näytäAlkuDialogi) {
+                Main.pause = true;
+                CustomViestiIkkunat.HuoneenVaihtoDialogi.showDialog("" + Main.huoneKartta.get(huoneenId).alkuDialogi);
+                Main.pause = false;
+            }
+            return true;
         }
-        PääIkkuna.hudTeksti.setText("Ladattiin huone " + huone.annaNimi() + " (ID: " + huone.annaId() + ")");
-        PääIkkuna.uudelleenpiirräKaikki = true;
+        catch (NullPointerException e) {
+            Main.pause = true;
+            JOptionPane.showMessageDialog(null, "Yritettiin warpata huoneeseen " + huoneenId + ", jota ei ole olemassa.", "Huonetta ei löytynyt.", JOptionPane.ERROR_MESSAGE);
+            Main.pause = false;
+            return false;
+        }
     }
 
-    static void luoHuone(int huoneenId, String huoneenNimi, Image huoneenTausta, ArrayList<KenttäKohde> huoneenSisältö) {
+    static void luoHuone(int huoneenId, String huoneenNimi, Image huoneenTausta, ArrayList<KenttäKohde> huoneenKenttäSisältö, ArrayList<Maasto> huoneenMaastoSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
 
-        Huone huone = new Huone(huoneenId, Main.kentänKoko, huoneenNimi, huoneenTausta, huoneenSisältö);
+        Huone huone = new Huone(huoneenId, Main.kentänKoko, huoneenNimi, huoneenTausta, huoneenKenttäSisältö, huoneenMaastoSisältö, näytäAlkuDialogi, alkuDialogi);
         Main.huoneKartta.put(huoneenId, huone);
     }
 
@@ -685,7 +746,7 @@ public class Peli {
             if (Main.huoneVaihdettava) {
                 lataaHuone(Main.uusiHuone);
                 Main.huoneVaihdettava = false;
-                PääIkkuna.vaatiiTäysPäivityksen = true;
+                PääIkkuna.vaatiiKentänPäivityksen = true;
             }
             
             if (peliHävitty) {
@@ -719,7 +780,7 @@ public class Peli {
         }
     
         Timer ajastin = new Timer(10, e -> {
-            if (peliKäynnissä) {
+            if (peliKäynnissä && !Main.pause) {
                 pelinKulku();
             }
         });
@@ -729,15 +790,16 @@ public class Peli {
         PääIkkuna.luoPääikkuna();
         PääIkkuna.ikkuna.addKeyListener(new Näppäinkomennot());
         PääIkkuna.vaatiiPäivityksen = true;
-        PääIkkuna.vaatiiTäysPäivityksen = true;
+        PääIkkuna.vaatiiKentänPäivityksen = true;
         
         AikaSäie.kulunutAika = 0;
+        GrafiikanPäivitysSäie.AjastimenPäivittäjä.kulunutAika = 0;
 
-        luoHuone(0, "Aloitushuone", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_1.jpg"), HuoneLista.huone0);
-        luoHuone(1, "Testihuone 1", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_2.jpg"), HuoneLista.huone1);
-        luoHuone(2, "Testihuone 2", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_3.png"), HuoneLista.huone2);
-        luoHuone(3, "Testihuone 3", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_kaboom.png"), HuoneLista.huone3);
-        luoHuone(4, "Testihuone 4", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/apu_pesukone.gif"), HuoneLista.huone3);
+        luoHuone(0, "Aloitushuone", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_1.jpg"), HuoneLista.huone0Kenttä, HuoneLista.huone0Maasto, false, "");
+        luoHuone(1, "Testihuone 1", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_2.jpg"), HuoneLista.huone1Kenttä, HuoneLista.huone1Maasto, false, "");
+        luoHuone(2, "Testihuone 2", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_3.png"), HuoneLista.huone2Kenttä, HuoneLista.huone2Maasto, true, "Saavuit juuri huoneeseen 2");
+        luoHuone(3, "Testihuone 3", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/tausta_kaboom.png"), HuoneLista.huone3Kenttä, HuoneLista.huone3Maasto, false, "");
+        //luoHuone(4, "Testihuone 4", Toolkit.getDefaultToolkit().createImage("tiedostot/kuvat/apu_pesukone.gif"), HuoneLista.huone3, null, false, "");
         PääIkkuna.luoAlkuIkkuna(0, 0, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
         PääIkkuna.päivitäIkkuna();
 
@@ -745,6 +807,7 @@ public class Peli {
         gThread.start();
         sThread.start();
         tThread.start();
+        PeliKenttäMetodit.päivitysTiheys.start();
 
     }
 

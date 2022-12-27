@@ -37,7 +37,18 @@ public abstract class Esine extends KenttäKohde {
         return nimi;
     }
 
-    Esine() {
+    void asetaTiedot() {
+        tiedot += "Nimi: " + this.annaNimi() + "\n";
+        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei");
+        tiedot += "\n";
+        tiedot += "Sopii käytettäväksi: ";
+        for (String s : this.sopiiKäytettäväksi) {
+            tiedot += s + ", ";
+        }
+        tiedot += "\n";
+    }
 
+    Esine() {
+        
     }
 }

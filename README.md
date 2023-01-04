@@ -1,6 +1,17 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (27.12.2022): 0.4
+## Uusin versio (4.1.2023): 0.4.2
+
+### Versio 0.4.2
+
+  - uusi alkuvalikko
+  - ensimmäiset kenttäruudut suunnitelman perusteella
+  - teemat (puisto)
+  - tarinaa muokattu
+  
+ ### Versio 0.4.1
+ 
+  - kenttäkohde- ja maastogeneraattori (perustuu kuvatiedoston väriarvoihin)
 
 ### Versio 0.4
 

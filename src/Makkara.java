@@ -89,4 +89,17 @@ public class Makkara extends Ruoka{
         super.sopiiKäytettäväksi.add("Nuotio");
         super.asetaTiedot();
     }
+
+    Makkara(int sijX, int sijY){
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.nimi = "Makkara";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/makkarat.png");
+        super.heal = 1;
+        super.käyttö = true;
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.asetaTiedot();
+    }
 }

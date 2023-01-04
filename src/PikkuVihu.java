@@ -56,4 +56,15 @@ public class PikkuVihu extends Vihollinen{
         super.asetaTiedot();
     }
 
+    PikkuVihu(int sijX, int sijY) {
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.vahinko = 1 * PelinAsetukset.vaikeusAste;
+        super.hp = 3 * PelinAsetukset.vaikeusAste;
+        super.nimi = "Pikkuvihu";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
+        super.tehoavatAseet.add("Vesiämpäri");
+        super.asetaTiedot();
+    }
 }

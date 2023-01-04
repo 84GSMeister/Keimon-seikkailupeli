@@ -40,7 +40,7 @@ public class CustomViestiIkkunat {
 
     public static class ToteutusPuuttuu {
         
-        static String viesti = "Koodaan tän joskus syssymmällä";
+        static String viesti = "Koodaan tän joskus syssymmällä\n\nOdotathan kärsivällisesti :)";
         static String otsikko = "Toteutus puuttuu";
         static int valitaTyyppi = JOptionPane.YES_NO_CANCEL_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
@@ -54,7 +54,7 @@ public class CustomViestiIkkunat {
 
     public static class Credits {
         
-        static String viesti = "Jonttu:\n-ohjelmointi\n\nUdo:\n-grafiikat\n-vuh-ääni";
+        static String viesti = "Jonttu:\n-ohjelmointi\n\nUdo:\n-grafiikat\n-vuh-ääni\n\nKrisy:\n-kenttäsuunnittelu\n-tarina";
         static String otsikko = "Kehittäjät";
         static int valitaTyyppi = JOptionPane.OK_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
@@ -129,7 +129,7 @@ public class CustomViestiIkkunat {
         static int valitaTyyppi = JOptionPane.OK_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
         static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee_sivuttain.png");
-        static String[] vaihtoehdot = {"Täytyyks tästä painaa joka helvetin kerta?"};
+        static String[] vaihtoehdot = {"OK"};
 
         static int showDialog(String dialogiTeksti) {
             return JOptionPane.showOptionDialog(null, dialogiTeksti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);

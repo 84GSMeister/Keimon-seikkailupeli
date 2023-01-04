@@ -103,4 +103,38 @@ public class Kaasusytytin extends Esine{
         }
         
     }
+    Kaasusytytin(int sijX, int sijY, String toimivuus){
+        this.määritettySijainti = true;
+        this.sijX = sijX;
+        this.sijY = sijY;
+        switch (toimivuus) {
+            case "toimiva":
+                this.nimi = "Toimiva kaasusytytin";
+                this.toimiva = true;
+                this.kenttäkäyttö = true;
+                this.sopiiKäytettäväksi.add("Nuotio");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
+                this.käyttöTeksti = "Leimahti!";
+                break;
+            case "tyhjä":
+                this.nimi = "Tyhjä kaasusytytin";
+                this.toimiva = false;
+                this.yhdistettävä = true;
+                this.kelvollisetYhdistettävät.add("Kaasupullo");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/tyhjäkaasusytytin.png");
+                this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
+                this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
+                break;
+            default:
+                this.nimi = "Toimiva kaasusytytin";
+                this.toimiva = true;
+                this.kenttäkäyttö = true;
+                this.sopiiKäytettäväksi.add("Nuotio");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
+                this.käyttöTeksti = "Leimahti!";
+                break;
+        }
+    }
 }

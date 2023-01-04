@@ -43,4 +43,15 @@ public class Paperi extends Esine {
         super.kuvake = new ImageIcon("tiedostot/kuvat/paperi.png");
         super.annaTiedot();
     }
+
+    Paperi(int sijX, int sijY){
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.nimi = "Paperi";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/paperi.png");
+        super.annaTiedot();
+    }
 }

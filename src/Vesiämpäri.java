@@ -46,4 +46,14 @@ public class Vesiämpäri extends Esine {
         this.sopiiKäytettäväksi.add("Nuotio");
         this.kuvake = new ImageIcon("tiedostot/kuvat/vesiämpäri.png");
     }
+
+    Vesiämpäri(int sijX, int sijY){
+        this.määritettySijainti = true;
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.nimi = "Vesiämpäri";
+        this.kenttäkäyttö = true;
+        this.sopiiKäytettäväksi.add("Nuotio");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/vesiämpäri.png");
+    }
 }

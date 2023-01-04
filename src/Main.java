@@ -18,6 +18,7 @@ public class Main {
     static HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
     static int huoneidenMäärä = 0;
     static boolean pause = false;
+    static boolean korjaaObjektiDesync = false;
     
     static void uusiPeli() {
         

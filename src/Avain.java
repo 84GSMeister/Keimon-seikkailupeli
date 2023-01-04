@@ -7,6 +7,7 @@ public class Avain extends Esine {
     }
 
     String käytä(){
+        poista = true;
         return käyttöTeksti;
     }
 
@@ -40,6 +41,18 @@ public class Avain extends Esine {
     }
 
     Avain(){
+        super.nimi = "Avain";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Kirstu");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
+        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
+        super.asetaTiedot();
+    }
+
+    Avain(int sijX, int sijY){
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
         super.nimi = "Avain";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Kirstu");

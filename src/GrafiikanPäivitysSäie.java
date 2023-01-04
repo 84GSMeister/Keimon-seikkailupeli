@@ -22,6 +22,7 @@ public class GrafiikanPäivitysSäie extends Thread {
     static long frameja = 0;
     static boolean ongelmaGrafiikassa = false;
     static int odotusAikaUs = 10;
+    static boolean säieKäynnissä = false;
 
     static ImageIcon pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
     static ArrayList<Long> päivitysAikaLista = new ArrayList<Long>();
@@ -198,8 +199,13 @@ public class GrafiikanPäivitysSäie extends Thread {
             //(new PeliKentänPäivittäjä()).execute();
             //(new AjastimenPäivittäjä()).execute();
             
+        if (!säieKäynnissä) {
             ajastimenPäivittäjä.execute();
             peliKentänPäivittäjä.execute();
+        }
+
+        säieKäynnissä = true;
+
             /**
             alkuAika = System.nanoTime();
             odotaMikrosekunteja(odotusAikaUs);

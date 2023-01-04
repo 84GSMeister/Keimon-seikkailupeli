@@ -36,4 +36,12 @@ public class Kilpi extends Esine{
         this.kuvake = new ImageIcon("tiedostot/kuvat/kilpi.png");
         this.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
     }
+    Kilpi(int sijX, int sijY) {
+        this.määritettySijainti = true;
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.nimi = "Kilpi";
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kilpi.png");
+        this.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
+    }
 }

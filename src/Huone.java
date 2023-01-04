@@ -13,6 +13,7 @@ public class Huone {
     private KenttäKohde[][] huoneenKenttäSisältö;
     private Maasto[][] huoneenMaastoSisältö;
     private Image tausta;
+    private String alue;
     int esineitäKentällä = 0;
     int maastoaKentällä = 0;
     boolean näytäAlkuDialogi = false;
@@ -34,6 +35,10 @@ public class Huone {
 
     public Image annaTausta() {
         return tausta;
+    }
+
+    public String annaAlue() {
+        return alue;
     }
     
     public KenttäKohde[][] annaHuoneenKenttäSisältö() {
@@ -110,7 +115,7 @@ public class Huone {
         }
     }
 
-    Huone(int luontiId, int luontiKoko, String luontiNimi, Image luontiTausta, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
+    Huone(int luontiId, int luontiKoko, String luontiNimi, Image luontiTausta, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
         this.id = luontiId;
         this.nimi = luontiNimi;
         this.huoneenKoko = luontiKoko;
@@ -119,6 +124,7 @@ public class Huone {
         this.tausta = luontiTausta;
         this.näytäAlkuDialogi = näytäAlkuDialogi;
         this.alkuDialogi = alkuDialogi;
+        this.alue = luontiAlue;
 
         for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
             for (int j = 0; j < huoneenKenttäSisältö.length; j++) {

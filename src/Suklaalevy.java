@@ -47,4 +47,15 @@ public class Suklaalevy extends Ruoka {
         super.käyttö = true;
         super.asetaTiedot();
     }
+
+    Suklaalevy(int sijX, int sijY){
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.nimi = "Suklaalevy";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/suklaalevy.png");
+        super.heal = 2;
+        super.käyttö = true;
+        super.asetaTiedot();
+    }
 }

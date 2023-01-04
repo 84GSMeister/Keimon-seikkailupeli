@@ -52,4 +52,13 @@ public class Ämpärikone extends Kiintopiste{
         super.kuvake = new ImageIcon("tiedostot/kuvat/ämpärikone.png");
         super.asetaTiedot();
     }
+
+    Ämpärikone(int sijX, int sijY) {
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.nimi = "Ämpärikone";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/ämpärikone.png");
+        super.asetaTiedot();
+    }
 }

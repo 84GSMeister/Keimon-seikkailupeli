@@ -54,4 +54,15 @@ public class PahaVihu extends Vihollinen{
         super.asetaTiedot();
     }
 
+    PahaVihu(int sijX, int sijY) {
+        super.määritettySijainti = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.vahinko = 1 * PelinAsetukset.vaikeusAste;
+        super.hp = 3 * PelinAsetukset.vaikeusAste;
+        super.nimi = "Pikkuvihu";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/pahavihu.png");
+        super.kilpiTehoaa = false;
+        super.asetaTiedot();
+    }
 }

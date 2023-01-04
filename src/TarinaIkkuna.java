@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
+import java.awt.Image;
 
 public class TarinaIkkuna {
     
@@ -20,10 +21,16 @@ public class TarinaIkkuna {
     static int klikkaustenMäärä = 0;
     static int tarinanPituusRuutuina = 4;
     static String[] tarinaTeksti = new String[tarinanPituusRuutuina];
+    static ImageIcon[] tarinanKuva = new ImageIcon[tarinanPituusRuutuina];
     
 
     static JPanel luoTarinaPaneli() {
         
+        tarinanKuva[0] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_1.png");
+        tarinanKuva[1] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_2.gif");
+        tarinanKuva[2] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_3.png");
+        tarinanKuva[3] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_4.png");
+
         tarinaTeksti[0] = "<html><p>" +
         "Keimo herää auringon säteiden aiheuttamaan kipuun. " +
         "Nämä normaalisti harmittomat luonnonilmiöt olivat päättäneet, " + 
@@ -42,31 +49,28 @@ public class TarinaIkkuna {
         "</p></html>";
 
         tarinaTeksti[2] = "<html><p>" +
-        "Teksti 3" +
+        "Pilvet leijailivat taivalla ylösalaisin. Linnut kävelivät maassa sen sijaan, että lentäisivät taivaalla.<br>" +
+        "Ja puistossa miehet ulkoiluttivat lapsiaan kun heidän vaimonsa olivat kotona katsomassa jääkiekkoa.<br>" +
+        "Lyhyesti sanottuna maailma oli mennyt vinksalleen." +
         "</p></html>";
 
         tarinaTeksti[3] = "<html><p>" +
-        "Teksti 4" +
+        "Sitten radiosta kuului lyhyt ilmoitus, jonka suuruuden vain Keimo käsitti: <br>" +
+        "''Alienit ovat hyökänneet Suomeen. Pyydämme kaikkia Suomen kansalaisia palaamaan koteihinsa ja aseistamaan itsensä pesäpallomailoilla itsepuolustusta varten.''" +
         "</p></html>";
 
         klikkaustenMäärä = 0;
 
-        kuva = new JLabel(new ImageIcon("tiedostot/kuvat/menu/tarina_alku_1.png"));
+        kuva = new JLabel(tarinanKuva[0]);
         kuva.setPreferredSize(new Dimension(640, 400));
 
         kuvaPaneli = new JPanel();
+        kuvaPaneli.setSize(640, 400);
         kuvaPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         kuvaPaneli.add(kuva);
 
 
-        teksti = new JLabel("<html><p>Keimo herää auringon säteiden aiheuttamaan kipuun. " +
-        "Nämä normaalisti harmittomat luonnonilmiöt olivat päättäneet, " + 
-        "että juuri Keimon tulisi kärsiä seuraamuksia eilispäivän nautinnosta. " +
-        "Yksikään kuolevainen ei ole kokenut yhtä murhaavaa krapulaa, kuin sitä, " +
-        "joka yritti paraikaa pitää Keimon maassa. " +
-        "Keimo ei kuitenkaan ollut tavallinen kuolevainen, " +
-        "ja hän kykeni yli-inhimillisellä tahdonvoimallaan avaamaan silmänsä " +
-        "ja katsomaan ympärilleen.</p></html>");
+        teksti = new JLabel(tarinaTeksti[0]);
         teksti.setPreferredSize(new Dimension(640, 250));
         teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -75,13 +79,17 @@ public class TarinaIkkuna {
         jatka.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 klikkaustenMäärä++;
-                if (klikkaustenMäärä >= 4) {
+                if (klikkaustenMäärä >= tarinanPituusRuutuina -1) {
+                    jatka.setText("Aloita peli");
+                }
+                if (klikkaustenMäärä >= tarinanPituusRuutuina) {
                     PääIkkuna.crd.next(PääIkkuna.kortit);
                     Main.pause = false;
-                    PääIkkuna.ikkuna.requestFocus();
+                    ValikkoIkkuna.valikkoPaneli.requestFocus();
                 }
                 else {
                     teksti.setText(tarinaTeksti[klikkaustenMäärä]);
+                    kuva.setIcon(tarinanKuva[klikkaustenMäärä]);
                 }
             }
         });
@@ -97,9 +105,12 @@ public class TarinaIkkuna {
 
 
         tarinaPaneli = new JPanel();
-        tarinaPaneli.setLayout(new BoxLayout(tarinaPaneli, BoxLayout.Y_AXIS));
+        //tarinaPaneli.setLayout(new BoxLayout(tarinaPaneli, BoxLayout.Y_AXIS));
+        tarinaPaneli.setLayout(new BorderLayout());
         tarinaPaneli.add(kuvaPaneli, BorderLayout.NORTH);
-        tarinaPaneli.add(tekstiPaneli, BorderLayout.SOUTH);
+        tarinaPaneli.add(tekstiPaneli, BorderLayout.CENTER);
+        //tarinaPaneli.add(kuvaPaneli);
+        //tarinaPaneli.add(tekstiPaneli);
         
         return tarinaPaneli;
     }

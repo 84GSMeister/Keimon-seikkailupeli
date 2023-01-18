@@ -81,7 +81,7 @@ public class TarinaRuutu {
                 }
                 if (klikkaustenMäärä >= tarinanPituusRuutuina) {
                     PääIkkuna.crd.next(PääIkkuna.kortit);
-                    Main.pause = false;
+                    Peli.pause = false;
                     ValikkoRuutu.valikkoPaneli.requestFocus();
                 }
                 else {

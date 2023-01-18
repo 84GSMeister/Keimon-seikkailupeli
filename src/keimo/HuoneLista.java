@@ -7,8 +7,8 @@ import keimo.Maastot.*;
 
 public class HuoneLista {
     
-    static KenttäKohde[][] pelikenttä = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
-    static Maasto[][] maastokenttä = new Maasto[Main.kentänKoko][Main.kentänKoko];
+    static KenttäKohde[][] pelikenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
+    static Maasto[][] maastokenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
     static int esineitäKentällä = 0;
     static Random r = new Random();
 
@@ -36,14 +36,14 @@ public class HuoneLista {
      */
 
     static void sijoitaSatunnaiseenRuutuun(KenttäKohde t){
-        int randX = r.nextInt(Main.kentänKoko);
-        int randY = r.nextInt(Main.kentänKoko);
+        int randX = r.nextInt(Peli.kentänKoko);
+        int randY = r.nextInt(Peli.kentänKoko);
         if (pelikenttä[randX][randY] == null) {
             pelikenttä[randX][randY] = t;
             esineitäKentällä++;
         }
         else {
-            if (esineitäKentällä < Main.kentänKoko * Main.kentänKoko) {
+            if (esineitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
                 sijoitaSatunnaiseenRuutuun(t);
             }
             else {
@@ -54,7 +54,7 @@ public class HuoneLista {
 
     static KenttäKohde[][] luoVakioKenttä(int huoneenId) {
 
-        pelikenttä = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
+        pelikenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
         switch (huoneenId) {
             default:
                 huone0Kenttä.removeAll(huone0Kenttä);
@@ -126,7 +126,7 @@ public class HuoneLista {
 
     static Maasto[][] luoVakioMaasto(int huoneenId) {
 
-        maastokenttä = new Maasto[Main.kentänKoko][Main.kentänKoko];
+        maastokenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
         switch (huoneenId) {
             default:
                 huone0Maasto.removeAll(huone0Maasto);

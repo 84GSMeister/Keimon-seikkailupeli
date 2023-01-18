@@ -52,14 +52,14 @@ public class Huone {
     }
 
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){
-        int randX = r.nextInt(Main.kentänKoko);
-        int randY = r.nextInt(Main.kentänKoko);
+        int randX = r.nextInt(Peli.kentänKoko);
+        int randY = r.nextInt(Peli.kentänKoko);
         if (huoneenKenttäSisältö[randX][randY] == null) {
             huoneenKenttäSisältö[randX][randY] = k;
             esineitäKentällä++;
         }
         else {
-            if (esineitäKentällä < Main.kentänKoko * Main.kentänKoko) {
+            if (esineitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
                 sijoitaSatunnaiseenRuutuun(k);
             }
             else {
@@ -69,14 +69,14 @@ public class Huone {
     }
 
     void sijoitaSatunnaiseenRuutuun(Maasto m){
-        int randX = r.nextInt(Main.kentänKoko);
-        int randY = r.nextInt(Main.kentänKoko);
+        int randX = r.nextInt(Peli.kentänKoko);
+        int randY = r.nextInt(Peli.kentänKoko);
         if (huoneenMaastoSisältö[randX][randY] == null) {
             huoneenMaastoSisältö[randX][randY] = m;
             maastoaKentällä++;
         }
         else {
-            if (esineitäKentällä < Main.kentänKoko * Main.kentänKoko) {
+            if (esineitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
                 sijoitaSatunnaiseenRuutuun(m);
             }
             else {
@@ -91,7 +91,7 @@ public class Huone {
             esineitäKentällä++;
         }
         else {
-            if (maastoaKentällä < Main.kentänKoko * Main.kentänKoko) {
+            if (maastoaKentällä < Peli.kentänKoko * Peli.kentänKoko) {
                 //sijoitaMäärättyynRuutuun(sijX, sijY, t);
             }
             else {
@@ -107,7 +107,7 @@ public class Huone {
             maastoaKentällä++;
         }
         else {
-            if (maastoaKentällä < Main.kentänKoko * Main.kentänKoko) {
+            if (maastoaKentällä < Peli.kentänKoko * Peli.kentänKoko) {
                 //sijoitaMäärättyynRuutuun(sijX, sijY, t);
             }
             else {
@@ -154,7 +154,7 @@ public class Huone {
                 }
             }
         }
-        Main.huoneidenMäärä++;
+        Peli.huoneidenMäärä++;
     }
 
 }

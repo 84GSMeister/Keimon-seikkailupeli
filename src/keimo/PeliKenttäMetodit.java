@@ -11,7 +11,7 @@ public class PeliKenttäMetodit {
     static KenttäKohde[][] pelikenttä;
 
     static Timer päivitysTiheys = new Timer(300, e -> {
-        if (!Main.pause) {
+        if (!Peli.pause) {
             kopioiPelikenttä();
             nollaaVihollistenTila();
             liikutaVihollisiaJatkuvaSilmukka();
@@ -21,8 +21,8 @@ public class PeliKenttäMetodit {
     });
 
     static void nollaaVihollistenTila() {
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 if (pelikenttä[j][i] instanceof Vihollinen) {
                     Vihollinen vihollinen = (Vihollinen)pelikenttä[j][i];
                     vihollinen.onJoLiikutettu = false;
@@ -33,8 +33,8 @@ public class PeliKenttäMetodit {
 
     static boolean liikutaVihollisiaJatkuvaSilmukka() {
         boolean vihollinenLiikutettiin = false;
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 if (pelikenttä[j][i] instanceof Vihollinen) {
                     if (pelikenttä[j][i] instanceof PikkuVihu) {
                         Vihollinen vihollinen = (Vihollinen)pelikenttä[j][i];
@@ -57,8 +57,8 @@ public class PeliKenttäMetodit {
 
     static boolean liikutaVihollisiaEsteeseenAsti() {
         boolean vihollinenLiikutettiin = false;
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 if (pelikenttä[j][i] instanceof Vihollinen) {
                     if (pelikenttä[j][i] instanceof PahaVihu) {
                         Vihollinen vihollinen = (Vihollinen)pelikenttä[j][i];
@@ -98,7 +98,7 @@ public class PeliKenttäMetodit {
                     }
                     break;
                 case "oikea":
-                    if (objSijX < Main.kentänKoko -1) {
+                    if (objSijX < Peli.kentänKoko -1) {
                         if (pelikenttä[objSijX+1][objSijY] == null) {
                             KenttäKohde k = pelikenttä[objSijX][objSijY];
                             pelikenttä[objSijX+1][objSijY] = k;
@@ -108,7 +108,7 @@ public class PeliKenttäMetodit {
                     }
                     break;
                 case "alas":
-                    if (objSijY < Main.kentänKoko -1) {
+                    if (objSijY < Peli.kentänKoko -1) {
                         if (pelikenttä[objSijX][objSijY+1] == null) {
                             KenttäKohde k = pelikenttä[objSijX][objSijY];
                             pelikenttä[objSijX][objSijY+1] = k;

@@ -2,6 +2,10 @@
 
 ## Uusin versio (18.1.2023): 0.5
 
+### Versio 0.5.1
+
+ - koodia hieman refaktoroitu ja buildi korjattu
+
 ### Versio 0.5
 
  - huone-editori

@@ -22,22 +22,22 @@ public class HuoneenVaihtoIkkuna {
     static ArrayList<Integer> toimivatHuoneIndeksit = new ArrayList<Integer>();
 
     static void luoHuoneenNimiLista() {
-        int huoneListanKoko = Main.huoneKartta.size();
-        int huoneListanSuurin = Collections.max(Main.huoneKartta.keySet());
+        int huoneListanKoko = Peli.huoneKartta.size();
+        int huoneListanSuurin = Collections.max(Peli.huoneKartta.keySet());
         huoneidenNimet = new String[huoneListanKoko];
         int toimivatHuoneet = 0;
         
         try {
             for (int i = 0; i < huoneListanSuurin + 1; i++) {
-                if (Main.huoneKartta.get(i) == null) {
+                if (Peli.huoneKartta.get(i) == null) {
                     System.out.println("Huonetta " + i + " ei löytynyt.");
                     continue;
                 }
                 else {
-                    huoneidenNimet[toimivatHuoneet] = Main.huoneKartta.get(i).annaNimi() + " (" + Main.huoneKartta.get(i).annaId() + ")";
+                    huoneidenNimet[toimivatHuoneet] = Peli.huoneKartta.get(i).annaNimi() + " (" + Peli.huoneKartta.get(i).annaId() + ")";
                     toimivatHuoneIndeksit.add(i);
                     toimivatHuoneet++;
-                    System.out.println("Huone " + i + ": " + Main.huoneKartta.get(i).annaNimi() + ", ID: " + Main.huoneKartta.get(i).annaId());
+                    System.out.println("Huone " + i + ": " + Peli.huoneKartta.get(i).annaNimi() + ", ID: " + Peli.huoneKartta.get(i).annaId());
                 }
             }
             huoneValikko = new JComboBox<String>(huoneidenNimet);
@@ -55,7 +55,7 @@ public class HuoneenVaihtoIkkuna {
             default:
                 try {
                     int huoneenId = Integer.parseInt(kohdeHuoneTekstikenttä.getText());
-                    if (Main.huoneKartta.containsKey(huoneenId)) {
+                    if (Peli.huoneKartta.containsKey(huoneenId)) {
                         asetaArvot(huoneenId);
                     }
                     else {
@@ -74,7 +74,7 @@ public class HuoneenVaihtoIkkuna {
                     String huoneStringPelkkäNumero = huoneString.substring(1, huoneString.length()-1);
                     int huoneenId = Integer.parseInt(huoneStringPelkkäNumero);
                     System.out.println(huoneStringPelkkäNumero);
-                    if (Main.huoneKartta.containsKey(huoneenId)) {
+                    if (Peli.huoneKartta.containsKey(huoneenId)) {
                         asetaArvot(huoneenId);
                     }
                     else {
@@ -89,8 +89,8 @@ public class HuoneenVaihtoIkkuna {
     }
 
     static void asetaArvot(int huoneenId) {
-        Main.uusiHuone = huoneenId;
-        Main.huoneVaihdettava = true;
+        Peli.uusiHuone = huoneenId;
+        Peli.huoneVaihdettava = true;
         ikkuna.dispose();
     }
 

@@ -183,7 +183,7 @@ public class GrafiikanPäivitysSäie extends Thread {
         protected Void doInBackground() {
         
             while (!isCancelled()) {
-                if (!Main.pause && Peli.peliAloitettu) {
+                if (!Peli.pause && Peli.peliAloitettu) {
                     odotaMillisekunteja(10);
                     publish(PääIkkuna.ylätekstiAika);
                 }

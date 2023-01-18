@@ -74,10 +74,10 @@ public class HuoneEditoriIkkuna {
     
     static void luoEditoriIkkuna() {
         
-        ikkunanLeveys = esineenKokoPx * Main.kentänKoko + 35;
-        ikkunanKorkeus = esineenKokoPx * Main.kentänKoko + 310;
-        kenttäKohteenKuvake = new JButton[Main.kentänKoko][Main.kentänKoko];
-        maastoKohteenKuvake = new JButton[Main.kentänKoko][Main.kentänKoko];
+        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 35;
+        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 310;
+        kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
+        maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         
         ikkuna = new JFrame("Huone-editori v0.2");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
@@ -95,8 +95,8 @@ public class HuoneEditoriIkkuna {
             public void actionPerformed(ActionEvent e) {
                 int tyhjennysValinta = CustomViestiIkkunat.EditorinTyhjennys.showDialog("Haluatko varmasti tyhjentää kaikki huoneet?", "Uusi pohja");
                 if (tyhjennysValinta == JOptionPane.YES_OPTION) {
-                    for (int i = 0; i < Main.kentänKoko; i++) {
-                        for (int j = 0; j < Main.kentänKoko; j++) {
+                    for (int i = 0; i < Peli.kentänKoko; i++) {
+                        for (int j = 0; j < Peli.kentänKoko; j++) {
                             objektiKenttä[j][i] = null;
                             
                         }
@@ -187,9 +187,9 @@ public class HuoneEditoriIkkuna {
         kokeilePelissä.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ikkuna.dispose();
-                Main.huoneKartta = huoneKartta;
-                Main.uusiHuone = 0;
-                Main.huoneVaihdettava = true;
+                Peli.huoneKartta = huoneKartta;
+                Peli.uusiHuone = 0;
+                Peli.huoneVaihdettava = true;
             }
         });
 
@@ -266,8 +266,8 @@ public class HuoneEditoriIkkuna {
 
         int kohteenSijX = 10;
         int kohteensijY = 10;
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 JLabel peliTestiLabel = new JLabel("PeliTestiLabel");
                 peliTestiLabel.setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
                 editointiKenttäPaneli.add(peliTestiLabel);
@@ -418,7 +418,7 @@ public class HuoneEditoriIkkuna {
         ikkuna.revalidate();
         ikkuna.repaint();
 
-        huoneKartta = Main.huoneKartta;
+        huoneKartta = Peli.huoneKartta;
         luoAlkuIkkuna(0, 0, null);
         lataaHuoneKartasta(muokattavaHuone);
     }
@@ -445,8 +445,8 @@ public class HuoneEditoriIkkuna {
         }
         
         huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10,  huoneenNimi,null, huoneenAlue, objektiKenttäLista, maastoKenttäLista, false, "alkudialogi"));
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 objektiKenttä[j][i] = null;
                 maastoKenttä[j][i] = null;
             }
@@ -968,11 +968,11 @@ public class HuoneEditoriIkkuna {
         
         int kohteenSijX = 10;
         int kohteensijY = 10;
-        objektiKenttä = new KenttäKohde[Main.kentänKoko][Main.kentänKoko];
-        maastoKenttä = new Maasto[Main.kentänKoko][Main.kentänKoko];
+        objektiKenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
+        maastoKenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
         
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 int x = j;
                 int y = i;
                 kenttäKohteenKuvake[x][y] = new JButton(new ImageIcon());
@@ -1023,13 +1023,13 @@ public class HuoneEditoriIkkuna {
         pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
         //pelaajaLabel.setIcon(valitsePelaajanKuvake());
         taustaLabel = new JLabel(new ImageIcon());
-        taustaLabel.setBounds(0, 0, Main.kentänKoko * esineenKokoPx + 20, Main.kentänKoko * esineenKokoPx + 20);
+        taustaLabel.setBounds(0, 0, Peli.kentänKoko * esineenKokoPx + 20, Peli.kentänKoko * esineenKokoPx + 20);
         
         try {
             editointiKenttäPaneli.add(pelaajaLabel);
             editointiKenttäPaneli.add(taustaLabel);
-            for (int i = 0; i < Main.kentänKoko; i++) {
-                for (int j = 0; j < Main.kentänKoko; j++) {
+            for (int i = 0; i < Peli.kentänKoko; i++) {
+                for (int j = 0; j < Peli.kentänKoko; j++) {
                     if (kenttäKohteenKuvake[j][i] == null) {
 
                     }
@@ -1121,8 +1121,8 @@ public class HuoneEditoriIkkuna {
 
                 huoneInfoLabel.setText("Huone " + muokattavaHuone);
 
-                for (int i = 0; i < Main.kentänKoko; i++) {
-                    for (int j = 0; j < Main.kentänKoko; j++) {
+                for (int i = 0; i < Peli.kentänKoko; i++) {
+                    for (int j = 0; j < Peli.kentänKoko; j++) {
                         if (objektiKenttä[j][i] instanceof KenttäKohde) {
                             kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
                         }

@@ -17,8 +17,8 @@ import java.text.DecimalFormat;
 public class PääIkkuna {
     static final int esineenKokoPx = 64;
     static final int pelaajanKokoPx = 64;
-    static int ikkunanLeveys = esineenKokoPx * Main.kentänKoko;
-    static int ikkunanKorkeus = esineenKokoPx * Main.kentänKoko;
+    static int ikkunanLeveys = esineenKokoPx * Peli.kentänKoko;
+    static int ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko;
     static boolean uusiIkkuna = false;
     static JFrame ikkuna;
     static JMenuBar yläPalkki;
@@ -63,10 +63,10 @@ public class PääIkkuna {
 
     static void luoPääikkuna() {
         
-        ikkunanLeveys = esineenKokoPx * Main.kentänKoko + 35;
-        ikkunanKorkeus = esineenKokoPx * Main.kentänKoko + 310;
-        kenttäKohteenKuvake = new JLabel[Main.kentänKoko][Main.kentänKoko];
-        maastoKohteenKuvake = new JLabel[Main.kentänKoko][Main.kentänKoko];
+        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 35;
+        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 310;
+        kenttäKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
+        maastoKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
         ikkuna = new JFrame("Keimon Seikkailupeli v0.5 pre-alpha (18.1.2023)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
@@ -302,8 +302,8 @@ public class PääIkkuna {
 
         int kohteenSijX = 10;
         int kohteensijY = 10;
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 JLabel peliTestiLabel = new JLabel("PeliTestiLabel");
                 peliTestiLabel.setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
                 peliKenttä.add(peliTestiLabel);
@@ -532,7 +532,7 @@ public class PääIkkuna {
 
     static ImageIcon valitsePelaajanKuvake() {
         ImageIcon pelaajanKuvake;
-        int pelaajanKuvakeInt = Main.pelaajanKylläisyys;
+        int pelaajanKuvakeInt = Pelaaja.pelaajanKylläisyys;
         switch (pelaajanKuvakeInt) {
             case 0:
                 pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
@@ -564,8 +564,8 @@ public class PääIkkuna {
         int kohteenSijX = 10;
         int kohteensijY = 10;
         
-        for (int i = 0; i < Main.kentänKoko; i++) {
-            for (int j = 0; j < Main.kentänKoko; j++) {
+        for (int i = 0; i < Peli.kentänKoko; i++) {
+            for (int j = 0; j < Peli.kentänKoko; j++) {
                 kenttäKohteenKuvake[j][i] = new JLabel();
                 maastoKohteenKuvake[j][i] = new JLabel();
             }
@@ -574,13 +574,13 @@ public class PääIkkuna {
         pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
         pelaajaLabel.setIcon(valitsePelaajanKuvake());
         taustaLabel = new JLabel(new ImageIcon());
-        taustaLabel.setBounds(0, 0, Main.kentänKoko * esineenKokoPx + 20, Main.kentänKoko * esineenKokoPx + 20);
+        taustaLabel.setBounds(0, 0, Peli.kentänKoko * esineenKokoPx + 20, Peli.kentänKoko * esineenKokoPx + 20);
         
         try {
             peliKenttä.add(pelaajaLabel);
             peliKenttä.add(taustaLabel);
-            for (int i = 0; i < Main.kentänKoko; i++) {
-                for (int j = 0; j < Main.kentänKoko; j++) {
+            for (int i = 0; i < Peli.kentänKoko; i++) {
+                for (int j = 0; j < Peli.kentänKoko; j++) {
                     if (kenttäKohteenKuvake[j][i] == null) {
 
                     }
@@ -670,8 +670,8 @@ public class PääIkkuna {
         
         if (vaatiiPäivityksen) {
             try {
-                for (int i = 0; i < Main.kentänKoko; i++) {
-                    for (int j = 0; j < Main.kentänKoko; j++) {
+                for (int i = 0; i < Peli.kentänKoko; i++) {
+                    for (int j = 0; j < Peli.kentänKoko; j++) {
                         if (Peli.pelikenttä[j][i] instanceof KenttäKohde) {
                             kenttäKohteenKuvake[j][i].setIcon(Peli.pelikenttä[j][i].annaKuvake());
                         }

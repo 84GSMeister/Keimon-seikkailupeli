@@ -13,6 +13,7 @@ public class Pelaaja {
     boolean kylläinen = false;
     int syödytRuoat = 0;
     protected Icon kuvake;
+    static int pelaajanKylläisyys = 0;
 
     boolean päivitäPelaajanSijainti(String sij) {
         int sijXInt;
@@ -57,7 +58,7 @@ public class Pelaaja {
         this.paranna(parannus);
         this.kylläinen = true;
         this.syödytRuoat++;
-        Main.pelaajanKylläisyys = syödytRuoat;
+        pelaajanKylläisyys = syödytRuoat;
         switch (syödytRuoat) {
             case 0:
                 this.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
@@ -89,12 +90,12 @@ public class Pelaaja {
                 }
                 break;
             case "oikea":
-                if (sijX < Main.kentänKoko -1) {
+                if (sijX < Peli.kentänKoko -1) {
                     sijX++;
                 }
                 break;
             case "ylös":
-                if (sijY < Main.kentänKoko -1) {
+                if (sijY < Peli.kentänKoko -1) {
                     sijY++;
                 }
                 break;
@@ -123,7 +124,7 @@ public class Pelaaja {
                 }
                 break;
             case "oikea":
-                if (sijX < Main.kentänKoko -1) {
+                if (sijX < Peli.kentänKoko -1) {
                     if (Peli.maastokenttä[sijX+1][sijY] == null) {
                         pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                     }
@@ -135,7 +136,7 @@ public class Pelaaja {
                 }
                 break;
             case "alas":
-                if (sijY < Main.kentänKoko -1) {
+                if (sijY < Peli.kentänKoko -1) {
                     if (Peli.maastokenttä[sijX][sijY+1] == null) {
                         pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                     }
@@ -167,25 +168,25 @@ public class Pelaaja {
     boolean siirry (Liikkuminen liikkuminen) {
         boolean pelaajaSiirtyi = false;
         if (liikkuminen instanceof LiikkuminenVasemmalle) {
-            if (sijX > Main.kentänAlaraja) {
+            if (sijX > Peli.kentänAlaraja) {
                 sijX--;
                 pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenOikealle) {
-            if (sijX < Main.kentänYläraja) {
+            if (sijX < Peli.kentänYläraja) {
                 sijX++;
                 pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenYlös) {
-            if (sijY > Main.kentänAlaraja) {
+            if (sijY > Peli.kentänAlaraja) {
                 sijY--;
                 pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenAlas) {
-            if (sijY < Main.kentänYläraja) {
+            if (sijY < Peli.kentänYläraja) {
                 sijY++;
                 pelaajaSiirtyi = true;
             }
@@ -227,10 +228,10 @@ public class Pelaaja {
     }
 
     Pelaaja() {
-        this.hp = Main.aloitusHp;
+        this.hp = Peli.aloitusHp;
         this.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
         sijX = 0;
         sijY = 0;
-        Main.pelaajanKylläisyys = syödytRuoat;
+        pelaajanKylläisyys = syödytRuoat;
     }
 }

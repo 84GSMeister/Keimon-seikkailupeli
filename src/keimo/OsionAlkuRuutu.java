@@ -45,7 +45,7 @@ public class OsionAlkuRuutu {
         jatka.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PääIkkuna.crd.next(PääIkkuna.kortit);
-                Main.pause = false;
+                Peli.pause = false;
                 PääIkkuna.ikkuna.requestFocus();
                 Peli.peliAloitettu = true;
             }

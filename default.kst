@@ -1,0 +1,92 @@
+<KEIMO>
+
+Huone 0:
+    #nimi: Puisto_keski;
+    #alue: Puisto;
+    #tausta: sun.awt.image.ToolkitImage@379ec3b2;
+    #kenttä: {
+        Oviruutu_0_7_ominaisuudet:[kohdehuone=4,kohderuutuX=9,kohderuutuY=7,],
+        Oviruutu_3_0_ominaisuudet:[kohdehuone=1,kohderuutuX=3,kohderuutuY=9,],
+        Oviruutu_5_9_ominaisuudet:[kohdehuone=2,kohderuutuX=5,kohderuutuY=0,],
+		Oviruutu_9_3_ominaisuudet:[kohdehuone=3,kohderuutuX=0,kohderuutuY=3,],
+		Vesiämpäri,
+        Suklaalevy,
+    }
+/Huone
+Huone 1:
+    #nimi: Puisto_ylä;
+    #alue: Puisto;
+    #tausta: sun.awt.image.ToolkitImage@4afa95d4;
+    #kenttä: {
+        Oviruutu_3_9_ominaisuudet:[kohdehuone=0,kohderuutuX=3,kohderuutuY=0,],
+		Makkara,
+        Hiili,
+        Tyhjä kaasusytytin_ominaisuudet:[Tyhjä,],
+        Kilpi,
+        Makkara,
+        Makkara,
+        Suklaalevy,
+        Makkara,
+    }
+/Huone
+Huone 2:
+    #nimi: Puisto_ala;
+    #alue: Puisto;
+    #tausta: sun.awt.image.ToolkitImage@783a306d;
+    #kenttä: {
+        Oviruutu_5_0_ominaisuudet:[kohdehuone=0,kohderuutuX=5,kohderuutuY=9,],
+		Kaasupullo,
+        Pikkuvihu,
+        Pikkuvihu,
+        Pikkuvihu,
+        Makkara,
+        Pikkuvihu,
+        Suklaalevy,
+        Pikkuvihu,
+        Makkara,
+    }
+/Huone
+Huone 3:
+    #nimi: Puisto_oikea;
+    #alue: Puisto;
+    #tausta: sun.awt.image.ToolkitImage@43559b4c;
+    #kenttä: {
+        Oviruutu_0_3_ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,],
+        Pikkuvihu,
+        Makkara,
+        Avain,
+        Pikkuvihu,
+        Makkara,
+        Vesiämpäri,
+        Makkara,
+        Paperi,
+        Pikkuvihu,
+    }
+/Huone
+Huone 4:
+    #nimi: Puisto_vasen;
+    #alue: Puisto;
+    #tausta: sun.awt.image.ToolkitImage@29743c7;
+    #kenttä: {
+        Oviruutu_0_2_ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=2,],
+		Oviruutu_9_7_ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=7,],
+        Pikkuvihu_1_1,
+        Pikkuvihu_3_4,
+        Pikkuvihu_5_7,
+        Vesiämpäri,
+    }
+/Huone
+Huone 5:
+    #nimi: Asuintalot_parkkipaikka;
+    #alue: Asuintalot;
+    #tausta: sun.awt.image.ToolkitImage@1c5d2274;
+    #kenttä: {
+        Oviruutu_9_2_ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=2,],
+		Ämpärikone,
+        Nuotio_2_2,
+        Kirstu_4_2,
+        Pikkuvihu,
+    }
+/Huone
+
+</KEIMO>

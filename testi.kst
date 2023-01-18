@@ -1,0 +1,108 @@
+<KEIMO>
+
+Huone 0:
+    #nimi: Puisto_keski;
+    #alue: Puisto;
+    #tausta: null;
+    #kenttä: {
+        Oviruutu_0_7_ominaisuudet:[kohdehuone=4,kohderuutuX=9,kohderuutuY=7,],
+        Oviruutu_3_0_ominaisuudet:[kohdehuone=1,kohderuutuX=3,kohderuutuY=9,],
+        Vesiämpäri,
+        Oviruutu_5_9_ominaisuudet:[kohdehuone=2,kohderuutuX=5,kohderuutuY=0,],
+        Suklaalevy,
+        Oviruutu_9_3_ominaisuudet:[kohdehuone=3,kohderuutuX=0,kohderuutuY=3,],
+    }
+/Huone
+Huone 1:
+    #nimi: Puisto_ylä;
+    #alue: Puisto;
+    #tausta: null;
+    #kenttä: {
+        Makkara,
+        Oviruutu_3_9_ominaisuudet:[kohdehuone=0,kohderuutuX=3,kohderuutuY=0,],
+        Tyhjä kaasusytytin_ominaisuudet:[Tyhjä,],
+        Kilpi,
+        Makkara,
+        Hiili,
+        Makkara,
+        Makkara,
+        Suklaalevy,
+    }
+/Huone
+Huone 2:
+    #nimi: Puisto_ala;
+    #alue: Puisto;
+    #tausta: null;
+    #kenttä: {
+        Pikkuvihu,
+        Pikkuvihu,
+        Suklaalevy,
+        Oviruutu_5_0_ominaisuudet:[kohdehuone=0,kohderuutuX=5,kohderuutuY=9,],
+        Pikkuvihu,
+        Makkara,
+        Pikkuvihu,
+        Pikkuvihu,
+        Kaasupullo,
+        Makkara,
+    }
+/Huone
+Huone 3:
+    #nimi: Puisto_oikea;
+    #alue: Puisto;
+    #tausta: null;
+    #kenttä: {
+        Oviruutu_0_3_ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,],
+        Pikkuvihu,
+        Pikkuvihu,
+        Makkara,
+        Paperi,
+        Pikkuvihu,
+        Avain,
+        Makkara,
+        Vesiämpäri,
+        Makkara,
+    }
+/Huone
+Huone 4:
+    #nimi: Puisto_vasen;
+    #alue: Puisto;
+    #tausta: null;
+    #kenttä: {
+        Oviruutu_0_2_ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=2,],
+        Pikkuvihu_1_1,
+        Pikkuvihu_3_4,
+        Vesiämpäri,
+        Pikkuvihu_5_7,
+        Oviruutu_9_7_ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=7,],
+    }
+/Huone
+Huone 5:
+    #nimi: Asuintalot_parkkipaikka;
+    #alue: Asuintalot;
+    #tausta: null;
+    #kenttä: {
+        Oviruutu_0_0_ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=0,],
+        Nuotio_2_2,
+        Kirstu_4_2,
+        Ämpärikone,
+        Pikkuvihu,
+        Oviruutu_9_2_ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=2,],
+    }
+/Huone
+Huone 6:
+    #nimi: Asuintalot_toinenhuone;
+    #alue: Asuintalot;
+    #tausta: null;
+    #kenttä: {
+        Oviruutu_9_0_ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=0,],
+    }
+/Huone
+Huone 7:
+    #nimi: ;
+    #alue: ;
+    #tausta: null;
+    #kenttä: {
+    }
+/Huone
+
+</KEIMO>

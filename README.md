@@ -1,6 +1,11 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (4.1.2023): 0.4.2
+## Uusin versio (18.1.2023): 0.5
+
+### Versio 0.5
+
+ - huone-editori
+ - guita hieman muutettu skaalautuvammaksi pienille näytöille
 
 ### Versio 0.4.2
 

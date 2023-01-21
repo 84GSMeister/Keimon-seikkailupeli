@@ -51,6 +51,11 @@ public class Huone {
         return huoneenMaastoSisältö;
     }
 
+    public void päivitäNimiJaAlue(String nimi, String alue) {
+        this.nimi = nimi;
+        this.alue = alue;
+    }
+
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){
         int randX = r.nextInt(Peli.kentänKoko);
         int randY = r.nextInt(Peli.kentänKoko);

@@ -5,7 +5,7 @@ import keimo.*;
 public class Main {
     
     static void uusiPeli() {
-        Peli peli = new Peli();
+        //Peli peli = new Peli();
         Peli.uusiPeli();
     }
 

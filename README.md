@@ -1,6 +1,11 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (18.1.2023): 0.5
+## Uusin versio (21.1.2023): 0.5.2
+
+### Versio 0.5.2
+
+ - editorin bugeja korjattu
+ - editori tallentaa nyt myös ominaisuudet objekteille
 
 ### Versio 0.5.1
 

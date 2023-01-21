@@ -891,6 +891,7 @@ public class Peli {
         kentänKoko = TarkistettavatArvot.uusiKentänKoko;
         kentänYläraja = kentänAlaraja + kentänKoko - 1;
         pause = true;
+        new Peli();
     }
 
     public Peli() {

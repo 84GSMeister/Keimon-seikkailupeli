@@ -174,6 +174,7 @@ public class HuoneEditoriIkkuna {
         tallenna = new JMenuItem("Tallenna");
         tallenna.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                asetaUusiHuoneKarttaan(muokattavaHuone);
                 tallennaTiedostoon(luoMerkkijonotHuonekartasta(huoneKartta));
             }
         });
@@ -186,6 +187,7 @@ public class HuoneEditoriIkkuna {
         kokeilePelissä = new JMenuItem("Kokeile pelissä");
         kokeilePelissä.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                asetaUusiHuoneKarttaan(muokattavaHuone);
                 ikkuna.dispose();
                 Peli.huoneKartta = huoneKartta;
                 Peli.uusiHuone = 0;
@@ -382,6 +384,7 @@ public class HuoneEditoriIkkuna {
             public void actionPerformed(ActionEvent e) {
                 huoneenNimi = huoneenNimiTekstiKenttä.getText();
                 huoneenAlue = huoneenAlueTekstiKenttä.getText();
+                huoneKartta.get(muokattavaHuone).päivitäNimiJaAlue(huoneenNimi, huoneenAlue);
                 huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
             }
         });
@@ -470,139 +473,98 @@ public class HuoneEditoriIkkuna {
         
     }
 
-    static KenttäKohde luoObjektiTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY) {
+    static KenttäKohde luoObjektiTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
 
         KenttäKohde luotavaObjekti;
 
-        if (määritettySijainti) {
+        /**
+         * Jos on määritetty sijainti, käytä objektille konstruktoria Esine(int, int)
+         * Muuten käytä parametritonta konstruktoria Esine()
+         */
+
+        if (!lisäOminaisuudet) {
             switch (objektinNimi) {
+
                 case "Avain":
-                luotavaObjekti = new Avain(sijX, sijY);
-                break;
+                    luotavaObjekti = määritettySijainti ? new Avain(sijX, sijY) : new Avain();
+                    break;
 
-            case "Hiili":
-                luotavaObjekti = new Hiili(sijX, sijY);
-                break;
+                case "Hiili":
+                    luotavaObjekti = määritettySijainti ? new Hiili(sijX, sijY) : new Hiili();
+                    break;
 
-            case "Kaasupullo":
-                luotavaObjekti = new Kaasupullo(sijX, sijY);
-                break;
+                case "Kaasupullo":
+                    luotavaObjekti = määritettySijainti ? new Kaasupullo(sijX, sijY) : new Kaasupullo();
+                    break;
 
-            case "Kaasusytytin":
-                luotavaObjekti = new Kaasusytytin(sijX, sijY, "tyhjä");
-                break;
+                case "Kaasusytytin":
+                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(sijX, sijY, "tyhjä") : new Kaasusytytin("tyhjä");
+                    break;
 
-            case "Kilpi":
-                luotavaObjekti = new Kilpi(sijX, sijY);
-                break;
+                case "Kilpi":
+                    luotavaObjekti = määritettySijainti ? new Kilpi(sijX, sijY) : new Kilpi();
+                    break;
 
-            case "Kirstu":
-                luotavaObjekti = new Kirstu(sijX, sijY);
-                break;
+                case "Kirstu":
+                    luotavaObjekti = määritettySijainti ? new Kirstu(sijX, sijY) : new Kirstu();
+                    break;
 
-            case "Makkara":
-                luotavaObjekti = new Makkara(sijX, sijY);
-                break;
+                case "Makkara":
+                    luotavaObjekti = määritettySijainti ? new Makkara(sijX, sijY) : new Makkara();
+                    break;
 
-            case "Nuotio":
-                luotavaObjekti = new Nuotio(sijX, sijY);
-                break;
+                case "Nuotio":
+                    luotavaObjekti = määritettySijainti ? new Nuotio(sijX, sijY) : new Nuotio();
+                    break;
 
-            case "Pahavihu":
-                luotavaObjekti = new PahaVihu(sijX, sijY);
-                break;
+                case "Pahavihu":
+                    luotavaObjekti = määritettySijainti ? new PahaVihu(sijX, sijY) : new PahaVihu();
+                    break;
 
-            case "Paperi":
-                luotavaObjekti = new Paperi(sijX, sijY);
-                break;
+                case "Paperi":
+                    luotavaObjekti = määritettySijainti ? new Paperi(sijX, sijY) : new Paperi();
+                    break;
 
-            case "Pikkuvihu":
-                luotavaObjekti = new PikkuVihu(sijX, sijY);
-                break;
+                case "Pikkuvihu":
+                    luotavaObjekti = määritettySijainti ? new PikkuVihu(sijX, sijY) : new PikkuVihu();
+                    break;
 
-            case "Oviruutu":
-                luotavaObjekti = new ReunaWarppi(sijX, sijY, 0, 0, 0, Suunta.VASEN);
-                break;
+                case "Oviruutu":
+                    luotavaObjekti = new ReunaWarppi(sijX, sijY, 0, 0, 0, Suunta.VASEN);
+                    break;
 
-            case "Suklaalevy":
-                luotavaObjekti = new Suklaalevy(sijX, sijY);
-                break;
+                case "Suklaalevy":
+                    luotavaObjekti = määritettySijainti ? new Suklaalevy(sijX, sijY) : new Suklaalevy();
+                    break;
 
-            case "Vesiämpäri":
-                luotavaObjekti = new Vesiämpäri(sijX, sijY);
-                break;
+                case "Vesiämpäri":
+                    luotavaObjekti = määritettySijainti ? new Vesiämpäri(sijX, sijY) : new Vesiämpäri();
+                    break;
 
-            case "Ämpärikone":
-                luotavaObjekti = new Ämpärikone(sijX, sijY);
-                break;
+                case "Ämpärikone":
+                    luotavaObjekti = määritettySijainti ? new Ämpärikone(sijX, sijY) : new Ämpärikone();
+                    break;
 
-            default:
-                luotavaObjekti = null;
-                break;
+                default:
+                    luotavaObjekti = null;
+                    break;
             }
         }
         else {
             switch (objektinNimi) {
-                case "Avain":
-                luotavaObjekti = new Avain();
-                break;
 
-            case "Hiili":
-                luotavaObjekti = new Hiili();
-                break;
+                case "Kaasusytytin":
+                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(sijX, sijY, ominaisuusLista) : new Kaasusytytin(ominaisuusLista);
+                    break;
 
-            case "Kaasupullo":
-                luotavaObjekti = new Kaasupullo();
-                break;
+                case "Oviruutu":
+                    luotavaObjekti = new ReunaWarppi(sijX, sijY, ominaisuusLista);
+                    break;
 
-            case "Kaasusytytin":
-                luotavaObjekti = new Kaasusytytin("tyhjä");
-                break;
-
-            case "Kilpi":
-                luotavaObjekti = new Kilpi();
-                break;
-
-            case "Kirstu":
-                luotavaObjekti = new Kirstu();
-                break;
-
-            case "Makkara":
-                luotavaObjekti = new Makkara();
-                break;
-
-            case "Nuotio":
-                luotavaObjekti = new Nuotio();
-                break;
-
-            case "Pahavihu":
-                luotavaObjekti = new PahaVihu();
-                break;
-
-            case "Paperi":
-                luotavaObjekti = new Paperi();
-                break;
-
-            case "Pikkuvihu":
-                luotavaObjekti = new PikkuVihu();
-                break;
-
-            case "Suklaalevy":
-                luotavaObjekti = new Suklaalevy();
-                break;
-
-            case "Vesiämpäri":
-                luotavaObjekti = new Vesiämpäri();
-                break;
-
-            case "Ämpärikone":
-                luotavaObjekti = new Ämpärikone();
-                break;
-
-            default:
-                luotavaObjekti = null;
-                break;
-            }
+                default:
+                    luotavaObjekti = null;
+                    break;
+                }
         }
         return luotavaObjekti;
     }
@@ -617,6 +579,7 @@ public class HuoneEditoriIkkuna {
         String luotavaObjekti = "";
         int luotavanObjektinX = 0;
         int luotavanObjektinY = 0;
+        String[] luotavanObjektinOminaisuusLista = {""};
         ArrayList<KenttäKohde> uusiObjektiLista = new ArrayList<KenttäKohde>();
         ArrayList<Maasto> uusiMaastoLista = new ArrayList<Maasto>();
 
@@ -644,16 +607,45 @@ public class HuoneEditoriIkkuna {
                                 luotavaObjekti = "";
                                 luotavanObjektinX = 0;
                                 luotavanObjektinY = 0;
-                                if (tarkastettavaRivi.contains("_")) {
-                                    luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
-                                    //System.out.println("sij x: " + tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
-                                    //System.out.println("sij y: " + tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
-                                    luotavanObjektinX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
-                                    luotavanObjektinY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
-                                    uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, true, luotavanObjektinX, luotavanObjektinY));
-                                }
-                                else {
-                                    uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY));
+                                if (tarkastettavaRivi.startsWith("        ")) {
+                                    if (tarkastettavaRivi.contains("+ominaisuudet:")) {
+                                        String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
+                                        int ominaisuuksienMäärä = 0;
+                                        for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
+                                            if (tarkastettavaRivi.charAt(i) == ',') {
+                                                ominaisuuksienMäärä++;
+                                            }
+                                            else if (tarkastettavaRivi.charAt(i) == ']') {
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < ominaisuuksienMäärä; i++) {
+                                            luotavanObjektinOminaisuusLista = ominaisuudetMerkkijonona.split(",");
+                                        }
+                                        //for (String st : luotavanObjektinOminaisuusLista) {
+                                        //    System.out.println("ominaisuus: " + st);
+                                        //}
+                                        if (tarkastettavaRivi.contains("_")) {
+                                            luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                            luotavanObjektinX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                            luotavanObjektinY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                            uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY, true, luotavanObjektinOminaisuusLista));
+                                        }
+                                        else if (tarkastettavaRivi.contains("+")){
+                                            luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("+"));
+                                            uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY, true, luotavanObjektinOminaisuusLista));
+                                        }
+                                    }
+                                    else if (tarkastettavaRivi.contains("_")) {
+                                        luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                        luotavanObjektinX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                        luotavanObjektinY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                        uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, true, luotavanObjektinX, luotavanObjektinY, false, null));
+                                    }
+                                    else if (tarkastettavaRivi.contains(",")) {
+                                        luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf(","));
+                                        uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY, false, null));
+                                    }
                                 }
                                 if (sc.hasNextLine()) {
                                     tarkastettavaRivi = sc.nextLine();
@@ -706,15 +698,20 @@ public class HuoneEditoriIkkuna {
                             huoneetMerkkijonoina[i] += "        " + k.annaNimi();
                         }
                         if (k.onkolisäOminaisuuksia()) {
-                            huoneetMerkkijonoina[i] += "_ominaisuudet:[";
+                            huoneetMerkkijonoina[i] += "+ominaisuudet:[";
                             for (String s : k.annalisäOminaisuudet()) {
                                 huoneetMerkkijonoina[i] += s + ",";
                             }
+                            huoneetMerkkijonoina[i] = huoneetMerkkijonoina[i].substring(0, huoneetMerkkijonoina[i].length()-1);
                             huoneetMerkkijonoina[i] += "]";
                         }
                         huoneetMerkkijonoina[i] += ",\n";
                     }
                 }
+            }
+            if (huoneetMerkkijonoina[i].charAt(huoneetMerkkijonoina[i].length()-2 ) != '{' && huoneetMerkkijonoina[i].charAt(huoneetMerkkijonoina[i].length()-1 ) != '{') {
+                huoneetMerkkijonoina[i] = huoneetMerkkijonoina[i].substring(0, huoneetMerkkijonoina[i].length()-2);
+                huoneetMerkkijonoina[i] +=";\n";
             }
             huoneetMerkkijonoina[i] += "    }\n";
             kokoTiedostoMerkkijonona += huoneetMerkkijonoina[i];
@@ -741,7 +738,11 @@ public class HuoneEditoriIkkuna {
                     }
                 }
                 else {
-                    FileWriter tiedostoTallentaja = new FileWriter(tiedosto.getName() + ".kst");
+                    String tiedostonNimi = tiedosto.getName();
+                    if (!tiedostonNimi.endsWith(".kst")) {
+                        tiedostonNimi += ".kst";
+                    }
+                    FileWriter tiedostoTallentaja = new FileWriter(tiedostonNimi);
                     tiedostoTallentaja.write(kokoTiedostoMerkkijonona);
                     tiedostoTallentaja.close();
                 }
@@ -870,6 +871,7 @@ public class HuoneEditoriIkkuna {
                         ReunaWarppi oviruutu = (ReunaWarppi)objektiKenttä[sijX][sijY];
                         oviruutu.asetaKohdeHuone(Integer.parseInt(tekstiKentät[0].getText()));
                         oviruutu.asetaKohdeRuudut(Integer.parseInt(tekstiKentät[1].getText()), Integer.parseInt(tekstiKentät[2].getText()));
+                        oviruutu.päivitäLisäOminaisuudet();
                         objektiKenttä[sijX][sijY] = oviruutu;
                         muokkausIkkuna.dispose();
                         break;

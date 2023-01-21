@@ -3,89 +3,89 @@
 Huone 0:
     #nimi: Puisto_keski;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@379ec3b2;
+    #tausta: sun.awt.image.ToolkitImage@73630660;
     #kenttä: {
-        Oviruutu_0_7_ominaisuudet:[kohdehuone=4,kohderuutuX=9,kohderuutuY=7,],
-        Oviruutu_3_0_ominaisuudet:[kohdehuone=1,kohderuutuX=3,kohderuutuY=9,],
-        Oviruutu_5_9_ominaisuudet:[kohdehuone=2,kohderuutuX=5,kohderuutuY=0,],
-		Oviruutu_9_3_ominaisuudet:[kohdehuone=3,kohderuutuX=0,kohderuutuY=3,],
-		Vesiämpäri,
+        Oviruutu_0_7+ominaisuudet:[kohdehuone=4,kohderuutuX=9,kohderuutuY=7,suunta=VASEN],
+        Oviruutu_3_0+ominaisuudet:[kohdehuone=1,kohderuutuX=3,kohderuutuY=9,suunta=YLÖS],
         Suklaalevy,
+        Oviruutu_5_9+ominaisuudet:[kohdehuone=2,kohderuutuX=5,kohderuutuY=0,suunta=ALAS],
+        Vesiämpäri,
+        Oviruutu_9_3+ominaisuudet:[kohdehuone=3,kohderuutuX=0,kohderuutuY=3,suunta=OIKEA];
     }
 /Huone
 Huone 1:
     #nimi: Puisto_ylä;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@4afa95d4;
+    #tausta: sun.awt.image.ToolkitImage@3c3590fb;
     #kenttä: {
-        Oviruutu_3_9_ominaisuudet:[kohdehuone=0,kohderuutuX=3,kohderuutuY=0,],
-		Makkara,
+        Suklaalevy,
+        Makkara,
+        Makkara,
+        Oviruutu_3_9+ominaisuudet:[kohdehuone=0,kohderuutuX=3,kohderuutuY=0,suunta=ALAS],
         Hiili,
-        Tyhjä kaasusytytin_ominaisuudet:[Tyhjä,],
         Kilpi,
         Makkara,
         Makkara,
-        Suklaalevy,
-        Makkara,
+        Tyhjä kaasusytytin+ominaisuudet:[tyhjä];
     }
 /Huone
 Huone 2:
     #nimi: Puisto_ala;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@783a306d;
+    #tausta: sun.awt.image.ToolkitImage@49f116c3;
     #kenttä: {
-        Oviruutu_5_0_ominaisuudet:[kohdehuone=0,kohderuutuX=5,kohderuutuY=9,],
-		Kaasupullo,
-        Pikkuvihu,
-        Pikkuvihu,
         Pikkuvihu,
         Makkara,
         Pikkuvihu,
         Suklaalevy,
         Pikkuvihu,
         Makkara,
+        Oviruutu_5_0+ominaisuudet:[kohdehuone=0,kohderuutuX=5,kohderuutuY=9,suunta=YLÖS],
+        Pikkuvihu,
+        Pikkuvihu,
+        Kaasupullo;
     }
 /Huone
 Huone 3:
     #nimi: Puisto_oikea;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@43559b4c;
+    #tausta: sun.awt.image.ToolkitImage@74e4a283;
     #kenttä: {
-        Oviruutu_0_3_ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,],
+        Oviruutu_0_3+ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,suunta=VASEN],
         Pikkuvihu,
-        Makkara,
-        Avain,
-        Pikkuvihu,
-        Makkara,
-        Vesiämpäri,
-        Makkara,
         Paperi,
         Pikkuvihu,
+        Vesiämpäri,
+        Avain,
+        Makkara,
+        Makkara,
+        Pikkuvihu,
+        Makkara;
     }
 /Huone
 Huone 4:
     #nimi: Puisto_vasen;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@29743c7;
+    #tausta: sun.awt.image.ToolkitImage@1fdfea79;
     #kenttä: {
-        Oviruutu_0_2_ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=2,],
-		Oviruutu_9_7_ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=7,],
+        Oviruutu_0_2+ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=2,suunta=VASEN],
         Pikkuvihu_1_1,
         Pikkuvihu_3_4,
-        Pikkuvihu_5_7,
         Vesiämpäri,
+        Pikkuvihu_5_7,
+        Oviruutu_9_7+ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=7,suunta=OIKEA];
     }
 /Huone
 Huone 5:
     #nimi: Asuintalot_parkkipaikka;
     #alue: Asuintalot;
-    #tausta: sun.awt.image.ToolkitImage@1c5d2274;
+    #tausta: sun.awt.image.ToolkitImage@ffd0331;
     #kenttä: {
-        Oviruutu_9_2_ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=2,],
-		Ämpärikone,
+        Ämpärikone,
         Nuotio_2_2,
         Kirstu_4_2,
         Pikkuvihu,
+        Oviruutu_9_2+ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=2,suunta=OIKEA];
     }
 /Huone
 

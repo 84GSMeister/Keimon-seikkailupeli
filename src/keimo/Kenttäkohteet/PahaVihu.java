@@ -22,36 +22,36 @@ public class PahaVihu extends Vihollinen{
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
-                return "Pikkuvihu";
+                return "Pahavihu";
             case "genetiivi":
-                return "Pikkuvihun";
+                return "Pahavihun";
             case "esiivi":
-                return "Pikkuvihuna";
+                return "Pahavihuna";
             case "partitiivi":
-                return "Pikkuvihua";
+                return "Pahavihua";
             case "translatiivi":
-                return "Pikkuvihuksi";
+                return "Pahavihuksi";
             case "inessiivi":
-                return "Pikkuvihussa";
+                return "Pahavihussa";
             case "elatiivi":
-                return "Pikkuvihusta";
+                return "Pahavihusta";
             case "illatiivi":
-                return "Pikkuvihuun";
+                return "Pahavihuun";
             case "adessiivi":
-                return "Pikkuvihulla";
+                return "Pahavihulla";
             case "ablatiivi":
-                return "Pikkuvihulta";
+                return "Pahavihulta";
             case "allatiivi":
-                return "Pikkuvihulle";
+                return "Pahavihulle";
             default:
-                return "Pikkuvihu";
+                return "Pahavihu";
         }
     }
 
     public PahaVihu() {
         super.vahinko = 1 * PelinAsetukset.vaikeusAste;
         super.hp = 3 * PelinAsetukset.vaikeusAste;
-        super.nimi = "Pikkuvihu";
+        super.nimi = "Pahavihu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/pahavihu.png");
         super.kilpiTehoaa = false;
         super.asetaTiedot();
@@ -63,7 +63,7 @@ public class PahaVihu extends Vihollinen{
         super.sijY = sijY;
         super.vahinko = 1 * PelinAsetukset.vaikeusAste;
         super.hp = 3 * PelinAsetukset.vaikeusAste;
-        super.nimi = "Pikkuvihu";
+        super.nimi = "Pahavihu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/pahavihu.png");
         super.kilpiTehoaa = false;
         super.asetaTiedot();

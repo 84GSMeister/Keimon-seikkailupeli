@@ -18,12 +18,15 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.io.*;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.nio.charset.*;
+import java.nio.file.*;
 
 import keimo.Kenttäkohteet.Warp.Suunta;
 import keimo.Kenttäkohteet.*;
@@ -54,7 +57,7 @@ public class HuoneEditoriIkkuna {
     static JLabel huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JLabel huoneInfoLabel;
-    static String[] esineLista = {"Avain", "Hiili", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kirstu", "Makkara", "Nuotio", "Pahavihu", "Paperi", "Pikkuvihu", "Oviruutu", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
+    static String[] esineLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kirstu", "Makkara", "Nuotio", "Pahavihu", "Paperi", "Pesäpallomaila", "Pikkuvihu", "Oviruutu", "Seteli", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
     static String[] maastoLista = {"Hiekka", "Seinä", "Vesi"};
     static JComboBox<String> esineValikko;
     static JComboBox<Object> maastoValikko;
@@ -128,51 +131,65 @@ public class HuoneEditoriIkkuna {
                         String[] huoneetMerkkijonoina;
                         int huoneidenMääräTiedostossa = 0;
                         int huoneenIdTiedostossa;
-                        Scanner sc = new Scanner(tiedosto);
-                        if (sc.hasNextLine()) {
-                            String tarkastettavaRivi = sc.nextLine();
+                        Path path = FileSystems.getDefault().getPath(tiedosto.getPath());
+                        Charset charset = Charset.forName("UTF-8");
+                        //Scanner sc = new Scanner(tiedosto);
+                        BufferedReader read = Files.newBufferedReader(path, charset);
+                        String tarkastettavaRivi = null;
+                        if ((tarkastettavaRivi = read.readLine()) != null) {
+                            tarkastettavaRivi = read.readLine();
                             if (!tarkastettavaRivi.startsWith("<KEIMO>")) {
                                 //System.out.println(tarkastettavaRivi);
-                                throw new FileNotFoundException();
+                                System.out.println(tarkastettavaRivi);
+                                //throw new FileNotFoundException();
                             }
                         }
-                        while (sc.hasNextLine()) {
-                            String tarkastettavaRivi = sc.nextLine();
+                        while ((tarkastettavaRivi = read.readLine()) != null) {
+                            //tarkastettavaRivi = read.readLine();
                             if (tarkastettavaRivi.startsWith("Huone ")) {
                                 huoneidenMääräTiedostossa++;
                             }
                         }
-                        sc.close();
+                        //sc.close();
                         huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
                         huoneidenMääräTiedostossa = 0;
-                        sc = new Scanner(tiedosto);
-                        while (sc.hasNextLine()) {
-                            String tarkastettavaRivi = sc.nextLine();
+                        //sc = new Scanner(tiedosto);
+                        read = Files.newBufferedReader(path, charset);
+                        tarkastettavaRivi = read.readLine();
+                        while ((tarkastettavaRivi != null)) {
+                            //tarkastettavaRivi = read.readLine();
                             if (tarkastettavaRivi.startsWith("Huone ")) {
                                 huoneenIdTiedostossa = Integer.parseInt(tarkastettavaRivi.substring(6, tarkastettavaRivi.length()-1));
                                 huoneidenMääräTiedostossa++;
                                 huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] = "";
-                                while (sc.hasNextLine()) {
+                                while (tarkastettavaRivi != null) {
                                     huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] += tarkastettavaRivi + "\n";
                                     if (tarkastettavaRivi.startsWith("/Huone")) {
                                         break;
                                     }
-                                    tarkastettavaRivi = sc.nextLine();
+                                    tarkastettavaRivi = read.readLine();
                                 }
                             }
                             else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
                                 break;
                             }
+                            else {
+                                tarkastettavaRivi = read.readLine();
+                            }
+                            System.out.println(tarkastettavaRivi);
                         }
                         for (String s : huoneetMerkkijonoina) {
-                            //System.out.println("huone: " + s);
+                            System.out.println("huone: " + s);
                         }
                         huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
                         lataaHuoneKartasta(muokattavaHuone);
                     }
                 }
                 catch (FileNotFoundException fnfe) {
-                    JOptionPane.showMessageDialog(null, "Tiedostovirhe", "Tiedosto puuttuu tai on virheellinen.\n\nKeimon seikkailupeliin tarkoitetut tiedostot alkavat prefiksillä <KEIMO>.", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tiedosto puuttuu tai on virheellinen.\n\nKeimon seikkailupeliin tarkoitetut tiedostot alkavat prefiksillä <KEIMO>.", "Tiedostovirhe", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (IOException ioe) {
+
                 }
             }
         });
@@ -543,9 +560,12 @@ public class HuoneEditoriIkkuna {
                 if (tiedosto.isFile()) {
                     int korvaaTiedosto = CustomViestiIkkunat.TiedostonKorvaus.showDialog("Tiedosto " + tiedosto.getName() + " on jo olemassa. Haluatko korvata sen?", "Tiedosto on jo olemassa.");
                     if (korvaaTiedosto == JOptionPane.YES_OPTION) {
-                        FileWriter tiedostoTallentaja = new FileWriter(tiedosto.getName());
-                        tiedostoTallentaja.write(kokoTiedostoMerkkijonona);
-                        tiedostoTallentaja.close();
+                        //FileWriter tiedostoTallentaja = new FileWriter(tiedosto.getName());
+                        //tiedostoTallentaja.write(kokoTiedostoMerkkijonona);
+                        //tiedostoTallentaja.close();
+                        Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedosto.getName()), StandardCharsets.UTF_8);
+                        fstream.write(kokoTiedostoMerkkijonona);
+                        fstream.close();
                     }
                 }
                 else {
@@ -553,9 +573,12 @@ public class HuoneEditoriIkkuna {
                     if (!tiedostonNimi.endsWith(".kst")) {
                         tiedostonNimi += ".kst";
                     }
-                    FileWriter tiedostoTallentaja = new FileWriter(tiedostonNimi);
-                    tiedostoTallentaja.write(kokoTiedostoMerkkijonona);
-                    tiedostoTallentaja.close();
+                    //FileWriter tiedostoTallentaja = new FileWriter(tiedostonNimi);
+                    //tiedostoTallentaja.write(kokoTiedostoMerkkijonona);
+                    //tiedostoTallentaja.close();
+                    Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedosto.getName()), StandardCharsets.UTF_8);
+                    fstream.write(kokoTiedostoMerkkijonona);
+                    fstream.close();
                 }
             }
             catch (IOException e) {
@@ -574,6 +597,14 @@ public class HuoneEditoriIkkuna {
 
             case "Hiili":
                 objektiKenttä[sijX][sijY] = new Hiili(sijX, sijY);
+                break;
+
+            case "Huume":
+                objektiKenttä[sijX][sijY] = new Huume(sijX, sijY);
+                break;
+
+            case "Juhani":
+                objektiKenttä[sijX][sijY] = new Juhani(sijX, sijY);
                 break;
 
             case "Kaasupullo":
@@ -608,12 +639,20 @@ public class HuoneEditoriIkkuna {
                 objektiKenttä[sijX][sijY] = new Paperi(sijX, sijY);
                 break;
 
+            case "Pesäpallomaila":
+                objektiKenttä[sijX][sijY] = new Pesäpallomaila(sijX, sijY);
+                break;
+
             case "Pikkuvihu":
                 objektiKenttä[sijX][sijY] = new PikkuVihu(sijX, sijY);
                 break;
 
             case "Oviruutu":
                 objektiKenttä[sijX][sijY] = new ReunaWarppi(sijX, sijY, 0, 0, 0, Suunta.VASEN);
+                break;
+
+            case "Seteli":
+                objektiKenttä[sijX][sijY] = new Seteli(sijX, sijY);
                 break;
 
             case "Suklaalevy":
@@ -640,6 +679,10 @@ public class HuoneEditoriIkkuna {
 
             case "Tile":
                 maastoKenttä[sijX][sijY] = new Tile(sijX, sijY, ominaisuusLista);
+                break;
+
+            case "EsteTile":
+                maastoKenttä[sijX][sijY] = new EsteTile(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Vesi":
@@ -866,10 +909,15 @@ public class HuoneEditoriIkkuna {
                             });
                             
                             if (SwingUtilities.isLeftMouseButton(e)) {
-                                String[] ominaisuusLista = new String[2];
+                                String[] ominaisuusLista = new String[1];
                                 ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
-                                ominaisuusLista[1] = "este=" + "ei";
-                                asetaMaastoRuutuun(x, y, "Tile", ominaisuusLista);
+                                //ominaisuusLista[1] = "este=" + "ei";
+                                if (ominaisuusLista[0].endsWith("_e.png")) {
+                                    asetaMaastoRuutuun(x, y, "EsteTile", ominaisuusLista);
+                                }
+                                else{
+                                    asetaMaastoRuutuun(x, y, "Tile", ominaisuusLista);
+                                }
                                 hudTeksti.setText(maastoValikko.getSelectedItem() + ", " + x + ", " + y);
                             }
                             else if (SwingUtilities.isRightMouseButton(e)) {
@@ -882,9 +930,9 @@ public class HuoneEditoriIkkuna {
                                 ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
                             }
                             else if (SwingUtilities.isMiddleMouseButton(e)) {
-                                String[] ominaisuusLista = new String[2];
+                                String[] ominaisuusLista = new String[1];
                                 ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
-                                ominaisuusLista[1] = "este=" + "ei";
+                                //ominaisuusLista[1] = "este=" + "ei";
                                 asetaMaastoRuutuun(x, y, "", ominaisuusLista);
                                 hudTeksti.setText("tyhjä" + ", " + x + ", " + y);
                             }

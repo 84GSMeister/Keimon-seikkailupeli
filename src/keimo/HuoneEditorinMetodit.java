@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.nio.charset.StandardCharsets;
 
 import keimo.Kenttäkohteet.Warp.Suunta;
 import keimo.Kenttäkohteet.*;
@@ -62,7 +63,7 @@ public class HuoneEditorinMetodit {
                                         String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
                                         int ominaisuuksienMäärä = 0;
                                         for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
-                                            if (tarkastettavaRivi.charAt(i) == ',') {
+                                            if (tarkastettavaRivi.charAt(i) == '=') {
                                                 ominaisuuksienMäärä++;
                                             }
                                             else if (tarkastettavaRivi.charAt(i) == ']') {
@@ -118,7 +119,7 @@ public class HuoneEditorinMetodit {
                                         String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
                                         int ominaisuuksienMäärä = 0;
                                         for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
-                                            if (tarkastettavaRivi.charAt(i) == ',') {
+                                            if (tarkastettavaRivi.charAt(i) == '=') {
                                                 ominaisuuksienMäärä++;
                                             }
                                             else if (tarkastettavaRivi.charAt(i) == ']') {
@@ -205,6 +206,14 @@ public class HuoneEditorinMetodit {
                     luotavaObjekti = määritettySijainti ? new Hiili(sijX, sijY) : new Hiili();
                     break;
 
+                case "Huume":
+                    luotavaObjekti = new Huume(sijX, sijY);
+                    break;
+
+                case "Juhani":
+                    luotavaObjekti = new Juhani(sijX, sijY);
+                    break;
+
                 case "Kaasupullo":
                     luotavaObjekti = määritettySijainti ? new Kaasupullo(sijX, sijY) : new Kaasupullo();
                     break;
@@ -237,12 +246,20 @@ public class HuoneEditorinMetodit {
                     luotavaObjekti = määritettySijainti ? new Paperi(sijX, sijY) : new Paperi();
                     break;
 
+                case "Pesäpallomaila":
+                    luotavaObjekti = new Pesäpallomaila(sijX, sijY);
+                    break;
+
                 case "Pikkuvihu":
                     luotavaObjekti = määritettySijainti ? new PikkuVihu(sijX, sijY) : new PikkuVihu();
                     break;
 
                 case "Oviruutu":
                     luotavaObjekti = new ReunaWarppi(sijX, sijY, 0, 0, 0, Suunta.VASEN);
+                    break;
+
+                case "Seteli":
+                    luotavaObjekti = new Seteli(sijX, sijY);
                     break;
 
                 case "Suklaalevy":
@@ -294,6 +311,10 @@ public class HuoneEditorinMetodit {
 
                 case "Tile":
                     luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
+                    break;
+
+                case "EsteTile":
+                    luotavaMaasto = new EsteTile(sijX, sijY, ominaisuusLista);
                     break;
 
                 default:

@@ -1,8 +1,14 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (23.1.2023): 0.5.3
+## Uusin versio (23.1.2023): 0.5.4
 
+### Versio 0.5.4
 
+ - Juhani, huume ja kahen kybän seteli
+ - pesäpallomaila
+ - vihuja voi lyödä pesäpallomailalla
+ - editori vaihdettu tallentamaan tiedostoja UTF-8-formaatissa. vanhat .kst-tiedostot eivät välttämättä enää lataudu.
+ 
 ### Versio 0.5.3
 
  - editoriin lisätty maaston muokkaus ja kuvien haku kansiosta

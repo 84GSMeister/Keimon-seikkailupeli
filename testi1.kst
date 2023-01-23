@@ -3,7 +3,7 @@
 Huone 0:
     #nimi: Puisto_keski;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@19dc96c9;
+    #tausta: sun.awt.image.ToolkitImage@120daed0;
     #kenttä: {
         Oviruutu_0_4+ominaisuudet:[kohdehuone=4,kohderuutuX=9,kohderuutuY=4,suunta=VASEN],
         Seteli_0_7,
@@ -125,7 +125,7 @@ Huone 0:
 Huone 1:
     #nimi: Puisto_ylä;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@7ef3c376;
+    #tausta: sun.awt.image.ToolkitImage@64f9cace;
     #kenttä: {
         Suklaalevy_0_9,
         Makkara_2_4,
@@ -241,7 +241,7 @@ Huone 1:
 Huone 2:
     #nimi: Puisto_ala;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@45a2096;
+    #tausta: sun.awt.image.ToolkitImage@2ac8d1be;
     #kenttä: {
         Pikkuvihu_0_4,
         Pikkuvihu_1_7,
@@ -359,7 +359,7 @@ Huone 2:
 Huone 3:
     #nimi: Puisto_oikea;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@75509b8a;
+    #tausta: sun.awt.image.ToolkitImage@5321aaa2;
     #kenttä: {
         Oviruutu_0_3+ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,suunta=VASEN],
         Avain_1_8,
@@ -478,7 +478,7 @@ Huone 3:
 Huone 4:
     #nimi: Puisto_vasen;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@8c72137;
+    #tausta: sun.awt.image.ToolkitImage@2c25f538;
     #kenttä: {
         Oviruutu_0_4+ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=4,suunta=VASEN],
         Vesiämpäri_0_8,
@@ -593,7 +593,7 @@ Huone 4:
 Huone 5:
     #nimi: Asuintalot_parkkipaikka;
     #alue: Asuintalot;
-    #tausta: sun.awt.image.ToolkitImage@684fab2a;
+    #tausta: sun.awt.image.ToolkitImage@620e5c8;
     #kenttä: {
         Kirstu_4_2,
         Pikkuvihu_4_4,

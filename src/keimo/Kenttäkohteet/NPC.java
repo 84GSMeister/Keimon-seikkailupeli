@@ -1,5 +1,5 @@
 package keimo.Kenttäkohteet;
-public class NPC extends KenttäKohde{
+public abstract class NPC extends KenttäKohde{
     
     protected int hp = 10;
     
@@ -10,9 +10,5 @@ public class NPC extends KenttäKohde{
 
     public String annaNimi(){
         return nimi;
-    }
-
-    public NPC() {
-
     }
 }

@@ -1,7 +1,7 @@
 package keimo.Kenttäkohteet;
 import java.util.ArrayList;
 
-public class Vihollinen extends NPC {
+public abstract class Vihollinen extends NPC{
     
     public int vahinko = 0;
     public ArrayList<String> tehoavatAseet = new ArrayList<String>();
@@ -17,11 +17,7 @@ public class Vihollinen extends NPC {
         return kukistettu;
     }
 
-    public void kukista() {
+    public void kukista(String kukistusTapa) {
         this.kukistettu = true;
-    }
-
-    public Vihollinen() {
-
     }
 }

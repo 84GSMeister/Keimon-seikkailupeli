@@ -2,7 +2,7 @@ package keimo.Maastot;
 
 import javax.swing.ImageIcon;
 
-public class Tile extends Maasto{
+public class EsteTile extends Maasto{
     
     String tiedostonNimi;
 
@@ -13,9 +13,9 @@ public class Tile extends Maasto{
         //this.lisäOminaisuudet[1] = "este=" + (this.estääLiikkumisen ? "kyllä" : "ei");
     }
 
-    public Tile(int sijX, int sijY, String[] ominaisuusLista) {
-        super.nimi = "Tile";
-        super.estääLiikkumisen = false;
+    public EsteTile(int sijX, int sijY, String[] ominaisuusLista) {
+        super.nimi = "EsteTile";
+        super.estääLiikkumisen = true;
         super.määritettySijainti = true;
         super.sijX = sijX;
         super.sijY = sijY;
@@ -40,3 +40,4 @@ public class Tile extends Maasto{
         super.asetaTiedot();
     }
 }
+

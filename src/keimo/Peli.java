@@ -313,10 +313,19 @@ public class Peli {
                     Vihollinen vihollinen = (Vihollinen)pelikenttä[valX][valY];
                     if (vihollinen.tehoavatAseet.contains(valittuEsine.annaNimi())) {
                         PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
-                        vihollinen.kukista();
+                        vihollinen.kukista(valittuEsine.annaNimi());
                     }
                     else {
                         PääIkkuna.hudTeksti.setText(valittuEsine.annaNimi() + " ei tehonnut " + vihollinen.annaNimiSijamuodossa("illatiivi"));
+                    }
+                }
+                else if (pelikenttä[valX][valY] instanceof Juhani) {
+                    Juhani juhani = (Juhani)pelikenttä[valX][valY];
+                    if (juhani.kelvollisetEsineet.contains(valittuEsine.annaNimi())) {
+                        p.esineet[esine] = juhani.annaHuume();
+                    }
+                    else {
+                        PääIkkuna.hudTeksti.setText(juhani.katso());
                     }
                 }
             }

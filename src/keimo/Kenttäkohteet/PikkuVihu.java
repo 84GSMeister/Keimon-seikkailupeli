@@ -3,11 +3,17 @@ import javax.swing.ImageIcon;
 
 import keimo.PelinAsetukset;;
 
-public class PikkuVihu extends Vihollinen{
+public class PikkuVihu extends Vihollinen {
 
-    public void kukista() {
-        this.kukistettu = true;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_suutari.png");
+    public void kukista(String kukistusTapa) {
+        if (!this.kukistettu) {
+            this.kukistettu = true;
+            switch (kukistusTapa) {
+                case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_suutari.png"); break;
+                case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_lyöty.png"); break;
+                default: this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_suutari.png"); break;
+            }
+        }
     }
 
     public String katso() {
@@ -54,6 +60,7 @@ public class PikkuVihu extends Vihollinen{
         super.nimi = "Pikkuvihu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
         super.tehoavatAseet.add("Vesiämpäri");
+        super.tehoavatAseet.add("Pesäpallomaila");
         super.asetaTiedot();
     }
 
@@ -66,6 +73,7 @@ public class PikkuVihu extends Vihollinen{
         super.nimi = "Pikkuvihu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
         super.tehoavatAseet.add("Vesiämpäri");
+        super.tehoavatAseet.add("Pesäpallomaila");
         super.asetaTiedot();
     }
 }

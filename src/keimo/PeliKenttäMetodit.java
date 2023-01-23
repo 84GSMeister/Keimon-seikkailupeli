@@ -1,14 +1,13 @@
 package keimo;
 import javax.swing.Timer;
 
-import keimo.Kenttäkohteet.KenttäKohde;
-import keimo.Kenttäkohteet.PahaVihu;
-import keimo.Kenttäkohteet.PikkuVihu;
-import keimo.Kenttäkohteet.Vihollinen;
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
 
 public class PeliKenttäMetodit {
     
     static KenttäKohde[][] pelikenttä;
+    static Maasto[][] maastokenttä;
 
     static Timer päivitysTiheys = new Timer(300, e -> {
         if (!Peli.pause) {
@@ -38,7 +37,7 @@ public class PeliKenttäMetodit {
                 if (pelikenttä[j][i] instanceof Vihollinen) {
                     if (pelikenttä[j][i] instanceof PikkuVihu) {
                         Vihollinen vihollinen = (Vihollinen)pelikenttä[j][i];
-                        if (!vihollinen.onJoLiikutettu) {
+                        if (!vihollinen.onJoLiikutettu && !vihollinen.onkoKukistettu()) {
                             String suunta = vihollinen.liikeSuuntaLoop[vihollinen.seuraavaLiikesuunta % vihollinen.liikeSuuntaLoop.length];
                             if (liikuta(j, i, suunta)) {
                                 vihollinen.onJoLiikutettu = true;
@@ -62,7 +61,7 @@ public class PeliKenttäMetodit {
                 if (pelikenttä[j][i] instanceof Vihollinen) {
                     if (pelikenttä[j][i] instanceof PahaVihu) {
                         Vihollinen vihollinen = (Vihollinen)pelikenttä[j][i];
-                        if (!vihollinen.onJoLiikutettu) {
+                        if (!vihollinen.onJoLiikutettu && !vihollinen.onkoKukistettu()) {
                             String suunta = vihollinen.liikeSuuntaLoop[vihollinen.seuraavaLiikesuunta % vihollinen.liikeSuuntaLoop.length];
                             if (liikuta(j, i, suunta)) {
                                 vihollinen.onJoLiikutettu = true;
@@ -89,7 +88,7 @@ public class PeliKenttäMetodit {
             switch (suunta) {
                 case "vasen":
                     if (objSijX > 0) {
-                        if (pelikenttä[objSijX-1][objSijY] == null) {
+                        if (pelikenttä[objSijX-1][objSijY] == null && !(maastokenttä[objSijX-1][objSijY] instanceof EsteTile)) {
                             KenttäKohde k = pelikenttä[objSijX][objSijY];
                             pelikenttä[objSijX-1][objSijY] = k;
                             pelikenttä[objSijX][objSijY] = null;
@@ -99,7 +98,7 @@ public class PeliKenttäMetodit {
                     break;
                 case "oikea":
                     if (objSijX < Peli.kentänKoko -1) {
-                        if (pelikenttä[objSijX+1][objSijY] == null) {
+                        if (pelikenttä[objSijX+1][objSijY] == null && !(maastokenttä[objSijX+1][objSijY] instanceof EsteTile)) {
                             KenttäKohde k = pelikenttä[objSijX][objSijY];
                             pelikenttä[objSijX+1][objSijY] = k;
                             pelikenttä[objSijX][objSijY] = null;
@@ -109,7 +108,7 @@ public class PeliKenttäMetodit {
                     break;
                 case "alas":
                     if (objSijY < Peli.kentänKoko -1) {
-                        if (pelikenttä[objSijX][objSijY+1] == null) {
+                        if (pelikenttä[objSijX][objSijY+1] == null && !(maastokenttä[objSijX][objSijY+1] instanceof EsteTile)) {
                             KenttäKohde k = pelikenttä[objSijX][objSijY];
                             pelikenttä[objSijX][objSijY+1] = k;
                             pelikenttä[objSijX][objSijY] = null;
@@ -119,7 +118,7 @@ public class PeliKenttäMetodit {
                     break;
                 case "ylös":
                     if (objSijY > 0) {
-                        if (pelikenttä[objSijX][objSijY-1] == null) {
+                        if (pelikenttä[objSijX][objSijY-1] == null && !(maastokenttä[objSijX][objSijY-1] instanceof EsteTile)) {
                             KenttäKohde k = pelikenttä[objSijX][objSijY];
                             pelikenttä[objSijX][objSijY-1] = k;
                             pelikenttä[objSijX][objSijY] = null;
@@ -136,9 +135,11 @@ public class PeliKenttäMetodit {
 
     static void kopioiPelikenttä() {
         pelikenttä = Peli.pelikenttä;
+        maastokenttä = Peli.maastokenttä;
     }
 
     static void asetaPelikenttä() {
         Peli.pelikenttä = pelikenttä;
+        Peli.maastokenttä = maastokenttä;
     }
 }

@@ -53,6 +53,7 @@ public abstract class Maasto {
     void asetaTiedot() {
         tiedot += "Nimi: " + this.annaNimi() + "\n";
         tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei" + "\n");
+        tiedot += "Estää liikkumisen: " + (this.estääköLiikkumisen() ? "Kyllä" : "Ei" + "\n");
     }
     
     public String annaTiedot() {

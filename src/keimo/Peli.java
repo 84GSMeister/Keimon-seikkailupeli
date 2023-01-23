@@ -13,23 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-import keimo.Kenttäkohteet.Esine;
-import keimo.Kenttäkohteet.Kaasusytytin;
-import keimo.Kenttäkohteet.KenttäKohde;
-import keimo.Kenttäkohteet.Kiintopiste;
-import keimo.Kenttäkohteet.Kilpi;
-import keimo.Kenttäkohteet.Kirstu;
-import keimo.Kenttäkohteet.Makkara;
-import keimo.Kenttäkohteet.NPC;
-import keimo.Kenttäkohteet.Nuotio;
-import keimo.Kenttäkohteet.ReunaWarppi;
-import keimo.Kenttäkohteet.Ruoka;
-import keimo.Kenttäkohteet.Vesiämpäri;
-import keimo.Kenttäkohteet.Vihollinen;
-import keimo.Kenttäkohteet.Warp;
-import keimo.Kenttäkohteet.Ämpärikone;
-import keimo.Maastot.Maasto;
-
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
 
 public class Peli {
     

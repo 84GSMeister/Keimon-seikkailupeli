@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 import keimo.*;
 
 public class Main {

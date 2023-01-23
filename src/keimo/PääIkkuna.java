@@ -11,7 +11,6 @@ import keimo.Kenttäkohteet.Vihollinen;
 import keimo.Kenttäkohteet.Warp;
 import keimo.Maastot.Maasto;
 
-import java.util.*;
 import java.text.DecimalFormat;
 
 public class PääIkkuna {
@@ -68,7 +67,7 @@ public class PääIkkuna {
         kenttäKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.5.2 pre-alpha (21.1.2023)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.5.3 pre-alpha (23.1.2023)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         //ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));

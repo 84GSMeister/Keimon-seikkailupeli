@@ -6,6 +6,8 @@ public abstract class Maasto {
     boolean määritettySijainti = false;
     int sijX;
     int sijY;
+    boolean lisäOminaisuuksia = false;
+    String[] lisäOminaisuudet;
 
     public boolean onkoMääritettySijainti() {
         return määritettySijainti;
@@ -17,6 +19,14 @@ public abstract class Maasto {
 
     public int annaSijY() {
         return sijY;
+    }
+
+    public boolean onkolisäOminaisuuksia() {
+        return lisäOminaisuuksia;
+    }
+
+    public String[] annalisäOminaisuudet() {
+        return lisäOminaisuudet;
     }
 
     protected String nimi;

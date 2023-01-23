@@ -1,7 +1,12 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.1.2023): 0.5.2
+## Uusin versio (23.1.2023): 0.5.3
 
+
+### Versio 0.5.3
+
+ - editoriin lisätty maaston muokkaus ja kuvien haku kansiosta
+ 
 ### Versio 0.5.2
 
  - editorin bugeja korjattu

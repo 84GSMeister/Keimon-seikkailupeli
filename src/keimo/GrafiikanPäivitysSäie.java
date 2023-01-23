@@ -1,6 +1,5 @@
 package keimo;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.locks.LockSupport;
 
 import javax.swing.Timer;
@@ -134,7 +133,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                         skaalaaHUD();
                         PääIkkuna.päivitäIkkuna();
                         if (HuoneEditoriIkkuna.vaatiiPäivityksen) {
-                            HuoneEditoriIkkuna.päivitäIkkuna();
+                            HuoneEditoriIkkuna.päivitäObjektiKenttä();
                         }
 
                         kertymänAika += aikaErotusUs;

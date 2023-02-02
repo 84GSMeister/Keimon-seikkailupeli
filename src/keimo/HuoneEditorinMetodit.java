@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import keimo.Kenttäkohteet.Warp.Suunta;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
+import keimo.NPCt.*;
+import keimo.NPCt.Vihollinen.LiikeTapa;
 
 public class HuoneEditorinMetodit {
     
@@ -33,6 +35,12 @@ public class HuoneEditorinMetodit {
         int luotavanMaastonY = 0;
         String[] luotavanMaastonOminaisuusLista = {""};
         ArrayList<Maasto> uusiMaastoLista = new ArrayList<Maasto>();
+
+        String luotavaNPC = "";
+        int luotavanNPCnX = 0;
+        int luotavanNPCnY = 0;
+        String[] luotavanNPCnOminaisuusLista = {""};
+        ArrayList<NPC> uusiNPCLista = new ArrayList<NPC>();
 
         try {
             for (String s : merkkijonot) {
@@ -80,7 +88,7 @@ public class HuoneEditorinMetodit {
                                             luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
                                             luotavanObjektinX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
                                             luotavanObjektinY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
-                                            uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY, true, luotavanObjektinOminaisuusLista));
+                                            uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, true, luotavanObjektinX, luotavanObjektinY, true, luotavanObjektinOminaisuusLista));
                                         }
                                         else if (tarkastettavaRivi.contains("+")){
                                             luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("+"));
@@ -163,11 +171,68 @@ public class HuoneEditorinMetodit {
                             }
                         }
                     }
+                    else if (tarkastettavaRivi.contains("#npc:")) {
+                        if (tarkastettavaRivi.contains("{")) {
+                            tarkastettavaRivi = sc.nextLine();
+                            while (!tarkastettavaRivi.contains("}")) {
+                                luotavaNPC = "";
+                                luotavanNPCnX = 0;
+                                luotavanNPCnY = 0;
+                                if (tarkastettavaRivi.startsWith("        ")) {
+                                    if (tarkastettavaRivi.contains("+ominaisuudet:")) {
+                                        String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
+                                        int ominaisuuksienMäärä = 0;
+                                        for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
+                                            if (tarkastettavaRivi.charAt(i) == '=') {
+                                                ominaisuuksienMäärä++;
+                                            }
+                                            else if (tarkastettavaRivi.charAt(i) == ']') {
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < ominaisuuksienMäärä; i++) {
+                                            luotavanNPCnOminaisuusLista = ominaisuudetMerkkijonona.split(",");
+                                        }
+                                        //for (String st : luotavanObjektinOminaisuusLista) {
+                                        //    System.out.println("ominaisuus: " + st);
+                                        //}
+                                        if (tarkastettavaRivi.contains("_")) {
+                                            luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                            luotavanNPCnX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                            luotavanNPCnY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                            uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, false, luotavanNPCnX, luotavanNPCnY, true, luotavanNPCnOminaisuusLista));
+                                        }
+                                        else if (tarkastettavaRivi.contains("+")){
+                                            luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("+"));
+                                            uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, false, luotavanNPCnX, luotavanNPCnY, true, luotavanNPCnOminaisuusLista));
+                                        }
+                                    }
+                                    else if (tarkastettavaRivi.contains("_")) {
+                                        luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                        luotavanNPCnX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                        luotavanNPCnY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                        uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, true, luotavanNPCnX, luotavanNPCnY, false, null));
+                                    }
+                                    else if (tarkastettavaRivi.contains(",")) {
+                                        luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf(","));
+                                        uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, false, luotavanNPCnX, luotavanNPCnY, false, null));
+                                    }
+                                }
+                                if (sc.hasNextLine()) {
+                                    tarkastettavaRivi = sc.nextLine();
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTausta, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, false, "");
+                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTausta, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, false, "");
                 uusiHuoneKartta.put(uusiHuoneenId, huone);
                 uusiObjektiLista.clear();
                 uusiMaastoLista.clear();
+                uusiNPCLista.clear();
                 sc.close();
             }
         }
@@ -219,7 +284,7 @@ public class HuoneEditorinMetodit {
                     break;
 
                 case "Kaasusytytin":
-                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(sijX, sijY, "tyhjä") : new Kaasusytytin("tyhjä");
+                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(sijX, sijY) : new Kaasusytytin();
                     break;
 
                 case "Kilpi":
@@ -251,7 +316,7 @@ public class HuoneEditorinMetodit {
                     break;
 
                 case "Pikkuvihu":
-                    luotavaObjekti = määritettySijainti ? new PikkuVihu(sijX, sijY) : new PikkuVihu();
+                    luotavaObjekti = määritettySijainti ? new PikkuVihu_KenttäKohde(sijX, sijY) : new PikkuVihu_KenttäKohde();
                     break;
 
                 case "Oviruutu":
@@ -298,7 +363,7 @@ public class HuoneEditorinMetodit {
         return luotavaObjekti;
     }
 
-    static Maasto luoMaastoTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
+    static Maasto luoMaastoTiedoilla(String maastonNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
 
         Maasto luotavaMaasto;
 
@@ -307,7 +372,7 @@ public class HuoneEditorinMetodit {
          * Muuten käytä parametritonta konstruktoria Maasto()
          */
         if (lisäOminaisuudet) {
-            switch (objektinNimi) {
+            switch (maastonNimi) {
 
                 case "Tile":
                     luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
@@ -324,19 +389,7 @@ public class HuoneEditorinMetodit {
         }
 
         else {
-            switch (objektinNimi) {
-
-                case "Hiekka":
-                    luotavaMaasto = määritettySijainti ? new Hiekka(sijX, sijY) : new Hiekka();
-                    break;
-
-                case "Seinä":
-                    luotavaMaasto = määritettySijainti ? new Seinä(sijX, sijY) : new Seinä();
-                    break;
-
-                case "Vesi":
-                    luotavaMaasto = määritettySijainti ? new Vesi(sijX, sijY) : new Vesi();
-                    break;
+            switch (maastonNimi) {
 
                 default:
                     luotavaMaasto = null;
@@ -345,6 +398,51 @@ public class HuoneEditorinMetodit {
         }
 
         return luotavaMaasto;
+    }
+
+    static NPC luoNPCTiedoilla(String npcnNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
+
+        NPC luotavaNPC = null;
+
+        /**
+         * Jos on määritetty sijainti, käytä objektille konstruktoria Maasto(int, int)
+         * Muuten käytä parametritonta konstruktoria Maasto()
+         */
+        if (lisäOminaisuudet) {
+            switch (npcnNimi) {
+
+                case "Pikkuvihu":
+                    //luotavaNPC = new Pikkuvihu(sijX, sijY, ominaisuusLista);
+                    break;
+
+                case "Pahavihu":
+                    //luotavaNPC = new Pahavihu(sijX, sijY, ominaisuusLista);
+                    break;
+
+                default:
+                    luotavaNPC = null;
+                    break;
+            }
+        }
+
+        else {
+            switch (npcnNimi) {
+
+                case "Pikkuvihu":
+                    luotavaNPC = new Pikkuvihu(sijX, sijY, LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN);
+                    break;
+
+                case "Pahavihu":
+                    //luotavaNPC = new Pahavihu(sijX, sijY, LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN);
+                    break;
+
+                default:
+                    luotavaNPC = null;
+                    break;
+            }
+        }
+
+        return luotavaNPC;
     }
 
     static String luoMerkkijonotHuonekartasta(HashMap<Integer, Huone> huoneKartta) {
@@ -398,6 +496,34 @@ public class HuoneEditorinMetodit {
                         if (m.onkolisäOminaisuuksia()) {
                             huoneetMerkkijonoina[i] += "+ominaisuudet:[";
                             for (String s : m.annalisäOminaisuudet()) {
+                                huoneetMerkkijonoina[i] += s + ",";
+                            }
+                            huoneetMerkkijonoina[i] = huoneetMerkkijonoina[i].substring(0, huoneetMerkkijonoina[i].length()-1);
+                            huoneetMerkkijonoina[i] += "]";
+                        }
+                        huoneetMerkkijonoina[i] += ",\n";
+                    }
+                }
+            }
+            if (huoneetMerkkijonoina[i].charAt(huoneetMerkkijonoina[i].length()-2 ) != '{' && huoneetMerkkijonoina[i].charAt(huoneetMerkkijonoina[i].length()-1 ) != '{') {
+                huoneetMerkkijonoina[i] = huoneetMerkkijonoina[i].substring(0, huoneetMerkkijonoina[i].length()-2);
+                huoneetMerkkijonoina[i] +=";\n";
+            }
+            huoneetMerkkijonoina[i] += "    }\n    ";
+
+            huoneetMerkkijonoina[i] += "#npc: " + "{\n";
+            for (NPC[] nn : huoneKartta.get(i).annaHuoneenNPCSisältö()) {
+                for (NPC n : nn) {
+                    if (n != null) {
+                        if (n.onkoMääritettySijainti()) {
+                            huoneetMerkkijonoina[i] += "        " + n.annaNimi() + "_" + n.annaSijX() + "_" + n.annaSijY();
+                        }
+                        else {
+                            huoneetMerkkijonoina[i] += "        " + n.annaNimi();
+                        }
+                        if (n.onkolisäOminaisuuksia()) {
+                            huoneetMerkkijonoina[i] += "+ominaisuudet:[";
+                            for (String s : n.annalisäOminaisuudet()) {
                                 huoneetMerkkijonoina[i] += s + ",";
                             }
                             huoneetMerkkijonoina[i] = huoneetMerkkijonoina[i].substring(0, huoneetMerkkijonoina[i].length()-1);

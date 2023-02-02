@@ -20,7 +20,10 @@ public class CustomViestiIkkunat {
             int minuutit = (int)aika / 60;
             double sekunnit = (aika % 60);
             String sekunnit2Desimaalia = kaksiDesimaalia.format(sekunnit);
-            return JOptionPane.showOptionDialog(null, viesti + "\n\nAikasi: " + minuutit + ":" + sekunnit2Desimaalia, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+            viesti += "\n\nAikasi: " + minuutit + ":" + sekunnit2Desimaalia;
+            viesti += "\n\nLyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut();
+            viesti += "\nÄmpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut();
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
 

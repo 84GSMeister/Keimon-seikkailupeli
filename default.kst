@@ -3,7 +3,7 @@
 Huone 0:
     #nimi: Puisto_keski;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@3b68af0;
+    #tausta: null;
     #kenttä: {
         Oviruutu_0_4+ominaisuudet:[kohdehuone=4,kohderuutuX=9,kohderuutuY=4,suunta=VASEN],
         Suklaalevy_3_6,
@@ -114,18 +114,22 @@ Huone 0:
         Tile_9_8+ominaisuudet:[kuva=ruoho.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+    }
 /Huone
 Huone 1:
     #nimi: Puisto_ylä;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@44cdf5fb;
+    #tausta: null;
     #kenttä: {
-        Suklaalevy_0_9,
-        Makkara_2_4,
+        Suklaalevy_1_9,
+        Makkara_2_6,
+        Pesäpallomaila_3_0,
         Makkara_3_4,
         Oviruutu_4_9+ominaisuudet:[kohdehuone=0,kohderuutuX=4,kohderuutuY=0,suunta=ALAS],
         Makkara_5_1,
-        Makkara_7_5,
+        Kaasusytytin_6_1+ominaisuudet:[toimivuus=toimiva],
+        Makkara_6_5,
         Kilpi_7_6;
     }
     #maasto: {
@@ -230,21 +234,18 @@ Huone 1:
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+    }
 /Huone
 Huone 2:
     #nimi: Puisto_ala;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@49cb4847;
+    #tausta: null;
     #kenttä: {
-        Pikkuvihu_0_4,
-        Pikkuvihu_1_7,
         Oviruutu_3_0+ominaisuudet:[kohdehuone=0,kohderuutuX=3,kohderuutuY=9,suunta=YLÖS],
-        Pikkuvihu_3_2,
         Kaasupullo_3_9,
-        Pikkuvihu_6_1,
-        Pikkuvihu_7_1,
-        Makkara_9_0,
-        Suklaalevy_9_3;
+        Suklaalevy_7_3,
+        Makkara_9_0;
     }
     #maasto: {
         EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png],
@@ -348,22 +349,22 @@ Huone 2:
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+        Pikkuvihu_6_3;
+    }
 /Huone
 Huone 3:
     #nimi: Puisto_oikea;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@21c38004;
+    #tausta: null;
     #kenttä: {
         Oviruutu_0_3+ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,suunta=VASEN],
-        Avain_1_8,
-        Pikkuvihu_2_4,
         Nuotio_2_7,
-        Paperi_3_9,
-        Makkara_4_1,
-        Pikkuvihu_4_3,
+        Avain_2_8,
+        Makkara_3_2,
         Makkara_6_5,
         Makkara_6_6,
-        Pikkuvihu_7_9;
+        Paperi_8_6;
     }
     #maasto: {
         EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png],
@@ -467,17 +468,16 @@ Huone 3:
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+        Pikkuvihu_7_5;
+    }
 /Huone
 Huone 4:
     #nimi: Puisto_vasen;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@16956fc6;
+    #tausta: sun.awt.image.ToolkitImage@1ccb315b;
     #kenttä: {
         Oviruutu_0_4+ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=4,suunta=VASEN],
-        Vesiämpäri_0_8,
-        Pikkuvihu_1_1,
-        Pikkuvihu_3_4,
-        Pikkuvihu_5_7,
         Oviruutu_9_4+ominaisuudet:[kohdehuone=0,kohderuutuX=0,kohderuutuY=4,suunta=OIKEA];
     }
     #maasto: {
@@ -582,18 +582,23 @@ Huone 4:
         Tile_9_8+ominaisuudet:[kuva=ruoho.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+        Pikkuvihu_7_0;
+    }
 /Huone
 Huone 5:
     #nimi: Asuintalot_parkkipaikka;
     #alue: Asuintalot;
-    #tausta: sun.awt.image.ToolkitImage@3ddc32c2;
+    #tausta: sun.awt.image.ToolkitImage@43711bae;
     #kenttä: {
         Kirstu_4_2,
-        Pikkuvihu_4_4,
         Ämpärikone_5_6,
         Oviruutu_9_4+ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=4,suunta=OIKEA];
     }
     #maasto: {
+    }
+    #npc: {
+        Pikkuvihu_8_3;
     }
 /Huone
 

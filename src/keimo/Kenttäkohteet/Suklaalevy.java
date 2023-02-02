@@ -9,7 +9,7 @@ public class Suklaalevy extends Ruoka {
     
     public String käytä(){
         poista = true;
-        return "Se maistui hyvältä";
+        return "Se maistui hyvältä. Sait " + this.heal + " elämäpistettä.";
     }
 
     public String annaNimiSijamuodossa(String sijamuoto) {

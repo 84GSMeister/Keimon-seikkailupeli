@@ -50,15 +50,37 @@ public class ÄänentoistamisSäie extends Thread{
             }
         }
     }
-
-    static void toistaSFX(String ääni) {
+    public static void toistaSFX(String ääni) {
 
         MP3Player ääniToistin;
 
         switch (ääni) {
 
-            case "damage":
-                ääniToistin = new MP3Player(new File("tiedostot/äänet/damage.mp3"));
+            case "pelaaja_damage":
+                ääniToistin = new MP3Player(new File("tiedostot/äänet/pelaaja_damage.mp3"));
+                ääniToistin.play();
+                break;
+            case "pikkuvihu_damage":
+                ääniToistin = new MP3Player(new File("tiedostot/äänet/pikkuvihu_damage.mp3"));
+                ääniToistin.play();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void toistaTappoÄäni(String esineenNimi) {
+
+        MP3Player ääniToistin;
+
+        switch (esineenNimi) {
+
+            case "Vesiämpäri":
+                ääniToistin = new MP3Player(new File("tiedostot/äänet/vihollinen_ämpäröinti.mp3"));
+                ääniToistin.play();
+                break;
+            case "Pesäpallomaila":
+                ääniToistin = new MP3Player(new File("tiedostot/äänet/vihollinen_mukilointi.mp3"));
                 ääniToistin.play();
                 break;
             default:

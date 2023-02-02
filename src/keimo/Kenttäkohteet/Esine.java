@@ -54,4 +54,10 @@ public abstract class Esine extends KenttäKohde {
     public Esine() {
         
     }
+
+    public Esine(int sijX, int sijY) {
+        this.määritettySijainti = true;
+        this.sijX = sijX;
+        this.sijY = sijY;
+    }
 }

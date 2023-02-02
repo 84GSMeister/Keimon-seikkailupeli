@@ -3,6 +3,26 @@ import javax.swing.ImageIcon;
 
 public class ReunaWarppi extends Warp {
     
+    public void asetaSuunta(Suunta suunta) {
+        super.asetaSuunta(suunta);
+        switch (suunta) {
+            case VASEN:
+                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_vasen.png");
+                break;
+            case OIKEA:
+                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
+                break;
+            case ALAS:
+                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_alas.png");
+                break;
+            case YLÖS:
+                this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_ylös.png");
+                break;
+            default:
+                break;
+        }
+    }
+
     public ReunaWarppi(int sijX, int sijY, int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
         
         this.nimi = "Oviruutu";

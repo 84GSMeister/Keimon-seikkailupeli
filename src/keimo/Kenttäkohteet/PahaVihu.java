@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 
 import keimo.PelinAsetukset;
 
-public class PahaVihu extends Vihollinen {
+public class PahaVihu extends Vihollinen_KenttöKohde {
 
     public void kukista() {
         this.kukistettu = true;

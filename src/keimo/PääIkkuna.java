@@ -6,29 +6,30 @@ import javax.swing.*;
 import keimo.Kenttäkohteet.Esine;
 import keimo.Kenttäkohteet.KenttäKohde;
 import keimo.Kenttäkohteet.Kiintopiste;
-import keimo.Kenttäkohteet.NPC;
-import keimo.Kenttäkohteet.Vihollinen;
+import keimo.Kenttäkohteet.NPC_KenttäKohde;
+import keimo.Kenttäkohteet.Vihollinen_KenttöKohde;
 import keimo.Kenttäkohteet.Warp;
 import keimo.Maastot.Maasto;
+import keimo.NPCt.*;
 
 import java.text.DecimalFormat;
 
 public class PääIkkuna {
-    static final int esineenKokoPx = 64;
-    static final int pelaajanKokoPx = 64;
+    public static final int esineenKokoPx = 64;
+    public static final int pelaajanKokoPx = 64;
     static int ikkunanLeveys = esineenKokoPx * Peli.kentänKoko;
     static int ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko;
     static boolean uusiIkkuna = false;
     static JFrame ikkuna;
     static JMenuBar yläPalkki;
     static JMenu peli, tietoja, debug, työkalut;
-    static JMenu kaksoispistedeeValikko, kaksoispistedeeValikkoSubmenu;
+    //static JMenu kaksoispistedeeValikko, kaksoispistedeeValikkoSubmenu;
     static JMenu huoneSubmenu;
     static JMenuItem huoneenVaihto, maastoGeneraattori, huoneEditori;
     static JMenuItem uusiPeli, mukauta, asetukset, ohjeet, tekijät;
     static JCheckBoxMenuItem näytäSijainti, näytäFPS, näytäReunat;
     static JMenuItem menuF2, menuF3, menuF4;
-    static JMenuItem kaksoispistedeeValikkoItemi, kaksoispistedeeValikkoItemi2, kaksoispistedeeValikkoItemi3, kaksoispistedeeValikkoSubmenu2, kaksoispistedeeValikkoSubmenu3;
+    //static JMenuItem kaksoispistedeeValikkoItemi, kaksoispistedeeValikkoItemi2, kaksoispistedeeValikkoItemi3, kaksoispistedeeValikkoSubmenu2, kaksoispistedeeValikkoSubmenu3;
     static JPanel peliKenttä, peliKenttäAlue, alueInfoPaneli;
     static JPanel hud, yläPaneeli;
     static JLabel hudTeksti, ylätekstiAika, ylätekstiSij, ylätekstiKohde, ylätekstiHP, ylätekstiViive, ylätekstiFPS, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
@@ -39,6 +40,7 @@ public class PääIkkuna {
     static JLabel peliTestiLabel, pelaajaLabel, taustaLabel, alueInfoLabel;
     static JLabel[][] kenttäKohteenKuvake;
     static JLabel[][] maastoKohteenKuvake;
+    static JLabel[] npcKuvake;
     static boolean vaatiiPäivityksen = false;
     static boolean vaatiiKentänPäivityksen = false;
     static boolean uudelleenpiirräKaikki = false;
@@ -67,8 +69,8 @@ public class PääIkkuna {
         kenttäKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.5.4 pre-alpha (23.1.2023)");
-        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.6 pre-alpha (2.2.2023)");
+        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         //ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
         ikkuna.setLayout(new BorderLayout());
@@ -78,14 +80,14 @@ public class PääIkkuna {
         ikkuna.revalidate();
         ikkuna.repaint();
 
-        uusiPeli = new JMenuItem("Uusi peli", new ImageIcon("./kuvat/pelaaja32.png"));
+        uusiPeli = new JMenuItem("Uusi peli", new ImageIcon("tiedostot/kuvat/menu/gui/uusipeli.png"));
         uusiPeli.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 uusiIkkuna = true;
             }
         });
 
-        mukauta = new JMenuItem("Mukauta", new ImageIcon("./kuvat/pelaaja32.png"));
+        mukauta = new JMenuItem("Mukauta", new ImageIcon("tiedostot/kuvat/menu/gui/mukauta.png"));
         mukauta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //CustomViestiIkkunat.ToteutusPuuttuu.showDialog();
@@ -93,7 +95,7 @@ public class PääIkkuna {
             }
         });
         
-        asetukset = new JMenuItem("Asetukset", new ImageIcon("./kuvat/pelaaja32.png"));
+        asetukset = new JMenuItem("Asetukset", new ImageIcon("tiedostot/kuvat/menu/gui/asetukset.png"));
         asetukset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //CustomViestiIkkunat.ToteutusPuuttuu.showDialog();
@@ -107,17 +109,21 @@ public class PääIkkuna {
         peli.add(new JSeparator());
         peli.add(asetukset);
 
-        ohjeet = new JMenuItem("Ohjeet");
+        ohjeet = new JMenuItem("Ohjeet", new ImageIcon("tiedostot/kuvat/menu/gui/ohjeet.png"));
         ohjeet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Peli.pause = true;
                 CustomViestiIkkunat.Ohjeet.showDialog();
+                Peli.pause = false;
             }
         });
 
-        tekijät = new JMenuItem("Tekijät");
+        tekijät = new JMenuItem("Tekijät", new ImageIcon("tiedostot/kuvat/menu/gui/tekijät.png"));
         tekijät.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Peli.pause = true;
                 CustomViestiIkkunat.Credits.showDialog();
+                Peli.pause = false;
             }
         });
 
@@ -126,50 +132,50 @@ public class PääIkkuna {
         tietoja.add(new JSeparator());
         tietoja.add(tekijät);
 
-        kaksoispistedeeValikkoItemi = new JMenuItem(":D");
-        kaksoispistedeeValikkoItemi.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CustomViestiIkkunat.Kaksoispistedee.showDialog();
-            }
-        });
+        // kaksoispistedeeValikkoItemi = new JMenuItem(":D");
+        // kaksoispistedeeValikkoItemi.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         CustomViestiIkkunat.Kaksoispistedee.showDialog();
+        //     }
+        // });
 
-        kaksoispistedeeValikkoItemi2 = new JMenuItem(":D");
-        kaksoispistedeeValikkoItemi2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CustomViestiIkkunat.Kaksoispistedee.showDialog();
-            }
-        });
+        // kaksoispistedeeValikkoItemi2 = new JMenuItem(":D");
+        // kaksoispistedeeValikkoItemi2.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         CustomViestiIkkunat.Kaksoispistedee.showDialog();
+        //     }
+        // });
 
-        kaksoispistedeeValikkoItemi3 = new JMenuItem(":D");
-        kaksoispistedeeValikkoItemi3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CustomViestiIkkunat.Kaksoispistedee.showDialog();
-            }
-        });
+        // kaksoispistedeeValikkoItemi3 = new JMenuItem(":D");
+        // kaksoispistedeeValikkoItemi3.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         CustomViestiIkkunat.Kaksoispistedee.showDialog();
+        //     }
+        // });
 
-        kaksoispistedeeValikkoSubmenu = new JMenu(":D");
-        kaksoispistedeeValikkoSubmenu.add(kaksoispistedeeValikkoItemi);
-        kaksoispistedeeValikkoSubmenu.add(kaksoispistedeeValikkoItemi2);
-        kaksoispistedeeValikkoSubmenu.add(kaksoispistedeeValikkoItemi3);
+        // kaksoispistedeeValikkoSubmenu = new JMenu(":D");
+        // kaksoispistedeeValikkoSubmenu.add(kaksoispistedeeValikkoItemi);
+        // kaksoispistedeeValikkoSubmenu.add(kaksoispistedeeValikkoItemi2);
+        // kaksoispistedeeValikkoSubmenu.add(kaksoispistedeeValikkoItemi3);
 
-        kaksoispistedeeValikkoSubmenu2 = new JMenuItem(":D");
-        kaksoispistedeeValikkoSubmenu2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CustomViestiIkkunat.Kaksoispistedee.showDialog();
-            }
-        });
+        // kaksoispistedeeValikkoSubmenu2 = new JMenuItem(":D");
+        // kaksoispistedeeValikkoSubmenu2.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         CustomViestiIkkunat.Kaksoispistedee.showDialog();
+        //     }
+        // });
 
-        kaksoispistedeeValikkoSubmenu3 = new JMenuItem(":D");
-        kaksoispistedeeValikkoSubmenu3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CustomViestiIkkunat.Kaksoispistedee.showDialog();
-            }
-        });
+        // kaksoispistedeeValikkoSubmenu3 = new JMenuItem(":D");
+        // kaksoispistedeeValikkoSubmenu3.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         CustomViestiIkkunat.Kaksoispistedee.showDialog();
+        //     }
+        // });
 
-        kaksoispistedeeValikko = new JMenu(":D");
-        kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu3);
-        kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu2);
-        kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu);
+        // kaksoispistedeeValikko = new JMenu(":D");
+        // kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu3);
+        // kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu2);
+        // kaksoispistedeeValikko.add(kaksoispistedeeValikkoSubmenu);
 
         näytäSijainti = new JCheckBoxMenuItem("Näytä sijainti");
         näytäSijainti.setSelected(sijaintiNäkyvissä);
@@ -226,6 +232,7 @@ public class PääIkkuna {
             }
         });
         huoneSubmenu = new JMenu("Huone");
+        huoneSubmenu.setIcon(new ImageIcon("tiedostot/kuvat/menu/gui/huone.png"));
         huoneSubmenu.add(huoneenVaihto);
         //huoneSubmenu.add(new JSeparator());
         //huoneSubmenu.add(testiHuoneOletus);
@@ -244,14 +251,14 @@ public class PääIkkuna {
         debug.add(new JSeparator());
         debug.add(huoneSubmenu);
 
-        maastoGeneraattori = new JMenuItem("Maastogeneraattori");
+        maastoGeneraattori = new JMenuItem("Maastogeneraattori", new ImageIcon("tiedostot/kuvat/menu/gui/maastogeneraattori.png"));
         maastoGeneraattori.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MukautusIkkuna.MaastoGeneraattoriIkkuna.luoMaastoGeneraattoriIkkuna();
             }
         });
 
-        huoneEditori = new JMenuItem("Huone-editori");
+        huoneEditori = new JMenuItem("Huone-editori", new ImageIcon("tiedostot/kuvat/menu/gui/huone-editori.png"));
         huoneEditori.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //CustomViestiIkkunat.ToteutusPuuttuu.showDialog();
@@ -269,7 +276,7 @@ public class PääIkkuna {
         yläPalkki.add(tietoja);
         yläPalkki.add(debug);
         yläPalkki.add(työkalut);
-        yläPalkki.add(kaksoispistedeeValikko);
+        //yläPalkki.add(kaksoispistedeeValikko);
 
         alueInfoLabel = new JLabel("Alue");
         alueInfoLabel.setPreferredSize(new Dimension(ikkunanLeveys-30, 30));
@@ -457,7 +464,7 @@ public class PääIkkuna {
         kortit = new JPanel(crd);
         kortit.add(TarinaRuutu.luoTarinaPaneli());
         kortit.add(ValikkoRuutu.luoValikkoPaneli());
-        kortit.add(OsionAlkuRuutu.luoOsionAlkuPaneli());
+        kortit.add(OsionAlkuRuutu.kokeileLuodaOsionAlkuPaneli());
         kortit.add(peliAluePaneli);
         
 
@@ -530,28 +537,29 @@ public class PääIkkuna {
     }
 
     static ImageIcon valitsePelaajanKuvake() {
-        ImageIcon pelaajanKuvake;
-        int pelaajanKuvakeInt = Pelaaja.pelaajanKylläisyys;
-        switch (pelaajanKuvakeInt) {
-            case 0:
-                pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
-                break;
-            case 1:
-                pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_1.png");
-                break;
-            case 2:
-                pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_2.png");
-                break;
-            case 3:
-                pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_3.png");
-                break;
-            case 4:
-                pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_4.png");
-                break;
-            default:
-                pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
-                break;
-        }
+        // ImageIcon pelaajanKuvake;
+        // int pelaajanKuvakeInt = Pelaaja.pelaajanKylläisyys;
+        // switch (pelaajanKuvakeInt) {
+        //     case 0:
+        //         pelaajanKuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
+        //         break;
+        //     case 1:
+        //         pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_1.png");
+        //         break;
+        //     case 2:
+        //         pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_2.png");
+        //         break;
+        //     case 3:
+        //         pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_3.png");
+        //         break;
+        //     case 4:
+        //         pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja_4.png");
+        //         break;
+        //     default:
+        //         pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
+        //         break;
+        // }
+        ImageIcon pelaajanKuvake = Pelaaja.kuvake;
         return pelaajanKuvake;
     }
 
@@ -572,8 +580,10 @@ public class PääIkkuna {
         pelaajaLabel = new JLabel(pelaajaKuvake);
         pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
         pelaajaLabel.setIcon(valitsePelaajanKuvake());
+        pelaajaLabel.setBackground(new Color(0,0,255,0));
         taustaLabel = new JLabel(new ImageIcon());
         taustaLabel.setBounds(0, 0, Peli.kentänKoko * esineenKokoPx + 20, Peli.kentänKoko * esineenKokoPx + 20);
+        npcKuvake = new JLabel[Peli.annaNPCidenMäärä()];
         
         try {
             peliKenttä.add(pelaajaLabel);
@@ -605,8 +615,8 @@ public class PääIkkuna {
                                     else if (Peli.pelikenttä[j][i] instanceof Esine) {
                                         kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
                                     }
-                                    else if (Peli.pelikenttä[j][i] instanceof NPC) {
-                                        if (Peli.pelikenttä[j][i] instanceof Vihollinen) {
+                                    else if (Peli.pelikenttä[j][i] instanceof NPC_KenttäKohde) {
+                                        if (Peli.pelikenttä[j][i] instanceof Vihollinen_KenttöKohde) {
                                             kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
                                         }
                                         else {
@@ -645,6 +655,18 @@ public class PääIkkuna {
                 kohteenSijX = 10;
                 kohteensijY += esineenKokoPx;
             }
+
+            if (Peli.npcLista != null){
+                npcKuvake = new JLabel[Peli.npcLista.size()];
+                for (int i = 0; i < Peli.npcLista.size(); i++) {
+                    NPC npc = Peli.npcLista.get(i);
+                    npcKuvake[i] = new JLabel();
+                    npcKuvake[i].setIcon(npc.kuvake);
+                    npcKuvake[i].setBounds(npc.sijX_PX_vy, npc.sijY_PX_vy, pelaajanKokoPx, pelaajanKokoPx);
+                    peliKenttä.add(npcKuvake[i]);
+                    peliKenttä.setComponentZOrder(npcKuvake[i], 0);
+                }
+            }
             
             peliKenttä.setComponentZOrder(pelaajaLabel, 0);
             //peliKenttä.setComponentZOrder(taustaLabel, 2);
@@ -654,6 +676,10 @@ public class PääIkkuna {
         }
         catch (IllegalArgumentException e) {
 
+        }
+        catch (NullPointerException e) {
+            System.out.println("ongelma alkuikkunan luonnissa");
+            e.printStackTrace();
         }
 
         peliKenttä.revalidate();
@@ -697,8 +723,8 @@ public class PääIkkuna {
                                     else if (Peli.pelikenttä[j][i] instanceof Esine) {
                                         kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
                                     }
-                                    else if (Peli.pelikenttä[j][i] instanceof NPC) {
-                                        if (Peli.pelikenttä[j][i] instanceof Vihollinen) {
+                                    else if (Peli.pelikenttä[j][i] instanceof NPC_KenttäKohde) {
+                                        if (Peli.pelikenttä[j][i] instanceof Vihollinen_KenttöKohde) {
                                             kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
                                         }
                                         else {
@@ -721,22 +747,37 @@ public class PääIkkuna {
                     }
                 }
 
-                if (pelaajaSiirtyi || vaatiiKentänPäivityksen) {
+                //if (pelaajaSiirtyi || vaatiiKentänPäivityksen) {
                     pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
+                    pelaajaLabel.setBounds(Pelaaja.sijX_PX_vy + 10, Pelaaja.sijY_PX_vy + 10, pelaajanKokoPx, pelaajanKokoPx);
                     pelaajaLabel.setIcon(valitsePelaajanKuvake());
                     pelaajaSiirtyi = false;
+                //}
+                if (Peli.npcLista != null) {
+                    for (int i = 0; i < Peli.npcLista.size(); i++) {
+                        NPC npc = Peli.npcLista.get(i);
+                        if (npcKuvake[i] != null && npc != null) {
+                            npcKuvake[i].setIcon(npc.kuvake);
+                            npcKuvake[i].setBounds(npc.sijX_PX_vy, npc.sijY_PX_vy, pelaajanKokoPx, pelaajanKokoPx);
+                            //System.out.println(npc.annaNimi() + ": " + npc.sijX_PX + ", " + npc.sijY_PX);
+                        }
+                    }
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
-                GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
-                uusiIkkuna = true;
+                System.out.println("Ongelma ladatessa kuvaa objektille");
+                e.printStackTrace();
+                //JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+                //GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                //uusiIkkuna = true;
             }
             catch (NullPointerException e) {
                 System.out.println("Ongelma ruudunpäivityksessä");
+                e.printStackTrace();
             }
             catch (IllegalArgumentException e) {
                 System.out.println("Ongelma ruudunpäivityksessä");
+                e.printStackTrace();
             }
 
             peliKenttä.revalidate();

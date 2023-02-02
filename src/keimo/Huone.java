@@ -4,8 +4,9 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import java.awt.Image;
 
-import keimo.Kenttäkohteet.KenttäKohde;
-import keimo.Maastot.Maasto;
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
+import keimo.NPCt.*;
 
 public class Huone {
     
@@ -14,10 +15,14 @@ public class Huone {
     private int huoneenKoko;
     private KenttäKohde[][] huoneenKenttäSisältö;
     private Maasto[][] huoneenMaastoSisältö;
+    private NPC[][] huoneenNPCSisältö;
     private Image tausta;
     private String alue;
+    //private ArrayList<NPC> npcLista = new ArrayList<NPC>();
+    public int npcidenMäärä;
     int esineitäKentällä = 0;
     int maastoaKentällä = 0;
+    int npcitäKentällä = 0;
     boolean näytäAlkuDialogi = false;
     String alkuDialogi;
 
@@ -49,6 +54,10 @@ public class Huone {
 
     public Maasto[][] annaHuoneenMaastoSisältö() {
         return huoneenMaastoSisältö;
+    }
+
+    public NPC[][] annaHuoneenNPCSisältö() {
+        return huoneenNPCSisältö;
     }
 
     public void päivitäNimiJaAlue(String nimi, String alue) {
@@ -90,6 +99,23 @@ public class Huone {
         }
     }
 
+    void sijoitaSatunnaiseenRuutuun(NPC n){
+        int randX = r.nextInt(Peli.kentänKoko);
+        int randY = r.nextInt(Peli.kentänKoko);
+        if (huoneenNPCSisältö[randX][randY] == null) {
+            huoneenNPCSisältö[randX][randY] = n;
+            npcitäKentällä++;
+        }
+        else {
+            if (npcitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
+                sijoitaSatunnaiseenRuutuun(n);
+            }
+            else {
+                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
     void sijoitaMäärättyynRuutuun(int sijX, int sijY, KenttäKohde k){
         if (huoneenKenttäSisältö[sijX][sijY] == null) {
             huoneenKenttäSisältö[sijX][sijY] = k;
@@ -122,41 +148,86 @@ public class Huone {
         }
     }
 
-    Huone(int luontiId, int luontiKoko, String luontiNimi, Image luontiTausta, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
+    void sijoitaMäärättyynRuutuun(int sijX, int sijY, NPC n){
+        if (huoneenNPCSisältö[sijX][sijY] == null) {
+            huoneenNPCSisältö[sijX][sijY] = n;
+            npcitäKentällä++;
+        }
+        else {
+            if (npcitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
+                //sijoitaMäärättyynRuutuun(sijX, sijY, t);
+            }
+            else {
+                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+            }
+            JOptionPane.showMessageDialog(null, "Ei voi sijoittaa ruutuun, jossa on jo jotakin.", "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    Huone(int luontiId, int luontiKoko, String luontiNimi, Image luontiTausta, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
         this.id = luontiId;
         this.nimi = luontiNimi;
         this.huoneenKoko = luontiKoko;
-        this.huoneenKenttäSisältö = HuoneLista.luoVakioKenttä(luontiId);
-        this.huoneenMaastoSisältö = HuoneLista.luoVakioMaasto(luontiId);
+        this.huoneenKenttäSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
+        this.huoneenMaastoSisältö = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
+        this.huoneenNPCSisältö = new NPC[Peli.kentänKoko][Peli.kentänKoko];
         this.tausta = luontiTausta;
         this.näytäAlkuDialogi = näytäAlkuDialogi;
         this.alkuDialogi = alkuDialogi;
         this.alue = luontiAlue;
 
-        for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
-            for (int j = 0; j < huoneenKenttäSisältö.length; j++) {
-                this.huoneenKenttäSisältö[j][i] = null;
-                this.huoneenMaastoSisältö[j][i] = null;
-            }
-        }
-        for (KenttäKohde k : luontiKenttäSisältö) {
-            if (k != null) {
-                if (k.onkoMääritettySijainti()) {
-                    sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
-                }
-                else {
-                    sijoitaSatunnaiseenRuutuun(k);
+        try {
+
+            for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
+                for (int j = 0; j < huoneenKenttäSisältö.length; j++) {
+                    this.huoneenKenttäSisältö[j][i] = null;
+                    this.huoneenMaastoSisältö[j][i] = null;
                 }
             }
+            for (KenttäKohde k : luontiKenttäSisältö) {
+                if (k != null) {
+                    if (k.onkoMääritettySijainti()) {
+                        sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
+                    }
+                    else {
+                        sijoitaSatunnaiseenRuutuun(k);
+                    }
+                }
+            }
+            for (Maasto m : luontiMaastoSisältö) {
+                if (m != null) {
+                    if (m.onkoMääritettySijainti()) {
+                        sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
+                    }
+                    else {
+                        sijoitaSatunnaiseenRuutuun(m);
+                    }
+                }
+            }
+            for (NPC n : luontiNPCSisältö) {
+                if (n != null) {
+                    if (n.onkoMääritettySijainti()) {
+                        sijoitaMäärättyynRuutuun(n.annaSijX(), n.annaSijY(), n);
+                    }
+                    else {
+                        sijoitaSatunnaiseenRuutuun(n);
+                    }
+                }
+            }
         }
-        for (Maasto m : luontiMaastoSisältö) {
-            if (m != null) {
-                if (m.onkoMääritettySijainti()) {
-                    sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
-                }
-                else {
-                    sijoitaSatunnaiseenRuutuun(m);
-                }
+        catch (NullPointerException e) {
+            if (luontiKenttäSisältö == null) {
+                System.out.println("Kenttäkohteita ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            }
+            else if (luontiMaastoSisältö == null) {
+                System.out.println("Maastoa ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            }
+            else if (luontiNPCSisältö == null) {
+                System.out.println("NPC:itä ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            }
+            else {
+                System.out.println("Joitain elementtejä ei voitu ladata tiedostosta huoneeseen " + id + ".");
+                e.printStackTrace();
             }
         }
         Peli.huoneidenMäärä++;

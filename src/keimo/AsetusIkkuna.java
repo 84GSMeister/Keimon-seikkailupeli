@@ -97,7 +97,7 @@ public class AsetusIkkuna {
         SpringUtilities.makeCompactGrid(paneli, 5, 2, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Esatukset");
-        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
+        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);

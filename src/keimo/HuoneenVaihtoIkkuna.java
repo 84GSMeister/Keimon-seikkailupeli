@@ -114,7 +114,7 @@ public class HuoneenVaihtoIkkuna {
         paneli.add(kohdeHuoneTekstikenttä);
 
         warppaaListalla = new JRadioButton("");
-        warppaaListalla.setSelected(true);
+        //warppaaListalla.setSelected(true);
         warppaaListalla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				warppiTapa = 1;
@@ -164,7 +164,7 @@ public class HuoneenVaihtoIkkuna {
         SpringUtilities.makeCompactGrid(paneli, 3, 3, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Warppaa huoneeseen");
-        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
+        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);

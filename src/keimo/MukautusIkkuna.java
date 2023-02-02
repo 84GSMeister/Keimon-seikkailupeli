@@ -3,26 +3,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import keimo.Kenttäkohteet.Avain;
-import keimo.Kenttäkohteet.Hiili;
-import keimo.Kenttäkohteet.Kaasupullo;
-import keimo.Kenttäkohteet.Kaasusytytin;
-import keimo.Kenttäkohteet.KenttäKohde;
-import keimo.Kenttäkohteet.Kilpi;
-import keimo.Kenttäkohteet.Kirstu;
-import keimo.Kenttäkohteet.Makkara;
-import keimo.Kenttäkohteet.Nuotio;
-import keimo.Kenttäkohteet.PahaVihu;
-import keimo.Kenttäkohteet.Paperi;
-import keimo.Kenttäkohteet.PikkuVihu;
-import keimo.Kenttäkohteet.ReunaWarppi;
-import keimo.Kenttäkohteet.Suklaalevy;
-import keimo.Kenttäkohteet.Vesiämpäri;
-import keimo.Kenttäkohteet.Warp;
-import keimo.Kenttäkohteet.Ämpärikone;
-import keimo.Maastot.Hiekka;
-import keimo.Maastot.Maasto;
-import keimo.Maastot.Vesi;
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -57,10 +39,10 @@ public class MukautusIkkuna {
         static int[][] objektiKuvanVäriArvotVihreä;
         static int[][] objektiKuvanVäriArvotSininen;
 
-        static int[][] maastoKuvanVäriArvot;
-        static int[][] maastoKuvanVäriArvotPunainen;
-        static int[][] maastoKuvanVäriArvotVihreä;
-        static int[][] maastoKuvanVäriArvotSininen;
+        // static int[][] maastoKuvanVäriArvot;
+        // static int[][] maastoKuvanVäriArvotPunainen;
+        // static int[][] maastoKuvanVäriArvotVihreä;
+        // static int[][] maastoKuvanVäriArvotSininen;
 
         static Maasto[][] kuvaMaasto;
         static KenttäKohde[][] kuvaKenttä;
@@ -86,7 +68,7 @@ public class MukautusIkkuna {
                                 kuvaKenttä[j][i] = new Kaasupullo(j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x0032416B) {
-                                kuvaKenttä[j][i] = new Kaasusytytin(j, i, "tyhjä");
+                                kuvaKenttä[j][i] = new Kaasusytytin(j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00666666) {
                                 kuvaKenttä[j][i] = new Kilpi(j, i);
@@ -113,7 +95,7 @@ public class MukautusIkkuna {
                                 kuvaKenttä[j][i] = null;
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00AA4949) {
-                                kuvaKenttä[j][i] = new PikkuVihu(j, i);
+                                kuvaKenttä[j][i] = new PikkuVihu_KenttäKohde(j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x007F4A00) {
                                 kuvaKenttä[j][i] = new Suklaalevy(j, i);
@@ -130,21 +112,21 @@ public class MukautusIkkuna {
                         }
                     }
                 }
-                if (maastoValittu) {
-                    for (int i = 0; i < maastoKuvanVäriArvot.length; i++) {
-                        for (int j = 0; j < maastoKuvanVäriArvot.length; j++) {
-                            if (maastoKuvanVäriArvotPunainen[j][i] < 20 && maastoKuvanVäriArvotVihreä[j][i] < 150 && maastoKuvanVäriArvotSininen[j][i] > 200) {
-                                kuvaMaasto[j][i] = new Vesi();
-                            }
-                            else if (maastoKuvanVäriArvotPunainen[j][i] > 200 && maastoKuvanVäriArvotVihreä[j][i] > 200 && maastoKuvanVäriArvotSininen[j][i] < 20) {
-                                kuvaMaasto[j][i] = new Hiekka();
-                            }
-                            else {
-                                kuvaMaasto[j][i] = null;
-                            }
-                        }
-                    }
-                }
+                // if (maastoValittu) {
+                //     for (int i = 0; i < maastoKuvanVäriArvot.length; i++) {
+                //         for (int j = 0; j < maastoKuvanVäriArvot.length; j++) {
+                //             if (maastoKuvanVäriArvotPunainen[j][i] < 20 && maastoKuvanVäriArvotVihreä[j][i] < 150 && maastoKuvanVäriArvotSininen[j][i] > 200) {
+                //                 kuvaMaasto[j][i] = new Vesi();
+                //             }
+                //             else if (maastoKuvanVäriArvotPunainen[j][i] > 200 && maastoKuvanVäriArvotVihreä[j][i] > 200 && maastoKuvanVäriArvotSininen[j][i] < 20) {
+                //                 kuvaMaasto[j][i] = new Hiekka();
+                //             }
+                //             else {
+                //                 kuvaMaasto[j][i] = null;
+                //             }
+                //         }
+                //     }
+                // }
                 asetaArvot();
             }
             catch (NumberFormatException e) {
@@ -213,58 +195,58 @@ public class MukautusIkkuna {
                     }
                 }
             });
-            valitseKuva2 = new JButton("Valitse kuva maastoa varten");
-            valitseKuva2.addMouseListener(new MouseAdapter() {
-                public void mousePressed (MouseEvent e) {
-                    if (!SwingUtilities.isRightMouseButton(e)) {
-                        JOptionPane.showMessageDialog(null, "Tämän työkalun avulla voit luoda maaston png-kuvan värien perusteella.\nKuvan täytyy olla 10 x 10 -kokoinen.", "Luo maasto kuvan perusteella", JOptionPane.INFORMATION_MESSAGE);
-                        JFileChooser tiedostoSelain = new JFileChooser(".\\");
-                        FileNameExtensionFilter tiedostoSuodatin = new FileNameExtensionFilter("Kuvatiedosto (.png)", "png");
-                        tiedostoSelain.setFileFilter(tiedostoSuodatin);
-                        int valinta = tiedostoSelain.showOpenDialog(maastoIkkuna);
-                        if (valinta == JFileChooser.APPROVE_OPTION) {
-                            String väriArvot = "";
-                            File tiedosto = tiedostoSelain.getSelectedFile();
-                            try {
-                                BufferedImage kuva = ImageIO.read(tiedosto);
-                                maastoKuvanVäriArvot = new int[kuva.getWidth()][kuva.getHeight()];
-                                maastoKuvanVäriArvotPunainen = new int[kuva.getWidth()][kuva.getHeight()];
-                                maastoKuvanVäriArvotVihreä = new int[kuva.getWidth()][kuva.getHeight()];
-                                maastoKuvanVäriArvotSininen = new int[kuva.getWidth()][kuva.getHeight()];
-                                if (kuva.getWidth() == 10 && kuva.getHeight() == 10) {
-                                    for (int i = 0; i < kuva.getHeight(); i++) {
-                                        for (int j = 0; j < kuva.getWidth(); j++) {
-                                            maastoKuvanVäriArvot[j][i] = kuva.getRGB(j, i);
-                                            maastoKuvanVäriArvotPunainen[j][i] = (maastoKuvanVäriArvot[j][i] & 0x00ff0000) >> 16;
-                                            maastoKuvanVäriArvotVihreä[j][i] = (maastoKuvanVäriArvot[j][i] & 0x0000ff00) >> 8;
-                                            maastoKuvanVäriArvotSininen[j][i] = (maastoKuvanVäriArvot[j][i] & 0x000000ff);
-                                            väriArvot += "Pikseli " + j + "_" + i + " - Punainen: " + maastoKuvanVäriArvotPunainen[j][i] + ", Vihreä: " + maastoKuvanVäriArvotVihreä[j][i] + ", Sininen: " + maastoKuvanVäriArvotSininen[j][i] + ";\n";
-                                        }
-                                    }
-                                    maastoValittu = true;
-                                    System.out.println(väriArvot);
-                                    JOptionPane.showMessageDialog(null, "<html><p>" + väriArvot + "</p></html>", "Väriarvot", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                                else {
-                                    JOptionPane.showMessageDialog(null, "Vain 10 x 10 -kuvat kelpaavat.", "Virheellinen kuvatiedosto", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                            catch (IOException ioe) {
-                                JOptionPane.showMessageDialog(null, "Virhe tiedoston käsittelyssä.", "Virhe", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                    }
-                }
-            });
+            // valitseKuva2 = new JButton("Valitse kuva maastoa varten");
+            // valitseKuva2.addMouseListener(new MouseAdapter() {
+            //     public void mousePressed (MouseEvent e) {
+            //         if (!SwingUtilities.isRightMouseButton(e)) {
+            //             JOptionPane.showMessageDialog(null, "Tämän työkalun avulla voit luoda maaston png-kuvan värien perusteella.\nKuvan täytyy olla 10 x 10 -kokoinen.", "Luo maasto kuvan perusteella", JOptionPane.INFORMATION_MESSAGE);
+            //             JFileChooser tiedostoSelain = new JFileChooser(".\\");
+            //             FileNameExtensionFilter tiedostoSuodatin = new FileNameExtensionFilter("Kuvatiedosto (.png)", "png");
+            //             tiedostoSelain.setFileFilter(tiedostoSuodatin);
+            //             int valinta = tiedostoSelain.showOpenDialog(maastoIkkuna);
+            //             if (valinta == JFileChooser.APPROVE_OPTION) {
+            //                 String väriArvot = "";
+            //                 File tiedosto = tiedostoSelain.getSelectedFile();
+            //                 try {
+            //                     BufferedImage kuva = ImageIO.read(tiedosto);
+            //                     maastoKuvanVäriArvot = new int[kuva.getWidth()][kuva.getHeight()];
+            //                     maastoKuvanVäriArvotPunainen = new int[kuva.getWidth()][kuva.getHeight()];
+            //                     maastoKuvanVäriArvotVihreä = new int[kuva.getWidth()][kuva.getHeight()];
+            //                     maastoKuvanVäriArvotSininen = new int[kuva.getWidth()][kuva.getHeight()];
+            //                     if (kuva.getWidth() == 10 && kuva.getHeight() == 10) {
+            //                         for (int i = 0; i < kuva.getHeight(); i++) {
+            //                             for (int j = 0; j < kuva.getWidth(); j++) {
+            //                                 maastoKuvanVäriArvot[j][i] = kuva.getRGB(j, i);
+            //                                 maastoKuvanVäriArvotPunainen[j][i] = (maastoKuvanVäriArvot[j][i] & 0x00ff0000) >> 16;
+            //                                 maastoKuvanVäriArvotVihreä[j][i] = (maastoKuvanVäriArvot[j][i] & 0x0000ff00) >> 8;
+            //                                 maastoKuvanVäriArvotSininen[j][i] = (maastoKuvanVäriArvot[j][i] & 0x000000ff);
+            //                                 väriArvot += "Pikseli " + j + "_" + i + " - Punainen: " + maastoKuvanVäriArvotPunainen[j][i] + ", Vihreä: " + maastoKuvanVäriArvotVihreä[j][i] + ", Sininen: " + maastoKuvanVäriArvotSininen[j][i] + ";\n";
+            //                             }
+            //                         }
+            //                         maastoValittu = true;
+            //                         System.out.println(väriArvot);
+            //                         JOptionPane.showMessageDialog(null, "<html><p>" + väriArvot + "</p></html>", "Väriarvot", JOptionPane.INFORMATION_MESSAGE);
+            //                     }
+            //                     else {
+            //                         JOptionPane.showMessageDialog(null, "Vain 10 x 10 -kuvat kelpaavat.", "Virheellinen kuvatiedosto", JOptionPane.ERROR_MESSAGE);
+            //                     }
+            //                 }
+            //                 catch (IOException ioe) {
+            //                     JOptionPane.showMessageDialog(null, "Virhe tiedoston käsittelyssä.", "Virhe", JOptionPane.ERROR_MESSAGE);
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
             JLabel teksti0 = new JLabel(tekstit[0], JLabel.TRAILING);
             teksti0.setLabelFor(valitseKuva);
             paneli.add(teksti0);
             paneli.add(valitseKuva);
 
-            JLabel teksti1 = new JLabel(tekstit[1], JLabel.TRAILING);
-            teksti1.setLabelFor(valitseKuva2);
-            paneli.add(teksti1);
-            paneli.add(valitseKuva2);
+            // JLabel teksti1 = new JLabel(tekstit[1], JLabel.TRAILING);
+            // teksti1.setLabelFor(valitseKuva2);
+            // paneli.add(teksti1);
+            // paneli.add(valitseKuva2);
     
             maastonTarkastelu = new JLabel();
             JLabel teksti2 = new JLabel(tekstit[2], JLabel.TRAILING);
@@ -294,7 +276,7 @@ public class MukautusIkkuna {
             paneli.add(okNappi);
             paneli.add(cancelNappi);
     
-            SpringUtilities.makeCompactGrid(paneli, 4, 2, 6, 6, 6, 6);
+            SpringUtilities.makeCompactGrid(paneli, 3, 2, 6, 6, 6, 6);
     
             maastoIkkuna = new JFrame();
             maastoIkkuna.setTitle("Maastogeneraattori");
@@ -357,7 +339,7 @@ public class MukautusIkkuna {
         if (tehtäväItemit) {
             huoneenSisältöLista.add(new Avain());
             huoneenSisältöLista.add(new Kaasupullo());
-            huoneenSisältöLista.add(new Kaasusytytin("tyhjä"));
+            huoneenSisältöLista.add(new Kaasusytytin());
             huoneenSisältöLista.add(new Hiili());
             huoneenSisältöLista.add(new Paperi());
             huoneenSisältöLista.add(new Vesiämpäri());
@@ -369,7 +351,7 @@ public class MukautusIkkuna {
             huoneenSisältöLista.add(new Makkara());
         }
         for (int i = 0; i < vihujenMäärä; i++) {
-            huoneenSisältöLista.add(new PikkuVihu());
+            huoneenSisältöLista.add(new PikkuVihu_KenttäKohde());
         }
         
         //for (KenttäKohde[] k : huoneenSisältö){
@@ -383,7 +365,7 @@ public class MukautusIkkuna {
             huoneenSisältöString += k.annaNimi() + ", ";
         }
         System.out.println("Huoneeseen asetetaan " + huoneenSisältöString);
-        Peli.luoHuone(huoneenId, huoneenNimi, new ImageIcon().getImage(), "Oma alue", huoneenSisältöLista, huoneenMaastoLista, false, "");
+        Peli.luoHuone(huoneenId, huoneenNimi, new ImageIcon().getImage(), "Oma alue", huoneenSisältöLista, huoneenMaastoLista, null, false, "");
         Peli.huoneVaihdettava = true;
         Peli.uusiHuone = huoneenId;
         huoneenSisältöLista.removeAll(huoneenSisältöLista);
@@ -440,7 +422,7 @@ public class MukautusIkkuna {
         SpringUtilities.makeCompactGrid(paneli, 8, 2, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Luo huone");
-        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
+        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);

@@ -3,7 +3,7 @@ package keimo.Kenttäkohteet;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Juhani extends NPC{
+public class Juhani extends NPC_KenttäKohde{
 
     public ArrayList<String> kelvollisetEsineet = new ArrayList<String>();
 

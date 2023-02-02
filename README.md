@@ -1,6 +1,16 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (23.1.2023): 0.5.4
+## Uusin versio (2.2.2023): 0.6
+
+### Versio 0.6
+
+ - Uudet tilet
+ - Animoitu pelaajan kuvake
+ - Pelaaja liikkuu lineaarisesti (ei enää ruutujen mukaan)
+ - Viholliset liikkuvat lineaarisesti
+ - Collision-tarkistus uudistettu: perustuu neliöiden leikkauksiin
+ - Editorissa välilehti NPC:ille + editorin objektien muokkausominaisuuksia hieman laajennettu
+ - Pari uutta ääniefektiä
 
 ### Versio 0.5.4
 

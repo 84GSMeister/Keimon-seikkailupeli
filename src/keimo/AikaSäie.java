@@ -1,5 +1,6 @@
 package keimo;
 import java.text.DecimalFormat;
+import java.util.concurrent.locks.LockSupport;
 
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -43,7 +44,30 @@ public class AikaSäie extends Thread {
     static void ajastin() {
         
         while (ajastinKäynnissä) {
-            //odotaMillisekunteja(10);
+            long alkuAika = System.nanoTime();
+            LockSupport.parkNanos(2_000_000);
+            Peli.globaaliAika++;
+            if (Peli.peliKäynnissä && !Peli.pause) {
+                Peli.pelaajanLiike();
+                if (Peli.globaaliAika % 20 == 0) {
+                    Peli.pelinKulku();
+                }
+            // if (Peli.globaaliAika % 20 == 10) {
+            //     Peli.taustaToimet();
+            // }
+            if (Peli.globaaliAika % 20 == 15) {
+                PeliKenttäMetodit.suoritaPelikenttäMetodit();
+            }
+            if (Peli.globaaliAika % 2 == 0) {
+                PeliKenttäMetodit.suoritaPelikenttäMetoditNopea();
+            }
+            long loppuAika = System.nanoTime();
+            long aikaErotusNs = loppuAika - alkuAika;
+            if (aikaErotusNs < 10_000_000) {
+                LockSupport.parkNanos(15_000_000);
+            }
+        }
+        //System.out.println(Peli.globaaliAika);
         }
     }
 

@@ -110,17 +110,26 @@ public abstract class KenttäKohde {
             tiedot += "Tyyppi: Esine" + "\n";
 
             Esine esine = (Esine)this;
-            tiedot += "Sopii käytettäväksi: ";
-            for (String s : esine.sopiiKäytettäväksi) {
-                tiedot += s + ", ";
+            if (esine.kenttäkäyttö) {
+                tiedot += "Sopii käytettäväksi: ";
+                for (String s : esine.sopiiKäytettäväksi) {
+                    tiedot += s + ", ";
+                }
+                tiedot += "\n";
             }
-            tiedot += "\n";
+            if (esine.yhdistettävä) {
+                tiedot += "Sopii yhdistettäväksi: ";
+                for (String s : esine.kelvollisetYhdistettävät) {
+                    tiedot += s + ", ";
+                }
+                tiedot += "\n";
+            }
         }
         else if (this instanceof Kiintopiste){
             tiedot += "Tyyppi: Kiintopiste" + "\n";
         }
 
-        else if (this instanceof NPC) {
+        else if (this instanceof NPC_KenttäKohde) {
             tiedot += "Tyyppi: NPC" + "\n";
         }
 

@@ -58,6 +58,88 @@ public class GrafiikanPäivitysSäie extends Thread {
     }
     */
 
+    public static void päivitäPelaajanKuvake() {
+        
+        switch (Pelaaja.keimonState) {
+            case IDLE: 
+                switch (Pelaaja.keimonTerveys) {
+                    case HYVÄ:
+                        switch (Pelaaja.keimonKylläisyys) {
+                            case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
+                            case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
+                            case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
+                            case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                        }
+                        break;
+                    case OK:
+                        switch (Pelaaja.keimonKylläisyys) {
+                            case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
+                            case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
+                            case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
+                            case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                        }
+                        break;
+                    case HUONO:
+                        switch (Pelaaja.keimonKylläisyys) {
+                            case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
+                            case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
+                            case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
+                            case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                        }
+                        break;
+                }
+                break;
+            case JUOKSU:
+                switch (Pelaaja.keimonTerveys) {
+                    case HYVÄ:
+                    switch (Pelaaja.keimonKylläisyys) {
+                        case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
+                        case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
+                        case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
+                        case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                    }
+                    break;
+                case OK:
+                    switch (Pelaaja.keimonKylläisyys) {
+                        case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
+                        case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
+                        case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
+                        case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                    }
+                    break;
+                case HUONO:
+                    switch (Pelaaja.keimonKylläisyys) {
+                        case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
+                        case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
+                        case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
+                        case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                    }
+                    break;
+                }
+                break;
+            case KUOLLUT:
+                Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_Kuollut.png"); break;
+            
+            default: break;
+        }
+        if (Pelaaja.kuolemattomuusAika > 0) {
+            ImageIcon vilkkuvaKuvake = Pelaaja.kuvake;
+            if (Peli.globaaliAika % 2 == 0) {
+                Pelaaja.kuvake = vilkkuvaKuvake;
+            }
+            else {
+                Pelaaja.kuvake = null;
+            }
+        }
+        //System.out.println("" + Pelaaja.keimonState + ", " + Pelaaja.keimonTerveys + ", " + Pelaaja.keimonKylläisyys + ", " + Pelaaja.kuvake);
+    }
+
     public static void päivitäHUD() {
         for (int i = 0; i < 5; i++) {
             if (Pelaaja.esineet[i] == null) {
@@ -131,9 +213,10 @@ public class GrafiikanPäivitysSäie extends Thread {
                         //valitsePelaajanKuvake();
                         päivitäHUD();
                         skaalaaHUD();
+                        päivitäPelaajanKuvake();
                         PääIkkuna.päivitäIkkuna();
                         if (HuoneEditoriIkkuna.vaatiiPäivityksen) {
-                            HuoneEditoriIkkuna.päivitäObjektiKenttä();
+                            HuoneEditoriIkkuna.päivitäEditoriIkkuna();
                         }
 
                         kertymänAika += aikaErotusUs;

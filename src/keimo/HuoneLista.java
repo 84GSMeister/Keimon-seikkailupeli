@@ -1,9 +1,19 @@
 package keimo;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
+import keimo.NPCt.*;
+import keimo.NPCt.Vihollinen.LiikeTapa;
 
 public class HuoneLista {
     
@@ -52,128 +62,215 @@ public class HuoneLista {
         }
     }
 
-    static KenttäKohde[][] luoVakioKenttä(int huoneenId) {
+    // static KenttäKohde[][] luoVakioKenttä(int huoneenId) {
 
-        pelikenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
-        switch (huoneenId) {
-            default:
-                huone0Kenttä.removeAll(huone0Kenttä);
-                huone0Kenttä.add(new ReunaWarppi(3, 0, 1, 3, 9, ReunaWarppi.Suunta.YLÖS));
-                huone0Kenttä.add(new ReunaWarppi(5 , 9, 2, 5, 0, ReunaWarppi.Suunta.ALAS));
-                huone0Kenttä.add(new ReunaWarppi(9, 3, 3, 0, 3, ReunaWarppi.Suunta.OIKEA));
-                huone0Kenttä.add(new ReunaWarppi(0, 7, 4, 9, 7, ReunaWarppi.Suunta.VASEN));
-                huone0Kenttä.add(new Suklaalevy());
-                huone0Kenttä.add(new Vesiämpäri());
-                break;
-            case 1:
-                huone1Kenttä.removeAll(huone1Kenttä);
-                huone1Kenttä.add(new ReunaWarppi(3, 9, 0, 3, 0, ReunaWarppi.Suunta.ALAS));
-                huone1Kenttä.add(new Hiili());
-                huone1Kenttä.add(new Kaasusytytin("tyhjä"));
-                huone1Kenttä.add(new Makkara());
-                huone1Kenttä.add(new Suklaalevy());
-                huone1Kenttä.add(new Kilpi());
-                huone1Kenttä.add(new Makkara());
-                huone1Kenttä.add(new Makkara());
-                huone1Kenttä.add(new Makkara());
-                break;
-            case 2:
-                huone2Kenttä.removeAll(huone2Kenttä);
-                huone2Kenttä.add(new ReunaWarppi(5, 0, 0, 5, 9, ReunaWarppi.Suunta.YLÖS));
-                huone2Kenttä.add(new Suklaalevy());
-                huone2Kenttä.add(new Kaasupullo());
-                huone2Kenttä.add(new Makkara());
-                huone2Kenttä.add(new Makkara());
-                huone2Kenttä.add(new PikkuVihu());
-                huone2Kenttä.add(new PikkuVihu());
-                huone2Kenttä.add(new PikkuVihu());
-                huone2Kenttä.add(new PikkuVihu());
-                huone2Kenttä.add(new PikkuVihu());
-                break;
-            case 3:
-                huone3Kenttä.removeAll(huone3Kenttä);
-                huone3Kenttä.add(new ReunaWarppi(0, 3, 0, 9, 3, ReunaWarppi.Suunta.VASEN));
-                huone3Kenttä.add(new Vesiämpäri());
-                huone3Kenttä.add(new Avain());
-                huone3Kenttä.add(new Paperi());
-                huone3Kenttä.add(new Makkara());
-                huone3Kenttä.add(new Makkara());
-                huone3Kenttä.add(new Makkara());
-                huone3Kenttä.add(new PikkuVihu());
-                huone3Kenttä.add(new PikkuVihu());
-                huone3Kenttä.add(new PikkuVihu());
-                break;
-            case 4:
-                huone4Kenttä.removeAll(huone4Kenttä);
-                huone4Kenttä.add(new ReunaWarppi(9, 7, 0, 0, 7, ReunaWarppi.Suunta.OIKEA));
-                huone4Kenttä.add(new ReunaWarppi(0, 2, 5, 9, 2, ReunaWarppi.Suunta.VASEN));
-                huone4Kenttä.add(new Vesiämpäri());
-                huone4Kenttä.add(new PikkuVihu(1,1));
-                huone4Kenttä.add(new PikkuVihu(3,4));
-                huone4Kenttä.add(new PikkuVihu(5,7));
-                break;
-            case 5:
-                huone5Kenttä.removeAll(huone5Kenttä);
-                huone5Kenttä.add(new ReunaWarppi(9, 2, 4, 0, 2, ReunaWarppi.Suunta.OIKEA));
-                huone5Kenttä.add(new Nuotio(2,2));
-                huone5Kenttä.add(new Kirstu(4,2));
-                huone5Kenttä.add(new Ämpärikone());
-                huone5Kenttä.add(new PikkuVihu());
-                break;
+    //     pelikenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
+    //     switch (huoneenId) {
+    //         default:
+    //             huone0Kenttä.removeAll(huone0Kenttä);
+    //             huone0Kenttä.add(new ReunaWarppi(3, 0, 1, 3, 9, ReunaWarppi.Suunta.YLÖS));
+    //             huone0Kenttä.add(new ReunaWarppi(5 , 9, 2, 5, 0, ReunaWarppi.Suunta.ALAS));
+    //             huone0Kenttä.add(new ReunaWarppi(9, 3, 3, 0, 3, ReunaWarppi.Suunta.OIKEA));
+    //             huone0Kenttä.add(new ReunaWarppi(0, 7, 4, 9, 7, ReunaWarppi.Suunta.VASEN));
+    //             huone0Kenttä.add(new Suklaalevy());
+    //             huone0Kenttä.add(new Vesiämpäri());
+    //             break;
+    //         case 1:
+    //             huone1Kenttä.removeAll(huone1Kenttä);
+    //             huone1Kenttä.add(new ReunaWarppi(3, 9, 0, 3, 0, ReunaWarppi.Suunta.ALAS));
+    //             huone1Kenttä.add(new Hiili());
+    //             huone1Kenttä.add(new Kaasusytytin("tyhjä"));
+    //             huone1Kenttä.add(new Makkara());
+    //             huone1Kenttä.add(new Suklaalevy());
+    //             huone1Kenttä.add(new Kilpi());
+    //             huone1Kenttä.add(new Makkara());
+    //             huone1Kenttä.add(new Makkara());
+    //             huone1Kenttä.add(new Makkara());
+    //             break;
+    //         case 2:
+    //             huone2Kenttä.removeAll(huone2Kenttä);
+    //             huone2Kenttä.add(new ReunaWarppi(5, 0, 0, 5, 9, ReunaWarppi.Suunta.YLÖS));
+    //             huone2Kenttä.add(new Suklaalevy());
+    //             huone2Kenttä.add(new Kaasupullo());
+    //             huone2Kenttä.add(new Makkara());
+    //             huone2Kenttä.add(new Makkara());
+    //             huone2Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             huone2Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             huone2Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             huone2Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             huone2Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             break;
+    //         case 3:
+    //             huone3Kenttä.removeAll(huone3Kenttä);
+    //             huone3Kenttä.add(new ReunaWarppi(0, 3, 0, 9, 3, ReunaWarppi.Suunta.VASEN));
+    //             huone3Kenttä.add(new Vesiämpäri());
+    //             huone3Kenttä.add(new Avain());
+    //             huone3Kenttä.add(new Paperi());
+    //             huone3Kenttä.add(new Makkara());
+    //             huone3Kenttä.add(new Makkara());
+    //             huone3Kenttä.add(new Makkara());
+    //             huone3Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             huone3Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             huone3Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             break;
+    //         case 4:
+    //             huone4Kenttä.removeAll(huone4Kenttä);
+    //             huone4Kenttä.add(new ReunaWarppi(9, 7, 0, 0, 7, ReunaWarppi.Suunta.OIKEA));
+    //             huone4Kenttä.add(new ReunaWarppi(0, 2, 5, 9, 2, ReunaWarppi.Suunta.VASEN));
+    //             huone4Kenttä.add(new Vesiämpäri());
+    //             huone4Kenttä.add(new PikkuVihu_KenttäKohde(1,1));
+    //             huone4Kenttä.add(new PikkuVihu_KenttäKohde(3,4));
+    //             huone4Kenttä.add(new PikkuVihu_KenttäKohde(5,7));
+    //             break;
+    //         case 5:
+    //             huone5Kenttä.removeAll(huone5Kenttä);
+    //             huone5Kenttä.add(new ReunaWarppi(9, 2, 4, 0, 2, ReunaWarppi.Suunta.OIKEA));
+    //             huone5Kenttä.add(new Nuotio(2,2));
+    //             huone5Kenttä.add(new Kirstu(4,2));
+    //             huone5Kenttä.add(new Ämpärikone());
+    //             huone5Kenttä.add(new PikkuVihu_KenttäKohde());
+    //             break;
+    //     }
+    //     return pelikenttä;
+    // }
+
+    // static Maasto[][] luoVakioMaasto(int huoneenId) {
+
+    //     maastokenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
+    //     switch (huoneenId) {
+    //         default:
+    //             huone0Maasto.removeAll(huone0Maasto);
+    //             huone0Maasto.add(new Hiekka(1,3));
+    //             huone0Maasto.add(new Seinä(8,8));
+    //             huone0Maasto.add(new Seinä(8,9));
+    //             huone0Maasto.add(new Seinä(9,8));
+    //             huone0Maasto.add(new Seinä(9,9));
+    //             huone0Maasto.add(new Hiekka());
+    //             huone0Maasto.add(new Hiekka());
+    //             huone0Maasto.add(new Hiekka());
+    //             break;
+    //         case 1:
+    //             huone1Maasto.removeAll(huone1Maasto);
+    //             huone1Maasto.add(new Vesi(2,1));
+    //             huone1Maasto.add(new Hiekka(1,3));
+    //             huone1Maasto.add(new Hiekka());
+    //             huone1Maasto.add(new Hiekka());
+    //             huone1Maasto.add(new Hiekka());
+    //             break;
+    //         case 2:
+    //             huone2Maasto.removeAll(huone2Maasto);
+    //             huone2Maasto.add(new Hiekka(1,3));
+    //             huone2Maasto.add(new Vesi(2,1));
+    //             huone2Maasto.add(new Hiekka());
+    //             huone2Maasto.add(new Hiekka());
+    //             huone2Maasto.add(new Hiekka());
+    //             huone2Maasto.add(new Vesi());
+    //             huone2Maasto.add(new Vesi());
+    //             huone2Maasto.add(new Vesi());
+    //             break;
+    //         case 3:
+    //             huone3Maasto.removeAll(huone3Maasto);
+    //             huone3Maasto.add(new Vesi(7,1));
+    //             huone3Maasto.add(new Vesi(7,2));
+    //             huone3Maasto.add(new Vesi(7,3));
+    //             huone3Maasto.add(new Vesi(7,4));
+    //             huone3Maasto.add(new Vesi(8,1));
+    //             huone3Maasto.add(new Vesi(8,2));
+    //             huone3Maasto.add(new Vesi(8,3));
+    //             huone3Maasto.add(new Vesi(8,4));
+    //             huone3Maasto.add(new Vesi(8,5));
+    //             huone3Maasto.add(new Hiekka());
+    //             huone3Maasto.add(new Hiekka());
+    //             huone3Maasto.add(new Hiekka());
+    //             break;
+    //     }
+    //     return maastokenttä;
+    // }
+
+    // static ArrayList<NPC> luoVakioNPCLista(int huoneenId) {
+    //     ArrayList<NPC> npcLista = new ArrayList<NPC>();
+    //     npcLista.clear();
+    //     switch (huoneenId) {
+    //         default:
+    //             npcLista.add(new Pikkuvihu(560, 640, LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN));
+    //             npcLista.add(new Pikkuvihu(256, 256, LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN));
+    //             break;
+    //         case 1:
+    //             npcLista.add(new Pikkuvihu(300, 300, LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN));
+    //             npcLista.add(new Pikkuvihu(450, 200, LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN));
+    //             npcLista.add(new Pikkuvihu(100, 400, LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN));
+    //             break;
+    //         case 2:
+    //             npcLista.add(new Pikkuvihu(100, 500, LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN));
+    //             npcLista.add(new Pikkuvihu(540, 300, LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN));
+    //             npcLista.add(new Pikkuvihu(250, 400, LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN));
+    //             break;
+    //     }
+    //     return npcLista;
+    // }
+
+    static HashMap<Integer, Huone> luoVakioHuoneKarttaTiedostosta() {
+        HashMap<Integer, Huone> huoneKartta = null;
+        try {
+            File tiedosto = new File("default.kst");
+            String[] huoneetMerkkijonoina;
+            int huoneidenMääräTiedostossa = 0;
+            int huoneenIdTiedostossa;
+            Path path = FileSystems.getDefault().getPath(tiedosto.getPath());
+            Charset charset = Charset.forName("UTF-8");
+            //Scanner sc = new Scanner(tiedosto);
+            BufferedReader read = Files.newBufferedReader(path, charset);
+            String tarkastettavaRivi = null;
+            if ((tarkastettavaRivi = read.readLine()) != null) {
+                tarkastettavaRivi = read.readLine();
+                if (!tarkastettavaRivi.startsWith("<KEIMO>")) {
+                    //System.out.println(tarkastettavaRivi);
+                    System.out.println(tarkastettavaRivi);
+                    //throw new FileNotFoundException();
+                }
+            }
+            while ((tarkastettavaRivi = read.readLine()) != null) {
+                //tarkastettavaRivi = read.readLine();
+                if (tarkastettavaRivi.startsWith("Huone ")) {
+                    huoneidenMääräTiedostossa++;
+                }
+            }
+            //sc.close();
+            huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
+            huoneidenMääräTiedostossa = 0;
+            //sc = new Scanner(tiedosto);
+            read = Files.newBufferedReader(path, charset);
+            tarkastettavaRivi = read.readLine();
+            while ((tarkastettavaRivi != null)) {
+                //tarkastettavaRivi = read.readLine();
+                if (tarkastettavaRivi.startsWith("Huone ")) {
+                    huoneenIdTiedostossa = Integer.parseInt(tarkastettavaRivi.substring(6, tarkastettavaRivi.length()-1));
+                    huoneidenMääräTiedostossa++;
+                    huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] = "";
+                    while (tarkastettavaRivi != null) {
+                        huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] += tarkastettavaRivi + "\n";
+                        if (tarkastettavaRivi.startsWith("/Huone")) {
+                            break;
+                        }
+                        tarkastettavaRivi = read.readLine();
+                    }
+                }
+                else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
+                    break;
+                }
+                else {
+                    tarkastettavaRivi = read.readLine();
+                }
+                System.out.println(tarkastettavaRivi);
+            }
+            for (String s : huoneetMerkkijonoina) {
+                System.out.println("huone: " + s);
+            }
+            huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
         }
-        return pelikenttä;
-    }
-
-    static Maasto[][] luoVakioMaasto(int huoneenId) {
-
-        maastokenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
-        switch (huoneenId) {
-            default:
-                huone0Maasto.removeAll(huone0Maasto);
-                huone0Maasto.add(new Hiekka(1,3));
-                huone0Maasto.add(new Seinä(8,8));
-                huone0Maasto.add(new Seinä(8,9));
-                huone0Maasto.add(new Seinä(9,8));
-                huone0Maasto.add(new Seinä(9,9));
-                huone0Maasto.add(new Hiekka());
-                huone0Maasto.add(new Hiekka());
-                huone0Maasto.add(new Hiekka());
-                break;
-            case 1:
-                huone1Maasto.removeAll(huone1Maasto);
-                huone1Maasto.add(new Vesi(2,1));
-                huone1Maasto.add(new Hiekka(1,3));
-                huone1Maasto.add(new Hiekka());
-                huone1Maasto.add(new Hiekka());
-                huone1Maasto.add(new Hiekka());
-                break;
-            case 2:
-                huone2Maasto.removeAll(huone2Maasto);
-                huone2Maasto.add(new Hiekka(1,3));
-                huone2Maasto.add(new Vesi(2,1));
-                huone2Maasto.add(new Hiekka());
-                huone2Maasto.add(new Hiekka());
-                huone2Maasto.add(new Hiekka());
-                huone2Maasto.add(new Vesi());
-                huone2Maasto.add(new Vesi());
-                huone2Maasto.add(new Vesi());
-                break;
-            case 3:
-                huone3Maasto.removeAll(huone3Maasto);
-                huone3Maasto.add(new Vesi(7,1));
-                huone3Maasto.add(new Vesi(7,2));
-                huone3Maasto.add(new Vesi(7,3));
-                huone3Maasto.add(new Vesi(7,4));
-                huone3Maasto.add(new Vesi(8,1));
-                huone3Maasto.add(new Vesi(8,2));
-                huone3Maasto.add(new Vesi(8,3));
-                huone3Maasto.add(new Vesi(8,4));
-                huone3Maasto.add(new Vesi(8,5));
-                huone3Maasto.add(new Hiekka());
-                huone3Maasto.add(new Hiekka());
-                huone3Maasto.add(new Hiekka());
-                break;
+        catch (IOException e) {
+            e.printStackTrace();
         }
-        return maastokenttä;
+        return huoneKartta;
     }
 }

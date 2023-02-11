@@ -30,14 +30,24 @@ public class PääIkkuna {
     static JCheckBoxMenuItem näytäSijainti, näytäFPS, näytäReunat;
     static JMenuItem menuF2, menuF3, menuF4;
     //static JMenuItem kaksoispistedeeValikkoItemi, kaksoispistedeeValikkoItemi2, kaksoispistedeeValikkoItemi3, kaksoispistedeeValikkoSubmenu2, kaksoispistedeeValikkoSubmenu3;
-    static JPanel peliKenttä, peliKenttäAlue, alueInfoPaneli;
+    static JPanel peliKenttä, peliKenttäUlompi, peliKenttäAlue, alueInfoPaneli;
+    static JLabel kokoruudunTakatausta;
     static JPanel hud, yläPaneeli;
-    static JLabel hudTeksti, ylätekstiAika, ylätekstiSij, ylätekstiKohde, ylätekstiHP, ylätekstiViive, ylätekstiFPS, tavoiteTeksti1, tavoiteTeksti2, tavoiteTeksti3;
+    public static JLabel hudTeksti;
+    static JLabel ylätekstiAika;
+    static JLabel ylätekstiSij;
+    static JLabel ylätekstiKohde;
+    static JLabel ylätekstiHP;
+    static JLabel ylätekstiViive;
+    static JLabel ylätekstiFPS;
+    static JLabel tavoiteTeksti1;
+    static JLabel tavoiteTeksti2;
+    static JLabel tavoiteTeksti3;
     static JPanel tekstiPaneli, infoPaneli, invaPaneli, tavaraPaneli, osoitinPaneli;
     static JLabel[] esineLabel = new JLabel[5];
     static JLabel[] osoitinLabel = new JLabel[5];
     static JLabel[] kontrolliInfoLabel = new JLabel[9];
-    static JLabel peliTestiLabel, pelaajaLabel, taustaLabel, alueInfoLabel;
+    static JLabel peliTestiLabel, pelaajaLabel, pelaajanEsineLabel, taustaLabel, alueInfoLabel;
     static JLabel[][] kenttäKohteenKuvake;
     static JLabel[][] maastoKohteenKuvake;
     static JLabel[] npcKuvake;
@@ -64,12 +74,12 @@ public class PääIkkuna {
 
     static void luoPääikkuna() {
         
-        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 35;
-        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 310;
+        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 50;
+        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 330;
         kenttäKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.6 pre-alpha (2.2.2023)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.6.1 pre-alpha (11.2.2023)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         //ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -296,13 +306,28 @@ public class PääIkkuna {
         peliKenttä.revalidate();
         peliKenttä.repaint();
 
+        kokoruudunTakatausta = new JLabel(new ImageIcon("tiedostot/kuvat/taustat/kokoruuduntausta.png"));
+        kokoruudunTakatausta.setMaximumSize(new Dimension(300,300));
+        kokoruudunTakatausta.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+
+        peliKenttäUlompi = new JPanel();
+        peliKenttäUlompi.setLayout(new GridBagLayout());
+        peliKenttäUlompi.setPreferredSize(new Dimension(ikkunanLeveys-10, ikkunanLeveys -10));
+        peliKenttäUlompi.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        //peliKenttäUlompi.add(kokoruudunTakatausta);
+        peliKenttäUlompi.add(peliKenttä);
+        //peliKenttäUlompi.setComponentZOrder(kokoruudunTakatausta, 1);
+        peliKenttäUlompi.setComponentZOrder(peliKenttä, 0);
+        peliKenttäUlompi.revalidate();
+        peliKenttäUlompi.repaint();
+
         peliKenttäAlue = new JPanel();
         peliKenttäAlue.setLayout(new BorderLayout());
         //peliKenttäAlue.setBounds(10, 10, 10, 10);
-        peliKenttäAlue.setPreferredSize(new Dimension(ikkunanLeveys-30, ikkunanLeveys -30));
+        peliKenttäAlue.setPreferredSize(new Dimension(ikkunanLeveys-10, ikkunanLeveys -10));
         peliKenttäAlue.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         peliKenttäAlue.add(alueInfoPaneli, BorderLayout.NORTH);
-        peliKenttäAlue.add(peliKenttä, BorderLayout.CENTER);
+        peliKenttäAlue.add(peliKenttäUlompi, BorderLayout.CENTER);
         peliKenttäAlue.revalidate();
         peliKenttäAlue.repaint();
 
@@ -408,11 +433,11 @@ public class PääIkkuna {
 
         ylätekstiSij = new JLabel("Paina nuolinäppäimiä liikkuaksesi");
         ylätekstiSij.setVisible(sijaintiNäkyvissä);
-        ylätekstiSij.setBounds(10,20, 300, 20);
+        ylätekstiSij.setBounds(10,20, 400, 20);
 
         ylätekstiKohde = new JLabel("Kohteen sisältö näkyy tässä");
         ylätekstiKohde.setVisible(sijaintiNäkyvissä);
-        ylätekstiKohde.setBounds(10,35, 300, 20);
+        ylätekstiKohde.setBounds(10,35, 400, 20);
 
         ylätekstiHP = new JLabel("HP: " + 10);
         ylätekstiHP.setVisible(true);
@@ -466,6 +491,7 @@ public class PääIkkuna {
         kortit.add(ValikkoRuutu.luoValikkoPaneli());
         kortit.add(OsionAlkuRuutu.kokeileLuodaOsionAlkuPaneli());
         kortit.add(peliAluePaneli);
+        kortit.add(LoppuRuutu.luoLoppuRuutu());
         
 
         ikkuna.add(yläPalkki, BorderLayout.NORTH);
@@ -580,13 +606,16 @@ public class PääIkkuna {
         pelaajaLabel = new JLabel(pelaajaKuvake);
         pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
         pelaajaLabel.setIcon(valitsePelaajanKuvake());
-        pelaajaLabel.setBackground(new Color(0,0,255,0));
+        pelaajanEsineLabel = new JLabel(pelaajaKuvake);
+        pelaajanEsineLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx/2, pelaajanKokoPx/2);
+        pelaajanEsineLabel.setIcon(valitsePelaajanKuvake());
         taustaLabel = new JLabel(new ImageIcon());
         taustaLabel.setBounds(0, 0, Peli.kentänKoko * esineenKokoPx + 20, Peli.kentänKoko * esineenKokoPx + 20);
         npcKuvake = new JLabel[Peli.annaNPCidenMäärä()];
         
         try {
             peliKenttä.add(pelaajaLabel);
+            peliKenttä.add(pelaajanEsineLabel);
             peliKenttä.add(taustaLabel);
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
@@ -669,6 +698,7 @@ public class PääIkkuna {
             }
             
             peliKenttä.setComponentZOrder(pelaajaLabel, 0);
+            peliKenttä.setComponentZOrder(pelaajanEsineLabel, 0);
             //peliKenttä.setComponentZOrder(taustaLabel, 2);
         }
         catch (ArrayIndexOutOfBoundsException e) {
@@ -697,16 +727,16 @@ public class PääIkkuna {
             try {
                 for (int i = 0; i < Peli.kentänKoko; i++) {
                     for (int j = 0; j < Peli.kentänKoko; j++) {
-                        if (Peli.pelikenttä[j][i] instanceof KenttäKohde) {
+                        if (Peli.pelikenttä[j][i] instanceof KenttäKohde && kenttäKohteenKuvake[j][i] != null) {
                             kenttäKohteenKuvake[j][i].setIcon(Peli.pelikenttä[j][i].annaKuvake());
                         }
-                        else {
+                        else if (kenttäKohteenKuvake[j][i] != null) {
                             kenttäKohteenKuvake[j][i].setIcon(null);
                         }
-                        if (Peli.maastokenttä[j][i] instanceof Maasto) {
+                        if (Peli.maastokenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
                             maastoKohteenKuvake[j][i].setIcon(Peli.maastokenttä[j][i].annaKuvake());
                         }
-                        else {
+                        else if (maastoKohteenKuvake[j][i] != null){
                             maastoKohteenKuvake[j][i].setIcon(null);
                         }
 
@@ -749,8 +779,20 @@ public class PääIkkuna {
 
                 //if (pelaajaSiirtyi || vaatiiKentänPäivityksen) {
                     pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
-                    pelaajaLabel.setBounds(Pelaaja.sijX_PX_vy + 10, Pelaaja.sijY_PX_vy + 10, pelaajanKokoPx, pelaajanKokoPx);
+                    pelaajaLabel.setBounds((int)Pelaaja.hitbox.getMinX() + 10, (int)Pelaaja.hitbox.getMinY() + 10, pelaajanKokoPx, pelaajanKokoPx);
                     pelaajaLabel.setIcon(valitsePelaajanKuvake());
+                    pelaajanEsineLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx/2, pelaajanKokoPx/2);
+                    pelaajanEsineLabel.setBounds((int)Pelaaja.hitbox.getMinX() + 10, (int)Pelaaja.hitbox.getMinY() + 10, pelaajanKokoPx/2, pelaajanKokoPx/2);
+                    if (Pelaaja.esineet[Peli.esineValInt] != null) {
+                        ImageIcon pelaajanEsineenKuvake = (ImageIcon)Pelaaja.esineet[Peli.esineValInt].annaKuvake();
+                        Image kuvake64 = pelaajanEsineenKuvake.getImage();
+                        Image kuvake32 = kuvake64.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+                        pelaajanEsineenKuvake = new ImageIcon(kuvake32);
+                        pelaajanEsineLabel.setIcon(pelaajanEsineenKuvake);
+                    }
+                    else {
+                        pelaajanEsineLabel.setIcon(null);
+                    }
                     pelaajaSiirtyi = false;
                 //}
                 if (Peli.npcLista != null) {
@@ -762,6 +804,9 @@ public class PääIkkuna {
                             //System.out.println(npc.annaNimi() + ": " + npc.sijX_PX + ", " + npc.sijY_PX);
                         }
                     }
+                }
+                if (Peli.huone != null) {
+                    alueInfoLabel.setText(Peli.huone.annaAlue());
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {

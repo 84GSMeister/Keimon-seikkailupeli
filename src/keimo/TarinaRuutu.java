@@ -27,10 +27,10 @@ public class TarinaRuutu {
 
     static JPanel luoTarinaPaneli() {
         
-        tarinanKuva[0] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_1.png");
-        tarinanKuva[1] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_2.gif");
-        tarinanKuva[2] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_3.png");
-        tarinanKuva[3] = new ImageIcon("tiedostot/kuvat/menu/tarina_alku_4.png");
+        tarinanKuva[0] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_1.png");
+        tarinanKuva[1] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_2.gif");
+        tarinanKuva[2] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_3.png");
+        tarinanKuva[3] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_4.png");
 
         tarinaTeksti[0] = "<html><p>" +
         "Keimo herää auringon säteiden aiheuttamaan kipuun. " +
@@ -81,7 +81,6 @@ public class TarinaRuutu {
                 }
                 if (klikkaustenMäärä >= tarinanPituusRuutuina) {
                     PääIkkuna.crd.next(PääIkkuna.kortit);
-                    Peli.pause = false;
                     ValikkoRuutu.valikkoPaneli.requestFocus();
                 }
                 else {

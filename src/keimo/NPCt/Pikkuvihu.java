@@ -59,6 +59,7 @@ public class Pikkuvihu extends Vihollinen {
         super(liikeTapa);
         this.vahinko = 1;
         this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
+        this.kilpiTehoaa = true;
         this.sijX = 0;
         this.sijY = 0;
         this.sijX_PX_vy = 0;
@@ -73,6 +74,7 @@ public class Pikkuvihu extends Vihollinen {
         super(liikeTapa);
         this.vahinko = 1;
         this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
+        this.kilpiTehoaa = true;
         this.sijX = sijX;
         this.sijY = sijY;
         this.sijX_PX_vy = this.sijX * PääIkkuna.pelaajanKokoPx;

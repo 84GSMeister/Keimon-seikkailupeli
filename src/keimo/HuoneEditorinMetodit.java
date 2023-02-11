@@ -22,7 +22,7 @@ public class HuoneEditorinMetodit {
         int uusiHuoneenId = 0;
         String uusiHuoneenNimi = "";
         String uusiHuoneenAlue = "";
-        Image uusiHuoneenTausta = null;
+        String uusiHuoneenTaustanPolku = "";
 
         String luotavaObjekti = "";
         int luotavanObjektinX = 0;
@@ -57,7 +57,7 @@ public class HuoneEditorinMetodit {
                         uusiHuoneenAlue = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
                     }
                     else if (tarkastettavaRivi.contains("#tausta:")) {
-                        uusiHuoneenTausta = Toolkit.getDefaultToolkit().createImage(tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1));
+                        uusiHuoneenTaustanPolku = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
                     }
                     else if (tarkastettavaRivi.contains("#kenttä:")) {
                         if (tarkastettavaRivi.contains("{")) {
@@ -228,7 +228,7 @@ public class HuoneEditorinMetodit {
                         }
                     }
                 }
-                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTausta, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, false, "");
+                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, false, "");
                 uusiHuoneKartta.put(uusiHuoneenId, huone);
                 uusiObjektiLista.clear();
                 uusiMaastoLista.clear();
@@ -262,61 +262,60 @@ public class HuoneEditorinMetodit {
 
         if (!lisäOminaisuudet) {
             switch (objektinNimi) {
-
                 case "Avain":
-                    luotavaObjekti = määritettySijainti ? new Avain(sijX, sijY) : new Avain();
+                    luotavaObjekti = new Avain(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Hiili":
-                    luotavaObjekti = määritettySijainti ? new Hiili(sijX, sijY) : new Hiili();
+                    luotavaObjekti = new Hiili(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Huume":
-                    luotavaObjekti = new Huume(sijX, sijY);
+                    luotavaObjekti = new Huume(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Juhani":
-                    luotavaObjekti = new Juhani(sijX, sijY);
+                    luotavaObjekti = new Juhani(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Kaasupullo":
-                    luotavaObjekti = määritettySijainti ? new Kaasupullo(sijX, sijY) : new Kaasupullo();
+                    luotavaObjekti = new Kaasupullo(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Kaasusytytin":
-                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(sijX, sijY) : new Kaasusytytin();
+                    luotavaObjekti = new Kaasusytytin(määritettySijainti, sijX, sijY, "tyhjä");
                     break;
 
                 case "Kilpi":
-                    luotavaObjekti = määritettySijainti ? new Kilpi(sijX, sijY) : new Kilpi();
+                    luotavaObjekti = new Kilpi(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Kirstu":
-                    luotavaObjekti = määritettySijainti ? new Kirstu(sijX, sijY) : new Kirstu();
+                    luotavaObjekti = new Kirstu(määritettySijainti, sijX, sijY, null);
                     break;
 
                 case "Makkara":
-                    luotavaObjekti = määritettySijainti ? new Makkara(sijX, sijY) : new Makkara();
+                    luotavaObjekti = new Makkara(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Nuotio":
-                    luotavaObjekti = määritettySijainti ? new Nuotio(sijX, sijY) : new Nuotio();
+                    luotavaObjekti = new Nuotio(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Pahavihu":
-                    luotavaObjekti = määritettySijainti ? new PahaVihu(sijX, sijY) : new PahaVihu();
+                    luotavaObjekti = new PahaVihu(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Paperi":
-                    luotavaObjekti = määritettySijainti ? new Paperi(sijX, sijY) : new Paperi();
+                    luotavaObjekti = new Paperi(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Pesäpallomaila":
-                    luotavaObjekti = new Pesäpallomaila(sijX, sijY);
+                    luotavaObjekti = new Pesäpallomaila(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Pikkuvihu":
-                    luotavaObjekti = määritettySijainti ? new PikkuVihu_KenttäKohde(sijX, sijY) : new PikkuVihu_KenttäKohde();
+                    luotavaObjekti = new PikkuVihu_KenttäKohde(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Oviruutu":
@@ -324,19 +323,19 @@ public class HuoneEditorinMetodit {
                     break;
 
                 case "Seteli":
-                    luotavaObjekti = new Seteli(sijX, sijY);
+                    luotavaObjekti = new Seteli(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Suklaalevy":
-                    luotavaObjekti = määritettySijainti ? new Suklaalevy(sijX, sijY) : new Suklaalevy();
+                    luotavaObjekti = new Suklaalevy(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Vesiämpäri":
-                    luotavaObjekti = määritettySijainti ? new Vesiämpäri(sijX, sijY) : new Vesiämpäri();
+                    luotavaObjekti = new Vesiämpäri(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Ämpärikone":
-                    luotavaObjekti = määritettySijainti ? new Ämpärikone(sijX, sijY) : new Ämpärikone();
+                    luotavaObjekti = new Ämpärikone(määritettySijainti, sijX, sijY);
                     break;
 
                 default:
@@ -348,11 +347,15 @@ public class HuoneEditorinMetodit {
             switch (objektinNimi) {
 
                 case "Kaasusytytin":
-                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(sijX, sijY, ominaisuusLista) : new Kaasusytytin(ominaisuusLista);
+                    luotavaObjekti = määritettySijainti ? new Kaasusytytin(true, sijX, sijY, ominaisuusLista) : new Kaasusytytin(false, sijX, sijY, ominaisuusLista);
                     break;
 
                 case "Oviruutu":
                     luotavaObjekti = new ReunaWarppi(sijX, sijY, ominaisuusLista);
+                    break;
+
+                case "Kirstu":
+                    luotavaObjekti = new Kirstu(määritettySijainti, sijX, sijY, ominaisuusLista);
                     break;
 
                 default:
@@ -454,7 +457,7 @@ public class HuoneEditorinMetodit {
             huoneetMerkkijonoina[i] += "Huone " + huoneKartta.get(i).annaId() + ":" + "\n    ";
             huoneetMerkkijonoina[i] += "#nimi: " + huoneKartta.get(i).annaNimi() + ";" + "\n    ";
             huoneetMerkkijonoina[i] += "#alue: " + huoneKartta.get(i).annaAlue() + ";" + "\n    ";
-            huoneetMerkkijonoina[i] += "#tausta: " + huoneKartta.get(i).annaTausta() + ";" + "\n    ";
+            huoneetMerkkijonoina[i] += "#tausta: " + huoneKartta.get(i).annaTaustanPolku() + ";" + "\n    ";
             huoneetMerkkijonoina[i] += "#kenttä: " + "{\n";
             for (KenttäKohde[] kk : huoneKartta.get(i).annaHuoneenKenttäSisältö()) {
                 for (KenttäKohde k : kk) {

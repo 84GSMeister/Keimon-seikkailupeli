@@ -41,13 +41,13 @@ public class Makkara extends Ruoka{
         else if (paistettu) {
             this.käristetty = true;
             this.nimi = "Käristetty makkara";
-            this.kuvake = new ImageIcon("tiedostot/kuvat/makkarat_käristetty.png");
+            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
             return "Paistoit liikaa! Nyt makkara on pikimusta.";
         }
         else {
             this.paistettu = true;
             this.nimi = "Paistettu makkara";
-            this.kuvake = new ImageIcon("tiedostot/kuvat/makkarat_paistettu.png");
+            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
             return "Mmm.. onpas hyvän näköistä kyrsää.";
         }
     }
@@ -81,22 +81,10 @@ public class Makkara extends Ruoka{
         }
     }
 
-    public Makkara(){
+    public Makkara(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Makkara";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/makkarat.png");
-        super.heal = 1;
-        super.käyttö = true;
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Nuotio");
-        super.asetaTiedot();
-    }
-
-    public Makkara(int sijX, int sijY){
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
-        super.nimi = "Makkara";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/makkarat.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat.png");
         super.heal = 1;
         super.käyttö = true;
         super.kenttäkäyttö = true;

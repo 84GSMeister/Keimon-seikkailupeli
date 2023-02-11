@@ -31,6 +31,7 @@ public abstract class Maasto {
 
     protected String nimi;
     protected Icon kuvake;
+    protected String tiedostonNimi;
     protected boolean estääLiikkumisen = false;
 
     public boolean estääköLiikkumisen() {
@@ -52,8 +53,9 @@ public abstract class Maasto {
     String tiedot = "";
     void asetaTiedot() {
         tiedot += "Nimi: " + this.annaNimi() + "\n";
-        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei" + "\n");
-        tiedot += "Estää liikkumisen: " + (this.estääköLiikkumisen() ? "Kyllä" : "Ei" + "\n");
+        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
+        tiedot += "Estää liikkumisen: " + (this.estääköLiikkumisen() ? "Kyllä" : "Ei") + "\n";
+        tiedot += "Kuva: " + this.tiedostonNimi;
     }
     
     public String annaTiedot() {

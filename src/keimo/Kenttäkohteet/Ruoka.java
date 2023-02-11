@@ -6,7 +6,7 @@ public class Ruoka extends Esine {
         return heal;
     }
     
-    public Ruoka() {
-        
+    public Ruoka(boolean määritettySijainti, int sijX, int sijY) {
+        super(määritettySijainti, sijX, sijY);
     }
 }

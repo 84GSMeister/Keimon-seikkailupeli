@@ -6,6 +6,9 @@ import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 import javax.swing.*;
+
+import java.awt.Color;
+import java.awt.Image;
 import java.text.DecimalFormat;
 
 public class GrafiikanPäivitysSäie extends Thread {
@@ -65,28 +68,28 @@ public class GrafiikanPäivitysSäie extends Thread {
                 switch (Pelaaja.keimonTerveys) {
                     case HYVÄ:
                         switch (Pelaaja.keimonKylläisyys) {
-                            case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
-                            case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
-                            case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
-                            case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
+                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
+                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
+                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
                             case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
                         }
                         break;
                     case OK:
                         switch (Pelaaja.keimonKylläisyys) {
-                            case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
-                            case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
-                            case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
-                            case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
+                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
+                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
+                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
                             case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
                         }
                         break;
                     case HUONO:
                         switch (Pelaaja.keimonKylläisyys) {
-                            case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
-                            case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
-                            case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
-                            case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
+                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
+                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
+                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
                             case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
                         }
                         break;
@@ -96,28 +99,28 @@ public class GrafiikanPäivitysSäie extends Thread {
                 switch (Pelaaja.keimonTerveys) {
                     case HYVÄ:
                     switch (Pelaaja.keimonKylläisyys) {
-                        case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
-                        case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
-                        case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
-                        case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
+                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
+                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
+                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
                         case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
                     }
                     break;
                 case OK:
                     switch (Pelaaja.keimonKylläisyys) {
-                        case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
-                        case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
-                        case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
-                        case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
+                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
+                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
+                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
                         case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
                     }
                     break;
                 case HUONO:
                     switch (Pelaaja.keimonKylläisyys) {
-                        case LIHAVUUS_0: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_0.gif"); break;
-                        case LIHAVUUS_1: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_1.gif"); break;
-                        case LIHAVUUS_2: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_2.gif"); break;
-                        case LIHAVUUS_3: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_3.gif"); break;
+                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
+                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
+                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
+                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
                         case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
                     }
                     break;
@@ -159,9 +162,9 @@ public class GrafiikanPäivitysSäie extends Thread {
         else {
             PääIkkuna.infoPaneli.setVisible(true);
         }
-        if (PääIkkuna.ikkuna.getHeight() <= 940) {
+        if (PääIkkuna.ikkuna.getHeight() <= 960) {
             PääIkkuna.yläPaneeli.setVisible(false);
-            if (PääIkkuna.ikkuna.getHeight() <= 880) {
+            if (PääIkkuna.ikkuna.getHeight() <= 900) {
                 PääIkkuna.alueInfoPaneli.setVisible(false);
             }
             else {
@@ -171,6 +174,11 @@ public class GrafiikanPäivitysSäie extends Thread {
         else {
             PääIkkuna.yläPaneeli.setVisible(true);
         }
+        // ImageIcon takataustaKuvake = new ImageIcon();
+        // Image kuvake64 = takataustaKuvake.getImage();
+        // Image kuvake32 = kuvake64.getScaledInstance(PääIkkuna.ikkuna.getWidth(), PääIkkuna.ikkuna.getHeight(), Image.SCALE_SMOOTH);
+        // takataustaKuvake = new ImageIcon(kuvake32);
+        PääIkkuna.peliKenttäUlompi.setBackground(Color.BLACK);
     }
 
     public static void odotaMikrosekunteja(long mikrosekunnit){
@@ -210,10 +218,10 @@ public class GrafiikanPäivitysSäie extends Thread {
                         odotaMikrosekunteja(odotusAikaUs);
 
                         PääIkkuna.vaatiiPäivityksen = true;
-                        //valitsePelaajanKuvake();
                         päivitäHUD();
                         skaalaaHUD();
                         päivitäPelaajanKuvake();
+                        //System.out.println((int)Pelaaja.hitbox.getMinX() + " " + Pelaaja.sijX * PääIkkuna.pelaajanKokoPx + " " + (int)Pelaaja.hitbox.getMinY() + " " + Pelaaja.sijY * PääIkkuna.pelaajanKokoPx);
                         PääIkkuna.päivitäIkkuna();
                         if (HuoneEditoriIkkuna.vaatiiPäivityksen) {
                             HuoneEditoriIkkuna.päivitäEditoriIkkuna();
@@ -224,7 +232,6 @@ public class GrafiikanPäivitysSäie extends Thread {
                         if (PääIkkuna.uudelleenpiirräKaikki) {
                             PääIkkuna.luoAlkuIkkuna(Pelaaja.sijX, Pelaaja.sijY, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
                             PääIkkuna.vaihdaTausta(uusiTausta);
-                            //valitsePelaajanKuvake();
                             PääIkkuna.uudelleenpiirräKaikki = false;
                         }
                         frameja++;

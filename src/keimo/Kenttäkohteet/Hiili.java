@@ -3,10 +3,6 @@ import javax.swing.ImageIcon;
 
 public class Hiili extends Esine {
 
-    public String katso(){
-        return katsomisTeksti;
-    }
-
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -36,23 +32,12 @@ public class Hiili extends Esine {
         }
     }
 
-    public Hiili(){
+    public Hiili(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Hiili";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");
-        super.kuvake = new ImageIcon("tiedostot/kuvat/hiili.png");
-        super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
-        super.asetaTiedot();
-    }
-
-    public Hiili(int sijX, int sijY){
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
-        super.nimi = "Hiili";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Nuotio");
-        super.kuvake = new ImageIcon("tiedostot/kuvat/hiili.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hiili.png");
         super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
         super.asetaTiedot();
     }

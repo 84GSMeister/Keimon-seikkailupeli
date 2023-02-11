@@ -37,22 +37,12 @@ public class Paperi extends Esine {
         }
     }
 
-    public Paperi(){
+    public Paperi(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Paperi";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");
-        super.kuvake = new ImageIcon("tiedostot/kuvat/paperi.png");
-        super.asetaTiedot();
-    }
-
-    public Paperi(int sijX, int sijY){
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
-        super.nimi = "Paperi";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Nuotio");
-        super.kuvake = new ImageIcon("tiedostot/kuvat/paperi.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/paperi.png");
         super.asetaTiedot();
     }
 }

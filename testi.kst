@@ -121,6 +121,8 @@ Huone 0:
         Tile_9_8+ominaisuudet:[kuva=ruoho.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+    }
 /Huone
 Huone 1:
     #nimi: Puisto_ylä;
@@ -236,6 +238,8 @@ Huone 1:
         EsteTile_9_7+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
+    }
+    #npc: {
     }
 /Huone
 Huone 2:
@@ -355,25 +359,29 @@ Huone 2:
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+    }
 /Huone
 Huone 3:
     #nimi: Puisto_oikea;
     #alue: Puisto;
-    #tausta: null;
+    #tausta: sun.awt.image.ToolkitImage@72070dc0;
     #kenttä: {
         Oviruutu_0_3+ominaisuudet:[kohdehuone=0,kohderuutuX=9,kohderuutuY=3,suunta=VASEN],
-        Avain_1_8,
         Pikkuvihu_2_4,
+        Avain_1_8,
         Nuotio_2_7,
         Paperi_3_8,
         Makkara_4_1,
-        Pikkuvihu_4_3,
+        Kirstu_4_3+ominaisuudet:[sisältö=Pesäpallomaila],
+        Kirstu_5_3+ominaisuudet:[sisältö=Vesiämpäri],
+        Kirstu_6_3+ominaisuudet:[sisältö=Paperi],
         Makkara_6_5,
         Makkara_6_6,
-        Tyhjä kaasusytytin_7_5+ominaisuudet:[tyhjä],
+        Kirstu_7_3+ominaisuudet:[sisältö=Kaasusytytin],
         Kaasupullo_7_6,
         Pikkuvihu_7_9,
-        Avain_8_3,
+        Kirstu_8_3+ominaisuudet:[sisältö=Seteli],
         Hiili_8_5,
         Kirstu_9_3;
     }
@@ -479,11 +487,13 @@ Huone 3:
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+    }
 /Huone
 Huone 4:
     #nimi: Puisto_vasen;
     #alue: Puisto;
-    #tausta: sun.awt.image.ToolkitImage@62399285;
+    #tausta: sun.awt.image.ToolkitImage@3d0b1c34;
     #kenttä: {
         Oviruutu_0_4+ominaisuudet:[kohdehuone=5,kohderuutuX=9,kohderuutuY=4,suunta=VASEN],
         Vesiämpäri_0_8,
@@ -594,18 +604,22 @@ Huone 4:
         Tile_9_8+ominaisuudet:[kuva=ruoho.png],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
+    #npc: {
+    }
 /Huone
 Huone 5:
     #nimi: Asuintalot_parkkipaikka;
     #alue: Asuintalot;
-    #tausta: sun.awt.image.ToolkitImage@275809f9;
+    #tausta: sun.awt.image.ToolkitImage@58eb2d7d;
     #kenttä: {
-        Kirstu_4_2,
         Pikkuvihu_4_4,
+        Kirstu_4_2+ominaisuudet:[sisältö=Pesäpallomaila],
         Ämpärikone_5_6,
         Oviruutu_9_4+ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=4,suunta=OIKEA];
     }
     #maasto: {
+    }
+    #npc: {
     }
 /Huone
 

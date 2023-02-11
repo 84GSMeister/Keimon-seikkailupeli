@@ -1,6 +1,15 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (2.2.2023): 0.6
+## Uusin versio (11.2.2023): 0.6.1
+
+### Versio 0.6.1
+
+ - Loppuruudut
+ - Arkuista voi saada esineitä (editorissa voi laittaa arkkuun esineen)
+ - Editorissa voi tallentaa taustan
+ - Pelaajan kädessä olevan esineen kuvake näkyy pelaajan kohdalla
+ - Kilpi korjattu
+ - Pelikentän GUI skaalautuu keskelle kokoruudulla
 
 ### Versio 0.6
 

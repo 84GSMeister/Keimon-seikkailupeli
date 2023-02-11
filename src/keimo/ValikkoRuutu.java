@@ -58,20 +58,20 @@ public class ValikkoRuutu {
     static void hyväksy(int valinta) {
 
         switch (valinta) {
-            case 0:
+            case 0: // Aloita peli
                 PääIkkuna.crd.next(PääIkkuna.kortit);
                 //PääIkkuna.ikkuna.requestFocus();
                 break;
-            case 1:
+            case 1: // Asetukset
                 AsetusIkkuna.luoAsetusikkuna();
                 break;
-            case 2:
+            case 2: // Huone-editori
                 HuoneEditoriIkkuna.luoEditoriIkkuna();
                 break;
-            case 3:
+            case 3: // Kehittäjät
                 CustomViestiIkkunat.Credits.showDialog();
                 break;
-            case 4:
+            case 4: // Lopeta
                 System.exit(0);
                 break;
             default:

@@ -261,11 +261,11 @@ public class HuoneLista {
                 else {
                     tarkastettavaRivi = read.readLine();
                 }
-                System.out.println(tarkastettavaRivi);
+            //    System.out.println(tarkastettavaRivi);
             }
-            for (String s : huoneetMerkkijonoina) {
-                System.out.println("huone: " + s);
-            }
+            // for (String s : huoneetMerkkijonoina) {
+            //     System.out.println("huone: " + s);
+            // }
             huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
         }
         catch (IOException e) {

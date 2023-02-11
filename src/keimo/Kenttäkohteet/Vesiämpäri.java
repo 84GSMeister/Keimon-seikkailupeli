@@ -40,23 +40,13 @@ public class Vesiämpäri extends Esine {
                 return "Vesiämpäri";
         }
     }
-    
-    public Vesiämpäri(){
-        this.nimi = "Vesiämpäri";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Nuotio");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/vesiämpäri.png");
-        super.asetaTiedot();
-    }
 
-    public Vesiämpäri(int sijX, int sijY){
-        this.määritettySijainti = true;
-        this.sijX = sijX;
-        this.sijY = sijY;
+    public Vesiämpäri(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         this.nimi = "Vesiämpäri";
         this.kenttäkäyttö = true;
         this.sopiiKäytettäväksi.add("Nuotio");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/vesiämpäri.png");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
         super.asetaTiedot();
     }
 }

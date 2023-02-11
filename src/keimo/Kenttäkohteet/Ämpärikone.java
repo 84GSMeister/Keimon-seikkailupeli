@@ -7,8 +7,8 @@ public class Ämpärikone extends Kiintopiste{
         return "Mitään ei tapahtunut.";
     }
 
-    Vesiämpäri annaÄmpäri () {
-        return new Vesiämpäri();
+    public static Vesiämpäri annaÄmpäri () {
+        return new Vesiämpäri(false, 0, 0);
     }
 
     public String katso(){
@@ -48,18 +48,10 @@ public class Ämpärikone extends Kiintopiste{
         }
     }
 
-    public Ämpärikone() {
+    public Ämpärikone(boolean määritettySijainti, int sijX, int sijY) {
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Ämpärikone";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/ämpärikone.png");
-        super.asetaTiedot();
-    }
-
-    public Ämpärikone(int sijX, int sijY) {
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
-        super.nimi = "Ämpärikone";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/ämpärikone.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png");
         super.asetaTiedot();
     }
 }

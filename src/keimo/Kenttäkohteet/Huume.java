@@ -38,12 +38,10 @@ public class Huume extends Ruoka{
         }
     }
     
-    public Huume(int sijX, int sijY){
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
+    public Huume(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Huume";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/huume.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/huume.png");
         super.käyttö = true;
         super.heal = 30;
         super.asetaTiedot();

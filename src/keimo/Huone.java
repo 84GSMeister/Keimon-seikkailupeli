@@ -1,6 +1,8 @@
 package keimo;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.awt.Image;
 
@@ -16,7 +18,8 @@ public class Huone {
     private KenttäKohde[][] huoneenKenttäSisältö;
     private Maasto[][] huoneenMaastoSisältö;
     private NPC[][] huoneenNPCSisältö;
-    private Image tausta;
+    private ImageIcon tausta;
+    private String taustanPolku;
     private String alue;
     //private ArrayList<NPC> npcLista = new ArrayList<NPC>();
     public int npcidenMäärä;
@@ -40,8 +43,12 @@ public class Huone {
         return huoneenKoko;
     }
 
-    public Image annaTausta() {
+    public ImageIcon annaTausta() {
         return tausta;
+    }
+
+    public String annaTaustanPolku() {
+        return taustanPolku;
     }
 
     public String annaAlue() {
@@ -63,6 +70,11 @@ public class Huone {
     public void päivitäNimiJaAlue(String nimi, String alue) {
         this.nimi = nimi;
         this.alue = alue;
+    }
+
+    public void päivitäTausta(String taustaString){
+        this.taustanPolku = taustaString;
+        this.tausta = new ImageIcon(taustaString);
     }
 
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){
@@ -164,14 +176,15 @@ public class Huone {
         }
     }
 
-    Huone(int luontiId, int luontiKoko, String luontiNimi, Image luontiTausta, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
+    Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
         this.id = luontiId;
         this.nimi = luontiNimi;
         this.huoneenKoko = luontiKoko;
         this.huoneenKenttäSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
         this.huoneenMaastoSisältö = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
         this.huoneenNPCSisältö = new NPC[Peli.kentänKoko][Peli.kentänKoko];
-        this.tausta = luontiTausta;
+        this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
+        this.taustanPolku = luontiTaustanPolku;
         this.näytäAlkuDialogi = näytäAlkuDialogi;
         this.alkuDialogi = alkuDialogi;
         this.alue = luontiAlue;

@@ -3,8 +3,6 @@ package keimo.Maastot;
 import javax.swing.ImageIcon;
 
 public class EsteTile extends Maasto{
-    
-    String tiedostonNimi;
 
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;

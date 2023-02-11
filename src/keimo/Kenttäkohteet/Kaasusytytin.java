@@ -73,12 +73,15 @@ public class Kaasusytytin extends Esine{
     }
 
     public void asetaToimivuus(String toimivuus) {
+        this.kelvollisetYhdistettävät.clear();
+        this.sopiiKäytettäväksi.clear();
         switch (toimivuus) {
             case "tyhjä":
                 this.toimiva = false;
+                this.kenttäkäyttö = false;
                 this.yhdistettävä = true;
                 this.kelvollisetYhdistettävät.add("Kaasupullo");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/tyhjäkaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png");
                 this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
                 this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
                 this.lisäOminaisuudet = new String[1];
@@ -87,8 +90,9 @@ public class Kaasusytytin extends Esine{
             case "toimiva":
                 this.toimiva = true;
                 this.kenttäkäyttö = true;
+                this.yhdistettävä = false;
                 this.sopiiKäytettäväksi.add("Nuotio");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 this.lisäOminaisuudet = new String[1];
@@ -99,41 +103,33 @@ public class Kaasusytytin extends Esine{
         }
     }
     
-    public Kaasusytytin(){
-        this.nimi = "Kaasusytytin";
-        this.toimiva = false;
-        asetaToimivuus("tyhjä");
-        this.lisäOminaisuuksia = true;
-        super.asetaTiedot();
-    }
+    // public Kaasusytytin(){
+    //     this.nimi = "Kaasusytytin";
+    //     this.toimiva = false;
+    //     asetaToimivuus("tyhjä");
+    //     this.lisäOminaisuuksia = true;
+    //     super.asetaTiedot();
+    // }
 
-    public Kaasusytytin(int sijX, int sijY){
-        this.nimi = "Kaasusytytin";
-        this.määritettySijainti = true;
-        this.sijX = sijX;
-        this.sijY = sijY;
-        asetaToimivuus("toimiva");
-        this.lisäOminaisuuksia = true;
-        super.asetaTiedot();
-    }
+    // public Kaasusytytin(int sijX, int sijY){
+    //     this.nimi = "Kaasusytytin";
+    //     this.määritettySijainti = true;
+    //     this.sijX = sijX;
+    //     this.sijY = sijY;
+    //     asetaToimivuus("toimiva");
+    //     this.lisäOminaisuuksia = true;
+    //     super.asetaTiedot();
+    // }
 
-    public Kaasusytytin(int sijX, int sijY, String[] ominaisuusLista){
+    public Kaasusytytin(boolean määritettySijainti, int sijX, int sijY, String toimivuus){
+        super(määritettySijainti, sijX, sijY);
         this.nimi = "Kaasusytytin";
-        this.määritettySijainti = true;
-        this.sijX = sijX;
-        this.sijY = sijY;
-        String toimivuus = "tyhjä";
-        for (String ominaisuus : ominaisuusLista) {
-            if (ominaisuus.startsWith("toimivuus=")) {
-                toimivuus = ominaisuus.substring(10);
-            }
-        }
         switch (toimivuus) {
             case "toimiva":
                 this.toimiva = true;
                 this.kenttäkäyttö = true;
                 this.sopiiKäytettäväksi.add("Nuotio");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 break;
@@ -141,7 +137,7 @@ public class Kaasusytytin extends Esine{
                 this.toimiva = false;
                 this.yhdistettävä = true;
                 this.kelvollisetYhdistettävät.add("Kaasupullo");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/tyhjäkaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png");
                 this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
                 this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
                 break;
@@ -149,7 +145,7 @@ public class Kaasusytytin extends Esine{
                 this.toimiva = true;
                 this.kenttäkäyttö = true;
                 this.sopiiKäytettäväksi.add("Nuotio");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 break;
@@ -160,8 +156,8 @@ public class Kaasusytytin extends Esine{
         super.asetaTiedot();
     }
 
-    public Kaasusytytin(String[] ominaisuusLista){
-        this.määritettySijainti = true;
+    public Kaasusytytin(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista){
+        super(määritettySijainti, sijX, sijY);
         this.nimi = "Kaasusytytin";
         String toimivuus = "tyhjä";
         for (String ominaisuus : ominaisuusLista) {
@@ -174,7 +170,7 @@ public class Kaasusytytin extends Esine{
                 this.toimiva = true;
                 this.kenttäkäyttö = true;
                 this.sopiiKäytettäväksi.add("Nuotio");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 break;
@@ -182,7 +178,7 @@ public class Kaasusytytin extends Esine{
                 this.toimiva = false;
                 this.yhdistettävä = true;
                 this.kelvollisetYhdistettävät.add("Kaasupullo");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/tyhjäkaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png");
                 this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
                 this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
                 break;
@@ -190,7 +186,7 @@ public class Kaasusytytin extends Esine{
                 this.toimiva = true;
                 this.kenttäkäyttö = true;
                 this.sopiiKäytettäväksi.add("Nuotio");
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kaasusytytin.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 break;

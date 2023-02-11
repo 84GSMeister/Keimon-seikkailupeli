@@ -48,19 +48,8 @@ public class PahaVihu extends Vihollinen_KenttöKohde {
         }
     }
 
-    public PahaVihu() {
-        super.vahinko = 1 * PelinAsetukset.vaikeusAste;
-        super.hp = 3 * PelinAsetukset.vaikeusAste;
-        super.nimi = "Pahavihu";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/pahavihu.png");
-        super.kilpiTehoaa = false;
-        super.asetaTiedot();
-    }
-
-    public PahaVihu(int sijX, int sijY) {
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
+    public PahaVihu(boolean määritettySijainti, int sijX, int sijY) {
+        super(määritettySijainti, sijX, sijY);
         super.vahinko = 1 * PelinAsetukset.vaikeusAste;
         super.hp = 3 * PelinAsetukset.vaikeusAste;
         super.nimi = "Pahavihu";

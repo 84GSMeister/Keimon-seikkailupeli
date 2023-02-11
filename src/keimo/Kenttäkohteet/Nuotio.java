@@ -1,6 +1,8 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
+import keimo.PääIkkuna;
+
 public class Nuotio extends Kiintopiste {
     
     private boolean sytyke = false;
@@ -26,16 +28,17 @@ public class Nuotio extends Kiintopiste {
             statusTeksti = "Nuotioon lisättiin palavaa ainetta.";
         }
         else if (e instanceof Kaasusytytin) {
-            if (polttoaine){
-                if (sytyke) {
-                    this.tavoiteSuoritettu = true;
-                    this.sytytetty = true;
-                    this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio.png");
-                    statusTeksti = "Nuotio sytytettiin!";
-                }
-                else {
-                    statusTeksti = "Nuotio tarvitsee jonkin sytykkeen.";
-                }
+            if (polttoaine && sytyke){
+                this.tavoiteSuoritettu = true;
+                this.sytytetty = true;
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png");
+                statusTeksti = "Nuotio sytytettiin!";
+            }
+            else if (polttoaine && !sytyke) {
+                statusTeksti = "Nuotiossa on palavaa ainetta, mutta sinne tarvitaan jokin sytyke.";
+            }
+            else if (!polttoaine && sytyke) {
+                statusTeksti = "Pelkkä sytyke ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
             }
             else {
                 statusTeksti = "Nuotio tarvitsee palavaa ainetta.";
@@ -58,6 +61,32 @@ public class Nuotio extends Kiintopiste {
         }
         return statusTeksti;
         }
+
+    public Esine suoritaMuutoksetEsineelle(Esine e) {
+        if (e instanceof Makkara) {
+            Makkara makkara = (Makkara)e;
+            if (this.sytytetty) {
+                makkara.paista();
+                return makkara;
+            }
+            else {
+                PääIkkuna.hudTeksti.setText("Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.");
+                return makkara;
+            }
+        }
+        else if (e instanceof Paperi) {
+            return null;
+        }
+        else if (e instanceof Hiili) {
+            return null;
+        }
+        else {
+            if (!e.sopiiKäytettäväksi.contains(this.nimi)) {
+                PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
+            }
+            return e;
+        }
+    }
 
     public String katso(){
         if (sytytetty) {    
@@ -115,19 +144,11 @@ public class Nuotio extends Kiintopiste {
                 return "Nuotio";
         }
     }
-    
-    public Nuotio() {
-        super.nimi = "Nuotio";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
-        super.asetaTiedot();
-    }
 
-    public Nuotio(int sijX, int sijY) {
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
+    public Nuotio(boolean määritettySijainti, int sijX, int sijY) {
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Nuotio";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
         super.asetaTiedot();
     }
 }

@@ -100,9 +100,13 @@ public class PeliKenttäMetodit {
                             System.out.println("collision - pelaaja: " + Pelaaja.hitbox.getMinX() + " - " + Pelaaja.hitbox.getMaxX() + ", " + Pelaaja.hitbox.getMinY() + " - " + Pelaaja.hitbox.getMaxY()  + ", vihollinen: " + vihollinen.hitbox.getMinX() + " - " + vihollinen.hitbox.getMaxX() + ", " + vihollinen.hitbox.getMinY() + " - " + vihollinen.hitbox.getMaxY());
                             if (Pelaaja.reaktioAika <= 0) {
                                 if (Pelaaja.kuolemattomuusAika <= 0) {
-                                    Pelaaja.vahingoita(vihollinen.vahinko);
+                                    if (Pelaaja.esineet[Peli.esineValInt] instanceof Kilpi && vihollinen.kilpiTehoaa) {
+
+                                    }
+                                    else {
+                                        Pelaaja.vahingoita(vihollinen.vahinko);
+                                    }
                                 }
-                                
                             }
                             //else {
                             //    Pelaaja.vähennäReaktioAikaa();

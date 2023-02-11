@@ -37,15 +37,13 @@ public class Warp extends KenttäKohde{
         this.suunta = suunta;
     }
 
-    public Warp(int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
+    public Warp(boolean määritettySijainti, int sijX, int sijY, int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
+        super(määritettySijainti, sijX, sijY);
         this.nimi = "Warp";
         this.katsomisTeksti = "Paina välilyöntiä kulkeaksesi oviruudusta!";
         this.kohdeHuone = luontiKohdeHuone;
         this.kohdeRuutuX = luontiKohdeRuutuX;
         this.kohdeRuutuY = luontiKohdeRuutuY;
         this.suunta = luontiSuunta;
-    }
-    public Warp() {
-        
     }
 }

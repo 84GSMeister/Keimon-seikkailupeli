@@ -54,20 +54,8 @@ public class PikkuVihu_KenttäKohde extends Vihollinen_KenttöKohde {
         }
     }
 
-    public PikkuVihu_KenttäKohde() {
-        super.vahinko = 1 * PelinAsetukset.vaikeusAste;
-        super.hp = 3 * PelinAsetukset.vaikeusAste;
-        super.nimi = "Pikkuvihu";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
-        super.tehoavatAseet.add("Vesiämpäri");
-        super.tehoavatAseet.add("Pesäpallomaila");
-        super.asetaTiedot();
-    }
-
-    public PikkuVihu_KenttäKohde(int sijX, int sijY) {
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
+    public PikkuVihu_KenttäKohde(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         super.vahinko = 1 * PelinAsetukset.vaikeusAste;
         super.hp = 3 * PelinAsetukset.vaikeusAste;
         super.nimi = "Pikkuvihu";

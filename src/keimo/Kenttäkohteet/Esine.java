@@ -26,6 +26,29 @@ public abstract class Esine extends KenttäKohde {
         return yhdistettävä;
     }
 
+    /**
+     * Yhdistää kaksi esinettä: poistaa esineet ja antaa tilalle yhdistelmän tuloksen.
+     * Aseta vanhoille tavaraluettelon paikoille null ja luo uusi esine
+     * @.pre {
+     * @param esineA instanceof Esine &&
+     * @param esineB instanceof Esine
+     * }
+     * @.post p.esineet[a] instanceof Esine && p.esineet[b] == null
+     */
+    public static Esine yhdistä2Esinettä(Esine esineA, Esine esineB) {
+        if (esineA instanceof Kaasupullo) {
+            if (esineB instanceof Kaasusytytin) {
+                return new Kaasusytytin(false, 0, 0, "toimiva");
+            }
+        }
+        else if (esineA instanceof Kaasusytytin) {
+            if (esineB instanceof Kaasupullo) {
+                return new Kaasusytytin(false, 0, 0, "toimiva");
+            }
+        }
+        return null;
+    }
+
     public ArrayList<String> kelvollisetYhdistettävät = new ArrayList<String>();
     public ArrayList<String> sopiiKäytettäväksi = new ArrayList<String>();
 
@@ -37,6 +60,35 @@ public abstract class Esine extends KenttäKohde {
 
     public String annaNimi(){
         return nimi;
+    }
+
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi":
+                return "Tämä esine";
+            case "genetiivi":
+                return "Tämän esineen";
+            case "esiivi":
+                return "Tänä esineenä";
+            case "partitiivi":
+                return "Tätä esinettä";
+            case "translatiivi":
+                return "Täksi esineeksi";
+            case "inessiivi":
+                return "Tässä esineessä";
+            case "elatiivi":
+                return "Tästä esineestä";
+            case "illatiivi":
+                return "Tähän esineeseen";
+            case "adessiivi":
+                return "Tällä esineellä";
+            case "ablatiivi":
+                return "Tältä esineeltä";
+            case "allatiivi":
+                return "Tälle esineelle";
+            default:
+                return "Tämä esine";
+        }
     }
     /**
     void asetaTiedot() {
@@ -51,13 +103,7 @@ public abstract class Esine extends KenttäKohde {
     }
     */
 
-    public Esine() {
-        
-    }
-
-    public Esine(int sijX, int sijY) {
-        this.määritettySijainti = true;
-        this.sijX = sijX;
-        this.sijY = sijY;
+    public Esine(boolean määritettySijainti, int sijX, int sijY) {
+        super(määritettySijainti, sijX, sijY);
     }
 }

@@ -175,4 +175,16 @@ public class CustomViestiIkkunat {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
+
+    public static class WarpinMuokkausVirhe {
+        
+        static int valitaTyyppi = JOptionPane.OK_OPTION;
+        static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
+        //static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
+        static String[] vaihtoehdot = {"OK"};
+
+        static int showDialog(String viesti, String otsikko) {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
 }

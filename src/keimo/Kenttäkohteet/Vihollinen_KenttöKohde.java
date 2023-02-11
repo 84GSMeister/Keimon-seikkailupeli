@@ -20,4 +20,8 @@ public abstract class Vihollinen_KenttöKohde extends NPC_KenttäKohde{
     public void kukista(String kukistusTapa) {
         this.kukistettu = true;
     }
+
+    public Vihollinen_KenttöKohde(boolean määritettySijainti, int sijX, int sijY) {
+        super(määritettySijainti, sijX, sijY);
+    }
 }

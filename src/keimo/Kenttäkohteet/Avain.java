@@ -2,10 +2,6 @@ package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
 public class Avain extends Esine {
-    
-    public String katso(){
-        return katsomisTeksti;
-    }
 
     public String käytä(){
         poista = true;
@@ -41,23 +37,12 @@ public class Avain extends Esine {
         }
     }
 
-    public Avain(){
+    public Avain(boolean määritettySijainti, int sijX, int sijY){
+        super(määritettySijainti, sijX, sijY);
         super.nimi = "Avain";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Kirstu");
-        super.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
-        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
-        super.asetaTiedot();
-    }
-
-    public Avain(int sijX, int sijY){
-        super.määritettySijainti = true;
-        super.sijX = sijX;
-        super.sijY = sijY;
-        super.nimi = "Avain";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Kirstu");
-        super.kuvake = new ImageIcon("tiedostot/kuvat/avain.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/avain.png");
         super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
         super.asetaTiedot();
     }

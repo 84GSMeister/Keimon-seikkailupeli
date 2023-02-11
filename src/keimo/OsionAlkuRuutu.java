@@ -50,6 +50,7 @@ public class OsionAlkuRuutu {
         JPanel paneli = null;
         try {
             paneli = luoOsionAlkuPaneli();
+            //paneli = luoOsionAlkuPaneliIlmanJFXää();
         }
         catch (RuntimeException e) {
             e.printStackTrace();

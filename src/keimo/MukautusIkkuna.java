@@ -59,52 +59,52 @@ public class MukautusIkkuna {
                         for (int j = 0; j < objektiKuvanVäriArvot.length; j++) {
                             System.out.println("" + j + ", " + i + " - Väri: " + objektiKuvanVäriArvot[j][i]);
                             if (objektiKuvanVäriArvot[j][i] == 0x00D0C030) {
-                                kuvaKenttä[j][i] = new Avain(j, i);
+                                kuvaKenttä[j][i] = new Avain(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x001E1107) {
-                                kuvaKenttä[j][i] = new Hiili(j, i);
+                                kuvaKenttä[j][i] = new Hiili(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x001B2644) {
-                                kuvaKenttä[j][i] = new Kaasupullo(j, i);
+                                kuvaKenttä[j][i] = new Kaasupullo(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x0032416B) {
-                                kuvaKenttä[j][i] = new Kaasusytytin(j, i);
+                                kuvaKenttä[j][i] = new Kaasusytytin(true, j, i, "tyhjä");
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00666666) {
-                                kuvaKenttä[j][i] = new Kilpi(j, i);
+                                kuvaKenttä[j][i] = new Kilpi(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x005B3318) {
-                                kuvaKenttä[j][i] = new Kirstu(j, i);
+                                kuvaKenttä[j][i] = new Kirstu(true, j, i, null);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00BA5E6B) {
-                                kuvaKenttä[j][i] = new Makkara(j, i);
+                                kuvaKenttä[j][i] = new Makkara(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00232330) {
-                                kuvaKenttä[j][i] = new Nuotio(j, i);
+                                kuvaKenttä[j][i] = new Nuotio(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00CE631C) {
                                 kuvaKenttä[j][i] = new ReunaWarppi(j, i, 0, 0, 0, Warp.Suunta.OIKEA);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00AD1616) {
-                                kuvaKenttä[j][i] = new PahaVihu(j, i);
+                                kuvaKenttä[j][i] = new PahaVihu(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00E5DD72) {
-                                kuvaKenttä[j][i] = new Paperi(j, i);
+                                kuvaKenttä[j][i] = new Paperi(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x0000FF00) {
                                 kuvaKenttä[j][i] = null;
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00AA4949) {
-                                kuvaKenttä[j][i] = new PikkuVihu_KenttäKohde(j, i);
+                                kuvaKenttä[j][i] = new PikkuVihu_KenttäKohde(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x007F4A00) {
-                                kuvaKenttä[j][i] = new Suklaalevy(j, i);
+                                kuvaKenttä[j][i] = new Suklaalevy(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x0029722E) {
-                                kuvaKenttä[j][i] = new Vesiämpäri(j, i);
+                                kuvaKenttä[j][i] = new Vesiämpäri(true, j, i);
                             }
                             else if (objektiKuvanVäriArvot[j][i] == 0x00006806) {
-                                kuvaKenttä[j][i] = new Ämpärikone(j, i);
+                                kuvaKenttä[j][i] = new Ämpärikone(true, j, i);
                             }
                             else {
                                 kuvaKenttä[j][i] = null;
@@ -337,21 +337,21 @@ public class MukautusIkkuna {
         PelinAsetukset.vihujenMäärä = vihujenMäärä;
 
         if (tehtäväItemit) {
-            huoneenSisältöLista.add(new Avain());
-            huoneenSisältöLista.add(new Kaasupullo());
-            huoneenSisältöLista.add(new Kaasusytytin());
-            huoneenSisältöLista.add(new Hiili());
-            huoneenSisältöLista.add(new Paperi());
-            huoneenSisältöLista.add(new Vesiämpäri());
+            huoneenSisältöLista.add(new Avain(false, 0, 0));
+            huoneenSisältöLista.add(new Kaasupullo(false, 0, 0));
+            huoneenSisältöLista.add(new Kaasusytytin(false, 0, 0, "tyhjä"));
+            huoneenSisältöLista.add(new Hiili(false, 0, 0));
+            huoneenSisältöLista.add(new Paperi(false, 0, 0));
+            huoneenSisältöLista.add(new Vesiämpäri(false, 0, 0));
         }
         for (int i = 0; i < suklaidenMäärä; i++) {
-            huoneenSisältöLista.add(new Suklaalevy());
+            huoneenSisältöLista.add(new Suklaalevy(false, 0, 0));
         }
         for (int i = 0; i < makkaroidenMäärä; i++) {
-            huoneenSisältöLista.add(new Makkara());
+            huoneenSisältöLista.add(new Makkara(false, 0, 0));
         }
         for (int i = 0; i < vihujenMäärä; i++) {
-            huoneenSisältöLista.add(new PikkuVihu_KenttäKohde());
+            huoneenSisältöLista.add(new PikkuVihu_KenttäKohde(false, 0, 0));
         }
         
         //for (KenttäKohde[] k : huoneenSisältö){
@@ -365,7 +365,7 @@ public class MukautusIkkuna {
             huoneenSisältöString += k.annaNimi() + ", ";
         }
         System.out.println("Huoneeseen asetetaan " + huoneenSisältöString);
-        Peli.luoHuone(huoneenId, huoneenNimi, new ImageIcon().getImage(), "Oma alue", huoneenSisältöLista, huoneenMaastoLista, null, false, "");
+        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, huoneenMaastoLista, null, false, "");
         Peli.huoneVaihdettava = true;
         Peli.uusiHuone = huoneenId;
         huoneenSisältöLista.removeAll(huoneenSisältöLista);

@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class HuoneenVaihtoIkkuna {
     
-    static final int ikkunanLeveys = 300;
+    static final int ikkunanLeveys = 400;
     static final int ikkunanKorkeus = 140;
     static JFrame ikkuna;
     static String[] tekstit = {"Warppaa ID:llä", "Valitse huone"};

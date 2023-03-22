@@ -6,7 +6,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.awt.event.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
@@ -14,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import keimo.Kenttäkohteet.*;
-import keimo.LoppuRuutu.PelinLopetukset;
+import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
 import keimo.Pelaaja.KeimonState;
@@ -104,7 +107,7 @@ public class Peli {
                         break;
                     }
                 }
-                PääIkkuna.hudTeksti.setText("Sait uuden esineen: " + pelikenttä[x][y].annaNimi());
+                PääIkkuna.hudTeksti.setText("Sait uuden esineen: " + pelikenttä[x][y].annaNimiSijamuodossa("nominatiivi"));
                 pelikenttä[x][y] = null;
             }
             else {
@@ -143,7 +146,7 @@ public class Peli {
         else {
             if (pelikenttä[x][y] == null) {
                 pelikenttä[x][y] = p.esineet[esineVal];
-                PääIkkuna.hudTeksti.setText(p.esineet[esineVal].annaNimi() + " pudotettiin tavaraluettelosta ruutuun " + x + ", " + y);
+                PääIkkuna.hudTeksti.setText(p.esineet[esineVal].annaNimiSijamuodossa("nominatiivi") + " pudotettiin tavaraluettelosta ruutuun " + x + ", " + y);
                 p.esineet[esineVal] = null;
             }
             else {
@@ -162,7 +165,7 @@ public class Peli {
             return false;
         }
         else if (!p.esineet[valinta].onkoYhdistettävä()) {
-            PääIkkuna.hudTeksti.setText("" + p.esineet[valinta].annaNimi() + " ei sovi yhdistettäväksi!");
+            PääIkkuna.hudTeksti.setText("" + p.esineet[valinta].annaNimiSijamuodossa("nominatiivi") + " ei sovi yhdistettäväksi!");
             return false;
         }
         else {
@@ -180,7 +183,7 @@ public class Peli {
             return false;
         }
         else {
-            if (p.esineet[val1].kelvollisetYhdistettävät.contains(p.esineet[val2].annaNimi())) {
+            if (p.esineet[val1].kelvollisetYhdistettävät.contains(p.esineet[val2].annaNimi()) && p.esineet[val1].onkoYhdistettävä() && p.esineet[val2].onkoYhdistettävä()) {
                 return true;
             }
             else {
@@ -268,17 +271,25 @@ public class Peli {
 
             if (Pelaaja.vihollisenKohdalla && Pelaaja.vihollinenKohdalla != null) {
                 Vihollinen vihollinen = Pelaaja.vihollinenKohdalla;
-                    if (!vihollinen.onkoKukistettu()) {
-                        if (vihollinen.tehoavatAseet.contains(valittuEsine.annaNimi())) {
-                            PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
-                            vihollinen.kukista(valittuEsine.annaNimi());
-                            TarkistettavatArvot.lisääTappoLaskuriin(valittuEsine.annaNimi());
-                            ÄänentoistamisSäie.toistaTappoÄäni(valittuEsine.annaNimi());
-                        }
-                        else {
-                            PääIkkuna.hudTeksti.setText(valittuEsine.annaNimi() + " ei tehonnut " + vihollinen.annaNimiSijamuodossa("illatiivi"));
-                        }
+                if (!vihollinen.onkoKukistettu()) {
+                    if (vihollinen.tehoavatAseet.contains(valittuEsine.annaNimi())) {
+                        PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
+                        vihollinen.kukista(valittuEsine.annaNimi());
+                        TarkistettavatArvot.lisääTappoLaskuriin(valittuEsine.annaNimi());
+                        ÄänentoistamisSäie.toistaTappoÄäni(valittuEsine.annaNimi());
                     }
+                    else {
+                        PääIkkuna.hudTeksti.setText(valittuEsine.annaNimi() + " ei tehonnut " + vihollinen.annaNimiSijamuodossa("illatiivi"));
+                    }
+                }
+                else {
+                    if (vihollinen.tehoavatAseet.contains(valittuEsine.annaNimi())) {
+                        PääIkkuna.hudTeksti.setText(vihollinen.annaNimi() + " on jo kukistettu. Ei tarvitse lyödä lyötyä!");
+                    }
+                    else {
+                        PääIkkuna.hudTeksti.setText(valittuEsine.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää kukistettuun " + vihollinen.annaNimiSijamuodossa("illatiivi"));
+                    }
+                }
             }
             else if (pelikenttä[valX][valY] instanceof Kiintopiste || pelikenttä[valX][valY] instanceof NPC_KenttäKohde) {
                 KenttäKohde kk = (KenttäKohde)pelikenttä[valX][valY];
@@ -334,6 +345,8 @@ public class Peli {
             else {
                 if (Pelaaja.kuolemattomuusAika <= 0) {
                     Pelaaja.vahingoita(vihu.vahinko);
+                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN;
+                    System.out.println(PelinLopetukset.KUOLEMA_VIHOLLINEN);
                     Pelaaja.kuolemattomuusAika = 60;
                     PääIkkuna.hudTeksti.setText("Osuit viholliseen! Menetit " + vihu.vahinko + " elämäpisteen.");
                 }
@@ -587,7 +600,7 @@ public class Peli {
                                         //yhdistäEsineet(yhdistettäväTavarapaikka, esineValInt);
                                         p.esineet[esineValInt] = Esine.yhdistä2Esinettä(p.esineet[esineValInt], p.esineet[yhdistettäväTavarapaikka]);
                                         p.esineet[yhdistettäväTavarapaikka] = null;
-                                        PääIkkuna.hudTeksti.setText("Yhdistys onnistui! " + "Sait uuden esineen: " + p.esineet[esineValInt].annaNimi());
+                                        PääIkkuna.hudTeksti.setText("Yhdistys onnistui! " + "Sait uuden esineen: " + p.esineet[esineValInt].annaNimiSijamuodossa("nominatiivi"));
                                     }
                                 } 
                             }    
@@ -671,7 +684,7 @@ public class Peli {
                                 PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt);
                             }
                             else {
-                                PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt + ": " + p.esineet[esineValInt].annaNimi());
+                                PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + esineValInt + ": " + p.esineet[esineValInt].annaNimiSijamuodossa("nominatiivi"));
                             }
                             //PääIkkuna.hudTeksti.setText("Valittu esinepaikka " + (p.esineet[esineValInt] == null ? ": " + p.esineet[esineValInt].annaNimi() : ""));
                         }
@@ -769,21 +782,23 @@ public class Peli {
         }
         switch (sulkuTapa) {
             case 0:
-                LoppuRuutu.valitseLoppuRuutu(PelinLopetukset.NORMAALI_VOITTO);
+                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.NORMAALI_VOITTO;
                 PääIkkuna.crd.next(PääIkkuna.kortit);
                 break;
             case 1:
-                LoppuRuutu.valitseLoppuRuutu(PelinLopetukset.KUOLEMA);
+                //TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA;
                 PääIkkuna.crd.next(PääIkkuna.kortit);
                 break;
             case 2:
-                LoppuRuutu.valitseLoppuRuutu(PelinLopetukset.YLENSYÖNTI);
+                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.YLENSYÖNTI;
                 PääIkkuna.crd.next(PääIkkuna.kortit);
                 break;
             default:
                 PääIkkuna.ikkuna.dispose();
                 break;
         }
+        LoppuRuutu.valitseLoppuRuutu(TarkistettavatArvot.pelinLoppuSyy);
+
         ÄänentoistamisSäie.musiikkiSoitin.stop();
         gThread.stop();
         gThread.päivitysTiheys.stop();
@@ -853,11 +868,9 @@ public class Peli {
     static void päivitäPelaajanSijaintiTiedot() {
         String kohdeteksti = "";
         if (pelikenttä[p.sijX][p.sijY] == null) {
-            //PääIkkuna.ylätekstiKohde.setText("Kohteessa ei ole mitään");
             kohdeteksti = "Kohteessa ei ole mitään";
         }
         else {
-            //PääIkkuna.ylätekstiKohde.setText("Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimi());
             kohdeteksti = "Kohteessa on " + pelikenttä[p.sijX][p.sijY].annaNimiSijamuodossa("nominatiivi");
         }
         PääIkkuna.ylätekstiSij.setText("Pelaaja siirrettiin sijaintiin " + Pelaaja.sijX + ", " + Pelaaja.sijY + " (" + Pelaaja.hitbox.getMinX() + "-" + Pelaaja.hitbox.getMaxX() + ", " + Pelaaja.hitbox.getMinY() + "-" + Pelaaja.hitbox.getMaxY() + ")");
@@ -918,6 +931,13 @@ public class Peli {
         new Peli();
     }
 
+    private static String format(BigDecimal x) {
+        NumberFormat formatter = new DecimalFormat("0.0E0");
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        formatter.setMinimumFractionDigits((x.scale() > 0) ? x.precision() : x.scale());
+        return formatter.format(x);
+    }
+
     public Peli() {
         
         PääIkkuna.luoPääikkuna();
@@ -939,6 +959,20 @@ public class Peli {
         PääIkkuna.luoAlkuIkkuna(0, 0, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
         PääIkkuna.päivitäIkkuna();
 
+        Thread isoNumeroSäie = new Thread() {
+            public void run() {
+                System.out.println("Lasketaan päivän iso numero... ");
+                BigDecimal bd = new BigDecimal(Math.pow(2.0f, 63.0f));
+                int randomMäärä = r.nextInt(20);
+                int randomMäärä2 = r.nextInt(20);
+                for (int i = 0; i < randomMäärä; i++) {
+                    bd = bd.multiply(bd).multiply(new BigDecimal(randomMäärä2));
+                }
+                System.out.println("Päivän iso numero: " + format(new BigDecimal("" + bd)));
+            }
+        };
+        isoNumeroSäie.start();
+
         if (!tarkistaTarviikoPeliUudelleenkäynnistää.isRunning()) {
             tarkistaTarviikoPeliUudelleenkäynnistää.start();
         }
@@ -948,7 +982,6 @@ public class Peli {
         gThread.start();
         sThread.start();
         tThread.start();
-
     }
 
 }

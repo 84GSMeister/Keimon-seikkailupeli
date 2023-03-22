@@ -1,6 +1,13 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (11.2.2023): 0.6.1
+## Uusin versio (21.3.2023): 0.6.2
+
+### Versio 0.6.2
+
+ - Uudet animoidut kuvakkeet pelaajalle ja joillekin objekteille
+ - Eri loppuruudut erilaisille kuolemille
+ - Juhanin lyöminen pesäpallomailalla johtaa välittömään kuolemaan
+ - Kommentointia hieman parannettu (vielä erittäin puutteellinen)
 
 ### Versio 0.6.1
 

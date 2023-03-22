@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 
 public class GrafiikanPäivitysSäie extends Thread {
@@ -72,25 +73,25 @@ public class GrafiikanPäivitysSäie extends Thread {
                             case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
                             case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
                             case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
-                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                         }
                         break;
                     case OK:
                         switch (Pelaaja.keimonKylläisyys) {
-                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
-                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
-                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
-                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
-                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_laiha.gif"); break;
+                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_normaali.gif"); break;
+                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_lihava.gif"); break;
+                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_erittäinlihava.gif"); break;
+                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                         }
                         break;
                     case HUONO:
                         switch (Pelaaja.keimonKylläisyys) {
-                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
-                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
-                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
-                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
-                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                            case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_laiha.gif"); break;
+                            case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_normaali.gif"); break;
+                            case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_lihava.gif"); break;
+                            case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_erittäinlihava.gif"); break;
+                            case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                         }
                         break;
                 }
@@ -103,25 +104,25 @@ public class GrafiikanPäivitysSäie extends Thread {
                         case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
                         case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
                         case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
-                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                     }
                     break;
                 case OK:
                     switch (Pelaaja.keimonKylläisyys) {
-                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
-                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
-                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
-                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
-                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_laiha.gif"); break;
+                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_normaali.gif"); break;
+                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_lihava.gif"); break;
+                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_neutraali_erittäinlihava.gif"); break;
+                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                     }
                     break;
                 case HUONO:
                     switch (Pelaaja.keimonKylläisyys) {
-                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_laiha.gif"); break;
-                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_normaali.gif"); break;
-                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_lihava.gif"); break;
-                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_hyvä_erittäinlihava.gif"); break;
-                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_4.png"); break;
+                        case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_laiha.gif"); break;
+                        case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_normaali.gif"); break;
+                        case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_lihava.gif"); break;
+                        case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_idle_huono_erittäinlihava.gif"); break;
+                        case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                     }
                     break;
                 }

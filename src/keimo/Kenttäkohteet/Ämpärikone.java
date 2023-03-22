@@ -1,13 +1,13 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
-public class Ämpärikone extends Kiintopiste{
+public class Ämpärikone extends Kiintopiste {
     
     public String kokeileEsinettä(Esine e) {
         return "Mitään ei tapahtunut.";
     }
 
-    public static Vesiämpäri annaÄmpäri () {
+    public static Vesiämpäri annaÄmpäri() {
         return new Vesiämpäri(false, 0, 0);
     }
 
@@ -47,6 +47,8 @@ public class Ämpärikone extends Kiintopiste{
                 return "Ämpärikone";
         }
     }
+
+    
 
     public Ämpärikone(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);

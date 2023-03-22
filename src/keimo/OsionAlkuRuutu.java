@@ -7,21 +7,13 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
-import java.net.*;
 import java.io.File;
-import java.nio.file.*;
 
 import javax.swing.*;
-import javax.media.*;
 
 import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
 import javafx.scene.media.*;
 import javafx.scene.text.*;
-import javafx.stage.Stage;
-//import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.application.*;
 import javafx.embed.swing.*;
 
@@ -42,15 +34,17 @@ public class OsionAlkuRuutu {
 
     static MediaPlayer mediaPlayer;
     static MediaView video;
-    //static Component controls;
 
     static JFXPanel fxPanel;
 
     public static JPanel kokeileLuodaOsionAlkuPaneli() {
         JPanel paneli = null;
         try {
-            paneli = luoOsionAlkuPaneli();
-            //paneli = luoOsionAlkuPaneliIlmanJFXää();
+            /**
+             * Käytä metodia luoOsionAlkuPaneliIlmanJFXää() mikäli JavaFX:n kirjastojen kanssa on ongelmaa.
+             */
+            //paneli = luoOsionAlkuPaneli();
+            paneli = luoOsionAlkuPaneliIlmanJFXää();
         }
         catch (RuntimeException e) {
             e.printStackTrace();
@@ -62,12 +56,7 @@ public class OsionAlkuRuutu {
 
     private static void luoJFXPaneli() {
         // This method is invoked on the EDT thread
-        //JFrame frame = new JFrame("Swing and JavaFX");
         fxPanel = new JFXPanel();
-        // frame.add(fxPanel);
-        // frame.setSize(300, 200);
-        // frame.setVisible(true);
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         kuvaPaneli.add(fxPanel);
         kuvaPaneli.setSize(300, 200);
         kuvaPaneli.setVisible(true);
@@ -87,16 +76,12 @@ public class OsionAlkuRuutu {
     }
 
     private static Scene createScene() {
-        Group  root  =  new  Group();
-        Scene  scene  =  new  Scene(root, 640, 360, javafx.scene.paint.Color.ALICEBLUE);
-        Text  text  =  new  Text();
+        Group root = new Group();
+        Scene scene = new Scene(root, 640, 360, javafx.scene.paint.Color.ALICEBLUE);
+        Text text = new Text();
 
-        //Media media = new Media("http://tiedostot/videot/keimo_vilkkuva_sprite.avi");
-        //Media media = new Media(new File("tiedostot/videot/keimo_vilkkuva_sprite.mp4").toURI().toString());
         Media media = new Media(new File("tiedostot/videot/keimo_plaseholder_video.mp4").toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        //Runnable toistaVideo = () -> mediaPlayer.play();
-        //mediaPlayer.setOnReady(toistaVideo);
         video = new MediaView(mediaPlayer);
 
         text.setX(40);
@@ -115,55 +100,12 @@ public class OsionAlkuRuutu {
         return (scene);
     }
 
-    static void luoMediaToistin() {
-        //mediaPlayer.stop();
-    }
-    
-
     static JPanel luoOsionAlkuPaneli() {
-
-        // try {
-        //     URL medianSijainti = Path.of("tiedostot/videot/keimo_vilkkuva_sprite.mpg").toUri().toURL();
-        //     Player mediaToistin = Manager.createRealizedPlayer(medianSijainti);
-        //     video = mediaToistin.getVisualComponent();
-        //     controls = mediaToistin.getControlPanelComponent();
-        // }
-        // catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
-        //URL medianSijainti = Path.of("tiedostot/videot/keimo_vilkkuva_sprite.mpg").toUri().toURL();
-        //Media media = new Media("tiedostot/videot/keimo_vilkkuva_sprite.avi");
-        //MediaPlayer mediaPlayer = new MediaPlayer(media);
-        //Runnable toistaVideo = () -> mediaPlayer.play();
-        //mediaPlayer.setOnReady(toistaVideo);
-
-
-
-        //Label asd = new Label();
-        //asd.setText("asd");
-        //StackPane root = new StackPane();
-        //root.getChildren().add(mediaPlayer);
-        //root.getChildren().add(asd);
-        //Scene scene = new Scene(root, 300, 250);
-
-        
-
-        // kuva = new JLabel(new ImageIcon("tiedostot/kuvat/menu/kansikuva_puisto.png"));
-        // kuva.setPreferredSize(new Dimension(640, 400));
 
         kuvaPaneli = new JFXPanel();
         kuvaPaneli.setSize(640, 400);
         kuvaPaneli.setLayout(new BorderLayout());
         kuvaPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        //kuvaPaneli.add(kuva);
-        //if (video != null && controls != null) {
-            //video.setPreferredSize(new Dimension(640, 380));
-            //controls.setPreferredSize(new Dimension(640, 20));
-            //kuvaPaneli.add(video, BorderLayout.CENTER);
-            //kuvaPaneli.add(controls, BorderLayout.SOUTH);
-            //kuvaPaneli.setScene(scene);
-        //}
 
 
         teksti = new JLabel("Tehtävä: Yritä löytää kotiin");
@@ -174,7 +116,6 @@ public class OsionAlkuRuutu {
         toista = new JButton("Toista video");
         toista.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 mediaPlayer.play();
                 //System.out.println(mediaPlayer.getStatus());
                 //System.out.println(mediaPlayer.getTotalDuration());
@@ -207,7 +148,6 @@ public class OsionAlkuRuutu {
         tekstiPaneli.add(jatka);
 
         luoJFXPaneli();
-        luoMediaToistin();
 
         osionAlkuPaneli = new JPanel();
         osionAlkuPaneli.setLayout(new BorderLayout());
@@ -250,12 +190,8 @@ public class OsionAlkuRuutu {
         tekstiPaneli = new JPanel();
         tekstiPaneli.setLayout(new FlowLayout(FlowLayout.TRAILING));
         tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        //tekstiPaneli.add(toista);
         tekstiPaneli.add(teksti);
         tekstiPaneli.add(jatka);
-
-        // luoJFXPaneli();
-        // luoMediaToistin();
 
         osionAlkuPaneli = new JPanel();
         osionAlkuPaneli.setLayout(new BorderLayout());

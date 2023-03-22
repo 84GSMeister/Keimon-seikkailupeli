@@ -93,13 +93,7 @@ public class LoppuRuutu {
         return tarinaPaneli;
     }
 
-    static enum PelinLopetukset {
-        NORMAALI_VOITTO,
-        KUOLEMA,
-        YLENSYÖNTI;
-    }
-
-    static void valitseLoppuRuutu(PelinLopetukset pelinLopetus) {
+    static void valitseLoppuRuutu(TarkistettavatArvot.PelinLopetukset pelinLopetus) {
         switch (pelinLopetus) {
 
             case NORMAALI_VOITTO:
@@ -109,12 +103,20 @@ public class LoppuRuutu {
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_normaali.png");
                 break;
 
-            case KUOLEMA:
+            case KUOLEMA_VIHOLLINEN:
                 loppuTeksti = "<html><p>" +
                 "Sait selkääsi!" + "<br>" + 
                 "Hävisit pelin." +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema.png");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen.png");
+                break;
+
+            case KUOLEMA_JUHANI:
+                loppuTeksti = "<html><p>" +
+                "Juhanille ei ryttyillä!" + "<br>" + 
+                "Hävisit pelin." +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_juhani.png");
                 break;
 
             case YLENSYÖNTI:

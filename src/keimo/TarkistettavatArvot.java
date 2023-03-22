@@ -16,6 +16,15 @@ public class TarkistettavatArvot {
         }
     }
 
+    public static PelinLopetukset pelinLoppuSyy = null;
+
+    public static enum PelinLopetukset {
+        NORMAALI_VOITTO,
+        KUOLEMA_VIHOLLINEN,
+        KUOLEMA_JUHANI,
+        YLENSYÖNTI;
+    }
+
     public static int annaLyödytVihut() {
         return lyödytVihut;
     }

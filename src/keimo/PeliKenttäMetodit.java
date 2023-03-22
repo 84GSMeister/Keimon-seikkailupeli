@@ -4,6 +4,7 @@ import javax.swing.Timer;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
+import keimo.TarkistettavatArvot.PelinLopetukset;
 
 public class PeliKenttäMetodit {
     
@@ -104,6 +105,7 @@ public class PeliKenttäMetodit {
 
                                     }
                                     else {
+                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN;
                                         Pelaaja.vahingoita(vihollinen.vahinko);
                                     }
                                 }

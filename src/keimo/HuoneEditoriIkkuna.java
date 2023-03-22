@@ -86,6 +86,7 @@ public class HuoneEditoriIkkuna {
     static JPanel kortit;
     static boolean reunatNäkyvissä = true;
     static boolean vaatiiPäivityksen = true, vaatiiKentänPäivityksen = false;
+    static boolean näytäTallennusVaroitus = true;
 
     static JPanel tekstiPaneli, infoPaneli;
     static JLabel hudTeksti;
@@ -227,16 +228,25 @@ public class HuoneEditoriIkkuna {
         kokeilePelissä = new JMenuItem("Kokeile pelissä");
         kokeilePelissä.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                asetaUusiHuoneKarttaan(muokattavaHuone);
-                ikkuna.dispose();
-                Peli.huoneKartta = huoneKartta;
-                Peli.uusiHuone = 0;
-                Peli.huoneVaihdettava = true;
-                try {
-                    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-                }
-                catch (Exception ex) {
+                
+                if (näytäTallennusVaroitus) {
+                    int valinta = CustomViestiIkkunat.TiedostonTallennusVaroitus.showDialog();
+                    if (valinta == JOptionPane.NO_OPTION) {
+                        näytäTallennusVaroitus = false;
+                    }
+                    if (valinta == JOptionPane.YES_OPTION || valinta == JOptionPane.NO_OPTION) {
+                        asetaUusiHuoneKarttaan(muokattavaHuone);
+                        ikkuna.dispose();
+                        Peli.huoneKartta = huoneKartta;
+                        Peli.uusiHuone = 0;
+                        Peli.huoneVaihdettava = true;
+                        try {
+                            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                        }
+                        catch (Exception ex) {
 
+                        }
+                    }
                 }
             }
         });
@@ -321,6 +331,9 @@ public class HuoneEditoriIkkuna {
                 huoneenNimi = huoneenNimiTekstiKenttä.getText();
                 huoneenAlue = huoneenAlueTekstiKenttä.getText();
                 huoneKartta.get(muokattavaHuone).päivitäNimiJaAlue(huoneenNimi, huoneenAlue);
+                huoneKartta.get(muokattavaHuone).päivitäHuoneenKenttäSisältö(objektiKenttä);
+                huoneKartta.get(muokattavaHuone).päivitäHuoneenMaastoSisältö(maastoKenttä);
+                huoneKartta.get(muokattavaHuone).päivitäHuoneenNPCSisältö(npcKenttä);
                 huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
             }
         });
@@ -572,6 +585,8 @@ public class HuoneEditoriIkkuna {
         huoneenNimi = huoneKartta.get(uusiHuone).annaNimi();
         huoneenAlue = huoneKartta.get(uusiHuone).annaAlue();
         huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
+        huoneenNimiTekstiKenttä.setText(huoneenNimi);
+        huoneenAlueTekstiKenttä.setText(huoneenAlue);
         huoneenTaustakuvaPolku = huoneKartta.get(uusiHuone).annaTaustanPolku();
     }
 
@@ -1302,7 +1317,7 @@ public class HuoneEditoriIkkuna {
 
                 for (int i = 0; i < Peli.kentänKoko; i++) {
                     for (int j = 0; j < Peli.kentänKoko; j++) {
-                        if (objektiKenttä[j][i] instanceof KenttäKohde) {
+                        if (objektiKenttä[j][i] instanceof KenttäKohde && kenttäKohteenKuvake[j][i] != null) {
                             kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
                         }
                         else if (kenttäKohteenKuvake[j][i] != null) {
@@ -1408,7 +1423,7 @@ public class HuoneEditoriIkkuna {
                         //else if (kenttäKohteenKuvake[j][i] != null) {
                         //    kenttäKohteenKuvake[j][i].setIcon(null);
                         //}
-                        if (maastoKenttä[j][i] instanceof Maasto) {
+                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
                             maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
                         }
                         else if (maastoKohteenKuvake[j][i] != null) {
@@ -1502,7 +1517,7 @@ public class HuoneEditoriIkkuna {
 
                 for (int i = 0; i < Peli.kentänKoko; i++) {
                     for (int j = 0; j < Peli.kentänKoko; j++) {
-                        if (npcKenttä[j][i] instanceof NPC) {
+                        if (npcKenttä[j][i] instanceof NPC && npcKohteenKuvake[j][i] != null) {
                             npcKohteenKuvake[j][i].setIcon(npcKenttä[j][i].annaKuvake());
                         }
                         else if (npcKohteenKuvake[j][i] != null) {

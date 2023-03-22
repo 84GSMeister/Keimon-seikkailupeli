@@ -67,14 +67,26 @@ public class Huone {
         return huoneenNPCSisältö;
     }
 
-    public void päivitäNimiJaAlue(String nimi, String alue) {
+    protected void päivitäNimiJaAlue(String nimi, String alue) {
         this.nimi = nimi;
         this.alue = alue;
     }
 
-    public void päivitäTausta(String taustaString){
+    protected void päivitäTausta(String taustaString){
         this.taustanPolku = taustaString;
         this.tausta = new ImageIcon(taustaString);
+    }
+
+    protected void päivitäHuoneenKenttäSisältö(KenttäKohde[][] k) {
+        this.huoneenKenttäSisältö = k;
+    }
+
+    protected void päivitäHuoneenMaastoSisältö(Maasto[][] m) {
+        this.huoneenMaastoSisältö = m;
+    }
+
+    protected void päivitäHuoneenNPCSisältö(NPC[][] n) {
+        this.huoneenNPCSisältö = n;
     }
 
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){

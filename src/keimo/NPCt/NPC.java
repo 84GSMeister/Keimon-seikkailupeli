@@ -287,7 +287,6 @@ public abstract class NPC {
 
     void vahingoita(int määrä) {
         hp -= määrä;
-        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
     }
 
     void paranna(int määrä) {

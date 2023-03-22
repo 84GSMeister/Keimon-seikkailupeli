@@ -14,7 +14,7 @@ public class Pelaaja {
     //static int sijX_PX_vy, sijX_PX_oa;
     //static int sijY_PX_vy, sijY_PX_oa;
     static Rectangle hitbox = new Rectangle(0, 0, PääIkkuna.pelaajanKokoPx, PääIkkuna.pelaajanKokoPx);
-    protected static int hp;
+    public static int hp;
     static boolean kylläinen = false;
     static int syödytRuoat = 0;
     protected static ImageIcon kuvake;
@@ -408,11 +408,25 @@ public class Pelaaja {
         kuolemattomuusAika = 60;
         ÄänentoistamisSäie.toistaSFX("pelaaja_damage");
         PääIkkuna.ylätekstiHP.setText("HP: " + hp);
+        päivitäTerveys();
     }
 
-    void paranna(int määrä) {
+    static void paranna(int määrä) {
         hp += määrä;
         PääIkkuna.ylätekstiHP.setText("HP: " + hp);
+        päivitäTerveys();
+    }
+
+    static void päivitäTerveys() {
+        if (hp < 6) {
+            keimonTerveys = KeimonTerveys.HUONO;
+        }
+        else if (hp >= 20) {
+            keimonTerveys = KeimonTerveys.HYVÄ;
+        }
+        else {
+            keimonTerveys = KeimonTerveys.OK;
+        }
     }
 
     public static void vähennäKuolemattomuusAikaa() {

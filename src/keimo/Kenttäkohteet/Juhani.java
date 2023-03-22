@@ -3,7 +3,9 @@ package keimo.Kenttäkohteet;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
+import keimo.Pelaaja;
 import keimo.PääIkkuna;
+import keimo.TarkistettavatArvot;
 
 public class Juhani extends NPC_KenttäKohde{
 
@@ -13,10 +15,24 @@ public class Juhani extends NPC_KenttäKohde{
         return new Huume(false, 0, 0);
     }
 
+    public String kokeileEsinettä(Esine e) {
+        if (e instanceof Pesäpallomaila) {
+            return "Juhanille ei ryttyillä!";
+        }
+        else {
+            return super.kokeileEsinettä(e);
+        }
+    }
+
     public Esine suoritaMuutoksetEsineelle(Esine e) {
         if (e instanceof Seteli) {
             e = annaHuume();
-            PääIkkuna.hudTeksti.setText("Ostit Juhanilta huumeen.");
+            PääIkkuna.hudTeksti.setText("Juhani: -Niin se menee, että sinä annat minulle yhden massin ja minä annan sinulle yhden huumeen.");
+            return e;
+        }
+        else if (e instanceof Pesäpallomaila) {
+            TarkistettavatArvot.pelinLoppuSyy = TarkistettavatArvot.PelinLopetukset.KUOLEMA_JUHANI;
+            Pelaaja.hp = 0;
             return e;
         }
         else {
@@ -28,7 +44,7 @@ public class Juhani extends NPC_KenttäKohde{
     public Juhani(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
         this.kelvollisetEsineet.add("Seteli");
         super.asetaTiedot();

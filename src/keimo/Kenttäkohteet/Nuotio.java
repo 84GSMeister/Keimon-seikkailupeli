@@ -47,7 +47,7 @@ public class Nuotio extends Kiintopiste {
         else if (e instanceof Vesiämpäri) {
             if (sytytetty) {
                 this.sytytetty = false;
-                this.kuvake = new ImageIcon("tiedostot/kuvat/nuotio_sammunut.png");
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
                 this.vuorovaikutus = true;
                 statusTeksti = "Nuotio sammutettiin";
             }
@@ -56,6 +56,19 @@ public class Nuotio extends Kiintopiste {
             }
             
         }
+        else if (e instanceof Makkara) {
+            Makkara makkara = (Makkara)e;
+            if (makkara.käristetty) {
+                return "Makkara on jo käristetty hiileksi";
+            }
+            else if (makkara.paistettu) {
+                return "Paistoit liikaa! Nyt makkara on pikimusta.";
+            }
+            else {
+                return "Mmm.. onpas hyvän näköistä kyrsää.";
+            }
+        }
+
         else {
             statusTeksti = "Mitään ei tapahtunut.";
         }

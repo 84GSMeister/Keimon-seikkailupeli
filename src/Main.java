@@ -2,16 +2,11 @@ import keimo.*;
 
 public class Main {
     
+    //Käytetään Peli-luokan metodia, koska Main-luokkaa ei voi kutsua Peli-luokasta käsin.
     static void uusiPeli() {
-        //Peli peli = new Peli();
         Peli.uusiPeli();
     }
 
-    /**
-     * Main class.
-     *
-     * @param args Command line arguments
-     */
     public static void main(String[] args) {
         uusiPeli();
     }

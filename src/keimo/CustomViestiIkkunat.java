@@ -187,4 +187,18 @@ public class CustomViestiIkkunat {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
+
+    public static class TiedostonTallennusVaroitus {
+        
+        static String viesti = "Huom! Kenttä pyyhkiytyy aina uuden pelin jälkeen, jollei sitä ole tallennettu tiedostoon.";
+        static String otsikko = "Kokeile kenttää";
+        static int valitaTyyppi = JOptionPane.YES_NO_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.WARNING_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"OK","Älä näytä uudestaan","Peruuta"};
+
+        static int showDialog() {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
 }

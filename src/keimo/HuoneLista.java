@@ -12,8 +12,6 @@ import java.util.Random;
 
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
-import keimo.NPCt.*;
-import keimo.NPCt.Vihollinen.LiikeTapa;
 
 public class HuoneLista {
     
@@ -22,18 +20,7 @@ public class HuoneLista {
     static int esineitäKentällä = 0;
     static Random r = new Random();
 
-    static ArrayList<KenttäKohde> huone0Kenttä = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huone0Maasto = new ArrayList<Maasto>();
-    static ArrayList<KenttäKohde> huone1Kenttä = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huone1Maasto = new ArrayList<Maasto>();
-    static ArrayList<KenttäKohde> huone2Kenttä = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huone2Maasto = new ArrayList<Maasto>();
-    static ArrayList<KenttäKohde> huone3Kenttä = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huone3Maasto = new ArrayList<Maasto>();
-    static ArrayList<KenttäKohde> huone4Kenttä = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huone4Maasto = new ArrayList<Maasto>();
-    static ArrayList<KenttäKohde> huone5Kenttä = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huone5Maasto = new ArrayList<Maasto>();
+    
 
     /**
      * Arpoo satunnaisesti pelikentän x- ja y-koordinaatit.
@@ -61,6 +48,24 @@ public class HuoneLista {
             }
         }
     }
+
+    /**
+     * Legacy alkaa
+     * Vakiokentän luonti koodissa (ei lataamalla default.kst)
+     */
+
+    // static ArrayList<KenttäKohde> huone0Kenttä = new ArrayList<KenttäKohde>();
+    // static ArrayList<Maasto> huone0Maasto = new ArrayList<Maasto>();
+    // static ArrayList<KenttäKohde> huone1Kenttä = new ArrayList<KenttäKohde>();
+    // static ArrayList<Maasto> huone1Maasto = new ArrayList<Maasto>();
+    // static ArrayList<KenttäKohde> huone2Kenttä = new ArrayList<KenttäKohde>();
+    // static ArrayList<Maasto> huone2Maasto = new ArrayList<Maasto>();
+    // static ArrayList<KenttäKohde> huone3Kenttä = new ArrayList<KenttäKohde>();
+    // static ArrayList<Maasto> huone3Maasto = new ArrayList<Maasto>();
+    // static ArrayList<KenttäKohde> huone4Kenttä = new ArrayList<KenttäKohde>();
+    // static ArrayList<Maasto> huone4Maasto = new ArrayList<Maasto>();
+    // static ArrayList<KenttäKohde> huone5Kenttä = new ArrayList<KenttäKohde>();
+    // static ArrayList<Maasto> huone5Maasto = new ArrayList<Maasto>();
 
     // static KenttäKohde[][] luoVakioKenttä(int huoneenId) {
 
@@ -208,6 +213,15 @@ public class HuoneLista {
     //     }
     //     return npcLista;
     // }
+    /**
+     * Legacy päättyy
+     */
+
+
+     /**
+      * Lataa pelin alussa luotava kenttä default.kst -tiedostosta
+      * 
+      */
 
     static HashMap<Integer, Huone> luoVakioHuoneKarttaTiedostosta() {
         HashMap<Integer, Huone> huoneKartta = null;

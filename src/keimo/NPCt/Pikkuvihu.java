@@ -2,7 +2,10 @@ package keimo.NPCt;
 
 import javax.swing.ImageIcon;
 
+import keimo.PelinAsetukset;
 import keimo.PääIkkuna;
+import keimo.TarkistettavatArvot;
+import keimo.ÄänentoistamisSäie;
 
 public class Pikkuvihu extends Vihollinen {
 
@@ -24,6 +27,11 @@ public class Pikkuvihu extends Vihollinen {
         else {
             return "Vihollinen on kukistettu ja nyt täysin harmiton.";
         }
+    }
+
+    public void vahingoita(int määrä) {
+        super.vahingoita(määrä);
+        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
     }
 
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -57,7 +65,7 @@ public class Pikkuvihu extends Vihollinen {
     
     public Pikkuvihu(LiikeTapa liikeTapa) {
         super(liikeTapa);
-        this.vahinko = 1;
+        this.vahinko = 1 * PelinAsetukset.vaikeusAste;
         this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
         this.kilpiTehoaa = true;
         this.sijX = 0;
@@ -72,7 +80,7 @@ public class Pikkuvihu extends Vihollinen {
 
     public Pikkuvihu(int sijX, int sijY, LiikeTapa liikeTapa) {
         super(liikeTapa);
-        this.vahinko = 1;
+        this.vahinko = 1 * PelinAsetukset.vaikeusAste;
         this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
         this.kilpiTehoaa = true;
         this.sijX = sijX;

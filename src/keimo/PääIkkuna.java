@@ -80,7 +80,7 @@ public class PääIkkuna {
          * Ikkunan ominaisuudet
          */
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.6.2 pre-alpha (21.3.2023)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.6.3 pre-alpha (28.3.2023)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
@@ -753,6 +753,8 @@ public class PääIkkuna {
                         Image kuvake32 = kuvake64.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
                         pelaajanEsineenKuvake = new ImageIcon(kuvake32);
                         pelaajanEsineLabel.setIcon(pelaajanEsineenKuvake);
+
+                        //pelaajanEsineLabel.setIcon(new ImageIcon(((ImageIcon)Pelaaja.esineet[Peli.esineValInt].annaKuvake()).getImage()));
                     }
                     else {
                         pelaajanEsineLabel.setIcon(null);

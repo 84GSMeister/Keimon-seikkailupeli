@@ -92,7 +92,7 @@ public class ValikkoRuutu {
         
         aloita = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_aloita.png"));
         aloita.setAlignmentX(Component.CENTER_ALIGNMENT);
-        vasenOsoitin[0] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+        vasenOsoitin[0] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
 
         asetukset = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_asetukset.png"));
         asetukset.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -109,6 +109,8 @@ public class ValikkoRuutu {
         lopeta = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_lopeta.png"));
         lopeta.setAlignmentX(Component.CENTER_ALIGNMENT);
         vasenOsoitin[4] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+
+        vasenOsoitin[valinta] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
     
         nappiPaneli = new JPanel();
         SpringLayout nappiPanelinlayout = new SpringLayout();

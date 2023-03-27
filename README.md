@@ -1,6 +1,15 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.3.2023): 0.6.2
+## Uusin versio (28.3.2023): 0.6.3
+
+### Versio 0.6.3
+
+ - Animoitu pelaajan liikkumiskuvake
+ - Tarinan alkua hieman uusittu
+ - Asetettu näkyvät nimet ja katsomistekstit setelille ja huumeelle
+ - Korjattu pelin kaatuminen asetusten vaihtamisen jälkeen sekä huone-editorin bugi "Älä näytä uudelleen" painamisen jälkeen
+ - Korjattu bugi, jossa huone-editori ei tallenna arkun sisältöä
+ - Korjattu bugi alkuvalikosta, jossa visuaalinen osoitin jää väärään kohtaan asetusten hyväksymisen jälkeen
 
 ### Versio 0.6.2
 

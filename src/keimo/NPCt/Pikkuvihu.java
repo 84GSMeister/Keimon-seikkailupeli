@@ -13,9 +13,9 @@ public class Pikkuvihu extends Vihollinen {
         if (!this.kukistettu) {
             this.kukistettu = true;
             switch (kukistusTapa) {
-                case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_suutari.png"); break;
-                case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_lyöty.png"); break;
-                default: this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu_suutari.png"); break;
+                case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
+                case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png"); break;
+                default: this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
             }
         }
     }
@@ -66,7 +66,7 @@ public class Pikkuvihu extends Vihollinen {
     public Pikkuvihu(LiikeTapa liikeTapa) {
         super(liikeTapa);
         this.vahinko = 1 * PelinAsetukset.vaikeusAste;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
         this.kilpiTehoaa = true;
         this.sijX = 0;
         this.sijY = 0;
@@ -81,7 +81,7 @@ public class Pikkuvihu extends Vihollinen {
     public Pikkuvihu(int sijX, int sijY, LiikeTapa liikeTapa) {
         super(liikeTapa);
         this.vahinko = 1 * PelinAsetukset.vaikeusAste;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/pikkuvihu.png");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
         this.kilpiTehoaa = true;
         this.sijX = sijX;
         this.sijY = sijY;

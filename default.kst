@@ -124,7 +124,6 @@ Huone 1:
     #kenttä: {
         Suklaalevy_1_9,
         Makkara_2_6,
-        Pesäpallomaila_3_0,
         Makkara_3_4,
         Oviruutu_4_9+ominaisuudet:[kohdehuone=0,kohderuutuX=4,kohderuutuY=0,suunta=ALAS],
         Makkara_5_1,
@@ -350,7 +349,7 @@ Huone 2:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
-        Pikkuvihu_6_3;
+        Pikkuvihu_6_1;
     }
 /Huone
 Huone 3:
@@ -469,7 +468,7 @@ Huone 3:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
-        Pikkuvihu_7_5;
+        Pikkuvihu_7_3;
     }
 /Huone
 Huone 4:
@@ -584,7 +583,7 @@ Huone 4:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
-        Pikkuvihu_7_0;
+        Pikkuvihu_6_1;
     }
 /Huone
 Huone 5:
@@ -592,14 +591,14 @@ Huone 5:
     #alue: Asuintalot;
     #tausta: tausta_asuintalot_parkkipaikka.png;
     #kenttä: {
-        Kirstu_4_2,
+        Kirstu_4_2+ominaisuudet:[sisältö=Pesäpallomaila],
         Ämpärikone_5_6,
         Oviruutu_9_4+ominaisuudet:[kohdehuone=4,kohderuutuX=0,kohderuutuY=4,suunta=OIKEA];
     }
     #maasto: {
     }
     #npc: {
-        Pikkuvihu_8_3;
+        Pikkuvihu_8_1;
     }
 /Huone
 

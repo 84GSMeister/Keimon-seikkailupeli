@@ -63,13 +63,6 @@ public class Pelaaja {
     //     return pelaajaSiirrettiin;
     // }
 
-    enum Suunta {
-        VASEN,
-        OIKEA,
-        ALAS,
-        YLÖS;
-    }
-
     /**
      * Valitse tila, jonka mukaan kuvake valitaan grafiikkasäikeessä sekä
      * @param parannus kasvata hp:ta
@@ -152,18 +145,6 @@ public class Pelaaja {
         try {
             switch (suunta) {
                 case "vasen":
-                    // if (sijX_PX_vy > 0) {
-                    //     if (Peli.maastokenttä[sijX_PX_oa/64 -1][sijY] == null) {
-                    //         //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                    //         pelaajaSiirtyi = siirry("vasen");
-                    //     }
-                    //     else {
-                    //         if (!Peli.maastokenttä[sijX_PX_oa/64 -1][sijY].estääköLiikkumisen()) {
-                    //             //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                    //             pelaajaSiirtyi = siirry("vasen");
-                    //         }
-                    //     }
-                    // }
                     if (hitbox.getMinX() > 0) {
                         if (Peli.maastokenttä[(int)hitbox.getMaxX()/64 -1][sijY] == null) {
                             pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
@@ -175,19 +156,7 @@ public class Pelaaja {
                         }
                     }
                     break;
-                case "oikea":
-                    // if (sijX_PX_oa < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
-                    //     if (Peli.maastokenttä[sijX_PX_vy/64 -1][sijY] == null) {
-                    //         //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                    //         pelaajaSiirtyi = siirry("vasen");
-                    //     }
-                    //     else {
-                    //         if (!Peli.maastokenttä[sijX_PX_vy/64 -1][sijY].estääköLiikkumisen()) {
-                    //             //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                    //             pelaajaSiirtyi = siirry("vasen");
-                    //         }
-                    //     }
-                    // }    
+                case "oikea":   
                     if (hitbox.getMaxX() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                         if (Peli.maastokenttä[(int)hitbox.getMinX()/64 +1][sijY] == null) {
                             pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
@@ -200,18 +169,6 @@ public class Pelaaja {
                     }
                     break;
                 case "alas":
-                    // if (sijY_PX_oa < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
-                    //     if (Peli.maastokenttä[sijX][sijY_PX_vy/64 +1] == null) {
-                    //         //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                    //         pelaajaSiirtyi = siirry("alas");
-                    //     }
-                    //     else {
-                    //         if (!Peli.maastokenttä[sijX][sijY_PX_vy/64 +1].estääköLiikkumisen()) {
-                    //             //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                    //             pelaajaSiirtyi = siirry("alas");
-                    //         }
-                    //     }
-                    // }
                     if (hitbox.getMaxY() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                         if (Peli.maastokenttä[sijX][(int)hitbox.getMinY()/64 +1] == null) {
                             pelaajaSiirtyi = siirry(new LiikkuminenAlas());
@@ -224,18 +181,6 @@ public class Pelaaja {
                     }
                     break;
                 case "ylös":
-                    // if (sijY_PX_vy > 0) {
-                    //     if (Peli.maastokenttä[sijX][sijY_PX_oa/64 -1] == null) {
-                    //         //pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                    //         pelaajaSiirtyi = siirry("ylös");
-                    //     }
-                    //     else {
-                    //         if (!Peli.maastokenttä[sijX][sijY_PX_oa/64 -1].estääköLiikkumisen()) {
-                    //             //pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                    //             pelaajaSiirtyi = siirry("ylös");
-                    //         }
-                    //     }
-                    // }
                     if (hitbox.getMinY() > 0) {
                         if (Peli.maastokenttä[sijX][(int)hitbox.getMaxY()/64 -1] == null) {
                             pelaajaSiirtyi = siirry(new LiikkuminenYlös());
@@ -299,6 +244,19 @@ public class Pelaaja {
         ÜBER;
     }
 
+    static Suunta keimonSuunta = Suunta.ALAS;
+    enum Suunta {
+        VASEN,
+        OIKEA,
+        ALAS,
+        YLÖS;
+    }
+
+    static SuuntaVasenOikea keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+    enum SuuntaVasenOikea {
+        VASEN,
+        OIKEA;
+    }
     
     static boolean pelaajaLiikkuuVasen = false;
     static boolean pelaajaLiikkuuOikea = false;
@@ -310,15 +268,21 @@ public class Pelaaja {
         switch (suunta) {
             case VASEN:
                 pelaajaLiikkuuVasen = true;
+                keimonSuunta = Suunta.VASEN;
+                keimonSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
                 break;
             case OIKEA:
                 pelaajaLiikkuuOikea = true;
+                keimonSuunta = Suunta.OIKEA;
+                keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
                 break;
             case YLÖS:
                 pelaajaLiikkuuYlös = true;
+                keimonSuunta = Suunta.YLÖS;
                 break;
             case ALAS:
                 pelaajaLiikkuuAlas = true;
+                keimonSuunta = Suunta.ALAS;
                 break;
         }
     }
@@ -346,7 +310,6 @@ public class Pelaaja {
 
     void lopetaLiike(Suunta suunta) {
         PääIkkuna.pelaajaSiirtyi = true;
-        keimonState = KeimonState.IDLE;
 
         switch (suunta) {
             case VASEN:
@@ -361,6 +324,10 @@ public class Pelaaja {
             case ALAS:
                 pelaajaLiikkuuAlas = false;
                 break;
+        }
+
+        if (pelaajaLiikkuuVasen == false && pelaajaLiikkuuOikea == false && pelaajaLiikkuuYlös == false && pelaajaLiikkuuAlas == false) {
+            keimonState = KeimonState.IDLE;
         }
     }
 

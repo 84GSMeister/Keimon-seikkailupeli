@@ -9,4 +9,5 @@ public class PelinAsetukset {
     static int makkaroidenMäärä = 6;
     static int vihujenMäärä = 5;
     static int tavoiteFPS = 100_000;
+
 }

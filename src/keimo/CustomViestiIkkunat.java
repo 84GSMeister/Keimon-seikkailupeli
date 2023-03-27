@@ -5,6 +5,20 @@ import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
 
 public class CustomViestiIkkunat {
+
+    public static class SuljeVirheenJälkeen {
+
+        static String viesti = "\n\nKäsittämätön poikkeus sovelluksessa.";
+        static String otsikko = "Fataali häire!";
+        static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"Yritä uudestaan (ihan turhaa mut laitoin tän kuitenkin)", "Sulje sovellus"};
+
+        static int showDialog() {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
+        }
+    }
     
     public static class Loppuonnittelu {
         

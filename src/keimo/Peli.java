@@ -924,11 +924,23 @@ public class Peli {
 
     public static void uusiPeli() {
         
-        kentänKoko = TarkistettavatArvot.uusiKentänKoko;
-        kentänYläraja = kentänAlaraja + kentänKoko - 1;
-        pause = true;
-        peliKäynnissä = true;
-        new Peli();
+        try {
+            kentänKoko = TarkistettavatArvot.uusiKentänKoko;
+            kentänYläraja = kentänAlaraja + kentänKoko - 1;
+            pause = true;
+            peliKäynnissä = true;
+            new Peli();
+        }
+        catch (Exception e) {
+            int virheValinta = CustomViestiIkkunat.SuljeVirheenJälkeen.showDialog();
+            if (virheValinta == 1) {
+                System.exit(0);
+            }
+            else {
+                uusiPeli();
+            }
+            System.exit(0);
+        }
     }
 
     private static String format(BigDecimal x) {

@@ -53,7 +53,7 @@ public class PahaVihu extends Vihollinen_KenttöKohde {
         super.vahinko = 1 * PelinAsetukset.vaikeusAste;
         super.hp = 3 * PelinAsetukset.vaikeusAste;
         super.nimi = "Pahavihu";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/pahavihu.png");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/pahavihu.gif");
         super.kilpiTehoaa = false;
         super.asetaTiedot();
     }

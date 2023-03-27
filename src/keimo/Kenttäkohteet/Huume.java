@@ -44,6 +44,7 @@ public class Huume extends Ruoka{
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/huume.png");
         super.käyttö = true;
         super.heal = 30;
+        super.katsomisTeksti = "Tää menee ykkösel alas";
         super.asetaTiedot();
     }
 }

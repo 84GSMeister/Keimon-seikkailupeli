@@ -16,7 +16,7 @@ public class TarkistettavatArvot {
         }
     }
 
-    public static PelinLopetukset pelinLoppuSyy = null;
+    public static PelinLopetukset pelinLoppuSyy = PelinLopetukset.NORMAALI_VOITTO;
 
     public static enum PelinLopetukset {
         NORMAALI_VOITTO,

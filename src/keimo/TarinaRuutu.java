@@ -20,7 +20,7 @@ public class TarinaRuutu {
     static JButton jatka;
 
     static int klikkaustenMäärä = 0;
-    static int tarinanPituusRuutuina = 4;
+    static int tarinanPituusRuutuina = 3;
     static String[] tarinaTeksti = new String[tarinanPituusRuutuina];
     static ImageIcon[] tarinanKuva = new ImageIcon[tarinanPituusRuutuina];
     
@@ -30,7 +30,7 @@ public class TarinaRuutu {
         tarinanKuva[0] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_1.png");
         tarinanKuva[1] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_2.gif");
         tarinanKuva[2] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_3.png");
-        tarinanKuva[3] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_4.png");
+        //tarinanKuva[3] = new ImageIcon("tiedostot/kuvat/tarina/alku/tarina_alku_4.png");
 
         tarinaTeksti[0] = "<html><p>" +
         "Keimo herää auringon säteiden aiheuttamaan kipuun. " +
@@ -46,15 +46,19 @@ public class TarinaRuutu {
         "</p></html>";
 
         tarinaTeksti[2] = "<html><p>" +
-        "Pilvet leijailivat taivalla ylösalaisin. Linnut kävelivät maassa sen sijaan, että lentäisivät taivaalla.<br>" +
-        "Ja puistossa miehet ulkoiluttivat lapsiaan kun heidän vaimonsa olivat kotona katsomassa jääkiekkoa.<br>" +
-        "Lyhyesti sanottuna maailma oli mennyt vinksalleen." +
+        "Puisto on autioitunut tavallisista ihmisistä.<br>" +
+        "Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä.<br>" +
+        "Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria.<br>" +
+        "Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme.<br>" +
+        "<br>" +
+        "Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut?<br>" +
+        "Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin!" +
         "</p></html>";
 
-        tarinaTeksti[3] = "<html><p>" +
-        "Sitten radiosta kuului lyhyt ilmoitus, jonka suuruuden vain Keimo käsitti: <br>" +
-        "''Alienit ovat hyökänneet Suomeen. Pyydämme kaikkia Suomen kansalaisia palaamaan koteihinsa ja aseistamaan itsensä pesäpallomailoilla itsepuolustusta varten.''" +
-        "</p></html>";
+        // tarinaTeksti[3] = "<html><p>" +
+        // "Sitten radiosta kuului lyhyt ilmoitus, jonka suuruuden vain Keimo käsitti: <br>" +
+        // "''Alienit ovat hyökänneet Suomeen. Pyydämme kaikkia Suomen kansalaisia palaamaan koteihinsa ja aseistamaan itsensä pesäpallomailoilla itsepuolustusta varten.''" +
+        // "</p></html>";
 
         klikkaustenMäärä = 0;
 

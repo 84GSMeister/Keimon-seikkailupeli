@@ -101,13 +101,13 @@ public class HuoneEditoriIkkuna {
             e.printStackTrace();
         }
 
-        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 35;
-        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 310;
+        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 50;
+        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 340;
         kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         npcKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Huone-editori v0.3");
+        ikkuna = new JFrame("Huone-editori v0.3.1");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         //ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -246,6 +246,19 @@ public class HuoneEditoriIkkuna {
                         catch (Exception ex) {
 
                         }
+                    }
+                }
+                else {
+                    asetaUusiHuoneKarttaan(muokattavaHuone);
+                    ikkuna.dispose();
+                    Peli.huoneKartta = huoneKartta;
+                    Peli.uusiHuone = 0;
+                    Peli.huoneVaihdettava = true;
+                    try {
+                        UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                    }
+                    catch (Exception ex) {
+
                     }
                 }
             }
@@ -894,6 +907,8 @@ public class HuoneEditoriIkkuna {
                     case "Kirstu":
                         Kirstu kirstu = (Kirstu)objektiKenttä[sijX][sijY];
                         kirstu.asetaSisältö(sisältöValinta.getSelectedItem().toString());
+                        kirstu.lisäOminaisuuksia = true;
+                        kirstu.päivitäLisäOminaisuudet();
                         objektiKenttä[sijX][sijY] = kirstu;
                         muokkausIkkuna.dispose();
                         break;

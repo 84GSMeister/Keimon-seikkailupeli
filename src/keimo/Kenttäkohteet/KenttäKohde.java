@@ -16,7 +16,7 @@ public abstract class KenttäKohde {
     boolean määritettySijainti = false;
     int sijX;
     int sijY;
-    boolean lisäOminaisuuksia = false;
+    public boolean lisäOminaisuuksia = false;
     String[] lisäOminaisuudet;
 
     public boolean onkoMääritettySijainti() {

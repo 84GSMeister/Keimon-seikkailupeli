@@ -44,6 +44,12 @@ public class Kirstu extends Kiintopiste {
         }
     }
 
+    public void päivitäLisäOminaisuudet() {
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet[0] = "sisältö=" + this.annaSisältö();
+    }
+
     public void avaa() {
         this.vuorovaikutus = true;
         this.tavoiteSuoritettu = true;

@@ -8,6 +8,13 @@ public class TarkistettavatArvot {
     protected static int lyödytVihut = 0;
     protected static int ämpäröidytVihut = 0;
 
+    public static void nollaa() {
+        uusiKentänKoko = 10;
+        npcId = 0;
+        lyödytVihut = 0;
+        ämpäröidytVihut = 0;
+    }
+
     public static void lisääTappoLaskuriin(String tappoTapa) {
         switch (tappoTapa) {
             case "Pesäpallomaila": lyödytVihut++; break;
@@ -20,7 +27,9 @@ public class TarkistettavatArvot {
 
     public static enum PelinLopetukset {
         NORMAALI_VOITTO,
-        KUOLEMA_VIHOLLINEN,
+        KUOLEMA_VIHOLLINEN_NEUTRAALI,
+        KUOLEMA_VIHOLLINEN_PIESTY,
+        KUOLEMA_VIHOLLINEN_ÄMPÄRÖITY,
         KUOLEMA_JUHANI,
         YLENSYÖNTI;
     }

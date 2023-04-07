@@ -311,7 +311,7 @@ public class MukautusIkkuna {
                 JOptionPane.showMessageDialog(null, "Huone ID:llä " + huoneenId + " löytyy jo.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                if (kentänKoko > 15) {
+                if (kentänKoko > 10) {
                     int kentänKokoVaroitus = CustomViestiIkkunat.IsoKenttäVaroitus.showDialog();
                     if (kentänKokoVaroitus == JOptionPane.OK_OPTION) {
                         asetaArvot(huoneenId, huoneenNimi, kentänKoko, suklaidenMäärä, makkaroidenMäärä, vihujenMäärä, tehtäväItemit);

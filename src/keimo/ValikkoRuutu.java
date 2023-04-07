@@ -60,7 +60,7 @@ public class ValikkoRuutu {
         switch (valinta) {
             case 0: // Aloita peli
                 PääIkkuna.crd.next(PääIkkuna.kortit);
-                //PääIkkuna.ikkuna.requestFocus();
+                OsionAlkuRuutu.jatka.requestFocus();
                 break;
             case 1: // Asetukset
                 AsetusIkkuna.luoAsetusikkuna();
@@ -87,29 +87,31 @@ public class ValikkoRuutu {
         logoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         logoPaneli.setBackground(Color.black);
         logoPaneli.add(logo);
-
-        vasenOsoitin = new JLabel[vaihtoehtojenMäärä];
         
         aloita = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_aloita.png"));
         aloita.setAlignmentX(Component.CENTER_ALIGNMENT);
-        vasenOsoitin[0] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+        //vasenOsoitin[0] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
 
         asetukset = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_asetukset.png"));
         asetukset.setAlignmentX(Component.CENTER_ALIGNMENT);
-        vasenOsoitin[1] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+        //vasenOsoitin[1] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
 
         huoneEditori = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_editori.png"));
         huoneEditori.setAlignmentX(Component.CENTER_ALIGNMENT);
-        vasenOsoitin[2] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+        //vasenOsoitin[2] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
 
         tekijät = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_kehittäjät.png"));
         tekijät.setAlignmentX(Component.CENTER_ALIGNMENT);
-        vasenOsoitin[3] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+        //vasenOsoitin[3] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
 
         lopeta = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_lopeta.png"));
         lopeta.setAlignmentX(Component.CENTER_ALIGNMENT);
-        vasenOsoitin[4] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+        //vasenOsoitin[4] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
 
+        vasenOsoitin = new JLabel[vaihtoehtojenMäärä];
+        for (int i = 0; i < vaihtoehtojenMäärä; i++) {
+            vasenOsoitin[i] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
+        }
         vasenOsoitin[valinta] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
     
         nappiPaneli = new JPanel();

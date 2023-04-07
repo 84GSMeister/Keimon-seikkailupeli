@@ -28,6 +28,14 @@ public class Huone {
     int npcitäKentällä = 0;
     boolean näytäAlkuDialogi = false;
     String alkuDialogi;
+    boolean warpVasen = false;
+    boolean warpOikea = false;
+    boolean warpAlas = false;
+    boolean warpYlös = false;
+    int warpVasenHuoneId = 0;
+    int warpOikeaHuoneId = 0;
+    int warpAlasHuoneId = 0;
+    int warpYlösHuoneId = 0;
 
     static Random r = new Random();
 
@@ -87,6 +95,17 @@ public class Huone {
 
     protected void päivitäHuoneenNPCSisältö(NPC[][] n) {
         this.huoneenNPCSisältö = n;
+    }
+
+    protected void päivitäReunawarppienTiedot(boolean warpVasen, int warpVasenHuoneId, boolean warpOikea, int warpOikeaHuoneId, boolean warpAlas, int warpAlasHuoneId, boolean warpYlös, int warpYlösHuoneId) {
+        this.warpVasen = warpVasen;
+        this.warpVasenHuoneId = warpVasenHuoneId;
+        this.warpOikea = warpOikea;
+        this.warpOikeaHuoneId = warpOikeaHuoneId;
+        this.warpAlas = warpAlas;
+        this.warpAlasHuoneId = warpAlasHuoneId;
+        this.warpYlös = warpYlös;
+        this.warpYlösHuoneId = warpYlösHuoneId;
     }
 
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){

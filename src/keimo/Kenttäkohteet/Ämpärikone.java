@@ -15,10 +15,6 @@ public class Ämpärikone extends Kiintopiste {
         return "Täältä saa ilmaisia ämpäreitä";
     }
 
-    public String annaNimi() {
-        return nimi;
-    }
-
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

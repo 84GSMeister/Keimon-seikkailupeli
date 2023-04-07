@@ -28,6 +28,7 @@ public class PeliKenttäMetodit {
     static void suoritaPelikenttäMetoditNopea() {
         liikutaVihollisiaPikseliliikeJatkuvaSilmukka();
         Pelaaja.vähennäKuolemattomuusAikaa();
+        Peli.vähennäWarppiViivettä();
     }
 
     static void nollaaVihollistenTila() {
@@ -105,7 +106,15 @@ public class PeliKenttäMetodit {
 
                                     }
                                     else {
-                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN;
+                                        if (TarkistettavatArvot.lyödytVihut > 0) {
+                                            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIESTY;
+                                        }
+                                        else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ÄMPÄRÖITY;
+                                        }
+                                        else {
+                                            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_NEUTRAALI;
+                                        }
                                         Pelaaja.vahingoita(vihollinen.vahinko);
                                     }
                                 }

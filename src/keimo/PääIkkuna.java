@@ -4,13 +4,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.text.DecimalFormat;
 
-import keimo.Kenttäkohteet.Esine;
-import keimo.Kenttäkohteet.KenttäKohde;
-import keimo.Kenttäkohteet.Kiintopiste;
-import keimo.Kenttäkohteet.NPC_KenttäKohde;
-import keimo.Kenttäkohteet.Vihollinen_KenttöKohde;
-import keimo.Kenttäkohteet.Warp;
-import keimo.Maastot.Maasto;
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
 import keimo.NPCt.*;
 
 public class PääIkkuna {
@@ -35,6 +30,7 @@ public class PääIkkuna {
     static JLabel ylätekstiSij;
     static JLabel ylätekstiKohde;
     static JLabel ylätekstiHP;
+    public static JLabel ylätekstiKuparit;
     static JLabel ylätekstiViive;
     static JLabel ylätekstiFPS;
     static JLabel tavoiteTeksti1;
@@ -80,7 +76,7 @@ public class PääIkkuna {
          * Ikkunan ominaisuudet
          */
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v0.6.3 pre-alpha (28.3.2023)");
+        ikkuna = new JFrame("Keimon Seikkailupeli v0.6.4 pre-alpha (7.4.2023)");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
@@ -100,13 +96,6 @@ public class PääIkkuna {
                 uusiIkkuna = true;
             }
         });
-
-        mukauta = new JMenuItem("Mukauta", new ImageIcon("tiedostot/kuvat/menu/gui/mukauta.png"));
-        mukauta.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                MukautusIkkuna.luoMukautusikkuna();
-            }
-        });
         
         asetukset = new JMenuItem("Asetukset", new ImageIcon("tiedostot/kuvat/menu/gui/asetukset.png"));
         asetukset.addActionListener(new ActionListener() {
@@ -117,7 +106,6 @@ public class PääIkkuna {
 
         peli = new JMenu("Peli");
         peli.add(uusiPeli);;
-        peli.add(mukauta);
         peli.add(new JSeparator());
         peli.add(asetukset);
 
@@ -192,15 +180,24 @@ public class PääIkkuna {
             }
         });
 
-        huoneenVaihto = new JMenuItem("Warppaa huoneeseen");
+        huoneenVaihto = new JMenuItem("Warppaa huoneeseen", new ImageIcon("tiedostot/kuvat/menu/gui/warppaa.png"));
         huoneenVaihto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 HuoneenVaihtoIkkuna.luoHuoneenVaihtoikkuna();
             }
         });
+
+        mukauta = new JMenuItem("Luo huone", new ImageIcon("tiedostot/kuvat/menu/gui/mukauta.png"));
+        mukauta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MukautusIkkuna.luoMukautusikkuna();
+            }
+        });
+
         huoneSubmenu = new JMenu("Huone");
         huoneSubmenu.setIcon(new ImageIcon("tiedostot/kuvat/menu/gui/huone.png"));
         huoneSubmenu.add(huoneenVaihto);
+        huoneSubmenu.add(mukauta);
         
         debug = new JMenu("Debug");
         debug.add(näytäSijainti);
@@ -345,11 +342,11 @@ public class PääIkkuna {
         kontrolliInfoLabel[1] = new JLabel("Space: Käytä esinettä");
         kontrolliInfoLabel[2] = new JLabel("1-5: Vaihda tavarapaikkaa");
         kontrolliInfoLabel[3] = new JLabel("E: Poimi");
-        kontrolliInfoLabel[4] = new JLabel("Q: Pudota");
-        kontrolliInfoLabel[5] = new JLabel("Z: Yhdistä");
-        kontrolliInfoLabel[6] = new JLabel("X: Katso esinettä");
-        kontrolliInfoLabel[7] = new JLabel("C: Katso kentän kohdetta");
-        kontrolliInfoLabel[8] = new JLabel("F: Erikoiskäyttö");
+        kontrolliInfoLabel[4] = new JLabel("F: Vuorovaikutus");
+        kontrolliInfoLabel[5] = new JLabel("Q: Pudota");
+        kontrolliInfoLabel[6] = new JLabel("Z: Yhdistä");
+        kontrolliInfoLabel[7] = new JLabel("X: Katso esinettä");
+        kontrolliInfoLabel[8] = new JLabel("C: Katso kentän kohdetta");
         
         infoPaneli = new JPanel();
         infoPaneli.setLayout(new GridLayout(9, 1));
@@ -432,6 +429,10 @@ public class PääIkkuna {
         ylätekstiHP.setVisible(true);
         ylätekstiHP.setBounds(10,5, 300, 20);
 
+        ylätekstiKuparit = new JLabel("Tölkkejä: " + 0);
+        ylätekstiKuparit.setVisible(true);
+        ylätekstiKuparit.setBounds(430,5, 300, 20);
+
         ylätekstiViive = new JLabel("Päivitysaika");
         ylätekstiViive.setVisible(fpsNäkyvissä);
         ylätekstiViive.setBounds(210,20, 220, 20);
@@ -440,17 +441,17 @@ public class PääIkkuna {
         ylätekstiFPS.setVisible(fpsNäkyvissä);
         ylätekstiFPS.setBounds(210,35, 220, 20);
 
-        tavoiteTeksti1 = new JLabel("Tavoite 1");
-        tavoiteTeksti1.setVisible(true);
-        tavoiteTeksti1.setBounds(430,5, 500, 20);
+        // tavoiteTeksti1 = new JLabel("Tavoite 1");
+        // tavoiteTeksti1.setVisible(true);
+        // tavoiteTeksti1.setBounds(430,5, 500, 20);
 
-        tavoiteTeksti2 = new JLabel("Tavoite 2");
-        tavoiteTeksti2.setVisible(true);
-        tavoiteTeksti2.setBounds(430,20, 500, 20);
+        // tavoiteTeksti2 = new JLabel("Tavoite 2");
+        // tavoiteTeksti2.setVisible(true);
+        // tavoiteTeksti2.setBounds(430,20, 500, 20);
 
-        tavoiteTeksti3 = new JLabel("Tavoite 3");
-        tavoiteTeksti3.setVisible(true);
-        tavoiteTeksti3.setBounds(430,35, 500, 20);
+        // tavoiteTeksti3 = new JLabel("Tavoite 3");
+        // tavoiteTeksti3.setVisible(true);
+        // tavoiteTeksti3.setBounds(430,35, 500, 20);
 
         yläPaneeli = new JPanel();
         yläPaneeli.setLayout(null);
@@ -462,9 +463,10 @@ public class PääIkkuna {
         yläPaneeli.add(ylätekstiHP);
         yläPaneeli.add(ylätekstiViive);
         yläPaneeli.add(ylätekstiFPS);
-        yläPaneeli.add(tavoiteTeksti1);
-        yläPaneeli.add(tavoiteTeksti2);
-        yläPaneeli.add(tavoiteTeksti3);
+        yläPaneeli.add(ylätekstiKuparit);
+        //yläPaneeli.add(tavoiteTeksti1);
+        //yläPaneeli.add(tavoiteTeksti2);
+        //yläPaneeli.add(tavoiteTeksti3);
         yläPaneeli.revalidate();
         yläPaneeli.repaint();
 
@@ -687,6 +689,10 @@ public class PääIkkuna {
         
         if (vaatiiPäivityksen) {
             try {
+                
+                ylätekstiHP.setText("HP: " + Pelaaja.hp);
+                ylätekstiKuparit.setText("Tölkkejä: " + Pelaaja.kuparit);
+                
                 for (int i = 0; i < Peli.kentänKoko; i++) {
                     for (int j = 0; j < Peli.kentänKoko; j++) {
                         if (kenttäKohteenKuvake[j][i] != null) {

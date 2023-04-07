@@ -27,7 +27,7 @@ public class Juhani extends NPC_KenttäKohde{
     public Esine suoritaMuutoksetEsineelle(Esine e) {
         if (e instanceof Seteli) {
             e = annaHuume();
-            PääIkkuna.hudTeksti.setText("Juhani: -Niin se menee, että sinä annat minulle yhden massin ja minä annan sinulle yhden huumeen.");
+            PääIkkuna.hudTeksti.setText("Juhani: -Kyllä tää nyt siltä näyttää, että sinä annat minulle yhden massin ja minä annan sinulle yhden huumeen.");
             return e;
         }
         else if (e instanceof Pesäpallomaila) {

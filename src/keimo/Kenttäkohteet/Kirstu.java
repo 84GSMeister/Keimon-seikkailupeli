@@ -61,7 +61,7 @@ public class Kirstu extends Kiintopiste {
             return "Avattu kirstu";
         }
         else {
-            return "Kirstu on lukittu. Siihen tarvitsee varmaankin avaimen. Löytyisiköhän kentältä sellainen?";
+            return "Kirstu on lukittu. Löytyisiköhän jostain siihen avain?";
         }
     }
 

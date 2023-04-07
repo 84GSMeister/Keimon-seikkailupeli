@@ -63,7 +63,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                             case HUONO:
                                 switch (Pelaaja.keimonKylläisyys) {
                                     case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/idle/pelaaja_idle_huono_vasen_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/idle/pelaaja_idle_huono_vasena_normaali.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/idle/pelaaja_idle_huono_vasen_normaali.gif"); break;
                                     case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/idle/pelaaja_idle_huono_vasen_lihava.gif"); break;
                                     case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/idle/pelaaja_idle_huono_vasen_erittäinlihava.gif"); break;
                                     case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/idle/pelaaja_ylensyönti.png"); break;
@@ -233,7 +233,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                 }
             break;
             case KUOLLUT:
-                Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_Kuollut.png");
+                Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_kuollut.png");
             break;
         }
         if (Pelaaja.kuolemattomuusAika > 0) {

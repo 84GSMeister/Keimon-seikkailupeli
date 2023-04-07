@@ -10,13 +10,13 @@ public class ÄänentoistamisSäie extends Thread{
     static int musaValinta = 0;
 
     void luoMusaKartta() {
-        musiikkiVaihtoehdot.put(0, new File("tiedostot/musat/udo_haukkuu_mario2.mp3"));
+        musiikkiVaihtoehdot.put(0, new File("tiedostot/musat/udo_haukkuu_mario2_loop.mp3"));
         musiikkiVaihtoehdot.put(1, new File("tiedostot/musat/udo_haukkuu_90s.mp3"));
         musiikkiVaihtoehdot.put(2, new File("tiedostot/musat/udo_haukkuu_nyän.mp3"));
         musiikkiVaihtoehdot.put(3, new File("tiedostot/musat/udo_haukkuu_smw.mp3"));
         musiikkiVaihtoehdot.put(4, new File("tiedostot/musat/udo_haukkuu_rick.mp3"));
         musiikkiVaihtoehdot.put(5, new File("tiedostot/musat/udo_haukkuu_diiduu.mp3"));
-        musiikkiVaihtoehdot.put(6, new File("tiedostot/musat/udo_haukkuu_wide.mp3"));
+        musiikkiVaihtoehdot.put(6, new File("tiedostot/musat/udo_haukkuu_wide_loop.mp3"));
     }
 
     void toistaMusiikki() {
@@ -64,6 +64,10 @@ public class ÄänentoistamisSäie extends Thread{
                 ääniToistin = new MP3Player(new File("tiedostot/äänet/pikkuvihu_damage.mp3"));
                 ääniToistin.play();
                 break;
+
+            case "tölkki":
+                ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki.mp3"));
+                ääniToistin.play();
             default:
                 break;
         }

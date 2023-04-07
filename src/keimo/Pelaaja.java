@@ -15,6 +15,7 @@ public class Pelaaja {
     //static int sijY_PX_vy, sijY_PX_oa;
     static Rectangle hitbox = new Rectangle(0, 0, PääIkkuna.pelaajanKokoPx, PääIkkuna.pelaajanKokoPx);
     public static int hp;
+    public static int kuparit;
     static boolean kylläinen = false;
     static int syödytRuoat = 0;
     protected static ImageIcon kuvake;
@@ -410,6 +411,7 @@ public class Pelaaja {
 
     Pelaaja() {
         this.hp = Peli.aloitusHp;
+        this.kuparit = 0;
         this.syödytRuoat = 0;
         this.kuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
         this.keimonState = KeimonState.IDLE;

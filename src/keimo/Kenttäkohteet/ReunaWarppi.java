@@ -102,7 +102,7 @@ public class ReunaWarppi extends Warp {
 
         for (String ominaisuus : ominaisuusLista) {
             if (ominaisuus.startsWith("kohdehuone=")) {
-                this.kohdeHuone = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
             }
             else if (ominaisuus.startsWith("kohderuutuX=")) {
                 this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));

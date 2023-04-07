@@ -186,6 +186,7 @@ public class OsionAlkuRuutu {
         jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jatka.requestFocus();
     
         tekstiPaneli = new JPanel();
         tekstiPaneli.setLayout(new FlowLayout(FlowLayout.TRAILING));

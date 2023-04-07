@@ -22,7 +22,15 @@ public class AsetusIkkuna {
             boolean musiikkiPäällä = musiikkiPäälläCheckbox.isSelected();
             PelinAsetukset.vaikeusAste = Integer.parseInt(vaikeusasteTekstikenttä.getText());
             PelinAsetukset.tavoiteFPS = Integer.parseInt(tavoiteFPSTekstikenttä.getText()) + 1;
-            asetaArvot(musiikkiPäällä);
+            if (PelinAsetukset.vaikeusAste < 0) {
+                JOptionPane.showMessageDialog(null, "Vaikeusaste ei voi olla negatiivinen!\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (PelinAsetukset.tavoiteFPS < 1) {
+                JOptionPane.showMessageDialog(null, "Tavoite-FPS ei voi olla negatiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                asetaArvot(musiikkiPäällä);
+            }
         }
         catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);

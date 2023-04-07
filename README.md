@@ -1,6 +1,13 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (28.3.2023): 0.6.3
+## Uusin versio (7.4.2023): 0.6.4
+
+### Versio 0.6.4
+
+ - Uudet häviöanimaatiot (kuolemat viholliselle, ylensyönti ja Juhani)
+ - Pelikentän koko reuna voi warpata huoneeseen (warppi tallentuu .kst-tiedostoon, mutta editorista puuttuu vielä toiminto, jolla sen voisi asettaa)
+ - Pelikentttää (default.kst) jatkettu uusilla maisemilla (suunnitelma)
+ - Rainbow lager -tölkit, joita keräämällä voi ansaita rahaa -> rahan voi antaa Juhanille
 
 ### Versio 0.6.3
 

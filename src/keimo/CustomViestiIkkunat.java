@@ -86,7 +86,7 @@ public class CustomViestiIkkunat {
 
     public static class Ohjeet {
         
-        static String viesti = "Kontrollit\n\nNuolet / WASD: Liiku\nSpace: käytä esinettä\n1-5: Vaihda tavarapaikkaa\nE: Poimi\nQ: Pudota\nF: Erikoiskäyttö\nZ: Yhdistä\nX: Katso esinettä\nC: Katso kentän kohdetta\nR: Järjestä tavaraluettelo\n\n\nLisäkomennot \n\nF2: Pakota ruudunpäivitys\n\n\nTavoitteet\n\n1: Sytytä nuotio\n2: Avaa kirstu\n3: Syö";
+        static String viesti = "Kontrollit\n\nNuolet / WASD: Liiku\nSpace: käytä esinettä\n1-5: Vaihda tavarapaikkaa\nE: Poimi\nQ: Pudota\nF: Vuorovaikutus\nZ: Yhdistä\nX: Katso esinettä\nC: Katso kentän kohdetta\nR: Järjestä tavaraluettelo\n\n\nLisäkomennot \n\nF2: Pakota ruudunpäivitys\n\n\nTavoitteet\n\n1: Sytytä nuotio\n2: Avaa kirstu\n3: Syö";
         static String otsikko = "Ohjeet";
         static int valitaTyyppi = JOptionPane.OK_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
@@ -114,7 +114,7 @@ public class CustomViestiIkkunat {
 
     public static class IsoKenttäVaroitus {
         
-        static String viesti = "Ei ehkä kannata tehdä noin isoa kenttää, sillä se voi mennä yli näytöstäsi\n(olettaen, että sinulla on 1920 x 1080 -näyttö).\n\nLisäksi se voi lagittaa aika paljon.";
+        static String viesti = "Ei ehkä kannata tehdä noin isoa kenttää. Muutama syy: \n -UI:ta ei ole suuniteltu yli 10-koon kentälle, joten \nse voi mennä yli näytöstäsi(olettaen, että sinulla on 1920 x 1080 -näyttö)\n -se voi lagittaa aika paljon \n -todennäköisesti rikkoo koko pelin";
         static String otsikko = "Melko iso kenttä";
         static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
         static int viestiTyyppi = JOptionPane.WARNING_MESSAGE;

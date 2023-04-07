@@ -62,8 +62,8 @@ public class HuoneEditoriIkkuna {
     static JLabel huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JLabel huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kirstu", "Makkara", "Nuotio", "Pahavihu", "Paperi", "Pesäpallomaila", "Pikkuvihu", "Oviruutu", "Seteli", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
-    static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Makkara", "Paperi", "Pesäpallomaila", "Seteli", "Suklaalevy", "Vesiämpäri"};
+    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppa", "Kilpi", "Kirstu", "Kuparilager", "Makkara", "Nuotio", "Pahavihu", "Paperi", "Pesäpallomaila", "Pikkuvihu", "Oviruutu", "Seteli", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
+    static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Seteli", "Suklaalevy", "Vesiämpäri"};
     static String[] npcNimiLista = {"Pikkuvihu", "Pahavihu"};
     static JComboBox<String> esineValikko;
     static JComboBox<Object> maastoValikko;
@@ -75,6 +75,14 @@ public class HuoneEditoriIkkuna {
     static ImageIcon huoneenTaustakuva;
     static String huoneenTaustakuvaPolku = "";
     static String huoneenAlkuDialogiTeksti = "";
+    static boolean warpVasen = false;
+    static boolean warpOikea = false;
+    static boolean warpAlas = false;
+    static boolean warpYlös = false;
+    static int warpVasenHuoneId = 0;
+    static int warpOikeaHuoneId = 0;
+    static int warpAlasHuoneId = 0;
+    static int warpYlösHuoneId = 0;
 
     static JButton[][] kenttäKohteenKuvake, maastoKohteenKuvake, npcKohteenKuvake;
     static KenttäKohde[][] objektiKenttä;
@@ -201,6 +209,14 @@ public class HuoneEditoriIkkuna {
                         }
                         huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
                         lataaHuoneKartasta(muokattavaHuone);
+                        warpVasen = huoneKartta.get(muokattavaHuone).warpVasen;
+                        warpOikea = huoneKartta.get(muokattavaHuone).warpOikea;
+                        warpAlas = huoneKartta.get(muokattavaHuone).warpAlas;
+                        warpYlös = huoneKartta.get(muokattavaHuone).warpYlös;
+                        warpVasenHuoneId = huoneKartta.get(muokattavaHuone).warpVasenHuoneId;
+                        warpOikeaHuoneId = huoneKartta.get(muokattavaHuone).warpOikeaHuoneId;
+                        warpAlasHuoneId = huoneKartta.get(muokattavaHuone).warpAlasHuoneId;
+                        warpYlösHuoneId = huoneKartta.get(muokattavaHuone).warpYlösHuoneId;
                     }
                 }
                 catch (FileNotFoundException fnfe) {
@@ -601,6 +617,14 @@ public class HuoneEditoriIkkuna {
         huoneenNimiTekstiKenttä.setText(huoneenNimi);
         huoneenAlueTekstiKenttä.setText(huoneenAlue);
         huoneenTaustakuvaPolku = huoneKartta.get(uusiHuone).annaTaustanPolku();
+        warpVasen = huoneKartta.get(uusiHuone).warpVasen;
+        warpVasenHuoneId = huoneKartta.get(uusiHuone).warpVasenHuoneId;
+        warpOikea = huoneKartta.get(uusiHuone).warpOikea;
+        warpOikeaHuoneId = huoneKartta.get(uusiHuone).warpOikeaHuoneId;
+        warpAlas = huoneKartta.get(uusiHuone).warpAlas;
+        warpAlasHuoneId = huoneKartta.get(uusiHuone).warpAlasHuoneId;
+        warpYlös = huoneKartta.get(uusiHuone).warpYlös;
+        warpYlösHuoneId = huoneKartta.get(uusiHuone).warpYlösHuoneId;
     }
 
     static void asetaUusiHuoneKarttaan(int nykyinenHuone) {
@@ -623,8 +647,8 @@ public class HuoneEditoriIkkuna {
                 npcKenttäLista.add(n);
             }
         }
-        
         huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10,  huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, false, "alkudialogi"));
+        huoneKartta.get(nykyinenHuone).päivitäReunawarppienTiedot(warpVasen, warpVasenHuoneId, warpOikea, warpOikeaHuoneId, warpAlas, warpAlasHuoneId, warpYlös, warpYlösHuoneId);
         for (int i = 0; i < Peli.kentänKoko; i++) {
             for (int j = 0; j < Peli.kentänKoko; j++) {
                 objektiKenttä[j][i] = null;
@@ -719,12 +743,20 @@ public class HuoneEditoriIkkuna {
                 objektiKenttä[sijX][sijY] = new Kaasusytytin(true, sijX, sijY, "tyhjä");
                 break;
 
+            case "Kauppa":
+                objektiKenttä[sijX][sijY] = new Kauppa(true, sijX, sijY);
+                break;
+
             case "Kilpi":
                 objektiKenttä[sijX][sijY] = new Kilpi(true, sijX, sijY);
                 break;
 
             case "Kirstu":
                 objektiKenttä[sijX][sijY] = new Kirstu(true, sijX, sijY, null);
+                break;
+
+            case "Kuparilager":
+                objektiKenttä[sijX][sijY] = new Kuparilager(true, sijX, sijY);
                 break;
 
             case "Makkara":

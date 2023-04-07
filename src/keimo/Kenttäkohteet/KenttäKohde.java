@@ -358,7 +358,7 @@ public abstract class KenttäKohde {
         }
 
         else if (this instanceof NPC_KenttäKohde) {
-            tiedot += "Tyyppi: NPC" + "\n";
+            tiedot += "Tyyppi: Kenttä-NPC" + "\n";
         }
 
         else if (this instanceof Warp) {

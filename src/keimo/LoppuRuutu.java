@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -101,39 +102,71 @@ public class LoppuRuutu {
                 "Voitit pelin!" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_normaali.png");
-                break;
+            break;
 
-            case KUOLEMA_VIHOLLINEN:
+            case KUOLEMA_VIHOLLINEN_NEUTRAALI:
                 loppuTeksti = "<html><p>" +
+                "KEIM-Over!" + "<br><br>" + 
                 "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin." +
+                "Hävisit pelin.<br><br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen.png");
-                break;
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_kuolema_vihollinen_neutraali.gif");
+            break;
+
+            case KUOLEMA_VIHOLLINEN_PIESTY:
+                loppuTeksti = "<html><p>" +
+                "KEIM-Over!" + "<br><br>" + 
+                "Sait selkääsi! (piesty)" + "<br>" + 
+                "Hävisit pelin.<br><br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_kuolema_vihollinen_piesty.gif");
+            break;
+
+            case KUOLEMA_VIHOLLINEN_ÄMPÄRÖITY:
+                loppuTeksti = "<html><p>" +
+                "KEIM-Over!" + "<br><br>" + 
+                "Sait selkääsi! (ämpäröity)" + "<br>" + 
+                "Hävisit pelin.<br><br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_kuolema_vihollinen_ämpäröity.gif");
+            break;
 
             case KUOLEMA_JUHANI:
                 loppuTeksti = "<html><p>" +
-                "Juhanille ei ryttyillä!" + "<br>" + 
+                "KEIM-Over!" + "<br><br>" +
+                "Juhanille ei ryttyillä!" + "<br>" +
                 "Hävisit pelin." +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_juhani.png");
-                break;
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_juhani.gif");
+            break;
 
             case YLENSYÖNTI:
                 loppuTeksti = "<html><p>" +
                 "Söit liikaa ja sinulle tuli paha olo." + "<br>" + 
                 "Hävisit pelin." +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.png");
-                break;
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_ylensyönti.gif");
+            break;
 
             default:
                 loppuTeksti = "<html><p>" +
                 "Vakioloppuruutu." +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto.png");
-                break;
+            break;
         }
+
+        //Uudelleenkäynnistä gif-animaatio
+        Image img = loppuKuva.getImage();
+        img.flush();
+        loppuKuva = new ImageIcon(img);
+
         teksti.setText(loppuTeksti);
         kuva.setIcon(loppuKuva);
     }

@@ -42,6 +42,15 @@ public class HuoneEditorinMetodit {
         String[] luotavanNPCnOminaisuusLista = {""};
         ArrayList<NPC> uusiNPCLista = new ArrayList<NPC>();
 
+        boolean uusiWarpVasen = false;
+        int uusiWarpVasenHuoneId = 0;
+        boolean uusiWarpOikea = false;
+        int uusiWarpOikeaHuoneId = 0;
+        boolean uusiWarpAlas = false;
+        int uusiWarpAlasHuoneId = 0;
+        boolean uusiWarpYlös = false;
+        int uusiWarpYlösHuoneId = 0;
+
         try {
             for (String s : merkkijonot) {
                 Scanner sc = new Scanner(s);
@@ -59,7 +68,57 @@ public class HuoneEditorinMetodit {
                     else if (tarkastettavaRivi.contains("#tausta:")) {
                         uusiHuoneenTaustanPolku = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
                     }
-                    else if (tarkastettavaRivi.contains("#kenttä:")) {
+
+                    else if (tarkastettavaRivi.contains("#warp_vasen:")) {
+                        try {
+                            uusiWarpVasenHuoneId = Integer.parseInt(tarkastettavaRivi.substring(17, tarkastettavaRivi.length() -1));
+                            uusiWarpVasen = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpVasen = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpVasen = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#warp_oikea:")) {
+                        try {
+                            uusiWarpOikeaHuoneId = Integer.parseInt(tarkastettavaRivi.substring(17, tarkastettavaRivi.length() -1));
+                            uusiWarpOikea = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpOikea = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpOikea = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#warp_alas:")) {
+                        try {
+                            uusiWarpAlasHuoneId = Integer.parseInt(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
+                            uusiWarpAlas = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpAlas = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpAlas = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#warp_ylös:")) {
+                        try {
+                            uusiWarpYlösHuoneId = Integer.parseInt(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
+                            uusiWarpYlös = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpYlös = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpYlös = false;
+                        }
+                    }
+
+                    if (tarkastettavaRivi.contains("#kenttä:")) {
                         if (tarkastettavaRivi.contains("{")) {
                             tarkastettavaRivi = sc.nextLine();
                             while (!tarkastettavaRivi.contains("}")) {
@@ -229,10 +288,16 @@ public class HuoneEditorinMetodit {
                     }
                 }
                 Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, false, "");
+                huone.päivitäReunawarppienTiedot(uusiWarpVasen, uusiWarpVasenHuoneId, uusiWarpOikea, uusiWarpOikeaHuoneId, uusiWarpAlas, uusiWarpAlasHuoneId, uusiWarpYlös, uusiWarpYlösHuoneId);
+                //System.out.println("huone: " + huone.annaId() + ", vasen warp: " + huone.warpVasen + huone.warpVasenHuoneId + ", oikea warp: " + huone.warpOikea + huone.warpOikeaHuoneId + ", alas warp: " + huone.warpAlas + huone.warpAlasHuoneId + ", ylös warp: " + huone.warpYlös + huone.warpYlösHuoneId);
                 uusiHuoneKartta.put(uusiHuoneenId, huone);
                 uusiObjektiLista.clear();
                 uusiMaastoLista.clear();
                 uusiNPCLista.clear();
+                uusiWarpVasen = false;
+                uusiWarpOikea = false;
+                uusiWarpAlas = false;
+                uusiWarpYlös = false;
                 sc.close();
             }
         }
@@ -286,12 +351,20 @@ public class HuoneEditorinMetodit {
                     luotavaObjekti = new Kaasusytytin(määritettySijainti, sijX, sijY, "tyhjä");
                     break;
 
+                case "Kauppa":
+                    luotavaObjekti = new Kauppa(määritettySijainti, sijX, sijY);
+                    break;
+
                 case "Kilpi":
                     luotavaObjekti = new Kilpi(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Kirstu":
                     luotavaObjekti = new Kirstu(määritettySijainti, sijX, sijY, null);
+                    break;
+
+                case "Kuparilager":
+                    luotavaObjekti = new Kuparilager(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Makkara":
@@ -458,6 +531,32 @@ public class HuoneEditorinMetodit {
             huoneetMerkkijonoina[i] += "#nimi: " + huoneKartta.get(i).annaNimi() + ";" + "\n    ";
             huoneetMerkkijonoina[i] += "#alue: " + huoneKartta.get(i).annaAlue() + ";" + "\n    ";
             huoneetMerkkijonoina[i] += "#tausta: " + huoneKartta.get(i).annaTaustanPolku() + ";" + "\n    ";
+
+            if (huoneKartta.get(i).warpVasen) {
+                huoneetMerkkijonoina[i] += "#warp_vasen: " + huoneKartta.get(i).warpVasenHuoneId + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina[i] += "#warp_vasen: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(i).warpOikea) {
+                huoneetMerkkijonoina[i] += "#warp_oikea: " + huoneKartta.get(i).warpOikeaHuoneId + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina[i] += "#warp_oikea: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(i).warpAlas) {
+                huoneetMerkkijonoina[i] += "#warp_alas: " + huoneKartta.get(i).warpAlasHuoneId + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina[i] += "#warp_alas: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(i).warpYlös) {
+                huoneetMerkkijonoina[i] += "#warp_ylös: " + huoneKartta.get(i).warpYlösHuoneId + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina[i] += "#warp_ylös: " + ";" + "\n    ";
+            }
+
             huoneetMerkkijonoina[i] += "#kenttä: " + "{\n";
             for (KenttäKohde[] kk : huoneKartta.get(i).annaHuoneenKenttäSisältö()) {
                 for (KenttäKohde k : kk) {

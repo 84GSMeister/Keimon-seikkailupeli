@@ -3,7 +3,6 @@ import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
 
 import keimo.Pelaaja;
-import keimo.TarkistettavatArvot;
 
 public class Kauppa extends Kiintopiste {
 

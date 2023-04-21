@@ -1,68 +1,28 @@
 package keimo;
-import javax.swing.*;
 
-import java.awt.Rectangle;
-import keimo.Kenttäkohteet.Esine;
+import keimo.Kenttäkohteet.*;
 import keimo.NPCt.*;
+import keimo.Säikeet.*;
+import keimo.Liikkuminen.*;
+
+import javax.swing.*;
+import java.awt.Rectangle;
 
 public class Pelaaja {
     
-    static Esine[] esineet = new Esine[5];
+    public static final Esine[] esineet = new Esine[5];
     static int valittuEsine = 0;
-    static int sijX;
-    static int sijY;
-    //static int sijX_PX_vy, sijX_PX_oa;
-    //static int sijY_PX_vy, sijY_PX_oa;
+    public static int sijX;
+    public static int sijY;
     static Rectangle hitbox = new Rectangle(0, 0, PääIkkuna.pelaajanKokoPx, PääIkkuna.pelaajanKokoPx);
     public static int hp;
     public static int kuparit;
-    static boolean kylläinen = false;
-    static int syödytRuoat = 0;
-    protected static ImageIcon kuvake;
-    static int kuolemattomuusAika = 0;
+    int syödytRuoat = 0;
+    public static ImageIcon kuvake;
+    public static int kuolemattomuusAika = 0;
     static int reaktioAika = 0;
     static boolean vihollisenKohdalla = false;
     static Vihollinen vihollinenKohdalla;
-
-    // boolean päivitäPelaajanSijainti(String sij) {
-    //     int sijXInt;
-    //     int sijYInt;
-    //     boolean pelaajaSiirrettiin = false;
-
-
-    //     try {
-    //         String sijXString = sij.substring(0, sij.indexOf(","));
-    //         String sijYString = sij.substring(sij.indexOf(",") + 1);
-
-    //         sijXInt = Integer.parseInt(sijXString);
-    //         sijYInt = Integer.parseInt(sijYString);
-
-    //         if (sijXInt < 0 || sijXInt > 9 || sijYInt < 0 || sijYInt > 9) {
-    //             System.out.println("Kentän ulkopuolella! Sallitut arvot ovat 0-9");
-    //             pelaajaSiirrettiin = false;
-    //         }
-    //         else {
-    //             this.sijX = sijXInt;
-    //             this.sijY = sijYInt;
-    //             System.out.println("Pelaaja siirrettiin sijaintiin (" + sijX + ", " + sijY + ")");
-    //             pelaajaSiirrettiin = true;
-    //         }
-            
-    //     }
-    //     catch (NumberFormatException e) {
-    //         System.out.println("Virheellinen syöte. Syötä x- ja y-koordinaatit pilkulla erotettuina ilman välilyöntiä.");
-    //         pelaajaSiirrettiin = false;
-    //     }
-    //     catch (NullPointerException e) {
-    //         System.out.println("Virheellinen syöte. Syötä x- ja y-koordinaatit pilkulla erotettuina ilman välilyöntiä.");
-    //         pelaajaSiirrettiin = false;
-    //     }
-    //     catch (StringIndexOutOfBoundsException e) {
-    //         System.out.println("Virheellinen syöte. Syötä x- ja y-koordinaatit pilkulla erotettuina ilman välilyöntiä.");
-    //         pelaajaSiirrettiin = false;
-    //     }
-    //     return pelaajaSiirrettiin;
-    // }
 
     /**
      * Valitse tila, jonka mukaan kuvake valitaan grafiikkasäikeessä sekä
@@ -71,7 +31,6 @@ public class Pelaaja {
 
     void syöRuoka(int parannus) {
         this.paranna(parannus);
-        this.kylläinen = true;
         this.syödytRuoat++;
         switch (syödytRuoat) {
             case 0:
@@ -221,15 +180,15 @@ public class Pelaaja {
         }
     }
 
-    static KeimonState keimonState = KeimonState.IDLE;
-    enum KeimonState {
+    public static KeimonState keimonState = KeimonState.IDLE;
+    public enum KeimonState {
         IDLE,
         JUOKSU,
         KUOLLUT;
     }
 
-    static KeimonKylläisyys keimonKylläisyys = KeimonKylläisyys.LAIHA;
-    enum KeimonKylläisyys {
+    public static KeimonKylläisyys keimonKylläisyys = KeimonKylläisyys.LAIHA;
+    public enum KeimonKylläisyys {
         LAIHA,
         NORMAALI,
         LIHAVA,
@@ -237,24 +196,24 @@ public class Pelaaja {
         YLENSYÖNTI;
     }
 
-    static KeimonTerveys keimonTerveys = KeimonTerveys.OK;
-    enum KeimonTerveys {
+    public static KeimonTerveys keimonTerveys = KeimonTerveys.OK;
+    public enum KeimonTerveys {
         HUONO,
         OK,
         HYVÄ,
         ÜBER;
     }
 
-    static Suunta keimonSuunta = Suunta.ALAS;
-    enum Suunta {
+    public static Suunta keimonSuunta = Suunta.ALAS;
+    public enum Suunta {
         VASEN,
         OIKEA,
         ALAS,
         YLÖS;
     }
 
-    static SuuntaVasenOikea keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-    enum SuuntaVasenOikea {
+    public static SuuntaVasenOikea keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+    public enum SuuntaVasenOikea {
         VASEN,
         OIKEA;
     }
@@ -263,7 +222,6 @@ public class Pelaaja {
     static boolean pelaajaLiikkuuOikea = false;
     static boolean pelaajaLiikkuuYlös = false;
     static boolean pelaajaLiikkuuAlas = false;
-    static String liikeSuunta = "";
     void aloitaLiike(Suunta suunta) {
         keimonState = KeimonState.JUOKSU;
         switch (suunta) {
@@ -348,10 +306,6 @@ public class Pelaaja {
         sijY = kohdeY;
         hitbox.setLocation(sijX * PääIkkuna.pelaajanKokoPx, sijY * PääIkkuna.pelaajanKokoPx);
         PääIkkuna.ylätekstiSij.setText("Pelaaja siirrettiin sijaintiin " + sijX + ", " + sijY + " (" + hitbox.getMinX() + "-" + hitbox.getMaxX() + ", " + hitbox.getMinY() + "-" + hitbox.getMaxY() + ")");
-        //while ((int)hitbox.getMinX() != kohdeX * PääIkkuna.pelaajanKokoPx || (int)hitbox.getMinY() != kohdeY * PääIkkuna.pelaajanKokoPx) {
-        //    System.out.println((int)hitbox.getMinX() + " " + sijX * PääIkkuna.pelaajanKokoPx + " " + (int)hitbox.getMinY() + " " + sijY * PääIkkuna.pelaajanKokoPx);
-        //    päivitäHitboxPositio(kohdeX, kohdeY);
-        //}
     }
 
     static int annaEsineidenMäärä() {
@@ -379,7 +333,7 @@ public class Pelaaja {
         päivitäTerveys();
     }
 
-    static void paranna(int määrä) {
+    void paranna(int määrä) {
         hp += määrä;
         PääIkkuna.ylätekstiHP.setText("HP: " + hp);
         päivitäTerveys();
@@ -410,13 +364,13 @@ public class Pelaaja {
     }
 
     Pelaaja() {
-        this.hp = Peli.aloitusHp;
-        this.kuparit = 0;
-        this.syödytRuoat = 0;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
-        this.keimonState = KeimonState.IDLE;
-        this.keimonKylläisyys = KeimonKylläisyys.LAIHA;
-        this.keimonTerveys = KeimonTerveys.OK;
+        hp = Peli.aloitusHp;
+        kuparit = 0;
+        syödytRuoat = 0;
+        kuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
+        keimonState = KeimonState.IDLE;
+        keimonKylläisyys = KeimonKylläisyys.LAIHA;
+        keimonTerveys = KeimonTerveys.OK;
         sijX = 0;
         sijY = 0;
         hitbox.setLocation(0, 0);

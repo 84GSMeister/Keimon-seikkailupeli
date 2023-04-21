@@ -1,6 +1,13 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (7.4.2023): 0.6.4
+## Uusin versio (21.4.2023): 0.6.5
+
+### Versio 0.6.5
+
+ - Vihollisille voi asettaa eri liikemalleja, mm. Seuraa pelaajaa (nykyisellään ei osaa vielä väistää esteitä)
+ - Pahavihu korjattu editorissa
+ - Editorissa voi asettaa reunawarpin huoneisiin (Reunawarp ei ole objekti vaan koko huoneen reuna warppaa asetettuun huoneeseen)
+ - Editorin navigointia tehhty helpommaksi: Jokaisessa suunnassa nuolet, joita klikkaamalla pääsee reunawarpin suuntaiseen huoneeseen. Myös uusien huoneiden luonti tehty selkeämmäksi.
 
 ### Versio 0.6.4
 

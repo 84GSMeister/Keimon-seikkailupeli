@@ -112,6 +112,8 @@ public class Kirstu extends Kiintopiste {
                 return new Kaasusytytin(false, 0, 0, "tyhjä");
             case "Kilpi":
                 return new Kilpi(false, 0, 0);
+            case "Kuparilager":
+                return new Kuparilager(false, 0, 0);
             case "Makkara":
                 return new Makkara(false, 0, 0);
             case "Paperi":

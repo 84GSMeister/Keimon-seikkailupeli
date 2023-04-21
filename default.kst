@@ -237,6 +237,8 @@ Huone 1:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
+        Pikkuvihu_4_2+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI],
+        Pikkuvihu_6_2;
     }
 /Huone
 Huone 2:
@@ -355,7 +357,9 @@ Huone 2:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
-        Pikkuvihu_8_0;
+        Pikkuvihu_2_3+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN],
+        Pahavihu_6_9,
+        Pikkuvihu_7_0+ominaisuudet:[liiketapa=YLÖS_ALAS_ESTEESEEN_ASTI];
     }
 /Huone
 Huone 3:
@@ -477,7 +481,7 @@ Huone 3:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
-        Pikkuvihu_8_0;
+        Pikkuvihu_5_3+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI];
     }
 /Huone
 Huone 4:
@@ -594,7 +598,7 @@ Huone 4:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png];
     }
     #npc: {
-        Pikkuvihu_6_3;
+        Pikkuvihu_6_2+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN];
     }
 /Huone
 Huone 5:
@@ -643,7 +647,7 @@ Huone 5:
         EsteTile_9_3+ominaisuudet:[kuva=este_e.png];
     }
     #npc: {
-        Pikkuvihu_6_2;
+        Pikkuvihu_1_5+ominaisuudet:[liiketapa=SEURAA_PELAAJAA];
     }
 /Huone
 Huone 6:
@@ -786,7 +790,7 @@ Huone 7:
         EsteTile_9_8+ominaisuudet:[kuva=este_e.png];
     }
     #npc: {
-        Pikkuvihu_6_3;
+        Pikkuvihu_6_2+ominaisuudet:[liiketapa=VASEN_OIKEA_ESTEESEEN_ASTI];
     }
 /Huone
 Huone 8:

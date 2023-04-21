@@ -4,11 +4,11 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import java.awt.Image;
 
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
+import keimo.Kenttäkohteet.Warp.Suunta;
 
 public class Huone {
     
@@ -21,7 +21,6 @@ public class Huone {
     private ImageIcon tausta;
     private String taustanPolku;
     private String alue;
-    //private ArrayList<NPC> npcLista = new ArrayList<NPC>();
     public int npcidenMäärä;
     int esineitäKentällä = 0;
     int maastoaKentällä = 0;
@@ -75,29 +74,29 @@ public class Huone {
         return huoneenNPCSisältö;
     }
 
-    protected void päivitäNimiJaAlue(String nimi, String alue) {
+    public void päivitäNimiJaAlue(String nimi, String alue) {
         this.nimi = nimi;
         this.alue = alue;
     }
 
-    protected void päivitäTausta(String taustaString){
+    public void päivitäTausta(String taustaString){
         this.taustanPolku = taustaString;
         this.tausta = new ImageIcon(taustaString);
     }
 
-    protected void päivitäHuoneenKenttäSisältö(KenttäKohde[][] k) {
+    public void päivitäHuoneenKenttäSisältö(KenttäKohde[][] k) {
         this.huoneenKenttäSisältö = k;
     }
 
-    protected void päivitäHuoneenMaastoSisältö(Maasto[][] m) {
+    public void päivitäHuoneenMaastoSisältö(Maasto[][] m) {
         this.huoneenMaastoSisältö = m;
     }
 
-    protected void päivitäHuoneenNPCSisältö(NPC[][] n) {
+    public void päivitäHuoneenNPCSisältö(NPC[][] n) {
         this.huoneenNPCSisältö = n;
     }
 
-    protected void päivitäReunawarppienTiedot(boolean warpVasen, int warpVasenHuoneId, boolean warpOikea, int warpOikeaHuoneId, boolean warpAlas, int warpAlasHuoneId, boolean warpYlös, int warpYlösHuoneId) {
+    public void päivitäReunawarppienTiedot(boolean warpVasen, int warpVasenHuoneId, boolean warpOikea, int warpOikeaHuoneId, boolean warpAlas, int warpAlasHuoneId, boolean warpYlös, int warpYlösHuoneId) {
         this.warpVasen = warpVasen;
         this.warpVasenHuoneId = warpVasenHuoneId;
         this.warpOikea = warpOikea;
@@ -106,6 +105,36 @@ public class Huone {
         this.warpAlasHuoneId = warpAlasHuoneId;
         this.warpYlös = warpYlös;
         this.warpYlösHuoneId = warpYlösHuoneId;
+    }
+
+    public boolean annaReunaWarppiTiedot(Suunta suunta) {
+        switch (suunta) {
+            case VASEN:
+                return warpVasen;
+            case OIKEA:
+                return warpOikea;
+            case YLÖS:
+                return warpYlös;
+            case ALAS:
+                return warpAlas;
+            default:
+                return false;
+        }
+    }
+
+    public int annaReunaWarpinKohdeId(Suunta suunta) {
+        switch (suunta) {
+            case VASEN:
+                return warpVasenHuoneId;
+            case OIKEA:
+                return warpOikeaHuoneId;
+            case YLÖS:
+                return warpYlösHuoneId;
+            case ALAS:
+                return warpAlasHuoneId;
+            default:
+                return 0;
+        }
     }
 
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){
@@ -207,7 +236,7 @@ public class Huone {
         }
     }
 
-    Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
+    public Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, boolean näytäAlkuDialogi, String alkuDialogi) {
         this.id = luontiId;
         this.nimi = luontiNimi;
         this.huoneenKoko = luontiKoko;
@@ -274,7 +303,6 @@ public class Huone {
                 e.printStackTrace();
             }
         }
-        Peli.huoneidenMäärä++;
     }
 
 }

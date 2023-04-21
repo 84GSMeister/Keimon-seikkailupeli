@@ -1,15 +1,11 @@
 package keimo.Kenttäkohteet;
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 import keimo.PääIkkuna;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
 
 public abstract class KenttäKohde {
     
@@ -332,17 +328,20 @@ public abstract class KenttäKohde {
     String tiedot = "";
     void asetaTiedot() {
         tiedot += "Nimi: " + this.annaNimi() + "\n";
-        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
+        //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
+		
 
         if (this instanceof Esine) {
             tiedot += "Tyyppi: Esine" + "\n";
 
             Esine esine = (Esine)this;
-            if (esine.kenttäkäyttö) {
+            tiedot += "Kulutustavaraa: " + (esine.onkoKäyttö() ? "Kyllä" : "Ei") + "\n";
+			if (esine.kenttäkäyttö) {
                 tiedot += "Sopii käytettäväksi: ";
                 for (String s : esine.sopiiKäytettäväksi) {
                     tiedot += s + ", ";
                 }
+				tiedot = tiedot.substring(0, tiedot.length()-2);
                 tiedot += "\n";
             }
             if (esine.yhdistettävä) {
@@ -350,6 +349,7 @@ public abstract class KenttäKohde {
                 for (String s : esine.kelvollisetYhdistettävät) {
                     tiedot += s + ", ";
                 }
+				tiedot = tiedot.substring(0, tiedot.length()-2);
                 tiedot += "\n";
             }
         }

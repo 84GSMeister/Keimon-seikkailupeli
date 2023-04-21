@@ -2,7 +2,6 @@ package keimo.NPCt;
 import keimo.Peli;
 import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
-import keimo.ÄänentoistamisSäie;
 import java.awt.Rectangle;
 import javax.swing.*;
 
@@ -12,9 +11,9 @@ public abstract class NPC {
     boolean määritettySijainti = true;
     int sijX;
     int sijY;
-    public int sijX_PX_vy, sijX_PX_oa;
-    public int sijY_PX_vy, sijY_PX_oa;
-    public Rectangle hitbox = new Rectangle(sijX_PX_vy, sijY_PX_vy, PääIkkuna.pelaajanKokoPx, PääIkkuna.pelaajanKokoPx);
+    //public int sijX_PX_vy, sijX_PX_oa;
+    //public int sijY_PX_vy, sijY_PX_oa;
+    public Rectangle hitbox = new Rectangle(0, 0, PääIkkuna.pelaajanKokoPx, PääIkkuna.pelaajanKokoPx);
     protected int hp;
     public ImageIcon kuvake;
     String nimi = "";
@@ -26,6 +25,18 @@ public abstract class NPC {
     void asetaTiedot() {
         tiedot += "Nimi: " + this.annaNimi() + "\n";
         //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
+        if (this instanceof Vihollinen) {
+            Vihollinen v = (Vihollinen)this;
+            if (v.tehoavatAseet != null) {
+                tiedot += "Tehoavat aseet: ";
+                for (String tehoavaAse : v.tehoavatAseet) {
+                    tiedot += tehoavaAse + ", ";
+                }
+                tiedot = tiedot.substring(0, tiedot.length()-2);
+                tiedot += "\n";
+            }
+            tiedot += "Kilpi tehoaa: " + (v.kilpiTehoaa ? "Kyllä" : "Ei") + "\n";
+        }   
     }
     
     public String annaTiedot() {
@@ -95,17 +106,17 @@ public abstract class NPC {
         return NPCSiirrettiin;
     }
 
-    public boolean siirrä(String suunta) {
+    boolean siirrä(String suunta) {
         boolean NPCSiirtyi = false;
         switch (suunta) {
             case "vasen":
                 // if (sijX > 0) {
                 //     sijX--;
                 // }
-                if (sijX_PX_vy > Peli.kentänAlaraja) {
-                    sijX_PX_vy -= 8;
-                    sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
-                    hitbox.setLocation(sijX_PX_vy, sijY_PX_vy);
+                if (hitbox.getMinX() > Peli.kentänAlaraja) {
+                    //sijX_PX_vy -= 8;
+                    //sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
+                    hitbox.setLocation((int)hitbox.getMinX() - 8, (int)hitbox.getMinY());
                     NPCSiirtyi = true;
                 }
                 break;
@@ -113,10 +124,10 @@ public abstract class NPC {
                 // if (sijX < Peli.kentänKoko -1) {
                 //     sijX++;
                 // }
-                if (sijX_PX_oa < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
-                    sijX_PX_vy += 8;
-                    sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
-                    hitbox.setLocation(sijX_PX_vy, sijY_PX_vy);
+                if (hitbox.getMaxX() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                    //sijX_PX_vy += 8;
+                    //sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
+                    hitbox.setLocation((int)hitbox.getMinX() + 8, (int)hitbox.getMinY());
                     NPCSiirtyi = true;
                 }
                 break;
@@ -124,10 +135,10 @@ public abstract class NPC {
                 // if (sijY < Peli.kentänKoko -1) {
                 //     sijY++;
                 // }
-                if (sijY_PX_vy > Peli.kentänAlaraja) {
-                    sijY_PX_vy -= 8;
-                    sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
-                    hitbox.setLocation(sijX_PX_vy, sijY_PX_vy);
+                if (hitbox.getMinY() > Peli.kentänAlaraja) {
+                    //sijY_PX_vy -= 8;
+                    //sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
+                    hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() - 8);
                     NPCSiirtyi = true;
                 }
                 break;
@@ -135,33 +146,35 @@ public abstract class NPC {
                 // if (sijY > 0) {
                 //     sijY--;
                 // }
-                if (sijY_PX_oa < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
-                    sijY_PX_vy += 8;
-                    sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
-                    hitbox.setLocation(sijX_PX_vy, sijY_PX_vy);
+                if (hitbox.getMaxY() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                    //sijY_PX_vy += 8;
+                    //sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
+                    hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() + 8);
                     NPCSiirtyi = true;
                 }
                 break;
             default:
                 return false;
         }
-        sijX = ((sijX_PX_vy + sijX_PX_oa) /2 ) / PääIkkuna.pelaajanKokoPx;
-        sijY = ((sijY_PX_vy + sijY_PX_oa) /2 ) / PääIkkuna.pelaajanKokoPx;
+        //sijX = ((sijX_PX_vy + sijX_PX_oa) /2 ) / PääIkkuna.pelaajanKokoPx;
+        //sijY = ((sijY_PX_vy + sijY_PX_oa) /2 ) / PääIkkuna.pelaajanKokoPx;
+        sijX = (int)hitbox.getCenterX() / PääIkkuna.pelaajanKokoPx;
+        sijY = (int)hitbox.getCenterY() / PääIkkuna.pelaajanKokoPx;
         return NPCSiirtyi;
     }
 
-    boolean kokeileLiikkumista(String suunta) {
+    public boolean kokeileLiikkumista(String suunta) {
         boolean NPCSiirtyi = false;
         try {
             switch (suunta) {
                 case "vasen":
-                    if (sijX_PX_vy > 0) {
-                        if (Peli.annaMaastoKenttä()[sijX_PX_vy/64 -1][sijY] == null) {
+                    if (hitbox.getMinX() > 0) {
+                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                             NPCSiirtyi = siirrä("vasen");
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[sijX_PX_vy/64 -1][sijY].estääköLiikkumisen()) {
+                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY].estääköLiikkumisen()) {
                                 //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                                 NPCSiirtyi = siirrä("vasen");
                             }
@@ -169,13 +182,13 @@ public abstract class NPC {
                     }
                     break;
                 case "oikea":
-                    if (sijX_PX_oa < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
-                        if (Peli.annaMaastoKenttä()[sijX_PX_vy/64 +1][sijY] == null) {
+                    if (hitbox.getMaxX() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                             NPCSiirtyi = siirrä("oikea");
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[sijX_PX_vy/64 +1][sijY].estääköLiikkumisen()) {
+                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY].estääköLiikkumisen()) {
                                 //pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                                 NPCSiirtyi = siirrä("oikea");
                             }
@@ -183,13 +196,13 @@ public abstract class NPC {
                     }
                     break;
                 case "alas":
-                    if (sijY_PX_oa < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
-                        if (Peli.annaMaastoKenttä()[sijX][sijY_PX_vy/64 +1] == null) {
+                    if (hitbox.getMaxY() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                             NPCSiirtyi = siirrä("alas");
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[sijX][sijY_PX_vy/64 +1].estääköLiikkumisen()) {
+                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64].estääköLiikkumisen()) {
                                 //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                                 NPCSiirtyi = siirrä("alas");
                             }
@@ -197,13 +210,13 @@ public abstract class NPC {
                     }
                     break;
                 case "ylös":
-                    if (sijY_PX_vy > 0) {
-                        if (Peli.annaMaastoKenttä()[sijX][sijY_PX_vy/64 -1] == null) {
+                    if (hitbox.getMinY() > 0) {
+                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                             NPCSiirtyi = siirrä("ylös");
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[sijX][sijY_PX_vy/64 -1].estääköLiikkumisen()) {
+                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64].estääköLiikkumisen()) {
                                 //pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                                 NPCSiirtyi = siirrä("ylös");
                             }
@@ -270,10 +283,11 @@ public abstract class NPC {
     void teleport(int kohdeX, int kohdeY) {
         sijX = kohdeX;
         sijY = kohdeY;
-        sijX_PX_vy = kohdeX * PääIkkuna.pelaajanKokoPx;
-        sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
-        sijY_PX_vy = kohdeY * PääIkkuna.pelaajanKokoPx;
-        sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
+        this.hitbox.setLocation(kohdeX * PääIkkuna.pelaajanKokoPx, kohdeY * PääIkkuna.pelaajanKokoPx);
+        // sijX_PX_vy = kohdeX * PääIkkuna.pelaajanKokoPx;
+        // sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
+        // sijY_PX_vy = kohdeY * PääIkkuna.pelaajanKokoPx;
+        // sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
     }
 
 
@@ -302,10 +316,11 @@ public abstract class NPC {
         TarkistettavatArvot.npcId++;
         this.sijX = 0;
         this.sijY = 0;
-        this.sijX_PX_vy = 0;
-        this.sijX_PX_oa = this.sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
-        this.sijY_PX_vy = 0;
-        this.sijY_PX_oa = this.sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
+        this.hitbox.setLocation(sijX, sijY);
+        // this.sijX_PX_vy = 0;
+        // this.sijX_PX_oa = this.sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
+        // this.sijY_PX_vy = 0;
+        // this.sijY_PX_oa = this.sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
         if (Peli.npcLista != null) {
             Peli.lisääNPC(this);
         }

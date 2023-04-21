@@ -4,8 +4,7 @@ import javax.swing.ImageIcon;
 
 import keimo.PelinAsetukset;
 import keimo.PääIkkuna;
-import keimo.TarkistettavatArvot;
-import keimo.ÄänentoistamisSäie;
+import keimo.Säikeet.*;
 
 public class Pikkuvihu extends Vihollinen {
 
@@ -32,6 +31,12 @@ public class Pikkuvihu extends Vihollinen {
     public void vahingoita(int määrä) {
         super.vahingoita(määrä);
         ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
+    }
+
+    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
     }
 
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -62,36 +67,20 @@ public class Pikkuvihu extends Vihollinen {
                 return "Pikkuvihu";
         }
     }
-    
-    public Pikkuvihu(LiikeTapa liikeTapa) {
-        super(liikeTapa);
-        this.vahinko = 1 * PelinAsetukset.vaikeusAste;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
-        this.kilpiTehoaa = true;
-        this.sijX = 0;
-        this.sijY = 0;
-        this.sijX_PX_vy = 0;
-        this.sijY_PX_vy = 0;
-        this.sijX_PX_vy = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
-        this.sijY_PX_vy = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
-        super.tehoavatAseet.add("Vesiämpäri");
-        super.tehoavatAseet.add("Pesäpallomaila");
-    }
 
-    public Pikkuvihu(int sijX, int sijY, LiikeTapa liikeTapa) {
-        super(liikeTapa);
+    public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
+        super(ominaisuusLista);
         this.vahinko = 1 * PelinAsetukset.vaikeusAste;
         this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
         this.kilpiTehoaa = true;
         this.sijX = sijX;
         this.sijY = sijY;
-        this.sijX_PX_vy = this.sijX * PääIkkuna.pelaajanKokoPx;
-        this.sijY_PX_vy = this.sijY * PääIkkuna.pelaajanKokoPx;
-        this.sijX_PX_oa = this.sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
-        this.sijY_PX_oa = this.sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
-        this.hitbox.setLocation(sijX_PX_vy, sijY_PX_vy);
+        this.hitbox.setLocation(sijX * PääIkkuna.pelaajanKokoPx, sijY * PääIkkuna.pelaajanKokoPx);
         this.nimi = "Pikkuvihu";
+        super.lisäOminaisuuksia = true;
+        super.lisäOminaisuudet = ominaisuusLista;
         super.tehoavatAseet.add("Vesiämpäri");
         super.tehoavatAseet.add("Pesäpallomaila");
+        super.asetaTiedot();
     }
 }

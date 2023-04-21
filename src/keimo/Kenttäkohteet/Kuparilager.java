@@ -3,9 +3,7 @@ import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
 
 import keimo.Pelaaja;
-import keimo.PääIkkuna;
-import keimo.TarkistettavatArvot;
-import keimo.ÄänentoistamisSäie;
+import keimo.Säikeet.ÄänentoistamisSäie;
 
 public class Kuparilager extends Esine {
 

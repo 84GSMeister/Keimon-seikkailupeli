@@ -10,13 +10,23 @@ public abstract class Vihollinen extends NPC{
 
     public enum LiikeTapa {
         LOOP_NELIÖ_MYÖTÄPÄIVÄÄN,
-        LOOP_NELIÖ_VASTAPÄIVÄÄN;
+        LOOP_NELIÖ_VASTAPÄIVÄÄN,
+        LOOP_VASEN_OIKEA,
+        LOOP_YLÖS_ALAS,
+        NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI,
+        NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI,
+        VASEN_OIKEA_ESTEESEEN_ASTI,
+        YLÖS_ALAS_ESTEESEEN_ASTI,
+        SEURAA_PELAAJAA,
+        STAATTINEN;
     }
     
     public int liikkeenPituus = 20;
     public int liikuVielä = 20;
     public String[] liikeSuuntaLoopNeliöMyötäpäivään = {"ylös", "oikea", "alas", "vasen"};
     public String[] liikeSuuntaLoopNeliöVastapäivään = {"ylös", "vasen", "alas", "oikea"};
+    public String[] liikeSuuntaLoopVasenOikea = {"vasen", "oikea"};
+    public String[] liikeSuuntaLoopYlösAlas = {"ylös", "alas"};
     public int liikeLoopinVaihe = 0;
     public LiikeTapa liikeTapa = LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN;
 
@@ -31,12 +41,25 @@ public abstract class Vihollinen extends NPC{
         this.kukistettu = true;
     }
 
-    Vihollinen(LiikeTapa liikeTapa) {
+    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+    }
+
+    Vihollinen(String[] ominaisuusLista) {
         super();
-        switch (liikeTapa) {
-            case LOOP_NELIÖ_MYÖTÄPÄIVÄÄN: this.liikeTapa = LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN; break;
-            case LOOP_NELIÖ_VASTAPÄIVÄÄN: this.liikeTapa = LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN; break;
-            default: break;
+        if (ominaisuusLista != null) {
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("liiketapa=")) {
+                    this.liikeTapa = LiikeTapa.valueOf(ominaisuus.substring(10));
+                }
+            }
         }
+        else {
+            this.liikeTapa = LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
+        }
+        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
     }
 }

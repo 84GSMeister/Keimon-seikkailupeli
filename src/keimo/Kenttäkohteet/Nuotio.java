@@ -15,7 +15,7 @@ public class Nuotio extends Kiintopiste {
         
         String statusTeksti = "";
         if (tavoiteSuoritettu) {    
-            statusTeksti = "Nuotion liekit leimuavat komeasti";
+            statusTeksti = "Nuotion liekit leimuavat komeasti.";
         }
         if (e instanceof Paperi) {
             this.sytyke = true;
@@ -28,20 +28,23 @@ public class Nuotio extends Kiintopiste {
             statusTeksti = "Nuotioon lisättiin palavaa ainetta.";
         }
         else if (e instanceof Kaasusytytin) {
-            if (polttoaine && sytyke){
+            if (sytytetty){
+                return "Nuotion liekit leimuavat komeasti.";
+            }
+            else if (polttoaine && sytyke){
                 this.tavoiteSuoritettu = true;
                 this.sytytetty = true;
                 this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png");
-                statusTeksti = "Nuotio sytytettiin!";
+                return "Nuotio sytytettiin!";
             }
             else if (polttoaine && !sytyke) {
-                statusTeksti = "Nuotiossa on palavaa ainetta, mutta sinne tarvitaan jokin sytyke.";
+                return "Nuotiossa on palavaa ainetta, mutta sinne tarvitaan jokin sytyke.";
             }
             else if (!polttoaine && sytyke) {
-                statusTeksti = "Pelkkä sytyke ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
+                return "Pelkkä sytyke ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
             }
             else {
-                statusTeksti = "Nuotio tarvitsee palavaa ainetta.";
+                return "Nuotio tarvitsee palavaa ainetta.";
             }
         }
         else if (e instanceof Vesiämpäri) {
@@ -58,14 +61,19 @@ public class Nuotio extends Kiintopiste {
         }
         else if (e instanceof Makkara) {
             Makkara makkara = (Makkara)e;
-            if (makkara.käristetty) {
-                return "Makkara on jo käristetty hiileksi";
-            }
-            else if (makkara.paistettu) {
-                return "Paistoit liikaa! Nyt makkara on pikimusta.";
+            if (this.sytytetty) {
+                if (makkara.käristetty) {
+                    return "Makkara on jo käristetty hiileksi!";
+                }
+                else if (makkara.paistettu) {
+                    return "Paistoit liikaa! Nyt makkara on pikimusta.";
+                }
+                else {
+                    return "Mmm.. onpas hyvän näköistä kyrsää.";
+                }
             }
             else {
-                return "Mmm.. onpas hyvän näköistä kyrsää.";
+                return "Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.";
             }
         }
 

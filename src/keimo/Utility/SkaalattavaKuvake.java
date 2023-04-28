@@ -7,6 +7,7 @@ public class SkaalattavaKuvake extends ImageIcon {
 
     Peilaus peilaus = Peilaus.PEILAA_X;
     public enum Peilaus {
+        NORMAALI,
         PEILAA_X,
         PEILAA_Y;
     }
@@ -28,6 +29,8 @@ public class SkaalattavaKuvake extends ImageIcon {
             case PEILAA_Y:
                 g2.translate(0, getIconHeight());
                 g2.scale(1, -1);
+            break;
+            default:
             break;
         }
         super.paintIcon(c, g2, x, y);

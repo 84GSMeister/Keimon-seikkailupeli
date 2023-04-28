@@ -286,6 +286,11 @@ public class HuoneLista {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Hardkoodattu paska - lisää editoriin ominaisuus näiden asettamiseksi
+        huoneKartta.get(8).lataaTarinaRuutu = true;
+        huoneKartta.get(8).tarinaRuudunTunniste = "koti";
+
         return huoneKartta;
     }
 }

@@ -5,12 +5,14 @@ import keimo.*;
 import java.io.File;
 import jaco.mp3.player.MP3Player;
 import java.util.HashMap;
+import java.util.Random;
 
 public class ÄänentoistamisSäie extends Thread{
     
     public static MP3Player musiikkiSoitin;
     static HashMap<Integer, File> musiikkiVaihtoehdot = new HashMap<Integer, File>();
     static int musaValinta = 0;
+    static Random r = new Random();
 
     void luoMusaKartta() {
         musiikkiVaihtoehdot.put(0, new File("tiedostot/musat/udo_haukkuu_mario2_loop.mp3"));
@@ -62,17 +64,27 @@ public class ÄänentoistamisSäie extends Thread{
             case "pelaaja_damage":
                 ääniToistin = new MP3Player(new File("tiedostot/äänet/pelaaja_damage.mp3"));
                 ääniToistin.play();
-                break;
+            break;
             case "pikkuvihu_damage":
                 ääniToistin = new MP3Player(new File("tiedostot/äänet/pikkuvihu_damage.mp3"));
                 ääniToistin.play();
-                break;
+            break;
 
             case "tölkki":
-                ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki.mp3"));
+                int valitseÄäni = r.nextInt(5);
+                ääniToistin = new MP3Player();
+                switch (valitseÄäni) {
+                    case 0: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki.mp3")); break;
+                    case 1: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki2.mp3")); break;
+                    case 2: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki3.mp3")); break;
+                    case 3: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki4.mp3")); break;
+                    case 4: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki5.mp3")); break;
+                    default: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki.mp3")); break;
+                }
                 ääniToistin.play();
+            break;
             default:
-                break;
+            break;
         }
     }
 

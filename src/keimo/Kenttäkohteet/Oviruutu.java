@@ -1,4 +1,5 @@
 package keimo.Kenttäkohteet;
+import keimo.Utility.*;
 import javax.swing.ImageIcon;
 
 public class Oviruutu extends Warp {
@@ -40,30 +41,30 @@ public class Oviruutu extends Warp {
                 //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_ylös.png"), KenttäKohde.Suunta.YLÖS);
                 //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_ylös.png");
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new RotatedIcon(kuvake, 0, false);
+                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
                 break;
             case ALAS:
                 //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_alas.png"), KenttäKohde.Suunta.ALAS);
                 //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_alas.png");
                 this.suunta = Suunta.ALAS;
-                this.kuvake = new RotatedIcon(kuvake, 180, false);
+                this.kuvake = new KäännettäväKuvake(kuvake, 180, false);
                 break;
             case VASEN:
                 //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.VASEN);
                 //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_vasen.png");
                 this.suunta = Suunta.VASEN;
-                this.kuvake = new RotatedIcon(kuvake, 270, false);
+                this.kuvake = new KäännettäväKuvake(kuvake, 270, false);
                 break;
             case OIKEA:
                 //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.OIKEA);
                 //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
                 this.suunta = Suunta.OIKEA;
-                this.kuvake = new RotatedIcon(kuvake, 90, false);
+                this.kuvake = new KäännettäväKuvake(kuvake, 90, false);
                 break;
             default:
                 //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new RotatedIcon(kuvake, 0, false);
+                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
                 break;
         }
     }

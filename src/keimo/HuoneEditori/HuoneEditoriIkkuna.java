@@ -2,13 +2,20 @@ package keimo.HuoneEditori;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import jaco.mp3.player.A;
+
 import javax.swing.event.*;
 
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.stream.*;
@@ -16,8 +23,10 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.io.*;
 import java.io.StringWriter;
 import java.io.PrintWriter;
@@ -31,6 +40,8 @@ import keimo.*;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Warp.Suunta;
 import keimo.Maastot.*;
+import keimo.Maastot.Maasto.Kääntö;
+import keimo.Maastot.Maasto.Peilaus;
 import keimo.NPCt.*;
 import keimo.NPCt.Vihollinen.LiikeTapa;
 import keimo.Säikeet.*;
@@ -48,12 +59,15 @@ public class HuoneEditoriIkkuna {
     static JMenu tiedosto, peli;
     static JMenuItem uusi, avaa, tallenna;
     static JMenuItem kokeilePelissä;
-    static JPanel yläPaneeli, yläVasenPaneeli, yläOikeaPaneeli;
+    static JPanel yläPaneeli, yläPaneelinYläosa, YläPaneelinAlaosa, yläVasenPaneeli, yläOikeaPaneeli;
     static JButton hyväksyNappi;
     static JLabel huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel;
     static JTextField huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä;
     static JButton huoneenNimiTekstiKenttäNappi, huoneenAlueTekstiKenttäNappi, huoneenKuvaTekstiKenttäNappi, huoneenDialogiTekstiKenttäNappi;
     static JButton huoneenKuvaValintaNappi, huoneenDialogiValintaNappi;
+    static boolean ctrlPainettu = false;
+    static String[] kopioituOminaisuusLista;
+    static String kopioituObjektinNimi;
 
     static JTabbedPane välilehdet;
     static JPanel objektiEditointiKenttäPaneli, maastoEditointiKenttäPaneli, npcEditointiKenttäPaneli, editointiKenttäAlue;
@@ -62,12 +76,13 @@ public class HuoneEditoriIkkuna {
     static JLabel huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JLabel huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppa", "Kilpi", "Kirstu", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Oviruutu", "Seteli", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
+    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppa", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Oviruutu", "Seteli", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
     static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Seteli", "Suklaalevy", "Vesiämpäri"};
     static String[] npcNimiLista = {"Pikkuvihu", "Pahavihu"};
     static JComboBox<String> esineValikko;
     static JComboBox<Object> maastoValikko;
     static JComboBox<String> npcValikko;
+    static JComboBox<Object> koristeEsineenKuvaValikko;
     static HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
     static int muokattavaHuone = 0;
     static String huoneenNimi = "";
@@ -95,10 +110,13 @@ public class HuoneEditoriIkkuna {
     static boolean reunatNäkyvissä = true;
     public static boolean vaatiiPäivityksen = true, vaatiiKentänPäivityksen = false;
     static boolean näytäTallennusVaroitus = true;
+    static ArrayList<String> editorinMuutosHistoria = new ArrayList<String>();
 
     static JPanel tekstiPaneli, infoPaneli;
     static JLabel hudTeksti;
     static JLabel[] kontrolliInfoLabel = new JLabel[9];
+    static boolean käytäKopioitujaOminaisuuksia = false;
+    static EditorinNäppäinkomennot editorinNäppäinkomennot = new EditorinNäppäinkomennot();
     
     public static void luoEditoriIkkuna() {
         
@@ -110,12 +128,12 @@ public class HuoneEditoriIkkuna {
         }
 
         ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 110;
-        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 400;
+        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 420;
         kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         npcKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Huone-editori v0.4");
+        ikkuna = new JFrame("Huone-editori v0.5");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         //ikkuna.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -217,6 +235,11 @@ public class HuoneEditoriIkkuna {
                         warpOikeaHuoneId = huoneKartta.get(muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
                         warpAlasHuoneId = huoneKartta.get(muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
                         warpYlösHuoneId = huoneKartta.get(muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
+                        for (Maasto[] mm : maastoKenttä) {
+                            for (Maasto m : mm) {
+                                m.päivitäKuvanAsento();
+                            }
+                        }
                     }
                 }
                 catch (FileNotFoundException fnfe) {
@@ -371,18 +394,72 @@ public class HuoneEditoriIkkuna {
         yläOikeaPaneeli.setLayout(new BorderLayout());
         yläOikeaPaneeli.add(hyväksyNappi, BorderLayout.CENTER);
 
+        yläPaneelinYläosa = new JPanel();
+        yläPaneelinYläosa.setLayout(new BorderLayout());
+        yläPaneelinYläosa.setMaximumSize(new Dimension(500, 60));
+        yläPaneelinYläosa.add(yläVasenPaneeli, BorderLayout.WEST);
+        yläPaneelinYläosa.add(yläOikeaPaneeli, BorderLayout.EAST);
+
+        JButton perumisNappi = new JButton(new ImageIcon("tiedostot/kuvat/menu/gui/peru.png"));
+        perumisNappi.setBounds(0, 0, 20, 20);
+        perumisNappi.setToolTipText("Peru viimeisin muutos");
+        perumisNappi.addKeyListener(editorinNäppäinkomennot);
+        perumisNappi.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                peruMuutos();
+            }
+        });
+
+        YläPaneelinAlaosa = new JPanel();
+        YläPaneelinAlaosa.setLayout(new FlowLayout(FlowLayout.LEFT));
+        YläPaneelinAlaosa.setMaximumSize(new Dimension(500, 20));
+        YläPaneelinAlaosa.setBounds(0, 0, 500, 30);
+        YläPaneelinAlaosa.add(perumisNappi);
+
         yläPaneeli = new JPanel();
         yläPaneeli.setLayout(new BorderLayout());
-        yläPaneeli.add(yläVasenPaneeli, BorderLayout.WEST);
-        yläPaneeli.add(yläOikeaPaneeli, BorderLayout.EAST);
-        yläPaneeli.setPreferredSize(new Dimension(ikkunanLeveys -30, 60));
+        yläPaneeli.add(yläPaneelinYläosa, BorderLayout.NORTH);
+        yläPaneeli.add(YläPaneelinAlaosa, BorderLayout.SOUTH);
+        yläPaneeli.setPreferredSize(new Dimension(ikkunanLeveys -30, 90));
         yläPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         yläPaneeli.revalidate();
         yläPaneeli.repaint();
 
         esineValikko = new JComboBox<String>(kenttäkohdeLista);
-        maastoValikko = new JComboBox<Object>(listaaMaastot("tiedostot/kuvat/maasto").toArray());
+        esineValikko.addKeyListener(editorinNäppäinkomennot);
+        esineValikko.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                käytäKopioitujaOminaisuuksia = false;
+                if (esineValikko.getSelectedItem() == "Koriste-esine") {
+                    koristeEsineenKuvaValikko.setEnabled(true);
+                }
+                else {
+                    koristeEsineenKuvaValikko.setEnabled(false);
+                }
+            }
+        });
+        maastoValikko = new JComboBox<Object>(listaaKuvat("tiedostot/kuvat/maasto").toArray());
+        maastoValikko.addKeyListener(editorinNäppäinkomennot);
+        maastoValikko.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                käytäKopioitujaOminaisuuksia = false;
+            }
+        });
         npcValikko = new JComboBox<String>(npcNimiLista);
+        npcValikko.addKeyListener(editorinNäppäinkomennot);
+        npcValikko.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                käytäKopioitujaOminaisuuksia = false;
+            }
+        });
+
+        koristeEsineenKuvaValikko = new JComboBox<Object>(listaaKuvat("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit").toArray());
+        koristeEsineenKuvaValikko.addKeyListener(editorinNäppäinkomennot);
+        koristeEsineenKuvaValikko.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                käytäKopioitujaOminaisuuksia = false;
+            }
+        });
 
         huoneenNimiLabel = new JLabel("Huone (alue)");
         huoneenNimiPaneli = new JPanel();
@@ -421,11 +498,16 @@ public class HuoneEditoriIkkuna {
         huoneenVaihtoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         SpringUtilities.makeCompactGrid(huoneenVaihtoPaneli, 1, 3, 0, 0, 6, 6);
 
+        JPanel esineValikkoPaneli = new JPanel(new BorderLayout());
+        esineValikkoPaneli.setPreferredSize(new Dimension(300, 30));
+        esineValikkoPaneli.add(esineValikko, BorderLayout.WEST);
+        esineValikkoPaneli.add(koristeEsineenKuvaValikko, BorderLayout.EAST);
+
         huoneInfoPaneli = new JPanel();
         huoneInfoPaneli.setLayout(new BorderLayout());
         huoneInfoPaneli.setPreferredSize(new Dimension(ikkunanLeveys-30, 30));
         huoneInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        huoneInfoPaneli.add(esineValikko, BorderLayout.WEST);
+        huoneInfoPaneli.add(esineValikkoPaneli, BorderLayout.WEST);
         huoneInfoPaneli.add(huoneenNimiPaneli, BorderLayout.CENTER);
         huoneInfoPaneli.add(huoneenVaihtoPaneli, BorderLayout.EAST);
         
@@ -440,7 +522,7 @@ public class HuoneEditoriIkkuna {
         int kohteensijY = 10;
         for (int i = 0; i < Peli.kentänKoko; i++) {
             for (int j = 0; j < Peli.kentänKoko; j++) {
-                JLabel peliTestiLabel = new JLabel("PeliTestiLabel");
+                JLabel peliTestiLabel = new JLabel("");
                 peliTestiLabel.setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
                 objektiEditointiKenttäPaneli.add(peliTestiLabel);
                 kohteenSijX += esineenKokoPx;
@@ -456,7 +538,7 @@ public class HuoneEditoriIkkuna {
         int maastoKohteensijY = 10;
         for (int i = 0; i < Peli.kentänKoko; i++) {
             for (int j = 0; j < Peli.kentänKoko; j++) {
-                JLabel peliTestiLabel = new JLabel("PeliTestiLabel");
+                JLabel peliTestiLabel = new JLabel("");
                 peliTestiLabel.setBounds(maastoKohteenSijX, maastoKohteensijY, esineenKokoPx, esineenKokoPx);
                 maastoEditointiKenttäPaneli.add(peliTestiLabel);
                 maastoKohteenSijX += esineenKokoPx;
@@ -472,7 +554,7 @@ public class HuoneEditoriIkkuna {
         int npcKohteenSijY = 10;
         for (int i = 0; i < Peli.kentänKoko; i++) {
             for (int j = 0; j < Peli.kentänKoko; j++) {
-                JLabel peliTestiLabel = new JLabel("PeliTestiLabel");
+                JLabel peliTestiLabel = new JLabel("");
                 peliTestiLabel.setBounds(npcKohteenSijX, npcKohteenSijY, esineenKokoPx, esineenKokoPx);
                 npcEditointiKenttäPaneli.add(peliTestiLabel);
                 npcKohteenSijX += esineenKokoPx;
@@ -515,6 +597,10 @@ public class HuoneEditoriIkkuna {
                     }
                     huoneInfoPaneli.revalidate();
                     huoneInfoPaneli.repaint();
+                    huoneInfoPaneli.repaint();
+                    huoneInfoPaneli.repaint();
+                    huoneInfoPaneli.repaint();
+                    huoneInfoPaneli.repaint();
                 }
                 catch (NullPointerException npe) {
                     npe.printStackTrace();
@@ -546,8 +632,8 @@ public class HuoneEditoriIkkuna {
         kontrolliInfoLabel[1] = new JLabel("Hiiren oikea: lisävalinnat");
         kontrolliInfoLabel[2] = new JLabel("Hiiren keski: poista");
         kontrolliInfoLabel[3] = new JLabel("");
-        kontrolliInfoLabel[4] = new JLabel("");
-        kontrolliInfoLabel[5] = new JLabel("");
+        kontrolliInfoLabel[4] = new JLabel("CTRL + hiiren vasen: kopioi tile");
+        kontrolliInfoLabel[5] = new JLabel("CTRL + Z: peru viimeisin muutos");
         kontrolliInfoLabel[6] = new JLabel("");
         kontrolliInfoLabel[7] = new JLabel("");
         kontrolliInfoLabel[8] = new JLabel("");
@@ -586,6 +672,8 @@ public class HuoneEditoriIkkuna {
 
         ikkuna.add(yläPalkki, BorderLayout.NORTH);
         ikkuna.add(kortit, BorderLayout.CENTER);
+        ikkuna.addKeyListener(editorinNäppäinkomennot);
+        ikkuna.requestFocus();
         ikkuna.revalidate();
         ikkuna.repaint();
 
@@ -612,11 +700,24 @@ public class HuoneEditoriIkkuna {
         ikkuna.requestFocus();
     }
 
-    public static Set<String> listaaMaastot(String dir) {
-        return Stream.of(new File(dir).listFiles())
-          .filter(file -> !file.isDirectory() && (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")))
-          .map(File::getName).sorted()
-          .collect(Collectors.toSet());
+    // public static Set<String> listaaMaastot(String dir) {
+    //     return Stream.of(new File(dir).listFiles())
+    //       .filter(file -> !file.isDirectory() && (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")))
+    //       .map(File::getName).sorted()
+    //       .collect(Collectors.toSet());
+    // }
+
+    public static List<String> listaaKuvat(String dir) {
+        List<String> kuvaLista = Stream.of(new File(dir).listFiles())
+            .filter(file -> !file.isDirectory() && (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")))
+            .map(File::getName).sorted()
+            .collect(Collectors.toList());
+        Collections.sort(kuvaLista, new Comparator<String>() {
+            public int compare(String e1, String e2) {
+                return e1.compareTo(e2);
+            }
+        });
+        return kuvaLista;
     }
 
     static void lataaHuoneKartasta(int uusiHuone) {
@@ -729,94 +830,198 @@ public class HuoneEditoriIkkuna {
         }
     }
 
-    static void asetaEsineRuutuun(int sijX, int sijY, String esineenNimi) {
-        
-        switch (esineenNimi) {
+    static void tallennaMuutos(String muutos) {
+        System.out.println(muutos);
+        editorinMuutosHistoria.add(muutos);
+    }
 
-            case "Avain":
-                objektiKenttä[sijX][sijY] = new Avain(true, sijX, sijY);
-                break;
+    static void peruMuutos() {
+        if (editorinMuutosHistoria != null) {
+            if (editorinMuutosHistoria.size() > 0) {
+                String peruttavaMuutos = editorinMuutosHistoria.get(editorinMuutosHistoria.size()-1);
+                int peruttavanKohteenX = 0, peruttavanKohteenY = 0;
+                try {
+                    peruttavanKohteenX = Integer.parseInt(peruttavaMuutos.substring(peruttavaMuutos.indexOf("x=")+2, peruttavaMuutos.indexOf("x=")+3));
+                    peruttavanKohteenY = Integer.parseInt(peruttavaMuutos.substring(peruttavaMuutos.indexOf("y=")+2, peruttavaMuutos.indexOf("y=")+3));
+                }
+                catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    System.out.println(peruttavaMuutos.substring(peruttavaMuutos.indexOf("x=")+2, peruttavaMuutos.indexOf("x=")+3));
+                }
+                if (peruttavaMuutos.contains("objekti")) {
+                    if (peruttavaMuutos.contains("aseta")) {
+                        String objektinNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("aseta_")+6, peruttavaMuutos.indexOf("x=")-1);
+                        System.out.println("palautetaan: " + objektiKenttä[peruttavanKohteenX][peruttavanKohteenY] + " tilalle " + objektinNimi);
+                        String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        if (ominaisuudet != "") {
+                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, ominaisuudet.split(","));
+                        }
+                        else {
+                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, null);
+                        }
+                    }
+                    else if (peruttavaMuutos.contains("poista")) {
+                        String objektinNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("poista_")+7, peruttavaMuutos.indexOf("x=")-1);
+                        String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        if (ominaisuudet != "") {
+                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, ominaisuudet.split(","));
+                        }
+                        else {
+                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, null);
+                        }
+                    }
+                }
+                else if (peruttavaMuutos.contains("maasto")) {
+                    if (peruttavaMuutos.contains("aseta")) {
+                        String maastonNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("aseta_")+6, peruttavaMuutos.indexOf("x=")-1);
+                        System.out.println("palautetaan: " + maastoKenttä[peruttavanKohteenX][peruttavanKohteenY] + " tilalle " + maastonNimi);
+                        String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        asetaMaastoRuutuun(peruttavanKohteenX, peruttavanKohteenY, maastonNimi, ominaisuudet.split(","));
+                    }
+                    else if (peruttavaMuutos.contains("poista")) {
+                        String maastonNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("poista_")+7, peruttavaMuutos.indexOf("x=")-1);
+                        String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        asetaMaastoRuutuun(peruttavanKohteenX, peruttavanKohteenY, maastonNimi, ominaisuudet.split(","));
+                    }
+                }
+                else if (peruttavaMuutos.contains("npc")) {
+                    if (peruttavaMuutos.contains("aseta")) {
+                        String npcnNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("aseta_")+6, peruttavaMuutos.indexOf("x=")-1);
+                        System.out.println("palautetaan: " + npcKenttä[peruttavanKohteenX][peruttavanKohteenY] + " tilalle " + npcnNimi);
+                        String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        asetaNPCRuutuun(peruttavanKohteenX, peruttavanKohteenY, npcnNimi, ominaisuudet.split(","));
+                    }
+                    else if (peruttavaMuutos.contains("poista")) {
+                        String npcnNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("poista_")+7, peruttavaMuutos.indexOf("x=")-1);
+                        String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        asetaNPCRuutuun(peruttavanKohteenX, peruttavanKohteenY, npcnNimi, ominaisuudet.split(","));
+                    }
+                }
+                editorinMuutosHistoria.remove(editorinMuutosHistoria.size()-1);
+            }
+            else {
+                System.out.println("Muutoshistoria on tyhjä.");
+            }
+        }
+    }
 
-            case "Hiili":
-                objektiKenttä[sijX][sijY] = new Hiili(true, sijX, sijY);
-                break;
+    static void asetaEsineRuutuun(int sijX, int sijY, String esineenNimi, String[] ominaisuusLista) {
+        if (ominaisuusLista != null) {
+            switch (esineenNimi) {
 
-            case "Huume":
-                objektiKenttä[sijX][sijY] = new Huume(true, sijX, sijY);
-                break;
+                case "Kaasusytytin":
+                    objektiKenttä[sijX][sijY] = new Kaasusytytin(true, sijX, sijY, ominaisuusLista);
+                    break;
 
-            case "Juhani":
-                objektiKenttä[sijX][sijY] = new Juhani(true, sijX, sijY);
-                break;
+                case "Kirstu":
+                    objektiKenttä[sijX][sijY] = new Kirstu(true, sijX, sijY, ominaisuusLista);
+                    break;
 
-            case "Kaasupullo":
-                objektiKenttä[sijX][sijY] = new Kaasupullo(true, sijX, sijY);
-                break;
+                case "Oviruutu":
+                    objektiKenttä[sijX][sijY] = new Oviruutu(sijX, sijY, ominaisuusLista);
+                    break;
 
-            case "Kaasusytytin":
-                objektiKenttä[sijX][sijY] = new Kaasusytytin(true, sijX, sijY, "tyhjä");
-                break;
+                case "Koriste-esine":
+                    objektiKenttä[sijX][sijY] = new VisuaalinenObjekti(true, sijX, sijY, ominaisuusLista);
+                    break;
 
-            case "Kauppa":
-                objektiKenttä[sijX][sijY] = new Kauppa(true, sijX, sijY);
-                break;
+                default:
+                    objektiKenttä[sijX][sijY] = null;
+                    break;
+            }
+        }
+        else {
+            switch (esineenNimi) {
 
-            case "Kilpi":
-                objektiKenttä[sijX][sijY] = new Kilpi(true, sijX, sijY);
-                break;
+                case "Avain":
+                    objektiKenttä[sijX][sijY] = new Avain(true, sijX, sijY);
+                    break;
 
-            case "Kirstu":
-                objektiKenttä[sijX][sijY] = new Kirstu(true, sijX, sijY, null);
-                break;
+                case "Hiili":
+                    objektiKenttä[sijX][sijY] = new Hiili(true, sijX, sijY);
+                    break;
 
-            case "Kuparilager":
-                objektiKenttä[sijX][sijY] = new Kuparilager(true, sijX, sijY);
-                break;
+                case "Huume":
+                    objektiKenttä[sijX][sijY] = new Huume(true, sijX, sijY);
+                    break;
 
-            case "Makkara":
-                objektiKenttä[sijX][sijY] = new Makkara(true, sijX, sijY);
-                break;
+                case "Juhani":
+                    objektiKenttä[sijX][sijY] = new Juhani(true, sijX, sijY);
+                    break;
 
-            case "Nuotio":
-                objektiKenttä[sijX][sijY] = new Nuotio(true, sijX, sijY);
-                break;
+                case "Kaasupullo":
+                    objektiKenttä[sijX][sijY] = new Kaasupullo(true, sijX, sijY);
+                    break;
 
-            case "Paperi":
-                objektiKenttä[sijX][sijY] = new Paperi(true, sijX, sijY);
-                break;
+                case "Kaasusytytin":
+                    objektiKenttä[sijX][sijY] = new Kaasusytytin(true, sijX, sijY, "tyhjä");
+                    break;
 
-            case "Pesäpallomaila":
-                objektiKenttä[sijX][sijY] = new Pesäpallomaila(true, sijX, sijY);
-                break;
+                case "Kauppa":
+                    objektiKenttä[sijX][sijY] = new Kauppa(true, sijX, sijY);
+                    break;
 
-            case "Oviruutu":
-                objektiKenttä[sijX][sijY] = new Oviruutu(sijX, sijY, 0, 0, 0, Suunta.VASEN);
-                break;
+                case "Kilpi":
+                    objektiKenttä[sijX][sijY] = new Kilpi(true, sijX, sijY);
+                    break;
 
-            case "Seteli":
-                objektiKenttä[sijX][sijY] = new Seteli(true, sijX, sijY);
-                break;
+                case "Kirstu":
+                    objektiKenttä[sijX][sijY] = new Kirstu(true, sijX, sijY, null);
+                    break;
+                
+                case "Koriste-esine":
+                    objektiKenttä[sijX][sijY] = new VisuaalinenObjekti(true, sijX, sijY, null);
+                    break;
 
-            case "Suklaalevy":
-                objektiKenttä[sijX][sijY] = new Suklaalevy(true, sijX, sijY);
-                break;
+                case "Kuparilager":
+                    objektiKenttä[sijX][sijY] = new Kuparilager(true, sijX, sijY);
+                    break;
 
-            case "Vesiämpäri":
-                objektiKenttä[sijX][sijY] = new Vesiämpäri(true, sijX, sijY);
-                break;
+                case "Makkara":
+                    objektiKenttä[sijX][sijY] = new Makkara(true, sijX, sijY);
+                    break;
 
-            case "Ämpärikone":
-                objektiKenttä[sijX][sijY] = new Ämpärikone(true, sijX, sijY);
-                break;
+                case "Nuotio":
+                    objektiKenttä[sijX][sijY] = new Nuotio(true, sijX, sijY);
+                    break;
 
-            default:
-                objektiKenttä[sijX][sijY] = null;
-                break;
+                case "Paperi":
+                    objektiKenttä[sijX][sijY] = new Paperi(true, sijX, sijY);
+                    break;
+
+                case "Pesäpallomaila":
+                    objektiKenttä[sijX][sijY] = new Pesäpallomaila(true, sijX, sijY);
+                    break;
+
+                case "Oviruutu":
+                    objektiKenttä[sijX][sijY] = new Oviruutu(sijX, sijY, 0, 0, 0, Suunta.VASEN);
+                    break;
+
+                case "Seteli":
+                    objektiKenttä[sijX][sijY] = new Seteli(true, sijX, sijY);
+                    break;
+
+                case "Suklaalevy":
+                    objektiKenttä[sijX][sijY] = new Suklaalevy(true, sijX, sijY);
+                    break;
+
+                case "Vesiämpäri":
+                    objektiKenttä[sijX][sijY] = new Vesiämpäri(true, sijX, sijY);
+                    break;
+
+                case "Ämpärikone":
+                    objektiKenttä[sijX][sijY] = new Ämpärikone(true, sijX, sijY);
+                    break;
+
+                default:
+                    objektiKenttä[sijX][sijY] = null;
+                    break;
+            }
         }
     }
 
     static void asetaMaastoRuutuun(int sijX, int sijY, String maastonNimi, String[] ominaisuusLista) {
-        
+
         switch (maastonNimi) {
 
             case "Tile":
@@ -854,6 +1059,15 @@ public class HuoneEditoriIkkuna {
     static ArrayList<JMenuItem> luoOikeaClickOminaisuusLista(KenttäKohde k) {
 
         ArrayList<JMenuItem> menuItemit = new ArrayList<JMenuItem>();
+
+        JMenuItem tiedot = new JMenuItem("Tiedot");
+        tiedot.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, k.annaTiedot(), "Objektin tiedot", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        tiedot.setText("Tiedot: " + k.annaNimi());
+        menuItemit.add(tiedot);
 
         switch (k.annaNimi()) {
 
@@ -912,9 +1126,76 @@ public class HuoneEditoriIkkuna {
         return menuItemit;
     }
 
+    static ArrayList<JMenuItem> luoOikeaClickOminaisuusLista(Maasto m) {
+
+        ArrayList<JMenuItem> menuItemit = new ArrayList<JMenuItem>();
+
+        JMenuItem tiedot = new JMenuItem("Tiedot");
+        tiedot.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, m.annaTiedot(), "Maaston tiedot", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        tiedot.setText("Tiedot: " + m.annaNimi());
+        menuItemit.add(tiedot);
+
+        switch (m.annaNimi()) {
+
+            default:
+            break;
+
+            case "Tile", "EsteTile":
+                JMenu kääntöValikko = new JMenu("Kierrä kuvaa");
+                JMenuItem kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
+                kääntöMyötäpäivään.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        m.käännäKuvaa(Kääntö.MYÖTÄPÄIVÄÄN);
+                    }
+                });
+                JMenuItem kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
+                kääntöVastapäivään.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        m.käännäKuvaa(Kääntö.VASTAPÄIVÄÄN);
+                    }
+                });
+                kääntöValikko.add(kääntöMyötäpäivään);
+                kääntöValikko.add(kääntöVastapäivään);
+                menuItemit.add(kääntöValikko);
+                
+                JMenu peilausValikko = new JMenu("Peilaa kuva");
+                JMenuItem peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
+                peilausVaaka.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        m.peilaaKuva(Peilaus.PEILAA_VAAKA);
+                    }
+                });
+                JMenuItem peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
+                peilausPysty.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        m.peilaaKuva(Peilaus.PEILAA_PYSTY);
+                    }
+                });
+                peilausValikko.add(peilausVaaka);
+                peilausValikko.add(peilausPysty);
+                menuItemit.add(peilausValikko);
+            break;
+
+        }
+        return menuItemit;
+    }
+
     static ArrayList<JMenuItem> luoOikeaClickOminaisuusLista(NPC n) {
 
         ArrayList<JMenuItem> menuItemit = new ArrayList<JMenuItem>();
+
+        JMenuItem tiedot = new JMenuItem("Tiedot");
+        tiedot.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, n.annaTiedot(), "NPC:n tiedot", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        tiedot.setText("Tiedot: " + n.annaNimi());
+        menuItemit.add(tiedot);
 
         switch (n.annaNimi()) {
 
@@ -1142,7 +1423,7 @@ public class HuoneEditoriIkkuna {
     
             muokkausIkkuna = new JFrame();
             muokkausIkkuna.setTitle("Muokkaa objektia: " + muokattavaKohde.annaNimi());
-            muokkausIkkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
+            muokkausIkkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             muokkausIkkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
             muokkausIkkuna.setLayout(new BorderLayout());
             muokkausIkkuna.setVisible(true);
@@ -1315,7 +1596,7 @@ public class HuoneEditoriIkkuna {
     
             muokkausIkkuna = new JFrame();
             muokkausIkkuna.setTitle("Aseta reunawarppi: " + suunta);
-            muokkausIkkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja.png").getImage());
+            muokkausIkkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             muokkausIkkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
             muokkausIkkuna.setLayout(new BorderLayout());
             muokkausIkkuna.setVisible(true);
@@ -1355,6 +1636,7 @@ public class HuoneEditoriIkkuna {
                     }
                 }
             });
+            jButton.addKeyListener(editorinNäppäinkomennot);
             warpVasenNappi[i] = jButton;
         }
 
@@ -1383,6 +1665,7 @@ public class HuoneEditoriIkkuna {
                     }
                 }
             });
+            jButton.addKeyListener(editorinNäppäinkomennot);
             warpOikeaNappi[i] = jButton;
         }
 
@@ -1411,6 +1694,7 @@ public class HuoneEditoriIkkuna {
                     }
                 }
             });
+            jButton.addKeyListener(editorinNäppäinkomennot);
             warpYlösNappi[i] = jButton;
         }
 
@@ -1439,6 +1723,7 @@ public class HuoneEditoriIkkuna {
                     }
                 }
             });
+            jButton.addKeyListener(editorinNäppäinkomennot);
             warpAlasNappi[i] = jButton;
         }
         
@@ -1453,62 +1738,89 @@ public class HuoneEditoriIkkuna {
                 int x = j;
                 int y = i;
                 kenttäKohteenKuvake[x][y] = new JButton(new ImageIcon());
+                kenttäKohteenKuvake[x][y].addKeyListener(editorinNäppäinkomennot);
                 kenttäKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                     public void mousePressed (MouseEvent e) {
                         try {
-                            JMenuItem tiedot = new JMenuItem("Tiedot");
-                            tiedot.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    JOptionPane.showMessageDialog(null, objektiKenttä[x][y].annaTiedot(), "Objektin tiedot", JOptionPane.INFORMATION_MESSAGE);
+                            if (ctrlPainettu && SwingUtilities.isLeftMouseButton(e)) {
+                                kopioituOminaisuusLista = objektiKenttä[x][y].annalisäOminaisuudet();
+                                kopioituObjektinNimi = objektiKenttä[x][y].annaNimi();
+                                käytäKopioitujaOminaisuuksia = true;
+                            }
+                            else if (SwingUtilities.isLeftMouseButton(e)) {
+                                if (käytäKopioitujaOminaisuuksia) {
+                                    tallennaMuutos("objekti_aseta_" + kopioituObjektinNimi + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + objektiKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                    asetaEsineRuutuun(x, y, kopioituObjektinNimi, null);
                                 }
-                            });
-                            
-                            if (SwingUtilities.isLeftMouseButton(e)) {
-                                asetaEsineRuutuun(x, y, kenttäkohdeLista[esineValikko.getSelectedIndex()]);;
-                                hudTeksti.setText(kenttäkohdeLista[esineValikko.getSelectedIndex()] + ", " + x + ", " + y);
+                                else {
+                                    if (kenttäkohdeLista[esineValikko.getSelectedIndex()] == "Koriste-esine") {
+                                        String[] koristeEsineenOminaisuusLista = new String[1];
+                                        koristeEsineenOminaisuusLista[0] = "kuva=" + koristeEsineenKuvaValikko.getSelectedItem();
+                                        if (objektiKenttä[x][y] != null) {
+                                            tallennaMuutos("objekti_aseta_" + objektiKenttä[x][y].annaNimi() + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + objektiKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                            asetaEsineRuutuun(x, y, kenttäkohdeLista[esineValikko.getSelectedIndex()], koristeEsineenOminaisuusLista);
+                                        }
+                                        else {
+                                            tallennaMuutos("objekti_aseta_" + "tyhjä" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + "]");
+                                            asetaEsineRuutuun(x, y, kenttäkohdeLista[esineValikko.getSelectedIndex()], koristeEsineenOminaisuusLista);
+                                        }
+                                    }
+                                    else if (objektiKenttä[x][y] != null) {
+                                        tallennaMuutos("objekti_aseta_" + objektiKenttä[x][y].annaNimi() + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + "]");
+                                        asetaEsineRuutuun(x, y, kenttäkohdeLista[esineValikko.getSelectedIndex()], null);
+                                    }
+                                    else {
+                                        tallennaMuutos("objekti_aseta_" + "tyhjä" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + "]");
+                                        asetaEsineRuutuun(x, y, kenttäkohdeLista[esineValikko.getSelectedIndex()], null);
+                                    }
+                                    hudTeksti.setText(kenttäkohdeLista[esineValikko.getSelectedIndex()] + ", " + x + ", " + y);
+                                }
                             }
                             else if (SwingUtilities.isRightMouseButton(e)) {
                                 JPopupMenu ominaisuusMenu = new JPopupMenu();
-                                tiedot.setText("Tiedot: " + objektiKenttä[x][y].annaNimi());
-                                ominaisuusMenu.add(tiedot);
                                 for (JMenuItem mi : luoOikeaClickOminaisuusLista(objektiKenttä[x][y])) {
                                     ominaisuusMenu.add(mi);
                                 }
                                 ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
                             }
                             else if (SwingUtilities.isMiddleMouseButton(e)) {
-                                asetaEsineRuutuun(x, y, "");
+                                tallennaMuutos("objekti_poista_" + kenttäkohdeLista[esineValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + objektiKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                asetaEsineRuutuun(x, y, "", null);
                                 hudTeksti.setText("tyhjä" + ", " + x + ", " + y);
-                            }
-                            else {
-            
                             }
                         }
                         catch (NullPointerException npe) {
                             System.out.println("Ei ominaisuuksia (tyhjä ruutu)");
                             npe.printStackTrace();
                         }
-                        finally {
-                            //asetaUusiHuoneKarttaan(muokattavaHuone);
-                        }
                     }
                 });
 
                 maastoKohteenKuvake[j][i] = new JButton();
+                maastoKohteenKuvake[x][y].addKeyListener(editorinNäppäinkomennot);
                 maastoKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                     public void mousePressed (MouseEvent e) {
                         try {
-                            JMenuItem tiedot = new JMenuItem("Tiedot");
-                            tiedot.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    JOptionPane.showMessageDialog(null, maastoKenttä[x][y].annaTiedot(), "Maaston tiedot", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                            });
-                            
-                            if (SwingUtilities.isLeftMouseButton(e)) {
+                            System.out.println(ctrlPainettu);
+                            if (ctrlPainettu && SwingUtilities.isLeftMouseButton(e)) {
+                                kopioituOminaisuusLista = maastoKenttä[x][y].annalisäOminaisuudet();
+                                käytäKopioitujaOminaisuuksia = true;
+                            }
+                            else if (SwingUtilities.isLeftMouseButton(e)) {
                                 String[] ominaisuusLista = new String[1];
-                                ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
-                                //ominaisuusLista[1] = "este=" + "ei";
+                                if (maastoKenttä[x][y] == null) {
+                                    tallennaMuutos("maasto_aseta_" + "Tile" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + "]");
+                                }
+                                else {
+                                    tallennaMuutos("maasto_aseta_" + "Tile" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + maastoKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                }
+                                if (kopioituOminaisuusLista != null && käytäKopioitujaOminaisuuksia) {
+                                    ominaisuusLista = kopioituOminaisuusLista;
+                                }
+                                else {
+                                    ominaisuusLista = new String[1];
+                                    ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
+                                }
                                 if (ominaisuusLista[0].endsWith("_e.png")) {
                                     asetaMaastoRuutuun(x, y, "EsteTile", ominaisuusLista);
                                 }
@@ -1519,63 +1831,16 @@ public class HuoneEditoriIkkuna {
                             }
                             else if (SwingUtilities.isRightMouseButton(e)) {
                                 JPopupMenu ominaisuusMenu = new JPopupMenu();
-                                tiedot.setText("Tiedot: " + maastoKenttä[x][y].annaNimi());
-                                ominaisuusMenu.add(tiedot);
-                                //for (JMenuItem mi : luoOikeaClickOminaisuusLista(maastoKenttä[x][y])) {
-                                //    ominaisuusMenu.add(mi);
-                                //}
-                                ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
-                            }
-                            else if (SwingUtilities.isMiddleMouseButton(e)) {
-                                String[] ominaisuusLista = new String[1];
-                                ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
-                                //ominaisuusLista[1] = "este=" + "ei";
-                                asetaMaastoRuutuun(x, y, "", ominaisuusLista);
-                                hudTeksti.setText("tyhjä" + ", " + x + ", " + y);
-                            }
-                            else {
-            
-                            }
-                        }
-                        catch (NullPointerException npe) {
-                            System.out.println("Ei ominaisuuksia (tyhjä ruutu)");
-                        }
-                        finally {
-                            //asetaUusiHuoneKarttaan(muokattavaHuone);
-                        }
-                    }
-                });
-
-                npcKohteenKuvake[x][y] = new JButton(new ImageIcon());
-                npcKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
-                    public void mousePressed (MouseEvent e) {
-                        try {
-                            JMenuItem tiedot = new JMenuItem("Tiedot");
-                            tiedot.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    JOptionPane.showMessageDialog(null, npcKenttä[x][y].annaTiedot(), "NPC:n tiedot", JOptionPane.INFORMATION_MESSAGE);
-                                }
-                            });
-                            
-                            if (SwingUtilities.isLeftMouseButton(e)) {
-                                String[] ominaisuusLista = new String[1];
-                                ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                asetaNPCRuutuun(x, y, npcNimiLista[npcValikko.getSelectedIndex()], ominaisuusLista);
-                                hudTeksti.setText(npcNimiLista[npcValikko.getSelectedIndex()] + ", " + x + ", " + y);
-                            }
-                            else if (SwingUtilities.isRightMouseButton(e)) {
-                                JPopupMenu ominaisuusMenu = new JPopupMenu();
-                                tiedot.setText("Tiedot: " + npcKenttä[x][y].annaNimi());
-                                ominaisuusMenu.add(tiedot);
-                                for (JMenuItem mi : luoOikeaClickOminaisuusLista(npcKenttä[x][y])) {
+                                for (JMenuItem mi : luoOikeaClickOminaisuusLista(maastoKenttä[x][y])) {
                                     ominaisuusMenu.add(mi);
                                 }
                                 ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
                             }
                             else if (SwingUtilities.isMiddleMouseButton(e)) {
                                 String[] ominaisuusLista = new String[1];
-                                ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                asetaNPCRuutuun(x, y, "", ominaisuusLista);
+                                ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
+                                tallennaMuutos("maasto_poista_" + "Tile" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + maastoKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                asetaMaastoRuutuun(x, y, "", ominaisuusLista);
                                 hudTeksti.setText("tyhjä" + ", " + x + ", " + y);
                             }
                             else {
@@ -1586,8 +1851,42 @@ public class HuoneEditoriIkkuna {
                             System.out.println("Ei ominaisuuksia (tyhjä ruutu)");
                             npe.printStackTrace();
                         }
-                        finally {
-                            //asetaUusiHuoneKarttaan(muokattavaHuone);
+                    }
+                });
+
+                npcKohteenKuvake[x][y] = new JButton(new ImageIcon());
+                npcKohteenKuvake[x][y].addKeyListener(editorinNäppäinkomennot);
+                npcKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
+                    public void mousePressed (MouseEvent e) {
+                        try {
+                            if (SwingUtilities.isLeftMouseButton(e)) {
+                                String[] ominaisuusLista = new String[1];
+                                ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
+                                asetaNPCRuutuun(x, y, npcNimiLista[npcValikko.getSelectedIndex()], ominaisuusLista);
+                                tallennaMuutos("npc_aseta_" + npcNimiLista[npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                hudTeksti.setText(npcNimiLista[npcValikko.getSelectedIndex()] + ", " + x + ", " + y);
+                            }
+                            else if (SwingUtilities.isRightMouseButton(e)) {
+                                JPopupMenu ominaisuusMenu = new JPopupMenu();
+                                for (JMenuItem mi : luoOikeaClickOminaisuusLista(npcKenttä[x][y])) {
+                                    ominaisuusMenu.add(mi);
+                                }
+                                ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
+                            }
+                            else if (SwingUtilities.isMiddleMouseButton(e)) {
+                                String[] ominaisuusLista = new String[1];
+                                ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
+                                tallennaMuutos("npc_poista_" + npcNimiLista[npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                asetaNPCRuutuun(x, y, "", ominaisuusLista);
+                                hudTeksti.setText("tyhjä" + ", " + x + ", " + y);
+                            }
+                            else {
+            
+                            }
+                        }
+                        catch (NullPointerException npe) {
+                            System.out.println("Ei ominaisuuksia (tyhjä ruutu)");
+                            npe.printStackTrace();
                         }
                     }
                 });
@@ -1723,6 +2022,9 @@ public class HuoneEditoriIkkuna {
         päivitäObjektiKenttä();
         päivitäMaastoKenttä();
         päivitäNPCKenttä();
+        // if (ikkuna != null) {
+        //     ikkuna.requestFocus();
+        // }
     }
 
     static JPanel päivitäObjektiKenttä() {
@@ -1841,6 +2143,7 @@ public class HuoneEditoriIkkuna {
                         //}
                         if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
                             maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
+                            maastoKenttä[j][i].päivitäKuvanAsento();
                         }
                         else if (maastoKohteenKuvake[j][i] != null) {
                             maastoKohteenKuvake[j][i].setIcon(null);
@@ -2012,5 +2315,46 @@ public class HuoneEditoriIkkuna {
             //vaatiiKentänPäivityksen = false;
         }
         return npcEditointiKenttäPaneli;
+    }
+
+    static class EditorinNäppäinkomennot implements KeyListener {
+
+        /*
+         * Määritellään mitä eri näppäinkomennot tekee ja mitä metodeja kutsutaan
+         */
+
+        @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+    
+        @Override
+            public void keyPressed(KeyEvent e) {
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_CONTROL:
+                        ctrlPainettu = true;
+                    break;
+                    case KeyEvent.VK_Z:
+                        if (ctrlPainettu) {
+                            peruMuutos();
+                        }
+                    break;
+                    default:
+                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
+                    break;
+                }
+                System.out.println(ctrlPainettu);
+            }
+    
+        @Override
+            public void keyReleased(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_CONTROL:
+                        ctrlPainettu = false;
+                    break;
+                }
+                System.out.println(ctrlPainettu);
+            }
     }
 }

@@ -1,6 +1,5 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
-import java.text.DecimalFormat;
 
 import keimo.Pelaaja;
 
@@ -8,14 +7,13 @@ public class Kauppa extends Kiintopiste {
 
     public String kokeileEsinettä(Esine e) {
         float saatavaRaha = 0.15f * Pelaaja.kuparit;
-        DecimalFormat df = new DecimalFormat("##.##");
-        if (saatavaRaha >= 20) {
-            Pelaaja.annaEsine(annaSeteli());
+        if (saatavaRaha > 0) {
+            Pelaaja.raha += saatavaRaha;
             Pelaaja.kuparit = 0;
             return "Palautit tölkit kauppaan ja sait " + saatavaRaha + "€.";
         }
         else {
-            return "Sinulla on " + Pelaaja.kuparit + " tölkkiä. Niistä saa " + df.format(saatavaRaha) + "€. Kerää lisää tölkkejä, jotta saat 20€.";
+            return "Sinulla ei ole yhtään tölkkiä.";
         }
     }
 

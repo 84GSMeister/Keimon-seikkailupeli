@@ -10,7 +10,7 @@ public class Kuparilager extends Esine {
     DecimalFormat df = new DecimalFormat("##.##");
 
     public String katso() {
-        return "Voisin juoda tämän.";
+        return "Kannattaa kerätä talteen kaikki tölkit.";
     }
 
     public String käytä(){

@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.Image;
 import java.text.DecimalFormat;
 
 public class GrafiikanPäivitysSäie extends Thread {
@@ -158,7 +159,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                                     case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_laiha.gif"); break;
                                     case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_normaali.gif"); break;
                                     case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_hyvä_erittäinlihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_erittäinlihava.gif"); break;
                                     case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
                                 }
                             break;
@@ -275,41 +276,66 @@ public class GrafiikanPäivitysSäie extends Thread {
     }
 
     public static void päivitäHUD() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < Pelaaja.esineet.length; i++) {
             if (Pelaaja.esineet[i] == null) {
                 PääIkkuna.esineLabel[i].setText(null);
                 PääIkkuna.esineLabel[i].setIcon(null);
             }
             else {
                 PääIkkuna.esineLabel[i].setIcon(Pelaaja.esineet[i].annaKuvake());
+                // ImageIcon pelaajanEsineenKuvake = (ImageIcon)Pelaaja.esineet[i].annaKuvake();
+                // Image kuvake64 = pelaajanEsineenKuvake.getImage();
+                // Image kuvake32 = kuvake64.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+                // pelaajanEsineenKuvake = new ImageIcon(kuvake32);
+                // PääIkkuna.esineLabel[i].setIcon(pelaajanEsineenKuvake);
             }
+        }
+        if (Peli.valittuEsine == null) {
+            PääIkkuna.valitunEsineenNimiLabel.setText("");
+        }
+        else {
+            PääIkkuna.valitunEsineenNimiLabel.setText(Peli.valittuEsine.annaNimi());
         }
     }
 
     public static void skaalaaHUD() {
-        if (PääIkkuna.ikkuna.getWidth() <= PääIkkuna.tavaraPaneli.getWidth() + PääIkkuna.infoPaneli.getWidth() + 25) {
-            PääIkkuna.infoPaneli.setVisible(false);
-        }
-        else {
-            PääIkkuna.infoPaneli.setVisible(true);
-        }
-        if (PääIkkuna.ikkuna.getHeight() <= 960) {
-            PääIkkuna.yläPaneeli.setVisible(false);
-            if (PääIkkuna.ikkuna.getHeight() <= 900) {
-                PääIkkuna.alueInfoPaneli.setVisible(false);
+        if (PääIkkuna.ikkuna !=null && PääIkkuna.tavaraPaneli != null && PääIkkuna.kontrolliInfoPaneli != null) {
+            // if (PääIkkuna.ikkuna.getWidth() <= PääIkkuna.tavaraPaneli.getWidth() + PääIkkuna.infoPaneli.getWidth() + 25) {
+            //     PääIkkuna.infoPaneli.setVisible(false);
+            // }
+            // else {
+            //     PääIkkuna.infoPaneli.setVisible(true);
+            // }
+            // if (PääIkkuna.ikkuna.getHeight() <= 960) {
+            //     PääIkkuna.yläPaneeli.setVisible(false);
+            //     if (PääIkkuna.ikkuna.getHeight() <= 900) {
+            //         PääIkkuna.alueInfoPaneli.setVisible(false);
+            //     }
+            //     else {
+            //         PääIkkuna.alueInfoPaneli.setVisible(true);
+            //     }
+            // }
+            // else {
+            //     PääIkkuna.yläPaneeli.setVisible(true);
+            // }
+            // ImageIcon takataustaKuvake = new ImageIcon();
+            // Image kuvake64 = takataustaKuvake.getImage();
+            // Image kuvake32 = kuvake64.getScaledInstance(PääIkkuna.ikkuna.getWidth(), PääIkkuna.ikkuna.getHeight(), Image.SCALE_SMOOTH);
+            // takataustaKuvake = new ImageIcon(kuvake32);
+            if (PääIkkuna.ikkuna.getHeight() < 750) {
+                PääIkkuna.yläPaneeli.setVisible(false);
+                PääIkkuna.alaPaneeli.setVisible(false);
+            }
+            else if (PääIkkuna.ikkuna.getHeight() < 768) {
+                PääIkkuna.yläPaneeli.setVisible(false);
+                PääIkkuna.alaPaneeli.setVisible(true);
             }
             else {
-                PääIkkuna.alueInfoPaneli.setVisible(true);
+                PääIkkuna.yläPaneeli.setVisible(true);
+                PääIkkuna.alaPaneeli.setVisible(true);
             }
+            PääIkkuna.peliKenttäUlompi.setBackground(Color.BLACK);
         }
-        else {
-            PääIkkuna.yläPaneeli.setVisible(true);
-        }
-        // ImageIcon takataustaKuvake = new ImageIcon();
-        // Image kuvake64 = takataustaKuvake.getImage();
-        // Image kuvake32 = kuvake64.getScaledInstance(PääIkkuna.ikkuna.getWidth(), PääIkkuna.ikkuna.getHeight(), Image.SCALE_SMOOTH);
-        // takataustaKuvake = new ImageIcon(kuvake32);
-        PääIkkuna.peliKenttäUlompi.setBackground(Color.BLACK);
     }
 
     public static void odotaMikrosekunteja(long mikrosekunnit){

@@ -43,7 +43,7 @@ public class Avain extends Esine {
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Kirstu");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/avain.png");
-        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?.";
+        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?";
         super.asetaTiedot();
     }
 }

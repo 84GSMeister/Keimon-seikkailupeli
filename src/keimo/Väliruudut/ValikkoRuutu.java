@@ -11,6 +11,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class ValikkoRuutu {
     
@@ -66,7 +68,7 @@ public class ValikkoRuutu {
         switch (valinta) {
             case 0: // Aloita peli
                 PääIkkuna.crd.next(PääIkkuna.kortit);
-                OsionAlkuRuutu.jatka.requestFocus();
+                OsionAlkuRuutu.osionAlkuPaneli.requestFocus();
                 break;
             case 1: // Asetukset
                 AsetusIkkuna.luoAsetusikkuna();
@@ -150,8 +152,45 @@ public class ValikkoRuutu {
         valikkoPaneli.add(logoPaneli, BorderLayout.NORTH);
         valikkoPaneli.add(nappiPaneliUlompi, BorderLayout.CENTER);
         valikkoPaneli.setBackground(Color.black);
+        valikkoPaneli.addKeyListener(new MenuKontrollit());
         valikkoPaneli.requestFocus();
         
         return valikkoPaneli;
+    }
+
+    static class MenuKontrollit implements KeyListener {
+
+        /*
+         * Määritellään mitä eri näppäinkomennot tekee ja mitä metodeja kutsutaan
+         */
+
+        @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+    
+        @Override
+            public void keyPressed(KeyEvent e) {
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_DOWN, KeyEvent.VK_S:
+                        ValikkoRuutu.painaNäppäintä("alas");
+                        break;
+                    case KeyEvent.VK_UP, KeyEvent.VK_W:
+                        ValikkoRuutu.painaNäppäintä("ylös");
+                        break;
+                    case KeyEvent.VK_SPACE, KeyEvent.VK_ENTER:
+                        ValikkoRuutu.painaNäppäintä("enter");
+                        break;
+                    default:
+                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
+                        break;
+                }
+            }
+    
+        @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
     }
 }

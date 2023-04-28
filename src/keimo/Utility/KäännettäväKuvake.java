@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class KäännettäväKuvake implements Icon {
+	
 	public enum Rotate {
 		DOWN,
 		UP,
@@ -11,9 +12,17 @@ public class KäännettäväKuvake implements Icon {
 		ABOUT_CENTER;
 	}
 
+    public enum Peilaus {
+        NORMAALI,
+        PEILAA_X,
+        PEILAA_Y,
+		PEILAA_MOLEMMAT;
+    }
+
 	private Icon icon;
 
 	private Rotate rotate;
+	private Peilaus peilaus = Peilaus.NORMAALI;
 
 	private double degrees;
 	private boolean circularIcon;
@@ -47,6 +56,22 @@ public class KäännettäväKuvake implements Icon {
 	 */
 	public KäännettäväKuvake(Icon icon, double degrees) {
 		this(icon, degrees, false);
+	}
+
+	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus) {
+		this(icon, degrees, false);
+		if (xPeilaus && yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
+		}
+		else if (xPeilaus) {
+			this.peilaus = Peilaus.PEILAA_X;
+		}
+		else if (yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_Y;
+		}
+		else {
+			this.peilaus = Peilaus.NORMAALI;
+		}
 	}
 
 	/**
@@ -194,26 +219,46 @@ public class KäännettäväKuvake implements Icon {
 		if (rotate == Rotate.DOWN) {
 			g2.translate(x + cHeight, y + cWidth);
 			g2.rotate( Math.toRadians( 90 ) );
-			icon.paintIcon(c, g2,  -cWidth, yAdjustment - cHeight);
+			//icon.paintIcon(c, g2,  -cWidth, yAdjustment - cHeight);
 		}
 		else if (rotate == Rotate.UP) {
 			g2.translate(x + cHeight, y + cWidth);
 			g2.rotate( Math.toRadians( -90 ) );
-			icon.paintIcon(c, g2,  xAdjustment - cWidth, -cHeight);
+			//icon.paintIcon(c, g2,  xAdjustment - cWidth, -cHeight);
 		}
 		else if (rotate == Rotate.UPSIDE_DOWN) {
 			g2.translate(x + cWidth, y + cHeight);
 			g2.rotate( Math.toRadians( 180 ) );
-			icon.paintIcon(c, g2, xAdjustment - cWidth, yAdjustment - cHeight);
+			//icon.paintIcon(c, g2, xAdjustment - cWidth, yAdjustment - cHeight);
 		}
 		else if (rotate == Rotate.ABOUT_CENTER) {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setClip(x, y, getIconWidth(), getIconHeight());
 			g2.translate((getIconWidth() - icon.getIconWidth()) / 2, (getIconHeight() - icon.getIconHeight()) / 2);
 			g2.rotate(Math.toRadians(degrees), x + cWidth, y + cHeight);
-			icon.paintIcon(c, g2, x, y);
+			//icon.paintIcon(c, g2, x, y);
 		}
 
+		switch (peilaus) {
+            case NORMAALI:
+			break;
+			case PEILAA_X:
+                g2.translate(getIconWidth(), 0);
+                g2.scale(-1, 1);
+            break;
+            case PEILAA_Y:
+                g2.translate(0, getIconHeight());
+                g2.scale(1, -1);
+            break;
+			case PEILAA_MOLEMMAT:
+				g2.translate(getIconWidth(), getIconHeight());
+				g2.scale(-1, -1);
+			break;
+        }
+
+		//System.out.println(degrees + " " + peilaus);
+
+		icon.paintIcon(c, g2, x, y);
 		g2.dispose();
 	}
 }

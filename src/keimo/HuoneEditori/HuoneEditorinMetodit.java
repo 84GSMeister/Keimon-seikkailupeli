@@ -198,9 +198,9 @@ public class HuoneEditorinMetodit {
                                         for (int i = 0; i < ominaisuuksienMäärä; i++) {
                                             luotavanMaastonOminaisuusLista = ominaisuudetMerkkijonona.split(",");
                                         }
-                                        //for (String st : luotavanObjektinOminaisuusLista) {
-                                        //    System.out.println("ominaisuus: " + st);
-                                        //}
+                                        // for (String st : luotavanMaastonOminaisuusLista) {
+                                        //     System.out.println("ominaisuus: " + st);
+                                        // }
                                         if (tarkastettavaRivi.contains("_")) {
                                             luotavaMaasto = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
                                             luotavanMaastonX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
@@ -436,6 +436,10 @@ public class HuoneEditorinMetodit {
 
                 case "Kirstu":
                     luotavaObjekti = new Kirstu(määritettySijainti, sijX, sijY, ominaisuusLista);
+                    break;
+
+                case "Koriste-esine":
+                    luotavaObjekti = new VisuaalinenObjekti(määritettySijainti, sijX, sijY, ominaisuusLista);
                     break;
 
                 default:

@@ -63,6 +63,17 @@ public abstract class NPC {
         return lisäOminaisuudet;
     }
 
+    public String annaLisäOminaisuudetYhtenäMjonona() {
+        String mjono = "";
+		if (annalisäOminaisuudet() != null) {
+			for (String s : annalisäOminaisuudet()) {
+				mjono += s + ",";
+			}
+            mjono = mjono.substring(0, mjono.length()-1);
+		}
+        return mjono;
+    }
+
     public Icon annaKuvake() {
         return kuvake;
     }
@@ -124,7 +135,7 @@ public abstract class NPC {
                 // if (sijX < Peli.kentänKoko -1) {
                 //     sijX++;
                 // }
-                if (hitbox.getMaxX() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                if (hitbox.getMaxX() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                     //sijX_PX_vy += 8;
                     //sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
                     hitbox.setLocation((int)hitbox.getMinX() + 8, (int)hitbox.getMinY());
@@ -146,7 +157,7 @@ public abstract class NPC {
                 // if (sijY > 0) {
                 //     sijY--;
                 // }
-                if (hitbox.getMaxY() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                if (hitbox.getMaxY() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                     //sijY_PX_vy += 8;
                     //sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
                     hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() + 8);
@@ -182,7 +193,7 @@ public abstract class NPC {
                     }
                     break;
                 case "oikea":
-                    if (hitbox.getMaxX() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                    if (hitbox.getMaxX() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                             NPCSiirtyi = siirrä("oikea");
@@ -196,7 +207,7 @@ public abstract class NPC {
                     }
                     break;
                 case "alas":
-                    if (hitbox.getMaxY() < Peli.kentänYläraja * PääIkkuna.pelaajanKokoPx) {
+                    if (hitbox.getMaxY() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                             NPCSiirtyi = siirrä("alas");

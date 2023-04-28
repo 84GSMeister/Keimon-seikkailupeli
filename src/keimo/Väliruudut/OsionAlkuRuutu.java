@@ -16,13 +16,14 @@ import javafx.embed.swing.*;
 
 public class OsionAlkuRuutu {
     
-    static JPanel osionAlkuPaneli;
+    public static JPanel osionAlkuPaneli;
     static JFXPanel kuvaPaneli;
     static JPanel tekstiPaneli;
     static JLabel kuva;
 
     static JLabel teksti;
-    static JButton toista, jatka;
+    static JLabel jatka;
+    static JButton toista;
 
     static int klikkaustenMäärä = 0;
     static int tarinanPituusRuutuina = 4;
@@ -123,16 +124,16 @@ public class OsionAlkuRuutu {
         toista.setPreferredSize(new Dimension(640, 80));
         toista.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        jatka = new JButton("Seuraava");
-        jatka.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PääIkkuna.crd.next(PääIkkuna.kortit);
-                Peli.pause = false;
-                PääIkkuna.ikkuna.requestFocus();
-                Peli.peliAloitettu = true;
-                mediaPlayer.stop();
-            }
-        });
+        jatka = new JLabel("Seuraava");
+        // jatka.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         PääIkkuna.crd.next(PääIkkuna.kortit);
+        //         Peli.pause = false;
+        //         PääIkkuna.ikkuna.requestFocus();
+        //         Peli.peliAloitettu = true;
+        //         mediaPlayer.stop();
+        //     }
+        // });
         jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -170,16 +171,16 @@ public class OsionAlkuRuutu {
         teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        jatka = new JButton("Seuraava");
-        jatka.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PääIkkuna.crd.next(PääIkkuna.kortit);
-                Peli.pause = false;
-                PääIkkuna.ikkuna.requestFocus();
-                Peli.peliAloitettu = true;
-                mediaPlayer.stop();
-            }
-        });
+        jatka = new JLabel("Space: Seuraava");
+        // jatka.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         PääIkkuna.crd.next(PääIkkuna.kortit);
+        //         Peli.pause = false;
+        //         PääIkkuna.ikkuna.requestFocus();
+        //         Peli.peliAloitettu = true;
+        //         mediaPlayer.stop();
+        //     }
+        // });
         jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -205,7 +206,45 @@ public class OsionAlkuRuutu {
         osionAlkuPaneli.setLayout(new BorderLayout());
         osionAlkuPaneli.add(kuvaPaneli, BorderLayout.NORTH);
         osionAlkuPaneli.add(tekstiPaneli, BorderLayout.CENTER);
+        osionAlkuPaneli.addKeyListener(new OsionAlkuruudunKontrollit());
         
         return osionAlkuPaneli;
+    }
+
+    static void jatka() {
+        PääIkkuna.crd.next(PääIkkuna.kortit);
+        Peli.pause = false;
+        PääIkkuna.ikkuna.requestFocus();
+        Peli.peliAloitettu = true;
+    }
+
+    static class OsionAlkuruudunKontrollit implements KeyListener {
+
+        /*
+         * Määritellään mitä eri näppäinkomennot tekee ja mitä metodeja kutsutaan
+         */
+
+        @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+    
+        @Override
+            public void keyPressed(KeyEvent e) {
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_SPACE, KeyEvent.VK_ENTER:
+                        jatka();
+                        break;
+                    default:
+                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
+                        break;
+                }
+            }
+    
+        @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
     }
 }

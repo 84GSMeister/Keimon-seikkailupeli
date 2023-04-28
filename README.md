@@ -1,6 +1,15 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.4.2023): 0.6.5
+## Uusin versio (28.4.2023): 0.7
+
+### Versio 0.7
+
+ - Uusi GUI
+ - Paljon uusia tilejä asuinalueen seudulle
+ - Dialogipaneelit esineitä katsoessa ja NPC:ille jutellessa
+ - Tarinadialogi, kun saapuu uuteen huoneeseen
+ - Koriste-esineet, joiden kuvan voi valita. Koriste-esineiden tarkoitus on sopia sulavasti maasto-tilejen päälle ja ne voivat estää kävelyn.
+ - Editorissa voi perua viimeisimmän muutoksen (CTRL + Z), kopioida esineen (CTRL + hiiren vasen) sekä kääntää ja peilata maasto-tilejen kuvan
 
 ### Versio 0.6.5
 

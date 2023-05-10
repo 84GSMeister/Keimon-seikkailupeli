@@ -95,6 +95,10 @@ public class HuoneenVaihtoIkkuna {
         Peli.uusiHuone = huoneenId;
         Peli.huoneVaihdettava = true;
         ikkuna.dispose();
+        if (HuoneEditoriIkkuna.editoriAuki()) {
+            HuoneEditoriIkkuna.lataaHuoneKartasta(huoneenId);
+        }
+        HuoneEditoriIkkuna.muokattavaHuone = huoneenId;
     }
 
     public static void luoHuoneenVaihtoikkuna() {
@@ -173,6 +177,7 @@ public class HuoneenVaihtoIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setAlwaysOnTop(true);
+        ikkuna.setLocationRelativeTo(null);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();

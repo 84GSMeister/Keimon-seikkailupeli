@@ -3,15 +3,13 @@ import javax.swing.ImageIcon;
 
 public class Vesiämpäri extends Esine {
 
-    public String katso() {
-        return "Näyttää juuri oikean kokoiselta vihollisen päähän.";
-    }
-
+    @Override
     public String käytä() {
         this.poista = true;
         return "Vihollinen ämpäröitiin ja on nyt harmiton.";
     }
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

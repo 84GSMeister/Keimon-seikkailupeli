@@ -1,17 +1,16 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.HuoneEditori.HuoneEditoriIkkuna;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Warp.Suunta;
 import keimo.Maastot.*;
 import keimo.Utility.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.*;
 
 public class HuoneenLuontiIkkuna {
 
@@ -80,7 +79,7 @@ public class HuoneenLuontiIkkuna {
         if (tehtäväItemit) {
             huoneenSisältöLista.add(new Avain(false, 0, 0));
             huoneenSisältöLista.add(new Kaasupullo(false, 0, 0));
-            huoneenSisältöLista.add(new Kaasusytytin(false, 0, 0, "tyhjä"));
+            huoneenSisältöLista.add(new Kaasusytytin(false, 0, 0, null));
             huoneenSisältöLista.add(new Hiili(false, 0, 0));
             huoneenSisältöLista.add(new Paperi(false, 0, 0));
             huoneenSisältöLista.add(new Vesiämpäri(false, 0, 0));
@@ -126,30 +125,10 @@ public class HuoneenLuontiIkkuna {
         okNappi.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
                 if (!SwingUtilities.isRightMouseButton(e)) {
-                    // switch (suunta) {
-                    //     case VASEN:
-                    //         asetettavaWarpVasen = true;
-                    //         asetettavaWarpVasenHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
-                    //     break;
-                    //     case OIKEA:
-                    //         asetettavaWarpOikea = true;
-                    //         asetettavaWarpOikeaHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
-                    //     break;
-                    //     case ALAS:
-                    //         asetettavaWarpAlas = true;
-                    //         asetettavaWarpAlasHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
-                    //     break;
-                    //     case YLÖS:
-                    //         asetettavaWarpYlös = true;
-                    //         asetettavaWarpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
-                    //     break;
-                    //     default:
-                    //     break;
-                    // }
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäReunawarppienTiedot(asetettavaWarpVasen, asetettavaWarpVasenHuoneId, asetettavaWarpOikea, asetettavaWarpOikeaHuoneId, asetettavaWarpAlas, asetettavaWarpAlasHuoneId, asetettavaWarpYlös, asetettavaWarpYlösHuoneId);
                     if (tarkistaArvot()) {
                         HuoneEditoriIkkuna.ikkuna.setFocusable(true);
-                        HuoneEditoriIkkuna.ReunaWarppiIkkuna.luoReunaWarppiIkkuna(suunta, true, huoneenId);
+                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(suunta, true, huoneenId);
                     }
                 }
             }
@@ -177,19 +156,10 @@ public class HuoneenLuontiIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setAlwaysOnTop(true);
+        ikkuna.setLocationRelativeTo(null);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();
 
-        
     }
-
-    // public static boolean warpSuuntaan(Suunta suunta) {
-    //     luoHuoneenLuontiIkkuna(suunta);
-    //     return asetettavaWarpVasen;
-    // }
-    // public static int warpSuuntaanId(Suunta suunta) {
-    //     //luoHuoneenLuontiIkkuna(suunta);
-    //     return asetettavaWarpVasenHuoneId;
-    // }
 }

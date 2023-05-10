@@ -9,10 +9,7 @@ public class Kuparilager extends Esine {
 
     DecimalFormat df = new DecimalFormat("##.##");
 
-    public String katso() {
-        return "Kannattaa kerätä talteen kaikki tölkit.";
-    }
-
+    @Override
     public String käytä(){
         poista = true;
         Pelaaja.kuparit++;
@@ -20,6 +17,7 @@ public class Kuparilager extends Esine {
         return "Rahaa tulossa tölkeistä: " + df.format(0.15f * Pelaaja.kuparit) + "€";
     }
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

@@ -2,8 +2,9 @@ package keimo.Kenttäkohteet;
 
 import javax.swing.ImageIcon;
 
-public class Seteli extends Esine{
+public class Seteli extends Esine {
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

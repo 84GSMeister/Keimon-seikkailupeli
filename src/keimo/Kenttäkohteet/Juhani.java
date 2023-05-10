@@ -1,20 +1,14 @@
 package keimo.Kenttäkohteet;
 
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
-
 import keimo.Pelaaja;
 import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
 
-public class Juhani extends NPC_KenttäKohde{
+import javax.swing.ImageIcon;
 
-    public ArrayList<String> kelvollisetEsineet = new ArrayList<String>();
+public class Juhani extends NPC_KenttäKohde {
 
-    public Huume annaHuume() {
-        return new Huume(false, 0, 0);
-    }
-
+    @Override
     public String kokeileEsinettä(Esine e) {
         if (e instanceof Pesäpallomaila) {
             return "...";
@@ -27,6 +21,7 @@ public class Juhani extends NPC_KenttäKohde{
         }
     }
 
+    @Override
     public Esine suoritaMuutoksetEsineelle(Esine e) {
         if (e instanceof Seteli) {
             e = annaHuume();
@@ -43,13 +38,16 @@ public class Juhani extends NPC_KenttäKohde{
             return e;
         }
     }
+
+    public Huume annaHuume() {
+        return new Huume(false, 0, 0);
+    }
     
     public Juhani(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
-        this.kelvollisetEsineet.add("Seteli");
         super.asetaTiedot();
     }
 }

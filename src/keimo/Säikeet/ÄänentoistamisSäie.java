@@ -5,7 +5,10 @@ import keimo.*;
 import java.io.File;
 import jaco.mp3.player.MP3Player;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ÄänentoistamisSäie extends Thread{
     
@@ -13,15 +16,21 @@ public class ÄänentoistamisSäie extends Thread{
     static HashMap<Integer, File> musiikkiVaihtoehdot = new HashMap<Integer, File>();
     static int musaValinta = 0;
     static Random r = new Random();
+    public static List<String> musaLista;
 
     void luoMusaKartta() {
-        musiikkiVaihtoehdot.put(0, new File("tiedostot/musat/udo_haukkuu_mario2_loop.mp3"));
-        musiikkiVaihtoehdot.put(1, new File("tiedostot/musat/udo_haukkuu_90s.mp3"));
-        musiikkiVaihtoehdot.put(2, new File("tiedostot/musat/udo_haukkuu_nyän.mp3"));
-        musiikkiVaihtoehdot.put(3, new File("tiedostot/musat/udo_haukkuu_smw.mp3"));
-        musiikkiVaihtoehdot.put(4, new File("tiedostot/musat/udo_haukkuu_rick.mp3"));
-        musiikkiVaihtoehdot.put(5, new File("tiedostot/musat/udo_haukkuu_diiduu.mp3"));
-        musiikkiVaihtoehdot.put(6, new File("tiedostot/musat/udo_haukkuu_wide_loop.mp3"));
+        // musiikkiVaihtoehdot.put(0, new File("tiedostot/musat/udo_haukkuu_mario2_loop.mp3"));
+        // musiikkiVaihtoehdot.put(1, new File("tiedostot/musat/udo_haukkuu_90s.mp3"));
+        // musiikkiVaihtoehdot.put(2, new File("tiedostot/musat/udo_haukkuu_nyän.mp3"));
+        // musiikkiVaihtoehdot.put(3, new File("tiedostot/musat/udo_haukkuu_smw.mp3"));
+        // musiikkiVaihtoehdot.put(4, new File("tiedostot/musat/udo_haukkuu_rick.mp3"));
+        // musiikkiVaihtoehdot.put(5, new File("tiedostot/musat/udo_haukkuu_diiduu.mp3"));
+        // musiikkiVaihtoehdot.put(6, new File("tiedostot/musat/udo_haukkuu_wide_loop.mp3"));
+
+        musaLista = Stream.of(new File("tiedostot/musat").listFiles())
+            .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3")))
+            .map(File::getName).sorted()
+            .collect(Collectors.toList());
     }
 
     void toistaMusiikki() {
@@ -31,7 +40,8 @@ public class ÄänentoistamisSäie extends Thread{
             }
             try {
                 musaValinta = PelinAsetukset.musiikkiValinta;
-                musiikkiSoitin = new MP3Player(musiikkiVaihtoehdot.get(musaValinta));
+                //musiikkiSoitin = new MP3Player(musiikkiVaihtoehdot.get(musaValinta));
+                musiikkiSoitin = new MP3Player(new File("tiedostot/musat/" + musaLista.get(musaValinta)));
                 musiikkiSoitin.setRepeat(true);
                 if (PelinAsetukset.musiikkiPäällä) {
                     musiikkiSoitin.play();
@@ -44,7 +54,8 @@ public class ÄänentoistamisSäie extends Thread{
         else {
             try {
                 musaValinta = PelinAsetukset.musiikkiValinta;
-                musiikkiSoitin = new MP3Player(musiikkiVaihtoehdot.get(musaValinta));
+                //musiikkiSoitin = new MP3Player(musiikkiVaihtoehdot.get(musaValinta));
+                musiikkiSoitin = new MP3Player(new File("tiedostot/musat/" + musaLista.get(musaValinta)));
                 musiikkiSoitin.setRepeat(true);
                 if (PelinAsetukset.musiikkiPäällä) {
                     musiikkiSoitin.play();
@@ -71,16 +82,13 @@ public class ÄänentoistamisSäie extends Thread{
             break;
 
             case "tölkki":
-                int valitseÄäni = r.nextInt(5);
-                ääniToistin = new MP3Player();
-                switch (valitseÄäni) {
-                    case 0: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki.mp3")); break;
-                    case 1: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki2.mp3")); break;
-                    case 2: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki3.mp3")); break;
-                    case 3: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki4.mp3")); break;
-                    case 4: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki5.mp3")); break;
-                    default: ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki.mp3")); break;
-                }
+                List<String> tölkkiÄäniLista = Stream.of(new File("tiedostot/äänet/tölkki").listFiles())
+                .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3")))
+                .map(File::getName).sorted()
+                .collect(Collectors.toList());
+                //int valitseÄäni = r.nextInt(9);
+                int valitseÄäni = r.nextInt(tölkkiÄäniLista.size());
+                ääniToistin = new MP3Player(new File("tiedostot/äänet/tölkki/tölkki" + valitseÄäni + ".mp3"));
                 ääniToistin.play();
             break;
             default:

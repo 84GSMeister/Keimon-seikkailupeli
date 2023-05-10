@@ -3,6 +3,7 @@ import javax.swing.ImageIcon;
 
 public class Kaasupullo extends Esine {
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -34,11 +35,11 @@ public class Kaasupullo extends Esine {
 
     public Kaasupullo(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
-        this.nimi = "Kaasupullo";
-        this.yhdistettävä = true;
-        this.kelvollisetYhdistettävät.add("Kaasusytytin");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasupullo.png");
-        this.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
+        super.nimi = "Kaasupullo";
+        super.yhdistettävä = true;
+        super.kelvollisetYhdistettävät.add("Kaasusytytin");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasupullo.png");
+        super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
         super.asetaTiedot();
     }
 }

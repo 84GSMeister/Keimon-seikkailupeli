@@ -5,6 +5,7 @@ import keimo.Pelaaja;
 
 public class Kauppa extends Kiintopiste {
 
+    @Override
     public String kokeileEsinettä(Esine e) {
         float saatavaRaha = 0.15f * Pelaaja.kuparit;
         if (saatavaRaha > 0) {
@@ -20,15 +21,12 @@ public class Kauppa extends Kiintopiste {
     public static Esine annaSeteli() {
         return new Seteli(false, 0, 0);
     }
-
-    public String katso() {
-        return "Kauppaan voi palauttaa tölkit";
-    }
     
     public Kauppa (boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kauppa";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaupparuutu.png");
+        super.katsomisTeksti = "Kauppaan voi palauttaa tölkit";
         super.asetaTiedot();
     }
 }

@@ -1,5 +1,7 @@
 package keimo.Kenttäkohteet;
-public class Ruoka extends Esine {
+
+public abstract class Ruoka extends Esine {
+    
     int heal;
 
     public int annaParannusMäärä() {

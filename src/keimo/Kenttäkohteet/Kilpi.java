@@ -1,8 +1,9 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
-public class Kilpi extends Esine{
+public class Kilpi extends Esine {
     
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -34,9 +35,9 @@ public class Kilpi extends Esine{
 
     public Kilpi(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
-        this.nimi = "Kilpi";
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kilpi.png");
-        this.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
+        super.nimi = "Kilpi";
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kilpi.png");
+        super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
         super.asetaTiedot();
     }
 }

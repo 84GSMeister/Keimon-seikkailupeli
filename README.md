@@ -1,6 +1,18 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (28.4.2023): 0.7
+## Uusin versio (10.5.2023): 0.7.1
+
+### Versio 0.7.1
+
+ - Keimon kämppä, paljon uusia tilejä
+ - Pahavihulle uusi sprite
+ - Vihollisten kuvakkeet peilautuvat automaattisesti liikesuunnan mukaan
+ - Dialogiteksti kun käyttää esineitä (pl. olut), dialogitekstin voi kelata
+ - Korjattu jumiin jäävät näpppäimet tarinaruudussa
+ - Huoneen latausnopeutta optimoitu
+ - Editorissa maasto näkyy taustalla myös objekti/npc -muokkaustilassa + editorin ulkoasua hieman parannettu ja visuaalisia bugeja korjattu
+ - Editorissa voi kääntää ja peilata myös koriste-esineitä
+ - Korjattu editorin bugi, jossa objektien peilaus ei lataudu + bugi, jossa objekteja ei voi kopioida tyhjien ruutujen päälle
 
 ### Versio 0.7
 

@@ -1,11 +1,12 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
-public class Makkara extends Ruoka{
+public class Makkara extends Ruoka {
     
     boolean paistettu = false;
     boolean käristetty = false;
-    
+
+    @Override
     public String katso() {
         if (käristetty) {
             return "Makkara on läpeensä käristynyt. Ei näytä järin maittavalta.";
@@ -18,6 +19,7 @@ public class Makkara extends Ruoka{
         }
     }
     
+    @Override
     public String käytä(){
         poista = true;
         if (käristetty) {
@@ -34,24 +36,7 @@ public class Makkara extends Ruoka{
         }
     }
 
-    public String paista() {
-        if (käristetty) {
-            return "Makkara on jo käristetty hiileksi";
-        }
-        else if (paistettu) {
-            this.käristetty = true;
-            this.nimi = "Käristetty makkara";
-            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
-            return "Paistoit liikaa! Nyt makkara on pikimusta.";
-        }
-        else {
-            this.paistettu = true;
-            this.nimi = "Paistettu makkara";
-            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
-            return "Mmm.. onpas hyvän näköistä kyrsää.";
-        }
-    }
-
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -78,6 +63,24 @@ public class Makkara extends Ruoka{
                 return "Makkaralle";
             default:
                 return "Makkara";
+        }
+    }
+
+    public String paista() {
+        if (käristetty) {
+            return "Makkara on jo käristetty hiileksi";
+        }
+        else if (paistettu) {
+            this.käristetty = true;
+            this.nimi = "Käristetty makkara";
+            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
+            return "Paistoit liikaa! Nyt makkara on pikimusta.";
+        }
+        else {
+            this.paistettu = true;
+            this.nimi = "Paistettu makkara";
+            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
+            return "Mmm.. onpas hyvän näköistä kyrsää.";
         }
     }
 

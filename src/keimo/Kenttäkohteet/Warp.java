@@ -1,5 +1,5 @@
 package keimo.Kenttäkohteet;
-public class Warp extends KenttäKohde{
+public abstract class Warp extends KenttäKohde {
     
     int kohdeHuone;
     int kohdeRuutuX;
@@ -37,13 +37,7 @@ public class Warp extends KenttäKohde{
         this.suunta = suunta;
     }
 
-    public Warp(boolean määritettySijainti, int sijX, int sijY, int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
+    public Warp(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
-        this.nimi = "Warp";
-        this.katsomisTeksti = "Paina välilyöntiä kulkeaksesi oviruudusta!";
-        this.kohdeHuone = luontiKohdeHuone;
-        this.kohdeRuutuX = luontiKohdeRuutuX;
-        this.kohdeRuutuY = luontiKohdeRuutuY;
-        this.suunta = luontiSuunta;
     }
 }

@@ -2,12 +2,9 @@ package keimo.Kenttäkohteet;
 
 import javax.swing.ImageIcon;
 
-public class Pesäpallomaila extends Esine{
+public class Pesäpallomaila extends Esine {
 
-    public String käytä() {
-        return käyttöTeksti;
-    }
-
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

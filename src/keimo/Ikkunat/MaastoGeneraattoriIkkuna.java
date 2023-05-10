@@ -57,7 +57,7 @@ public class MaastoGeneraattoriIkkuna {
                             kuvaKenttä[j][i] = new Kaasupullo(true, j, i);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x0032416B) {
-                            kuvaKenttä[j][i] = new Kaasusytytin(true, j, i, "tyhjä");
+                            kuvaKenttä[j][i] = new Kaasusytytin(true, j, i, null);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x00666666) {
                             kuvaKenttä[j][i] = new Kilpi(true, j, i);
@@ -72,7 +72,7 @@ public class MaastoGeneraattoriIkkuna {
                             kuvaKenttä[j][i] = new Nuotio(true, j, i);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x00CE631C) {
-                            kuvaKenttä[j][i] = new Oviruutu(j, i, 0, 0, 0, Warp.Suunta.OIKEA);
+                            kuvaKenttä[j][i] = new Oviruutu(j, i, null);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x00AD1616) {
                             //kuvaKenttä[j][i] = new PahaVihu(true, j, i);

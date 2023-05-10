@@ -1,8 +1,11 @@
 package keimo.Maastot;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import keimo.Utility.KäännettäväKuvake;
+import keimo.Utility.KäännettäväKuvake.KääntöValinta;
+import keimo.Utility.KäännettäväKuvake.PeilausValinta;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public abstract class Maasto {
     
@@ -76,12 +79,11 @@ public abstract class Maasto {
         return kuvake;
     }
 
-    public enum Kääntö {
-        MYÖTÄPÄIVÄÄN,
-        VASTAPÄIVÄÄN;
+    public String annaKuvanTiedostoNimi() {
+        return tiedostonNimi;
     }
 
-    public void käännäKuvaa(Kääntö kääntö) {
+    public void käännäKuvaa(KääntöValinta kääntö) {
         switch (kääntö) {
             case MYÖTÄPÄIVÄÄN:
                 this.kääntöAsteet += 90;
@@ -96,12 +98,7 @@ public abstract class Maasto {
         päivitäLisäOminaisuudet();
     }
 
-    public enum Peilaus {
-        PEILAA_VAAKA,
-        PEILAA_PYSTY;
-    }
-
-    public void peilaaKuva(Peilaus peilaus) {
+    public void peilaaKuva(PeilausValinta peilaus) {
         switch (peilaus) {
             case PEILAA_VAAKA:
                 if (this.xPeilaus) {

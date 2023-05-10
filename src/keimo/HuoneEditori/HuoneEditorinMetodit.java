@@ -1,16 +1,15 @@
 package keimo.HuoneEditori;
 
-import javax.swing.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-
 import keimo.*;
 import keimo.Kenttäkohteet.Warp.Suunta;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class HuoneEditorinMetodit {
     
@@ -363,7 +362,7 @@ public class HuoneEditorinMetodit {
                     break;
 
                 case "Kaasusytytin":
-                    luotavaObjekti = new Kaasusytytin(määritettySijainti, sijX, sijY, "tyhjä");
+                    luotavaObjekti = new Kaasusytytin(määritettySijainti, sijX, sijY, null);
                     break;
 
                 case "Kauppa":
@@ -399,7 +398,7 @@ public class HuoneEditorinMetodit {
                     break;
 
                 case "Oviruutu":
-                    luotavaObjekti = new Oviruutu(sijX, sijY, 0, 0, 0, Suunta.VASEN);
+                    luotavaObjekti = new Oviruutu(sijX, sijY, null);
                     break;
 
                 case "Seteli":

@@ -236,8 +236,8 @@ Huone 1:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_3_8+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI],
-        Pikkuvihu_4_3+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN];
+        Pikkuvihu_3_7+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI],
+        Pikkuvihu_4_4+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN];
     }
 /Huone
 Huone 2:
@@ -356,9 +356,9 @@ Huone 2:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_2_1+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN],
-        Pahavihu_6_7,
-        Pikkuvihu_7_0+ominaisuudet:[liiketapa=YLÖS_ALAS_ESTEESEEN_ASTI];
+        Pikkuvihu_2_3+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN],
+        Pahavihu_6_6,
+        Pikkuvihu_6_7+ominaisuudet:[liiketapa=YLÖS_ALAS_ESTEESEEN_ASTI];
     }
 /Huone
 Huone 3:
@@ -479,7 +479,7 @@ Huone 3:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_5_3+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI];
+        Pikkuvihu_7_3+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI];
     }
 /Huone
 Huone 4:
@@ -596,7 +596,7 @@ Huone 4:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_5_2+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN];
+        Pikkuvihu_3_4+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN];
     }
 /Huone
 Huone 5:
@@ -608,20 +608,20 @@ Huone 5:
     #warp_alas: ;
     #warp_ylös: 6;
     #kenttä: {
-        Koriste-esine_0_5+ominaisuudet:[kuva=auto_har_a_e.png],
-        Koriste-esine_0_9+ominaisuudet:[kuva=auto_pun_y_e.png],
-        Koriste-esine_1_6+ominaisuudet:[kuva=auto_sin_a_e.png],
-        Koriste-esine_1_9+ominaisuudet:[kuva=auto_sin_a_e.png],
+        Koriste-esine_0_5+ominaisuudet:[kuva=auto_harmaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_0_9+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_1_6+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_1_9+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Kuparilager_2_3,
-        Koriste-esine_2_5+ominaisuudet:[kuva=auto_sin_y_e.png],
-        Koriste-esine_2_6+ominaisuudet:[kuva=auto_har_a_e.png],
-        Koriste-esine_2_9+ominaisuudet:[kuva=auto_har_y_e.png],
-        Koriste-esine_3_5+ominaisuudet:[kuva=auto_pun_a_e.png],
-        Koriste-esine_6_6+ominaisuudet:[kuva=auto_har_a_e.png],
-        Koriste-esine_7_5+ominaisuudet:[kuva=auto_pun_y_e.png],
+        Koriste-esine_2_5+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_2_6+ominaisuudet:[kuva=auto_harmaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_2_9+ominaisuudet:[kuva=auto_harmaa_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_3_5+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_6_6+ominaisuudet:[kuva=auto_harmaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_5+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
         Kuparilager_7_9,
-        Koriste-esine_8_6+ominaisuudet:[kuva=auto_sin_a_e.png],
-        Koriste-esine_9_6+ominaisuudet:[kuva=auto_sin_y_e.png];
+        Koriste-esine_8_6+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_9_6+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei];
     }
     #maasto: {
         EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -726,7 +726,7 @@ Huone 5:
         Tile_9_9+ominaisuudet:[kuva=parkkiruutu.png,kääntö=180,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_4_7+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS];
+        Pikkuvihu_4_6+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS];
     }
 /Huone
 Huone 6:
@@ -960,7 +960,7 @@ Huone 7:
         Tile_9_9+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_3_2+ominaisuudet:[liiketapa=VASEN_OIKEA_ESTEESEEN_ASTI];
+        Pikkuvihu_4_2+ominaisuudet:[liiketapa=VASEN_OIKEA_ESTEESEEN_ASTI];
     }
 /Huone
 Huone 8:
@@ -973,47 +973,112 @@ Huone 8:
     #warp_ylös: 9;
     #kenttä: {
         Oviruutu_2_9+ominaisuudet:[kohdehuone=7,kohderuutuX=7,kohderuutuY=2,suunta=ALAS],
+        Koriste-esine_4_6+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_5_6+ominaisuudet:[kuva=pöytä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_6_6+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
         Seteli_7_8;
     }
     #maasto: {
-        EsteTile_3_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_6+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_7+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_8+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_9+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_6+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_7+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_8+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_9+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_6_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_6_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_7_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_7_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_2+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_3+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_4+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_5+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_6+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_7+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_8+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_8_9+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_0+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_1+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_2+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_3+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_4+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_5+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_6+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_7+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_8+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_9_9+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+        Tile_0_0+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_0+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_8+ominaisuudet:[kuva=matto.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_9+ominaisuudet:[kuva=matto.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_0+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_8+ominaisuudet:[kuva=matto.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_9+ominaisuudet:[kuva=matto.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_0+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        EsteTile_3_1+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_0+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_1+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_0+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_5_1+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Tile_5_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_9+ominaisuudet:[kuva=ikkuna_keittiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_0+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_1+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_9+ominaisuudet:[kuva=ikkuna_keittiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_0+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_7_1+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Tile_7_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_9+ominaisuudet:[kuva=ikkuna_keittiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_1+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_2+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_3+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_8_4+ominaisuudet:[kuva=uuni_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_5+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_6+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_8_7+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_8_9+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_1+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_2+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_3+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_4+ominaisuudet:[kuva=hella_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_5+ominaisuudet:[kuva=tiskiallas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        EsteTile_9_6+ominaisuudet:[kuva=tiskiallas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_7+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_8+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_9+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
     }
@@ -1023,21 +1088,121 @@ Huone 9:
     #alue: Koti;
     #tausta: tausta_asuintalot_kämppä_olohuone.png;
     #warp_vasen: ;
-    #warp_oikea: ;
+    #warp_oikea: 13;
     #warp_alas: 8;
     #warp_ylös: ;
     #kenttä: {
-        Pesäpallomaila_5_9;
+        Koriste-esine_0_1+ominaisuudet:[kuva=pöydänreuna_pc_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_1_1+ominaisuudet:[kuva=pöydänkeskus_pc_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_1_2+ominaisuudet:[kuva=pelituoli.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_2_1+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_3_1+ominaisuudet:[kuva=pöydänkeskus_tv1_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_4_1+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Pesäpallomaila_7_8,
+        Koriste-esine_8_7+ominaisuudet:[kuva=sänky2.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Koriste-esine_8_8+ominaisuudet:[kuva=sänky1.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #maasto: {
-        EsteTile_3_6+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_7+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_8+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_9+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_6+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_7+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_8+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_9+ominaisuudet:[kuva=este_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+        EsteTile_0_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_0+ominaisuudet:[kuva=ikkuna_omahuone_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_0+ominaisuudet:[kuva=ikkuna_omahuone_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_7+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_3_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_0+ominaisuudet:[kuva=ikkuna_omahuone_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_0+ominaisuudet:[kuva=ikkuna_omahuone_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_0+ominaisuudet:[kuva=ikkuna_omahuone_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_0+ominaisuudet:[kuva=ikkuna_omahuone_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_2+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_3+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_4+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_5+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
     }
@@ -1055,17 +1220,17 @@ Huone 10:
         Oviruutu_1_9+ominaisuudet:[kohdehuone=7,kohderuutuX=3,kohderuutuY=0,suunta=ALAS],
         Kuparilager_3_4,
         Kuparilager_3_8,
-        Koriste-esine_6_5+ominaisuudet:[kuva=kyltti_aurajoki.png],
-        Koriste-esine_7_0+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_1+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_2+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_3+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_4+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_5+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_6+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_7+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_8+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
-        Koriste-esine_7_9+ominaisuudet:[kuva=jalkakäytävä_vasen.png],
+        Koriste-esine_6_5+ominaisuudet:[kuva=kyltti_aurajoki.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_0+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_1+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_2+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_3+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_4+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_5+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_6+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_7+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_8+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_7_9+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
         Oviruutu_8_0+ominaisuudet:[kohdehuone=11,kohderuutuX=7,kohderuutuY=9,suunta=YLÖS],
         Kuparilager_9_2,
         Kuparilager_9_9;
@@ -1188,7 +1353,7 @@ Huone 11:
         Kuparilager_3_6,
         Kuparilager_5_8,
         Oviruutu_7_0+ominaisuudet:[kohdehuone=12,kohderuutuX=7,kohderuutuY=9,suunta=YLÖS],
-        Koriste-esine_7_8+ominaisuudet:[kuva=jalkakäytävä_oikea.png],
+        Koriste-esine_7_8+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Oviruutu_7_9+ominaisuudet:[kohdehuone=10,kohderuutuX=8,kohderuutuY=0,suunta=ALAS],
         Kuparilager_9_2;
     }
@@ -1312,7 +1477,127 @@ Huone 12:
     #maasto: {
     }
     #npc: {
-        Pikkuvihu_1_7+ominaisuudet:[liiketapa=SEURAA_PELAAJAA];
+        Pikkuvihu_1_1+ominaisuudet:[liiketapa=SEURAA_PELAAJAA];
+    }
+/Huone
+Huone 13:
+    #nimi: wc;
+    #alue: Koti;
+    #tausta: null;
+    #warp_vasen: 9;
+    #warp_oikea: ;
+    #warp_alas: ;
+    #warp_ylös: ;
+    #kenttä: {
+        Koriste-esine_1_4+ominaisuudet:[kuva=wc_pönttö.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_3_4+ominaisuudet:[kuva=wc_lavuaari.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_5_4+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_6_2+ominaisuudet:[kuva=wc_suihku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Koriste-esine_6_4+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+    }
+    #maasto: {
+        EsteTile_0_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_1+ominaisuudet:[kuva=matto.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_2+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_3+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_4+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_5+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_8+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_9+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_2+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_8+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_1_9+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_2_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_2+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_4+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_9+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_2+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_3+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_4+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_9+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_1+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_2+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_3+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_4+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_4_9+ominaisuudet:[kuva=kaappi_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_5_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_1+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_2+ominaisuudet:[kuva=wc_lattiakaivo.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_3+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_4+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_9+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_1+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_2+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_3+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_4+ominaisuudet:[kuva=wc_lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_9+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_1+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_2+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_3+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_4+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_5+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_1+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_2+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_3+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_4+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_5+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_0+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_1+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_2+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_3+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_4+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_5+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_6+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_7+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_8+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+    }
+    #npc: {
     }
 /Huone
 

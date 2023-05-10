@@ -7,6 +7,7 @@ public class Kirstu extends Kiintopiste {
     
     protected Esine sisältö;
 
+    @Override
     public String kokeileEsinettä(Esine e) {
         if (tavoiteSuoritettu) {
             return "Kirstu on jo avattu.";
@@ -26,6 +27,7 @@ public class Kirstu extends Kiintopiste {
         }
     }
 
+    @Override
     public Esine suoritaMuutoksetEsineelle(Esine e) {
         if (tavoiteSuoritettu) {
             return e;
@@ -44,18 +46,7 @@ public class Kirstu extends Kiintopiste {
         }
     }
 
-    public void päivitäLisäOminaisuudet() {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[1];
-        this.lisäOminaisuudet[0] = "sisältö=" + this.annaSisältö();
-    }
-
-    public void avaa() {
-        this.vuorovaikutus = true;
-        this.tavoiteSuoritettu = true;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
-    }
-
+    @Override
     public String katso(){
         if (tavoiteSuoritettu) {    
             return "Avattu kirstu";
@@ -65,10 +56,7 @@ public class Kirstu extends Kiintopiste {
         }
     }
 
-    public String annaNimi() {
-        return nimi;
-    }
-
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -98,6 +86,18 @@ public class Kirstu extends Kiintopiste {
         }
     }
 
+    public void päivitäLisäOminaisuudet() {
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet[0] = "sisältö=" + this.annaSisältö();
+    }
+
+    public void avaa() {
+        this.vuorovaikutus = true;
+        this.tavoiteSuoritettu = true;
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
+    }
+
     protected Esine luoSisältö(String esineenNimi) {
         switch (esineenNimi) {
             case "Avain":
@@ -109,7 +109,7 @@ public class Kirstu extends Kiintopiste {
             case "Kaasupullo":
                 return new Kaasupullo(false, 0, 0);
             case "Kaasusytytin":
-                return new Kaasusytytin(false, 0, 0, "tyhjä");
+                return new Kaasusytytin(false, 0, 0, null);
             case "Kilpi":
                 return new Kilpi(false, 0, 0);
             case "Kuparilager":

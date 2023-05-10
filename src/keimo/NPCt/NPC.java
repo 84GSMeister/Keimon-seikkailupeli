@@ -78,6 +78,12 @@ public abstract class NPC {
         return kuvake;
     }
 
+    public SuuntaVasenOikea npcnSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+    public enum SuuntaVasenOikea {
+        VASEN,
+        OIKEA;
+    }
+
     boolean päivitäSijainti(String sij) {
         int sijXInt;
         int sijYInt;
@@ -179,6 +185,7 @@ public abstract class NPC {
         try {
             switch (suunta) {
                 case "vasen":
+                    this.npcnSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
                     if (hitbox.getMinX() > 0) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
@@ -193,6 +200,7 @@ public abstract class NPC {
                     }
                     break;
                 case "oikea":
+                    this.npcnSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
                     if (hitbox.getMaxX() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY] == null) {
                             //pelaajaSiirtyi = siirry(new LiikkuminenOikealle());

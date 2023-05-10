@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import keimo.PelinAsetukset;
 import keimo.PääIkkuna;
 import keimo.Säikeet.*;
+import keimo.Utility.*;
 
 public class Pahavihu extends Vihollinen {
 
@@ -68,10 +69,22 @@ public class Pahavihu extends Vihollinen {
         }
     }
 
+    @Override
+    public void valitseKuvake() {
+        switch (this.npcnSuuntaVasenOikea) {
+            case VASEN:
+                this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/pahavihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
+            break;
+            case OIKEA:
+                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
+            break;
+        }
+    }
+
     public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(ominaisuusLista);
         this.vahinko = 2 * PelinAsetukset.vaikeusAste;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.png");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
         this.kilpiTehoaa = false;
         this.sijX = sijX;
         this.sijY = sijY;

@@ -2,13 +2,15 @@ package keimo.Kenttäkohteet;
 
 import javax.swing.ImageIcon;
 
-public class Huume extends Ruoka{
+public class Huume extends Ruoka {
 
+    @Override
     public String käytä(){
         poista = true;
-        return "Never stop the madness!";
+        return "Never stop the madness! (sait 30 elämäpistettä)";
     }
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

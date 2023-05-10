@@ -274,11 +274,20 @@ public class Pelaaja {
         VASEN,
         OIKEA;
     }
+
+    public static void pakotaPelaajanPysäytys() {
+        pelaajaLiikkuuVasen = false;
+        pelaajaLiikkuuOikea = false;
+        pelaajaLiikkuuYlös = false;
+        pelaajaLiikkuuAlas = false;
+        keimonState = KeimonState.IDLE;
+    }
     
     static boolean pelaajaLiikkuuVasen = false;
     static boolean pelaajaLiikkuuOikea = false;
     static boolean pelaajaLiikkuuYlös = false;
     static boolean pelaajaLiikkuuAlas = false;
+
     void aloitaLiike(Suunta suunta) {
         keimonState = KeimonState.JUOKSU;
         switch (suunta) {

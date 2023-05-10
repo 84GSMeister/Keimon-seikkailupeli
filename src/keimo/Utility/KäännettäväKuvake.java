@@ -19,6 +19,16 @@ public class KäännettäväKuvake implements Icon {
 		PEILAA_MOLEMMAT;
     }
 
+	public enum KääntöValinta {
+        MYÖTÄPÄIVÄÄN,
+        VASTAPÄIVÄÄN;
+    }
+
+	public enum PeilausValinta {
+        PEILAA_VAAKA,
+        PEILAA_PYSTY;
+    }
+
 	private Icon icon;
 
 	private Rotate rotate;

@@ -47,6 +47,10 @@ public abstract class Vihollinen extends NPC{
         this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
     }
 
+    public void valitseKuvake() {
+        
+    }
+
     Vihollinen(String[] ominaisuusLista) {
         super();
         if (ominaisuusLista != null) {

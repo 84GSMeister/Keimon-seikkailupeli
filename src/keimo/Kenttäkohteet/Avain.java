@@ -3,11 +3,13 @@ import javax.swing.ImageIcon;
 
 public class Avain extends Esine {
 
+    @Override
     public String käytä(){
         poista = true;
         return käyttöTeksti;
     }
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -36,7 +38,7 @@ public class Avain extends Esine {
                 return "Avain";
         }
     }
-
+    
     public Avain(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Avain";

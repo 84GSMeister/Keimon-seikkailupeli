@@ -3,6 +3,13 @@ import javax.swing.ImageIcon;
 
 public class Hiili extends Esine {
 
+    @Override
+    public String käytä() {
+        poista = true;
+        return super.käytä();
+    }
+
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

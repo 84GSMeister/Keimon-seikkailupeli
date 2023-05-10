@@ -1,6 +1,7 @@
 package keimo.Ikkunat;
 
 import keimo.*;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.*;
 
 import javax.swing.*;
@@ -17,11 +18,11 @@ public class AsetusIkkuna {
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
     static String[] musiikkiVaihtoehdot = {"Udo haukkuu: Mario 2", "Udo haukkuu: Running in the 90s", "Udo haukkuu: Nyan Cat", "Udo haukkuu: Mario World Athletic", "Udo haukkuu: Never Gonna Give You Up", "Udo haukkuu: Disco Band", "Udo haukkuu: Wide President theme"};
     static int musiikkiValinta;
-    static JComboBox<String> musiikkiValikko = new JComboBox<String>(musiikkiVaihtoehdot);
+    static JComboBox<Object> musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
     static int vaikeusAste, tavoiteFPS;
     static JTextField vaikeusasteTekstikenttä, tavoiteFPSTekstikenttä;
 
-    static void tarkistaArvot() {
+    public static void tarkistaArvot() {
         try {
             boolean musiikkiPäällä = musiikkiPäälläCheckbox.isSelected();
             PelinAsetukset.vaikeusAste = Integer.parseInt(vaikeusasteTekstikenttä.getText());

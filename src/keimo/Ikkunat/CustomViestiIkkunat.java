@@ -22,6 +22,20 @@ public class CustomViestiIkkunat {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
         }
     }
+
+    public static class MuutoksetEditorissa {
+
+        static String viesti = "Nykyiseen kenttään on tehty muutoksia. Haluatko silti avata uuden?";
+        static String otsikko = "Muutoksia ei tallenneta";
+        static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"OK","Peruuta"};
+
+        public static int showDialog() {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
+        }
+    }
     
     public static class Loppuonnittelu {
         

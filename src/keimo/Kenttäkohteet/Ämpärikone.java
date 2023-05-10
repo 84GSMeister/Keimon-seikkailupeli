@@ -3,18 +3,12 @@ import javax.swing.ImageIcon;
 
 public class Ämpärikone extends Kiintopiste {
     
+    @Override
     public String kokeileEsinettä(Esine e) {
         return "Mitään ei tapahtunut.";
     }
 
-    public static Vesiämpäri annaÄmpäri() {
-        return new Vesiämpäri(false, 0, 0);
-    }
-
-    public String katso(){
-        return "Täältä saa ilmaisia ämpäreitä";
-    }
-
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -44,12 +38,15 @@ public class Ämpärikone extends Kiintopiste {
         }
     }
 
-    
+    public static Vesiämpäri annaÄmpäri() {
+        return new Vesiämpäri(false, 0, 0);
+    }
 
     public Ämpärikone(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Ämpärikone";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png");
+        super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
         super.asetaTiedot();
     }
 }

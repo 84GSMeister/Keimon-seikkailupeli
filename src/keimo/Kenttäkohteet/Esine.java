@@ -38,12 +38,14 @@ public abstract class Esine extends KenttäKohde {
     public static Esine yhdistä2Esinettä(Esine esineA, Esine esineB) {
         if (esineA instanceof Kaasupullo) {
             if (esineB instanceof Kaasusytytin) {
-                return new Kaasusytytin(false, 0, 0, "toimiva");
+                String[] toimivuus = {"toimivuus=toimiva"};
+                return new Kaasusytytin(false, 0, 0, toimivuus);
             }
         }
         else if (esineA instanceof Kaasusytytin) {
             if (esineB instanceof Kaasupullo) {
-                return new Kaasusytytin(false, 0, 0, "toimiva");
+                String[] toimivuus = {"toimivuus=toimiva"};
+                return new Kaasusytytin(false, 0, 0, toimivuus);
             }
         }
         return null;
@@ -54,7 +56,7 @@ public abstract class Esine extends KenttäKohde {
 
     String käyttöTeksti = "Mitään ei tapahtunut.";
     public String käytä(){
-        poista = true;
+        //poista = true;
         return käyttöTeksti;
     }
 
@@ -90,18 +92,6 @@ public abstract class Esine extends KenttäKohde {
                 return "Tämä esine";
         }
     }
-    /**
-    void asetaTiedot() {
-        tiedot += "Nimi: " + this.annaNimi() + "\n";
-        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei" + "\n");
-        
-        tiedot += "Sopii käytettäväksi: ";
-        for (String s : this.sopiiKäytettäväksi) {
-            tiedot += s + ", ";
-        }
-        tiedot += "\n";
-    }
-    */
 
     public Esine(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);

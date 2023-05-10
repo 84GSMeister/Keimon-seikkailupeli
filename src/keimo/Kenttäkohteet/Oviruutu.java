@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 
 public class Oviruutu extends Warp {
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -38,50 +39,26 @@ public class Oviruutu extends Warp {
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png");
         switch (suunta) {
             case YLÖS:
-                //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_ylös.png"), KenttäKohde.Suunta.YLÖS);
-                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_ylös.png");
                 this.suunta = Suunta.YLÖS;
                 this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
                 break;
             case ALAS:
-                //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_alas.png"), KenttäKohde.Suunta.ALAS);
-                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_alas.png");
                 this.suunta = Suunta.ALAS;
                 this.kuvake = new KäännettäväKuvake(kuvake, 180, false);
                 break;
             case VASEN:
-                //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.VASEN);
-                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_vasen.png");
                 this.suunta = Suunta.VASEN;
                 this.kuvake = new KäännettäväKuvake(kuvake, 270, false);
                 break;
             case OIKEA:
-                //asetaKuvake(new ImageIcon("tiedostot/kuvat/nuoli_vasen.png"), KenttäKohde.Suunta.OIKEA);
-                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
                 this.suunta = Suunta.OIKEA;
                 this.kuvake = new KäännettäväKuvake(kuvake, 90, false);
                 break;
             default:
-                //this.kuvake = new ImageIcon("tiedostot/kuvat/nuoli_oikea.png");
                 this.suunta = Suunta.YLÖS;
                 this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
                 break;
         }
-    }
-
-    public Oviruutu(int sijX, int sijY, int luontiKohdeHuone, int luontiKohdeRuutuX, int luontiKohdeRuutuY, Suunta luontiSuunta) {
-        super(true, sijX, sijY, luontiKohdeHuone, luontiKohdeRuutuX, luontiKohdeRuutuY, luontiSuunta);
-        this.nimi = "Oviruutu";
-        this.katsomisTeksti = "Paina Spacea tai nuolen suuntaista nuolinäppäintä kulkeaksesi oviruudusta!";
-
-        asetaSuunta(luontiSuunta);
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
-        this.lisäOminaisuudet[0] = "kohdehuone=" + kohdeHuone;
-        this.lisäOminaisuudet[1] = "kohderuutuX=" + kohdeRuutuX;
-        this.lisäOminaisuudet[2] = "kohderuutuY=" + kohdeRuutuY;
-        this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
-        super.asetaTiedot();
     }
 
     public void päivitäLisäOminaisuudet() {
@@ -94,7 +71,7 @@ public class Oviruutu extends Warp {
     }
 
     public Oviruutu(int sijX, int sijY, String[] ominaisuusLista) {
-        super(true, sijX, sijY, 0, 0, 0, Suunta.VASEN);
+        super(true, sijX, sijY);
         this.nimi = "Oviruutu";
         this.katsomisTeksti = "Paina Spacea tai nuolen suuntaista nuolinäppäintä kulkeaksesi oviruudusta!";
 
@@ -121,10 +98,6 @@ public class Oviruutu extends Warp {
                 }
             }
         }
-
-        // this.sijX = sijX;
-        // this.sijY = sijY;
-        // this.määritettySijainti = true;
 
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png");
         asetaSuunta(suunta);

@@ -283,11 +283,6 @@ public class GrafiikanPäivitysSäie extends Thread {
             }
             else {
                 PääIkkuna.esineLabel[i].setIcon(Pelaaja.esineet[i].annaKuvake());
-                // ImageIcon pelaajanEsineenKuvake = (ImageIcon)Pelaaja.esineet[i].annaKuvake();
-                // Image kuvake64 = pelaajanEsineenKuvake.getImage();
-                // Image kuvake32 = kuvake64.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
-                // pelaajanEsineenKuvake = new ImageIcon(kuvake32);
-                // PääIkkuna.esineLabel[i].setIcon(pelaajanEsineenKuvake);
             }
         }
         if (Peli.valittuEsine == null) {
@@ -390,6 +385,11 @@ public class GrafiikanPäivitysSäie extends Thread {
                             PääIkkuna.luoAlkuIkkuna(Pelaaja.sijX, Pelaaja.sijY, new ImageIcon("tiedostot/kuvat/pelaaja.png"));
                             PääIkkuna.vaihdaTausta(uusiTausta);
                             PääIkkuna.uudelleenpiirräKaikki = false;
+                        }
+                        if (PääIkkuna.uudelleenpiirräKenttä) {
+                            PääIkkuna.päivitäNPCKenttä();
+                            PääIkkuna.vaihdaTausta(uusiTausta);
+                            PääIkkuna.uudelleenpiirräKenttä = false;
                         }
                         frameja++;
                         kuviaKertymässä++;

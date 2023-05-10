@@ -94,11 +94,6 @@ public class TarinaRuutu {
                 teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 jatka = new JLabel("Space: Jatka");
-                // jatka.addActionListener(new ActionListener() {
-                //     public void actionPerformed(ActionEvent e) {
-                //         jatka();
-                //     }
-                // });
                 jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
                 jatka.setForeground(Color.white);
                 jatka.setPreferredSize(new Dimension(640, 80));
@@ -165,11 +160,6 @@ public class TarinaRuutu {
                 teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 jatka = new JLabel("Space: Jatka");
-                // jatka.addActionListener(new ActionListener() {
-                //     public void actionPerformed(ActionEvent e) {
-                //         jatka();
-                //     }
-                // });
                 jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
                 jatka.setForeground(Color.white);
                 jatka.setPreferredSize(new Dimension(640, 80));
@@ -210,19 +200,20 @@ public class TarinaRuutu {
         klikkaustenMäärä++;
         tarinaPaneli = new JPanel();
         //tarinaPaneli = luoTarinaPaneli("koti");
-        if (klikkaustenMäärä >= tarinanPituusRuutuina -1) {
+        if (klikkaustenMäärä >= tarinanPituusRuutuina -1 && tarinanTunniste == "alku") {
             jatka.setText("Space: Aloita peli");
         }
         if (klikkaustenMäärä >= tarinanPituusRuutuina) {
             if (tarinanTunniste == "alku") {
                 PääIkkuna.crd.next(PääIkkuna.kortit);
-                ValikkoRuutu.valikkoPaneli.requestFocus();
+                ValikkoRuutu.nappiPaneliAlkuvalikko.requestFocus();
             }
             else {
                 PääIkkuna.crd.previous(PääIkkuna.kortit);
                 PääIkkuna.crd.previous(PääIkkuna.kortit);
                 PääIkkuna.ikkuna.requestFocus();
                 PääIkkuna.kortit.remove(TarinaRuutu.tarinaPaneli);
+                Pelaaja.pakotaPelaajanPysäytys();
                 Peli.pause = false;
             }
         }

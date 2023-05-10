@@ -5,6 +5,8 @@ import javax.swing.ImageIcon;
 import keimo.PelinAsetukset;
 import keimo.PääIkkuna;
 import keimo.Säikeet.*;
+import keimo.Utility.KäännettäväKuvake;
+import keimo.Utility.SkaalattavaKuvake;
 
 public class Pikkuvihu extends Vihollinen {
 
@@ -65,6 +67,18 @@ public class Pikkuvihu extends Vihollinen {
                 return "Pikkuvihulle";
             default:
                 return "Pikkuvihu";
+        }
+    }
+
+    @Override
+    public void valitseKuvake() {
+        switch (this.npcnSuuntaVasenOikea) {
+            case VASEN:
+                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
+            break;
+            case OIKEA:
+                this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/pikkuvihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
+            break;
         }
     }
 

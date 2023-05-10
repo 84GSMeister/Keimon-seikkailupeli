@@ -9,6 +9,7 @@ public class Nuotio extends Kiintopiste {
     private boolean polttoaine = false;
     private boolean sytytetty = false;
     
+    @Override
     public String kokeileEsinettä(Esine e) {
         
         this.vuorovaikutus = false;
@@ -81,8 +82,9 @@ public class Nuotio extends Kiintopiste {
             statusTeksti = "Mitään ei tapahtunut.";
         }
         return statusTeksti;
-        }
+    }
 
+    @Override
     public Esine suoritaMuutoksetEsineelle(Esine e) {
         if (e instanceof Makkara) {
             Makkara makkara = (Makkara)e;
@@ -109,6 +111,7 @@ public class Nuotio extends Kiintopiste {
         }
     }
 
+    @Override
     public String katso(){
         if (sytytetty) {    
             return "Nuotion liekit leimuavat komeasti.";
@@ -129,14 +132,7 @@ public class Nuotio extends Kiintopiste {
         }
     }
 
-    public boolean onSytytetty () {
-        return sytytetty;
-    }
-
-    public String annaNimi() {
-        return nimi;
-    }
-
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":
@@ -164,6 +160,10 @@ public class Nuotio extends Kiintopiste {
             default:
                 return "Nuotio";
         }
+    }
+
+    public boolean onSytytetty () {
+        return sytytetty;
     }
 
     public Nuotio(boolean määritettySijainti, int sijX, int sijY) {

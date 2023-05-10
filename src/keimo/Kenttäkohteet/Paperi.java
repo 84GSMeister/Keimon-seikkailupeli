@@ -3,11 +3,13 @@ import javax.swing.ImageIcon;
 
 public class Paperi extends Esine {
 
-    public String katso(){
-        System.out.println("Tämä sopisi hyvin nuotion sytykkeeksi.");
-        return "Tämä sopisi hyvin nuotion sytykkeeksi.";
+    @Override
+    public String käytä() {
+        poista = true;
+        return super.käytä();
     }
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

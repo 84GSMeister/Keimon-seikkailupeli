@@ -35,7 +35,7 @@ public class Tile extends Maasto{
                 }
             }
             else if (ominaisuus.startsWith("x-peilaus=")) {
-                if (ominaisuus.substring(10) == "kyllä") {
+                if (ominaisuus.substring(10).startsWith("kyllä")) {
                     super.xPeilaus = true;
                 }
                 else {
@@ -43,7 +43,7 @@ public class Tile extends Maasto{
                 }
             }
             else if (ominaisuus.startsWith("y-peilaus=")) {
-                if (ominaisuus.substring(10) == "kyllä") {
+                if (ominaisuus.substring(10).startsWith("kyllä")) {
                     super.yPeilaus = true;
                 }
                 else {

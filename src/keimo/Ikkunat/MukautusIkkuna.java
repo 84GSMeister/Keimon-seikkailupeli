@@ -73,7 +73,7 @@ public class MukautusIkkuna {
         if (tehtäväItemit) {
             huoneenSisältöLista.add(new Avain(false, 0, 0));
             huoneenSisältöLista.add(new Kaasupullo(false, 0, 0));
-            huoneenSisältöLista.add(new Kaasusytytin(false, 0, 0, "tyhjä"));
+            huoneenSisältöLista.add(new Kaasusytytin(false, 0, 0, null));
             huoneenSisältöLista.add(new Hiili(false, 0, 0));
             huoneenSisältöLista.add(new Paperi(false, 0, 0));
             huoneenSisältöLista.add(new Vesiämpäri(false, 0, 0));
@@ -161,6 +161,7 @@ public class MukautusIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ikkuna.setLocationRelativeTo(null);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();

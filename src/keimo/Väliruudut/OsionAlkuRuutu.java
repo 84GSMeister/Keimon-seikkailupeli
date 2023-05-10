@@ -125,15 +125,6 @@ public class OsionAlkuRuutu {
         toista.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         jatka = new JLabel("Seuraava");
-        // jatka.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         PääIkkuna.crd.next(PääIkkuna.kortit);
-        //         Peli.pause = false;
-        //         PääIkkuna.ikkuna.requestFocus();
-        //         Peli.peliAloitettu = true;
-        //         mediaPlayer.stop();
-        //     }
-        // });
         jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -172,15 +163,6 @@ public class OsionAlkuRuutu {
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         jatka = new JLabel("Space: Seuraava");
-        // jatka.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         PääIkkuna.crd.next(PääIkkuna.kortit);
-        //         Peli.pause = false;
-        //         PääIkkuna.ikkuna.requestFocus();
-        //         Peli.peliAloitettu = true;
-        //         mediaPlayer.stop();
-        //     }
-        // });
         jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);

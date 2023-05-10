@@ -3,15 +3,13 @@ import javax.swing.ImageIcon;
 
 public class Suklaalevy extends Ruoka {
 
-    public String katso() {
-        return "Voisin syödä tämän.";
-    }
-    
+    @Override
     public String käytä(){
         poista = true;
         return "Se maistui hyvältä. Sait " + this.heal + " elämäpistettä.";
     }
-
+    
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":

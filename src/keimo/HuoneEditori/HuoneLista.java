@@ -1,5 +1,9 @@
 package keimo.HuoneEditori;
 
+import keimo.*;
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Random;
-
-import keimo.*;
-import keimo.Kenttäkohteet.*;
-import keimo.Maastot.*;
 
 public class HuoneLista {
     

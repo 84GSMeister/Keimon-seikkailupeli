@@ -19,6 +19,7 @@ public abstract class Maasto {
     boolean yPeilaus = false;
 
     protected String nimi;
+    protected String katsomisTeksti;
     protected Icon kuvake;
     protected String tiedostonNimi;
     protected boolean estääLiikkumisen = false;
@@ -72,7 +73,7 @@ public abstract class Maasto {
     }
 
     public String annaNimiSijamuodossa(String sijamuoto) {
-        return nimi;
+        return katsomisTeksti;
     }
 
     public Icon annaKuvake() {

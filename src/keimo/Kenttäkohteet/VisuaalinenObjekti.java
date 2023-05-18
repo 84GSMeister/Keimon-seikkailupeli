@@ -12,6 +12,11 @@ public class VisuaalinenObjekti extends KenttäKohde {
     boolean xPeilaus = false;
     boolean yPeilaus = false;
     protected String tiedostonNimi;
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        return katsomisTeksti;
+    }
     
     private boolean este = false;
     public boolean onkoEste() {
@@ -87,6 +92,7 @@ public class VisuaalinenObjekti extends KenttäKohde {
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("kuva=")) {
                     tiedostonNimi = ominaisuus.substring(5);
+                    this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
                 }
                 else if (ominaisuus.startsWith("kääntö=")) {
                     try {

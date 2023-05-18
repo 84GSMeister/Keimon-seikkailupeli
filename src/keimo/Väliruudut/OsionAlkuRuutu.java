@@ -1,6 +1,7 @@
 package keimo.Väliruudut;
 
 import keimo.*;
+import keimo.Säikeet.GrafiikanPäivitysSäie;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -154,15 +155,18 @@ public class OsionAlkuRuutu {
         JPanel kuvaPaneli = new JPanel();
         kuvaPaneli.setSize(640, 400);
         kuvaPaneli.setLayout(new BorderLayout());
+        kuvaPaneli.setBackground(Color.black);
         kuvaPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         kuvaPaneli.add(kuva);
 
         teksti = new JLabel("Tehtävä: Yritä löytää kotiin");
-        teksti.setPreferredSize(new Dimension(640, 250));
+        teksti.setForeground(Color.white);
         teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        teksti.setPreferredSize(new Dimension(640, 250));
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         jatka = new JLabel("Space: Seuraava");
+        jatka.setForeground(Color.white);
         jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -172,6 +176,7 @@ public class OsionAlkuRuutu {
         GridBagLayout tekstiPanelinLayout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         tekstiPaneli.setLayout(tekstiPanelinLayout);
+        tekstiPaneli.setBackground(Color.black);
         tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         gbc.ipadx = 10;
         gbc.ipady = 10;
@@ -186,6 +191,7 @@ public class OsionAlkuRuutu {
 
         osionAlkuPaneli = new JPanel();
         osionAlkuPaneli.setLayout(new BorderLayout());
+        osionAlkuPaneli.setBackground(Color.black);
         osionAlkuPaneli.add(kuvaPaneli, BorderLayout.NORTH);
         osionAlkuPaneli.add(tekstiPaneli, BorderLayout.CENTER);
         osionAlkuPaneli.addKeyListener(new OsionAlkuruudunKontrollit());
@@ -195,6 +201,7 @@ public class OsionAlkuRuutu {
 
     static void jatka() {
         PääIkkuna.crd.next(PääIkkuna.kortit);
+        Peli.aikaReferenssi = System.nanoTime();
         Peli.pause = false;
         PääIkkuna.ikkuna.requestFocus();
         Peli.peliAloitettu = true;

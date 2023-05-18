@@ -137,6 +137,15 @@ public class Huone {
         }
     }
 
+    /**
+     * Arpoo satunnaisesti pelikentän x- ja y-koordinaatit.
+     * Lisää arvottuun kohtaan syötteenä saadun KenttäKohde-tyyppisen olion
+     * eli jonkin Esine-luokan tai Kiintopiste-luokan alaluokan olioista.
+     * @param k KenttäKohde-objekti, jonka sijainti arvotaan
+     * @.pre {k instanceof KenttäKohde}
+     * @.post pelikenttä[randX][randY] != null
+     */
+
     void sijoitaSatunnaiseenRuutuun(KenttäKohde k){
         int randX = r.nextInt(Peli.kentänKoko);
         int randY = r.nextInt(Peli.kentänKoko);
@@ -187,6 +196,17 @@ public class Huone {
             }
         }
     }
+
+    /**
+     * Asettaa objektin pelikentälle x- ja y-koordinaatteihin.
+     * Lisää valittuun kohtaan syötteenä saadun KenttäKohde-tyyppisen olion
+     * eli jonkin Esine-luokan tai Kiintopiste-luokan alaluokan olioista.
+     * @param k KenttäKohde-objekti, joka asetetaan kohteeseen
+     * @param sijX x-koordinaatti
+     * @param sijY y-koordinaatti
+     * @.pre {k instanceof KenttäKohde && sijX >= 0 && sijX <= 9 && sijY >= 0 && sijY <= 9}
+     * @.post pelikenttä[sijX][sijY] != null
+     */
 
     void sijoitaMäärättyynRuutuun(int sijX, int sijY, KenttäKohde k){
         if (huoneenKenttäSisältö[sijX][sijY] == null) {
@@ -280,7 +300,7 @@ public class Huone {
             for (NPC n : luontiNPCSisältö) {
                 if (n != null) {
                     if (n.onkoMääritettySijainti()) {
-                        sijoitaMäärättyynRuutuun(n.annaSijX(), n.annaSijY(), n);
+                        sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);
                     }
                     else {
                         sijoitaSatunnaiseenRuutuun(n);

@@ -1,6 +1,15 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (10.5.2023): 0.7.1
+## Uusin versio (18.5.2023): 0.7.2
+
+### Versio 0.7.2
+
+ - Uudet häviöanimaatiot pahavihulle
+ - Uudelleenkäynnistäminen ei enää avaa uutta ikkunaa
+ - Asetusvalikkoa parannettu: rajat numeerisille arvoille
+ - Collision-tarkistus tapahtuu joka tickillä. Tick-nopeutta voi säätää.
+ - Säielogiikkaa parannettu -> pienempi CPU-käyttö
+ - Korjattu editorin bugi, jossa reunawarpit eivät toimi huoneille, joiden ID on yli huonelistan koon (ts. tyhjiä indeksejä välissä).
 
 ### Versio 0.7.1
 

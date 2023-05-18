@@ -51,8 +51,8 @@ public abstract class Vihollinen extends NPC{
         
     }
 
-    Vihollinen(String[] ominaisuusLista) {
-        super();
+    Vihollinen(int sijX, int sijY, String[] ominaisuusLista) {
+        super(sijX, sijY);
         if (ominaisuusLista != null) {
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("liiketapa=")) {

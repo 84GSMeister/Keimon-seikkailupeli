@@ -39,6 +39,36 @@ public class Juhani extends NPC_KenttäKohde {
         }
     }
 
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi":
+                return "Juhani";
+            case "genetiivi":
+                return "Juhanin";
+            case "esiivi":
+                return "Juhanina";
+            case "partitiivi":
+                return "Juhania";
+            case "translatiivi":
+                return "Juhaniksi";
+            case "inessiivi":
+                return "Juhanissa";
+            case "elatiivi":
+                return "Juhanista";
+            case "illatiivi":
+                return "Juhaniin";
+            case "adessiivi":
+                return "Juhanilla";
+            case "ablatiivi":
+                return "Juhanilta";
+            case "allatiivi":
+                return "Juhanille";
+            default:
+                return "Juhani";
+        }
+    }
+
     public Huume annaHuume() {
         return new Huume(false, 0, 0);
     }

@@ -17,12 +17,14 @@ import java.awt.Color;
 public class LoppuRuutu {
     
     public static JPanel loppuruutuPaneli;
-    static JPanel kuvaPaneli;
-    static JPanel tekstiPaneli;
     static JLabel kuva;
-
+    static JPanel kuvaPaneli;
+    static JPanel alaPaneli;
+    
     static JLabel teksti;
-    static JButton uusiPeli, lopeta;
+    static JPanel tekstiPaneli;
+
+    //static JButton uusiPeli, lopeta;
 
     static int klikkaustenMäärä = 0;
     static int tarinanPituusRuutuina = 4;
@@ -38,38 +40,27 @@ public class LoppuRuutu {
         kuva.setPreferredSize(new Dimension(640, 400));
 
         kuvaPaneli = new JPanel();
-        kuvaPaneli.setSize(640, 400);
+        kuvaPaneli.setSize(640, 360);
         kuvaPaneli.setBackground(Color.black);
         kuvaPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         kuvaPaneli.add(kuva);
 
 
         teksti = new JLabel();
-        teksti.setMinimumSize(new Dimension(560, 250));
+        //teksti.setBounds(0, 0, 640, 300);
+        teksti.setMaximumSize(new Dimension(640, 200));
+        teksti.setMinimumSize(new Dimension(500, 200));
+        teksti.setPreferredSize(new Dimension(500, 200));
         teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
         teksti.setForeground(Color.white);
 
-        // uusiPeli = new JButton("Uusi peli");
-        // uusiPeli.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         PääIkkuna.ikkuna.dispose();
-        //         Peli.uusiPeli();
-        //     }
-        // });
-        // uusiPeli.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-        // uusiPeli.setPreferredSize(new Dimension(320, 80));
-        // uusiPeli.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // lopeta = new JButton("Lopeta");
-        // lopeta.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         System.exit(0);
-        //     }
-        // });
-        // lopeta.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-        // lopeta.setPreferredSize(new Dimension(320, 80));
-        // lopeta.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tekstiPaneli = new JPanel(new GridBagLayout());
+        tekstiPaneli.setBackground(Color.black);
+        //tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.red, 1, true));
+        tekstiPaneli.setPreferredSize(new Dimension(500, 200));
+        tekstiPaneli.setBounds(0, 0, 500, 300);
+        tekstiPaneli.add(teksti);
 
         JLabel uusiPeli = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_uusipeli.png"));
         uusiPeli.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -89,35 +80,26 @@ public class LoppuRuutu {
         nappiPanelinlayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, uusiPeli, 0, SpringLayout.HORIZONTAL_CENTER, nappiPaneli);
         nappiPaneli.setLayout(nappiPanelinlayout);
         nappiPaneli.setBackground(Color.black);
-        nappiPaneli.setPreferredSize(new Dimension(500, 400));
+        //nappiPaneli.setBorder(BorderFactory.createLineBorder(Color.blue, 1, true));
+        nappiPaneli.setPreferredSize(new Dimension(500, 130));
         nappiPaneli.add(vasenOsoitin[0]);
         nappiPaneli.add(uusiPeli);
         nappiPaneli.add(vasenOsoitin[1]);
         nappiPaneli.add(lopeta);
         SpringUtilities.makeCompactGrid(nappiPaneli, 2, 2, 6, 6, 6, 6);
     
-        tekstiPaneli = new JPanel();
+        alaPaneli = new JPanel();
         GridBagLayout tekstiPanelinLayout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
-        tekstiPaneli.setLayout(tekstiPanelinLayout);
-        tekstiPaneli.setBackground(Color.black);
-        tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        gbc.ipadx = 10;
-        gbc.ipady = 10;
+        alaPaneli.setLayout(tekstiPanelinLayout);
+        alaPaneli.setBackground(Color.black);
+        //alaPaneli.setBorder(BorderFactory.createLineBorder(Color.green, 1, true));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        tekstiPaneli.add(teksti, gbc);
-        gbc.ipadx = 10;
-        gbc.ipady = 10;
+        alaPaneli.add(tekstiPaneli, gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        tekstiPaneli.add(nappiPaneli, gbc);
-        // gbc.ipadx = 10;
-        // gbc.ipady = 10;
-        // gbc.gridx = 1;
-        // gbc.gridy = 1;
-        // tekstiPaneli.add(lopeta, gbc);
-
+        alaPaneli.add(nappiPaneli, gbc);
         
 
 
@@ -125,7 +107,7 @@ public class LoppuRuutu {
         loppuruutuPaneli.setLayout(new BorderLayout());
         loppuruutuPaneli.setBackground(Color.black);
         loppuruutuPaneli.add(kuvaPaneli, BorderLayout.NORTH);
-        loppuruutuPaneli.add(tekstiPaneli, BorderLayout.CENTER);
+        loppuruutuPaneli.add(alaPaneli, BorderLayout.CENTER);
         loppuruutuPaneli.addKeyListener(new LoppuruudunKontrollit());
         
         return loppuruutuPaneli;
@@ -141,10 +123,10 @@ public class LoppuRuutu {
                 loppuTeksti = "<html><p>" +
                 "Voitit pelin!" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_normaali.png");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_normaali.jpg");
             break;
 
-            case KUOLEMA_VIHOLLINEN_NEUTRAALI:
+            case KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN:
                 loppuTeksti = "<html><p>" +
                 "KEIM-Over!" + "<br><br>" + 
                 "Sait selkääsi!" + "<br>" + 
@@ -152,10 +134,10 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_kuolema_vihollinen_neutraali.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_passiivinen.gif");
             break;
 
-            case KUOLEMA_VIHOLLINEN_PIESTY:
+            case KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY:
                 loppuTeksti = "<html><p>" +
                 "KEIM-Over!" + "<br><br>" + 
                 "Sait selkääsi! (piesty)" + "<br>" + 
@@ -163,10 +145,10 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_kuolema_vihollinen_piesty.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_lyöty.gif");
             break;
 
-            case KUOLEMA_VIHOLLINEN_ÄMPÄRÖITY:
+            case KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY:
                 loppuTeksti = "<html><p>" +
                 "KEIM-Over!" + "<br><br>" + 
                 "Sait selkääsi! (ämpäröity)" + "<br>" + 
@@ -174,7 +156,40 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/haviö_kuolema_vihollinen_ämpäröity.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_ämpäröity.gif");
+            break;
+
+            case KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN:
+                loppuTeksti = "<html><p>" +
+                "KEIM-Over!" + "<br><br>" + 
+                "Sait selkääsi!" + "<br>" + 
+                "Hävisit pelin.<br><br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_passiivinen.gif");
+            break;
+
+            case KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY:
+                loppuTeksti = "<html><p>" +
+                "KEIM-Over!" + "<br><br>" + 
+                "Sait selkääsi! (piesty)" + "<br>" + 
+                "Hävisit pelin.<br><br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_lyöty.gif");
+            break;
+
+            case KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY:
+                loppuTeksti = "<html><p>" +
+                "KEIM-Over!" + "<br><br>" + 
+                "Sait selkääsi! (ämpäröity)" + "<br>" + 
+                "Hävisit pelin.<br><br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_ämpäröity.gif");
             break;
 
             case KUOLEMA_JUHANI:
@@ -251,8 +266,7 @@ public class LoppuRuutu {
 
         switch (valinta) {
             case 0: // Uusi peli
-                PääIkkuna.ikkuna.dispose();
-                Peli.uusiPeli();
+                PääIkkuna.uusiIkkuna = true;
                 break;
             case 1: // Lopeta
                 System.exit(0);

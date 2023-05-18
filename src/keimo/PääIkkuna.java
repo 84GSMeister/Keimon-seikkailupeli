@@ -36,7 +36,7 @@ public class PääIkkuna {
     public static JLabel kokoruudunTakatausta;
     public static JPanel hud, yläPaneeli, alaPaneeli;
     public static JLabel hudTeksti;
-    public static JLabel ylätekstiAika, ylätekstiSij, ylätekstiSijRuutu, ylätekstiKohde, ylätekstiHP, ylätekstiKuparit, ylätekstiViive, ylätekstiFPS;
+    public static JLabel ylätekstiAika, ylätekstiSij, ylätekstiSijRuutu, ylätekstiKohde, ylätekstiKohdeMaasto, ylätekstiHP, ylätekstiKuparit, ylätekstiViive, ylätekstiFPS, ylätekstiKuvat, ylätekstiTickrate, ylätekstiTicks;
     static JLabel tavoiteTeksti1;
     static JLabel tavoiteTeksti2;
     static JLabel tavoiteTeksti3;
@@ -86,16 +86,18 @@ public class PääIkkuna {
          * Ikkunan ominaisuudet
          */
         
-        ikkuna = new JFrame("Keimon Seikkailupeli v.0.7.1 pre-alpha (10.5.2023)");
-        ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
-        ikkuna.setLayout(new BorderLayout());
-        ikkuna.setBackground(Color.black);
-        ikkuna.setVisible(true);
-        ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ikkuna.setBounds(0, 0, 1366, 768);
-        ikkuna.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ikkuna.revalidate();
-        ikkuna.repaint();
+        if (ikkuna == null) {
+            ikkuna = new JFrame("Keimon Seikkailupeli v.0.7.2 pre-alpha (18.5.2023)");
+            ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
+            ikkuna.setLayout(new BorderLayout());
+            ikkuna.setBackground(Color.black);
+            ikkuna.setVisible(true);
+            ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ikkuna.setBounds(0, 0, 1366, 768);
+            ikkuna.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            ikkuna.revalidate();
+            ikkuna.repaint();
+        }
 
         /**
          * Yläpalkin Menu-komponentit ja niiden ominaisuudet
@@ -124,7 +126,7 @@ public class PääIkkuna {
         ohjeet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Peli.pause = true;
-                CustomViestiIkkunat.Ohjeet.showDialog();
+                CustomViestiIkkunat.Ohjeet.showDialog(tavoiteInfoLabel.getText());
                 Peli.pause = false;
             }
         });
@@ -334,7 +336,7 @@ public class PääIkkuna {
         peliKenttä.repaint();
 
         kokoruudunTakatausta = new JLabel(new ImageIcon("tiedostot/kuvat/taustat/kokoruuduntausta.png"));
-        kokoruudunTakatausta.setMaximumSize(new Dimension(300,300));
+        kokoruudunTakatausta.setBounds(0, 0, 10, 10);
         kokoruudunTakatausta.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 
         /**
@@ -366,11 +368,15 @@ public class PääIkkuna {
 
         ylätekstiSijRuutu = new JLabel("Paina nuolinäppäimiä liikkuaksesi");
         ylätekstiSijRuutu.setVisible(sijaintiNäkyvissä);
-        ylätekstiSijRuutu.setBounds(10,40, 180, 20);
+        ylätekstiSijRuutu.setBounds(10,30, 180, 20);
 
         ylätekstiKohde = new JLabel("Kohteen sisältö näkyy tässä");
         ylätekstiKohde.setVisible(sijaintiNäkyvissä);
-        ylätekstiKohde.setBounds(10,70, 400, 20);
+        ylätekstiKohde.setBounds(10,50, 400, 20);
+
+        ylätekstiKohdeMaasto = new JLabel("Maasto näkyy tässä");
+        ylätekstiKohdeMaasto.setVisible(sijaintiNäkyvissä);
+        ylätekstiKohdeMaasto.setBounds(10,70, 400, 20);
 
         ylätekstiViive = new JLabel("Päivitysaika");
         ylätekstiViive.setVisible(fpsNäkyvissä);
@@ -378,7 +384,19 @@ public class PääIkkuna {
 
         ylätekstiFPS = new JLabel("FPS");
         ylätekstiFPS.setVisible(fpsNäkyvissä);
-        ylätekstiFPS.setBounds(10,140, 220, 20);
+        ylätekstiFPS.setBounds(10,130, 220, 20);
+
+        ylätekstiKuvat = new JLabel("Kuvia");
+        ylätekstiKuvat.setVisible(fpsNäkyvissä);
+        ylätekstiKuvat.setBounds(10,150, 220, 20);
+
+        ylätekstiTickrate = new JLabel("Tickrate");
+        ylätekstiTickrate.setVisible(fpsNäkyvissä);
+        ylätekstiTickrate.setBounds(10,170, 220, 20);
+
+        ylätekstiTicks = new JLabel("Tickejä");
+        ylätekstiTicks.setVisible(fpsNäkyvissä);
+        ylätekstiTicks.setBounds(10,190, 220, 20);
 
         debugInfoPaneli = new JPanel();
         debugInfoPaneli.setLayout(new GridLayout(9, 1, 10, 10));
@@ -388,8 +406,12 @@ public class PääIkkuna {
         debugInfoPaneli.add(ylätekstiSij);
         debugInfoPaneli.add(ylätekstiSijRuutu);
         debugInfoPaneli.add(ylätekstiKohde);
+        debugInfoPaneli.add(ylätekstiKohdeMaasto);
         debugInfoPaneli.add(ylätekstiViive);
         debugInfoPaneli.add(ylätekstiFPS);
+        debugInfoPaneli.add(ylätekstiKuvat);
+        debugInfoPaneli.add(ylätekstiTickrate);
+        debugInfoPaneli.add(ylätekstiTicks);
         debugInfoPaneli.revalidate();
         debugInfoPaneli.repaint();
 
@@ -635,8 +657,12 @@ public class PääIkkuna {
         oikeaYläPaneeli.setComponentZOrder(ylätekstiSij, 0);
         oikeaYläPaneeli.setComponentZOrder(ylätekstiSijRuutu, 0);
         oikeaYläPaneeli.setComponentZOrder(ylätekstiKohde, 0);
+        oikeaYläPaneeli.setComponentZOrder(ylätekstiKohdeMaasto, 0);
         oikeaYläPaneeli.setComponentZOrder(ylätekstiViive, 0);
         oikeaYläPaneeli.setComponentZOrder(ylätekstiFPS, 0);
+        oikeaYläPaneeli.setComponentZOrder(ylätekstiKuvat, 0);
+        oikeaYläPaneeli.setComponentZOrder(ylätekstiTickrate, 0);
+        oikeaYläPaneeli.setComponentZOrder(ylätekstiTicks, 0);
         oikeaYläPaneeli.revalidate();
         oikeaYläPaneeli.repaint();
 
@@ -702,6 +728,10 @@ public class PääIkkuna {
         gbc.gridy = 4;
         gbc.gridwidth = 3;
         peliKenttäUlompi.add(alaPaneeli, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 1;
+        peliKenttäUlompi.add(kokoruudunTakatausta, gbc);
 
         peliKenttäUlompi.setComponentZOrder(peliKenttä, 0);
         peliKenttäUlompi.revalidate();
@@ -883,11 +913,17 @@ public class PääIkkuna {
             fpsNäkyvissä = true;
             ylätekstiViive.setVisible(true);
             ylätekstiFPS.setVisible(true);
+            ylätekstiKuvat.setVisible(true);
+            ylätekstiTickrate.setVisible(true);
+            ylätekstiTicks.setVisible(true);
         }
         else {
             fpsNäkyvissä = false;
             ylätekstiViive.setVisible(false);
             ylätekstiFPS.setVisible(false);
+            ylätekstiKuvat.setVisible(false);
+            ylätekstiTickrate.setVisible(false);
+            ylätekstiTicks.setVisible(false);
         }
     }
 
@@ -897,12 +933,14 @@ public class PääIkkuna {
             ylätekstiSij.setVisible(true);
             ylätekstiSijRuutu.setVisible(true);
             ylätekstiKohde.setVisible(true);
+            ylätekstiKohdeMaasto.setVisible(true);
         }
         else {
             sijaintiNäkyvissä = false;
             ylätekstiSij.setVisible(false);
             ylätekstiSijRuutu.setVisible(false);
             ylätekstiKohde.setVisible(false);
+            ylätekstiKohdeMaasto.setVisible(false);
         }
     }
 
@@ -1060,6 +1098,7 @@ public class PääIkkuna {
             //peliKenttä.setComponentZOrder(vuoropuhePaneli, 0);
         }
         catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
         }
         catch (IllegalArgumentException e) {
@@ -1233,14 +1272,6 @@ public class PääIkkuna {
                     peliKenttä.add(npcKuvake[i], new Integer(3), 0);
                 }
             }
-
-            //vuoropuhePaneli.setComponentZOrder(peliKenttä, 1);
-            //taustaPaneli.setComponentZOrder(peliKenttä, 0);
-            
-            //peliKenttä.setComponentZOrder(pelaajaLabel, 0);
-            //peliKenttä.setComponentZOrder(pelaajanEsineLabel, 0);
-            //peliKenttä.setComponentZOrder(taustaPaneli, 3);
-            //peliKenttä.setComponentZOrder(vuoropuhePaneli, 0);
         }
         catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
@@ -1268,43 +1299,43 @@ public class PääIkkuna {
     }
 
     
-    class AjastimenPäivittäjä extends SwingWorker<Void, JLabel> {
+    // class AjastimenPäivittäjä extends SwingWorker<Void, JLabel> {
         
-        boolean ajastinKäynnissä = true;
-        double kulunutAika = 0;
-        int kulunutAikaMin = 0;
-        double kulunutAikaSek = 0;
+    //     boolean ajastinKäynnissä = true;
+    //     double kulunutAika = 0;
+    //     int kulunutAikaMin = 0;
+    //     double kulunutAikaSek = 0;
     
-        DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
+    //     DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
-        @Override
-        protected Void doInBackground() {
+    //     @Override
+    //     protected Void doInBackground() {
         
-            while (!isCancelled()) {
-                odotaMillisekunteja(10);
-                //publish(PääIkkuna.päivitäIkkuna());
-            }
-            return null;
-        }
+    //         while (!isCancelled()) {
+    //             odotaMillisekunteja(10);
+    //             //publish(PääIkkuna.päivitäIkkuna());
+    //         }
+    //         return null;
+    //     }
 
-        protected void process() {
-            JLabel label = PääIkkuna.ylätekstiAika;
-            label.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
-        }
+    //     protected void process() {
+    //         JLabel label = PääIkkuna.ylätekstiAika;
+    //         label.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
+    //     }
 
-        public void odotaMillisekunteja(long millisekunnit) {
+    //     public void odotaMillisekunteja(long millisekunnit) {
         
-            long odotaKunnes = System.nanoTime() + (millisekunnit * 1_000_000);
+    //         long odotaKunnes = System.nanoTime() + (millisekunnit * 1_000_000);
             
-            kulunutAika += 0.01;
-            kulunutAikaSek = kulunutAika % 60;
-            kulunutAikaMin = (int)kulunutAika / 60;
+    //         kulunutAika += 0.01;
+    //         kulunutAikaSek = kulunutAika % 60;
+    //         kulunutAikaMin = (int)kulunutAika / 60;
     
-            //PääIkkuna.ylätekstiAika.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
+    //         //PääIkkuna.ylätekstiAika.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
             
-            while(odotaKunnes > System.nanoTime()){
-                ;
-            }
-        }
-    }
+    //         while(odotaKunnes > System.nanoTime()){
+    //             ;
+    //         }
+    //     }
+    // }
 }

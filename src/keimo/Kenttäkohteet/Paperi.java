@@ -43,6 +43,7 @@ public class Paperi extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Paperi";
         super.kenttäkäyttö = true;
+        super.katsomisTeksti = "Tämä sopisi hyvin nuotion sytykkeeksi.";
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/paperi.png");
         super.asetaTiedot();

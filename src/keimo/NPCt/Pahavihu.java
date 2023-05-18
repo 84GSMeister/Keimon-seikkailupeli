@@ -82,7 +82,7 @@ public class Pahavihu extends Vihollinen {
     }
 
     public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
-        super(ominaisuusLista);
+        super(sijX, sijY, ominaisuusLista);
         this.vahinko = 2 * PelinAsetukset.vaikeusAste;
         this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
         this.kilpiTehoaa = false;

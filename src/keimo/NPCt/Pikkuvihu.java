@@ -83,7 +83,7 @@ public class Pikkuvihu extends Vihollinen {
     }
 
     public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
-        super(ominaisuusLista);
+        super(sijX, sijY, ominaisuusLista);
         this.vahinko = 1 * PelinAsetukset.vaikeusAste;
         this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
         this.kilpiTehoaa = true;

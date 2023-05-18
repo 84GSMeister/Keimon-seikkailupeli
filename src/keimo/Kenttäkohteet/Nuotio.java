@@ -1,6 +1,7 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
+import keimo.Peli;
 import keimo.PääIkkuna;
 
 public class Nuotio extends Kiintopiste {
@@ -114,6 +115,7 @@ public class Nuotio extends Kiintopiste {
     @Override
     public String katso(){
         if (sytytetty) {    
+            Peli.peliLäpäisty = true;
             return "Nuotion liekit leimuavat komeasti.";
         }
         else {

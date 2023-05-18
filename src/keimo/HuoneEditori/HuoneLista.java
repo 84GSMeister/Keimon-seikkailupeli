@@ -1,8 +1,6 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.Kenttäkohteet.*;
-import keimo.Maastot.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,44 +10,9 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Random;
 
 public class HuoneLista {
     
-    static KenttäKohde[][] pelikenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
-    static Maasto[][] maastokenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
-    static int esineitäKentällä = 0;
-    static Random r = new Random();
-
-    
-
-    /**
-     * Arpoo satunnaisesti pelikentän x- ja y-koordinaatit.
-     * Lisää arvottuun kohtaan syötteenä saadun KenttäKohde-tyyppisen olion
-     * eli jonkin Esine-luokan tai Kiintopiste-luokan alaluokan olioista.
-     * @.pre {
-     * @param t instanceof KenttäKohde
-     * }
-     * @.post pelikenttä[randX][randY] != null
-     */
-
-    static void sijoitaSatunnaiseenRuutuun(KenttäKohde t){
-        int randX = r.nextInt(Peli.kentänKoko);
-        int randY = r.nextInt(Peli.kentänKoko);
-        if (pelikenttä[randX][randY] == null) {
-            pelikenttä[randX][randY] = t;
-            esineitäKentällä++;
-        }
-        else {
-            if (esineitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
-                sijoitaSatunnaiseenRuutuun(t);
-            }
-            else {
-                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }
-
     /**
      * Legacy alkaa
      * Vakiokentän luonti koodissa (ei lataamalla default.kst)
@@ -230,36 +193,27 @@ public class HuoneLista {
             File tiedosto = new File("default.kst");
             String[] huoneetMerkkijonoina;
             int huoneidenMääräTiedostossa = 0;
-            //int huoneenIdTiedostossa;
             Path path = FileSystems.getDefault().getPath(tiedosto.getPath());
             Charset charset = Charset.forName("UTF-8");
-            //Scanner sc = new Scanner(tiedosto);
             BufferedReader read = Files.newBufferedReader(path, charset);
             String tarkastettavaRivi = null;
             if ((tarkastettavaRivi = read.readLine()) != null) {
                 tarkastettavaRivi = read.readLine();
                 if (!tarkastettavaRivi.startsWith("<KEIMO>")) {
-                    //System.out.println(tarkastettavaRivi);
                     System.out.println(tarkastettavaRivi);
-                    //throw new FileNotFoundException();
                 }
             }
             while ((tarkastettavaRivi = read.readLine()) != null) {
-                //tarkastettavaRivi = read.readLine();
                 if (tarkastettavaRivi.startsWith("Huone ")) {
                     huoneidenMääräTiedostossa++;
                 }
             }
-            //sc.close();
             huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
             huoneidenMääräTiedostossa = 0;
-            //sc = new Scanner(tiedosto);
             read = Files.newBufferedReader(path, charset);
             tarkastettavaRivi = read.readLine();
             while ((tarkastettavaRivi != null)) {
-                //tarkastettavaRivi = read.readLine();
                 if (tarkastettavaRivi.startsWith("Huone ")) {
-                    //huoneenIdTiedostossa = Integer.parseInt(tarkastettavaRivi.substring(6, tarkastettavaRivi.length()-1));
                     huoneidenMääräTiedostossa++;
                     huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] = "";
                     while (tarkastettavaRivi != null) {
@@ -276,11 +230,7 @@ public class HuoneLista {
                 else {
                     tarkastettavaRivi = read.readLine();
                 }
-            //    System.out.println(tarkastettavaRivi);
             }
-            // for (String s : huoneetMerkkijonoina) {
-            //     System.out.println("huone: " + s);
-            // }
             huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
         }
         catch (IOException e) {

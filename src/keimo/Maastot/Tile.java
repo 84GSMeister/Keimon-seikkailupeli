@@ -25,6 +25,7 @@ public class Tile extends Maasto{
         for (String ominaisuus : ominaisuusLista) {
             if (ominaisuus.startsWith("kuva=")) {
                 this.tiedostonNimi = ominaisuus.substring(5);
+                this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
             }
             else if (ominaisuus.startsWith("kääntö=")) {
                 try {

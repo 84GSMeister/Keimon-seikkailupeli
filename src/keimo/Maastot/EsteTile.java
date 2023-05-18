@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 
 public class EsteTile extends Maasto{
 
+    @Override
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new String[4];
@@ -24,6 +25,7 @@ public class EsteTile extends Maasto{
         for (String ominaisuus : ominaisuusLista) {
             if (ominaisuus.startsWith("kuva=")) {
                 this.tiedostonNimi = ominaisuus.substring(5);
+                this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
             }
             else if (ominaisuus.startsWith("kääntö=")) {
                 try {

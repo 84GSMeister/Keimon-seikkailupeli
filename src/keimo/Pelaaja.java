@@ -24,6 +24,7 @@ public class Pelaaja {
     static int reaktioAika = 0;
     static boolean vihollisenKohdalla = false;
     static Vihollinen vihollinenKohdalla;
+    public static Vihollinen viimeisinOsunutVihollinen;
 
     /**
      * Valitse tila, jonka mukaan kuvake valitaan grafiikkasäikeessä sekä
@@ -393,7 +394,7 @@ public class Pelaaja {
 
     static void vahingoita(int määrä) {
         hp -= määrä;
-        kuolemattomuusAika = 60;
+        kuolemattomuusAika = 120;
         ÄänentoistamisSäie.toistaSFX("pelaaja_damage");
         PääIkkuna.ylätekstiHP.setText("HP: " + hp);
         päivitäTerveys();
@@ -441,5 +442,9 @@ public class Pelaaja {
         sijX = 0;
         sijY = 0;
         hitbox.setLocation(0, 0);
+        pelaajaLiikkuuVasen = false;
+        pelaajaLiikkuuOikea = false;
+        pelaajaLiikkuuAlas = false;
+        pelaajaLiikkuuYlös = false;
     }
 }

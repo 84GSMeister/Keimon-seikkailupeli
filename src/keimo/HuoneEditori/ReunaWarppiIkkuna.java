@@ -106,7 +106,16 @@ public class ReunaWarppiIkkuna {
         huoneValikko = luoHuoneenNimiLista();
         paneli.add(huoneValikko);
         if (valitseViimeisinLuotuHuone) {
-            huoneValikko.setSelectedIndex(viimeisimmänHuoneenNro);
+            int comboBoxinIndeksi = 0;
+            for (int i = 0; i < huoneValikko.getItemCount(); i++) {
+                //System.out.println(huoneValikko.getItemAt(i).substring(huoneValikko.getItemAt(i).indexOf("(")+1, huoneValikko.getItemAt(i).indexOf(")")));
+                int haettavaHuoneenId = Integer.parseInt(huoneValikko.getItemAt(i).substring(huoneValikko.getItemAt(i).indexOf("(")+1, huoneValikko.getItemAt(i).indexOf(")")));
+                if (haettavaHuoneenId == viimeisimmänHuoneenNro) {
+                    comboBoxinIndeksi = i;
+                    break;
+                }
+            }
+            huoneValikko.setSelectedIndex(comboBoxinIndeksi);
             warppiEnabloitu.setSelected(valitseViimeisinLuotuHuone);
         }
         else {
@@ -134,8 +143,9 @@ public class ReunaWarppiIkkuna {
         okNappi.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
                 if (!SwingUtilities.isRightMouseButton(e)) {
-                    hyväksyMuutokset(suunta, warppiEnabloitu.isSelected(), huoneValikko.getSelectedIndex());
-                    JOptionPane.showMessageDialog(null, "Huoneesta " + HuoneEditoriIkkuna.muokattavaHuone + " on nyt " + suunta + " warp huoneeseen " + huoneValikko.getSelectedIndex() + "\n\nTODO: Aseta automaattisesti warp myös takaisinpäin", "Warppi asetettu", JOptionPane.INFORMATION_MESSAGE);
+                    int asetettavaHuone = Integer.parseInt(huoneValikko.getSelectedItem().toString().substring(huoneValikko.getSelectedItem().toString().indexOf("(")+1, huoneValikko.getSelectedItem().toString().indexOf(")")));
+                    hyväksyMuutokset(suunta, warppiEnabloitu.isSelected(), asetettavaHuone);
+                    JOptionPane.showMessageDialog(null, "Huoneesta " + HuoneEditoriIkkuna.muokattavaHuone + " on nyt " + suunta + " warp huoneeseen " + asetettavaHuone + "\n\nTODO: Aseta automaattisesti warp myös takaisinpäin", "Warppi asetettu", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });

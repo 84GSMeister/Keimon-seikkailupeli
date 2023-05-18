@@ -11,30 +11,46 @@ import java.awt.event.*;
 public class AsetusIkkuna {
     
     static final int ikkunanLeveys = 400;
-    static final int ikkunanKorkeus = 190;
+    static final int ikkunanKorkeus = 220;
     static JFrame ikkuna;
-    static String[] tekstit = {"Vaikeusaste", "Musiikki päällä", "Valitse Musiikki", "Tavoite-FPS"};
+    static String[] tekstit = {"Vaikeusaste", "Musiikki päällä", "Valitse Musiikki", "Tavoite-FPS", "Tavoite-Tickrate"};
     static int valintojenMäärä = tekstit.length;
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
-    static String[] musiikkiVaihtoehdot = {"Udo haukkuu: Mario 2", "Udo haukkuu: Running in the 90s", "Udo haukkuu: Nyan Cat", "Udo haukkuu: Mario World Athletic", "Udo haukkuu: Never Gonna Give You Up", "Udo haukkuu: Disco Band", "Udo haukkuu: Wide President theme"};
+    //static String[] musiikkiVaihtoehdot = {"Udo haukkuu: Mario 2", "Udo haukkuu: Running in the 90s", "Udo haukkuu: Nyan Cat", "Udo haukkuu: Mario World Athletic", "Udo haukkuu: Never Gonna Give You Up", "Udo haukkuu: Disco Band", "Udo haukkuu: Wide President theme"};
     static int musiikkiValinta;
     static JComboBox<Object> musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
     static int vaikeusAste, tavoiteFPS;
-    static JTextField vaikeusasteTekstikenttä, tavoiteFPSTekstikenttä;
+    static JTextField vaikeusasteTekstikenttä, tavoiteFPSTekstikenttä, tavoiteTickrateTekstikenttä;
 
     public static void tarkistaArvot() {
         try {
             boolean musiikkiPäällä = musiikkiPäälläCheckbox.isSelected();
             PelinAsetukset.vaikeusAste = Integer.parseInt(vaikeusasteTekstikenttä.getText());
-            PelinAsetukset.tavoiteFPS = Integer.parseInt(tavoiteFPSTekstikenttä.getText()) + 1;
+            PelinAsetukset.tavoiteFPS = Integer.parseInt(tavoiteFPSTekstikenttä.getText());
+            PelinAsetukset.tavoiteTickrate = Integer.parseInt(tavoiteTickrateTekstikenttä.getText());
             if (PelinAsetukset.vaikeusAste < 0) {
                 JOptionPane.showMessageDialog(null, "Vaikeusaste ei voi olla negatiivinen!\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
             }
+            else if (PelinAsetukset.vaikeusAste > 30) {
+                JOptionPane.showMessageDialog(null, "Maksimivaikeusaste on 30.\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (PelinAsetukset.tavoiteFPS > 1000) {
+                JOptionPane.showMessageDialog(null, "Maksimi-tavoite-FPS on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            }
             else if (PelinAsetukset.tavoiteFPS < 1) {
-                JOptionPane.showMessageDialog(null, "Tavoite-FPS ei voi olla negatiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tavoite-FPS täytyy olla positiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (PelinAsetukset.tavoiteTickrate > 1000) {
+                JOptionPane.showMessageDialog(null, "Maksimi-tavoite-tickrate on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (PelinAsetukset.tavoiteTickrate < 1) {
+                JOptionPane.showMessageDialog(null, "Tavoite-tickrate taytyy olla positiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                asetaArvot(musiikkiPäällä);
+                int hyväksyUudelleenkäynnistys = CustomViestiIkkunat.UudelleenkäynnistäAsetukset.showDialog();
+                if (hyväksyUudelleenkäynnistys == JOptionPane.YES_OPTION) {
+                    asetaArvot(musiikkiPäällä);
+                }
             }
         }
         catch (NumberFormatException e) {
@@ -80,9 +96,18 @@ public class AsetusIkkuna {
         teksti3.setLabelFor(tavoiteFPSTekstikenttä);
         teksti3.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
         paneli.add(teksti3);
-        tavoiteFPSTekstikenttä.setText("" + (PelinAsetukset.tavoiteFPS -1));
+        tavoiteFPSTekstikenttä.setText("" + (PelinAsetukset.tavoiteFPS));
         tavoiteFPSTekstikenttä.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
         paneli.add(tavoiteFPSTekstikenttä);
+
+        tavoiteTickrateTekstikenttä = new JTextField();
+        JLabel teksti4 = new JLabel(tekstit[4], JLabel.TRAILING);
+        teksti4.setLabelFor(tavoiteTickrateTekstikenttä);
+        teksti4.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
+        paneli.add(teksti4);
+        tavoiteTickrateTekstikenttä.setText("" + (PelinAsetukset.tavoiteTickrate));
+        tavoiteTickrateTekstikenttä.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
+        paneli.add(tavoiteTickrateTekstikenttä);
 
         
 
@@ -107,7 +132,7 @@ public class AsetusIkkuna {
         paneli.add(okNappi);
         paneli.add(cancelNappi);
 
-        SpringUtilities.makeCompactGrid(paneli, 5, 2, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(paneli, 6, 2, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Esatukset");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
@@ -115,7 +140,7 @@ public class AsetusIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ikkuna.setLocationRelativeTo(null);
+        ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();

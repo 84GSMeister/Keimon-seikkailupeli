@@ -4,6 +4,7 @@ import keimo.*;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.locks.LockSupport;
+import javax.swing.Timer;
 
 public class AikaSäie extends Thread {
 
@@ -11,68 +12,94 @@ public class AikaSäie extends Thread {
     public static double kulunutAika = 0;
     static int kulunutAikaMin = 0;
     static double kulunutAikaSek = 0;
+    static double aikaErotusMs = 0;
 
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
-    /**
-    public static void odotaMillisekunteja(long millisekunnit) {
-        
-        long waitUntil = System.nanoTime() + (millisekunnit * 1_000_000);
-        
-        kulunutAika += 0.01;
-        kulunutAikaSek = kulunutAika % 60;
-        kulunutAikaMin = (int)kulunutAika / 60;
+    static Timer tarkistaTarviikoPeliUudelleenkäynnistää = new Timer(100, e -> {
+        if (PääIkkuna.uusiIkkuna) {
+            System.out.println("uusi peli");
+            Peli.suljePeli();
+            PääIkkuna.uusiIkkuna = false;
+            Peli.uusiHuone = 0;
+            Peli.huoneVaihdettava = true;
+            Peli.uusiPeli();
+        }
+    });
 
-        PääIkkuna.ylätekstiAika.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
-        
-        while(waitUntil > System.nanoTime()){
-            ;
-        }
-    }
-    class AjastimenPäivittäjä extends SwingWorker<Void, JLabel> {
-        @Override
-        protected Void doInBackground() {
-        
-            while (!isCancelled()) {
-                odotaMillisekunteja(10);
-            //publish(PääIkkuna.päivitäIkkuna());
-            return null;
-        }
-    }
-    */
 
     static void ajastin() {
-        
+
+        final double PÄIVITYSAIKA = 1000000000 / PelinAsetukset.tavoiteTickrate;
+        final double TAVOITE_TICKRATE = PelinAsetukset.tavoiteTickrate;
+        final double TAVOITE_PÄIVITYSAIKA = 1000000000 / TAVOITE_TICKRATE;
+        //At the very most we will update the game this many times before a new render.
+        //If you're worried about visual hitches more than perfect timing, set this to 1.
+        final int MAX_UPDATES_BEFORE_RENDER = 5;
+        //We will need the last update time.
+        double lastUpdateTime = System.nanoTime();
+        //Store the last time we rendered.
+        double lastRenderTime = System.nanoTime();
+
         while (ajastinKäynnissä) {
-            long alkuAika = System.nanoTime();
-            LockSupport.parkNanos(2_000_000);
-            Peli.globaaliAika++;
+            double alkuAika = System.nanoTime();
+            double now = System.nanoTime();
+            int updateCount = 0;
+
+            //Do as many game updates as we need to, potentially playing catchup.
+            while (now - lastUpdateTime > PÄIVITYSAIKA && updateCount < MAX_UPDATES_BEFORE_RENDER) {
+                lastUpdateTime += PÄIVITYSAIKA;
+                updateCount++;
+            }
+
+            //If for some reason an update takes forever, we don't want to do an insane number of catchups.
+            //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
+            if (now - lastUpdateTime > PÄIVITYSAIKA) {
+                lastUpdateTime = now - PÄIVITYSAIKA;
+            }
+
+            Peli.globaaliTickit++;
+            
             if (Peli.peliKäynnissä && !Peli.pause) {
                 Peli.pelaajanLiike();
-                if (Peli.globaaliAika % 20 == 0) {
-                    Peli.pelinKulku();
+                Peli.pelinKulku();
+                PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
+                if (Peli.globaaliTickit % 2 == 0) {
+                    PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
                 }
-            // if (Peli.globaaliAika % 20 == 10) {
-            //     Peli.taustaToimet();
-            // }
-            if (Peli.globaaliAika % 20 == 15) {
-                PeliKenttäMetodit.suoritaPelikenttäMetodit();
             }
-            if (Peli.globaaliAika % 2 == 0) {
-                PeliKenttäMetodit.suoritaPelikenttäMetoditNopea();
+            lastRenderTime = now;
+
+            //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
+            while (now - lastRenderTime < TAVOITE_PÄIVITYSAIKA && now - lastUpdateTime < PÄIVITYSAIKA) {
+                //allow the threading system to play threads that are waiting to run.
+                Thread.yield();
+
+                //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
+                //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
+                //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
+                //On my OS it does not unpuase the game if i take this away
+                try {
+                    Thread.sleep(1);
+                    //LockSupport.parkNanos(1_000_000);
+                }
+                catch (Exception e) {
+
+                }
+
+                now = System.nanoTime();
             }
-            long loppuAika = System.nanoTime();
-            long aikaErotusNs = loppuAika - alkuAika;
-            if (aikaErotusNs < 10_000_000) {
-                LockSupport.parkNanos(15_000_000);
-            }
-        }
-        //System.out.println(Peli.globaaliAika);
-        }
+            double loppuAika = System.nanoTime();
+            double aikaErotusNs = loppuAika - alkuAika;
+            aikaErotusMs = (aikaErotusNs/1_000_100f);
+        }   
     }
 
     @Override
     public void run() {
+        if (!tarkistaTarviikoPeliUudelleenkäynnistää.isRunning()) {
+            tarkistaTarviikoPeliUudelleenkäynnistää.start();
+        }
         ajastin();
     }
 }

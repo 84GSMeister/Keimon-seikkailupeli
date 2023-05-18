@@ -42,6 +42,7 @@ public class Suklaalevy extends Ruoka {
     public Suklaalevy(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Suklaalevy";
+        super.katsomisTeksti = "Voisin syödä tämän.";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/suklaalevy.png");
         super.heal = 2;
         super.käyttö = true;

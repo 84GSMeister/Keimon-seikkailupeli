@@ -3,6 +3,7 @@ package keimo.Kenttäkohteet;
 import keimo.Pelaaja;
 import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
+import keimo.Pelaaja.KeimonState;
 
 import javax.swing.ImageIcon;
 
@@ -11,32 +12,29 @@ public class Juhani extends NPC_KenttäKohde {
     @Override
     public String kokeileEsinettä(Esine e) {
         if (e instanceof Pesäpallomaila) {
+            TarkistettavatArvot.pelinLoppuSyy = TarkistettavatArvot.PelinLopetukset.KUOLEMA_JUHANI;
+            Pelaaja.hp = 0;
+            Pelaaja.keimonState = KeimonState.KUOLLUT;
             return "...";
         }
-        else if (e instanceof Seteli) {
-            return "<html><p>-Njuu. Kyllä tää fiitti nyt siltä näyttää, että sinä annat minulle yhden massin, ja minä annan sinulle yhden huumeen.</p></html>";
+        else if (Pelaaja.raha >= 20) {
+            if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
+                Pelaaja.annaEsine(new Huume(true, 0, 0));
+                Pelaaja.raha -= 20;
+                return "<html><p>-Njuu. Kyllä tää fiitti nyt siltä näyttää, että sinä annat minulle yhden massin, ja minä annan sinulle yhden huumeen.</p></html>";
+            }
+            else {
+                return "<html><p>(Tavaraluettelo on täynnä!)</p></html>";
+            }
         }
         else {
-            return super.kokeileEsinettä(e);
+            return katsomisTeksti;
         }
     }
 
     @Override
-    public Esine suoritaMuutoksetEsineelle(Esine e) {
-        if (e instanceof Seteli) {
-            e = annaHuume();
-            PääIkkuna.hudTeksti.setText("Juhani: -Njuu. Kyllä tää fiitti nyt siltä näyttää, että sinä annat minulle yhden massin, ja minä annan sinulle yhden huumeen.");
-            return e;
-        }
-        else if (e instanceof Pesäpallomaila) {
-            TarkistettavatArvot.pelinLoppuSyy = TarkistettavatArvot.PelinLopetukset.KUOLEMA_JUHANI;
-            Pelaaja.hp = 0;
-            return e;
-        }
-        else {
-            PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
-            return e;
-        }
+    public void näytäDialogi(Esine e) {
+        PääIkkuna.avaaDialogi(this.annaDialogiKuvake(), this.kokeileEsinettä(e), this.annaNimi());
     }
 
     @Override
@@ -68,15 +66,12 @@ public class Juhani extends NPC_KenttäKohde {
                 return "Juhani";
         }
     }
-
-    public Huume annaHuume() {
-        return new Huume(false, 0, 0);
-    }
     
     public Juhani(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");
+        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani_dialogi.png");
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
         super.asetaTiedot();
     }

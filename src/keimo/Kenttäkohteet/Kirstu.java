@@ -2,6 +2,7 @@ package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
 import keimo.PääIkkuna;
+import keimo.TavoiteLista;
 
 public class Kirstu extends Kiintopiste {
     
@@ -9,13 +10,16 @@ public class Kirstu extends Kiintopiste {
 
     @Override
     public String kokeileEsinettä(Esine e) {
-        if (tavoiteSuoritettu) {
+        if (super.tavoiteSuoritettu) {
             return "Kirstu on jo avattu.";
         }
         else {
-            if (e instanceof Avain) {
-                if (sisältö != null) {
-                    return "Kirstu avattiin. Sait uuden esineen: " + sisältö.annaNimi();
+            if (e == null) {
+                return katso();
+            }
+            else if (e instanceof Avain) {
+                if (this.sisältö != null) {
+                    return "Kirstu avattiin. Sait uuden esineen: " + this.sisältö.annaNimi();
                 }
                 else {
                     return "Kirstu avattiin, mutta se on tyhjä.";
@@ -29,7 +33,7 @@ public class Kirstu extends Kiintopiste {
 
     @Override
     public Esine suoritaMuutoksetEsineelle(Esine e) {
-        if (tavoiteSuoritettu) {
+        if (super.tavoiteSuoritettu) {
             return e;
         }
         else {
@@ -37,22 +41,25 @@ public class Kirstu extends Kiintopiste {
                 avaa();
                 return sisältö;
             }
-            else {
+            else if (e != null) {
                 if (!e.sopiiKäytettäväksi.contains(this.nimi)) {
                     PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
                 }
                 return e;
+            }
+            else {
+                return null;
             }
         }
     }
 
     @Override
     public String katso(){
-        if (tavoiteSuoritettu) {    
+        if (super.tavoiteSuoritettu) {    
             return "Avattu kirstu";
         }
         else {
-            return "Kirstu on lukittu. Löytyisiköhän jostain siihen avain?";
+            return "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
         }
     }
 
@@ -93,9 +100,10 @@ public class Kirstu extends Kiintopiste {
     }
 
     public void avaa() {
-        this.vuorovaikutus = true;
-        this.tavoiteSuoritettu = true;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
+        super.vuorovaikutus = true;
+        super.tavoiteSuoritettu = true;
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
+        TavoiteLista.tarkistaTavoiteEsine(this.luoSisältö(this.annaSisältö()));
     }
 
     protected Esine luoSisältö(String esineenNimi) {
@@ -132,11 +140,11 @@ public class Kirstu extends Kiintopiste {
     }
 
     public void asetaSisältö(String esineenNimi) {
-        sisältö = luoSisältö(esineenNimi);
+        this.sisältö = luoSisältö(esineenNimi);
     }
 
     public String annaSisältö() {
-        if (sisältö != null) {
+        if (this.sisältö != null) {
             return sisältö.annaNimi();
         }
         else {
@@ -148,6 +156,7 @@ public class Kirstu extends Kiintopiste {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kirstu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu.png");
+        super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
 
         if (ominaisuusLista != null) {
             String esineenNimi = "";

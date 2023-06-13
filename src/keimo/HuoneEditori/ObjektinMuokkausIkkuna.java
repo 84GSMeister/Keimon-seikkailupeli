@@ -3,7 +3,7 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.Ikkunat.*;
 import keimo.Kenttäkohteet.*;
-import keimo.Kenttäkohteet.Warp.Suunta;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Utility.*;
 
 import javax.swing.*;

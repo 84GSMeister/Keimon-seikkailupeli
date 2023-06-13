@@ -2,10 +2,9 @@ package keimo.HuoneEditori;
 
 import keimo.*;
 import keimo.Kenttäkohteet.*;
-import keimo.Kenttäkohteet.Warp.Suunta;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
-import keimo.Utility.KäännettäväKuvake.Peilaus;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.NPCt.*;
 import keimo.NPCt.Vihollinen.LiikeTapa;
@@ -64,9 +63,9 @@ public class HuoneEditoriIkkuna {
     static JPanel yläPaneeli, yläPaneelinYläosa, YläPaneelinAlaosa, yläVasenPaneeli, yläOikeaPaneeli;
     static JButton hyväksyNappi;
     static JLabel huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel;
-    static JTextField huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä;
+    static JTextField huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä, huoneenDialogiValintaTekstiKenttä;
     static JButton huoneenNimiTekstiKenttäNappi, huoneenAlueTekstiKenttäNappi, huoneenKuvaTekstiKenttäNappi, huoneenDialogiTekstiKenttäNappi;
-    static JButton huoneenKuvaValintaNappi, huoneenDialogiValintaNappi;
+    static JButton huoneenKuvaValintaNappi;
     static boolean ctrlPainettu = false;
     static String[] kopioituOminaisuusLista;
     static String kopioituObjektinNimi;
@@ -78,7 +77,7 @@ public class HuoneEditoriIkkuna {
     static JLabel huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppa", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Oviruutu", "Seteli", "Suklaalevy", "Vesiämpäri", "Ämpärikone"};
+    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppa", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Pulloautomaatti", "Oviruutu", "Seteli", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
     static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Seteli", "Suklaalevy", "Vesiämpäri"};
     static String[] npcNimiLista = {"Pikkuvihu", "Pahavihu"};
     static JComboBox<String> esineValikko;
@@ -358,30 +357,30 @@ public class HuoneEditoriIkkuna {
         });
         huoneenDialogiTekstiKenttäLabel = new JLabel("Huoneen alkudialogi: ");
         huoneenDialogiTekstiKenttäLabel.setToolTipText("Alkudialogi/tarinaeditori mahdollisesti tulossa myöhemmin!");
-        huoneenDialogiValintaNappi = new JButton("Valitse teksti");
-        huoneenDialogiValintaNappi.setEnabled(false);
-        huoneenDialogiValintaNappi.setToolTipText("Alkudialogi/tarinaeditori mahdollisesti tulossa myöhemmin!");
-        huoneenDialogiValintaNappi.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    JFileChooser tiedostoSelain = new JFileChooser(".\\");
-                    FileNameExtensionFilter tiedostoSuodatin = new FileNameExtensionFilter("Tekstitiedosto (.txt)", "txt");
-                    tiedostoSelain.setFileFilter(tiedostoSuodatin);
-                    int valinta = tiedostoSelain.showOpenDialog(ikkuna);
-                    if (valinta == JFileChooser.APPROVE_OPTION) {
-                        File tiedosto = tiedostoSelain.getSelectedFile();
-                        Scanner sc = new Scanner(tiedosto);
-                        while (sc.hasNext()) {
-                            huoneenAlkuDialogiTeksti += sc.next();
-                        }
-                        sc.close();
-                    }
-                }
-                catch (IOException ioe) {
+        huoneenDialogiValintaTekstiKenttä = new JTextField();
+        //huoneenDialogiValintaTekstiKenttä.setEnabled(false);
+        //huoneenDialogiValintaTekstiKenttä.setToolTipText("Alkudialogi/tarinaeditori mahdollisesti tulossa myöhemmin!");
+        // huoneenDialogiValintaTekstiKenttä.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         try {
+        //             JFileChooser tiedostoSelain = new JFileChooser(".\\");
+        //             FileNameExtensionFilter tiedostoSuodatin = new FileNameExtensionFilter("Tekstitiedosto (.txt)", "txt");
+        //             tiedostoSelain.setFileFilter(tiedostoSuodatin);
+        //             int valinta = tiedostoSelain.showOpenDialog(ikkuna);
+        //             if (valinta == JFileChooser.APPROVE_OPTION) {
+        //                 File tiedosto = tiedostoSelain.getSelectedFile();
+        //                 Scanner sc = new Scanner(tiedosto);
+        //                 while (sc.hasNext()) {
+        //                     huoneenAlkuDialogiTeksti += sc.next();
+        //                 }
+        //                 sc.close();
+        //             }
+        //         }
+        //         catch (IOException ioe) {
 
-                }
-            }
-        });
+        //         }
+        //     }
+        // });
 
         yläVasenPaneeli = new JPanel();
         yläVasenPaneeli.setLayout(new SpringLayout());
@@ -393,7 +392,7 @@ public class HuoneEditoriIkkuna {
         yläVasenPaneeli.add(huoneenAlueTekstiKenttäLabel);
         yläVasenPaneeli.add(huoneenAlueTekstiKenttä);
         yläVasenPaneeli.add(huoneenDialogiTekstiKenttäLabel);
-        yläVasenPaneeli.add(huoneenDialogiValintaNappi);
+        yläVasenPaneeli.add(huoneenDialogiValintaTekstiKenttä);
         SpringUtilities.makeCompactGrid(yläVasenPaneeli, 2, 4, 0, 0, 6, 6);
 
         hyväksyNappi = new JButton("Hyväksy muutokset");
@@ -401,7 +400,9 @@ public class HuoneEditoriIkkuna {
             public void actionPerformed(ActionEvent e) {
                 huoneenNimi = huoneenNimiTekstiKenttä.getText();
                 huoneenAlue = huoneenAlueTekstiKenttä.getText();
+                huoneenAlkuDialogiTeksti = huoneenDialogiValintaTekstiKenttä.getText();
                 huoneKartta.get(muokattavaHuone).päivitäNimiJaAlue(huoneenNimi, huoneenAlue);
+                huoneKartta.get(muokattavaHuone).päivitäAlkudialogi(huoneenAlkuDialogiTeksti);
                 huoneKartta.get(muokattavaHuone).päivitäHuoneenKenttäSisältö(objektiKenttä);
                 huoneKartta.get(muokattavaHuone).päivitäHuoneenMaastoSisältö(maastoKenttä);
                 huoneKartta.get(muokattavaHuone).päivitäHuoneenNPCSisältö(npcKenttä);
@@ -769,9 +770,11 @@ public class HuoneEditoriIkkuna {
         npcKenttä = huoneKartta.get(uusiHuone).annaHuoneenNPCSisältö();
         huoneenNimi = huoneKartta.get(uusiHuone).annaNimi();
         huoneenAlue = huoneKartta.get(uusiHuone).annaAlue();
+        huoneenAlkuDialogiTeksti = huoneKartta.get(uusiHuone).annaTarinaRuudunTunniste();
         huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
         huoneenNimiTekstiKenttä.setText(huoneenNimi);
         huoneenAlueTekstiKenttä.setText(huoneenAlue);
+        huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialogiTeksti);
         huoneenTaustakuvaPolku = huoneKartta.get(uusiHuone).annaTaustanPolku();
         warpVasen = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.VASEN);
         warpVasenHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
@@ -781,6 +784,10 @@ public class HuoneEditoriIkkuna {
         warpAlasHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
         warpYlös = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.YLÖS);
         warpYlösHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
+
+        // for (Huone h : huoneKartta.values()) {
+        //     System.out.println(h.annaTarinaRuudunTunniste());
+        // }
     }
 
     static void asetaUusiHuoneKarttaan(int nykyinenHuone, boolean tyhjennäHuone) {
@@ -803,7 +810,15 @@ public class HuoneEditoriIkkuna {
                 npcKenttäLista.add(n);
             }
         }
-        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10,  huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, false, "alkudialogi"));
+        boolean lataaHuoneenAlkuDialogi = false;
+        if (huoneenAlkuDialogiTeksti == null && huoneenAlkuDialogiTeksti == "") {
+            lataaHuoneenAlkuDialogi = false;
+        }
+        else {
+            lataaHuoneenAlkuDialogi = true;
+        }
+        System.out.println(huoneenAlkuDialogiTeksti);
+        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10,  huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, lataaHuoneenAlkuDialogi, huoneenAlkuDialogiTeksti));
         if (tyhjennäHuone) {
             huoneKartta.get(nykyinenHuone).päivitäReunawarppienTiedot(warpVasen, warpVasenHuoneId, warpOikea, warpOikeaHuoneId, warpAlas, warpAlasHuoneId, warpYlös, warpYlösHuoneId);
             for (int i = 0; i < Peli.kentänKoko; i++) {
@@ -815,8 +830,10 @@ public class HuoneEditoriIkkuna {
             }
             huoneenNimi = "";
             huoneenAlue = "";
+            huoneenAlkuDialogiTeksti = "";
             huoneenNimiTekstiKenttä.setText(huoneenNimi);
             huoneenAlueTekstiKenttä.setText(huoneenAlue);
+            huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialogiTeksti);
             huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
         }
     }
@@ -1047,6 +1064,10 @@ public class HuoneEditoriIkkuna {
                     objektiKenttä[sijX][sijY] = new Pesäpallomaila(true, sijX, sijY);
                     break;
 
+                case "Pulloautomaatti":
+                    objektiKenttä[sijX][sijY] = new Pulloautomaatti(true, sijX, sijY);
+                    break;
+
                 case "Oviruutu":
                     objektiKenttä[sijX][sijY] = new Oviruutu(sijX, sijY, null);
                     break;
@@ -1057,6 +1078,10 @@ public class HuoneEditoriIkkuna {
 
                 case "Suklaalevy":
                     objektiKenttä[sijX][sijY] = new Suklaalevy(true, sijX, sijY);
+                    break;
+
+                case "Sänky":
+                    objektiKenttä[sijX][sijY] = new Sänky(true, sijX, sijY);
                     break;
 
                 case "Vesiämpäri":
@@ -1754,7 +1779,12 @@ public class HuoneEditoriIkkuna {
         JMenuItem asetaWarp = new JMenuItem("Valitse warpin kohde");
         asetaWarp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ReunaWarppiIkkuna.luoReunaWarppiIkkuna(suunta, false, 0);
+                try {
+                    ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, suunta, false, 0);
+                }
+                catch (IndexOutOfBoundsException ioobe) {
+                    ReunaWarppiIkkuna.luoReunaWarppiIkkuna(false, suunta, false, 0);
+                }
             }
         });
         JMenuItem luoUusiHuone = new JMenuItem("Luo uusi huone");
@@ -1987,7 +2017,7 @@ public class HuoneEditoriIkkuna {
                 e.printStackTrace(pw);
                 String sStackTrace = sw.toString();
                 System.out.println(sStackTrace);
-                String viesti = "Yritettiin ladata kuvaa objektille, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+                String viesti = "Yritettiin ladata kuvaa maastolle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Jos tämä viesti tulee toistuvasti 'jatka' -painamisen jälkeen, ilmoitathan kehittäjille.\n\n" + sStackTrace;
                 String otsikko = "Virhe ruudunpäivityksessä";
                 int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.showDialog(viesti, otsikko);
                 switch (virheenJälkeenValinta) {
@@ -2037,7 +2067,7 @@ public class HuoneEditoriIkkuna {
                 e.printStackTrace(pw);
                 String sStackTrace = sw.toString();
                 System.out.println(sStackTrace);
-                String viesti = "Yritettiin ladata kuvaa objektille, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+                String viesti = "Yritettiin ladata kuvaa npc:lle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
                 String otsikko = "Virhe ruudunpäivityksessä";
                 int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.showDialog(viesti, otsikko);
                 switch (virheenJälkeenValinta) {

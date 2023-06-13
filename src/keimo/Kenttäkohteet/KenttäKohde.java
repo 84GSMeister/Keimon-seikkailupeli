@@ -3,10 +3,9 @@ package keimo.Kenttäkohteet;
 import keimo.PääIkkuna;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import java.awt.image.*;
 
-public abstract class KenttäKohde {
+public abstract class KenttäKohde implements Käännettävä {
     
     boolean määritettySijainti = false;
     int sijX;
@@ -45,19 +44,13 @@ public abstract class KenttäKohde {
         return mjono;
     }
 
-    protected enum Suunta {
-        VASEN,
-        OIKEA,
-        YLÖS,
-        ALAS;
-    }
-
     Suunta suunta;
     
     BufferedImage käännettäväKuvake;
     
     protected String nimi;
     protected Icon kuvake;
+    protected Icon dialogiKuvake;
     public boolean tavoiteSuoritettu = false;
 
     boolean vaatiiPäivityksen = true;
@@ -72,7 +65,9 @@ public abstract class KenttäKohde {
     }
 
     public Esine suoritaMuutoksetEsineelle(Esine e) {
-        PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
+        if (e != null) {
+            PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
+        }
         return e;
     }
 
@@ -86,6 +81,19 @@ public abstract class KenttäKohde {
 
     public Icon annaKuvake() {
         return kuvake;
+    }
+
+    public Icon annaDialogiKuvake() {
+        if (dialogiKuvake == null) {
+            return kuvake;
+        }
+        else {
+            return dialogiKuvake;
+        }
+    }
+
+    public void näytäDialogi(Esine e) {
+        PääIkkuna.avaaDialogi(kuvake, katsomisTeksti, nimi);
     }
 
     String tiedot = "";
@@ -140,14 +148,6 @@ public abstract class KenttäKohde {
     
     public String annaTiedot() {
         return tiedot;
-    }
-
-    //void asetaKuvake(ImageIcon kuvake, Suunta suunta) {
-    //    this.kuvake = rotateImageIcon(kuvake, suunta);
-    //}
-
-    void asetaKuvake(ImageIcon kuvake, Suunta suunta) {
-        this.kuvake = kuvake;
     }
 
     public KenttäKohde(boolean määritettySijainti, int sijX, int sijY) {

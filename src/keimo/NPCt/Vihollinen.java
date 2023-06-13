@@ -23,16 +23,15 @@ public abstract class Vihollinen extends NPC{
     
     public int liikkeenPituus = 20;
     public int liikuVielä = 20;
-    public String[] liikeSuuntaLoopNeliöMyötäpäivään = {"ylös", "oikea", "alas", "vasen"};
-    public String[] liikeSuuntaLoopNeliöVastapäivään = {"ylös", "vasen", "alas", "oikea"};
-    public String[] liikeSuuntaLoopVasenOikea = {"vasen", "oikea"};
-    public String[] liikeSuuntaLoopYlösAlas = {"ylös", "alas"};
+    public Suunta[] liikeSuuntaLoopNeliöMyötäpäivään = {Suunta.YLÖS, Suunta.OIKEA, Suunta.ALAS, Suunta.VASEN};
+    public Suunta[] liikeSuuntaLoopNeliöVastapäivään = {Suunta.YLÖS, Suunta.VASEN, Suunta.ALAS, Suunta.OIKEA};
+    public Suunta[] liikeSuuntaLoopVasenOikea = {Suunta.VASEN, Suunta.OIKEA};
+    public Suunta[] liikeSuuntaLoopYlösAlas = {Suunta.YLÖS, Suunta.ALAS};
     public int liikeLoopinVaihe = 0;
     public LiikeTapa liikeTapa = LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN;
 
     
-    boolean kukistettu = false;
-
+    protected boolean kukistettu = false;
     public boolean onkoKukistettu() {
         return kukistettu;
     }

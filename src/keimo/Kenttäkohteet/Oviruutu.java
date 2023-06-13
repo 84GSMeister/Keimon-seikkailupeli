@@ -77,24 +77,26 @@ public class Oviruutu extends Warp {
 
         this.suunta = Suunta.VASEN;
 
-        for (String ominaisuus : ominaisuusLista) {
-            if (ominaisuus.startsWith("kohdehuone=")) {
-                this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
-            }
-            else if (ominaisuus.startsWith("kohderuutuX=")) {
-                this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
-            }
-            else if (ominaisuus.startsWith("kohderuutuY=")) {
-                this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
-            }
-            else if (ominaisuus.startsWith("suunta=")) {
-                String suuntaString = ominaisuus.substring(7);
-                switch (suuntaString) {
-                    case "vasen", "VASEN": this.suunta = Suunta.VASEN; break;
-                    case "oikea", "OIKEA": this.suunta = Suunta.OIKEA; break;
-                    case "ylös", "YLÖS": this.suunta = Suunta.YLÖS; break;
-                    case "alas", "ALAS": this.suunta = Suunta.ALAS; break;
-                    default: this.suunta = Suunta.VASEN; break;
+        if (ominaisuusLista != null) {
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("kohdehuone=")) {
+                    this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("kohderuutuX=")) {
+                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("kohderuutuY=")) {
+                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("suunta=")) {
+                    String suuntaString = ominaisuus.substring(7);
+                    switch (suuntaString) {
+                        case "vasen", "VASEN": this.suunta = Suunta.VASEN; break;
+                        case "oikea", "OIKEA": this.suunta = Suunta.OIKEA; break;
+                        case "ylös", "YLÖS": this.suunta = Suunta.YLÖS; break;
+                        case "alas", "ALAS": this.suunta = Suunta.ALAS; break;
+                        default: this.suunta = Suunta.VASEN; break;
+                    }
                 }
             }
         }

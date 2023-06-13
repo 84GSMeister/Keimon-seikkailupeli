@@ -1,11 +1,14 @@
 package keimo.NPCt;
+
 import keimo.Peli;
-import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
+import keimo.Kenttäkohteet.Käännettävä;
+import keimo.Ruudut.PeliRuutu;
+
 import java.awt.Rectangle;
 import javax.swing.*;
 
-public abstract class NPC {
+public abstract class NPC implements Käännettävä{
     
     public int id = 0;
     boolean määritettySijainti = true;
@@ -13,7 +16,7 @@ public abstract class NPC {
     int sijY;
     int alkuSijX;
     int alkuSijY;
-    public Rectangle hitbox = new Rectangle(0, 0, PääIkkuna.pelaajanKokoPx, PääIkkuna.pelaajanKokoPx);
+    public Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
     protected int hp;
     public ImageIcon kuvake;
     String nimi = "";
@@ -92,88 +95,29 @@ public abstract class NPC {
         OIKEA;
     }
 
-    boolean päivitäSijainti(String sij) {
-        int sijXInt;
-        int sijYInt;
-        boolean NPCSiirrettiin = false;
-
-        try {
-            String sijXString = sij.substring(0, sij.indexOf(","));
-            String sijYString = sij.substring(sij.indexOf(",") + 1);
-
-            sijXInt = Integer.parseInt(sijXString);
-            sijYInt = Integer.parseInt(sijYString);
-
-            if (sijXInt < 0 || sijXInt > 9 || sijYInt < 0 || sijYInt > 9) {
-                System.out.println("Kentän ulkopuolella! Sallitut arvot ovat 0-9");
-                NPCSiirrettiin = false;
-            }
-            else {
-                this.sijX = sijXInt;
-                this.sijY = sijYInt;
-                System.out.println("Pelaaja siirrettiin sijaintiin (" + sijX + ", " + sijY + ")");
-                NPCSiirrettiin = true;
-            }
-            
-        }
-        catch (NumberFormatException e) {
-            System.out.println("Virheellinen syöte. Syötä x- ja y-koordinaatit pilkulla erotettuina ilman välilyöntiä.");
-            NPCSiirrettiin = false;
-        }
-        catch (NullPointerException e) {
-            System.out.println("Virheellinen syöte. Syötä x- ja y-koordinaatit pilkulla erotettuina ilman välilyöntiä.");
-            NPCSiirrettiin = false;
-        }
-        catch (StringIndexOutOfBoundsException e) {
-            System.out.println("Virheellinen syöte. Syötä x- ja y-koordinaatit pilkulla erotettuina ilman välilyöntiä.");
-            NPCSiirrettiin = false;
-        }
-        return NPCSiirrettiin;
-    }
-
-    boolean siirrä(String suunta) {
+    private boolean siirrä(Suunta suunta) {
         boolean NPCSiirtyi = false;
         switch (suunta) {
-            case "vasen":
-                // if (sijX > 0) {
-                //     sijX--;
-                // }
+            case VASEN:
                 if (hitbox.getMinX() > Peli.kentänAlaraja) {
-                    //sijX_PX_vy -= 8;
-                    //sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
                     hitbox.setLocation((int)hitbox.getMinX() - 8, (int)hitbox.getMinY());
                     NPCSiirtyi = true;
                 }
                 break;
-            case "oikea":
-                // if (sijX < Peli.kentänKoko -1) {
-                //     sijX++;
-                // }
-                if (hitbox.getMaxX() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
-                    //sijX_PX_vy += 8;
-                    //sijX_PX_oa = sijX_PX_vy + PääIkkuna.pelaajanKokoPx;
+            case OIKEA:
+                if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                     hitbox.setLocation((int)hitbox.getMinX() + 8, (int)hitbox.getMinY());
                     NPCSiirtyi = true;
                 }
                 break;
-            case "ylös":
-                // if (sijY < Peli.kentänKoko -1) {
-                //     sijY++;
-                // }
+            case YLÖS:
                 if (hitbox.getMinY() > Peli.kentänAlaraja) {
-                    //sijY_PX_vy -= 8;
-                    //sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
                     hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() - 8);
                     NPCSiirtyi = true;
                 }
                 break;
-            case "alas":
-                // if (sijY > 0) {
-                //     sijY--;
-                // }
-                if (hitbox.getMaxY() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
-                    //sijY_PX_vy += 8;
-                    //sijY_PX_oa = sijY_PX_vy + PääIkkuna.pelaajanKokoPx;
+            case ALAS:
+                if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                     hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() + 8);
                     NPCSiirtyi = true;
                 }
@@ -181,71 +125,61 @@ public abstract class NPC {
             default:
                 return false;
         }
-        //sijX = ((sijX_PX_vy + sijX_PX_oa) /2 ) / PääIkkuna.pelaajanKokoPx;
-        //sijY = ((sijY_PX_vy + sijY_PX_oa) /2 ) / PääIkkuna.pelaajanKokoPx;
-        sijX = (int)hitbox.getCenterX() / PääIkkuna.pelaajanKokoPx;
-        sijY = (int)hitbox.getCenterY() / PääIkkuna.pelaajanKokoPx;
+        sijX = (int)hitbox.getCenterX() / PeliRuutu.pelaajanKokoPx;
+        sijY = (int)hitbox.getCenterY() / PeliRuutu.pelaajanKokoPx;
         return NPCSiirtyi;
     }
 
-    public boolean kokeileLiikkumista(String suunta) {
+    public boolean kokeileLiikkumista(Suunta suunta) {
         boolean NPCSiirtyi = false;
         try {
             switch (suunta) {
-                case "vasen":
+                case VASEN:
                     this.npcnSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
                     if (hitbox.getMinX() > 0) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY] == null) {
-                            //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                            NPCSiirtyi = siirrä("vasen");
+                            NPCSiirtyi = siirrä(Suunta.VASEN);
                         }
                         else {
                             if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY].estääköLiikkumisen()) {
-                                //pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                                NPCSiirtyi = siirrä("vasen");
+                                NPCSiirtyi = siirrä(Suunta.VASEN);
                             }
                         }
                     }
                     break;
-                case "oikea":
+                case OIKEA:
                     this.npcnSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-                    if (hitbox.getMaxX() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
+                    if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY] == null) {
-                            //pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
-                            NPCSiirtyi = siirrä("oikea");
+                            NPCSiirtyi = siirrä(Suunta.OIKEA);
                         }
                         else {
                             if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY].estääköLiikkumisen()) {
-                                //pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
-                                NPCSiirtyi = siirrä("oikea");
+                                NPCSiirtyi = siirrä(Suunta.OIKEA);
                             }
                         }
                     }
                     break;
-                case "alas":
-                    if (hitbox.getMaxY() < Peli.kentänKoko * PääIkkuna.pelaajanKokoPx) {
+                case ALAS:
+                    if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64] == null) {
-                            //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                            NPCSiirtyi = siirrä("alas");
+                            NPCSiirtyi = siirrä(Suunta.ALAS);
                         }
                         else {
                             if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64].estääköLiikkumisen()) {
-                                //pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                                NPCSiirtyi = siirrä("alas");
+                                NPCSiirtyi = siirrä(Suunta.ALAS);
                             }
                         }
                     }
                     break;
-                case "ylös":
+                case YLÖS:
                     if (hitbox.getMinY() > 0) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64] == null) {
-                            //pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                            NPCSiirtyi = siirrä("ylös");
+                            NPCSiirtyi = siirrä(Suunta.YLÖS);
                         }
                         else {
                             if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64].estääköLiikkumisen()) {
-                                //pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                                NPCSiirtyi = siirrä("ylös");
+                                NPCSiirtyi = siirrä(Suunta.YLÖS);
                             }
                         }
                     }
@@ -263,7 +197,7 @@ public abstract class NPC {
     void teleport(int kohdeX, int kohdeY) {
         sijX = kohdeX;
         sijY = kohdeY;
-        this.hitbox.setLocation(kohdeX * PääIkkuna.pelaajanKokoPx, kohdeY * PääIkkuna.pelaajanKokoPx);
+        this.hitbox.setLocation(kohdeX * PeliRuutu.pelaajanKokoPx, kohdeY * PeliRuutu.pelaajanKokoPx);
     }
 
 

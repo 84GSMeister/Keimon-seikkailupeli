@@ -95,6 +95,7 @@ public class HuoneenVaihtoIkkuna {
     }
 
     static void asetaArvot(int huoneenId) {
+        Peli.lataaHuone(huoneenId);
         Peli.uusiHuone = huoneenId;
         Peli.huoneVaihdettava = true;
         ikkuna.dispose();

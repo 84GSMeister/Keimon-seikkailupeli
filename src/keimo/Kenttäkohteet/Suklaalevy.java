@@ -5,7 +5,7 @@ public class Suklaalevy extends Ruoka {
 
     @Override
     public String käytä(){
-        poista = true;
+        this.poista = true;
         return "Se maistui hyvältä. Sait " + this.heal + " elämäpistettä.";
     }
     

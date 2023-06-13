@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 public class HuoneLista {
     
     /**
@@ -233,13 +235,10 @@ public class HuoneLista {
             }
             huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Ei voitu ladata tiedostoa default.kst", "Virhe kentän luonnissa", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Hardkoodattu paska - lisää editoriin ominaisuus näiden asettamiseksi
-        huoneKartta.get(8).lataaTarinaRuutu = true;
-        huoneKartta.get(8).tarinaRuudunTunniste = "koti";
 
         return huoneKartta;
     }

@@ -5,7 +5,7 @@ public class Avain extends Esine {
 
     @Override
     public String käytä(){
-        poista = true;
+        super.poista = true;
         return käyttöTeksti;
     }
 

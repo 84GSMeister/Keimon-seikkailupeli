@@ -37,7 +37,9 @@ public class TarkistettavatArvot {
         KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_LYÖTY,
         KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_ÄMPÄRÖITY,
         KUOLEMA_JUHANI,
-        YLENSYÖNTI;
+        YLENSYÖNTI,
+        HIILTYNYT_MAKKARA,
+        ALKOHOLIMYRKYTYS;
     }
 
     public static int annaLyödytVihut() {

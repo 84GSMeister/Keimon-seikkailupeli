@@ -13,55 +13,9 @@ public class Nuotio extends Kiintopiste {
     @Override
     public String kokeileEsinettä(Esine e) {
         
-        this.vuorovaikutus = false;
+        super.vuorovaikutus = false;
         
-        String statusTeksti = "";
-        if (tavoiteSuoritettu) {    
-            statusTeksti = "Nuotion liekit leimuavat komeasti.";
-        }
-        if (e instanceof Paperi) {
-            this.sytyke = true;
-            this.vuorovaikutus = true;
-            statusTeksti = "Nuotioon lisättiin sytyke.";
-        }
-        else if (e instanceof Hiili) {
-            this.polttoaine = true;
-            this.vuorovaikutus = true;
-            statusTeksti = "Nuotioon lisättiin palavaa ainetta.";
-        }
-        else if (e instanceof Kaasusytytin) {
-            if (sytytetty){
-                return "Nuotion liekit leimuavat komeasti.";
-            }
-            else if (polttoaine && sytyke){
-                this.tavoiteSuoritettu = true;
-                this.sytytetty = true;
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png");
-                return "Nuotio sytytettiin!";
-            }
-            else if (polttoaine && !sytyke) {
-                return "Nuotiossa on palavaa ainetta, mutta sinne tarvitaan jokin sytyke.";
-            }
-            else if (!polttoaine && sytyke) {
-                return "Pelkkä sytyke ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
-            }
-            else {
-                return "Nuotio tarvitsee palavaa ainetta.";
-            }
-        }
-        else if (e instanceof Vesiämpäri) {
-            if (sytytetty) {
-                this.sytytetty = false;
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
-                this.vuorovaikutus = true;
-                statusTeksti = "Nuotio sammutettiin";
-            }
-            else {
-                statusTeksti = "Kaadoit vettä sammuneeseen nuotioon. Mitään ei tapahtunut.";
-            }
-            
-        }
-        else if (e instanceof Makkara) {
+        if (e instanceof Makkara) {
             Makkara makkara = (Makkara)e;
             if (this.sytytetty) {
                 if (makkara.käristetty) {
@@ -78,11 +32,58 @@ public class Nuotio extends Kiintopiste {
                 return "Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.";
             }
         }
+        else if (e instanceof Paperi) {
+            this.sytyke = true;
+            super.vuorovaikutus = true;
+            return "Nuotioon lisättiin sytyke.";
+        }
+        else if (e instanceof Hiili) {
+            this.polttoaine = true;
+            super.vuorovaikutus = true;
+            return "Nuotioon lisättiin palavaa ainetta.";
+        }
+        else if (tavoiteSuoritettu) {
+            return "Nuotion liekit leimuavat komeasti.";
+        }
+        else if (e == null) {
+            return katso();
+        }
+        else if (e instanceof Kaasusytytin) {
+            if (sytytetty){
+                return "Nuotion liekit leimuavat komeasti.";
+            }
+            else if (polttoaine && sytyke){
+                super.tavoiteSuoritettu = true;
+                this.sytytetty = true;
+                super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png");
+                return "Nuotio sytytettiin!";
+            }
+            else if (polttoaine && !sytyke) {
+                return "Nuotiossa on palavaa ainetta, mutta sinne tarvitaan jokin sytyke.";
+            }
+            else if (!polttoaine && sytyke) {
+                return "Pelkkä sytyke ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
+            }
+            else {
+                return "Nuotio tarvitsee palavaa ainetta.";
+            }
+        }
+        else if (e instanceof Vesiämpäri) {
+            if (sytytetty) {
+                this.sytytetty = false;
+                super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
+                super.vuorovaikutus = true;
+                return "Nuotio sammutettiin";
+            }
+            else {
+                return "Kaadoit vettä sammuneeseen nuotioon. Mitään ei tapahtunut.";
+            }
+            
+        }
 
         else {
-            statusTeksti = "Mitään ei tapahtunut.";
+            return "Mitään ei tapahtunut.";
         }
-        return statusTeksti;
     }
 
     @Override
@@ -104,32 +105,35 @@ public class Nuotio extends Kiintopiste {
         else if (e instanceof Hiili) {
             return null;
         }
-        else {
+        else if (e != null) {
             if (!e.sopiiKäytettäväksi.contains(this.nimi)) {
                 PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
             }
             return e;
         }
+        else {
+            return null;
+        }
     }
 
     @Override
     public String katso(){
-        if (sytytetty) {    
+        if (this.sytytetty) {    
             Peli.peliLäpäisty = true;
             return "Nuotion liekit leimuavat komeasti.";
         }
         else {
-            if (sytyke && !polttoaine) {
+            if (this.sytyke && !this.polttoaine) {
                 return "Pelkkä paperi ei pala kovin kauan. Tarvitaan jotain muuta palavaa.";
             }
-            else if (polttoaine && !sytyke) {
+            else if (this.polttoaine && !this.sytyke) {
                 return "Nuotiossa on poltettavaa, mutta tarvitaan vielä jotain sytykkeeksi.";
             }
-            else if (sytyke && polttoaine) {
+            else if (this.sytyke && this.polttoaine) {
                 return "Nuotiossa on polttoainetta ja sytykettä. Enää tarvitsee vain työkalun, jolla sen voi sytyttää.";
             }
             else {
-                return "Nuotio on tyhjä. Siihen pitäisi varmaankin lisätä jotain palavaa.";
+                return "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
             }            
         }
     }
@@ -172,6 +176,7 @@ public class Nuotio extends Kiintopiste {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Nuotio";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
+        super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
         super.asetaTiedot();
     }
 }

@@ -1,5 +1,8 @@
 package keimo.Kenttäkohteet;
 import java.util.Random;
+
+import keimo.PääIkkuna;
+
 import java.util.ArrayList;
 
 public abstract class Esine extends KenttäKohde {

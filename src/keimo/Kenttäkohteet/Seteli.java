@@ -2,7 +2,16 @@ package keimo.Kenttäkohteet;
 
 import javax.swing.ImageIcon;
 
+import keimo.Pelaaja;
+
 public class Seteli extends Esine {
+
+    @Override
+    public String käytä() {
+        Pelaaja.raha += 20;
+        super.poista = true;
+        return "Kaks kybää";
+    }
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -36,10 +45,10 @@ public class Seteli extends Esine {
     
     public Seteli(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
-        this.nimi = "Seteli";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Juhani");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png");
+        super.nimi = "Seteli";
+        super.käyttö = true;
+        super.sopiiKäytettäväksi.add("Juhani");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png");
         super.katsomisTeksti = "2 kybää = 1 massi";
         super.asetaTiedot();
     }

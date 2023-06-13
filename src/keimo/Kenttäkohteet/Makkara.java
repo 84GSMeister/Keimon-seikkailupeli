@@ -1,4 +1,8 @@
 package keimo.Kenttäkohteet;
+
+import keimo.TarkistettavatArvot;
+import keimo.TarkistettavatArvot.PelinLopetukset;
+
 import javax.swing.ImageIcon;
 
 public class Makkara extends Ruoka {
@@ -8,10 +12,10 @@ public class Makkara extends Ruoka {
 
     @Override
     public String katso() {
-        if (käristetty) {
+        if (this.käristetty) {
             return "Makkara on läpeensä käristynyt. Ei näytä järin maittavalta.";
         }
-        else if (paistettu) {
+        else if (this.paistettu) {
             return "Mmm... onpas herkullisen näköistä kyrsää.";
         }
         else {
@@ -21,18 +25,19 @@ public class Makkara extends Ruoka {
     
     @Override
     public String käytä(){
-        poista = true;
+        super.poista = true;
         if (käristetty) {
-            this.heal = -1;
+            super.heal = -1;
+            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.HIILTYNYT_MAKKARA;
             return "Ugh. Olipas pahaa hiiltynyttä makkaraa. Menetit 1 elämäpisteen";
         }
         else if (paistettu) {
-            this.heal = 5;
-            return "Se oli erittäin makoisaa kyrsää. Sait " + this.heal + " elämäpistettä";
+            super.heal = 5;
+            return "Se oli erittäin makoisaa kyrsää. Sait " + super.heal + " elämäpistettä";
         }
         else {
-            this.heal = 1;
-            return "Ei niin hyvää raakana. Sait " + this.heal + " elämäpisteen";
+            super.heal = 1;
+            return "Ei niin hyvää raakana. Sait " + super.heal + " elämäpisteen";
         }
     }
 
@@ -67,19 +72,19 @@ public class Makkara extends Ruoka {
     }
 
     public String paista() {
-        if (käristetty) {
+        if (this.käristetty) {
             return "Makkara on jo käristetty hiileksi";
         }
-        else if (paistettu) {
+        else if (this.paistettu) {
             this.käristetty = true;
-            this.nimi = "Käristetty makkara";
-            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
+            super.nimi = "Käristetty makkara";
+            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
             return "Paistoit liikaa! Nyt makkara on pikimusta.";
         }
         else {
             this.paistettu = true;
-            this.nimi = "Paistettu makkara";
-            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
+            super.nimi = "Paistettu makkara";
+            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
             return "Mmm.. onpas hyvän näköistä kyrsää.";
         }
     }

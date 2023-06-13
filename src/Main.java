@@ -1,5 +1,4 @@
 import keimo.*;
-import keimo.Ikkunat.*;
 
 public class Main {
     

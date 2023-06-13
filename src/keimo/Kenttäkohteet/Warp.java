@@ -1,17 +1,10 @@
 package keimo.Kenttäkohteet;
 public abstract class Warp extends KenttäKohde {
     
-    int kohdeHuone;
-    int kohdeRuutuX;
-    int kohdeRuutuY;
-    Suunta suunta;
-
-    public enum Suunta {
-        YLÖS,
-        ALAS,
-        VASEN,
-        OIKEA;
-    }
+    protected int kohdeHuone;
+    protected int kohdeRuutuX;
+    protected int kohdeRuutuY;
+    protected Suunta suunta;
 
     public int annaKohdeHuone() {
         return kohdeHuone;

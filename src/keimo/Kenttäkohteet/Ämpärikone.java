@@ -1,11 +1,19 @@
 package keimo.Kenttäkohteet;
 import javax.swing.ImageIcon;
 
+import keimo.Ikkunat.ÄmpäriJonoIkkuna;
+
+
 public class Ämpärikone extends Kiintopiste {
     
     @Override
     public String kokeileEsinettä(Esine e) {
         return "Mitään ei tapahtunut.";
+    }
+
+    @Override
+    public void näytäDialogi(Esine e) {
+        ÄmpäriJonoIkkuna.luoÄmpäriJonoIkkuna();
     }
 
     @Override
@@ -36,10 +44,6 @@ public class Ämpärikone extends Kiintopiste {
             default:
                 return "Ämpärikone";
         }
-    }
-
-    public static Vesiämpäri annaÄmpäri() {
-        return new Vesiämpäri(false, 0, 0);
     }
 
     public Ämpärikone(boolean määritettySijainti, int sijX, int sijY) {

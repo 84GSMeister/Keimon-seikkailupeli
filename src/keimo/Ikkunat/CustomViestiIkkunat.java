@@ -11,15 +11,15 @@ public class CustomViestiIkkunat {
 
     public static class SuljeVirheenJälkeen {
 
-        static String viesti = "Käsittämätön poikkeus sovelluksessa.\n\nSanokaa sille jontulle että vetää käteen ja korjaa paskan softansa.";
+        static String viesti = "Käsittämätön poikkeus sovelluksessa. \n\nSanokaa sille jontulle että vetää käteen ja korjaa paskan softansa.";
         static String otsikko = "Fataali häire!";
         static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
         static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"Yritä uudestaan (ihan turhaa mut laitoin tän kuitenkin)", "Sulje sovellus"};
 
-        public static int showDialog() {
-            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
+        public static int showDialog(String virheViesti) {
+            return JOptionPane.showOptionDialog(null, viesti + "\n\n" + virheViesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
         }
     }
 
@@ -176,7 +176,19 @@ public class CustomViestiIkkunat {
         static int valitaTyyppi = JOptionPane.YES_NO_CANCEL_OPTION;
         static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
         //static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
-        static String[] vaihtoehdot = {"Jatka (ei suositella)", "Sulje sovellus", "Takaisin peliin (sulje editori)"};
+        static String[] vaihtoehdot = {"Jatka", "Sulje sovellus", "Takaisin peliin (sulje editori)"};
+
+        public static int showDialog(String viesti, String otsikko) {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class GrafiikkäSäieVirhe {
+        
+        static int valitaTyyppi = JOptionPane.YES_NO_OPTION;
+        static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
+        //static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
+        static String[] vaihtoehdot = {"Uudelleenkäynnistä säie", "Sulje sovellus"};
 
         public static int showDialog(String viesti, String otsikko) {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
@@ -232,10 +244,10 @@ public class CustomViestiIkkunat {
 
     public static class UudelleenkäynnistäAsetukset {
         
-        static String viesti = "Asetusten hyväksyminen vaatii uudelleenkäynnistyksen";
-        static String otsikko = "Käynnistä uudelleen";
+        static String viesti = "Jotkin asetukset eivät tallennu ennen uudelleenkäynnistystä";
+        static String otsikko = "Hyväksy asetukset";
         static int valitaTyyppi = JOptionPane.YES_NO_OPTION;
-        static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;
+        static int viestiTyyppi = JOptionPane.WARNING_MESSAGE;
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"OK","Peruuta"};
 

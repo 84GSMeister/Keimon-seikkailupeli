@@ -6,7 +6,7 @@ public class Huume extends Ruoka {
 
     @Override
     public String käytä(){
-        poista = true;
+        super.poista = true;
         return "Never stop the madness! (sait 30 elämäpistettä)";
     }
 

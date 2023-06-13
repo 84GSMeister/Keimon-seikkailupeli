@@ -5,7 +5,7 @@ public class Vesiämpäri extends Esine {
 
     @Override
     public String käytä() {
-        this.poista = true;
+        super.poista = true;
         return "Vihollinen ämpäröitiin ja on nyt harmiton.";
     }
 
@@ -41,10 +41,11 @@ public class Vesiämpäri extends Esine {
 
     public Vesiämpäri(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
-        this.nimi = "Vesiämpäri";
-        this.kenttäkäyttö = true;
-        this.sopiiKäytettäväksi.add("Nuotio");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
+        super.nimi = "Vesiämpäri";
+        super.kenttäkäyttö = true;
+        super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
         super.asetaTiedot();
     }
 }

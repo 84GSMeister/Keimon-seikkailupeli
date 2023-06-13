@@ -2,8 +2,7 @@ package keimo.NPCt;
 
 import javax.swing.ImageIcon;
 
-import keimo.PelinAsetukset;
-import keimo.PääIkkuna;
+import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.*;
 import keimo.Utility.*;
 
@@ -83,12 +82,12 @@ public class Pahavihu extends Vihollinen {
 
     public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
-        this.vahinko = 2 * PelinAsetukset.vaikeusAste;
+        this.vahinko = 2;
         this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
         this.kilpiTehoaa = false;
         this.sijX = sijX;
         this.sijY = sijY;
-        this.hitbox.setLocation(sijX * PääIkkuna.pelaajanKokoPx, sijY * PääIkkuna.pelaajanKokoPx);
+        this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
         this.nimi = "Pahavihu";
         super.asetaTiedot();
     }

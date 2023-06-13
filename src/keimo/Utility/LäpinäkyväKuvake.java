@@ -9,18 +9,12 @@ import javax.swing.ImageIcon;
 
 public class LäpinäkyväKuvake extends ImageIcon {
     
-    //private ImageIcon kuva;
     private float läpinäkyvyys = 0.5f;
 
     public LäpinäkyväKuvake(String filename, float läpinäkyvyys) {
         super(filename);
         this.läpinäkyvyys = läpinäkyvyys;
     }
-
-    // public LäpinäkyväKuvake(ImageIcon kuva, float läpinäkyvyys) {
-    //     this.kuva = kuva;
-    //     this.läpinäkyvyys = läpinäkyvyys;
-    // }
 
     @Override
     public synchronized void paintIcon(Component c, Graphics g, int x, int y) {

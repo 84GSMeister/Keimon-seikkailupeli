@@ -1,12 +1,10 @@
 package keimo.NPCt;
 
-import javax.swing.ImageIcon;
-
-import keimo.PelinAsetukset;
-import keimo.PääIkkuna;
+import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.*;
-import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.SkaalattavaKuvake;
+
+import javax.swing.ImageIcon;
 
 public class Pikkuvihu extends Vihollinen {
 
@@ -84,12 +82,12 @@ public class Pikkuvihu extends Vihollinen {
 
     public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
-        this.vahinko = 1 * PelinAsetukset.vaikeusAste;
+        this.vahinko = 1;
         this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
         this.kilpiTehoaa = true;
         this.sijX = sijX;
         this.sijY = sijY;
-        this.hitbox.setLocation(sijX * PääIkkuna.pelaajanKokoPx, sijY * PääIkkuna.pelaajanKokoPx);
+        this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
         this.nimi = "Pikkuvihu";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;

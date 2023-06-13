@@ -3,7 +3,7 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.*;
-import keimo.Kenttäkohteet.Warp.Suunta;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
 import keimo.Utility.*;
 
@@ -128,7 +128,7 @@ public class HuoneenLuontiIkkuna {
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäReunawarppienTiedot(asetettavaWarpVasen, asetettavaWarpVasenHuoneId, asetettavaWarpOikea, asetettavaWarpOikeaHuoneId, asetettavaWarpAlas, asetettavaWarpAlasHuoneId, asetettavaWarpYlös, asetettavaWarpYlösHuoneId);
                     if (tarkistaArvot()) {
                         HuoneEditoriIkkuna.ikkuna.setFocusable(true);
-                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(suunta, true, huoneenId);
+                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, suunta, true, huoneenId);
                     }
                 }
             }

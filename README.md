@@ -1,6 +1,20 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (18.5.2023): 0.7.2
+## Uusin versio (13.6.2023): 0.7.3
+
+### Versio 0.7.3
+
+ - Känniefekti
+ - Kännin voi nukkua pois (krapula vähentää elämäpisteitä). Nukkuminen nollaa myös lihavuuden.
+ - Monivaiheiset dialogit (kauppa)
+ - Lähikuvat kenttäkohteille dialogipaneelissa (Juhani, Kauppias)
+ - Ämpäreitä voi jonottaa
+ - Pullonpalautusautomaatti, joka jää jumiin 10% todennäköisyydellä
+ - Liikkumisnäppäimen pohjassa pitäminen toimii nyt myös oviruutujen kohdalla
+ - Musiikkia voi vaihtaa ilman uudelleenkäynnistystä
+ - Häviöruudussa odotusaika ennen kuin vaihtoehdot tulevat saataville (estää häviöruudun animaation kelaamisen vahingossa)
+ - Pelaajan suunta tarkistetaan liikesuunnan eikä näppäinpainallusten perusteella -> pelaaja ei voi enää moonwalkata :(
+ - Uusi kuvake hiilelle
 
 ### Versio 0.7.2
 
@@ -37,13 +51,13 @@
  - Vihollisille voi asettaa eri liikemalleja, mm. Seuraa pelaajaa (nykyisellään ei osaa vielä väistää esteitä)
  - Pahavihu korjattu editorissa
  - Editorissa voi asettaa reunawarpin huoneisiin (Reunawarp ei ole objekti vaan koko huoneen reuna warppaa asetettuun huoneeseen)
- - Editorin navigointia tehhty helpommaksi: Jokaisessa suunnassa nuolet, joita klikkaamalla pääsee reunawarpin suuntaiseen huoneeseen. Myös uusien huoneiden luonti tehty selkeämmäksi.
+ - Editorin navigointia tehty helpommaksi: Jokaisessa suunnassa nuolet, joita klikkaamalla pääsee reunawarpin suuntaiseen huoneeseen. Myös uusien huoneiden luonti tehty selkeämmäksi.
 
 ### Versio 0.6.4
 
  - Uudet häviöanimaatiot (kuolemat viholliselle, ylensyönti ja Juhani)
  - Pelikentän koko reuna voi warpata huoneeseen (warppi tallentuu .kst-tiedostoon, mutta editorista puuttuu vielä toiminto, jolla sen voisi asettaa)
- - Pelikentttää (default.kst) jatkettu uusilla maisemilla (suunnitelma)
+ - Pelikenttää (default.kst) jatkettu uusilla maisemilla (suunnitelma)
  - Rainbow lager -tölkit, joita keräämällä voi ansaita rahaa -> rahan voi antaa Juhanille
 
 ### Versio 0.6.3

@@ -16,7 +16,6 @@ public class AsetusIkkuna {
     static String[] tekstit = {"Vaikeusaste", "Musiikki päällä", "Valitse Musiikki", "Tavoite-FPS", "Tavoite-Tickrate"};
     static int valintojenMäärä = tekstit.length;
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
-    //static String[] musiikkiVaihtoehdot = {"Udo haukkuu: Mario 2", "Udo haukkuu: Running in the 90s", "Udo haukkuu: Nyan Cat", "Udo haukkuu: Mario World Athletic", "Udo haukkuu: Never Gonna Give You Up", "Udo haukkuu: Disco Band", "Udo haukkuu: Wide President theme"};
     static int musiikkiValinta;
     static JComboBox<Object> musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
     static int vaikeusAste, tavoiteFPS;
@@ -30,21 +29,27 @@ public class AsetusIkkuna {
             PelinAsetukset.tavoiteTickrate = Integer.parseInt(tavoiteTickrateTekstikenttä.getText());
             if (PelinAsetukset.vaikeusAste < 0) {
                 JOptionPane.showMessageDialog(null, "Vaikeusaste ei voi olla negatiivinen!\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                PelinAsetukset.vaikeusAste = 0;
             }
             else if (PelinAsetukset.vaikeusAste > 30) {
                 JOptionPane.showMessageDialog(null, "Maksimivaikeusaste on 30.\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                PelinAsetukset.vaikeusAste = 30;
             }
             else if (PelinAsetukset.tavoiteFPS > 1000) {
                 JOptionPane.showMessageDialog(null, "Maksimi-tavoite-FPS on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                PelinAsetukset.tavoiteFPS = 1000;
             }
             else if (PelinAsetukset.tavoiteFPS < 1) {
                 JOptionPane.showMessageDialog(null, "Tavoite-FPS täytyy olla positiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                PelinAsetukset.tavoiteFPS = 1;
             }
             else if (PelinAsetukset.tavoiteTickrate > 1000) {
                 JOptionPane.showMessageDialog(null, "Maksimi-tavoite-tickrate on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                PelinAsetukset.tavoiteTickrate = 1000;
             }
             else if (PelinAsetukset.tavoiteTickrate < 1) {
                 JOptionPane.showMessageDialog(null, "Tavoite-tickrate taytyy olla positiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+                PelinAsetukset.tavoiteTickrate = 1;
             }
             else {
                 int hyväksyUudelleenkäynnistys = CustomViestiIkkunat.UudelleenkäynnistäAsetukset.showDialog();
@@ -59,10 +64,10 @@ public class AsetusIkkuna {
     }
 
     static void asetaArvot(boolean musiikkiEnabloitu) {
-        PääIkkuna.uusiIkkuna = true;
         ikkuna.dispose();
         PelinAsetukset.musiikkiPäällä = musiikkiEnabloitu;
         PelinAsetukset.musiikkiValinta = musiikkiValikko.getSelectedIndex();
+        Peli.sThread.run();
     }
 
     public static void luoAsetusikkuna() {

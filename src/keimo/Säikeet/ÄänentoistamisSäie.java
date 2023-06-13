@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ÄänentoistamisSäie extends Thread{
+public class ÄänentoistamisSäie extends Thread {
     
     public static MP3Player musiikkiSoitin;
     static HashMap<Integer, File> musiikkiVaihtoehdot = new HashMap<Integer, File>();

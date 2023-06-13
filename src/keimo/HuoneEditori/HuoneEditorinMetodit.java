@@ -1,7 +1,7 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.Kenttäkohteet.Warp.Suunta;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
@@ -19,6 +19,8 @@ public class HuoneEditorinMetodit {
         String uusiHuoneenNimi = "";
         String uusiHuoneenAlue = "";
         String uusiHuoneenTaustanPolku = "";
+        String uusiHuoneenTarinanTunniste = "";
+        boolean lataaTarinaRuutu = false;
 
         String luotavaObjekti = "";
         int luotavanObjektinX = 0;
@@ -113,6 +115,21 @@ public class HuoneEditorinMetodit {
                         }
                         catch (StringIndexOutOfBoundsException e) {
                             uusiWarpYlös = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#tarina:")) {
+                        try {
+                            uusiHuoneenTarinanTunniste = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
+                            if (uusiHuoneenTarinanTunniste == null || uusiHuoneenTarinanTunniste == "") {
+                                lataaTarinaRuutu = false;
+                            }
+                            else {
+                                lataaTarinaRuutu = true;
+                            }
+                        }
+                        catch (IndexOutOfBoundsException e) {
+                            lataaTarinaRuutu = false;
+                            uusiHuoneenTarinanTunniste = "";
                         }
                     }
 
@@ -291,7 +308,7 @@ public class HuoneEditorinMetodit {
                         }
                     }
                 }
-                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, false, "");
+                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, lataaTarinaRuutu, uusiHuoneenTarinanTunniste);
                 huone.päivitäReunawarppienTiedot(uusiWarpVasen, uusiWarpVasenHuoneId, uusiWarpOikea, uusiWarpOikeaHuoneId, uusiWarpAlas, uusiWarpAlasHuoneId, uusiWarpYlös, uusiWarpYlösHuoneId);
                 //System.out.println("huone: " + huone.annaId() + ", vasen warp: " + huone.warpVasen + huone.warpVasenHuoneId + ", oikea warp: " + huone.warpOikea + huone.warpOikeaHuoneId + ", alas warp: " + huone.warpAlas + huone.warpAlasHuoneId + ", ylös warp: " + huone.warpYlös + huone.warpYlösHuoneId);
                 uusiHuoneKartta.put(uusiHuoneenId, huone);
@@ -397,6 +414,10 @@ public class HuoneEditorinMetodit {
                     luotavaObjekti = new Pesäpallomaila(määritettySijainti, sijX, sijY);
                     break;
 
+                case "Pulloautomaatti":
+                    luotavaObjekti = new Pulloautomaatti(määritettySijainti, sijX, sijY);
+                    break;
+
                 case "Oviruutu":
                     luotavaObjekti = new Oviruutu(sijX, sijY, null);
                     break;
@@ -407,6 +428,10 @@ public class HuoneEditorinMetodit {
 
                 case "Suklaalevy":
                     luotavaObjekti = new Suklaalevy(määritettySijainti, sijX, sijY);
+                    break;
+
+                case "Sänky":
+                    luotavaObjekti = new Sänky(määritettySijainti, sijX, sijY);
                     break;
 
                 case "Vesiämpäri":
@@ -567,6 +592,13 @@ public class HuoneEditorinMetodit {
             }
             else {
                 huoneetMerkkijonoina[i] += "#warp_ylös: " + ";" + "\n    ";
+            }
+
+            if (huoneKartta.get(i).annaTarinaRuudunLataus()) {
+                huoneetMerkkijonoina[i] += "#tarina: " + huoneKartta.get(i).annaTarinaRuudunTunniste() + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina[i] += "#tarina: " + ";" + "\n    ";
             }
 
             try {

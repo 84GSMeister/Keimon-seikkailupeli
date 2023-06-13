@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
-import keimo.Kenttäkohteet.Warp.Suunta;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 
 public class Huone {
     
@@ -25,16 +25,16 @@ public class Huone {
     int esineitäKentällä = 0;
     int maastoaKentällä = 0;
     int npcitäKentällä = 0;
-    public boolean lataaTarinaRuutu = false;
-    public String tarinaRuudunTunniste = "";
-    boolean warpVasen = false;
-    boolean warpOikea = false;
-    boolean warpAlas = false;
-    boolean warpYlös = false;
-    int warpVasenHuoneId = 0;
-    int warpOikeaHuoneId = 0;
-    int warpAlasHuoneId = 0;
-    int warpYlösHuoneId = 0;
+    protected boolean lataaTarinaRuutu = false;
+    private String tarinaRuudunTunniste = "";
+    private boolean warpVasen = false;
+    private boolean warpOikea = false;
+    private boolean warpAlas = false;
+    private boolean warpYlös = false;
+    private int warpVasenHuoneId = 0;
+    private int warpOikeaHuoneId = 0;
+    private int warpAlasHuoneId = 0;
+    private int warpYlösHuoneId = 0;
 
     static Random r = new Random();
 
@@ -60,6 +60,14 @@ public class Huone {
 
     public String annaAlue() {
         return alue;
+    }
+
+    public boolean annaTarinaRuudunLataus() {
+        return lataaTarinaRuutu;
+    }
+
+    public String annaTarinaRuudunTunniste() {
+        return tarinaRuudunTunniste;
     }
     
     public KenttäKohde[][] annaHuoneenKenttäSisältö() {
@@ -94,6 +102,16 @@ public class Huone {
 
     public void päivitäHuoneenNPCSisältö(NPC[][] n) {
         this.huoneenNPCSisältö = n;
+    }
+
+    public void päivitäAlkudialogi(String huoneenAlkuDialogiTeksti) {
+        this.tarinaRuudunTunniste = huoneenAlkuDialogiTeksti;
+        if (huoneenAlkuDialogiTeksti == null || huoneenAlkuDialogiTeksti == "") {
+            this.lataaTarinaRuutu = false;
+        }
+        else {
+            this.lataaTarinaRuutu = true;
+        }
     }
 
     public void päivitäReunawarppienTiedot(boolean warpVasen, int warpVasenHuoneId, boolean warpOikea, int warpOikeaHuoneId, boolean warpAlas, int warpAlasHuoneId, boolean warpYlös, int warpYlösHuoneId) {

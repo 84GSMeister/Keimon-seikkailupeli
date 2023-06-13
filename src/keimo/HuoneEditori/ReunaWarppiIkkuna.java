@@ -1,7 +1,7 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.Kenttäkohteet.Warp.Suunta;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Utility.*;
 
 import javax.swing.*;
@@ -84,7 +84,7 @@ public class ReunaWarppiIkkuna {
         return huoneValikko;
     }
 
-    static void luoReunaWarppiIkkuna(Suunta suunta, boolean valitseViimeisinLuotuHuone, int viimeisimmänHuoneenNro) {
+    static void luoReunaWarppiIkkuna(boolean huoneOlemassa, Suunta suunta, boolean valitseViimeisinLuotuHuone, int viimeisimmänHuoneenNro) {
         
 
         valintojenMäärä = 2;
@@ -105,37 +105,39 @@ public class ReunaWarppiIkkuna {
         paneli.add(tekstiLabelit[1]);
         huoneValikko = luoHuoneenNimiLista();
         paneli.add(huoneValikko);
-        if (valitseViimeisinLuotuHuone) {
-            int comboBoxinIndeksi = 0;
-            for (int i = 0; i < huoneValikko.getItemCount(); i++) {
-                //System.out.println(huoneValikko.getItemAt(i).substring(huoneValikko.getItemAt(i).indexOf("(")+1, huoneValikko.getItemAt(i).indexOf(")")));
-                int haettavaHuoneenId = Integer.parseInt(huoneValikko.getItemAt(i).substring(huoneValikko.getItemAt(i).indexOf("(")+1, huoneValikko.getItemAt(i).indexOf(")")));
-                if (haettavaHuoneenId == viimeisimmänHuoneenNro) {
-                    comboBoxinIndeksi = i;
+        if (huoneOlemassa) {
+            if (valitseViimeisinLuotuHuone) {
+                int comboBoxinIndeksi = 0;
+                for (int i = 0; i < huoneValikko.getItemCount(); i++) {
+                    //System.out.println(huoneValikko.getItemAt(i).substring(huoneValikko.getItemAt(i).indexOf("(")+1, huoneValikko.getItemAt(i).indexOf(")")));
+                    int haettavaHuoneenId = Integer.parseInt(huoneValikko.getItemAt(i).substring(huoneValikko.getItemAt(i).indexOf("(")+1, huoneValikko.getItemAt(i).indexOf(")")));
+                    if (haettavaHuoneenId == viimeisimmänHuoneenNro) {
+                        comboBoxinIndeksi = i;
+                        break;
+                    }
+                }
+                huoneValikko.setSelectedIndex(comboBoxinIndeksi);
+                warppiEnabloitu.setSelected(valitseViimeisinLuotuHuone);
+            }
+            else {
+                switch (suunta) {
+                    case VASEN:
+                        huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpVasenHuoneId);
+                        warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpVasen);
+                    break;
+                    case OIKEA:
+                        huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpOikeaHuoneId);
+                        warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpOikea);
+                    break;
+                    case YLÖS:
+                        huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpYlösHuoneId);
+                        warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpYlös);
+                    break;
+                    case ALAS:
+                        huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpAlasHuoneId);
+                        warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpAlas);
                     break;
                 }
-            }
-            huoneValikko.setSelectedIndex(comboBoxinIndeksi);
-            warppiEnabloitu.setSelected(valitseViimeisinLuotuHuone);
-        }
-        else {
-            switch (suunta) {
-                case VASEN:
-                    huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpVasenHuoneId);
-                    warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpVasen);
-                break;
-                case OIKEA:
-                    huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpOikeaHuoneId);
-                    warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpOikea);
-                break;
-                case YLÖS:
-                    huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpYlösHuoneId);
-                    warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpYlös);
-                break;
-                case ALAS:
-                    huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpAlasHuoneId);
-                    warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpAlas);
-                break;
             }
         }
 

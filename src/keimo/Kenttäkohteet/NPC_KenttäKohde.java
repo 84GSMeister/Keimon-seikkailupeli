@@ -1,20 +1,9 @@
 package keimo.Kenttäkohteet;
 
-import keimo.PääIkkuna;
-
 public abstract class NPC_KenttäKohde extends KenttäKohde {
     
     protected int hp = 10;
     
-    // public String kokeileEsinettä(Esine e) {
-    //     return "Mitään ei tapahtunut!";
-    // }
-
-    // public Esine suoritaMuutoksetEsineelle(Esine e) {
-    //     PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
-    //     return e;
-    // }
-
     public NPC_KenttäKohde(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
     }

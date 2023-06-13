@@ -10,7 +10,6 @@ public abstract class Kiintopiste extends KenttäKohde {
         return vuorovaikutus;
     }
 
-    boolean Suoritettu = false;
     ArrayList<String> käyvätEsineet = new ArrayList<String>();
 
     public String kokeileEsinettä(Esine e) {

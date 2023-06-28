@@ -51,7 +51,7 @@ public class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8 pre-alpha (20.6.2023)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8 pre-alpha (28.6.2023)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);

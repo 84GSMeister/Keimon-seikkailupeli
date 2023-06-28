@@ -39,7 +39,8 @@ public class TarkistettavatArvot {
         KUOLEMA_JUHANI,
         YLENSYÖNTI,
         HIILTYNYT_MAKKARA,
-        ALKOHOLIMYRKYTYS;
+        ALKOHOLIMYRKYTYS,
+        VARTIJA;
     }
 
     public static int annaLyödytVihut() {

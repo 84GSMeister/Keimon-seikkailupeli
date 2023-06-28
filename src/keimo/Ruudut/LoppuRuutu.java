@@ -17,12 +17,12 @@ import java.awt.Color;
 public class LoppuRuutu {
     
     public static JPanel loppuruutuPaneli;
-    static JLabel kuva;
+    static JLabel otsikko, kuva;
     static JPanel kuvaPaneli;
     static JPanel alaPaneli;
     
-    static JLabel teksti;
-    static JPanel tekstiPaneli;
+    static JLabel häviöTeksti, tilastoTeksti;
+    static JPanel tekstiPaneliVasen, tekstiPaneliOikea;
 
     static JLabel uusiPeli;
     static JLabel lopeta;
@@ -33,6 +33,8 @@ public class LoppuRuutu {
     static int klikkaustenMäärä = 0;
     static int tarinanPituusRuutuina = 4;
     static String loppuTeksti;
+    static String loppuTekstiInfo;
+    static ImageIcon loppuOtsikko;
     static ImageIcon loppuKuva;
     static int vaihtoehtojenMäärä = 2;
     static int valinta = 0;
@@ -40,30 +42,49 @@ public class LoppuRuutu {
 
     public static JPanel luoLoppuRuutu() {
 
+        otsikko = new JLabel();
+        otsikko.setPreferredSize(new Dimension(640, 100));
+
         kuva = new JLabel();
         kuva.setPreferredSize(new Dimension(640, 400));
 
         kuvaPaneli = new JPanel();
+        kuvaPaneli.setLayout(new BorderLayout());
         kuvaPaneli.setSize(640, 360);
         kuvaPaneli.setBackground(Color.black);
         kuvaPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        kuvaPaneli.add(kuva);
+        kuvaPaneli.add(otsikko, BorderLayout.NORTH);
+        kuvaPaneli.add(kuva, BorderLayout.CENTER);
 
 
-        teksti = new JLabel();
-        teksti.setMaximumSize(new Dimension(640, 200));
-        teksti.setMinimumSize(new Dimension(500, 200));
-        teksti.setPreferredSize(new Dimension(500, 200));
-        teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
-        teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
-        teksti.setForeground(Color.white);
+        häviöTeksti = new JLabel();
+        häviöTeksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        häviöTeksti.setMinimumSize(new Dimension(320, 60));
+        //häviöTeksti.setMaximumSize(new Dimension(320, 60));
+        //häviöTeksti.setPreferredSize(new Dimension(320, 60));
+        häviöTeksti.setAlignmentX(Component.CENTER_ALIGNMENT);
+        häviöTeksti.setForeground(Color.white);
 
-        tekstiPaneli = new JPanel(new GridBagLayout());
-        tekstiPaneli.setBackground(Color.black);
-        //tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.red, 1, true));
-        tekstiPaneli.setPreferredSize(new Dimension(500, 200));
-        tekstiPaneli.setBounds(0, 0, 500, 300);
-        tekstiPaneli.add(teksti);
+        tekstiPaneliVasen = new JPanel(new GridBagLayout());
+        tekstiPaneliVasen.setBackground(Color.black);
+        tekstiPaneliVasen.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
+        tekstiPaneliVasen.setMinimumSize(new Dimension(320, 60));
+        tekstiPaneliVasen.setMaximumSize(new Dimension(320, 60));
+        tekstiPaneliVasen.setPreferredSize(new Dimension(320, 60));
+        tekstiPaneliVasen.add(häviöTeksti);
+
+        tilastoTeksti = new JLabel();
+        tilastoTeksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        tilastoTeksti.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tilastoTeksti.setForeground(Color.white);
+
+        tekstiPaneliOikea = new JPanel(new GridBagLayout());
+        tekstiPaneliOikea.setBackground(Color.black);
+        tekstiPaneliOikea.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
+        tekstiPaneliOikea.setMinimumSize(new Dimension(320, 60));
+        tekstiPaneliOikea.setMaximumSize(new Dimension(320, 60));
+        tekstiPaneliOikea.setPreferredSize(new Dimension(320, 60));
+        tekstiPaneliOikea.add(tilastoTeksti);
 
         uusiPeli = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_uusipeli.png"));
         uusiPeli.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -83,8 +104,10 @@ public class LoppuRuutu {
         nappiPanelinlayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, uusiPeli, 0, SpringLayout.HORIZONTAL_CENTER, nappiPaneli);
         nappiPaneli.setLayout(nappiPanelinlayout);
         nappiPaneli.setBackground(Color.black);
-        //nappiPaneli.setBorder(BorderFactory.createLineBorder(Color.blue, 1, true));
-        nappiPaneli.setPreferredSize(new Dimension(500, 130));
+        nappiPaneli.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
+        nappiPaneli.setMinimumSize(new Dimension(640, 130));
+        nappiPaneli.setMaximumSize(new Dimension(640, 130));
+        nappiPaneli.setPreferredSize(new Dimension(640, 130));
         nappiPaneli.add(vasenOsoitin[0]);
         nappiPaneli.add(uusiPeli);
         nappiPaneli.add(vasenOsoitin[1]);
@@ -97,12 +120,16 @@ public class LoppuRuutu {
         GridBagConstraints gbc = new GridBagConstraints();
         alaPaneli.setLayout(tekstiPanelinLayout);
         alaPaneli.setBackground(Color.black);
-        //alaPaneli.setBorder(BorderFactory.createLineBorder(Color.green, 1, true));
+        //alaPaneli.setBorder(BorderFactory.createLineBorder(Color.orange, 1, true));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        alaPaneli.add(tekstiPaneli, gbc);
+        alaPaneli.add(tekstiPaneliVasen, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        alaPaneli.add(tekstiPaneliOikea, gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.gridwidth = 2;
         alaPaneli.add(nappiPaneli, gbc);
         
 
@@ -113,8 +140,13 @@ public class LoppuRuutu {
         loppuruutuPaneli.add(kuvaPaneli, BorderLayout.NORTH);
         loppuruutuPaneli.add(alaPaneli, BorderLayout.CENTER);
         loppuruutuPaneli.addKeyListener(new LoppuruudunKontrollit());
+
+        JPanel loppuruutuPaneliUlompi = new JPanel();
+        loppuruutuPaneliUlompi.setLayout(new GridBagLayout());
+        loppuruutuPaneliUlompi.setBackground(Color.black);
+        loppuruutuPaneliUlompi.add(loppuruutuPaneli);
         
-        return loppuruutuPaneli;
+        return loppuruutuPaneliUlompi;
     }
 
     public static void valitseLoppuRuutu(TarkistettavatArvot.PelinLopetukset pelinLopetus) {
@@ -130,106 +162,151 @@ public class LoppuRuutu {
                 "Voitit pelin!" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_normaali.jpg");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_otsikko.png");
             break;
 
             case KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN:
                 loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" + 
-                "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin.<br><br>" +
+                "Sait selkääsi!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_passiivinen.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY:
                 loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" + 
-                "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin.<br><br>" +
+                "Sait selkääsi!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_lyöty.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY:
                 loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" + 
-                "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin.<br><br>" +
+                "Sait selkääsi!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_ämpäröity.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN:
-                loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" + 
-                "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin.<br><br>" +
+                loppuTeksti = "<html><p>" + 
+                "Sait selkääsi!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_passiivinen.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY:
                 loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" + 
-                "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin.<br><br>" +
+                "Sait selkääsi!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_lyöty.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY:
                 loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" + 
-                "Sait selkääsi!" + "<br>" + 
-                "Hävisit pelin.<br><br>" +
+                "Sait selkääsi!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
                 "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_ämpäröity.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case KUOLEMA_JUHANI:
-                kelausViive = 50;    
+                kelausViive = 50;
                 loppuTeksti = "<html><p>" +
-                "KEIM-Over!" + "<br><br>" +
                 "Juhanille ei ryttyillä!" + "<br>" +
-                "Hävisit pelin." +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_juhani.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case YLENSYÖNTI:
                 loppuTeksti = "<html><p>" +
                 "Söit liikaa ja sinulle tuli paha olo." + "<br>" + 
-                "Hävisit pelin." +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case HIILTYNYT_MAKKARA:
                 loppuTeksti = "<html><p>" +
                 "Söit liikaa käristynyttä makkaraa ja tulit sairaaksi." + "<br>" +
-                "Hävisit pelin." +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             case ALKOHOLIMYRKYTYS:
                 loppuTeksti = "<html><p>" +
-                "Joit liikaa ja sait alkoholimyrkytyksen." + "<br>" + 
-                "Hävisit pelin." +
+                "Joit liikaa ja sait alkoholimyrkytyksen." + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
+            break;
+
+            case VARTIJA:
+                loppuTeksti = "<html><p>" +
+                "Jäit kiinni näpistyksestä!" + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_vartija.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
             default:
@@ -247,7 +324,9 @@ public class LoppuRuutu {
         img.flush();
         loppuKuva = new ImageIcon(img);
 
-        teksti.setText(loppuTeksti);
+        häviöTeksti.setText(loppuTeksti);
+        tilastoTeksti.setText(loppuTekstiInfo);
+        otsikko.setIcon(loppuOtsikko);
         kuva.setIcon(loppuKuva);
     }
 

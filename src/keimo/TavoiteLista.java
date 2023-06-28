@@ -1,7 +1,6 @@
 package keimo;
 
 import keimo.Kenttäkohteet.*;
-import keimo.Ruudut.PeliRuutu;
 
 import java.util.HashMap;
 
@@ -37,7 +36,6 @@ public class TavoiteLista {
         pääTavoitteet.put(2, "Etsi nuotiopaikka");
         pääTavoitteet.put(3, "Sytytä nuotio");
         nykyinenTavoite = pääTavoitteet.get(0);
-        //PeliRuutu.tavoiteInfoLabel.setText(nykyinenTavoite);
     }
 
     static int tarkistaSuoritetutPääTavoitteet() {
@@ -46,11 +44,9 @@ public class TavoiteLista {
             if (tavoiteLista.get(pääTavoitteet.get(i))) {
                 if (i < pääTavoitteet.size()-1) {
                     suoritetutPääTavoitteet++;
-                    //PeliRuutu.tavoiteInfoLabel.setText(pääTavoitteet.get(i+1));
                     nykyinenTavoite = pääTavoitteet.get(i+1);
                 }
                 else {
-                    //PeliRuutu.tavoiteInfoLabel.setText("Ei määritelty");
                     nykyinenTavoite = "Ei määritelty";
                 }
             }

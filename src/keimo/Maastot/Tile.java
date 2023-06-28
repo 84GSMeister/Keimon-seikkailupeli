@@ -1,7 +1,6 @@
 package keimo.Maastot;
 
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 public class Tile extends Maasto{
 

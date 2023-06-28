@@ -26,10 +26,12 @@ public class PeliRuutu {
     public static JPanel vuoropuhePaneli, vuoropuhePaneliOikea, taustaPaneli, pausePaneli, lisäRuutuPaneli;
     public static JLabel vuoropuheKuvake, vuoropuheTeksti, vuoropuheNimi, pauseLabel;
     public static JLabel kokoruudunTakatausta;
-    public static JPanel hud, yläPaneeli, alaPaneeli;
+    public static JPanel invaPanelinHud, yläPaneeli, alaPaneeli;
     public static JLabel hudTeksti;
+    public static JPanel ostosPaneli, ostosOtsikkoPaneli, ostoksetYhteensäPaneli, ostosPanelinHud;
+    public static JLabel ostosOtsikkoLabel, ostoksetYhteensäLabel;
+    public static JLabel[] ostosEsineLabel, ostosEsineNimiLabel;
     public static JLabel ylätekstiAika, ylätekstiSij, ylätekstiSijRuutu, ylätekstiKohde, ylätekstiKohdeMaasto, ylätekstiKohdeNPC, ylätekstiHP, ylätekstiKuparit, ylätekstiViive, ylätekstiFPS, ylätekstiKuvat, ylätekstiTickrate, ylätekstiTicks;
-
     public static JPanel tekstiPaneli, kontrolliInfoPaneli, tavoiteInfoPaneli, aikaInfoPaneli, debugInfoPaneli, invaPaneli, tavaraPaneli, osoitinPaneli, valitunEsineenNimiPaneli, statsiPaneeli;
     public static JLabel[] esineLabel = new JLabel[Pelaaja.esineet.length];
     public static JLabel osoitinLabel, valitunEsineenNimiLabel;
@@ -307,6 +309,61 @@ public class PeliRuutu {
         }
 
 
+
+        ostosOtsikkoLabel = new JLabel("Ostoskori");
+
+        ostosOtsikkoPaneli = new JPanel();
+        ostosOtsikkoPaneli.setLayout(new GridBagLayout());
+        ostosOtsikkoPaneli.setPreferredSize(new Dimension(180, 30));
+        ostosOtsikkoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        ostosOtsikkoPaneli.add(ostosOtsikkoLabel);
+        ostosOtsikkoPaneli.revalidate();
+        ostosOtsikkoPaneli.repaint();
+
+        ostosEsineLabel = new JLabel[1];
+        for (int i = 0; i < ostosEsineLabel.length; i++) {
+            ostosEsineLabel[i] = new JLabel("");
+            ostosEsineLabel[i].setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
+        }
+        ostosEsineNimiLabel = new JLabel[1];
+        for (int i = 0; i < ostosEsineNimiLabel.length; i++) {
+            ostosEsineNimiLabel[i] = new JLabel("");
+        }
+
+        ostosPaneli = new JPanel();
+        ostosPaneli.setLayout(new GridLayout(ostosEsineLabel.length, 2));
+        ostosPaneli.setPreferredSize(new Dimension(180, 170));
+        ostosPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        for (int i = 0; i < ostosEsineLabel.length; i++) {
+            ostosPaneli.add(ostosEsineLabel[i]);
+            ostosPaneli.add(ostosEsineNimiLabel[i]);
+        }
+        ostosPaneli.revalidate();
+        ostosPaneli.repaint();
+
+        ostoksetYhteensäLabel = new JLabel("Ostokset yhteensä: " + 0 + "€");
+
+        ostoksetYhteensäPaneli = new JPanel();
+        ostoksetYhteensäPaneli.setLayout(new GridBagLayout());
+        ostoksetYhteensäPaneli.setPreferredSize(new Dimension(180, 30));
+        ostoksetYhteensäPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        ostoksetYhteensäPaneli.add(ostoksetYhteensäLabel);
+        ostoksetYhteensäPaneli.revalidate();
+        ostoksetYhteensäPaneli.repaint();
+
+        ostosPanelinHud = new JPanel();
+        ostosPanelinHud.setLayout(new BorderLayout());
+        ostosPanelinHud.setBounds(10, 10, 180, 200);
+        ostosPanelinHud.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        ostosPanelinHud.add(ostosOtsikkoPaneli, BorderLayout.NORTH);
+        ostosPanelinHud.add(ostosPaneli, BorderLayout.CENTER);
+        ostosPanelinHud.add(ostoksetYhteensäPaneli, BorderLayout.SOUTH);
+        ostosPanelinHud.revalidate();
+        ostosPanelinHud.repaint();
+
+
+
+
         osoitinLabel = new JLabel("Tavaraluettelo");
 
         osoitinPaneli = new JPanel();
@@ -353,13 +410,13 @@ public class PeliRuutu {
         invaPaneli.revalidate();
         invaPaneli.repaint();
         
-        hud = new JPanel();
-        hud.setLayout(new BorderLayout());
-        hud.setBounds(0, 20, 200, 188);
-        hud.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        hud.add(invaPaneli, BorderLayout.SOUTH);
-        hud.revalidate();
-        hud.repaint();
+        invaPanelinHud = new JPanel();
+        invaPanelinHud.setLayout(new BorderLayout());
+        invaPanelinHud.setBounds(0, 20, 200, 188);
+        invaPanelinHud.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        invaPanelinHud.add(invaPaneli, BorderLayout.SOUTH);
+        invaPanelinHud.revalidate();
+        invaPanelinHud.repaint();
 
 
         yläPaneeli = new JPanel();
@@ -408,7 +465,7 @@ public class PeliRuutu {
         vasenAlaPaneeli.setLayout(null);
         vasenAlaPaneeli.setPreferredSize(new Dimension(200, 220));
         vasenAlaPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        vasenAlaPaneeli.add(hud);
+        vasenAlaPaneeli.add(invaPanelinHud);
         vasenAlaPaneeli.add(vasenAlaPaneelinTausta);
         vasenAlaPaneeli.revalidate();
         vasenAlaPaneeli.repaint();
@@ -441,10 +498,10 @@ public class PeliRuutu {
         oikeaKeskiPaneeli.setLayout(null);
         oikeaKeskiPaneeli.setPreferredSize(new Dimension(200, 220));
         oikeaKeskiPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        oikeaKeskiPaneeli.add(kontrolliInfoPaneli);
+        oikeaKeskiPaneeli.add(tavoiteInfoPaneli);
         oikeaKeskiPaneeli.add(oikeaKeskiPaneelinTausta);
         oikeaKeskiPaneeli.setComponentZOrder(oikeaKeskiPaneelinTausta, 1);
-        oikeaKeskiPaneeli.setComponentZOrder(kontrolliInfoPaneli, 0);
+        oikeaKeskiPaneeli.setComponentZOrder(tavoiteInfoPaneli, 0);
         oikeaKeskiPaneeli.revalidate();
         oikeaKeskiPaneeli.repaint();
 
@@ -454,10 +511,12 @@ public class PeliRuutu {
         oikeaAlaPaneeli.setLayout(null);
         oikeaAlaPaneeli.setPreferredSize(new Dimension(200, 220));
         oikeaAlaPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        oikeaAlaPaneeli.add(tavoiteInfoPaneli);
+        oikeaAlaPaneeli.add(ostosPanelinHud);
+        oikeaAlaPaneeli.add(kontrolliInfoPaneli);
         oikeaAlaPaneeli.add(oikeaAlaPaneelinTausta);
-        oikeaAlaPaneeli.setComponentZOrder(oikeaAlaPaneelinTausta, 1);
-        oikeaAlaPaneeli.setComponentZOrder(tavoiteInfoPaneli, 0);
+        oikeaAlaPaneeli.setComponentZOrder(oikeaAlaPaneelinTausta, 2);
+        oikeaAlaPaneeli.setComponentZOrder(ostosPanelinHud, 1);
+        oikeaAlaPaneeli.setComponentZOrder(ostosPanelinHud, 0);
         oikeaAlaPaneeli.revalidate();
         oikeaAlaPaneeli.repaint();
 
@@ -607,17 +666,15 @@ public class PeliRuutu {
         pelaajanEsineLabel.setName("Pelaajan_esine");
         pelaajanEsineLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx/2, pelaajanKokoPx/2);
         pelaajanEsineLabel.setIcon(null);
-        // taustaLabel = new JLabel(new ImageIcon());
-        // taustaLabel.setBounds(0, 0, Peli.kentänKoko * esineenKokoPx + 20, Peli.kentänKoko * esineenKokoPx + 20);
         npcKuvake = new JLabel[Peli.annaNPCidenMäärä()];
         
         try {
-            peliKenttä.add(pelaajaLabel, new Integer(4), 0);
-            peliKenttä.add(pelaajanEsineLabel, new Integer(5), 0);
-            peliKenttä.add(vuoropuhePaneli, new Integer(6), 0);
-            peliKenttä.add(lisäRuutuPaneli, new Integer(7), 0);
-            peliKenttä.add(pausePaneli, new Integer(8), 0);
-            peliKenttä.add(taustaPaneli, new Integer(0), 0);
+            peliKenttä.add(pelaajaLabel, Integer.valueOf(4), 0);
+            peliKenttä.add(pelaajanEsineLabel, Integer.valueOf(5), 0);
+            peliKenttä.add(vuoropuhePaneli, Integer.valueOf(6), 0);
+            peliKenttä.add(lisäRuutuPaneli, Integer.valueOf(7), 0);
+            peliKenttä.add(pausePaneli, Integer.valueOf(8), 0);
+            peliKenttä.add(taustaPaneli, Integer.valueOf(0), 0);
             
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
@@ -660,8 +717,8 @@ public class PeliRuutu {
                     
                         kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
                         maastoKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
-                        peliKenttä.add(kenttäKohteenKuvake[j][i], new Integer(2), 0);
-                        peliKenttä.add(maastoKohteenKuvake[j][i], new Integer(1), 0);
+                        peliKenttä.add(kenttäKohteenKuvake[j][i], Integer.valueOf(2), 0);
+                        peliKenttä.add(maastoKohteenKuvake[j][i], Integer.valueOf(1), 0);
                         kohteenSijX += esineenKokoPx;
                     }
                 }
@@ -683,7 +740,7 @@ public class PeliRuutu {
                     else {
                         npcKuvake[i].setBorder(null);
                     }
-                    peliKenttä.add(npcKuvake[i], new Integer(3), 0);
+                    peliKenttä.add(npcKuvake[i], Integer.valueOf(3), 0);
                 }
             }
         }
@@ -823,6 +880,8 @@ public class PeliRuutu {
     static int hajontaKerroinIsompi = Pelaaja.känninVoimakkuus+1;
     static int hajontaXKaikki = 0;
     static int hajontaYKaikki = 0;
+    static int hajontaXPelaaja = 0;
+    static int hajontaYPelaaja = 0;
     static int hajontaX = 0;
     static int hajontaY = 0;
 
@@ -843,6 +902,8 @@ public class PeliRuutu {
             hajontaKerroinPienempi = hajontaKerroin/2;
             hajontaXKaikki = r.nextInt(-1 * hajontaKerroinIsompi + 1, hajontaKerroinIsompi);
             hajontaYKaikki = r.nextInt(-1 * hajontaKerroinIsompi + 1, hajontaKerroinIsompi);
+            hajontaXPelaaja = r.nextInt(-1 * hajontaKerroinIsompi + 1, hajontaKerroinIsompi);
+            hajontaYPelaaja = r.nextInt(-1 * hajontaKerroinIsompi + 1, hajontaKerroinIsompi);
         }
         
         for (int i = 0; i < Peli.kentänKoko; i++) {
@@ -871,6 +932,21 @@ public class PeliRuutu {
                 }
             }
         }
+        for (NPC npc : Peli.npcLista) {
+            if (hajontaKerroin > 0) {
+                if (hajontaKerroinIsompi/2 > 0) {
+                    hajontaX = r.nextInt(-1 * hajontaKerroinIsompi/2 + 1, hajontaKerroinIsompi/2);
+                    hajontaY = r.nextInt(-1 * hajontaKerroinIsompi/2 + 1, hajontaKerroinIsompi/2);
+                }
+                if (Peli.npcLista.size() == npcKuvake.length) {
+                    if (npcKuvake[Peli.npcLista.indexOf(npc)] != null && npc != null) {
+                        npcKuvake[Peli.npcLista.indexOf(npc)].setIcon(npc.kuvake);
+                        npcKuvake[Peli.npcLista.indexOf(npc)].setBounds((int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getX() + hajontaX + hajontaXKaikki, (int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getY() + hajontaY + hajontaYKaikki, (int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getWidth(), (int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getHeight());
+                    }
+                }
+            }
+        }
+        pelaajaLabel.setBounds((int)pelaajaLabel.getBounds().getX() + hajontaXPelaaja + hajontaXKaikki, (int)pelaajaLabel.getBounds().getY() + hajontaYPelaaja + hajontaYKaikki, pelaajanKokoPx, pelaajanKokoPx);
     }
 
     public static void nollaaKänniEfekti() {
@@ -881,6 +957,8 @@ public class PeliRuutu {
         hajontaYKaikki = 0;
         hajontaX = 0;
         hajontaY = 0;
+        hajontaXPelaaja = 0;
+        hajontaYPelaaja = 0;
 
         int kohteenSijX = 10;
         int kohteensijY = 10;
@@ -896,6 +974,7 @@ public class PeliRuutu {
             kohteenSijX = 10;
             kohteensijY += esineenKokoPx;
         }
+        PääIkkuna.uudelleenpiirräKenttä = true;
     }
 
     public static void päivitäNPCKenttä() {
@@ -927,13 +1006,13 @@ public class PeliRuutu {
                     else {
                         npcKuvake[i].setBorder(null);
                     }
-                    peliKenttä.add(npcKuvake[i], new Integer(3), 0);
+                    peliKenttä.add(npcKuvake[i], Integer.valueOf(3), 0);
                 }
             }
             else {
                 for (int i = 0; i < npcKuvake.length; i++) {
                     npcKuvake[i] = new JLabel(new ImageIcon());
-                    peliKenttä.add(npcKuvake[i], new Integer(3), 0);
+                    peliKenttä.add(npcKuvake[i], Integer.valueOf(3), 0);
                 }
             }
         }
@@ -959,6 +1038,35 @@ public class PeliRuutu {
         else{
             taustaLabel.setIcon(tausta);
             taustaLabel.setVisible(true);
+        }
+    }
+
+    public static void päivitäOstosPaneli() {
+        if (ostosPaneli != null) {
+            ostosEsineLabel = new JLabel[Pelaaja.ostosKori.size()];
+            for (int i = 0; i < ostosEsineLabel.length; i++) {
+                ostosEsineLabel[i] = new JLabel(Pelaaja.ostosKori.get(i).annaKuvake());
+                ostosEsineLabel[i].setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
+            }
+            ostosEsineNimiLabel = new JLabel[Pelaaja.ostosKori.size()];
+            for (int i = 0; i < ostosEsineNimiLabel.length; i++) {
+                ostosEsineNimiLabel[i] = new JLabel(Pelaaja.ostosKori.get(i).annaNimi());
+            }
+            ostosPaneli.removeAll();
+            ostosPaneli.setLayout(new GridLayout(ostosEsineLabel.length, 2));
+            for (int i = 0; i < ostosEsineLabel.length; i++) {
+                ostosPaneli.add(ostosEsineLabel[i]);
+                ostosPaneli.add(ostosEsineNimiLabel[i]);
+            }
+
+            Pelaaja.ostostenHintaYhteensä = 0;
+            for (Esine e : Pelaaja.ostosKori) {
+                Pelaaja.ostostenHintaYhteensä += e.annaHinta();
+            }
+            ostoksetYhteensäLabel.setText("Ostokset yhteensä: " + df.format(Pelaaja.ostostenHintaYhteensä) + "€");
+
+            ostosPaneli.revalidate();
+            ostosPaneli.repaint();
         }
     }
 }

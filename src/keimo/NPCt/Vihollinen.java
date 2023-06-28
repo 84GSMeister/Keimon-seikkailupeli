@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract class Vihollinen extends NPC{
     
     public int vahinko = 0;
+    public boolean tekeeVahinkoa = true;
     public ArrayList<String> tehoavatAseet = new ArrayList<String>();
     public boolean kilpiTehoaa = true;
 
@@ -21,8 +22,8 @@ public abstract class Vihollinen extends NPC{
         STAATTINEN;
     }
     
-    public int liikkeenPituus = 20;
-    public int liikuVielä = 20;
+    public int liikkeenPituus = 60;
+    public int liikuVielä = 60;
     public Suunta[] liikeSuuntaLoopNeliöMyötäpäivään = {Suunta.YLÖS, Suunta.OIKEA, Suunta.ALAS, Suunta.VASEN};
     public Suunta[] liikeSuuntaLoopNeliöVastapäivään = {Suunta.YLÖS, Suunta.VASEN, Suunta.ALAS, Suunta.OIKEA};
     public Suunta[] liikeSuuntaLoopVasenOikea = {Suunta.VASEN, Suunta.OIKEA};

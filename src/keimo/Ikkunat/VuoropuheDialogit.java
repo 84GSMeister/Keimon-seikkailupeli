@@ -1,16 +1,21 @@
 package keimo.Ikkunat;
 
+import keimo.Pelaaja;
 import keimo.PääIkkuna;
+
+import java.text.DecimalFormat;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class VuoropuheDialogit {
-    
+
+    protected static DecimalFormat df = new DecimalFormat("##.##");
     public static int dialoginPituus = 0;
     public static Icon[] dialogiKuvat;
     public static String[] dialogiTekstit;
     public static String[] dialogiPuhujat;
+    public static String vuoropuheTunniste;
 
     public static void siirrySeuraavaanDialogiRuutuun(int ruudunNro) {
         PääIkkuna.avaaDialogi(dialogiKuvat[ruudunNro], dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
@@ -20,6 +25,7 @@ public class VuoropuheDialogit {
 
     public static void luoYksityiskohtainenVuoropuheRuutu(String vuoropuheRuudunTunniste) {
         PääIkkuna.useitaRuutuja = true;
+        vuoropuheTunniste = vuoropuheRuudunTunniste;
         switch (vuoropuheRuudunTunniste) {
             case "kyläkauppa":
                 dialoginPituus = 9;
@@ -57,6 +63,50 @@ public class VuoropuheDialogit {
                 dialogiPuhujat[6] = "Keimo";
                 dialogiPuhujat[7] = "ASS-Market kassa";
                 dialogiPuhujat[8] = "Keimo";
+            break;
+            case "kauppa_normaali":
+                dialoginPituus = 4;
+                PääIkkuna.dialogiaJäljellä = dialoginPituus;
+                dialogiKuvat = new Icon[dialoginPituus];
+                dialogiTekstit = new String[dialoginPituus];
+                dialogiPuhujat = new String[dialoginPituus];
+
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[2] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
+                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+
+                dialogiTekstit[0] = "Hyvää päivää!";
+                dialogiTekstit[1] = "Se tekisi " + df.format(Pelaaja.ostostenHintaYhteensä) + " euroa.";
+                dialogiTekstit[2] = "...";
+                dialogiTekstit[3] = "Kiitos. Näkemiin.";
+
+                dialogiPuhujat[0] = "ASS-Market kassa";
+                dialogiPuhujat[1] = "ASS-Market kassa";
+                dialogiPuhujat[2] = "Keimo";
+                dialogiPuhujat[3] = "ASS-Market kassa";
+            break;
+            case "kauppa_eivaraa":
+                dialoginPituus = 4;
+                PääIkkuna.dialogiaJäljellä = dialoginPituus;
+                dialogiKuvat = new Icon[dialoginPituus];
+                dialogiTekstit = new String[dialoginPituus];
+                dialogiPuhujat = new String[dialoginPituus];
+
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[2] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
+                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+
+                dialogiTekstit[0] = "Hyvää päivää!";
+                dialogiTekstit[1] = "Se tekisi " + df.format(Pelaaja.ostostenHintaYhteensä) + " euroa.";
+                dialogiTekstit[2] = "No perhana eihän mulla oo varaa näihin.";
+                dialogiTekstit[3] = "Tervetuloa takaisin kun on varaa.";
+
+                dialogiPuhujat[0] = "ASS-Market kassa";
+                dialogiPuhujat[1] = "ASS-Market kassa";
+                dialogiPuhujat[2] = "Keimo";
+                dialogiPuhujat[3] = "ASS-Market kassa";
             break;
         }
     }

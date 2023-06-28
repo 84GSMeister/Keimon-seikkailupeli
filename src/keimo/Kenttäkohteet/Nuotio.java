@@ -172,10 +172,11 @@ public class Nuotio extends Kiintopiste {
         return sytytetty;
     }
 
-    public Nuotio(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
+    public Nuotio(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+        super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Nuotio";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
+        super.tiedostonNimi = "nuotio_sammunut.png";
         super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
         super.asetaTiedot();
     }

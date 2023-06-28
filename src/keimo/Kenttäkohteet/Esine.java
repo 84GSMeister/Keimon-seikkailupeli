@@ -1,8 +1,6 @@
 package keimo.Kenttäkohteet;
+
 import java.util.Random;
-
-import keimo.PääIkkuna;
-
 import java.util.ArrayList;
 
 public abstract class Esine extends KenttäKohde {
@@ -27,6 +25,11 @@ public abstract class Esine extends KenttäKohde {
     boolean yhdistettävä = false;
     public boolean onkoYhdistettävä() {
         return yhdistettävä;
+    }
+
+    protected double hinta = Double.POSITIVE_INFINITY;
+    public double annaHinta() {
+        return hinta;
     }
 
     /**

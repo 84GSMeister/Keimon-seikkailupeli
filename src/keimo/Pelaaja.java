@@ -8,8 +8,10 @@ import keimo.Liikkuminen.*;
 
 import javax.swing.*;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Random;
 
-public class Pelaaja implements Käännettävä{
+public class Pelaaja implements Käännettävä {
     
     public static final Esine[] esineet = new Esine[6];
     static int valittuEsine = 0;
@@ -17,17 +19,21 @@ public class Pelaaja implements Käännettävä{
     public static int sijY;
     public static Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
     public static int hp;
-    public static float raha;
+    public static double raha;
     public static int kuparit;
-    static int syödytRuoat = 0;
+    static int syödytRuoat;
+    static int nopeus;
     public static ImageIcon kuvake;
-    public static int kuolemattomuusAika = 0;
-    static int reaktioAika = 0;
+    public static int kuolemattomuusAika;
+    static int reaktioAika;
     static boolean vihollisenKohdalla = false;
     static Vihollinen vihollinenKohdalla;
     public static Vihollinen viimeisinOsunutVihollinen;
-    public static int känninVoimakkuus = 0;
-    public static float känninVoimakkuusFloat = 0f;
+    public static ArrayList<Esine> ostosKori = new ArrayList<Esine>();
+    public static double ostostenHintaYhteensä;
+    public static int känninVoimakkuus;
+    public static float känninVoimakkuusFloat;
+    private static Random r = new Random();
 
     /**
      * Valitse tila, jonka mukaan kuvake valitaan grafiikkasäikeessä sekä
@@ -75,25 +81,25 @@ public class Pelaaja implements Käännettävä{
         boolean pelaajaSiirtyi = false;
         if (liikkuminen instanceof LiikkuminenVasemmalle) {
             if ((int)hitbox.getMinX() > Peli.kentänAlaraja) {
-                hitbox.setLocation((int)hitbox.getMinX() - 8, (int)hitbox.getMinY());
+                hitbox.setLocation((int)hitbox.getMinX() - nopeus, (int)hitbox.getMinY());
                 pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenOikealle) {
             if ((int)hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                hitbox.setLocation((int)hitbox.getMinX() + 8, (int)hitbox.getMinY());
+                hitbox.setLocation((int)hitbox.getMinX() + nopeus, (int)hitbox.getMinY());
                 pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenYlös) {
             if ((int)hitbox.getMinY() > Peli.kentänAlaraja) {
-                hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() - 8);
+                hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() - nopeus);
                 pelaajaSiirtyi = true;
             }
         }
         else if (liikkuminen instanceof LiikkuminenAlas) {
             if ((int)hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() + 8);
+                hitbox.setLocation((int)hitbox.getMinX(), (int)hitbox.getMinY() + nopeus);
                 pelaajaSiirtyi = true;
             }
         }
@@ -110,15 +116,19 @@ public class Pelaaja implements Käännettävä{
      * @return siirtyikö pelaaja (valitussa suunnassa ei este tai kentän reuna)
      */
 
-    static boolean kokeileLiikkumista(String suunta) {
+    static boolean kokeileLiikkumista(Suunta suunta) {
         boolean pelaajaSiirtyi = false;
+        float harhaliikkeenTodennäköisyys = känninVoimakkuusFloat/5 - 0.3f;
+        int tarkistaVasen = (int)(hitbox.getMinX()-8)/64;
+        int tarkistaOikea = (int)hitbox.getMinX()/64 +1;
+        int tarkistaAlas = (int)hitbox.getMinY()/64 +1;
+        int tarkistaYlös = (int)(hitbox.getMinY()-8)/64;
         try {
             switch (suunta) {
-                case "vasen":
-                    int tarkistaVasen = (int)(hitbox.getMinX()-8)/64;
+                case VASEN:
                     if (hitbox.getMinX() > 0) {
                         if (Peli.maastokenttä[tarkistaVasen][sijY] != null && Peli.pelikenttä[tarkistaVasen][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
                                 if (Peli.pelikenttä[tarkistaVasen][sijY] instanceof VisuaalinenObjekti) {
                                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaVasen][sijY];
                                     if (!vo.onkoEste()) {
@@ -126,25 +136,56 @@ public class Pelaaja implements Käännettävä{
                                     }
                                 }
                                 else {
+                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                        if (r.nextBoolean()) {
+                                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenAlas());
+                                            }
+                                        }
+                                        else {
+                                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenYlös());
+                                            }
+                                        }
+                                    }
                                     pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                                 }
                             }
                         }
                         else if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+                                if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                    if (r.nextBoolean()) {
+                                        if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                                            siirry(new LiikkuminenAlas());
+                                        }
+                                    }
+                                    else {
+                                        if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                                            siirry(new LiikkuminenYlös());
+                                        }
+                                    }
+                                }
                                 pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                             }
                         }
                         else {
+                            if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                if (r.nextBoolean()) {
+                                    siirry(new LiikkuminenAlas());
+                                }
+                                else {
+                                    siirry(new LiikkuminenYlös());
+                                }
+                            }
                             pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                         }
                     }
                 break;
-                case "oikea":   
-                    int tarkistaOikea = (int)hitbox.getMinX()/64 +1;
+                case OIKEA:
                     if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.maastokenttä[tarkistaOikea][sijY] != null && Peli.pelikenttä[tarkistaOikea][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
                                 if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof VisuaalinenObjekti) {
                                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaOikea][sijY];
                                     if (!vo.onkoEste()) {
@@ -152,25 +193,56 @@ public class Pelaaja implements Käännettävä{
                                     }
                                 }
                                 else {
+                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                        if (r.nextBoolean()) {
+                                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenAlas());
+                                            }
+                                        }
+                                        else {
+                                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenYlös());
+                                            }
+                                        }
+                                    }
                                     pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                                 }
                             }
                         }
                         else if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+                                if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                    if (r.nextBoolean()) {
+                                        if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                                            siirry(new LiikkuminenAlas());
+                                        }
+                                    }
+                                    else {
+                                        if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                                            siirry(new LiikkuminenYlös());
+                                        }
+                                    }
+                                }
                                 pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                             }
                         }
                         else {
+                            if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                if (r.nextBoolean()) {
+                                    siirry(new LiikkuminenAlas());
+                                }
+                                else {
+                                    siirry(new LiikkuminenYlös());
+                                }
+                            }
                             pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                         }
                     }
                 break;
-                case "alas":
-                    int tarkistaAlas = (int)hitbox.getMinY()/64 +1;
+                case ALAS:
                     if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.maastokenttä[sijX][tarkistaAlas] != null && Peli.pelikenttä[sijX][tarkistaAlas] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
                                 if (Peli.pelikenttä[sijX][tarkistaAlas] instanceof VisuaalinenObjekti) {
                                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaAlas];
                                     if (!vo.onkoEste()) {
@@ -178,25 +250,52 @@ public class Pelaaja implements Käännettävä{
                                     }
                                 }
                                 else {
+                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                        if (r.nextBoolean()) {
+                                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenVasemmalle());
+                                            }
+                                        }
+                                        else {
+                                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenOikealle());
+                                            }
+                                        }
+                                    }
                                     pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                                 }
                             }
                         }
                         else if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                                if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                    if (r.nextBoolean()) {
+                                        siirry(new LiikkuminenVasemmalle());
+                                    }
+                                    else {
+                                        siirry(new LiikkuminenOikealle());
+                                    }
+                                }
                                 pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                             }
                         }
                         else {
+                            if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                if (r.nextBoolean()) {
+                                    siirry(new LiikkuminenVasemmalle());
+                                }
+                                else {
+                                    siirry(new LiikkuminenOikealle());
+                                }
+                            }
                             pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                         }
                     }
                 break;
-                case "ylös":
-                    int tarkistaYlös = (int)(hitbox.getMinY()-8)/64;
+                case YLÖS:
                     if (hitbox.getMinY() > 0) {
                         if (Peli.maastokenttä[sijX][tarkistaYlös] != null && Peli.pelikenttä[sijX][tarkistaYlös] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
                                 if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof VisuaalinenObjekti) {
                                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaYlös];
                                     if (!vo.onkoEste()) {
@@ -204,16 +303,44 @@ public class Pelaaja implements Käännettävä{
                                     }
                                 }
                                 else {
+                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                        if (r.nextBoolean()) {
+                                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenVasemmalle());
+                                            }
+                                        }
+                                        else {
+                                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+                                                siirry(new LiikkuminenOikealle());
+                                            }
+                                        }
+                                    }
                                     pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                                 }
                             }
                         }
                         else if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen()) {
+                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                                if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                    if (r.nextBoolean()) {
+                                        siirry(new LiikkuminenVasemmalle());
+                                    }
+                                    else {
+                                        siirry(new LiikkuminenOikealle());
+                                    }
+                                }
                                 pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                             }
                         }
                         else {
+                            if (harhaliikkeenTodennäköisyys > Math.random()) {
+                                if (r.nextBoolean()) {
+                                    siirry(new LiikkuminenVasemmalle());
+                                }
+                                else {
+                                    siirry(new LiikkuminenOikealle());
+                                }
+                            }
                             pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                         }
                     }
@@ -222,8 +349,13 @@ public class Pelaaja implements Käännettävä{
                 break;
             }
         }
+        catch (NullPointerException npe) {
+            System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan.");
+            npe.printStackTrace();
+        }
         catch (ArrayIndexOutOfBoundsException aioobe) {
-            aioobe.printStackTrace();
+            System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan (kentän ulkopuolella).");
+            //aioobe.printStackTrace();
         }
         return pelaajaSiirtyi;
     }
@@ -233,7 +365,6 @@ public class Pelaaja implements Käännettävä{
             if (annaEsineidenMäärä() < annaTavaraluettelonKoko()) {
                 for (int i = 0; i < esineet.length; i++) {
                     if (esineet[i] == null) {
-                        //esineet[i] = new Vesiämpäri(false, 0, 0);
                         esineet[i] = e;
                         break;
                     }
@@ -243,6 +374,7 @@ public class Pelaaja implements Käännettävä{
             else {
                 PääIkkuna.hudTeksti.setText("Ei voida poimia! Tavaraluettelo täynnä! Kokeile pudottaa jokin esine tyhjään ruutuun");
             }
+            Peli.valittuEsine = esineet[Peli.esineValInt];
         }
     }
 
@@ -271,12 +403,6 @@ public class Pelaaja implements Käännettävä{
     }
 
     public static Suunta keimonSuunta = Suunta.ALAS;
-    // public enum Suunta {
-    //     VASEN,
-    //     OIKEA,
-    //     ALAS,
-    //     YLÖS;
-    // }
 
     public static SuuntaVasenOikea keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
     public enum SuuntaVasenOikea {
@@ -324,19 +450,19 @@ public class Pelaaja implements Käännettävä{
     static boolean liikutaPelaajaa() {
         boolean pelaajaLiikkui = false;
         if (pelaajaLiikkuuVasen) {
-            kokeileLiikkumista("vasen");
+            kokeileLiikkumista(Suunta.VASEN);
             pelaajaLiikkui = true;
         }
         if (pelaajaLiikkuuOikea) {
-            kokeileLiikkumista("oikea");
+            kokeileLiikkumista(Suunta.OIKEA);
             pelaajaLiikkui = true;
         }
         if (pelaajaLiikkuuYlös) {
-            kokeileLiikkumista("ylös");
+            kokeileLiikkumista(Suunta.YLÖS);
             pelaajaLiikkui = true;
         }
         if (pelaajaLiikkuuAlas) {
-            kokeileLiikkumista("alas");
+            kokeileLiikkumista(Suunta.ALAS);
             pelaajaLiikkui = true;
         }
         return pelaajaLiikkui;
@@ -438,23 +564,55 @@ public class Pelaaja implements Käännettävä{
         }
     }
 
+    public static String lisääOstosKoriin(Esine e) {
+        int tyhjätPaikat = 0;
+        for (Esine esine : esineet) {
+            if (esine == null) {
+                tyhjätPaikat++;
+            }
+        }
+        if (ostosKori.size() >= tyhjätPaikat) {
+            return "Ostoskoriin ei voi lisätä enempää tavaraa kuin tavaraluettelossa on tyhjiä paikkoja!";
+        }
+        else if (e != null) {
+            ostosKori.add(e);
+            PeliRuutu.päivitäOstosPaneli();
+            nopeus--;
+            return "Ostoskoriin lisättiin " + e.annaNimi() + " (+ " + e.annaHinta() + "€)";
+        }
+        else {
+            return "tyhjä hylly";
+        }
+    }
+
+    public static void tyhjennäOstoskori() {
+        ostosKori.removeAll(ostosKori);
+        PeliRuutu.päivitäOstosPaneli();
+        nopeus = 8;
+    }
+
     Pelaaja() {
         hp = Peli.aloitusHp;
-        raha = 0f;
+        raha = 0d;
         kuparit = 0;
         syödytRuoat = 0;
+        nopeus = 8;
         kuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
         keimonState = KeimonState.IDLE;
         keimonKylläisyys = KeimonKylläisyys.LAIHA;
         keimonTerveys = KeimonTerveys.OK;
-        sijX = 0;
-        sijY = 0;
-        hitbox.setLocation(0, 0);
+        sijX = 3;
+        sijY = 3;
+        hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
         pelaajaLiikkuuVasen = false;
         pelaajaLiikkuuOikea = false;
         pelaajaLiikkuuAlas = false;
         pelaajaLiikkuuYlös = false;
+        kuolemattomuusAika = 0;
+        reaktioAika = 0;
         känninVoimakkuus = 0;
         känninVoimakkuusFloat = 0f;
+        ostostenHintaYhteensä = 0;
+        ostosKori.removeAll(ostosKori);
     }
 }

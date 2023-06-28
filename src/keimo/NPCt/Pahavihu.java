@@ -1,13 +1,14 @@
 package keimo.NPCt;
 
-import javax.swing.ImageIcon;
-
 import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.*;
 import keimo.Utility.*;
 
+import javax.swing.ImageIcon;
+
 public class Pahavihu extends Vihollinen {
 
+    @Override
     public void kukista(String kukistusTapa) {
         if (!this.kukistettu) {
             this.kukistettu = true;
@@ -19,6 +20,12 @@ public class Pahavihu extends Vihollinen {
         }
     }
 
+    @Override
+    public void vahingoita(int määrä) {
+        super.vahingoita(määrä);
+        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
+    }
+
     public String katso() {
         if (!onkoKukistettu()) {
             return "Voi ei! Se on ilkeä vihollinen";
@@ -26,11 +33,6 @@ public class Pahavihu extends Vihollinen {
         else {
             return "Vihollinen on kukistettu ja nyt täysin harmiton.";
         }
-    }
-
-    public void vahingoita(int määrä) {
-        super.vahingoita(määrä);
-        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
     }
 
     public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
@@ -82,13 +84,17 @@ public class Pahavihu extends Vihollinen {
 
     public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
-        this.vahinko = 2;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
-        this.kilpiTehoaa = false;
-        this.sijX = sijX;
-        this.sijY = sijY;
-        this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
-        this.nimi = "Pahavihu";
+        super.vahinko = 2;
+        super.nopeus = 4;
+        super.tekeeVahinkoa = true;
+        super.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
+        super.kilpiTehoaa = false;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        super.nimi = "Pahavihu";
+        super.lisäOminaisuuksia = true;
+        super.lisäOminaisuudet = ominaisuusLista;
         super.asetaTiedot();
     }
 }

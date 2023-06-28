@@ -17,13 +17,14 @@ public class PeliKenttäMetodit {
     static Maasto[][] maastokenttä;
 
     public static void suoritaPelikenttäMetoditJoka2Tick() {
-        liikutaVihollisia();
+        tarkistaVartijanAktiivisuus();
     }
 
     public static void suoritaPelikenttäMetoditJokaTick() {
         tarkistaVihollisCollision();
         Pelaaja.vähennäKuolemattomuusAikaa();
         Peli.vähennäKäyttöViivettä();
+        liikutaVihollisia();
     }
 
     static boolean liikutaVihollisia() {
@@ -114,24 +115,51 @@ public class PeliKenttäMetodit {
                                     }
                                 break;
                                 case SEURAA_PELAAJAA:
-                                    int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
-                                    int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
-                                    int etäisyysXits = (int)Math.abs(etäisyysX);
-                                    int etäisyysYits = (int)Math.abs(etäisyysY);
-                                    if (etäisyysXits > etäisyysYits) {
-                                        if (etäisyysX < 0) {
-                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                        }
-                                        else {
-                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                    if (vihollinen instanceof Vartija) {
+                                        Vartija vartija = (Vartija)vihollinen;
+                                        if (vartija.liikkuu) {
+                                            int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
+                                            int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
+                                            int etäisyysXits = (int)Math.abs(etäisyysX);
+                                            int etäisyysYits = (int)Math.abs(etäisyysY);
+                                            if (etäisyysXits > etäisyysYits) {
+                                                if (etäisyysX < 0) {
+                                                    vartija.kokeileLiikkumista(Suunta.VASEN);
+                                                }
+                                                else {
+                                                    vartija.kokeileLiikkumista(Suunta.OIKEA);
+                                                }
+                                            }
+                                            else {
+                                                if (etäisyysY < 0) {
+                                                    vartija.kokeileLiikkumista(Suunta.YLÖS);
+                                                }
+                                                else {
+                                                    vartija.kokeileLiikkumista(Suunta.ALAS);
+                                                }
+                                            }
                                         }
                                     }
                                     else {
-                                        if (etäisyysY < 0) {
-                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                        int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
+                                        int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
+                                        int etäisyysXits = (int)Math.abs(etäisyysX);
+                                        int etäisyysYits = (int)Math.abs(etäisyysY);
+                                        if (etäisyysXits > etäisyysYits) {
+                                            if (etäisyysX < 0) {
+                                                vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                            }
+                                            else {
+                                                vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                            }
                                         }
                                         else {
-                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                            if (etäisyysY < 0) {
+                                                vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                            }
+                                            else {
+                                                vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                            }
                                         }
                                     }
                                 break;
@@ -189,8 +217,12 @@ public class PeliKenttäMetodit {
                                                 TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN;
                                             }
                                         }
-                                        
-                                        Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
+                                        else if (Pelaaja.viimeisinOsunutVihollinen instanceof Vartija) {
+                                            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.VARTIJA;
+                                        }
+                                        if (vihollinen.tekeeVahinkoa) {
+                                            Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
+                                        }
                                     }
                                 }
                             }
@@ -221,6 +253,30 @@ public class PeliKenttäMetodit {
             else {
                 pelaajanKohdallaVihollinen = true;
             }
+        }
+    }
+
+    public static void tarkistaVartijanAktiivisuus() {
+        try {
+            if (Peli.huone.annaId() == 14) {
+                for (NPC npc : Peli.npcLista) {
+                    if (npc instanceof Vartija) {
+                        Vartija vartija = (Vartija)npc;
+                        if (Pelaaja.ostostenHintaYhteensä > 0 && Pelaaja.sijY <= 4) {
+                            vartija.tekeeVahinkoa = true;
+                            vartija.liikkuu = true;
+                        }
+                        else {
+                            vartija.tekeeVahinkoa = false;
+                            vartija.liikkuu = false;
+                        }
+                    }
+                }
+            }
+        }
+        catch (ConcurrentModificationException cme) {
+            System.out.println("Viimeisin vartijan liikkeen tarkistus peruttiin (konkurrenssi-issue).");
+            cme.printStackTrace();
         }
     }
 

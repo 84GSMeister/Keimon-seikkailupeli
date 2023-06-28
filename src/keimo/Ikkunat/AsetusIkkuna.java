@@ -1,6 +1,7 @@
 package keimo.Ikkunat;
 
 import keimo.*;
+import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.*;
 
@@ -10,16 +11,19 @@ import java.awt.event.*;
 
 public class AsetusIkkuna {
     
-    static final int ikkunanLeveys = 400;
-    static final int ikkunanKorkeus = 220;
     static JFrame ikkuna;
-    static String[] tekstit = {"Vaikeusaste", "Musiikki päällä", "Valitse Musiikki", "Tavoite-FPS", "Tavoite-Tickrate"};
+    static String[] tekstit = {"Vaikeusaste", "Musiikki päällä", "Valitse Musiikki", "Musiikin voimakkuus", "Ääniefektien voimakkuus", "Tavoite-FPS", "Tavoite-Tickrate", "Ajoitusmuoto"};
     static int valintojenMäärä = tekstit.length;
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
     static int musiikkiValinta;
     static JComboBox<Object> musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
     static int vaikeusAste, tavoiteFPS;
     static JTextField vaikeusasteTekstikenttä, tavoiteFPSTekstikenttä, tavoiteTickrateTekstikenttä;
+    static JSlider musaVolyymiSlider, ääniVolyymiSlider;
+    static JComboBox<Object> ajoitusValikko = new JComboBox<Object>(PelinAsetukset.AjoitusMuoto.values());
+
+    static final int ikkunanLeveys = 400;
+    static final int ikkunanKorkeus = valintojenMäärä * 45;
 
     public static void tarkistaArvot() {
         try {
@@ -67,7 +71,14 @@ public class AsetusIkkuna {
         ikkuna.dispose();
         PelinAsetukset.musiikkiPäällä = musiikkiEnabloitu;
         PelinAsetukset.musiikkiValinta = musiikkiValikko.getSelectedIndex();
-        Peli.sThread.run();
+        PelinAsetukset.musaVolyymi = musaVolyymiSlider.getValue()/100d;
+        PelinAsetukset.ääniVolyymi = ääniVolyymiSlider.getValue()/100d;
+        PelinAsetukset.ajoitus = (AjoitusMuoto)ajoitusValikko.getSelectedItem();
+        if (PelinAsetukset.ajoitus == AjoitusMuoto.ERITTÄIN_NOPEA) {
+            PelinAsetukset.tavoiteFPS = 60;
+            PelinAsetukset.tavoiteTickrate = 60;
+        }
+        Peli.ääniThread.run();
     }
 
     public static void luoAsetusikkuna() {
@@ -86,33 +97,63 @@ public class AsetusIkkuna {
         musiikkiPäälläCheckbox = new JCheckBox();
         JLabel teksti1 = new JLabel(tekstit[1], JLabel.TRAILING);
         teksti1.setLabelFor(musiikkiPäälläCheckbox);
+        teksti1.setToolTipText("Musiikki päällä.");
         paneli.add(teksti1);
         musiikkiPäälläCheckbox.setSelected(PelinAsetukset.musiikkiPäällä);
+        musiikkiPäälläCheckbox.setToolTipText("Musiikki päällä.");
         paneli.add(musiikkiPäälläCheckbox);
 
         musiikkiValikko.setSelectedIndex(PelinAsetukset.musiikkiValinta);
         JLabel teksti2 = new JLabel(tekstit[2], JLabel.TRAILING);
-        paneli.add(teksti2);
         teksti2.setLabelFor(musiikkiValikko);
+        paneli.add(teksti2);
+        teksti2.setToolTipText("Valitse musiikki");
+        musiikkiValikko.setToolTipText("Valitse musiikki");
         paneli.add(musiikkiValikko);
 
-        tavoiteFPSTekstikenttä = new JTextField();
+        musaVolyymiSlider = new JSlider();
         JLabel teksti3 = new JLabel(tekstit[3], JLabel.TRAILING);
         teksti3.setLabelFor(tavoiteFPSTekstikenttä);
-        teksti3.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
+        teksti3.setToolTipText("<html><p>Musiikin äänenvoimakkuus</p></html>");
         paneli.add(teksti3);
+        musaVolyymiSlider.setValue((int)(PelinAsetukset.musaVolyymi*100));
+        musaVolyymiSlider.setToolTipText("<html><p>Musiikin äänenvoimakkuus</p></html>");
+        paneli.add(musaVolyymiSlider);
+
+        ääniVolyymiSlider = new JSlider();
+        JLabel teksti4 = new JLabel(tekstit[4], JLabel.TRAILING);
+        teksti4.setLabelFor(tavoiteFPSTekstikenttä);
+        teksti4.setToolTipText("<html><p>Efektien (SFX) äänenvoimakkuus</p></html>");
+        paneli.add(teksti4);
+        ääniVolyymiSlider.setValue((int)(PelinAsetukset.ääniVolyymi*100));
+        ääniVolyymiSlider.setToolTipText("<html><p>Efektien (SFX) äänenvoimakkuus</p></html>");
+        paneli.add(ääniVolyymiSlider);
+
+        tavoiteFPSTekstikenttä = new JTextField();
+        JLabel teksti5 = new JLabel(tekstit[5], JLabel.TRAILING);
+        teksti5.setLabelFor(tavoiteFPSTekstikenttä);
+        teksti5.setToolTipText("<html><p>Tavoite-FPS<br><br>Älä aseta liian suureksi tai<br>käyttöliittymä voi muuttua tökkiväksi<br><br>Oletus: 200</p></html><br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        paneli.add(teksti5);
         tavoiteFPSTekstikenttä.setText("" + (PelinAsetukset.tavoiteFPS));
-        tavoiteFPSTekstikenttä.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
+        tavoiteFPSTekstikenttä.setToolTipText("<html><p>Tavoite-FPS<br><br>Älä aseta liian suureksi tai<br>käyttöliittymä voi muuttua tökkiväksi<br><br>Oletus: 200</p></html><br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
         paneli.add(tavoiteFPSTekstikenttä);
 
         tavoiteTickrateTekstikenttä = new JTextField();
-        JLabel teksti4 = new JLabel(tekstit[4], JLabel.TRAILING);
-        teksti4.setLabelFor(tavoiteTickrateTekstikenttä);
-        teksti4.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
-        paneli.add(teksti4);
+        JLabel teksti6 = new JLabel(tekstit[6], JLabel.TRAILING);
+        teksti6.setLabelFor(tavoiteTickrateTekstikenttä);
+        teksti6.setToolTipText("<html><p>Tavoite-Tickrate<br><br>Vaikuttaa mm.<br>-Pelaajan liikkeeseen<br>-Vihollisten liikkeeseen<br>-Collision-tarkistuksiin<br><br>Oletus: 60<br><br>Vaatii uudelleenkäynnistyksen!</p></html></p></html>");
+        paneli.add(teksti6);
         tavoiteTickrateTekstikenttä.setText("" + (PelinAsetukset.tavoiteTickrate));
-        tavoiteTickrateTekstikenttä.setToolTipText("Vaikuttaa siihen, kuinka kauan grafiikkaa piirtävä säie odottaa. Älä aseta liian suureksi.");
+        tavoiteTickrateTekstikenttä.setToolTipText("<html><p>Tavoite-Tickrate<br><br>Vaikuttaa mm.<br>-Pelaajan liikkeeseen<br>-Vihollisten liikkeeseen<br>-Collision-tarkistuksiin<br><br>Oletus: 60<br><br>Vaatii uudelleenkäynnistyksen!</p></html></p></html>");
         paneli.add(tavoiteTickrateTekstikenttä);
+
+        ajoitusValikko.setSelectedItem(PelinAsetukset.AjoitusMuoto.valueOf(PelinAsetukset.ajoitus.name()));
+        JLabel teksti7 = new JLabel(tekstit[7], JLabel.TRAILING);
+        paneli.add(teksti7);
+        teksti7.setLabelFor(ajoitusValikko);
+        teksti7.setToolTipText("<html><p>Tarkempi framerate- ja tickrate-ajoitus parantaa pelin sulavuutta, mutta kasvattaa CPU-käyttöä.<br>Tarkka: Suositellaan 4-ydin- ja paremmille prosessoreille.<br>Nopea: Suositellaan 2-ydin-4-säieprosessoreille.<br>Erittäin nopea: Suositellaan 2-ydinprosessoreille<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        ajoitusValikko.setToolTipText("<html><p>Tarkempi framerate- ja tickrate-ajoitus parantaa pelin sulavuutta, mutta kasvattaa CPU-käyttöä.<br>Tarkka: Suositellaan 4-ydin- ja paremmille prosessoreille.<br>Nopea: Suositellaan 2-ydin-4-säieprosessoreille.<br>Erittäin nopea: Suositellaan 2-ydinprosessoreille<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        paneli.add(ajoitusValikko);
 
         
 
@@ -137,7 +178,7 @@ public class AsetusIkkuna {
         paneli.add(okNappi);
         paneli.add(cancelNappi);
 
-        SpringUtilities.makeCompactGrid(paneli, 6, 2, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(paneli, valintojenMäärä+1, 2, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Esatukset");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());

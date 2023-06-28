@@ -1,0 +1,124 @@
+package keimo.Kenttäkohteet;
+
+import keimo.Pelaaja;
+import keimo.PääIkkuna;
+import keimo.Utility.KäännettäväKuvake;
+
+import javax.swing.ImageIcon;
+
+public class Kauppaovi extends Warp {
+    
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi":
+                return "Oviruutu";
+            case "genetiivi":
+                return "Oviruudun";
+            case "esiivi":
+                return "Oviruutuna";
+            case "partitiivi":
+                return "Oviruutua";
+            case "translatiivi":
+                return "Oviruuduksi";
+            case "inessiivi":
+                return "Oviruudussa";
+            case "elatiivi":
+                return "Oviruudusta";
+            case "illatiivi":
+                return "Oviruutuun";
+            case "adessiivi":
+                return "Oviruudulla";
+            case "ablatiivi":
+                return "Oviruudulta";
+            case "allatiivi":
+                return "Oviruudulle";
+            default:
+                return "Oviruutu";
+        }
+    }
+
+    @Override
+    public void asetaSuunta(Suunta suunta) {
+        super.asetaSuunta(suunta);
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppaovi.png");
+        switch (suunta) {
+            case YLÖS:
+                this.suunta = Suunta.YLÖS;
+                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
+                break;
+            case ALAS:
+                this.suunta = Suunta.ALAS;
+                this.kuvake = new KäännettäväKuvake(kuvake, 180, false);
+                break;
+            case VASEN:
+                this.suunta = Suunta.VASEN;
+                this.kuvake = new KäännettäväKuvake(kuvake, 270, false);
+                break;
+            case OIKEA:
+                this.suunta = Suunta.OIKEA;
+                this.kuvake = new KäännettäväKuvake(kuvake, 90, false);
+                break;
+            default:
+                this.suunta = Suunta.YLÖS;
+                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
+                break;
+        }
+    }
+
+    @Override
+    public void warpinJälkeen() {
+        String tuotteidenNimet = "";
+        for (Esine ostos : Pelaaja.ostosKori) {
+            Pelaaja.annaEsine(ostos);
+            tuotteidenNimet += ostos.annaNimi() + ", ";
+        }
+        if (tuotteidenNimet.length() > 0) {
+            tuotteidenNimet = tuotteidenNimet.substring(0, tuotteidenNimet.length()-2);
+            PääIkkuna.avaaDialogi(null, "Juoksit onnistuneesti kaupasta: " + tuotteidenNimet, "Juoksukalja", true);
+        }
+        Pelaaja.tyhjennäOstoskori();
+    }
+
+    public Kauppaovi(int sijX, int sijY, String[] ominaisuusLista) {
+        super(true, sijX, sijY);
+        this.nimi = "Kauppaovi";
+        this.katsomisTeksti = "Paina Spacea tai nuolen suuntaista nuolinäppäintä kulkeaksesi oviruudusta!";
+
+        this.suunta = Suunta.VASEN;
+
+        if (ominaisuusLista != null) {
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("kohdehuone=")) {
+                    this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("kohderuutuX=")) {
+                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("kohderuutuY=")) {
+                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("suunta=")) {
+                    String suuntaString = ominaisuus.substring(7);
+                    switch (suuntaString) {
+                        case "vasen", "VASEN": this.suunta = Suunta.VASEN; break;
+                        case "oikea", "OIKEA": this.suunta = Suunta.OIKEA; break;
+                        case "ylös", "YLÖS": this.suunta = Suunta.YLÖS; break;
+                        case "alas", "ALAS": this.suunta = Suunta.ALAS; break;
+                        default: this.suunta = Suunta.VASEN; break;
+                    }
+                }
+            }
+        }
+
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppaovi.png");
+        asetaSuunta(suunta);
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[4];
+        this.lisäOminaisuudet[0] = "kohdehuone=" + kohdeHuone;
+        this.lisäOminaisuudet[1] = "kohderuutuX=" + kohdeRuutuX;
+        this.lisäOminaisuudet[2] = "kohderuutuY=" + kohdeRuutuY;
+        this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
+        super.asetaTiedot();
+    }
+}

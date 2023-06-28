@@ -3,7 +3,11 @@ package keimo.Säikeet;
 import keimo.*;
 import keimo.HuoneEditori.*;
 import keimo.Ikkunat.CustomViestiIkkunat;
+import keimo.Ikkunat.VuoropuheDialogit;
+import keimo.Kenttäkohteet.KauppaRuutu;
+import keimo.Kenttäkohteet.VisuaalinenObjekti;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
+import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.*;
 import keimo.Utility.SkaalattavaKuvake.Peilaus;
@@ -308,6 +312,16 @@ public class GrafiikanPäivitysSäie extends Thread {
             else {
                 PeliRuutu.valitunEsineenNimiLabel.setText(Peli.valittuEsine.annaNimi());
             }
+
+            if (Peli.huone.annaAlue().startsWith("Kauppa")) {
+                PeliRuutu.ostosPanelinHud.setVisible(true);
+                PeliRuutu.kontrolliInfoPaneli.setVisible(false);
+            }
+            else {
+                PeliRuutu.ostosPanelinHud.setVisible(false);
+                PeliRuutu.kontrolliInfoPaneli.setVisible(true);
+            }
+
             PeliRuutu.hudTeksti.setText(PääIkkuna.hudTeksti.getText());
             PeliRuutu.tavoiteInfoLabel.setText(TavoiteLista.nykyinenTavoite);
         }
@@ -337,6 +351,30 @@ public class GrafiikanPäivitysSäie extends Thread {
                 PeliRuutu.kokoruudunTakatausta.setVisible(false);
             }
             PeliRuutu.peliKenttäUlompi.setBackground(Color.BLACK);
+        }
+    }
+
+    public static void tileMuutokset() {
+        if (Peli.huone != null) {
+            if (Peli.huone.annaAlue().startsWith("Kauppa")) {
+                try {
+                    if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof KauppaRuutu) {
+                        if (Peli.pelikenttä[Pelaaja.sijX +1][Pelaaja.sijY] instanceof VisuaalinenObjekti) {
+                            VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[Pelaaja.sijX +1][Pelaaja.sijY];
+                            if (PääIkkuna.tekstiAuki) {
+                                vo.tiedostonNimi = "kassa_vihkoauki.png";
+                            }
+                            else {
+                                vo.tiedostonNimi = "kassa_vihkokiinni.png";
+                            }
+                            vo.päivitäKuvanAsento();
+                        }
+                    }
+                }
+                catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -401,6 +439,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                         päivitäPelaajanKuvake();
                         PeliRuutu.päivitäPeliRuutu();
                         PeliRuutu.luoKänniEfekti();
+                        tileMuutokset();
                     }
 
                     if (HuoneEditoriIkkuna.vaatiiPäivityksen) {
@@ -410,14 +449,20 @@ public class GrafiikanPäivitysSäie extends Thread {
                     kertymänAika += aikaErotusUs;
 
                     if (PääIkkuna.uudelleenpiirräKaikki) {
-                        PeliRuutu.alustaPeliRuutu();
+                        PääIkkuna.pääPaneeli.removeAll();
+                        PääIkkuna.pääPaneeli.add(PeliRuutu.luoPeliRuudunGUI());
                         PeliRuutu.vaihdaTausta(uusiTausta);
                         PääIkkuna.uudelleenpiirräKaikki = false;
                     }
                     if (PääIkkuna.uudelleenpiirräKenttä) {
-                        PeliRuutu.päivitäNPCKenttä();
+                        PeliRuutu.alustaPeliRuutu();
                         PeliRuutu.vaihdaTausta(uusiTausta);
                         PääIkkuna.uudelleenpiirräKenttä = false;
+                    }
+                    if (PääIkkuna.uudelleenpiirräObjektit) {
+                        PeliRuutu.päivitäNPCKenttä();
+                        PeliRuutu.vaihdaTausta(uusiTausta);
+                        PääIkkuna.uudelleenpiirräObjektit = false;
                     }
 
                     lastRenderTime = now;
@@ -432,7 +477,10 @@ public class GrafiikanPäivitysSäie extends Thread {
                         //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
                         //On my OS it does not unpuase the game if i take this away
                         try {
-                            Thread.sleep(1);
+                            if (PelinAsetukset.ajoitus == AjoitusMuoto.TARKKA) {}
+                            else {
+                                Thread.sleep(1);
+                            }
                             //LockSupport.parkNanos(1_000_000);
                         }
                         catch (Exception e) {

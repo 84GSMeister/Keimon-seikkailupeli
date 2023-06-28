@@ -95,8 +95,9 @@ public class Kirstu extends Kiintopiste {
 
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet = new String[4];
         this.lisäOminaisuudet[0] = "sisältö=" + this.annaSisältö();
+        super.päivitäLisäOminaisuudet();
     }
 
     public void avaa() {
@@ -153,9 +154,10 @@ public class Kirstu extends Kiintopiste {
     }
 
     public Kirstu(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY);
+        super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kirstu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu.png");
+        super.tiedostonNimi = "kirstu.png";
         super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
 
         if (ominaisuusLista != null) {
@@ -166,9 +168,7 @@ public class Kirstu extends Kiintopiste {
                 }
             }
             this.sisältö = luoSisältö(esineenNimi);
-            this.lisäOminaisuuksia = true;
-            this.lisäOminaisuudet = new String[1];
-            this.lisäOminaisuudet[0] = "sisältö=" + esineenNimi;
+            päivitäLisäOminaisuudet();
         }
         else {
             this.lisäOminaisuuksia = false;

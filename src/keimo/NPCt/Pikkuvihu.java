@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 
 public class Pikkuvihu extends Vihollinen {
 
+    @Override
     public void kukista(String kukistusTapa) {
         if (!this.kukistettu) {
             this.kukistettu = true;
@@ -19,6 +20,12 @@ public class Pikkuvihu extends Vihollinen {
         }
     }
 
+    @Override
+    public void vahingoita(int määrä) {
+        super.vahingoita(määrä);
+        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
+    }
+
     public String katso() {
         if (!onkoKukistettu()) {
             return "Voi ei! Se on ilkeä vihollinen";
@@ -26,11 +33,6 @@ public class Pikkuvihu extends Vihollinen {
         else {
             return "Vihollinen on kukistettu ja nyt täysin harmiton.";
         }
-    }
-
-    public void vahingoita(int määrä) {
-        super.vahingoita(määrä);
-        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
     }
 
     public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
@@ -82,13 +84,15 @@ public class Pikkuvihu extends Vihollinen {
 
     public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
-        this.vahinko = 1;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
-        this.kilpiTehoaa = true;
-        this.sijX = sijX;
-        this.sijY = sijY;
-        this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
-        this.nimi = "Pikkuvihu";
+        super.vahinko = 1;
+        super.nopeus = 3;
+        super.tekeeVahinkoa = true;
+        super.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
+        super.kilpiTehoaa = true;
+        super.sijX = sijX;
+        super.sijY = sijY;
+        super.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        super.nimi = "Pikkuvihu";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;
         super.tehoavatAseet.add("Vesiämpäri");

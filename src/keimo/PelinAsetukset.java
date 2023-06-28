@@ -1,4 +1,10 @@
 package keimo;
+
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class PelinAsetukset {
     
     public static int RUUDUNPÄIVITYS = 60;
@@ -8,6 +14,15 @@ public class PelinAsetukset {
     public static int musiikkiValinta = 0;
     public static int tavoiteFPS = 200;
     public static int tavoiteTickrate = 60;
+    public static AjoitusMuoto ajoitus = AjoitusMuoto.TARKKA;
+    public static double musaVolyymi = 0.5d;
+    public static double ääniVolyymi = 0.5d;
+
+    static List<String> musaLista = Stream.of(new File("tiedostot/musat").listFiles())
+        .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3") || file.getName().endsWith(".wav")))
+        .map(File::getName).sorted()
+        .collect(Collectors.toList());
+    public static int musalistanPituus = musaLista.size();
 
     public static void valitseVaikeusaste(String vaikeusAsteNimi) {
         switch (vaikeusAsteNimi) {
@@ -27,5 +42,11 @@ public class PelinAsetukset {
                 vaikeusAste = 1;
             break;
         }
+    }
+
+    public static enum AjoitusMuoto {
+        TARKKA,
+        NOPEA,
+        ERITTÄIN_NOPEA;
     }
 }

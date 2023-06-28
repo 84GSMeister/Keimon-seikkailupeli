@@ -46,10 +46,11 @@ public class Ämpärikone extends Kiintopiste {
         }
     }
 
-    public Ämpärikone(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
+    public Ämpärikone(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+        super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Ämpärikone";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png");
+        super.tiedostonNimi = "ämpärikone.png";
         super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
         super.asetaTiedot();
     }

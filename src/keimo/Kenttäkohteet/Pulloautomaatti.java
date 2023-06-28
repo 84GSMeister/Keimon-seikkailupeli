@@ -31,10 +31,11 @@ public class Pulloautomaatti extends Kiintopiste {
         }
     }
     
-    public Pulloautomaatti (boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
+    public Pulloautomaatti (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+        super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Pulloautomaatti";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/pullonpalautus_idle.png");
+        super.tiedostonNimi = "pullonpalautus_idle.png";
         super.katsomisTeksti = "Tänne voi palauttaa tölkit";
         super.asetaTiedot();
     }

@@ -94,6 +94,7 @@ public class Makkara extends Ruoka {
         super.nimi = "Makkara";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat.png");
         super.heal = 1;
+        super.hinta = 2.79;
         super.käyttö = true;
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");

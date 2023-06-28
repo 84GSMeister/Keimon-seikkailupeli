@@ -7,7 +7,6 @@ import keimo.TarkistettavatArvot.PelinLopetukset;
 
 import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
-import java.util.Random;
 
 public class Kuparilager extends Esine {
 
@@ -21,7 +20,6 @@ public class Kuparilager extends Esine {
         Pelaaja.känninVoimakkuus = (int)Pelaaja.känninVoimakkuusFloat;
         ÄänentoistamisSäie.toistaSFX("tölkki");
 
-        Random r = new Random();
         double kuolemanTodennäköisyys = 0.125 * Pelaaja.känninVoimakkuusFloat - 1;
         if (kuolemanTodennäköisyys < 0) {
             kuolemanTodennäköisyys = 0;
@@ -71,6 +69,7 @@ public class Kuparilager extends Esine {
         super.katsomisTeksti = "0,15€ lisää saldoon!";
         super.käyttö = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuparilager.png");
+        super.hinta = 1.05;
         super.asetaTiedot();
     }
 }

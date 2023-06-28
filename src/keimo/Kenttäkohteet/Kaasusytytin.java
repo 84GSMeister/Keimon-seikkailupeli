@@ -96,41 +96,6 @@ public class Kaasusytytin extends Esine {
         }
     }
 
-    // public Kaasusytytin(boolean määritettySijainti, int sijX, int sijY, String toimivuus){
-    //     super(määritettySijainti, sijX, sijY);
-    //     this.nimi = "Kaasusytytin";
-    //     switch (toimivuus) {
-    //         case "toimiva":
-    //             this.toimiva = true;
-    //             this.kenttäkäyttö = true;
-    //             this.sopiiKäytettäväksi.add("Nuotio");
-    //             this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
-    //             this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
-    //             this.käyttöTeksti = "Leimahti!";
-    //             break;
-    //         case "tyhjä":
-    //             this.toimiva = false;
-    //             this.yhdistettävä = true;
-    //             this.kelvollisetYhdistettävät.add("Kaasupullo");
-    //             this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png");
-    //             this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
-    //             this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
-    //             break;
-    //         default:
-    //             this.toimiva = true;
-    //             this.kenttäkäyttö = true;
-    //             this.sopiiKäytettäväksi.add("Nuotio");
-    //             this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
-    //             this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
-    //             this.käyttöTeksti = "Leimahti!";
-    //             break;
-    //     }
-    //     this.lisäOminaisuuksia = true;
-    //     this.lisäOminaisuudet = new String[1];
-    //     this.lisäOminaisuudet[0] = "toimivuus=" + toimivuus;
-    //     super.asetaTiedot();
-    // }
-
     public Kaasusytytin(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista){
         super(määritettySijainti, sijX, sijY);
         this.nimi = "Kaasusytytin";
@@ -168,6 +133,7 @@ public class Kaasusytytin extends Esine {
                 this.käyttöTeksti = "Leimahti!";
                 break;
         }
+        super.hinta = 12.9;
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new String[1];
         this.lisäOminaisuudet[0] = "toimivuus=" + toimivuus;

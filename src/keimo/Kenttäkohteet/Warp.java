@@ -30,6 +30,19 @@ public abstract class Warp extends KenttäKohde {
         this.suunta = suunta;
     }
 
+    public void päivitäLisäOminaisuudet() {
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[4];
+        this.lisäOminaisuudet[0] = "kohdehuone=" + kohdeHuone;
+        this.lisäOminaisuudet[1] = "kohderuutuX=" + kohdeRuutuX;
+        this.lisäOminaisuudet[2] = "kohderuutuY=" + kohdeRuutuY;
+        this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
+    }
+
+    public void warpinJälkeen() {
+
+    }
+
     public Warp(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
     }

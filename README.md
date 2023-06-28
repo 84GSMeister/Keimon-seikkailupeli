@@ -1,6 +1,23 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (13.6.2023): 0.7.3
+## Uusin versio (26.6.2023): 0.8
+
+### Versio 0.8
+
+ - Uusi alue: Kauppa
+ - Kaupasta voi ostaa sekä yrittää varastaa tavaroita (juoksukalja)
+ - Uusi NPC: Vartija - Käy kimppuun jos yrität varastaa tavaroita kaupasta
+ - Tilet, joita voi kävellä vain yhteen suuntaan. Suuntaa voi muuttaa editorissa. Jos tiedostonimi päättyy "_y", tile muuttuu yksisuuntaiseksi
+ - Uusi esine: Pontikka-ainekset (voi ostaa kaupasta)
+ - Kiintopiste-objekteja voi kääntää editorissa
+ - Känniefekti vaikuttaa myös pelaajan liikkumiseen
+ - Musiikin ja ääniefektien voimakkuutta voi säätää
+ - Sivupaneelin sisältöä GUI:ssa voi muuttaa alueen mukaan, esim. jos alue on "Kauppa", kontrolli-infopanelin tilalle vaihtuu ostoskori.
+ - Viholliset liikkuvat joka tickillä (ei enää joka toisella)
+ - Vihollisten nopeuksia (pikseliä/tick) muutettu: pikkuvihu=3, pahavihu=4, vartija=9 (pelaaja=8)
+ - Pelaajan nopeus muuttuu ostoskorin sisällön mukaan. Jokainen ostos pienentää nopeutta yhdellä. Vakionopeus=8, täyden ostoskorin kanssa nopeus =2
+ - Mediantoisto-ominaisuuksia laajennettu: nyt myös mm. mp4-videot ja wav-äänet on tuettu, musiikki voi loopata muualta kuin alusta ym.
+ - Suorituskykyasetus framerate- ja tickrate-tarkkuudelle. Nopea asetus huonontaa tarkkuutta, mutta pienentää CPU-käyttöä.
 
 ### Versio 0.7.3
 

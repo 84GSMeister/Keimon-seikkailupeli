@@ -34,6 +34,7 @@ public class Oviruutu extends Warp {
         }
     }
     
+    @Override
     public void asetaSuunta(Suunta suunta) {
         super.asetaSuunta(suunta);
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png");
@@ -59,15 +60,6 @@ public class Oviruutu extends Warp {
                 this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
                 break;
         }
-    }
-
-    public void päivitäLisäOminaisuudet() {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
-        this.lisäOminaisuudet[0] = "kohdehuone=" + kohdeHuone;
-        this.lisäOminaisuudet[1] = "kohderuutuX=" + kohdeRuutuX;
-        this.lisäOminaisuudet[2] = "kohderuutuY=" + kohdeRuutuY;
-        this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
     }
 
     public Oviruutu(int sijX, int sijY, String[] ominaisuusLista) {

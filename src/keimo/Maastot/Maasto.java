@@ -1,5 +1,6 @@
 package keimo.Maastot;
 
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
@@ -23,6 +24,10 @@ public abstract class Maasto {
     protected Icon kuvake;
     protected String tiedostonNimi;
     protected boolean estääLiikkumisen = false;
+    protected boolean estääLiikkumisenVasen = false;
+    protected boolean estääLiikkumisenOikea = false;
+    protected boolean estääLiikkumisenAlas = false;
+    protected boolean estääLiikkumisenYlös = false;
 
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
@@ -64,8 +69,24 @@ public abstract class Maasto {
         return mjono;
     }
 
-    public boolean estääköLiikkumisen() {
-        return estääLiikkumisen;
+    public boolean estääköLiikkumisen(Suunta suunta) {
+        if (this.estääLiikkumisen) {
+            return true;
+        }
+        else {
+            switch (suunta) {
+                case VASEN:
+                    return estääLiikkumisenVasen;
+                case OIKEA:
+                    return estääLiikkumisenOikea;
+                case ALAS:
+                    return estääLiikkumisenAlas;
+                case YLÖS:
+                    return estääLiikkumisenYlös;
+                default:
+                    return false;
+            }
+        }
     }
     
     public String annaNimi() {
@@ -136,7 +157,7 @@ public abstract class Maasto {
     void asetaTiedot() {
         tiedot += "Nimi: " + this.annaNimi() + "\n";
         tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
-        tiedot += "Estää liikkumisen: " + (this.estääköLiikkumisen() ? "Kyllä" : "Ei") + "\n";
+        tiedot += "Estää liikkumisen: " + (this.estääköLiikkumisen(Suunta.YLÖS) ? "Kyllä" : "Ei") + "\n";
         tiedot += "Kuva: " + this.tiedostonNimi;
     }
     

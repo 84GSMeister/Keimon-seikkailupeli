@@ -69,7 +69,7 @@ public class MaastoGeneraattoriIkkuna {
                             kuvaKenttä[j][i] = new Makkara(true, j, i);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x00232330) {
-                            kuvaKenttä[j][i] = new Nuotio(true, j, i);
+                            kuvaKenttä[j][i] = new Nuotio(true, j, i, null);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x00CE631C) {
                             kuvaKenttä[j][i] = new Oviruutu(j, i, null);
@@ -93,7 +93,7 @@ public class MaastoGeneraattoriIkkuna {
                             kuvaKenttä[j][i] = new Vesiämpäri(true, j, i);
                         }
                         else if (objektiKuvanVäriArvot[j][i] == 0x00006806) {
-                            kuvaKenttä[j][i] = new Ämpärikone(true, j, i);
+                            kuvaKenttä[j][i] = new Ämpärikone(true, j, i, null);
                         }
                         else {
                             kuvaKenttä[j][i] = null;

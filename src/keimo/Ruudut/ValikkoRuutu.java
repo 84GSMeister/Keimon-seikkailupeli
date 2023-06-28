@@ -217,7 +217,7 @@ public class ValikkoRuutu {
                         PelinAsetukset.musiikkiPäällä = musVal % 2 != 0;
                     break;
                     case 2:
-                        if (PelinAsetukset.musiikkiValinta < 9) {
+                        if (PelinAsetukset.musiikkiValinta < PelinAsetukset.musalistanPituus-1) {
                             PelinAsetukset.musiikkiValinta++;
                         }
                     break;
@@ -406,12 +406,10 @@ public class ValikkoRuutu {
         "1 = Udo haukkuu: Disco Band" + "<br>" +
         "2 = Udo haukkuu: Kylie" + "<br>" +
         "3 = Udo haukkuu: Mario 2 theme" + "<br>" +
-        "4 = Udo haukkuu: Mario 2 theme (loop)" + "<br>" +
-        "5 = Udo haukkuu: Nyan Cat" + "<br>" +
-        "6 = Udo haukkuu: Never Gonna Give You Up" + "<br>" +
-        "7 = Udo haukkuu: Super Mario World" + "<br>" +
-        "8 = Udo haukkuu: Wide President theme" + "<br>" +
-        "9 = Udo haukkuu: Wide President theme (loop)" + "<br>" +
+        "4 = Udo haukkuu: Nyan Cat" + "<br>" +
+        "5 = Udo haukkuu: Never Gonna Give You Up" + "<br>" +
+        "6 = Udo haukkuu: Super Mario World" + "<br>" +
+        "7 = Udo haukkuu: Wide President theme" + "<br>" +
         "</p></html>";
 
         infoTekstiAsetukset[3] = "<html><p>" +
@@ -472,7 +470,7 @@ public class ValikkoRuutu {
         valikkoPaneli.requestFocus();
         
         alkuValikkoPaneli = valikkoPaneli;
-        listaaFontit();
+        //listaaFontit();
         return valikkoPaneli;
     }
 

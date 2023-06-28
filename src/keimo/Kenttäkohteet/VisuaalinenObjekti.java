@@ -11,7 +11,7 @@ public class VisuaalinenObjekti extends KenttäKohde {
     int kääntöAsteet = 0;
     boolean xPeilaus = false;
     boolean yPeilaus = false;
-    protected String tiedostonNimi;
+    public String tiedostonNimi;
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {

@@ -31,7 +31,7 @@ public class ObjektinMuokkausIkkuna {
     static void hyväksyMuutokset(int sijX, int sijY, String muokattavanKohteenNimi) {
         try {
             switch (muokattavanKohteenNimi) {
-                case "Oviruutu":
+                case "Oviruutu", "Kauppaovi":
                     int kohdeHuone = huoneValikko.getSelectedIndex();
                     int kohdeRuutuX = Integer.parseInt(tekstiKentät[1].getText());
                     int kohdeRuutuY = Integer.parseInt(tekstiKentät[2].getText());
@@ -43,7 +43,7 @@ public class ObjektinMuokkausIkkuna {
                             CustomViestiIkkunat.WarpinMuokkausVirhe.showDialog("Kohdehuoneen koordinaattien täytyy olla väliltä " + Peli.kentänAlaraja + "-" + Peli.kentänYläraja, "Virheelliset koordinaatit");
                         }
                         else {
-                            Oviruutu oviruutu = (Oviruutu)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
+                            Warp oviruutu = (Warp)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
                             oviruutu.asetaKohdeHuone(kohdeHuone);
                             oviruutu.asetaKohdeRuudut(kohdeRuutuX, kohdeRuutuY);
                             oviruutu.asetaSuunta((Warp.Suunta)suuntaValinta.getSelectedItem());
@@ -52,6 +52,16 @@ public class ObjektinMuokkausIkkuna {
                             muokkausIkkuna.dispose();
                         }
                     }
+                break;
+
+                case "Kauppahylly":
+                    KauppaHylly kauppaHylly = (KauppaHylly)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
+                    kauppaHylly.asetaSisältö(sisältöValinta.getSelectedItem().toString());
+                    kauppaHylly.lisäOminaisuuksia = true;
+                    kauppaHylly.päivitäLisäOminaisuudet();
+                    kauppaHylly.päivitäTiedot();
+                    HuoneEditoriIkkuna.objektiKenttä[sijX][sijY] = kauppaHylly;
+                    muokkausIkkuna.dispose();
                 break;
                 
                 case "Kirstu":
@@ -115,37 +125,37 @@ public class ObjektinMuokkausIkkuna {
     static void luoObjektinMuokkausIkkuna(int sijX, int sijY, KenttäKohde muokattavaKohde) {
         
         switch (muokattavaKohde.annaNimi()) {
-            case "Oviruutu":
+            case "Oviruutu", "Kauppaovi":
                 valintojenMäärä = 4;
                 tekstit = new String[valintojenMäärä];
                 tekstit[0] = "Kohdehuone (ID)";
                 tekstit[1] = "Kohderuudun X-sijainti";
                 tekstit[2] = "Kohderuudun Y-sijainti";
                 tekstit[3] = "Suunta";
-                break;
+            break;
+
+            case "Kauppahylly":
+                valintojenMäärä = 1;
+                tekstit = new String[valintojenMäärä];
+                tekstit[0] = "Valitse sisältö";
+            break;
 
             case "Kirstu":
                 valintojenMäärä = 1;
                 tekstit = new String[valintojenMäärä];
                 tekstit[0] = "Valitse sisältö";
-                break;
+            break;
 
             default:
-                break;
+            break;
         }
 
         paneli = new JPanel(new SpringLayout());
         tekstiLabelit = new JLabel[valintojenMäärä];
         tekstiKentät = new JTextField[valintojenMäärä];
 
-        // for (int i = 0; i < valintojenMäärä; i++) {
-        //     tekstiLabelit[i] = new JLabel(tekstit[i]);
-        //     paneli.add(tekstiLabelit[i]);
-        // }
-
-        
         switch (muokattavaKohde.annaNimi()) {
-            case "Oviruutu":
+            case "Oviruutu", "Kauppaovi":
                 tekstiLabelit[0] = new JLabel(tekstit[0]);
                 paneli.add(tekstiLabelit[0]);
                 huoneValikko = luoHuoneenNimiLista();
@@ -167,7 +177,17 @@ public class ObjektinMuokkausIkkuna {
                 tekstiLabelit[3] = new JLabel(tekstit[3]);
                 paneli.add(tekstiLabelit[3]);
                 paneli.add(suuntaValinta);
-                break;
+            break;
+
+            case "Kauppahylly":
+                tekstiLabelit[0] = new JLabel(tekstit[0]);
+                paneli.add(tekstiLabelit[0]);
+
+                KauppaHylly kauppaHylly = (KauppaHylly)muokattavaKohde;
+                sisältöValinta = new JComboBox<String>(HuoneEditoriIkkuna.esineLista);
+                sisältöValinta.setSelectedItem(kauppaHylly.annaSisältö());
+                paneli.add(sisältöValinta);
+            break;
 
             case "Kirstu":
                 tekstiLabelit[0] = new JLabel(tekstit[0]);
@@ -177,9 +197,10 @@ public class ObjektinMuokkausIkkuna {
                 sisältöValinta = new JComboBox<String>(HuoneEditoriIkkuna.esineLista);
                 sisältöValinta.setSelectedItem(kirstu.annaSisältö());
                 paneli.add(sisältöValinta);
-                break;
+            break;
+
             default:
-                break;
+            break;
         }
         JButton okNappi = new JButton("Aseta");
         okNappi.addMouseListener(new MouseAdapter() {

@@ -1,14 +1,13 @@
 package keimo;
 
 import keimo.Ruudut.*;
+import keimo.Säikeet.TekstiAjastinSäie;
 import keimo.HuoneEditori.*;
 import keimo.Ikkunat.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
-import java.util.concurrent.locks.LockSupport;
 
 public class PääIkkuna {
 
@@ -31,6 +30,7 @@ public class PääIkkuna {
     public static boolean vaatiiPäivityksen = false;
     public static boolean uudelleenpiirräKaikki = false;
     public static boolean uudelleenpiirräKenttä = false;
+    public static boolean uudelleenpiirräObjektit = false;
     public static boolean pelaajaSiirtyi = false;
     public static boolean fpsNäkyvissä = false;
     public static boolean sijaintiNäkyvissä = false;
@@ -51,7 +51,7 @@ public class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v.0.7.3 pre-alpha (13.6.2023)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8 pre-alpha (20.6.2023)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -150,7 +150,7 @@ public class PääIkkuna {
             }
         });
 
-        menuF3 = new JMenuItem("F3 Päivitä kenttä");
+        menuF3 = new JMenuItem("F3 Uudelleenpiirrä kenttä");
         menuF3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PääIkkuna.uudelleenpiirräKenttä = true;
@@ -158,10 +158,11 @@ public class PääIkkuna {
             }
         });
 
-        menuF4 = new JMenuItem("F4 Näytä kohteen tiedot");
+        menuF4 = new JMenuItem("F4 Uudelleenpiirrä objektit");
         menuF4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                näytäTiedot();
+                PääIkkuna.uudelleenpiirräObjektit = true;
+                PeliRuutu.hudTeksti.setText("Objektien päivitys pakotettiin");
             }
         });
 
@@ -264,7 +265,7 @@ public class PääIkkuna {
                 PeliRuutu.peliRuutuAktiivinen = true;
             break;
             case "osionalkuruutu":
-                pääPaneeli.add(OsionAlkuRuutu.osionAlkuPaneli, BorderLayout.CENTER);
+                pääPaneeli.add(OsionAlkuRuutu.kokeileLuodaOsionAlkuPaneli(), BorderLayout.CENTER);
             break;
             case "loppuruutu":
                 pääPaneeli.add(LoppuRuutu.luoLoppuRuutu(), BorderLayout.CENTER);
@@ -281,29 +282,16 @@ public class PääIkkuna {
         pääPaneeli.repaint();
     }
 
-    private static int tekstiäJäljellä;
-    private static boolean tekstiAuki = false;
-    private static Timer tekstiAjastin;
+    public static int tekstiäJäljellä;
+    public static boolean tekstiAuki = false;
 
     static String kelattuTeksti = "";
     private static void luoVuoropuheRuutu(Icon kuvake, String teksti, String nimi) {
         kelattuTeksti = teksti;
+        TekstiAjastinSäie.dialogiTeksti = teksti;
         PeliRuutu.vuoropuheKuvake.setIcon(kuvake);
         PeliRuutu.vuoropuheNimi.setText(nimi);
         tekstiäJäljellä = teksti.length();
-        tekstiAjastin = new Timer(25, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (tekstiäJäljellä > 0 && tekstiAuki) {
-                    String tulostettavaTeksti = teksti.substring(0, teksti.length()-tekstiäJäljellä +1);
-                    PeliRuutu.vuoropuheTeksti.setText(tulostettavaTeksti);
-                    tekstiäJäljellä--;
-                }
-                else {
-                    tekstiAjastin.stop();
-                }
-            }
-        });
-        tekstiAjastin.start();
     }
 
     public static int dialogiaJäljellä = 0;
@@ -316,9 +304,24 @@ public class PääIkkuna {
         avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0]);
     }
 
+    public static boolean äläSuljeNuolilla = false;
+
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
             Peli.pause = true;
+            äläSuljeNuolilla = false;
+            tekstiAuki = true;
+            luoVuoropuheRuutu(kuvake, teksti, nimi);
+            PeliRuutu.vuoropuheTeksti.setText("");
+            PeliRuutu.vuoropuhePaneli.setVisible(true);
+            Peli.dialoginAvausViive = 5;
+        }
+    }
+
+    public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet) {
+        if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
+            Peli.pause = true;
+            äläSuljeNuolilla = estäNuolet;
             tekstiAuki = true;
             luoVuoropuheRuutu(kuvake, teksti, nimi);
             PeliRuutu.vuoropuheTeksti.setText("");
@@ -328,12 +331,11 @@ public class PääIkkuna {
     }
 
     public static void kelaaDialogi() {
-        if (tekstiäJäljellä <= 1 && !tekstiAjastin.isRunning()) {
+        if (tekstiäJäljellä <= 1) {
             suljeDialogi();
         }
         else {
             tekstiäJäljellä = 1;
-            tekstiAjastin.stop();
             PeliRuutu.vuoropuheTeksti.setText(kelattuTeksti);
         }
     }

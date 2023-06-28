@@ -2,6 +2,7 @@ package keimo.Säikeet;
 
 import keimo.*;
 import keimo.Ikkunat.CustomViestiIkkunat;
+import keimo.PelinAsetukset.AjoitusMuoto;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -85,7 +86,10 @@ public class AikaSäie extends Thread {
                     //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
                     //On my OS it does not unpuase the game if i take this away
                     try {
-                        Thread.sleep(1);
+                        if (PelinAsetukset.ajoitus == AjoitusMuoto.TARKKA) {}
+                        else {
+                            Thread.sleep(1);
+                        }
                         //LockSupport.parkNanos(1_000_000);
                     }
                     catch (Exception e) {

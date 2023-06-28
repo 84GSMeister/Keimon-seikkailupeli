@@ -1,7 +1,6 @@
 package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
-import keimo.Pelaaja.KeimonKylläisyys;
 import keimo.Ruudut.PeliRuutu;
 
 import javax.swing.ImageIcon;
@@ -27,10 +26,11 @@ public class Sänky extends Kiintopiste {
         }
     }
     
-    public Sänky (boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
+    public Sänky (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+        super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Sänky";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/sänky.png");
+        super.tiedostonNimi = "sänky.png";
         super.katsomisTeksti = "Nukuttaako?";
         super.asetaTiedot();
     }

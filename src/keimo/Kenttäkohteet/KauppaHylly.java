@@ -1,11 +1,10 @@
 package keimo.Kenttäkohteet;
 
-import java.io.File;
-
-import javax.swing.ImageIcon;
-
 import keimo.Pelaaja;
 import keimo.Utility.KäännettäväKuvake;
+
+import java.io.File;
+import javax.swing.ImageIcon;
 
 public class KauppaHylly extends Kiintopiste {
     
@@ -16,40 +15,8 @@ public class KauppaHylly extends Kiintopiste {
         return Pelaaja.lisääOstosKoriin(this.sisältö);
     }
 
-    protected Esine luoSisältö(String esineenNimi) {
-        switch (esineenNimi) {
-            case "Avain":
-                return new Avain(true, 0, 0);
-            case "Hiili":
-                return new Hiili(true, 0, 0);
-            case "Huume":
-                return new Huume(true, 0, 0);
-            case "Kaasupullo":
-                return new Kaasupullo(true, 0, 0);
-            case "Kaasusytytin":
-                String[] ksOminaisuusLista = {"toimivuus=toimiva"};
-                return new Kaasusytytin(true, 0, 0, ksOminaisuusLista);
-            case "Kilpi":
-                return new Kilpi(true, 0, 0);
-            case "Kuparilager":
-                return new Kuparilager(true, 0, 0);
-            case "Makkara":
-                return new Makkara(true, 0, 0);
-            case "Paperi":
-                return new Paperi(true, 0, 0);
-            case "Pesäpallomaila":
-                return new Pesäpallomaila(true, 0, 0);
-            case "Pontikka-ainekset":
-                return new Ponuainekset(true, 0, 0);
-            case "Seteli":
-                return new Seteli(true, 0, 0);
-            case "Suklaalevy":
-                return new Suklaalevy(true, 0, 0);
-            case "Vesiämpäri":
-                return new Vesiämpäri(true, 0, 0);
-            default:
-                return null;
-        }
+    protected Esine luoSisältö(String esineenNimi, String[] ominaisuusLista) {
+        return Esine.luoEsine(esineenNimi, ominaisuusLista);
     }
 
     public void päivitäLisäOminaisuudet() {
@@ -73,18 +40,25 @@ public class KauppaHylly extends Kiintopiste {
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
                 super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
             }
             else {
                 super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
             }
-            super.katsomisTeksti = "Hyllystä saa" + luoSisältö(esineenNimi).annaNimiSijamuodossa("partitiivi");
+            if (luoSisältö(esineenNimi, null) != null) {
+                super.katsomisTeksti = "Hyllystä saa" + luoSisältö(esineenNimi, null).annaNimiSijamuodossa("partitiivi");
+            }
+            else {
+                super.katsomisTeksti = "tyhjä hylly";
+            }
         }
     }
 
-    public void asetaSisältö(String esineenNimi) {
-        this.sisältö = luoSisältö(esineenNimi);
+    public void asetaSisältö(String esineenNimi, String[] onimaisuusLista) {
+        this.sisältö = luoSisältö(esineenNimi, onimaisuusLista);
     }
 
     public String annaSisältö() {
@@ -100,6 +74,7 @@ public class KauppaHylly extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kauppahylly";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kauppahylly.png";
         super.katsomisTeksti = "Tyhjä hylly";
 
@@ -136,17 +111,19 @@ public class KauppaHylly extends Kiintopiste {
                     }
                 }
             }
-            this.sisältö = luoSisältö(esineenNimi);
+            this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
                 super.kuvake = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png"), this.kääntöAsteet, this.xPeilaus, this.yPeilaus);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
             }
             else {
                 super.kuvake = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png"), this.kääntöAsteet, this.xPeilaus, this.yPeilaus);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
             }
             päivitäLisäOminaisuudet();
-            if (luoSisältö(esineenNimi) != null) {
-                super.katsomisTeksti = "Hyllystä saa" + luoSisältö(esineenNimi).annaNimiSijamuodossa("partitiivi");
+            if (luoSisältö(esineenNimi, ominaisuusLista) != null) {
+                super.katsomisTeksti = "Hyllystä saa" + luoSisältö(esineenNimi, ominaisuusLista).annaNimiSijamuodossa("partitiivi");
             }
         }
         else {

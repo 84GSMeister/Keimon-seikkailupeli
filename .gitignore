@@ -1,4 +1,8 @@
 /.vscode
+/lib
 /maastotesti.png
 /maastotesti_virheellinen.png
 /objektitesti.png
+/launch4j.log
+/launch4j.xml
+/jlink.txt

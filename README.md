@@ -1,6 +1,18 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (28.6.2023): 0.8
+## Uusin versio (19.7.2023): 0.8.1
+
+### Versio 0.8.1
+
+ - GUI skaalautuu kokonäytölle (erittäin buginen vielä)
+ - Vuoropuhedialogissa voi tulla valintoja
+ - Sillalta voi hypätä
+ - Musiikin voimakkuus muuttuu "lennosta" säädettäessä
+ - Ajastin pysähtyy pausettaessa
+ - Pullonpalautusautomaatissa voi tulla useita erilaisia virheitä
+ - Editorissa maaston kuvat kääntyvät ja peilautuvat oikein myös muilla välilehdillä (Kuvakkeilla on nyt mahdollista olla läpinäkyvyys, rotaatio ja skaalaus samanaikaisesti)
+ - Korjattu editorin bugi, jossa kauppahyllyjen käännetty kuvake ei päivity oikein sisältömuutoksen jälkeen
+ - Poistettu maastogeneraattori
 
 ### Versio 0.8
 

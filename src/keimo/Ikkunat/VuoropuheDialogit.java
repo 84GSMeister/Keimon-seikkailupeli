@@ -35,13 +35,13 @@ public class VuoropuheDialogit {
                 dialogiPuhujat = new String[dialoginPituus];
 
                 dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
-                dialogiKuvat[2] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
-                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
-                dialogiKuvat[4] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
-                dialogiKuvat[5] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+                dialogiKuvat[2] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+                dialogiKuvat[4] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+                dialogiKuvat[5] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
                 dialogiKuvat[6] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-                dialogiKuvat[7] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[7] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
                 dialogiKuvat[8] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
 
                 dialogiTekstit[0] = "Vihko auki!";
@@ -71,10 +71,10 @@ public class VuoropuheDialogit {
                 dialogiTekstit = new String[dialoginPituus];
                 dialogiPuhujat = new String[dialoginPituus];
 
-                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
-                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
                 dialogiKuvat[2] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
 
                 dialogiTekstit[0] = "Hyvää päivää!";
                 dialogiTekstit[1] = "Se tekisi " + df.format(Pelaaja.ostostenHintaYhteensä) + " euroa.";
@@ -93,10 +93,10 @@ public class VuoropuheDialogit {
                 dialogiTekstit = new String[dialoginPituus];
                 dialogiPuhujat = new String[dialoginPituus];
 
-                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
-                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
                 dialogiKuvat[2] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+                dialogiKuvat[3] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
 
                 dialogiTekstit[0] = "Hyvää päivää!";
                 dialogiTekstit[1] = "Se tekisi " + df.format(Pelaaja.ostostenHintaYhteensä) + " euroa.";
@@ -107,6 +107,54 @@ public class VuoropuheDialogit {
                 dialogiPuhujat[1] = "ASS-Market kassa";
                 dialogiPuhujat[2] = "Keimo";
                 dialogiPuhujat[3] = "ASS-Market kassa";
+            break;
+            case "hämärähemmo_alku":
+                dialoginPituus = 2;
+                PääIkkuna.dialogiaJäljellä = dialoginPituus;
+                dialogiKuvat = new Icon[dialoginPituus];
+                dialogiTekstit = new String[dialoginPituus];
+                dialogiPuhujat = new String[dialoginPituus];
+
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+
+                dialogiTekstit[0] = "...";
+                dialogiTekstit[1] = "Polku pimeälle puolelle, onko? No kyllä on.";
+
+                dialogiPuhujat[0] = "Hämärähemmo";
+                dialogiPuhujat[1] = "Hämärähemmo";
+            break;
+            case "hämärähemmo_kyllä":
+                dialoginPituus = 2;
+                PääIkkuna.dialogiaJäljellä = dialoginPituus;
+                dialogiKuvat = new Icon[dialoginPituus];
+                dialogiTekstit = new String[dialoginPituus];
+                dialogiPuhujat = new String[dialoginPituus];
+
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+
+                dialogiTekstit[0] = "Kiinnostunut.";
+                dialogiTekstit[1] = "Siinä tapauksessa avaan sinulle reitin takahuoneeseen.";
+
+                dialogiPuhujat[0] = "Keimo";
+                dialogiPuhujat[1] = "Hämärähemmo";
+            break;
+            case "hämärähemmo_ei":
+                dialoginPituus = 2;
+                PääIkkuna.dialogiaJäljellä = dialoginPituus;
+                dialogiKuvat = new Icon[dialoginPituus];
+                dialogiTekstit = new String[dialoginPituus];
+                dialogiPuhujat = new String[dialoginPituus];
+
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+
+                dialogiTekstit[0] = "Ei kiinnosta  virhe";
+                dialogiTekstit[1] = "...";
+
+                dialogiPuhujat[0] = "Keimo";
+                dialogiPuhujat[1] = "Hämärähemmo";
             break;
         }
     }

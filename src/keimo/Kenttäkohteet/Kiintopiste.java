@@ -4,8 +4,8 @@ import keimo.Utility.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 
+import java.io.File;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 
 public abstract class Kiintopiste extends KenttäKohde {
@@ -103,13 +103,26 @@ public abstract class Kiintopiste extends KenttäKohde {
     }
 
     public void päivitäKuvanAsento() {
-        if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
-            kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        File kuvaTiedosto = new File("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        if (kuvaTiedosto.isFile()) {
+            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+            }
+            else {
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
+            }
         }
         else {
-            kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-            kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
+            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_kuvavirhe.png");
+            }
+            else {
+                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_kuvavirhe.png");
+                this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
+            }
         }
+        this.skaalattuKuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus, 96);
     }
 
     public void päivitäLisäOminaisuudet() {

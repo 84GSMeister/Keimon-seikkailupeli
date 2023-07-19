@@ -1,6 +1,7 @@
 package keimo;
 
 import keimo.Ruudut.*;
+import keimo.Ruudut.Lisäruudut.ValintaDialogiIkkuna;
 import keimo.Säikeet.TekstiAjastinSäie;
 import keimo.HuoneEditori.*;
 import keimo.Ikkunat.*;
@@ -19,8 +20,8 @@ public class PääIkkuna {
     static JMenuBar yläPalkki;
     static JMenu peli, tietoja, debug, työkalut;
     static JMenu huoneSubmenu;
-    static JMenuItem huoneenVaihto, maastoGeneraattori, huoneEditori;
-    static JMenuItem uusiPeli, mukauta, asetukset, ohjeet, tekijät;
+    static JMenuItem huoneenVaihto, mukauta, huoneEditori;
+    static JMenuItem uusiPeli, asetukset, ohjeet, tekijät;
     static JCheckBoxMenuItem näytäSijainti, näytäFPS, näytäReunat, näytäTapahtumapalkki;
     static JMenuItem menuF2, menuF3, menuF4;
     public static JLabel hudTeksti;
@@ -37,6 +38,7 @@ public class PääIkkuna {
     public static boolean reunatNäkyvissä = false;
     public static boolean tapahtumapalkkiNäkyvissä = false;
     public static JPanel pääPaneeli;
+    public static boolean ikkunanKokoMuutettuEnnenHuoneenLatuasta = false;
     static GraphicsDevice näytöt = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
     static void luoPääikkuna() {
@@ -51,14 +53,15 @@ public class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8 pre-alpha (28.6.2023)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8.1 pre-alpha (19.7.2023)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
             ikkuna.setVisible(true);
             ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             ikkuna.setBounds(0, 0, 1366, 768);
-            ikkuna.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            //ikkuna.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            ikkuna.setLocationRelativeTo(null);
             ikkuna.revalidate();
             ikkuna.repaint();
         }
@@ -77,7 +80,12 @@ public class PääIkkuna {
         asetukset = new JMenuItem("Asetukset", new ImageIcon("tiedostot/kuvat/menu/gui/asetukset.png"));
         asetukset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AsetusIkkuna.luoAsetusikkuna();
+                if (!AsetusIkkuna.asetuksetAuki()) {
+                    AsetusIkkuna.luoAsetusikkuna();
+                }
+                else {
+                    AsetusIkkuna.asetaPäällimmäiseksi();
+                }
             }
         });
 
@@ -197,18 +205,6 @@ public class PääIkkuna {
         debug.add(new JSeparator());
         debug.add(huoneSubmenu);
 
-        maastoGeneraattori = new JMenuItem("Maastogeneraattori", new ImageIcon("tiedostot/kuvat/menu/gui/maastogeneraattori.png"));
-        maastoGeneraattori.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!MaastoGeneraattoriIkkuna.ikkunaAuki()) {
-                    MaastoGeneraattoriIkkuna.luoMaastoGeneraattoriIkkuna();
-                }
-                else {
-                    MaastoGeneraattoriIkkuna.asetaPäällimmäiseksi();
-                }
-            }
-        });
-
         huoneEditori = new JMenuItem("Huone-editori", new ImageIcon("tiedostot/kuvat/menu/gui/huone-editori.png"));
         huoneEditori.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -222,7 +218,6 @@ public class PääIkkuna {
         });
 
         työkalut = new JMenu("Työkalut");
-        työkalut.add(maastoGeneraattori);
         työkalut.add(huoneEditori);
 
         yläPalkki = new JMenuBar();
@@ -304,7 +299,13 @@ public class PääIkkuna {
         avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0]);
     }
 
+    public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste, String valinnanTunniste) {
+        VuoropuheDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste);
+        avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0], true, valinnanTunniste);
+    }
+
     public static boolean äläSuljeNuolilla = false;
+    public static String valintaTulossa = null;
 
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
@@ -330,6 +331,19 @@ public class PääIkkuna {
         }
     }
 
+    public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet, String valinnanTunniste) {
+        if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
+            Peli.pause = true;
+            äläSuljeNuolilla = estäNuolet;
+            tekstiAuki = true;
+            luoVuoropuheRuutu(kuvake, teksti, nimi);
+            PeliRuutu.vuoropuheTeksti.setText("");
+            PeliRuutu.vuoropuhePaneli.setVisible(true);
+            Peli.dialoginAvausViive = 5;
+            valintaTulossa = valinnanTunniste;
+        }
+    }
+
     public static void kelaaDialogi() {
         if (tekstiäJäljellä <= 1) {
             suljeDialogi();
@@ -343,6 +357,10 @@ public class PääIkkuna {
     public static void suljeDialogi() {
         if (dialogiaJäljellä > 1) {
             VuoropuheDialogit.siirrySeuraavaanDialogiRuutuun(VuoropuheDialogit.dialoginPituus - dialogiaJäljellä + 1);
+        }
+        else if (valintaTulossa != null) {
+            ValintaDialogiIkkuna.luoValintaDialogiIkkuna(valintaTulossa);
+            valintaTulossa = null;
         }
         else {
             Peli.pause = false;

@@ -1,8 +1,9 @@
 package keimo.Kenttäkohteet;
 
-import javax.swing.ImageIcon;
-
 import keimo.Pelaaja;
+import keimo.Utility.KäännettäväKuvake;
+
+import javax.swing.ImageIcon;
 
 public class Seteli extends Esine {
 
@@ -42,6 +43,7 @@ public class Seteli extends Esine {
                 return "Seteli";
         }
     }
+
     
     public Seteli(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
@@ -49,6 +51,7 @@ public class Seteli extends Esine {
         super.käyttö = true;
         super.sopiiKäytettäväksi.add("Juhani");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "2 kybää = 1 massi";
         super.asetaTiedot();
     }

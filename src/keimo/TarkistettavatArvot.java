@@ -27,6 +27,7 @@ public class TarkistettavatArvot {
 
     public static enum PelinLopetukset {
         NORMAALI_VOITTO,
+        KUOLEMA_TESTI,
         KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN,
         KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY,
         KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY,
@@ -37,6 +38,7 @@ public class TarkistettavatArvot {
         KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_LYÖTY,
         KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_ÄMPÄRÖITY,
         KUOLEMA_JUHANI,
+        KUOLEMA_SILLALTA_ALAS,
         YLENSYÖNTI,
         HIILTYNYT_MAKKARA,
         ALKOHOLIMYRKYTYS,

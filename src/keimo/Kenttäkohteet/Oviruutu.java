@@ -1,5 +1,7 @@
 package keimo.Kenttäkohteet;
+
 import keimo.Utility.*;
+
 import javax.swing.ImageIcon;
 
 public class Oviruutu extends Warp {
@@ -42,22 +44,27 @@ public class Oviruutu extends Warp {
             case YLÖS:
                 this.suunta = Suunta.YLÖS;
                 this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
                 break;
             case ALAS:
                 this.suunta = Suunta.ALAS;
                 this.kuvake = new KäännettäväKuvake(kuvake, 180, false);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 180, false, false, 96);
                 break;
             case VASEN:
                 this.suunta = Suunta.VASEN;
                 this.kuvake = new KäännettäväKuvake(kuvake, 270, false);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 270, false, false, 96);
                 break;
             case OIKEA:
                 this.suunta = Suunta.OIKEA;
                 this.kuvake = new KäännettäväKuvake(kuvake, 90, false);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 90, false, false, 96);
                 break;
             default:
                 this.suunta = Suunta.YLÖS;
                 this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
                 break;
         }
     }

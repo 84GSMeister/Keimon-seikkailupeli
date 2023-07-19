@@ -6,12 +6,15 @@ import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class AsetusIkkuna {
     
-    static JFrame ikkuna;
+    public static JFrame ikkuna;
     static String[] tekstit = {"Vaikeusaste", "Musiikki päällä", "Valitse Musiikki", "Musiikin voimakkuus", "Ääniefektien voimakkuus", "Tavoite-FPS", "Tavoite-Tickrate", "Ajoitusmuoto"};
     static int valintojenMäärä = tekstit.length;
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
@@ -23,7 +26,25 @@ public class AsetusIkkuna {
     static JComboBox<Object> ajoitusValikko = new JComboBox<Object>(PelinAsetukset.AjoitusMuoto.values());
 
     static final int ikkunanLeveys = 400;
-    static final int ikkunanKorkeus = valintojenMäärä * 45;
+    static final int ikkunanKorkeus = 295;
+
+    public static boolean asetuksetAuki() {
+        if (ikkuna == null) {
+            return false;
+        }
+        else {
+            if (ikkuna.isVisible()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    public static void asetaPäällimmäiseksi() {
+        ikkuna.requestFocus();
+    }
 
     public static void tarkistaArvot() {
         try {
@@ -117,6 +138,11 @@ public class AsetusIkkuna {
         teksti3.setToolTipText("<html><p>Musiikin äänenvoimakkuus</p></html>");
         paneli.add(teksti3);
         musaVolyymiSlider.setValue((int)(PelinAsetukset.musaVolyymi*100));
+        musaVolyymiSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                ÄänentoistamisSäie.asetaMusanVolyymi(musaVolyymiSlider.getValue()/100d);
+            }
+        });
         musaVolyymiSlider.setToolTipText("<html><p>Musiikin äänenvoimakkuus</p></html>");
         paneli.add(musaVolyymiSlider);
 
@@ -126,6 +152,11 @@ public class AsetusIkkuna {
         teksti4.setToolTipText("<html><p>Efektien (SFX) äänenvoimakkuus</p></html>");
         paneli.add(teksti4);
         ääniVolyymiSlider.setValue((int)(PelinAsetukset.ääniVolyymi*100));
+        ääniVolyymiSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                ÄänentoistamisSäie.ääniToistin.setVolume(ääniVolyymiSlider.getValue()/100d);
+            }
+        });
         ääniVolyymiSlider.setToolTipText("<html><p>Efektien (SFX) äänenvoimakkuus</p></html>");
         paneli.add(ääniVolyymiSlider);
 
@@ -186,6 +217,7 @@ public class AsetusIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ikkuna.setResizable(false);
         ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();

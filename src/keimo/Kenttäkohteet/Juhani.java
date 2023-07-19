@@ -4,6 +4,7 @@ import keimo.Pelaaja;
 import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
 import keimo.Pelaaja.KeimonState;
+import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -71,7 +72,8 @@ public class Juhani extends NPC_KenttäKohde {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");
-        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani_dialogi.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png");
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
         super.asetaTiedot();
     }

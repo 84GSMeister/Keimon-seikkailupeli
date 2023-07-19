@@ -19,7 +19,6 @@ import java.io.StringWriter;
 
 public class GrafiikkaAikaSäieNopea extends Thread {
 
-    //public static long aikaReferenssi = System.nanoTime();
     static double alkuAika = 0;
     static double loppuAika = 0;
     static double aikaErotusNs = 0;
@@ -32,13 +31,12 @@ public class GrafiikkaAikaSäieNopea extends Thread {
     static long frameja = 0;
     public static boolean ongelmaGrafiikassa = false;
     static int odotusAikaUs = 10;
-    static boolean säieKäynnissä = false;
+    public boolean säieKäynnissä = false;
 
     static ImageIcon pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
     static ArrayList<Long> päivitysAikaLista = new ArrayList<Long>();
     public static ImageIcon uusiTausta;
 
-    //AjastimenPäivittäjä ajastimenPäivittäjä = new AjastimenPäivittäjä();
     PeliKentänPäivittäjä peliKentänPäivittäjä = new PeliKentänPäivittäjä();
 
     public static void päivitäPelaajanKuvake() {
@@ -347,7 +345,7 @@ public class GrafiikkaAikaSäieNopea extends Thread {
             else {
                 PeliRuutu.kokoruudunTakatausta.setVisible(false);
             }
-            PeliRuutu.peliKenttäUlompi.setBackground(Color.BLACK);
+            PeliRuutu.peliKenttäJaHUD.setBackground(Color.BLACK);
         }
     }
 
@@ -380,7 +378,7 @@ public class GrafiikkaAikaSäieNopea extends Thread {
                 double lastUpdateTime = System.nanoTime();
                 //Store the last time we rendered.
                 double lastRenderTime = System.nanoTime();
-                while (true) {
+                while (säieKäynnissä) {
 
                     alkuAika = System.nanoTime();
                     double now = System.nanoTime();

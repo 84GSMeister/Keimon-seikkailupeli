@@ -22,7 +22,7 @@ public class Pelaaja implements Käännettävä {
     public static double raha;
     public static int kuparit;
     static int syödytRuoat;
-    static int nopeus;
+    public static int nopeus;
     public static ImageIcon kuvake;
     public static int kuolemattomuusAika;
     static int reaktioAika;
@@ -119,10 +119,10 @@ public class Pelaaja implements Käännettävä {
     static boolean kokeileLiikkumista(Suunta suunta) {
         boolean pelaajaSiirtyi = false;
         float harhaliikkeenTodennäköisyys = känninVoimakkuusFloat/5 - 0.3f;
-        int tarkistaVasen = (int)(hitbox.getMinX()-8)/64;
-        int tarkistaOikea = (int)hitbox.getMinX()/64 +1;
-        int tarkistaAlas = (int)hitbox.getMinY()/64 +1;
-        int tarkistaYlös = (int)(hitbox.getMinY()-8)/64;
+        int tarkistaVasen = (int)(hitbox.getMinX()-nopeus)/PeliRuutu.pelaajanKokoPx;
+        int tarkistaOikea = (int)(hitbox.getMaxX())/PeliRuutu.pelaajanKokoPx;
+        int tarkistaAlas = (int)(hitbox.getMaxY())/PeliRuutu.pelaajanKokoPx;
+        int tarkistaYlös = (int)(hitbox.getMinY()-nopeus)/PeliRuutu.pelaajanKokoPx;
         try {
             switch (suunta) {
                 case VASEN:
@@ -355,7 +355,7 @@ public class Pelaaja implements Käännettävä {
         }
         catch (ArrayIndexOutOfBoundsException aioobe) {
             System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan (kentän ulkopuolella).");
-            //aioobe.printStackTrace();
+            aioobe.printStackTrace();
         }
         return pelaajaSiirtyi;
     }
@@ -502,7 +502,7 @@ public class Pelaaja implements Käännettävä {
      * @param kohdeY
      */
 
-    void teleport(int kohdeX, int kohdeY) {
+    public static void teleport(int kohdeX, int kohdeY) {
         sijX = kohdeX;
         sijY = kohdeY;
         hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
@@ -577,7 +577,7 @@ public class Pelaaja implements Käännettävä {
         else if (e != null) {
             ostosKori.add(e);
             PeliRuutu.päivitäOstosPaneli();
-            nopeus--;
+            nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
             return "Ostoskoriin lisättiin " + e.annaNimi() + " (+ " + e.annaHinta() + "€)";
         }
         else {
@@ -588,7 +588,7 @@ public class Pelaaja implements Käännettävä {
     public static void tyhjennäOstoskori() {
         ostosKori.removeAll(ostosKori);
         PeliRuutu.päivitäOstosPaneli();
-        nopeus = 8;
+        nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
     }
 
     Pelaaja() {
@@ -603,7 +603,7 @@ public class Pelaaja implements Käännettävä {
         keimonTerveys = KeimonTerveys.OK;
         sijX = 3;
         sijY = 3;
-        hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        //hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx +10, sijY * PeliRuutu.pelaajanKokoPx +10);
         pelaajaLiikkuuVasen = false;
         pelaajaLiikkuuOikea = false;
         pelaajaLiikkuuAlas = false;

@@ -1,4 +1,7 @@
 package keimo.Kenttäkohteet;
+
+import keimo.Utility.KäännettäväKuvake;
+
 import javax.swing.ImageIcon;
 
 public class Suklaalevy extends Ruoka {
@@ -44,6 +47,7 @@ public class Suklaalevy extends Ruoka {
         super.nimi = "Suklaalevy";
         super.katsomisTeksti = "Voisin syödä tämän.";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/suklaalevy.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.heal = 2;
         super.hinta = 2.49;
         super.käyttö = true;

@@ -33,6 +33,8 @@ public class KäännettäväKuvake implements Icon {
 
 	private Rotate rotate;
 	private Peilaus peilaus = Peilaus.NORMAALI;
+	private double skaalaus = 64;
+	private float läpinäkyvyys = 1f;
 
 	private double degrees;
 	private boolean circularIcon;
@@ -82,6 +84,41 @@ public class KäännettäväKuvake implements Icon {
 		else {
 			this.peilaus = Peilaus.NORMAALI;
 		}
+	}
+
+	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus, int skaalaus) {
+		this(icon, degrees, false);
+		if (xPeilaus && yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
+		}
+		else if (xPeilaus) {
+			this.peilaus = Peilaus.PEILAA_X;
+		}
+		else if (yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_Y;
+		}
+		else {
+			this.peilaus = Peilaus.NORMAALI;
+		}
+		this.skaalaus = skaalaus;
+	}
+
+	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus, int skaalaus, float läpinäkyvyys) {
+		this(icon, degrees, false);
+		if (xPeilaus && yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
+		}
+		else if (xPeilaus) {
+			this.peilaus = Peilaus.PEILAA_X;
+		}
+		else if (yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_Y;
+		}
+		else {
+			this.peilaus = Peilaus.NORMAALI;
+		}
+		this.skaalaus = skaalaus;
+		this.läpinäkyvyys = läpinäkyvyys;
 	}
 
 	/**
@@ -223,50 +260,78 @@ public class KäännettäväKuvake implements Icon {
 
 		int cWidth = icon.getIconWidth() / 2;
 		int cHeight = icon.getIconHeight() / 2;
-		int xAdjustment = (icon.getIconWidth() % 2) == 0 ? 0 : -1;
-		int yAdjustment = (icon.getIconHeight() % 2) == 0 ? 0 : -1;
+		//int xAdjustment = (icon.getIconWidth() % 2) == 0 ? 0 : -1;
+		//int yAdjustment = (icon.getIconHeight() % 2) == 0 ? 0 : -1;
 
-		if (rotate == Rotate.DOWN) {
-			g2.translate(x + cHeight, y + cWidth);
-			g2.rotate( Math.toRadians( 90 ) );
-			//icon.paintIcon(c, g2,  -cWidth, yAdjustment - cHeight);
-		}
-		else if (rotate == Rotate.UP) {
-			g2.translate(x + cHeight, y + cWidth);
-			g2.rotate( Math.toRadians( -90 ) );
-			//icon.paintIcon(c, g2,  xAdjustment - cWidth, -cHeight);
-		}
-		else if (rotate == Rotate.UPSIDE_DOWN) {
-			g2.translate(x + cWidth, y + cHeight);
-			g2.rotate( Math.toRadians( 180 ) );
-			//icon.paintIcon(c, g2, xAdjustment - cWidth, yAdjustment - cHeight);
-		}
-		else if (rotate == Rotate.ABOUT_CENTER) {
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setClip(x, y, getIconWidth(), getIconHeight());
-			g2.translate((getIconWidth() - icon.getIconWidth()) / 2, (getIconHeight() - icon.getIconHeight()) / 2);
-			g2.rotate(Math.toRadians(degrees), x + cWidth, y + cHeight);
-			//icon.paintIcon(c, g2, x, y);
+		if (läpinäkyvyys < 1) {
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, läpinäkyvyys));
 		}
 
-		switch (peilaus) {
-            case NORMAALI:
-			break;
-			case PEILAA_X:
-                g2.translate(getIconWidth(), 0);
-                g2.scale(-1, 1);
-            break;
-            case PEILAA_Y:
-                g2.translate(0, getIconHeight());
-                g2.scale(1, -1);
-            break;
-			case PEILAA_MOLEMMAT:
-				g2.translate(getIconWidth(), getIconHeight());
-				g2.scale(-1, -1);
-			break;
-        }
+		if (skaalaus != 64f) {
+			//if (degrees != 0) {
+				//g2.rotate(Math.toRadians(degrees));
+				//if (degrees == 90) {
+					//g2.translate(0, -skaalaus);
+				//}
+				//else if (degrees == 180) {
+					//g2.translate(-skaalaus, -skaalaus);
+				//}
+				//else if (degrees == 270) {
+					//g2.translate(-skaalaus, 0);
+				//}
+			//}
+			g2.scale(skaalaus/64f, skaalaus/64f);
+			//g2.translate(-(skaalaus - 64f)/2, -(skaalaus - 64f)/2);
+			if (peilaus == Peilaus.PEILAA_Y || peilaus == Peilaus.PEILAA_MOLEMMAT) {
+				g2.translate(0, -(skaalaus - 64f));
+				//g2.translate(0, 0);
+				g2.scale(1, 2);
+			}
+			else {
+				g2.translate(0, -(skaalaus - 64f)/2);
+			}
+		}
+		else {
+			if (rotate == Rotate.DOWN) {
+				g2.translate(x + cHeight, y + cWidth);
+				g2.rotate( Math.toRadians( 90 ) );
+				//icon.paintIcon(c, g2,  -cWidth, yAdjustment - cHeight);
+			}
+			else if (rotate == Rotate.UP) {
+				g2.translate(x + cHeight, y + cWidth);
+				g2.rotate( Math.toRadians( -90 ) );
+				//icon.paintIcon(c, g2,  xAdjustment - cWidth, -cHeight);
+			}
+			else if (rotate == Rotate.UPSIDE_DOWN) {
+				g2.translate(x + cWidth, y + cHeight);
+				g2.rotate( Math.toRadians( 180 ) );
+				//icon.paintIcon(c, g2, xAdjustment - cWidth, yAdjustment - cHeight);
+			}
+			else if (rotate == Rotate.ABOUT_CENTER) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setClip(x, y, getIconWidth(), getIconHeight());
+				g2.translate((getIconWidth() - icon.getIconWidth()) / 2, (getIconHeight() - icon.getIconHeight()) / 2);
+				g2.rotate(Math.toRadians(degrees), x + cWidth, y + cHeight);
+				//icon.paintIcon(c, g2, x, y);
+			}
 
-		//System.out.println(degrees + " " + peilaus);
+			switch (peilaus) {
+				case NORMAALI:
+				break;
+				case PEILAA_X:
+					g2.translate(getIconWidth(), 0);
+					g2.scale(-1, 1);
+				break;
+				case PEILAA_Y:
+					g2.translate(0, getIconHeight());
+					g2.scale(1, -1);
+				break;
+				case PEILAA_MOLEMMAT:
+					g2.translate(getIconWidth(), getIconHeight());
+					g2.scale(-1, -1);
+				break;
+			}
+		}
 
 		icon.paintIcon(c, g2, x, y);
 		g2.dispose();

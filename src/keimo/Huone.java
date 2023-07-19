@@ -25,8 +25,8 @@ public class Huone {
     int esineitäKentällä = 0;
     int maastoaKentällä = 0;
     int npcitäKentällä = 0;
-    protected boolean lataaTarinaRuutu = false;
-    private String tarinaRuudunTunniste = "";
+    protected String tarinaRuudunTunniste = null;
+    protected String vaaditunTavoitteenTunniste = null;
     private boolean warpVasen = false;
     private boolean warpOikea = false;
     private boolean warpAlas = false;
@@ -63,11 +63,28 @@ public class Huone {
     }
 
     public boolean annaTarinaRuudunLataus() {
-        return lataaTarinaRuutu;
+        if (tarinaRuudunTunniste == null || tarinaRuudunTunniste == "") {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    public boolean annaTavoiteVaatimus() {
+        if (vaaditunTavoitteenTunniste == null || vaaditunTavoitteenTunniste == "") {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public String annaTarinaRuudunTunniste() {
         return tarinaRuudunTunniste;
+    }
+
+    public String annaVaaditunTavoitteenTunniste() {
+        return vaaditunTavoitteenTunniste;
     }
     
     public KenttäKohde[][] annaHuoneenKenttäSisältö() {
@@ -107,10 +124,7 @@ public class Huone {
     public void päivitäAlkudialogi(String huoneenAlkuDialogiTeksti) {
         this.tarinaRuudunTunniste = huoneenAlkuDialogiTeksti;
         if (huoneenAlkuDialogiTeksti == null || huoneenAlkuDialogiTeksti == "") {
-            this.lataaTarinaRuutu = false;
-        }
-        else {
-            this.lataaTarinaRuutu = true;
+            this.tarinaRuudunTunniste = null;
         }
     }
 
@@ -274,7 +288,7 @@ public class Huone {
         }
     }
 
-    public Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, boolean lataaTarinaRuutu, String tarinaRuudunTunniste) {
+    public Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, String tarinaRuudunTunniste, String vaaditunTavoitteenTunniste) {
         this.id = luontiId;
         this.nimi = luontiNimi;
         this.huoneenKoko = luontiKoko;
@@ -283,8 +297,8 @@ public class Huone {
         this.huoneenNPCSisältö = new NPC[Peli.kentänKoko][Peli.kentänKoko];
         this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
         this.taustanPolku = luontiTaustanPolku;
-        this.lataaTarinaRuutu = lataaTarinaRuutu;
         this.tarinaRuudunTunniste = tarinaRuudunTunniste;
+        this.vaaditunTavoitteenTunniste = vaaditunTavoitteenTunniste;
         this.alue = luontiAlue;
 
         try {

@@ -7,22 +7,22 @@ public abstract class Esine extends KenttäKohde {
 
     Random r = new Random();
 
-    public boolean poista = false;
+    protected boolean poista = false;
     public boolean poistoon(){
         return poista;
     }
 
-    boolean kenttäkäyttö = false;
+    protected boolean kenttäkäyttö = false;
     public boolean onkoKenttäkäyttöön() {
         return kenttäkäyttö;
     }
 
-    boolean käyttö = false;
+    protected boolean käyttö = false;
     public boolean onkoKäyttö() {
         return käyttö;
     }
 
-    boolean yhdistettävä = false;
+    protected boolean yhdistettävä = false;
     public boolean onkoYhdistettävä() {
         return yhdistettävä;
     }
@@ -97,6 +97,46 @@ public abstract class Esine extends KenttäKohde {
             default:
                 return "Tämä esine";
         }
+    }
+
+    protected static Esine luoEsine(String esineenNimi, String[] ominaisuusLista) {
+        switch (esineenNimi) {
+            case "Avain":
+                return new Avain(false, 0, 0);
+            case "Hiili":
+                return new Hiili(false, 0, 0);
+            case "Huume":
+                return new Huume(false, 0, 0);
+            case "Kaasupullo":
+                return new Kaasupullo(false, 0, 0);
+            case "Kaasusytytin":
+                return new Kaasusytytin(false, 0, 0, ominaisuusLista);
+            case "Kilpi":
+                return new Kilpi(false, 0, 0);
+            case "Kuparilager":
+                return new Kuparilager(false, 0, 0);
+            case "Makkara":
+                return new Makkara(false, 0, 0);
+            case "Paperi":
+                return new Paperi(false, 0, 0);
+            case "Pesäpallomaila":
+                return new Pesäpallomaila(false, 0, 0);
+            case "Seteli":
+                return new Seteli(false, 0, 0);
+            case "Pontikka-ainekset":
+                return new Ponuainekset(false, 0, 0);
+            case "Suklaalevy":
+                return new Suklaalevy(false, 0, 0);
+            case "Vesiämpäri":
+                return new Vesiämpäri(false, 0, 0);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    protected void luoSkaalattuKuvake() {
+        
     }
 
     public Esine(boolean määritettySijainti, int sijX, int sijY) {

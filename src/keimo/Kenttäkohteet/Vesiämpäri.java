@@ -1,4 +1,7 @@
 package keimo.Kenttäkohteet;
+
+import keimo.Utility.KäännettäväKuvake;
+
 import javax.swing.ImageIcon;
 
 public class Vesiämpäri extends Esine {
@@ -46,6 +49,7 @@ public class Vesiämpäri extends Esine {
         super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.asetaTiedot();
     }
 }

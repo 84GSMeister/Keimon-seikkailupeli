@@ -31,6 +31,7 @@ public class IsoNumeroSäie {
             }
         };
         isoNumeroSäie.setPriority(Thread.MIN_PRIORITY);
+        isoNumeroSäie.setName("Isonumerosäie (Turvallista keskeyttää)");
         isoNumeroSäie.start();
     }
 }

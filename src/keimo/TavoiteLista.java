@@ -10,8 +10,10 @@ public class TavoiteLista {
     public static HashMap<Integer, String> pääTavoitteet = new HashMap<Integer, String>();
     public static String nykyinenTavoite = "";
 
-    static void suoritaTavoite(String tavoitteenTunniste) {
-        tavoiteLista.put(tavoitteenTunniste, true);
+    public static void suoritaTavoite(String tavoitteenTunniste) {
+        if (tavoiteLista.keySet().contains(tavoitteenTunniste)) {
+            tavoiteLista.put(tavoitteenTunniste, true);
+        }
     }
 
     static void suoritaPääTavoite(int tavoitteenNro) {
@@ -24,18 +26,21 @@ public class TavoiteLista {
         }
     }
 
-    static void luoTavoiteLista() {
-        tavoiteLista.put("Löydä takaisin kotiin", false);
-        tavoiteLista.put("Etsi pesäpallomaila", false);
-        tavoiteLista.put("Etsi nuotiopaikka", false);
-        tavoiteLista.put("Sytytä nuotio", false);
-    }
+    
     static void luoPääTavoiteLista() {
         pääTavoitteet.put(0, "Löydä takaisin kotiin");
         pääTavoitteet.put(1, "Etsi pesäpallomaila");
         pääTavoitteet.put(2, "Etsi nuotiopaikka");
         pääTavoitteet.put(3, "Sytytä nuotio");
         nykyinenTavoite = pääTavoitteet.get(0);
+    }
+
+    static void luoTavoiteLista() {
+        tavoiteLista.put(pääTavoitteet.get(0), false);
+        tavoiteLista.put(pääTavoitteet.get(1), false);
+        tavoiteLista.put(pääTavoitteet.get(2), false);
+        tavoiteLista.put(pääTavoitteet.get(3), false);
+        tavoiteLista.put("Avaa takahuone", false);
     }
 
     static int tarkistaSuoritetutPääTavoitteet() {

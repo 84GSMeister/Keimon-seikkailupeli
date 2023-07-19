@@ -231,6 +231,7 @@ public class OsionAlkuRuutu {
         Peli.pause = false;
         PääIkkuna.ikkuna.requestFocus();
         Peli.peliAloitettu = true;
+        PääIkkuna.uudelleenpiirräKaikki = true;
     }
 
     static class OsionAlkuruudunKontrollit implements KeyListener {

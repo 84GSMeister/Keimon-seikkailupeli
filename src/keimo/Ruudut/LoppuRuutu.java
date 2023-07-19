@@ -165,6 +165,15 @@ public class LoppuRuutu {
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_otsikko.png");
             break;
 
+            case KUOLEMA_TESTI:
+                kelausViive = 20;
+                loppuTeksti = "<html><p>" +
+                "Hävisit pelin!" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_testi.jpg");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
+            break;
+
             case KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN:
                 loppuTeksti = "<html><p>" +
                 "Sait selkääsi!" + "<br>" +
@@ -254,6 +263,20 @@ public class LoppuRuutu {
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_juhani.gif");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
+            break;
+
+            case KUOLEMA_SILLALTA_ALAS:
+                kelausViive = 50;
+                loppuTeksti = "<html><p>" +
+                "Hyppäsit sillalta." + "<br>" +
+                "Hävisit pelin." + "<br>" +
+                "</p></html>";
+                loppuTekstiInfo = "<html><p>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "</p></html>";
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_silta.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 

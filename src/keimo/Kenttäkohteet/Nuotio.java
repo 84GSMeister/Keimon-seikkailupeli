@@ -1,8 +1,9 @@
 package keimo.Kenttäkohteet;
-import javax.swing.ImageIcon;
 
 import keimo.Peli;
 import keimo.PääIkkuna;
+
+import javax.swing.ImageIcon;
 
 public class Nuotio extends Kiintopiste {
     

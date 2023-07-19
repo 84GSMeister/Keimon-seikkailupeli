@@ -4,6 +4,7 @@ import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
+import keimo.Ruudut.PeliRuutu;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 
 import java.util.ArrayList;
@@ -16,15 +17,40 @@ public class PeliKenttäMetodit {
     static KenttäKohde[][] pelikenttä;
     static Maasto[][] maastokenttä;
 
+    public static boolean teleporttaaViholliset = false;
+
     public static void suoritaPelikenttäMetoditJoka2Tick() {
         tarkistaVartijanAktiivisuus();
+        tarkistaVihollistenLiikerata();
     }
 
     public static void suoritaPelikenttäMetoditJokaTick() {
+        if (teleporttaaViholliset) {
+            teleporttaaViholliset();
+        }
         tarkistaVihollisCollision();
         Pelaaja.vähennäKuolemattomuusAikaa();
         Peli.vähennäKäyttöViivettä();
         liikutaVihollisia();
+    }
+
+    static void teleporttaaViholliset() {
+        try {
+            for (NPC npc : Peli.npcLista) {
+                npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
+            }
+        }
+        catch (ConcurrentModificationException cme) {
+            System.out.println("Viimeisin vihollisten teleporttaus peruutettiin (konkurrenssi-issue)");
+            cme.printStackTrace();
+        }
+        finally {
+            teleporttaaViholliset = false;
+        }
+    }
+
+    static void tarkistaVihollistenLiikerata() {
+        Vihollinen.liikkeenPituus = PeliRuutu.esineenKokoPx;
     }
 
     static boolean liikutaVihollisia() {
@@ -45,7 +71,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case LOOP_NELIÖ_VASTAPÄIVÄÄN:
@@ -55,7 +81,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case LOOP_VASEN_OIKEA:
@@ -65,7 +91,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case LOOP_YLÖS_ALAS:
@@ -75,7 +101,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI:
@@ -84,7 +110,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI:
@@ -93,7 +119,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case VASEN_OIKEA_ESTEESEEN_ASTI:
@@ -102,7 +128,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case YLÖS_ALAS_ESTEESEEN_ASTI:
@@ -111,7 +137,7 @@ public class PeliKenttäMetodit {
                                     }
                                     else {
                                         vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = vihollinen.liikkeenPituus;
+                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
                                 case SEURAA_PELAAJAA:

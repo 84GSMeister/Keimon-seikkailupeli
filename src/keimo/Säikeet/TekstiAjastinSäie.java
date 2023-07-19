@@ -7,14 +7,15 @@ import keimo.Ruudut.PeliRuutu;
 public class TekstiAjastinSäie extends Thread {
 
     public static String dialogiTeksti = "";
+    public boolean säieKäynnissä = false;
     
     protected void scrollaaDialogiTeksti() {
         if (PääIkkuna.tekstiAuki) {
             if (PääIkkuna.tekstiäJäljellä > 0) {
                 String tulostettavaTeksti = dialogiTeksti.substring(0, dialogiTeksti.length()-PääIkkuna.tekstiäJäljellä +1);
                 PeliRuutu.vuoropuheTeksti.setText(tulostettavaTeksti);
+                //PääIkkuna.ikkuna.setTitle(tulostettavaTeksti);
                 PääIkkuna.tekstiäJäljellä--;
-                //System.out.println(PääIkkuna.tekstiAuki);
             }
             pakotaOdotus(2_000_000/PelinAsetukset.tavoiteTickrate);
         }
@@ -38,7 +39,8 @@ public class TekstiAjastinSäie extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        this.säieKäynnissä = true;
+        while (säieKäynnissä) {
             scrollaaDialogiTeksti();
         }
     }

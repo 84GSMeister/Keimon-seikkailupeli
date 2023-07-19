@@ -1,5 +1,9 @@
 package keimo.Kenttäkohteet;
+
+import keimo.Utility.KäännettäväKuvake;
+
 import javax.swing.ImageIcon;
+
 
 public class Avain extends Esine {
 
@@ -45,6 +49,7 @@ public class Avain extends Esine {
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Kirstu");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/avain.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?";
         super.asetaTiedot();
     }

@@ -4,6 +4,7 @@ import keimo.Pelaaja;
 import keimo.TarkistettavatArvot;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
+import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
@@ -69,6 +70,7 @@ public class Kuparilager extends Esine {
         super.katsomisTeksti = "0,15€ lisää saldoon!";
         super.käyttö = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuparilager.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.hinta = 1.05;
         super.asetaTiedot();
     }

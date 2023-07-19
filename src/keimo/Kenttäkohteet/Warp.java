@@ -1,4 +1,5 @@
 package keimo.Kenttäkohteet;
+
 public abstract class Warp extends KenttäKohde {
     
     protected int kohdeHuone;

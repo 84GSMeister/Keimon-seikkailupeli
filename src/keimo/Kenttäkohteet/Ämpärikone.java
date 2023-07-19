@@ -1,8 +1,9 @@
 package keimo.Kenttäkohteet;
+
+import keimo.Ruudut.Lisäruudut.ÄmpäriJonoIkkuna;
+import keimo.Utility.KäännettäväKuvake;
+
 import javax.swing.ImageIcon;
-
-import keimo.Ikkunat.ÄmpäriJonoIkkuna;
-
 
 public class Ämpärikone extends Kiintopiste {
     
@@ -50,6 +51,7 @@ public class Ämpärikone extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Ämpärikone";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "ämpärikone.png";
         super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
         super.asetaTiedot();

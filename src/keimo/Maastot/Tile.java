@@ -2,7 +2,7 @@ package keimo.Maastot;
 
 import javax.swing.ImageIcon;
 
-public class Tile extends Maasto{
+public class Tile extends Maasto {
 
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
@@ -12,6 +12,15 @@ public class Tile extends Maasto{
         this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
     }
+
+    // @Override
+    // protected void luoSkaalattuKuvake() {
+    //     ImageIcon kenttäkohteenSkaalattuKuvake = (ImageIcon)super.kuvake;
+    //     Image kuvake64 = kenttäkohteenSkaalattuKuvake.getImage();
+    //     Image kuvake96 = kuvake64.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
+    //     kenttäkohteenSkaalattuKuvake = new ImageIcon(kuvake96);
+    //     super.skaalattuKuvake = kenttäkohteenSkaalattuKuvake; 
+    // }
 
     public Tile(int sijX, int sijY, String[] ominaisuusLista) {
         super.nimi = "Tile";
@@ -60,5 +69,6 @@ public class Tile extends Maasto{
 
         super.kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
         super.asetaTiedot();
+        //luoSkaalattuKuvake();
     }
 }

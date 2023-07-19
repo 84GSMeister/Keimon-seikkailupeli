@@ -2,6 +2,7 @@ package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
 import keimo.PääIkkuna;
+import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -20,12 +21,24 @@ public class KauppaRuutu extends Kiintopiste {
             PääIkkuna.avaaPitkäDialogiRuutu("kyläkauppa");
 
             if (Pelaaja.raha > Pelaaja.ostostenHintaYhteensä) {
-                Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
-                Pelaaja.ostostenHintaYhteensä = 0;
-                for (Esine ostos : Pelaaja.ostosKori) {
-                    Pelaaja.annaEsine(ostos);
+                int tyhjätPaikat = 0;
+                for (Esine esine : Pelaaja.esineet) {
+                    if (esine == null) {
+                        tyhjätPaikat++;
+                    }
                 }
-                Pelaaja.tyhjennäOstoskori();
+                if (Pelaaja.ostosKori.size() - tyhjätPaikat > 0) {
+                    PääIkkuna.avaaDialogi(null, "Ostokset ei mahdu tavaraluetteloon.", "");
+                }
+                else {
+                    PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
+                    Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
+                    Pelaaja.ostostenHintaYhteensä = 0;
+                    for (Esine ostos : Pelaaja.ostosKori) {
+                        Pelaaja.annaEsine(ostos);
+                    }
+                    Pelaaja.tyhjennäOstoskori();
+                }
             }
             else {
                 Pelaaja.tyhjennäOstoskori();
@@ -35,13 +48,24 @@ public class KauppaRuutu extends Kiintopiste {
             PääIkkuna.avaaDialogi(this.annaDialogiKuvake(), "Meinasitko ostaa jotain?", "ASS-Market kassa");
         }
         else if (Pelaaja.raha >= Pelaaja.ostostenHintaYhteensä) {
-            PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
-            Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
-            Pelaaja.ostostenHintaYhteensä = 0;
-            for (Esine ostos : Pelaaja.ostosKori) {
-                Pelaaja.annaEsine(ostos);
+            int tyhjätPaikat = 0;
+            for (Esine esine : Pelaaja.esineet) {
+                if (esine == null) {
+                    tyhjätPaikat++;
+                }
             }
-            Pelaaja.tyhjennäOstoskori();
+            if (Pelaaja.ostosKori.size() - tyhjätPaikat > 0) {
+                PääIkkuna.avaaDialogi(null, "Ostokset ei mahdu tavaraluetteloon.", "");
+            }
+            else {
+                PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
+                Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
+                Pelaaja.ostostenHintaYhteensä = 0;
+                for (Esine ostos : Pelaaja.ostosKori) {
+                    Pelaaja.annaEsine(ostos);
+                }
+                Pelaaja.tyhjennäOstoskori();
+            }
         }
         else {
             PääIkkuna.avaaPitkäDialogiRuutu("kauppa_eivaraa");
@@ -53,8 +77,9 @@ public class KauppaRuutu extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kaupparuutu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaupparuutu.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kaupparuutu.png";
-        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias_dialogi.png");
+        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
         super.katsomisTeksti = "Kylien kauppias";
         super.asetaTiedot();
     }

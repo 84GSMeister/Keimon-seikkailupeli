@@ -1,5 +1,7 @@
 package keimo.Maastot;
 
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 public class YksisuuntainenTile extends Maasto {
@@ -12,6 +14,15 @@ public class YksisuuntainenTile extends Maasto {
         this.lisäOminaisuudet[1] = "kääntö=" + kääntöAsteet;
         this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
+    }
+
+    @Override
+    protected void luoSkaalattuKuvake() {
+        ImageIcon kenttäkohteenSkaalattuKuvake = (ImageIcon)super.kuvake;
+        Image kuvake64 = kenttäkohteenSkaalattuKuvake.getImage();
+        Image kuvake96 = kuvake64.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
+        kenttäkohteenSkaalattuKuvake = new ImageIcon(kuvake96);
+        super.skaalattuKuvake = kenttäkohteenSkaalattuKuvake; 
     }
 
     public YksisuuntainenTile(int sijX, int sijY, String[] ominaisuusLista) {
@@ -88,7 +99,7 @@ public class YksisuuntainenTile extends Maasto {
         this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
         super.kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
-
         super.asetaTiedot();
+        luoSkaalattuKuvake();
     }
 }

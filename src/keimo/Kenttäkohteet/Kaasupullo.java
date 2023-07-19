@@ -1,4 +1,7 @@
 package keimo.Kenttäkohteet;
+
+import keimo.Utility.KäännettäväKuvake;
+
 import javax.swing.ImageIcon;
 
 public class Kaasupullo extends Esine {
@@ -39,6 +42,7 @@ public class Kaasupullo extends Esine {
         super.yhdistettävä = true;
         super.kelvollisetYhdistettävät.add("Kaasusytytin");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasupullo.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
         super.asetaTiedot();
     }

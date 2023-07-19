@@ -2,7 +2,6 @@ package keimo.Ikkunat;
 
 import keimo.*;
 import keimo.Kenttäkohteet.*;
-import keimo.Maastot.*;
 import keimo.Utility.*;
 
 import java.awt.*;
@@ -20,7 +19,7 @@ public class MukautusIkkuna {
     static JTextField[] tekstiKentät = new JTextField[valintojenMäärä];
     static KenttäKohde[][] huoneenSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
     static ArrayList<KenttäKohde> huoneenSisältöLista = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huoneenMaastoLista = new ArrayList<Maasto>();
+    static JCheckBox tehtäväItemitCheckbox;
 
     // private static int suklaidenMäärä = 12;
     // private static int makkaroidenMäärä = 6;
@@ -34,7 +33,7 @@ public class MukautusIkkuna {
             //int suklaidenMäärä = Integer.parseInt(tekstiKentät[3].getText());
             //int makkaroidenMäärä = Integer.parseInt(tekstiKentät[4].getText());
             //int vihujenMäärä = Integer.parseInt(tekstiKentät[5].getText());
-            boolean tehtäväItemit = true;
+            boolean tehtäväItemit = tehtäväItemitCheckbox.isSelected();
             if (huoneenId < 0) {
                 JOptionPane.showMessageDialog(null, "Negatiivinen ID ei kelpaa.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
             }
@@ -99,17 +98,16 @@ public class MukautusIkkuna {
             huoneenSisältöString += k.annaNimi() + ", ";
         }
         System.out.println("Huoneeseen asetetaan " + huoneenSisältöString);
-        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, huoneenMaastoLista, null, false, "");
+        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
         Peli.huoneVaihdettava = true;
         Peli.uusiHuone = huoneenId;
         huoneenSisältöLista.removeAll(huoneenSisältöLista);
-        huoneenMaastoLista.removeAll(huoneenMaastoLista);
     }
 
     public static void luoMukautusikkuna() {
         
         JPanel paneli = new JPanel(new SpringLayout());
-        for (int i = 0; i < valintojenMäärä; i++) {
+        for (int i = 0; i < valintojenMäärä-1; i++) {
             JLabel teksti = new JLabel(tekstit[i], JLabel.TRAILING);
             paneli.add(teksti);
             tekstiKentät[i] = new JTextField("" + Peli.kentänKoko,10);
@@ -128,9 +126,13 @@ public class MukautusIkkuna {
         // tekstiKentät[4].setToolTipText("Näin monta makkaraa spawnataan satunnaiseen ruutuun.");
         // tekstiKentät[5].setText("" + vihujenMäärä);
         // tekstiKentät[5].setToolTipText("Näin monta pikkuvihua spawnataan satunnaiseen ruutuun.");
-        tekstiKentät[3].setText("Kyllä");
-        tekstiKentät[3].setEditable(false);
-        tekstiKentät[3].setToolTipText("Avain, Hiili, Paperi, Kaasusytytin, Kaasupullo");
+        paneli.add(new JLabel(tekstit[3]));
+        tehtäväItemitCheckbox = new JCheckBox();
+        tehtäväItemitCheckbox.setToolTipText("Avain, Hiili, Paperi, Kaasusytytin, Kaasupullo");
+        paneli.add(tehtäväItemitCheckbox);
+        // tekstiKentät[3].setText("Kyllä");
+        // tekstiKentät[3].setEditable(false);
+        // tekstiKentät[3].setToolTipText("Avain, Hiili, Paperi, Kaasusytytin, Kaasupullo");
 
         JButton okNappi = new JButton("OK");
         okNappi.addMouseListener(new MouseAdapter() {

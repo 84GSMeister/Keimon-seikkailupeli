@@ -1,4 +1,7 @@
 package keimo.Kenttäkohteet;
+
+import keimo.Utility.KäännettäväKuvake;
+
 import javax.swing.ImageIcon;
 
 public class Kaasusytytin extends Esine {
@@ -113,6 +116,7 @@ public class Kaasusytytin extends Esine {
                 this.kenttäkäyttö = true;
                 this.sopiiKäytettäväksi.add("Nuotio");
                 this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 break;
@@ -121,6 +125,7 @@ public class Kaasusytytin extends Esine {
                 this.yhdistettävä = true;
                 this.kelvollisetYhdistettävät.add("Kaasupullo");
                 this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png");
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
                 this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
                 this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
                 break;
@@ -129,6 +134,7 @@ public class Kaasusytytin extends Esine {
                 this.kenttäkäyttö = true;
                 this.sopiiKäytettäväksi.add("Nuotio");
                 this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
+                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 break;

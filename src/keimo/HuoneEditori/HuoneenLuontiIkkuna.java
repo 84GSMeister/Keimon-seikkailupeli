@@ -4,7 +4,6 @@ import keimo.*;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
-import keimo.Maastot.*;
 import keimo.Utility.*;
 
 import javax.swing.*;
@@ -22,7 +21,6 @@ public class HuoneenLuontiIkkuna {
     static JTextField[] tekstiKentät = new JTextField[valintojenMäärä];
     static KenttäKohde[][] huoneenSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
     static ArrayList<KenttäKohde> huoneenSisältöLista = new ArrayList<KenttäKohde>();
-    static ArrayList<Maasto> huoneenMaastoLista = new ArrayList<Maasto>();
     static JCheckBox tehtäväItemitCheckbox;
 
     private static boolean asetettavaWarpVasen = false;
@@ -92,9 +90,8 @@ public class HuoneenLuontiIkkuna {
         }
         System.out.println("Huoneeseen " + huoneenId + " asetetaan " + huoneenSisältöString);
         HuoneEditoriIkkuna.vaihdaHuonetta(HuoneEditoriIkkuna.muokattavaHuone, huoneenId, false);
-        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, huoneenMaastoLista, null, false, "");
+        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
         huoneenSisältöLista.removeAll(huoneenSisältöLista);
-        huoneenMaastoLista.removeAll(huoneenMaastoLista);
     }
 
     public static void luoHuoneenLuontiIkkuna(Suunta suunta) {

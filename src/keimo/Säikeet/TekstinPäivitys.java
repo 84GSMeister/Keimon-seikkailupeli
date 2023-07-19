@@ -10,6 +10,8 @@ public class TekstinPäivitys {
 
     static boolean ajastinKäynnissä = true;
     public static double kulunutAika = 0;
+    public static double pauseAlkuAika = 0;
+    public static double pauseLoppuAika = 0;
     static int kulunutAikaMin = 0;
     static double kulunutAikaSek = 0;
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
@@ -18,10 +20,12 @@ public class TekstinPäivitys {
         PeliRuutu.ylätekstiViive.setText("Päivitysaika: " + kaksiDesimaalia.format(GrafiikanPäivitysSäie.aikaErotusMs) + " ms");
         PeliRuutu.ylätekstiKuvat.setText("Kuvia: " + GrafiikanPäivitysSäie.frameja);
         kulunutAika = (System.nanoTime() - Peli.aikaReferenssi)/1_000_000;
-        kulunutAikaSek = (double)kulunutAika/1000f;
-        kulunutAikaMin = (int)kulunutAikaSek / 60;
-        kulunutAikaSek = kulunutAikaSek % 60;
-        PeliRuutu.ylätekstiAika.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
+        if (!Peli.ajastinPysäytetty) {
+            kulunutAikaSek = (double)kulunutAika/1000f;
+            kulunutAikaMin = (int)kulunutAikaSek / 60;
+            kulunutAikaSek = kulunutAikaSek % 60;
+            PeliRuutu.ylätekstiAika.setText("Aika: " + kulunutAikaMin + ":" + kaksiDesimaalia.format(kulunutAikaSek));
+        }
     });
 
     public static Timer päivitäTekstitHidas = new Timer(50, e -> {

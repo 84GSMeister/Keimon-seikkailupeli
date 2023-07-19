@@ -21,6 +21,7 @@ public abstract class NPC implements Käännettävä{
     protected int hp;
     public ImageIcon kuvake;
     String nimi = "";
+    public boolean onLadattuPelissä = false;
 
     boolean lisäOminaisuuksia = false;
     String[] lisäOminaisuudet;
@@ -138,11 +139,11 @@ public abstract class NPC implements Käännettävä{
                 case VASEN:
                     this.npcnSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
                     if (hitbox.getMinX() > 0) {
-                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY] == null) {
+                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                             NPCSiirtyi = siirrä(Suunta.VASEN);
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY].estääköLiikkumisen(suunta)) {
+                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
                                 NPCSiirtyi = siirrä(Suunta.VASEN);
                             }
                         }
@@ -151,11 +152,11 @@ public abstract class NPC implements Käännettävä{
                 case OIKEA:
                     this.npcnSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
                     if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY] == null) {
+                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                             NPCSiirtyi = siirrä(Suunta.OIKEA);
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY].estääköLiikkumisen(suunta)) {
+                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
                                 NPCSiirtyi = siirrä(Suunta.OIKEA);
                             }
                         }
@@ -163,11 +164,11 @@ public abstract class NPC implements Käännettävä{
                     break;
                 case ALAS:
                     if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64] == null) {
+                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx] == null) {
                             NPCSiirtyi = siirrä(Suunta.ALAS);
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64].estääköLiikkumisen(suunta)) {
+                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
                                 NPCSiirtyi = siirrä(Suunta.ALAS);
                             }
                         }
@@ -175,11 +176,11 @@ public abstract class NPC implements Käännettävä{
                     break;
                 case YLÖS:
                     if (hitbox.getMinY() > 0) {
-                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64] == null) {
+                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx] == null) {
                             NPCSiirtyi = siirrä(Suunta.YLÖS);
                         }
                         else {
-                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64].estääköLiikkumisen(suunta)) {
+                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
                                 NPCSiirtyi = siirrä(Suunta.YLÖS);
                             }
                         }
@@ -195,7 +196,7 @@ public abstract class NPC implements Käännettävä{
         return NPCSiirtyi;
     }
 
-    void teleport(int kohdeX, int kohdeY) {
+    public void teleport(int kohdeX, int kohdeY) {
         sijX = kohdeX;
         sijY = kohdeY;
         this.hitbox.setLocation(kohdeX * PeliRuutu.pelaajanKokoPx, kohdeY * PeliRuutu.pelaajanKokoPx);
@@ -222,6 +223,36 @@ public abstract class NPC implements Käännettävä{
         return "Tältä kohteelta puuttuu sijamuotojen määritys.";
     }
 
+    public static NPC luoNPCTiedoilla(String npcnNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+
+        NPC luotavaNPC;
+
+        switch (npcnNimi) {
+
+            case "Pikkuvihu":
+                luotavaNPC = new Pikkuvihu(sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Pahavihu":
+                luotavaNPC = new Pahavihu(sijX, sijY, ominaisuusLista);
+                break;
+            
+            case "Vartija":
+                luotavaNPC = new Vartija(sijX, sijY, ominaisuusLista);
+                break;
+
+            default:
+                luotavaNPC = null;
+                break;
+        }
+
+        if (luotavaNPC == null) {
+            JOptionPane.showMessageDialog(null, "Ei voi ladata npc:tä", "luotavaNPC = null", JOptionPane.ERROR_MESSAGE);
+        }
+        //luotavaNPC.teleport(sijX, sijY);
+        return luotavaNPC;
+    }
+
     NPC(int sijX, int sijY) {
         this.id = TarkistettavatArvot.npcId;
         TarkistettavatArvot.npcId++;
@@ -229,6 +260,7 @@ public abstract class NPC implements Käännettävä{
         this.sijY = sijY;
         this.alkuSijX = sijX;
         this.alkuSijY = sijY;
+        this.onLadattuPelissä = false;
         this.hitbox.setLocation(sijX, sijY);
         if (Peli.npcLista != null) {
             Peli.lisääNPC(this);

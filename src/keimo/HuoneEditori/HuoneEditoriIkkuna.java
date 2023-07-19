@@ -73,7 +73,7 @@ public class HuoneEditoriIkkuna {
     static JLabel huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Pulloautomaatti", "Oviruutu", "Seteli", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
+    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Hämärähemmo", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Pulloautomaatti", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
     static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Seteli", "Suklaalevy", "Vesiämpäri"};
     static String[] npcNimiLista = {"Pikkuvihu", "Pahavihu", "Vartija"};
     static JComboBox<String> esineValikko;
@@ -86,7 +86,8 @@ public class HuoneEditoriIkkuna {
     static String huoneenAlue = "";
     static ImageIcon huoneenTaustakuva;
     static String huoneenTaustakuvaPolku = "";
-    static String huoneenAlkuDialogiTeksti = "";
+    static String huoneenAlkuDialoginTunniste = "";
+    static String huoneenVaaditunTavoiteenTunniste = "";
     static boolean warpVasen = false;
     static boolean warpOikea = false;
     static boolean warpAlas = false;
@@ -140,7 +141,7 @@ public class HuoneEditoriIkkuna {
         maastoKohteenKuvakeObjektiPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvakeNpcPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Huone-editori v0.6.1");
+        ikkuna = new JFrame("Huone-editori v0.6.2");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
@@ -402,9 +403,9 @@ public class HuoneEditoriIkkuna {
             public void actionPerformed(ActionEvent e) {
                 huoneenNimi = huoneenNimiTekstiKenttä.getText();
                 huoneenAlue = huoneenAlueTekstiKenttä.getText();
-                huoneenAlkuDialogiTeksti = huoneenDialogiValintaTekstiKenttä.getText();
+                huoneenAlkuDialoginTunniste = huoneenDialogiValintaTekstiKenttä.getText();
                 huoneKartta.get(muokattavaHuone).päivitäNimiJaAlue(huoneenNimi, huoneenAlue);
-                huoneKartta.get(muokattavaHuone).päivitäAlkudialogi(huoneenAlkuDialogiTeksti);
+                huoneKartta.get(muokattavaHuone).päivitäAlkudialogi(huoneenAlkuDialoginTunniste);
                 huoneKartta.get(muokattavaHuone).päivitäHuoneenKenttäSisältö(objektiKenttä);
                 huoneKartta.get(muokattavaHuone).päivitäHuoneenMaastoSisältö(maastoKenttä);
                 huoneKartta.get(muokattavaHuone).päivitäHuoneenNPCSisältö(npcKenttä);
@@ -729,11 +730,11 @@ public class HuoneEditoriIkkuna {
         npcKenttä = huoneKartta.get(uusiHuone).annaHuoneenNPCSisältö();
         huoneenNimi = huoneKartta.get(uusiHuone).annaNimi();
         huoneenAlue = huoneKartta.get(uusiHuone).annaAlue();
-        huoneenAlkuDialogiTeksti = huoneKartta.get(uusiHuone).annaTarinaRuudunTunniste();
+        huoneenAlkuDialoginTunniste = huoneKartta.get(uusiHuone).annaTarinaRuudunTunniste();
         huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
         huoneenNimiTekstiKenttä.setText(huoneenNimi);
         huoneenAlueTekstiKenttä.setText(huoneenAlue);
-        huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialogiTeksti);
+        huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialoginTunniste);
         huoneenTaustakuvaPolku = huoneKartta.get(uusiHuone).annaTaustanPolku();
         warpVasen = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.VASEN);
         warpVasenHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
@@ -769,15 +770,13 @@ public class HuoneEditoriIkkuna {
                 npcKenttäLista.add(n);
             }
         }
-        boolean lataaHuoneenAlkuDialogi = false;
-        if (huoneenAlkuDialogiTeksti == null && huoneenAlkuDialogiTeksti == "") {
-            lataaHuoneenAlkuDialogi = false;
+        if (huoneenAlkuDialoginTunniste == null || huoneenAlkuDialoginTunniste == "") {
+            huoneenAlkuDialoginTunniste = null;
         }
-        else {
-            lataaHuoneenAlkuDialogi = true;
+        if (huoneenVaaditunTavoiteenTunniste == null || huoneenVaaditunTavoiteenTunniste == "") {
+            huoneenVaaditunTavoiteenTunniste = null;
         }
-        System.out.println(huoneenAlkuDialogiTeksti);
-        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10,  huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, lataaHuoneenAlkuDialogi, huoneenAlkuDialogiTeksti));
+        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10,  huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, huoneenAlkuDialoginTunniste, huoneenVaaditunTavoiteenTunniste));
         if (tyhjennäHuone) {
             huoneKartta.get(nykyinenHuone).päivitäReunawarppienTiedot(warpVasen, warpVasenHuoneId, warpOikea, warpOikeaHuoneId, warpAlas, warpAlasHuoneId, warpYlös, warpYlösHuoneId);
             for (int i = 0; i < Peli.kentänKoko; i++) {
@@ -789,10 +788,10 @@ public class HuoneEditoriIkkuna {
             }
             huoneenNimi = "";
             huoneenAlue = "";
-            huoneenAlkuDialogiTeksti = "";
+            huoneenAlkuDialoginTunniste = "";
             huoneenNimiTekstiKenttä.setText(huoneenNimi);
             huoneenAlueTekstiKenttä.setText(huoneenAlue);
-            huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialogiTeksti);
+            huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialoginTunniste);
             huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
         }
     }
@@ -936,274 +935,15 @@ public class HuoneEditoriIkkuna {
      * @param ominaisuusLista joillakin objekteilla on lisäominaisuuksia, oletuksena tyhjä (null)
      */
     static void asetaEsineRuutuun(int sijX, int sijY, String esineenNimi, String[] ominaisuusLista) {
-        if (ominaisuusLista != null) {
-            switch (esineenNimi) {
-
-                case "Avain":
-                    objektiKenttä[sijX][sijY] = new Avain(true, sijX, sijY);
-                    break;
-
-                case "Hiili":
-                    objektiKenttä[sijX][sijY] = new Hiili(true, sijX, sijY);
-                    break;
-
-                case "Huume":
-                    objektiKenttä[sijX][sijY] = new Huume(true, sijX, sijY);
-                    break;
-
-                case "Juhani":
-                    objektiKenttä[sijX][sijY] = new Juhani(true, sijX, sijY);
-                    break;
-
-                case "Kaasupullo":
-                    objektiKenttä[sijX][sijY] = new Kaasupullo(true, sijX, sijY);
-                    break;
-
-                case "Kaasusytytin":
-                    objektiKenttä[sijX][sijY] = new Kaasusytytin(true, sijX, sijY, ominaisuusLista);
-                    break;
-
-                case "Kauppahylly":
-                    objektiKenttä[sijX][sijY] = new KauppaHylly(true, sijX, sijY, ominaisuusLista);
-                    break;
-                
-                case "Kauppaovi":
-                    objektiKenttä[sijX][sijY] = new Kauppaovi(sijX, sijY, ominaisuusLista);
-                    break;
-
-                case "Kaupparuutu":
-                    objektiKenttä[sijX][sijY] = new KauppaRuutu(true, sijX, sijY, ominaisuusLista);
-                    break;
-                
-                case "Kauppias":
-                    objektiKenttä[sijX][sijY] = new Kauppias(true, sijX, sijY);
-                    break;
-
-                case "Kilpi":
-                    objektiKenttä[sijX][sijY] = new Kilpi(true, sijX, sijY);
-                    break;
-
-                case "Kirstu":
-                    objektiKenttä[sijX][sijY] = new Kirstu(true, sijX, sijY, ominaisuusLista);
-                    break;
-                
-                case "Koriste-esine":
-                    objektiKenttä[sijX][sijY] = new VisuaalinenObjekti(true, sijX, sijY, ominaisuusLista);
-                    break;
-
-                case "Kuparilager":
-                    objektiKenttä[sijX][sijY] = new Kuparilager(true, sijX, sijY);
-                    break;
-
-                case "Makkara":
-                    objektiKenttä[sijX][sijY] = new Makkara(true, sijX, sijY);
-                    break;
-
-                case "Nuotio":
-                    objektiKenttä[sijX][sijY] = new Nuotio(true, sijX, sijY, ominaisuusLista);
-                    break;
-
-                case "Paperi":
-                    objektiKenttä[sijX][sijY] = new Paperi(true, sijX, sijY);
-                    break;
-
-                case "Pesäpallomaila":
-                    objektiKenttä[sijX][sijY] = new Pesäpallomaila(true, sijX, sijY);
-                    break;
-
-                case "Pontikka-ainekset":
-                    objektiKenttä[sijX][sijY] = new Ponuainekset(true, sijX, sijY);
-                    break;
-
-                case "Pulloautomaatti":
-                    objektiKenttä[sijX][sijY] = new Pulloautomaatti(true, sijX, sijY, ominaisuusLista);
-                    break;
-
-                case "Oviruutu":
-                    objektiKenttä[sijX][sijY] = new Oviruutu(sijX, sijY, null);
-                    break;
-
-                case "Seteli":
-                    objektiKenttä[sijX][sijY] = new Seteli(true, sijX, sijY);
-                    break;
-
-                case "Suklaalevy":
-                    objektiKenttä[sijX][sijY] = new Suklaalevy(true, sijX, sijY);
-                    break;
-
-                case "Sänky":
-                    objektiKenttä[sijX][sijY] = new Sänky(true, sijX, sijY, ominaisuusLista);
-                    break;
-
-                case "Vesiämpäri":
-                    objektiKenttä[sijX][sijY] = new Vesiämpäri(true, sijX, sijY);
-                    break;
-
-                case "Ämpärikone":
-                    objektiKenttä[sijX][sijY] = new Ämpärikone(true, sijX, sijY, ominaisuusLista);
-                    break;
-
-                default:
-                    objektiKenttä[sijX][sijY] = null;
-                    break;
-            }
-        }
-        else {
-            switch (esineenNimi) {
-
-                case "Avain":
-                    objektiKenttä[sijX][sijY] = new Avain(true, sijX, sijY);
-                    break;
-
-                case "Hiili":
-                    objektiKenttä[sijX][sijY] = new Hiili(true, sijX, sijY);
-                    break;
-
-                case "Huume":
-                    objektiKenttä[sijX][sijY] = new Huume(true, sijX, sijY);
-                    break;
-
-                case "Juhani":
-                    objektiKenttä[sijX][sijY] = new Juhani(true, sijX, sijY);
-                    break;
-
-                case "Kaasupullo":
-                    objektiKenttä[sijX][sijY] = new Kaasupullo(true, sijX, sijY);
-                    break;
-
-                case "Kaasusytytin":
-                    objektiKenttä[sijX][sijY] = new Kaasusytytin(true, sijX, sijY, null);
-                    break;
-
-                case "Kauppahylly":
-                    objektiKenttä[sijX][sijY] = new KauppaHylly(true, sijX, sijY, null);
-                    break;
-                
-                case "Kauppaovi":
-                    objektiKenttä[sijX][sijY] = new Kauppaovi(sijX, sijY, null);
-                    break;
-
-                case "Kaupparuutu":
-                    objektiKenttä[sijX][sijY] = new KauppaRuutu(true, sijX, sijY, null);
-                    break;
-                
-                case "Kauppias":
-                    objektiKenttä[sijX][sijY] = new Kauppias(true, sijX, sijY);
-                    break;
-
-                case "Kilpi":
-                    objektiKenttä[sijX][sijY] = new Kilpi(true, sijX, sijY);
-                    break;
-
-                case "Kirstu":
-                    objektiKenttä[sijX][sijY] = new Kirstu(true, sijX, sijY, null);
-                    break;
-                
-                case "Koriste-esine":
-                    objektiKenttä[sijX][sijY] = new VisuaalinenObjekti(true, sijX, sijY, null);
-                    break;
-
-                case "Kuparilager":
-                    objektiKenttä[sijX][sijY] = new Kuparilager(true, sijX, sijY);
-                    break;
-
-                case "Makkara":
-                    objektiKenttä[sijX][sijY] = new Makkara(true, sijX, sijY);
-                    break;
-
-                case "Nuotio":
-                    objektiKenttä[sijX][sijY] = new Nuotio(true, sijX, sijY, null);
-                    break;
-
-                case "Paperi":
-                    objektiKenttä[sijX][sijY] = new Paperi(true, sijX, sijY);
-                    break;
-
-                case "Pesäpallomaila":
-                    objektiKenttä[sijX][sijY] = new Pesäpallomaila(true, sijX, sijY);
-                    break;
-
-                case "Pontikka-ainekset":
-                    objektiKenttä[sijX][sijY] = new Ponuainekset(true, sijX, sijY);
-                    break;
-
-                case "Pulloautomaatti":
-                    objektiKenttä[sijX][sijY] = new Pulloautomaatti(true, sijX, sijY, null);
-                    break;
-
-                case "Oviruutu":
-                    objektiKenttä[sijX][sijY] = new Oviruutu(sijX, sijY, null);
-                    break;
-
-                case "Seteli":
-                    objektiKenttä[sijX][sijY] = new Seteli(true, sijX, sijY);
-                    break;
-
-                case "Suklaalevy":
-                    objektiKenttä[sijX][sijY] = new Suklaalevy(true, sijX, sijY);
-                    break;
-
-                case "Sänky":
-                    objektiKenttä[sijX][sijY] = new Sänky(true, sijX, sijY, null);
-                    break;
-
-                case "Vesiämpäri":
-                    objektiKenttä[sijX][sijY] = new Vesiämpäri(true, sijX, sijY);
-                    break;
-
-                case "Ämpärikone":
-                    objektiKenttä[sijX][sijY] = new Ämpärikone(true, sijX, sijY, null);
-                    break;
-
-                default:
-                    objektiKenttä[sijX][sijY] = null;
-                    break;
-            }
-        }
+        objektiKenttä[sijX][sijY] = KenttäKohde.luoObjektiTiedoilla(esineenNimi, true, sijX, sijY, ominaisuusLista);
     }
 
     static void asetaMaastoRuutuun(int sijX, int sijY, String maastonNimi, String[] ominaisuusLista) {
-
-        switch (maastonNimi) {
-
-            case "Tile":
-                maastoKenttä[sijX][sijY] = new Tile(sijX, sijY, ominaisuusLista);
-                break;
-
-            case "EsteTile":
-                maastoKenttä[sijX][sijY] = new EsteTile(sijX, sijY, ominaisuusLista);
-                break;
-
-            case "Yksisuuntainen Tile":
-                maastoKenttä[sijX][sijY] = new YksisuuntainenTile(sijX, sijY, ominaisuusLista);
-                break;
-
-            default:
-                maastoKenttä[sijX][sijY] = null;
-                break;
-        }
+        maastoKenttä[sijX][sijY] = Maasto.luoMaastoTiedoilla(maastonNimi, true, sijX, sijY, ominaisuusLista);
     }
 
     static void asetaNPCRuutuun(int sijX, int sijY, String npcnNimi, String[] ominaisuusLista) {
-        
-        switch (npcnNimi) {
-
-            case "Pikkuvihu":
-                npcKenttä[sijX][sijY] = new Pikkuvihu(sijX, sijY, ominaisuusLista);
-                break;
-
-            case "Pahavihu":
-                npcKenttä[sijX][sijY] = new Pahavihu(sijX, sijY, ominaisuusLista);
-                break;
-
-            case "Vartija":
-                npcKenttä[sijX][sijY] = new Vartija(sijX, sijY, ominaisuusLista);
-                break;
-
-            default:
-                npcKenttä[sijX][sijY] = null;
-                break;
-        }
+        npcKenttä[sijX][sijY] = NPC.luoNPCTiedoilla(npcnNimi, true, sijX, sijY, ominaisuusLista);
     }
 
     /**
@@ -1894,9 +1634,10 @@ public class HuoneEditoriIkkuna {
                             kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
                         }
                         if (Peli.annaMaastoKenttä()[j][i] instanceof Maasto) {
+                            Maasto m = Peli.annaMaastoKenttä()[j][i];
                             maastoKohteenKuvake[j][i].setIcon(Peli.annaMaastoKenttä()[j][i].annaKuvake());
-                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new LäpinäkyväKuvake(Peli.annaMaastoKenttä()[j][i].annaKuvanTiedostoNimi(),0.5f));
-                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(Peli.annaMaastoKenttä()[j][i].annaKuvake());
+                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
                         }
                     
                         kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
@@ -2092,14 +1833,16 @@ public class HuoneEditoriIkkuna {
                             kenttäKohteenKuvake[j][i].setIcon(null);
                         }
                         if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
-                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new LäpinäkyväKuvake("tiedostot/kuvat/maasto/" + maastoKenttä[j][i].annaKuvanTiedostoNimi(),0.5f));
+                            Maasto m = (Maasto)maastoKenttä[j][i];
+                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
                         }
                         else if (maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
                             maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(null);
                         }
 
                         if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
-                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new LäpinäkyväKuvake("tiedostot/kuvat/maasto/" + maastoKenttä[j][i].annaKuvanTiedostoNimi(),0.5f));
+                            Maasto m = (Maasto)maastoKenttä[j][i];
+                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
                         }
                         else if (maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
                             maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(null);

@@ -5,6 +5,8 @@ import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 
+import java.io.File;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -22,6 +24,7 @@ public abstract class Maasto {
     protected String nimi;
     protected String katsomisTeksti;
     protected Icon kuvake;
+    protected Icon skaalattuKuvake;
     protected String tiedostonNimi;
     protected boolean estääLiikkumisen = false;
     protected boolean estääLiikkumisenVasen = false;
@@ -101,8 +104,29 @@ public abstract class Maasto {
         return kuvake;
     }
 
+    public Icon annaSkaalattuKuvake() {
+        if (skaalattuKuvake == null) {
+            return kuvake;
+        }
+        else {
+            return skaalattuKuvake;
+        }
+    }
+
     public String annaKuvanTiedostoNimi() {
         return tiedostonNimi;
+    }
+
+    public int annaKuvanKääntö() {
+        return kääntöAsteet;
+    }
+
+    public boolean annaKuvanPeilausX() {
+        return xPeilaus;
+    }
+
+    public boolean annaKuvanPeilausY() {
+        return yPeilaus;
     }
 
     public void käännäKuvaa(KääntöValinta kääntö) {
@@ -144,13 +168,46 @@ public abstract class Maasto {
     }
 
     public void päivitäKuvanAsento() {
-        if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
-            kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
+        File kuvaTiedosto = new File("tiedostot/kuvat/maasto/" + tiedostonNimi);
+        if (kuvaTiedosto.isFile()) {
+            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
+                kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
+            }
+            else {
+                kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
+                kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
+            }
         }
         else {
-            kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
-            kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
+            kuvake = new ImageIcon("tiedostot/kuvat/virhekuva_maasto.png");
         }
+        skaalattuKuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus, 96);
+    }
+
+    public static Maasto luoMaastoTiedoilla(String maastonNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+
+        Maasto luotavaMaasto;
+
+        switch (maastonNimi) {
+
+            case "Tile":
+                luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
+                break;
+
+            case "EsteTile":
+                luotavaMaasto = new EsteTile(sijX, sijY, ominaisuusLista);
+                break;
+            
+            case "Yksisuuntainen Tile":
+                luotavaMaasto = new YksisuuntainenTile(sijX, sijY, ominaisuusLista);
+                break;
+
+            default:
+                luotavaMaasto = null;
+                break;
+        }
+
+        return luotavaMaasto;
     }
 
     String tiedot = "";
@@ -163,5 +220,9 @@ public abstract class Maasto {
     
     public String annaTiedot() {
         return tiedot;
+    }
+
+    protected void luoSkaalattuKuvake() {
+         
     }
 }

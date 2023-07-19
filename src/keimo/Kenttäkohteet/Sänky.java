@@ -2,6 +2,7 @@ package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
 import keimo.Ruudut.PeliRuutu;
+import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -30,6 +31,7 @@ public class Sänky extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Sänky";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/sänky.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "sänky.png";
         super.katsomisTeksti = "Nukuttaako?";
         super.asetaTiedot();

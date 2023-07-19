@@ -1,6 +1,7 @@
 package keimo.Säikeet;
 
 import keimo.*;
+import keimo.Ikkunat.AsetusIkkuna;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.PelinAsetukset.AjoitusMuoto;
 
@@ -33,7 +34,8 @@ public class AikaSäie extends Thread {
         }
     });
 
-
+    //String ikkunaTeksti = "Keimon Seikkailupeli v.0.8.1 pre-alpha (18.7.2023) ";
+    String ikkunaTeksti = "Esatukset          ";
     void ajastin() {
         try {
             final double PÄIVITYSAIKA = 1000000000 / PelinAsetukset.tavoiteTickrate;
@@ -72,6 +74,14 @@ public class AikaSäie extends Thread {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
                     if (Peli.globaaliTickit % 2 == 0) {
                         PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
+                    }
+                    if (Peli.globaaliTickit % 5 == 0) {
+                        String muuttuvaMerkki = "" + ikkunaTeksti.charAt(0);
+                        ikkunaTeksti = ikkunaTeksti.substring(1) + muuttuvaMerkki;
+                        //PääIkkuna.ikkuna.setTitle(ikkunaTeksti);
+                        if (AsetusIkkuna.ikkuna != null) {
+                            AsetusIkkuna.ikkuna.setTitle(ikkunaTeksti);
+                        }
                     }
                 }
                 lastRenderTime = now;

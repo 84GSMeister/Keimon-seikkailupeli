@@ -1,8 +1,10 @@
 package keimo.Kenttäkohteet;
-import javax.swing.ImageIcon;
 
 import keimo.PääIkkuna;
 import keimo.TavoiteLista;
+import keimo.Utility.KäännettäväKuvake;
+
+import javax.swing.ImageIcon;
 
 public class Kirstu extends Kiintopiste {
     
@@ -104,44 +106,16 @@ public class Kirstu extends Kiintopiste {
         super.vuorovaikutus = true;
         super.tavoiteSuoritettu = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
-        TavoiteLista.tarkistaTavoiteEsine(this.luoSisältö(this.annaSisältö()));
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+        TavoiteLista.tarkistaTavoiteEsine(this.luoSisältö(this.annaSisältö(), null));
     }
 
-    protected Esine luoSisältö(String esineenNimi) {
-        switch (esineenNimi) {
-            case "Avain":
-                return new Avain(false, 0, 0);
-            case "Hiili":
-                return new Hiili(false, 0, 0);
-            case "Huume":
-                return new Huume(false, 0, 0);
-            case "Kaasupullo":
-                return new Kaasupullo(false, 0, 0);
-            case "Kaasusytytin":
-                return new Kaasusytytin(false, 0, 0, null);
-            case "Kilpi":
-                return new Kilpi(false, 0, 0);
-            case "Kuparilager":
-                return new Kuparilager(false, 0, 0);
-            case "Makkara":
-                return new Makkara(false, 0, 0);
-            case "Paperi":
-                return new Paperi(false, 0, 0);
-            case "Pesäpallomaila":
-                return new Pesäpallomaila(false, 0, 0);
-            case "Seteli":
-                return new Seteli(false, 0, 0);
-            case "Suklaalevy":
-                return new Suklaalevy(false, 0, 0);
-            case "Vesiämpäri":
-                return new Vesiämpäri(false, 0, 0);
-            default:
-                return null;
-        }
+    protected Esine luoSisältö(String esineenNimi, String[] ominaisuusLista) {
+        return Esine.luoEsine(esineenNimi, ominaisuusLista);
     }
 
-    public void asetaSisältö(String esineenNimi) {
-        this.sisältö = luoSisältö(esineenNimi);
+    public void asetaSisältö(String esineenNimi, String[] ominaisuusLista) {
+        this.sisältö = luoSisältö(esineenNimi, null);
     }
 
     public String annaSisältö() {
@@ -157,6 +131,7 @@ public class Kirstu extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kirstu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu.png");
+        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kirstu.png";
         super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
 
@@ -167,7 +142,7 @@ public class Kirstu extends Kiintopiste {
                     esineenNimi = ominaisuus.substring(8);
                 }
             }
-            this.sisältö = luoSisältö(esineenNimi);
+            this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
             päivitäLisäOminaisuudet();
         }
         else {

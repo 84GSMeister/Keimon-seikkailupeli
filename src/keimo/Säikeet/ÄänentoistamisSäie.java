@@ -20,13 +20,12 @@ import java.util.stream.Stream;
 
 public class ÄänentoistamisSäie extends Thread {
     
-    protected static MediaPlayer ääniToistin;
-    protected static MediaPlayer musiikkiSoitin;
-    protected static AudioClip musiikkiSoitin2;
-    static HashMap<Integer, File> musiikkiVaihtoehdot = new HashMap<Integer, File>();
-    static int musaValinta = 0;
-    static Duration musaLoopKohta;
-    static Random r = new Random();
+    public static MediaPlayer ääniToistin;
+    public static MediaPlayer musiikkiSoitin;
+    public static AudioClip musiikkiSoitin2;
+    private static int musaValinta = 0;
+    private static Duration musaLoopKohta;
+    private static Random r = new Random();
     public static List<String> musaLista;
 
     void luoMusaKartta() {
@@ -91,6 +90,21 @@ public class ÄänentoistamisSäie extends Thread {
         }
     }
 
+    public static void asetaMusanVolyymi(double volyymi) {
+        if (musiikkiSoitin != null) {
+            musiikkiSoitin.setVolume(volyymi);
+            System.out.println("Musan volyymi: " + musiikkiSoitin.getVolume());
+        }
+        if (musiikkiSoitin2 != null) {
+            musiikkiSoitin2.setVolume(volyymi);
+            if (musiikkiSoitin2.isPlaying()) {
+                musiikkiSoitin2.stop();
+                musiikkiSoitin2.play();
+            }
+            System.out.println("Musan volyymi: " + musiikkiSoitin2.getVolume());
+        }
+    }
+
     public static void suljeMusiikki() {
         if (musiikkiSoitin != null) {
             musiikkiSoitin.stop();
@@ -146,7 +160,8 @@ public class ÄänentoistamisSäie extends Thread {
                     toistaMusiikkiJFXMediaPlayer();
                 }
                 else {
-                    toistaMusiikkiJFXAudioClip();
+                    //toistaMusiikkiJFXAudioClip();
+                    toistaMusiikkiJFXMediaPlayer();
                 }
             }
         });

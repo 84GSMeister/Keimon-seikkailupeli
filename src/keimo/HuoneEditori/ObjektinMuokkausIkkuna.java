@@ -56,17 +56,30 @@ public class ObjektinMuokkausIkkuna {
 
                 case "Kauppahylly":
                     KauppaHylly kauppaHylly = (KauppaHylly)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
-                    kauppaHylly.asetaSisältö(sisältöValinta.getSelectedItem().toString());
+                    if (sisältöValinta.getSelectedItem().toString().startsWith("Kaasusytytin")) {
+                        String[] ominaisuusLista = {"toimivuus=toimiva"};
+                        kauppaHylly.asetaSisältö(sisältöValinta.getSelectedItem().toString(), ominaisuusLista);
+                    }
+                    else {
+                        kauppaHylly.asetaSisältö(sisältöValinta.getSelectedItem().toString(), null);
+                    }
                     kauppaHylly.lisäOminaisuuksia = true;
                     kauppaHylly.päivitäLisäOminaisuudet();
                     kauppaHylly.päivitäTiedot();
+                    kauppaHylly.päivitäKuvanAsento();
                     HuoneEditoriIkkuna.objektiKenttä[sijX][sijY] = kauppaHylly;
                     muokkausIkkuna.dispose();
                 break;
                 
                 case "Kirstu":
                     Kirstu kirstu = (Kirstu)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
-                    kirstu.asetaSisältö(sisältöValinta.getSelectedItem().toString());
+                    if (sisältöValinta.getSelectedItem().toString().startsWith("Kaasusytytin")) {
+                        String[] ominaisuusLista = {"toimivuus=toimiva"};
+                        kirstu.asetaSisältö(sisältöValinta.getSelectedItem().toString(), ominaisuusLista);
+                    }
+                    else {
+                        kirstu.asetaSisältö(sisältöValinta.getSelectedItem().toString(), null);
+                    }
                     kirstu.lisäOminaisuuksia = true;
                     kirstu.päivitäLisäOminaisuudet();
                     HuoneEditoriIkkuna.objektiKenttä[sijX][sijY] = kirstu;

@@ -52,10 +52,11 @@ public class HuoneEditoriIkkuna {
     static int ikkunanKorkeus;
     static JFrame ikkuna;
     static JMenuBar yläPalkki;
-    static JMenu tiedosto, peli, tietoja;
+    static JMenu tiedosto, peli, tietoja, kartta;
     static JMenuItem uusi, avaa, tallenna;
     static JMenuItem kokeilePelissä;
     static JMenuItem ohjeet;
+    static JMenuItem piirräEuklidinenKartta;
     static JPanel yläPaneeli, yläPaneelinYläosa, YläPaneelinAlaosa, yläVasenPaneeli, yläOikeaPaneeli;
     static JButton hyväksyNappi;
     static JLabel huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel;
@@ -73,7 +74,7 @@ public class HuoneEditoriIkkuna {
     static JLabel huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Hämärähemmo", "Juhani", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Pulloautomaatti", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
+    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Pulloautomaatti", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
     static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Seteli", "Suklaalevy", "Vesiämpäri"};
     static String[] npcNimiLista = {"Pikkuvihu", "Pahavihu", "Vartija"};
     static JComboBox<String> esineValikko;
@@ -141,7 +142,7 @@ public class HuoneEditoriIkkuna {
         maastoKohteenKuvakeObjektiPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvakeNpcPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Huone-editori v0.6.2");
+        ikkuna = new JFrame("Huone-editori v0.6.3");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
@@ -347,11 +348,22 @@ public class HuoneEditoriIkkuna {
         tietoja = new JMenu("Tietoja");
         tietoja.add(ohjeet);
 
+        piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta");
+        piirräEuklidinenKartta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                KarttaIkkuna.luoKarttaikkuna();
+            }
+        });
+
+        kartta = new JMenu("Kartta");
+        kartta.add(piirräEuklidinenKartta);
+
         yläPalkki = new JMenuBar();
         yläPalkki.setPreferredSize(new Dimension(ikkunanLeveys -20,20));
         yläPalkki.add(tiedosto);
         yläPalkki.add(peli);
         yläPalkki.add(tietoja);
+        yläPalkki.add(kartta);
 
         huoneenNimiTekstiKenttäLabel = new JLabel("Huoneen nimi: ");
         huoneenNimiTekstiKenttäLabel.setToolTipText("Nimi ei ole pakollinen, mutta selkeyttävä seikka");

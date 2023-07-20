@@ -1,9 +1,12 @@
 package keimo;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
@@ -97,6 +100,22 @@ public class Huone {
 
     public NPC[][] annaHuoneenNPCSisältö() {
         return huoneenNPCSisältö;
+    }
+
+    public JPanel annaHuoneenMaastoGrafiikka() {
+        JPanel maastoPaneli = new JPanel();
+        maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
+        // for (Maasto[] mm : annaHuoneenMaastoSisältö()) {
+        //     for (Maasto m : mm) {
+        //         maastoPaneli.add(new JLabel(m.annaKuvake()));
+        //     }
+        // }
+        for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
+            for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
+                maastoPaneli.add(new JLabel(annaHuoneenMaastoSisältö()[j][i].annaKuvake()));
+            }
+        }
+        return maastoPaneli;
     }
 
     public void päivitäNimiJaAlue(String nimi, String alue) {

@@ -45,7 +45,7 @@ public class OsionAlkuRuutu {
             paneli = luoOsionAlkuPaneli();
             //paneli = luoOsionAlkuPaneliIlmanJFXää();
         }
-        catch (RuntimeException e) {
+        catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Ei voitu ladata JavaFX:n ajonaikaisia grafiikkakirjastoja.\nMediaelementit eivät välttämättä toimi.", "Virhe ladatessa kirjastoja", JOptionPane.WARNING_MESSAGE);
             paneli = luoOsionAlkuPaneliIlmanJFXää();

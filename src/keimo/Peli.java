@@ -128,7 +128,7 @@ public class Peli {
                 PääIkkuna.hudTeksti.setText("Ei voida poimia! Tavaraluettelo täynnä! Kokeile pudottaa jokin esine tyhjään ruutuun");
             }
         }
-        else if (pelikenttä[x][y] instanceof Ämpärikone || pelikenttä[x][y] instanceof KauppaRuutu || pelikenttä[x][y] instanceof Pulloautomaatti || pelikenttä[x][y] instanceof Silta || pelikenttä[x][y] instanceof Hämärähemmo) {
+        else if (pelikenttä[x][y] instanceof Ämpärikone || pelikenttä[x][y] instanceof KauppaRuutu || pelikenttä[x][y] instanceof Pulloautomaatti || pelikenttä[x][y] instanceof Silta || pelikenttä[x][y] instanceof JumalYoda) {
             pelikenttä[x][y].näytäDialogi(valittuEsine);
         }
         else if (pelikenttä[x][y] instanceof Kiintopiste || pelikenttä[x][y] instanceof NPC_KenttäKohde) {

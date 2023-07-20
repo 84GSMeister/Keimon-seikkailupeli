@@ -215,6 +215,7 @@ grant codeBase "jrt:/jdk.zipfs" {
     permission java.util.PropertyPermission "os.name", "read";
     permission java.util.PropertyPermission "user.dir", "read";
     permission java.util.PropertyPermission "user.name", "read";
+    permission java.util.PropertyPermission "jdk.nio.zipfs.allowDotZipEntry", "read";
 };
 
 // permissions needed by applications using java.desktop module

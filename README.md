@@ -1,6 +1,14 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (19.7.2023): 0.8.1
+## Uusin versio (21.7.2023): 0.8.2
+
+### Versio 0.8.2
+
+ - Goblin, Jumal Yoda ja Jumal Velho
+ - Velhometsän ensimmäiset ruudut
+ - Goblin "paljastuu" Jumal Yodaksi kun juttelee ensimmäisen kerran Jumal Velholle
+ - Editoriin lisätty ominaisuus, jolla voi tarkastella huoneiden maastoa jatkuvana karttana (toimii vain reunawarppien kautta huoneille, jotka ovat kiinni huoneessa 0)
+ - Peli ei vaadi enää Javan asennusta
 
 ### Versio 0.8.1
 

@@ -127,12 +127,16 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Huume(määritettySijainti, sijX, sijY);
                 break;
 
-            case "Hämärähemmo":
-                luotavaObjekti = new Hämärähemmo(määritettySijainti, sijX, sijY);
-                break;
-
             case "Juhani":
                 luotavaObjekti = new Juhani(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Jumal Velho":
+                luotavaObjekti = new JumalVelho(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Jumal Yoda":
+                luotavaObjekti = new JumalYoda(määritettySijainti, sijX, sijY);
                 break;
 
             case "Kaasupullo":

@@ -223,9 +223,9 @@ public class PeliRuutu {
         aikaInfoPaneli.setBounds(10, 10, 180, 200);
         aikaInfoPaneli.setBackground(new Color(210, 210, 210, 255));
         aikaInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        aikaInfoPaneli.add(ylätekstiHP);
+        //aikaInfoPaneli.add(ylätekstiHP);
         aikaInfoPaneli.add(ylätekstiAika);
-        aikaInfoPaneli.add(ylätekstiKuparit);
+        //aikaInfoPaneli.add(ylätekstiKuparit);
         aikaInfoPaneli.revalidate();
         aikaInfoPaneli.repaint();
 

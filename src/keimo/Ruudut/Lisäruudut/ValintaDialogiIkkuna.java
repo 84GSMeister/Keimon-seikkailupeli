@@ -99,11 +99,11 @@ public class ValintaDialogiIkkuna {
                 testPanel.add(valintaPaneli, BorderLayout.CENTER);
                 testPanel.add(edistymisLabel, BorderLayout.SOUTH);
             break;
-            case "hämärähemmo":
+            case "goblin":
                 testPanel = new JPanel();
                 testPanel.removeAll();
 
-                otsikkoLabel = new JLabel("<html><p>Kiinnostaako pääsy pimeälle puolelle?</p></html>");
+                otsikkoLabel = new JLabel("<html><p>Polku pimeälle puolelle, onko?</p></html>");
                 otsikkoLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 16));
                 otsikkoLabel.setPreferredSize(new Dimension(300, 100));
 
@@ -113,7 +113,7 @@ public class ValintaDialogiIkkuna {
                 vasenOsoitin[1] = new JLabel();
 
                 valinnat = new JLabel[2];
-                valinnat[0] = new JLabel("Kyllä");
+                valinnat[0] = new JLabel("Hrmm...no kyllä on!");
                 valinnat[0].setFont(new Font("Courier10 BT", Font.PLAIN, 30));
                 valinnat[1] = new JLabel("Ei");
                 valinnat[1].setFont(new Font("Courier10 BT", Font.PLAIN, 30));
@@ -155,13 +155,13 @@ public class ValintaDialogiIkkuna {
                 PeliRuutu.lisäRuutuPaneli.repaint();
                 PeliRuutu.lisäRuutuPaneli.setVisible(false);
             break;
-            case "hämärähemmo":
+            case "goblin":
                 if (valintaInt == 0) {
                     TavoiteLista.suoritaTavoite("Avaa takahuone");
-                    PääIkkuna.avaaPitkäDialogiRuutu("hämärähemmo_kyllä");
+                    PääIkkuna.avaaPitkäDialogiRuutu("goblin_kyllä");
                 }
                 else {
-                    PääIkkuna.avaaPitkäDialogiRuutu("hämärähemmo_ei");
+                    PääIkkuna.avaaPitkäDialogiRuutu("goblin_ei");
                 }
                 Peli.valintaDialogi = false;
                 PeliRuutu.lisäRuutuPaneli.removeAll();

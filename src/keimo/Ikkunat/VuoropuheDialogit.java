@@ -108,23 +108,23 @@ public class VuoropuheDialogit {
                 dialogiPuhujat[2] = "Keimo";
                 dialogiPuhujat[3] = "ASS-Market kassa";
             break;
-            case "hämärähemmo_alku":
+            case "goblin_alku":
                 dialoginPituus = 2;
                 PääIkkuna.dialogiaJäljellä = dialoginPituus;
                 dialogiKuvat = new Icon[dialoginPituus];
                 dialogiTekstit = new String[dialoginPituus];
                 dialogiPuhujat = new String[dialoginPituus];
 
-                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
-                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+                dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png");
 
-                dialogiTekstit[0] = "...";
-                dialogiTekstit[1] = "Polku pimeälle puolelle, onko? No kyllä on.";
+                dialogiTekstit[0] = "Hrmm...";
+                dialogiTekstit[1] = "Polku pimeälle puolelle, onko?";
 
-                dialogiPuhujat[0] = "Hämärähemmo";
-                dialogiPuhujat[1] = "Hämärähemmo";
+                dialogiPuhujat[0] = "Jumal Yoda";
+                dialogiPuhujat[1] = "Jumal Yoda";
             break;
-            case "hämärähemmo_kyllä":
+            case "goblin_kyllä":
                 dialoginPituus = 2;
                 PääIkkuna.dialogiaJäljellä = dialoginPituus;
                 dialogiKuvat = new Icon[dialoginPituus];
@@ -132,15 +132,15 @@ public class VuoropuheDialogit {
                 dialogiPuhujat = new String[dialoginPituus];
 
                 dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png");
 
                 dialogiTekstit[0] = "Kiinnostunut.";
-                dialogiTekstit[1] = "Siinä tapauksessa avaan sinulle reitin takahuoneeseen.";
+                dialogiTekstit[1] = "Siinä tapauksessa reitin pimeälle puolelle sinulle avaan.";
 
                 dialogiPuhujat[0] = "Keimo";
-                dialogiPuhujat[1] = "Hämärähemmo";
+                dialogiPuhujat[1] = "Jumal Yoda";
             break;
-            case "hämärähemmo_ei":
+            case "goblin_ei":
                 dialoginPituus = 2;
                 PääIkkuna.dialogiaJäljellä = dialoginPituus;
                 dialogiKuvat = new Icon[dialoginPituus];
@@ -148,13 +148,13 @@ public class VuoropuheDialogit {
                 dialogiPuhujat = new String[dialoginPituus];
 
                 dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hämärähemmo.png");
+                dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png");
 
                 dialogiTekstit[0] = "Ei kiinnosta  virhe";
                 dialogiTekstit[1] = "...";
 
                 dialogiPuhujat[0] = "Keimo";
-                dialogiPuhujat[1] = "Hämärähemmo";
+                dialogiPuhujat[1] = "Jumal Yoda";
             break;
         }
     }

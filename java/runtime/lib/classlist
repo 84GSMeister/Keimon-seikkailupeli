@@ -342,6 +342,7 @@ java/nio/DirectLongBufferU
 java/util/zip/ZipConstants
 java/util/zip/ZipFile
 java/util/jar/JarFile
+sun/security/action/GetBooleanAction
 jdk/internal/access/JavaUtilZipFileAccess
 java/util/zip/ZipFile$1
 jdk/internal/access/JavaUtilJarAccess
@@ -509,7 +510,6 @@ jdk/internal/access/JavaLangInvokeAccess
 java/lang/invoke/MethodHandleImpl$1
 java/lang/invoke/AbstractValidatingLambdaMetafactory
 java/lang/invoke/InnerClassLambdaMetafactory
-sun/security/action/GetBooleanAction
 jdk/internal/org/objectweb/asm/Handle
 jdk/internal/org/objectweb/asm/ConstantDynamic
 java/lang/invoke/MethodHandleInfo
@@ -715,8 +715,10 @@ java/util/zip/ZipFile$ZipFileInflaterInputStream
 java/util/zip/Inflater
 java/util/zip/Inflater$InflaterZStreamRef
 java/util/zip/ZipFile$InflaterCleanupAction
-java/util/jar/JarVerifier
+sun/security/util/SignatureFileVerifier
 sun/security/util/Debug
+sun/security/action/GetIntegerAction
+java/util/jar/JarVerifier
 java/security/CodeSigner
 java/io/ByteArrayOutputStream
 java/util/jar/Attributes
@@ -896,6 +898,11 @@ java/security/Security$1
 java/util/Properties$LineReader
 java/util/concurrent/ConcurrentHashMap$ForwardingNode
 java/io/FileInputStream$1
+java/util/concurrent/ConcurrentHashMap$EntrySetView
+java/util/concurrent/ConcurrentHashMap$EntryIterator
+java/util/concurrent/ConcurrentHashMap$MapEntry
+jdk/internal/access/JavaSecurityPropertiesAccess
+java/security/Security$2
 java/io/FilePermission
 java/lang/System$LoggerFinder
 jdk/internal/logger/DefaultLoggerFinder
@@ -919,11 +926,8 @@ java/util/concurrent/ConcurrentHashMap$KeySetView
 java/util/Collections$3
 java/util/concurrent/ConcurrentHashMap$KeyIterator
 java/util/Properties$EntrySet
-java/util/concurrent/ConcurrentHashMap$EntrySetView
 java/util/Collections$SynchronizedCollection
 java/util/Collections$SynchronizedSet
-java/util/concurrent/ConcurrentHashMap$EntryIterator
-java/util/concurrent/ConcurrentHashMap$MapEntry
 java/util/Hashtable$Enumerator
 @lambda-proxy java/util/logging/Level apply ()Ljava/util/function/Function; (Ljava/lang/Object;)Ljava/lang/Object; REF_invokeVirtual java/util/logging/Level$KnownLevel mirrored ()Ljava/util/Optional; (Ljava/util/logging/Level$KnownLevel;)Ljava/util/Optional;
 java/util/ArrayList$ArrayListSpliterator

@@ -40,7 +40,9 @@ public class TavoiteLista {
         tavoiteLista.put(pääTavoitteet.get(1), false);
         tavoiteLista.put(pääTavoitteet.get(2), false);
         tavoiteLista.put(pääTavoitteet.get(3), false);
+        tavoiteLista.put("Löydä Jumal Yoda", false);
         tavoiteLista.put("Avaa takahuone", false);
+        tavoiteLista.put("Keitä booli", false);
     }
 
     static int tarkistaSuoritetutPääTavoitteet() {

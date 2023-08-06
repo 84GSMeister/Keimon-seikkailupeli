@@ -1489,7 +1489,7 @@ Huone 11:
 /Huone
 Huone 12:
     #nimi: Kauppa_piha;
-    #alue: Kauppa;
+    #alue: Pelto;
     #tausta: tausta_kauppa_piha.png;
     #warp_vasen: ;
     #warp_oikea: 24;
@@ -3190,7 +3190,7 @@ Huone 23:
 /Huone
 Huone 24:
     #nimi: Kauppa_parkkipaikka;
-    #alue: Kauppa;
+    #alue: Pelto;
     #tausta: null;
     #warp_vasen: 12;
     #warp_oikea: ;

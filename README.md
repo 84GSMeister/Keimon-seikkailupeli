@@ -4,7 +4,7 @@
 
 ### Versio 0.8.3: Keimon nimipäiväpäivitys
 
- - Minimap (toimii tällä hetkellä vain puistossa)
+ - Minimap (ei toimi vielä kaikkialla, mm. sisätiloissa)
  - Uusia Udo haukkuu -remixejä
  - Huoneen metatietojen muokkausta editorissa tehty selkeämmäksi
  - Velhometsää muutettu hieman sokkelomaisemmaksi

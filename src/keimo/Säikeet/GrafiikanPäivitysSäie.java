@@ -328,6 +328,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                 case "Puisto": PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_puisto.png")); break;
                 case "Asuintalot", "Pelto": PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_yokylä.png")); break;
                 case "Metsä": PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_metsä.png")); break;
+                default: PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_virhe.png")); break;
             }
 
             PeliRuutu.hudTeksti.setText(PääIkkuna.hudTeksti.getText());
@@ -519,6 +520,64 @@ public class GrafiikanPäivitysSäie extends Thread {
                     break;
                     case 4:
                         PeliRuutu.pelaajaKartallaLabel.setBounds(20, 80, 20, 20);
+                    break;
+                    default:
+                        sijaintiMääritetty = false;
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(10, 10, 20, 20);
+                    break;
+                }
+            break;
+            case "Asuintalot", "Pelto":
+                switch (Peli.huone.annaId()) {
+                    case 5:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(20, 155, 20, 20);
+                    break;
+                    case 6:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(20, 120, 20, 20);
+                    break;
+                    case 7:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 120, 20, 20);
+                    break;
+                    case 10:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 90, 20, 20);
+                    break;
+                    case 11:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 65, 20, 20);
+                    break;
+                    case 12:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 40, 20, 20);
+                    break;
+                    case 24:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(140, 40, 20, 20);
+                    break;
+                    case 25:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(140, 10, 20, 20);
+                    break;
+                    case 26:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 10, 20, 20);
+                    break;
+                    default:
+                        sijaintiMääritetty = false;
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(10, 10, 20, 20);
+                    break;
+                }
+            break;
+            case "Metsä":
+                switch (Peli.huone.annaId()) {
+                    case 27:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 125, 20, 20);
+                    break;
+                    case 28:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 65, 20, 20);
+                    break;
+                    case 29:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(140, 65, 20, 20);
+                    break;
+                    case 30:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(80, 15, 20, 20);
+                    break;
+                    case 31:
+                        PeliRuutu.pelaajaKartallaLabel.setBounds(20, 65, 20, 20);
                     break;
                     default:
                         sijaintiMääritetty = false;

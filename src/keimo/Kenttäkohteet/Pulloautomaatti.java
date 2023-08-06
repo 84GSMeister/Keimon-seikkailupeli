@@ -1,6 +1,6 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Ruudut.Lisäruudut.PullonPalautusIkkuna;
+import keimo.Ruudut.Lisäruudut.PullonPalautusRuutu;
 import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
@@ -9,7 +9,7 @@ public class Pulloautomaatti extends Kiintopiste {
     
     @Override
     public void näytäDialogi(Esine e) {
-        PullonPalautusIkkuna.luoPullonPalautusIkkuna();
+        PullonPalautusRuutu.luoPullonPalautusIkkuna();
     }
 
     public PulloautomaatinKuvake tila = PulloautomaatinKuvake.IDLE;

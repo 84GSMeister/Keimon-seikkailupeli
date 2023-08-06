@@ -1,6 +1,7 @@
 package keimo.Säikeet;
 
 import keimo.*;
+import keimo.Utility.Sound;
 
 import java.io.File;
 import javafx.application.Platform;
@@ -23,6 +24,7 @@ public class ÄänentoistamisSäie extends Thread {
     public static MediaPlayer ääniToistin;
     public static MediaPlayer musiikkiSoitin;
     public static AudioClip musiikkiSoitin2;
+    public static Sound musiikkiSoitin3;
     private static int musaValinta = 0;
     private static Duration musaLoopKohta;
     private static Random r = new Random();
@@ -54,14 +56,19 @@ public class ÄänentoistamisSäie extends Thread {
             suljeMusiikki();
             musaValinta = PelinAsetukset.musiikkiValinta;
             musiikkiSoitin = new MediaPlayer(new Media(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString()));
-            musiikkiSoitin.setOnEndOfMedia(new Runnable() {
-                @Override
-                public void run() {
-                    musiikkiSoitin.seek(musaLoopKohta);
-                    musiikkiSoitin.play();
-                }
-            });
-            musiikkiSoitin.setCycleCount(Integer.MAX_VALUE);
+            if (valitseMusanLoopKohta() > 0) {
+                // musiikkiSoitin.setOnEndOfMedia(new Runnable() {
+                //     @Override
+                //     public void run() {
+                //         double alkuaika = System.nanoTime();
+                //         musiikkiSoitin.seek(musaLoopKohta);
+                //         musiikkiSoitin.play();
+                //         double loppuAika = System.nanoTime();
+                //         System.out.println("loopin viive: " + (loppuAika - alkuaika)/1_000_000d + " ms");
+                //     }
+                // });
+            }
+            musiikkiSoitin.setCycleCount(MediaPlayer.INDEFINITE);
             musiikkiSoitin.setVolume(PelinAsetukset.musaVolyymi);
             if (PelinAsetukset.musiikkiPäällä) {
                 musiikkiSoitin.play();
@@ -79,7 +86,7 @@ public class ÄänentoistamisSäie extends Thread {
             musaValinta = PelinAsetukset.musiikkiValinta;
             musiikkiSoitin2 = new AudioClip(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString());
             musiikkiSoitin2.setVolume(PelinAsetukset.musaVolyymi);
-            musiikkiSoitin2.setCycleCount(Integer.MAX_VALUE);
+            musiikkiSoitin2.setCycleCount(AudioClip.INDEFINITE);
             if (PelinAsetukset.musiikkiPäällä) {
                 musiikkiSoitin2.play();
             }
@@ -90,10 +97,15 @@ public class ÄänentoistamisSäie extends Thread {
         }
     }
 
+    void toistaMusiikkiJavaxSound() {
+        musiikkiSoitin3 = new Sound(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString(), true);
+        musiikkiSoitin3.play();
+    }
+
     public static void asetaMusanVolyymi(double volyymi) {
         if (musiikkiSoitin != null) {
             musiikkiSoitin.setVolume(volyymi);
-            System.out.println("Musan volyymi: " + musiikkiSoitin.getVolume());
+            //System.out.println("Musan volyymi: " + musiikkiSoitin.getVolume());
         }
         if (musiikkiSoitin2 != null) {
             musiikkiSoitin2.setVolume(volyymi);
@@ -101,7 +113,14 @@ public class ÄänentoistamisSäie extends Thread {
                 musiikkiSoitin2.stop();
                 musiikkiSoitin2.play();
             }
-            System.out.println("Musan volyymi: " + musiikkiSoitin2.getVolume());
+            //System.out.println("Musan volyymi: " + musiikkiSoitin2.getVolume());
+        }
+    }
+
+    public static void asetaMusatoistimenSijainti(double ms) {
+        if (musiikkiSoitin != null) {
+            musiikkiSoitin.seek(new Duration(ms));
+            //System.out.println("Musiikkisoitin: Siirrytään kohtaan " + ms + " ms");
         }
     }
 
@@ -162,9 +181,30 @@ public class ÄänentoistamisSäie extends Thread {
                 else {
                     //toistaMusiikkiJFXAudioClip();
                     toistaMusiikkiJFXMediaPlayer();
+                    //toistaMusiikkiJavaxSound();
                 }
             }
         });
+        // while (true) {
+        //     double alkuaika = System.nanoTime();
+        //     if (musiikkiSoitin != null) {
+        //         if (musiikkiSoitin.getCurrentTime().lessThan(musiikkiSoitin.getStopTime())) {
+        //             //System.out.println(musiikkiSoitin.getCurrentTime() + " of " + musiikkiSoitin.getStopTime());
+        //         }
+        //         else {
+        //             musiikkiSoitin.seek(musaLoopKohta);
+        //             double loppuAika = System.nanoTime();
+        //             System.out.println("loopin viive: " + (loppuAika - alkuaika)/1_000_000d + " ms");
+        //             // try {
+        //             //     Thread.sleep(10);
+        //             // }
+        //             // catch (InterruptedException ie) {
+        //             //     ie.printStackTrace();
+        //             // }
+        //             break;
+        //         }
+        //     }
+        // }
     }
 
     private static void initFX(JFXPanel fxPanel) {

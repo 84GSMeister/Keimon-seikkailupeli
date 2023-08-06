@@ -25,7 +25,7 @@ public class AsetusIkkuna {
     static JSlider musaVolyymiSlider, ääniVolyymiSlider;
     static JComboBox<Object> ajoitusValikko = new JComboBox<Object>(PelinAsetukset.AjoitusMuoto.values());
 
-    static final int ikkunanLeveys = 400;
+    static final int ikkunanLeveys = 600;
     static final int ikkunanKorkeus = 295;
 
     public static boolean asetuksetAuki() {
@@ -217,7 +217,6 @@ public class AsetusIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ikkuna.setResizable(false);
         ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();

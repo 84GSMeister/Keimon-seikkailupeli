@@ -19,6 +19,10 @@ public class PeliKenttäMetodit {
 
     public static boolean teleporttaaViholliset = false;
 
+    public static void suoritaPelikenttäMetoditJoka10Tick() {
+        suoritaReitinhakuVihollisille();
+    }
+
     public static void suoritaPelikenttäMetoditJoka2Tick() {
         tarkistaVartijanAktiivisuus();
         tarkistaVihollistenLiikerata();
@@ -189,6 +193,30 @@ public class PeliKenttäMetodit {
                                         }
                                     }
                                 break;
+                                case SEURAA_REITTIÄ:
+                                    if (vihollinen.reitti != null) {
+                                        if (vihollinen.reitti.size() >= 1) {
+                                            PathFindingExample.Point seuraavaPiste = vihollinen.reitti.get(0);
+                                            if (vihollinen.sijX == seuraavaPiste.x && vihollinen.sijY == seuraavaPiste.y) {
+                                                vihollinen.reitti.remove(0);
+                                            }
+                                            else {
+                                                if (vihollinen.sijX > seuraavaPiste.x) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                                }
+                                                else if (vihollinen.sijX < seuraavaPiste.x) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                                }
+                                                if (vihollinen.sijY < seuraavaPiste.y) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                                }
+                                                else if (vihollinen.sijY > seuraavaPiste.y) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                                }
+                                            }
+                                        }
+                                    }
+                                break;
                                 case STAATTINEN:
                                 break;
                             }
@@ -306,7 +334,23 @@ public class PeliKenttäMetodit {
         }
     }
 
-    static class PathFindingExample {
+    public static void suoritaReitinhakuVihollisille() {
+        try {
+            if (Peli.npcLista != null) {
+                for (NPC npc : Peli.npcLista) {
+                    if (npc instanceof Vihollinen) {
+                        Vihollinen vihollinen = (Vihollinen)npc;
+                        PathFindingExample.reitinHakuPelaajaaKohti(vihollinen);
+                    }
+                }
+            }
+        }
+        catch (ConcurrentModificationException e) {
+            System.out.println("Viimeisin vihollisten reitinhaun laskeminen peruutettiin (konkurrenssi-issue)");
+        }
+    }
+
+    public static class PathFindingExample {
 
         public static class Point {
             public int x;
@@ -333,28 +377,29 @@ public class PeliKenttäMetodit {
     
             public Point offset(int ox, int oy) { return new Point(x + ox, y + oy, this);  }
         }
-    
-        public static boolean IsWalkable(int[][] map, Point point) {
+
+        public static boolean voiKävellä(Maasto[][] map, Point point) {
             if (point.y < 0 || point.y > map.length - 1) return false;
             if (point.x < 0 || point.x > map[0].length - 1) return false;
             if (Peli.maastokenttä[point.x][point.y] instanceof EsteTile) return false;
-            return map[point.y][point.x] == 0;
+            if (Peli.maastokenttä[point.x][point.y] instanceof Tile) return true;
+            else return false;
         }
-    
-        public static List<Point> FindNeighbors(int[][] map, Point point) {
+
+        public static List<Point> etsiViereiset(Maasto[][] map, Point point) {
             List<Point> neighbors = new ArrayList<>();
             Point up = point.offset(0,  1);
             Point down = point.offset(0,  -1);
             Point left = point.offset(-1, 0);
             Point right = point.offset(1, 0);
-            if (IsWalkable(map, up)) neighbors.add(up);
-            if (IsWalkable(map, down)) neighbors.add(down);
-            if (IsWalkable(map, left)) neighbors.add(left);
-            if (IsWalkable(map, right)) neighbors.add(right);
+            if (voiKävellä(map, up)) neighbors.add(up);
+            if (voiKävellä(map, down)) neighbors.add(down);
+            if (voiKävellä(map, left)) neighbors.add(left);
+            if (voiKävellä(map, right)) neighbors.add(right);
             return neighbors;
         }
-    
-        public static List<Point> FindPath(int[][] map, Point start, Point end) {
+
+        public static List<Point> etsiReitti(Maasto[][] map, Point start, Point end) {
             boolean finished = false;
             List<Point> used = new ArrayList<>();
             used.add(start);
@@ -362,7 +407,7 @@ public class PeliKenttäMetodit {
                 List<Point> newOpen = new ArrayList<>();
                 for(int i = 0; i < used.size(); ++i){
                     Point point = used.get(i);
-                    for (Point neighbor : FindNeighbors(map, point)) {
+                    for (Point neighbor : etsiViereiset(map, point)) {
                         if (!used.contains(neighbor) && !newOpen.contains(neighbor)) {
                             newOpen.add(neighbor);
                         }
@@ -389,26 +434,15 @@ public class PeliKenttäMetodit {
             }
             return path;
         }
+
+        public static void reitinHakuPelaajaaKohti(Vihollinen vihollinen) {
+            
+            Maasto[][] kartta = Peli.maastokenttä;
     
-        public static void run() {
-            int[][] map = {
-                    {0, 0, 0, 0, 0},
-                    {0, 0, 1, 0, 1},
-                    {1, 0, 0, 1, 1},
-                    {0, 0, 0, 1, 0},
-                    {1, 1, 0, 0, 1}
-            };
-    
-            Point start = new Point(0, 0, null);
-            Point end = new Point(3, 4, null);
-            List<Point> path = FindPath(map, start, end);
-            if (path != null) {
-                for (Point point : path) {
-                    System.out.println(point);
-                }
-            }
-            else
-                System.out.println("No path found");
+            Point alku = new Point(vihollinen.sijX, vihollinen.sijY, null);
+            Point loppu = new Point(Pelaaja.sijX, Pelaaja.sijY, null);
+            List<Point> path = etsiReitti(kartta, alku, loppu);
+            vihollinen.reitti = path;
         }
     }
 }

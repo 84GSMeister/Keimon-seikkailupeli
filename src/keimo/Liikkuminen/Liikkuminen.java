@@ -7,6 +7,8 @@ public class Liikkuminen {
 
     //static int[][][][][][][][][][][] asd = new int[10][][][][][][][][][][];
 
+    protected static transient final int x = 0;
+
     static void liikkuminen1() {
 
     }

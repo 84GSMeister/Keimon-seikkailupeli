@@ -102,6 +102,8 @@ public class Makkara extends Ruoka {
         super.käyttö = true;
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");
+        this.paistettu = false;
+        this.käristetty = false;
         super.asetaTiedot();
     }
 }

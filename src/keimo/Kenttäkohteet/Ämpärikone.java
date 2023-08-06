@@ -1,6 +1,6 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Ruudut.Lisäruudut.ÄmpäriJonoIkkuna;
+import keimo.Ruudut.Lisäruudut.ÄmpäriJonoRuutu;
 import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
@@ -14,7 +14,7 @@ public class Ämpärikone extends Kiintopiste {
 
     @Override
     public void näytäDialogi(Esine e) {
-        ÄmpäriJonoIkkuna.luoÄmpäriJonoIkkuna();
+        ÄmpäriJonoRuutu.luoÄmpäriJonoIkkuna();
     }
 
     @Override

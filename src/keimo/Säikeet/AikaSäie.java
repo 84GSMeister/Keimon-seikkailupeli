@@ -13,6 +13,8 @@ import java.util.concurrent.locks.LockSupport;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
+import javafx.util.Duration;
+
 public class AikaSäie extends Thread {
 
     public static boolean ajastinKäynnissä = true;
@@ -82,6 +84,12 @@ public class AikaSäie extends Thread {
                         if (AsetusIkkuna.ikkuna != null) {
                             AsetusIkkuna.ikkuna.setTitle(ikkunaTeksti);
                         }
+                    }
+                    if (Peli.globaaliTickit % 10 == 0) {
+                        PeliKenttäMetodit.suoritaPelikenttäMetoditJoka10Tick();
+                    }
+                    if (Peli.globaaliTickit % 120 == 0) {
+                        //ÄänentoistamisSäie.asetaMusatoistimenSijainti(2000);
                     }
                 }
                 lastRenderTime = now;

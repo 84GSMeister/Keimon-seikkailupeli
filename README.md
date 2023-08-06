@@ -1,6 +1,13 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.7.2023): 0.8.2
+## Uusin versio (6.8.2023): 0.8.3
+
+### Versio 0.8.3: Keimon nimipäiväpäivitys
+
+ - Minimap (toimii tällä hetkellä vain puistossa)
+ - Uusia Udo haukkuu -remixejä
+ - Huoneen metatietojen muokkausta editorissa tehty selkeämmäksi
+ - Velhometsää muutettu hieman sokkelomaisemmaksi
 
 ### Versio 0.8.2
 

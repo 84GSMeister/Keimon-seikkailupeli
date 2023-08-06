@@ -8,8 +8,8 @@ import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Pelaaja.*;
 import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Ruudut.*;
-import keimo.Ruudut.Lisäruudut.PullonPalautusIkkuna;
-import keimo.Ruudut.Lisäruudut.ValintaDialogiIkkuna;
+import keimo.Ruudut.Lisäruudut.PullonPalautusRuutu;
+import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Säikeet.*;
 import keimo.Ikkunat.*;
 import keimo.HuoneEditori.*;
@@ -722,6 +722,16 @@ public class Peli {
                         }
                     }
                 }
+                else if (pause && PeliRuutu.pausePaneli.isVisible()) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_P:
+                            if (PeliRuutu.pausePaneli.isVisible()) {
+                                pausetaPeli(false);
+                            }
+                            PääIkkuna.hudTeksti.setText("Peli jatkuu.");
+                        break;
+                    }
+                }
                 else if (pause && !valintaDialogi) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_P:
@@ -771,27 +781,27 @@ public class Peli {
                                 System.out.println(e.getKeyCode());
                                 System.out.println(KeyEvent.VK_SPACE);
                                 System.out.println(e.getKeyCode() == KeyEvent.VK_SPACE);
-                                System.out.println(PullonPalautusIkkuna.virheenTyyppi == PullonPalautusIkkuna.VirheenTyyppi.PAKKAUS);
-                                if (PullonPalautusIkkuna.virheenTyyppi == PullonPalautusIkkuna.VirheenTyyppi.PAKKAUS && e.getKeyCode() == KeyEvent.VK_SPACE) {
-                                    PullonPalautusIkkuna.jatkoSyöteAnnettu = true;
-                                    System.out.println(PullonPalautusIkkuna.jatkoSyöteAnnettu);
+                                System.out.println(PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.PAKKAUS);
+                                if (PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.PAKKAUS && e.getKeyCode() == KeyEvent.VK_SPACE) {
+                                    PullonPalautusRuutu.jatkoSyöteAnnettu = true;
+                                    System.out.println(PullonPalautusRuutu.jatkoSyöteAnnettu);
                                 }
-                                else if (PullonPalautusIkkuna.virheenTyyppi == PullonPalautusIkkuna.VirheenTyyppi.MUOTO && e.getKeyCode() == KeyEvent.VK_X) {
-                                    PullonPalautusIkkuna.jatkoSyöteAnnettu = true;
+                                else if (PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.MUOTO && e.getKeyCode() == KeyEvent.VK_X) {
+                                    PullonPalautusRuutu.jatkoSyöteAnnettu = true;
                                 }
-                                else if (PullonPalautusIkkuna.virheenTyyppi == PullonPalautusIkkuna.VirheenTyyppi.KÄSI && e.getKeyCode() == KeyEvent.VK_C) {
-                                    PullonPalautusIkkuna.jatkoSyöteAnnettu = true;
+                                else if (PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.KÄSI && e.getKeyCode() == KeyEvent.VK_C) {
+                                    PullonPalautusRuutu.jatkoSyöteAnnettu = true;
                                 }
-                                else if (PullonPalautusIkkuna.virheenTyyppi == PullonPalautusIkkuna.VirheenTyyppi.MERKKI && e.getKeyCode() == KeyEvent.VK_Z) {
-                                    PullonPalautusIkkuna.jatkoSyöteAnnettu = true;
+                                else if (PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.MERKKI && e.getKeyCode() == KeyEvent.VK_Z) {
+                                    PullonPalautusRuutu.jatkoSyöteAnnettu = true;
                                 }
                             }
                         break;
                         case VALINTADIALOGI:
                             switch (e.getKeyCode()) {
-                                case KeyEvent.VK_SPACE, KeyEvent.VK_ENTER: ValintaDialogiIkkuna.hyväksyValinta();
-                                case KeyEvent.VK_W, KeyEvent.VK_UP: ValintaDialogiIkkuna.pienennäValintaa(); break;
-                                case KeyEvent.VK_S, KeyEvent.VK_DOWN: ValintaDialogiIkkuna.kasvataValintaa(); break;
+                                case KeyEvent.VK_SPACE, KeyEvent.VK_ENTER: ValintaDialogiRuutu.hyväksyValinta();
+                                case KeyEvent.VK_W, KeyEvent.VK_UP: ValintaDialogiRuutu.pienennäValintaa(); break;
+                                case KeyEvent.VK_S, KeyEvent.VK_DOWN: ValintaDialogiRuutu.kasvataValintaa(); break;
                             }
                         break;
                     }
@@ -1189,6 +1199,7 @@ public class Peli {
         TavoiteLista.luoPääTavoiteLista();
         TavoiteLista.luoTavoiteLista();
 
+        KenttäKohde.nollaaObjektiId();
         huoneKartta = HuoneLista.luoVakioHuoneKarttaTiedostosta();
         esineValInt = 0;
         valittuEsine = null;

@@ -13,6 +13,13 @@ public abstract class KenttäKohde implements Käännettävä {
     public boolean lisäOminaisuuksia = false;
     String[] lisäOminaisuudet;
 
+    protected int objektinId = 0;
+    private static int seuraavaObjektinId = 0;
+
+    public static void nollaaObjektiId() {
+        seuraavaObjektinId = 0;
+    }
+
     public boolean onkoMääritettySijainti() {
         return määritettySijainti;
     }
@@ -241,6 +248,7 @@ public abstract class KenttäKohde implements Käännettävä {
     String tiedot = "";
     void asetaTiedot() {
         tiedot = "";
+        tiedot += "Objektin ID: " + this.objektinId + "\n";
         tiedot += "Nimi: " + this.annaNimi() + "\n";
         //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
 		
@@ -296,5 +304,7 @@ public abstract class KenttäKohde implements Käännettävä {
         this.määritettySijainti = määritettySijainti;
         this.sijX = sijX;
         this.sijY = sijY;
+        this.objektinId = seuraavaObjektinId;
+        seuraavaObjektinId++;
     }
 }

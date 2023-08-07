@@ -1,8 +1,12 @@
 package keimo.NPCt;
 
-import java.util.ArrayList;
+import keimo.PeliKenttäMetodit.PathFindingExample.Point;
 
-public abstract class Vihollinen extends NPC{
+//import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Vihollinen extends NPC {
     
     public int vahinko = 0;
     public boolean tekeeVahinkoa = true;
@@ -19,6 +23,7 @@ public abstract class Vihollinen extends NPC{
         VASEN_OIKEA_ESTEESEEN_ASTI,
         YLÖS_ALAS_ESTEESEEN_ASTI,
         SEURAA_PELAAJAA,
+        SEURAA_REITTIÄ,
         STAATTINEN;
     }
     
@@ -32,6 +37,12 @@ public abstract class Vihollinen extends NPC{
     public int liikeLoopinVaihe = 0;
     public LiikeTapa liikeTapa = LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN;
 
+    public List<Point> reitti;
+    public void tulostaReitinKoordinaatit() {
+        for (int i = 0; i < reitti.size(); i++) {
+            System.out.println("Piste " + i + ": " + reitti.get(i).x + ", " + reitti.get(i).y);
+        }
+    }
     
     protected boolean kukistettu = false;
     public boolean onkoKukistettu() {

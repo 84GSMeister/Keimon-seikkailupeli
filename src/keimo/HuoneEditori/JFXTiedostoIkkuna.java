@@ -20,6 +20,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.*;
+import javafx.stage.FileChooser.ExtensionFilter;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.Maasto;
@@ -52,6 +53,8 @@ public class JFXTiedostoIkkuna {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File(".\\"));
+            ExtensionFilter tiedostoPäätteet = new ExtensionFilter("Keimon seikkailupelin tiedosto", "*.kst");
+            fileChooser.getExtensionFilters().add(tiedostoPäätteet);
             HuoneEditoriIkkuna.jfxAvattuTiedosto = fileChooser.showOpenDialog(null);
             String[] huoneetMerkkijonoina;
             int huoneidenMääräTiedostossa = 0;
@@ -148,14 +151,16 @@ public class JFXTiedostoIkkuna {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File(".\\"));
+            ExtensionFilter tiedostoPäätteet = new ExtensionFilter("Keimon seikkailupelin tiedosto", "*.kst");
+            fileChooser.getExtensionFilters().add(tiedostoPäätteet);
             File tiedosto = fileChooser.showSaveDialog(null);
             if (tiedosto.isFile()) {
-                int korvaaTiedosto = CustomViestiIkkunat.TiedostonKorvaus.showDialog("Tiedosto " + tiedosto.getName() + " on jo olemassa. Haluatko korvata sen?", "Tiedosto on jo olemassa.");
-                if (korvaaTiedosto == JOptionPane.YES_OPTION) {
+                //int korvaaTiedosto = CustomViestiIkkunat.TiedostonKorvaus.showDialog("Tiedosto " + tiedosto.getName() + " on jo olemassa. Haluatko korvata sen?", "Tiedosto on jo olemassa.");
+                //if (korvaaTiedosto == JOptionPane.YES_OPTION) {
                     Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedosto.getName()), StandardCharsets.UTF_8);
                     fstream.write(HuoneEditoriIkkuna.jfxKokoTiedostoMerkkijonona);
                     fstream.close();
-                }
+                //}
             }
             else {
                 String tiedostonNimi = tiedosto.getName();

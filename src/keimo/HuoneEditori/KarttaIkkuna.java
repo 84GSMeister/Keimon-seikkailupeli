@@ -5,7 +5,6 @@ import keimo.PääIkkuna;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
@@ -43,9 +42,6 @@ public class KarttaIkkuna {
         kartanAloitusX = kartanKoko/2;
         kartanAloitusY = kartanKoko/2;
         tarkastettavat = new boolean[kartanKoko][kartanKoko];
-
-        //JScrollBar vaakaScollBar = new JScrollBar(JScrollBar.HORIZONTAL, kartanAloitusX, 1, 0, kartanKoko);
-        //JScrollBar pystyScollBar = new JScrollBar(JScrollBar.VERTICAL, kartanAloitusY, 1, 0, kartanKoko);
         
         JPanel paneli = new JPanel();
         paneli = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -57,9 +53,7 @@ public class KarttaIkkuna {
         maastoKartta = new JPanel[kartanKoko][kartanKoko];
         for (int i = 0; i < kartanKoko-1; i++) {
             for (int j = 0; j < kartanKoko-1; j++) {
-                //kartta[j][i] = new JLabel("tyhjä " + j + " " + i);
                 kartta[j][i] = new JLabel("");
-                //paneli.add(kartta[j][i]);
                 maastoKartta[j][i] = new JPanel();
                 paneli.add(maastoKartta[j][i]);
             }
@@ -69,14 +63,6 @@ public class KarttaIkkuna {
         karttaPaneli.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         karttaPaneli.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         karttaPaneli.setBounds(0, 0, ikkunanLeveys-20, ikkunanKorkeus-35);
-        //karttaPaneli.setVerticalScrollBar(pystyScollBar);
-        //karttaPaneli.setHorizontalScrollBar(vaakaScollBar);
-        System.out.println(karttaPaneli.getHorizontalScrollBar().getMaximum());
-        System.out.println(karttaPaneli.getHorizontalScrollBar().getMinimum());
-
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(600, 450));
-        //contentPane.add(karttaPaneli);
 
         JButton okNappi = new JButton("OK");
         okNappi.addMouseListener(new MouseAdapter() {
@@ -148,7 +134,6 @@ public class KarttaIkkuna {
                                     kartta[tarkastettavaX-1][tarkastettavaY].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN));
                                     maastoKartta[tarkastettavaX-1][tarkastettavaY].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN)).annaHuoneenMaastoGrafiikka());
                                     muodostettuHuoneVisualisaatio[tarkastettavaX-1][tarkastettavaY] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN));
-                                    System.out.println("Huone " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN)).annaId() + " kuuluu kohtaan " + (tarkastettavaX-1) + " " + tarkastettavaY);
                                     vasemmallaHuone = true;
                                 }
                             }
@@ -163,7 +148,6 @@ public class KarttaIkkuna {
                                     kartta[tarkastettavaX+1][tarkastettavaY].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA));
                                     maastoKartta[tarkastettavaX+1][tarkastettavaY].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA)).annaHuoneenMaastoGrafiikka());
                                     muodostettuHuoneVisualisaatio[tarkastettavaX+1][tarkastettavaY] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA));
-                                    System.out.println("Huone " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA)).annaId() + " kuuluu kohtaan " + (tarkastettavaX+1) + " " + tarkastettavaY);
                                     oikeallaHuone = true;
                                 }
                             }
@@ -178,7 +162,6 @@ public class KarttaIkkuna {
                                     kartta[tarkastettavaX][tarkastettavaY+1].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS));
                                     maastoKartta[tarkastettavaX][tarkastettavaY+1].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS)).annaHuoneenMaastoGrafiikka());
                                     muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY+1] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS));
-                                    System.out.println("Huone " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS)).annaId() + " kuuluu kohtaan " + (tarkastettavaX) + " " + (tarkastettavaY+1));
                                     alhaallaHuone = true;
                                 }
                             }
@@ -193,7 +176,6 @@ public class KarttaIkkuna {
                                     kartta[tarkastettavaX][tarkastettavaY-1].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS));
                                     maastoKartta[tarkastettavaX][tarkastettavaY-1].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS)).annaHuoneenMaastoGrafiikka());
                                     muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY-1] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS));
-                                    System.out.println("Huone " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS)).annaId() + " kuuluu kohtaan " + (tarkastettavaX-1) + " " + (tarkastettavaY-1));
                                     ylhäälläHuone = true;
                                 }
                             }

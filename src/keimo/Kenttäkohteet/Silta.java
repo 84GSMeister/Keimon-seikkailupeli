@@ -1,6 +1,6 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Ruudut.Lisäruudut.ValintaDialogiIkkuna;
+import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
@@ -9,7 +9,7 @@ public class Silta extends Kiintopiste {
     
     @Override
     public void näytäDialogi(Esine e) {
-        ValintaDialogiIkkuna.luoValintaDialogiIkkuna("silta");
+        ValintaDialogiRuutu.luoValintaDialogiIkkuna("silta");
     }
     
     public Silta (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {

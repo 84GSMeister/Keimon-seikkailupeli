@@ -40,7 +40,7 @@ public class PeliRuutu {
     public static JLabel osoitinLabel, valitunEsineenNimiLabel;
     public static JLabel[] kontrolliInfoLabel = new JLabel[10];
     public static JLabel tavoiteOtsikkoLabel, tavoiteInfoLabel;
-    public static JLabel peliTestiLabel, pelaajaLabel, pelaajanEsineLabel, taustaLabel, alueInfoLabel;
+    public static JLabel peliTestiLabel, pelaajaLabel, pelaajanEsineLabel, taustaLabel, alueInfoLabel, minimapLabel;
     public static JLabel tölksKuvakeLabel, tölksMääräLabel, hpKuvakeLabel, hpMääräLabel, rahaKuvakeLabel, rahaMääräLabel;
     static JLabel[][] kenttäKohteenKuvake;
     static JLabel[][] maastoKohteenKuvake;
@@ -56,20 +56,12 @@ public class PeliRuutu {
         kenttäKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
 
-        /**
-         * Pelikentän yläosassa oleva tietopalkki (alue)
-         */
 
-        alueInfoLabel = new JLabel("Alue");
-        alueInfoLabel.setPreferredSize(new Dimension(PääIkkuna.ikkunanLeveys, 15));
-        alueInfoLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-        alueInfoLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        alueInfoPaneli = new JPanel();
-        alueInfoPaneli.setLayout(new BorderLayout());
-        alueInfoPaneli.setPreferredSize(new Dimension(PääIkkuna.ikkunanLeveys, 15));
-        alueInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        alueInfoPaneli.add(alueInfoLabel, BorderLayout.CENTER);
+        //alueInfoPaneli = new JPanel();
+        //alueInfoPaneli.setLayout(new BorderLayout());
+        //alueInfoPaneli.setPreferredSize(new Dimension(PääIkkuna.ikkunanLeveys, 15));
+        //alueInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        //alueInfoPaneli.add(alueInfoLabel, BorderLayout.CENTER);
 
         taustaLabel = new JLabel(new ImageIcon());
         taustaLabel.setName("tausta");
@@ -218,6 +210,9 @@ public class PeliRuutu {
         debugInfoPaneli.revalidate();
         debugInfoPaneli.repaint();
 
+        tavoiteOtsikkoLabel = new JLabel("Seuraava tavoite:");
+        tavoiteInfoLabel = new JLabel(TavoiteLista.pääTavoitteet.get(0));
+
         aikaInfoPaneli = new JPanel();
         aikaInfoPaneli.setLayout(new GridLayout(9, 1, 10, 10));
         aikaInfoPaneli.setBounds(10, 10, 180, 200);
@@ -225,6 +220,8 @@ public class PeliRuutu {
         aikaInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         //aikaInfoPaneli.add(ylätekstiHP);
         aikaInfoPaneli.add(ylätekstiAika);
+        aikaInfoPaneli.add(tavoiteOtsikkoLabel);
+        aikaInfoPaneli.add(tavoiteInfoLabel);
         //aikaInfoPaneli.add(ylätekstiKuparit);
         aikaInfoPaneli.revalidate();
         aikaInfoPaneli.repaint();
@@ -251,18 +248,30 @@ public class PeliRuutu {
         kontrolliInfoPaneli.revalidate();
         kontrolliInfoPaneli.repaint();
 
-        tavoiteOtsikkoLabel = new JLabel("Seuraava tavoite:");
-        tavoiteInfoLabel = new JLabel(TavoiteLista.pääTavoitteet.get(0));
+        
 
-        tavoiteInfoPaneli = new JPanel();
-        tavoiteInfoPaneli.setLayout(new GridLayout(9, 1, 10, 10));
-        tavoiteInfoPaneli.setBounds(10, 10, 180, 200);
-        tavoiteInfoPaneli.setBackground(new Color(210, 210, 210, 255));
-        tavoiteInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        tavoiteInfoPaneli.add(tavoiteOtsikkoLabel);
-        tavoiteInfoPaneli.add(tavoiteInfoLabel);
-        tavoiteInfoPaneli.revalidate();
-        tavoiteInfoPaneli.repaint();
+        alueInfoLabel = new JLabel("Alue");
+        //alueInfoLabel.setPreferredSize(new Dimension(PääIkkuna.ikkunanLeveys, 15));
+        alueInfoLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+        alueInfoLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        minimapLabel = new JLabel();
+        minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_puisto.png"));
+        minimapLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        minimapLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        alueInfoPaneli = new JPanel();
+        //alueInfoPaneli.setLayout(new GridLayout(9, 1, 10, 10));
+        alueInfoPaneli.setLayout(new BorderLayout());
+        alueInfoPaneli.setBounds(10, 10, 180, 200);
+        alueInfoPaneli.setBackground(new Color(210, 210, 210, 255));
+        alueInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        //tavoiteInfoPaneli.add(tavoiteOtsikkoLabel);
+        //tavoiteInfoPaneli.add(tavoiteInfoLabel);
+        alueInfoPaneli.add(alueInfoLabel, BorderLayout.NORTH);
+        alueInfoPaneli.add(minimapLabel, BorderLayout.CENTER);
+        alueInfoPaneli.revalidate();
+        alueInfoPaneli.repaint();
 
 
         hpKuvakeLabel = new JLabel(new ImageIcon("tiedostot/kuvat/hud/hp_eitekstiä.png"));
@@ -428,20 +437,21 @@ public class PeliRuutu {
         invaPanelinHud.repaint();
 
 
-        yläPaneeli = new JPanel();
-        yläPaneeli.setLayout(new BorderLayout());
-        yläPaneeli.setPreferredSize(new Dimension(1060, 15));
-        yläPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        yläPaneeli.add(alueInfoLabel, BorderLayout.CENTER);
-        yläPaneeli.revalidate();
-        yläPaneeli.repaint();
+        // yläPaneeli = new JPanel();
+        // yläPaneeli.setLayout(new BorderLayout());
+        // yläPaneeli.setPreferredSize(new Dimension(1060, 15));
+        // yläPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        // yläPaneeli.add(alueInfoLabel, BorderLayout.CENTER);
+        // yläPaneeli.revalidate();
+        // yläPaneeli.repaint();
 
         hudTeksti = new JLabel("Kokeile liikkua ja poimia esineitä!");
-        hudTeksti.setVisible(PääIkkuna.tapahtumapalkkiNäkyvissä);
         alaPaneeli = new JPanel();
         alaPaneeli.setLayout(new BorderLayout());
         alaPaneeli.setPreferredSize(new Dimension(1060, 15));
+        alaPaneeli.setBounds(0, 640, 660, 20);
         alaPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        alaPaneeli.setVisible(PääIkkuna.tapahtumapalkkiNäkyvissä);
         alaPaneeli.add(hudTeksti, BorderLayout.CENTER);
         alaPaneeli.revalidate();
         alaPaneeli.repaint();
@@ -507,10 +517,10 @@ public class PeliRuutu {
         oikeaKeskiPaneeli.setLayout(null);
         oikeaKeskiPaneeli.setPreferredSize(new Dimension(200, 220));
         oikeaKeskiPaneeli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        oikeaKeskiPaneeli.add(tavoiteInfoPaneli);
+        oikeaKeskiPaneeli.add(alueInfoPaneli);
         oikeaKeskiPaneeli.add(oikeaKeskiPaneelinTausta);
         oikeaKeskiPaneeli.setComponentZOrder(oikeaKeskiPaneelinTausta, 1);
-        oikeaKeskiPaneeli.setComponentZOrder(tavoiteInfoPaneli, 0);
+        oikeaKeskiPaneeli.setComponentZOrder(alueInfoPaneli, 0);
         oikeaKeskiPaneeli.revalidate();
         oikeaKeskiPaneeli.repaint();
 
@@ -546,7 +556,7 @@ public class PeliRuutu {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3;
-        peliKenttäJaHUD.add(yläPaneeli, gbc);
+        //peliKenttäJaHUD.add(yläPaneeli, gbc);
         gbc.gridwidth = 1;
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -574,7 +584,7 @@ public class PeliRuutu {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 3;
-        peliKenttäJaHUD.add(alaPaneeli, gbc);
+        //peliKenttäJaHUD.add(alaPaneeli, gbc);
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 1;
@@ -705,7 +715,8 @@ public class PeliRuutu {
 
             peliKentänTaustaPaneli.add(taustaLabel, Integer.valueOf(0), 0);
             peliKentänTaustaPaneli.add(peliKenttä, Integer.valueOf(1), 0);
-            peliKentänTaustaPaneli.add(vuoropuhePaneli, Integer.valueOf(6), 0);
+            peliKentänTaustaPaneli.add(vuoropuhePaneli, Integer.valueOf(3), 0);
+            peliKentänTaustaPaneli.add(alaPaneeli, Integer.valueOf(4), 0);
             
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {

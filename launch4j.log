@@ -1,0 +1,140 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.017.000
+Java max ver:	
+JRE paths:	.\runtime\jdk-17.0.5
+Check launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.\runtime\jdk-17.0.5\bin\javaw.exe (OK)
+Version string: 1.017.000_005 / 64-Bit (OK)
+Heap -Xms:	Requested 500 MB / 0%, Available: 27754 MB, Heap size: 500 MB
+Heap -Xmx:	Requested 500 MB / 0%, Available: 27754 MB, Heap size: 500 MB
+Main class:	Main
+Info:		Classpath not defined.
+Launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.\runtime\jdk-17.0.5\bin\javaw.exe
+Launcher args:	-Xms500m -Xmx500m java --module-path lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web,javafx.swt -jar Peli.jar -classpath "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe" Main
+Args length:	270/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.017.000
+Java max ver:	
+JRE paths:	.\runtime\jdk-17.0.5
+Check launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.\runtime\jdk-17.0.5\bin\javaw.exe (OK)
+Version string: 1.017.000_005 / 64-Bit (OK)
+Heap -Xms:	Requested 500 MB / 0%, Available: 27801 MB, Heap size: 500 MB
+Heap -Xmx:	Requested 500 MB / 0%, Available: 27801 MB, Heap size: 500 MB
+Main class:	Main
+Info:		Classpath not defined.
+Launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.\runtime\jdk-17.0.5\bin\javaw.exe
+Launcher args:	-Xms500m -Xmx500m --module-path lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web,javafx.swt -jar Peli.jar -classpath "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe" Main
+Args length:	265/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-17.0.5
+Substitute:	PATH = C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python310\Scripts\;C:\Python310\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\scripts;C:\Program Files (x86)\ZeroTier\One\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-17.0.5\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Go\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\User\AppData\Local\Microsoft\WindowsApps;C:\Users\User\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\User\go\bin;;C:\Program Files\Java\jdk-17.0.5\bin
+JRE paths:	C:\Program Files\Java\jdk-17.0.5;C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python310\Scripts\;C:\Python310\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\scripts;C:\Program Files (x86)\ZeroTier\One\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-17.0.5\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Go\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\User\AppData\Local\Microsoft\WindowsApps;C:\Users\User\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\User\go\bin;;C:\Program Files\Java\jdk-17.0.5\bin
+Check launcher:	C:\Program Files\Java\jdk-17.0.5\bin\javaw.exe (OK)
+Version string: 1.017.000_005 / 64-Bit (OK)
+Launcher:	C:\Program Files\Java\jdk-17.0.5\bin\javaw.exe
+Launcher args:	--module-path java/lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web,javafx.swt -jar "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe"
+Args length:	227/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+JRE paths:	java\runtime\jdk-17.0.5
+Check launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\java\runtime\jdk-17.0.5\bin\javaw.exe (OK)
+Version string: 1.017.000_005 / 64-Bit (OK)
+Launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\java\runtime\jdk-17.0.5\bin\javaw.exe
+Launcher args:	--module-path java/lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web,javafx.swt -jar "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe"
+Args length:	227/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+JRE paths:	java\runtime\jdk-17.0.5
+Check launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\java\runtime\jdk-17.0.5\bin\javaw.exe (OK)
+Version string: 1.017.000_005 / 64-Bit (OK)
+Launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\java\runtime\jdk-17.0.5\bin\javaw.exe
+Launcher args:	--module-path java/lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web,javafx.swt -jar "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe"
+Args length:	227/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+JRE paths:	java\runtime
+Check launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\java\runtime\bin\javaw.exe (OK)
+Version string: 1.017.000_005 / 64-Bit (OK)
+Launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\java\runtime\bin\javaw.exe
+Launcher args:	--module-path java/lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web,javafx.swt -jar "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe"
+Args length:	227/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.017.000
+Java max ver:	
+JRE paths:	.\java\runtime\
+Check launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.\java\runtime\bin\javaw.exe (OK)
+Version string: 1.017.000_008 / 64-Bit (OK)
+Heap -Xms:	Requested 500 MB / 0%, Available: 26173 MB, Heap size: 500 MB
+Heap -Xmx:	Requested 500 MB / 0%, Available: 26173 MB, Heap size: 500 MB
+Main class:	Main
+Info:		Classpath not defined.
+Launcher:	C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\.\java\runtime\bin\javaw.exe
+Launcher args:	-Xms500m -Xmx500m --module-path lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web -classpath "C:\Users\User\Documents\Jonttu\ohjelmat\random sovellukset\Peli\Keimo.exe" Main
+Args length:	240/32768 chars
+Exit code:	0

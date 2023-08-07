@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "vmArgs": "--module-path lib/javafx-sdk-20.0.1/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web"
+        }
+    ]
+}

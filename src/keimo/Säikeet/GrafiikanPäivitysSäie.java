@@ -7,17 +7,14 @@ import keimo.Kenttäkohteet.KauppaRuutu;
 import keimo.Kenttäkohteet.Pulloautomaatti;
 import keimo.Kenttäkohteet.VisuaalinenObjekti;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
-import keimo.NPCt.NPC;
 import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Ruudut.PeliRuutu;
-import keimo.Ruudut.Lisäruudut.ValintaDialogiIkkuna;
+import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Utility.*;
 import keimo.Utility.SkaalattavaKuvake.Peilaus;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.concurrent.locks.LockSupport;
-import javax.swing.ImageIcon;
+
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -327,6 +324,11 @@ public class GrafiikanPäivitysSäie extends Thread {
                 PeliRuutu.ostosPanelinHud.setVisible(false);
                 PeliRuutu.kontrolliInfoPaneli.setVisible(true);
             }
+            switch (Peli.huone.annaAlue()) {
+                case "Puisto": PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_puisto.png")); break;
+                case "Asuintalot", "Pelto": PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_yokylä.png")); break;
+                case "Metsä": PeliRuutu.minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_metsä.png")); break;
+            }
 
             PeliRuutu.hudTeksti.setText(PääIkkuna.hudTeksti.getText());
             PeliRuutu.tavoiteInfoLabel.setText(TavoiteLista.nykyinenTavoite);
@@ -365,11 +367,10 @@ public class GrafiikanPäivitysSäie extends Thread {
                     PeliRuutu.statsiPaneeli.setBounds(10, 10, 300, 300);
                     PeliRuutu.invaPanelinHud.setBounds(10, 10, 300, 300);
                     PeliRuutu.debugInfoPaneli.setBounds(10, 10, 300, 300);
-                    PeliRuutu.tavoiteInfoPaneli.setBounds(10, 10, 300, 300);
+                    PeliRuutu.alueInfoPaneli.setBounds(10, 10, 300, 300);
                     PeliRuutu.ostosPanelinHud.setBounds(10, 10, 300, 300);
                     PeliRuutu.kontrolliInfoPaneli.setBounds(10, 10, 300, 300);
                     PeliRuutu.peliKentänTaustaPaneli.setPreferredSize(new Dimension(980, 980));
-                    //PeliRuutu.peliKenttä.setPreferredSize(new Dimension(960, 960));
                     PeliRuutu.vuoropuhePaneli.setBounds(0, 860, 980, 120);
 
                     PeliRuutu.skaalaaKuvakkeet = true;
@@ -400,11 +401,10 @@ public class GrafiikanPäivitysSäie extends Thread {
                     PeliRuutu.statsiPaneeli.setBounds(10, 10, 180, 200);
                     PeliRuutu.invaPanelinHud.setBounds(10, 10, 180, 200);
                     PeliRuutu.debugInfoPaneli.setBounds(10, 10, 180, 200);
-                    PeliRuutu.tavoiteInfoPaneli.setBounds(10, 10, 180, 200);
+                    PeliRuutu.alueInfoPaneli.setBounds(10, 10, 180, 200);
                     PeliRuutu.ostosPanelinHud.setBounds(10, 10, 180, 200);
                     PeliRuutu.kontrolliInfoPaneli.setBounds(10, 10, 180, 200);
                     PeliRuutu.peliKentänTaustaPaneli.setPreferredSize(new Dimension(660, 660));
-                    //PeliRuutu.peliKenttä.setPreferredSize(new Dimension(640, 640));
                     PeliRuutu.vuoropuhePaneli.setBounds(0, 540, 660, 120);
                     
                     PeliRuutu.skaalaaKuvakkeet = false;
@@ -416,36 +416,27 @@ public class GrafiikanPäivitysSäie extends Thread {
                 PeliRuutu.pausePaneli.setBounds(2 * PeliRuutu.esineenKokoPx, 2 * PeliRuutu.esineenKokoPx, 6 * PeliRuutu.esineenKokoPx, 6 * PeliRuutu.esineenKokoPx);
                 Pelaaja.hitbox.setSize(PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
                 Pelaaja.nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
-                System.out.println(Pelaaja.nopeus);
                 Pelaaja.teleport(Pelaaja.sijX, Pelaaja.sijY);
 
 
-                if (PääIkkuna.ikkuna.getHeight() < 750) {
-                    PeliRuutu.yläPaneeli.setVisible(false);
-                    PeliRuutu.alaPaneeli.setVisible(false);
-                }
-                else if (PääIkkuna.ikkuna.getHeight() < 768) {
-                    PeliRuutu.yläPaneeli.setVisible(false);
-                    PeliRuutu.alaPaneeli.setVisible(true);
-                }
-                else {
-                    PeliRuutu.yläPaneeli.setVisible(true);
-                    PeliRuutu.alaPaneeli.setVisible(true);
-                }
+                // if (PääIkkuna.ikkuna.getHeight() < 750) {
+                //     PeliRuutu.yläPaneeli.setVisible(false);
+                //     PeliRuutu.alaPaneeli.setVisible(false);
+                // }
+                // else if (PääIkkuna.ikkuna.getHeight() < 768) {
+                //     PeliRuutu.yläPaneeli.setVisible(false);
+                //     PeliRuutu.alaPaneeli.setVisible(true);
+                // }
+                // else {
+                //     PeliRuutu.yläPaneeli.setVisible(true);
+                //     PeliRuutu.alaPaneeli.setVisible(true);
+                // }
                 if (PääIkkuna.ikkuna.getHeight() < 740 || PääIkkuna.ikkuna.getWidth() < 1280) {
                     PeliRuutu.kokoruudunTakatausta.setVisible(true);
                 }
                 else {
                     PeliRuutu.kokoruudunTakatausta.setVisible(false);
                 }
-                // try { 
-                //     for (NPC npc : Peli.npcLista) {
-                //         npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
-                //     }
-                // }
-                // catch (ConcurrentModificationException cme) {
-                //     System.out.println("Vihollisten teleporttaus peruttiin.");
-                // }
                 PeliKenttäMetodit.teleporttaaViholliset = true;
                 PääIkkuna.ikkunanKokoMuutettuEnnenHuoneenLatuasta = true;
                 ikkunanPäivitys = false;
@@ -496,13 +487,13 @@ public class GrafiikanPäivitysSäie extends Thread {
 
     private static void lisäPaneliMuutokset() {
         if (PeliRuutu.lisäRuutuPaneli != null) {
-            if (PeliRuutu.lisäRuutuPaneli.isVisible() && ValintaDialogiIkkuna.vasenOsoitin != null) {
-                for (int i = 0; i < ValintaDialogiIkkuna.vasenOsoitin.length; i++) {
-                    if (ValintaDialogiIkkuna.valintaInt == i) {
-                        ValintaDialogiIkkuna.vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/dialogi/osoitin32.png"));
+            if (PeliRuutu.lisäRuutuPaneli.isVisible() && ValintaDialogiRuutu.vasenOsoitin != null) {
+                for (int i = 0; i < ValintaDialogiRuutu.vasenOsoitin.length; i++) {
+                    if (ValintaDialogiRuutu.valintaInt == i) {
+                        ValintaDialogiRuutu.vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/dialogi/osoitin32.png"));
                     }
                     else {
-                        ValintaDialogiIkkuna.vasenOsoitin[i].setIcon(null);
+                        ValintaDialogiRuutu.vasenOsoitin[i].setIcon(null);
                     }
                 }
             }
@@ -574,6 +565,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                         ikkunanPäivitys = true;
                         PeliRuutu.alustaPeliRuutu();
                         PeliRuutu.vaihdaTausta(uusiTausta);
+                        PeliRuutu.päivitäOstosPaneli();
                         PääIkkuna.uudelleenpiirräKaikki = false;
                     }
                     if (PääIkkuna.uudelleenpiirräKenttä) {
@@ -639,14 +631,14 @@ public class GrafiikanPäivitysSäie extends Thread {
         }
     }
 
-    public void päivitäAjastin(long aiemminKulunutAika) {
+    // public void päivitäAjastin(long aiemminKulunutAika) {
         
-        long odotaKunnes = System.nanoTime() + (10 * 1_000_000) - aiemminKulunutAika;
-        while(odotaKunnes > System.nanoTime()){
-            ;
-        }
-        //LockSupport.parkNanos(odotaKunnes - System.nanoTime());
-    }
+    //     long odotaKunnes = System.nanoTime() + (10 * 1_000_000) - aiemminKulunutAika;
+    //     while(odotaKunnes > System.nanoTime()){
+    //         ;
+    //     }
+    //     //LockSupport.parkNanos(odotaKunnes - System.nanoTime());
+    // }
 
     @Override
     public void run() {

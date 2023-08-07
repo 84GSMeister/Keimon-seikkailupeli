@@ -3,17 +3,21 @@ package keimo.Säikeet;
 import keimo.*;
 import keimo.HuoneEditori.*;
 import keimo.Ikkunat.CustomViestiIkkunat;
+import keimo.Kenttäkohteet.KauppaRuutu;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
+import keimo.Kenttäkohteet.Pulloautomaatti;
+import keimo.Kenttäkohteet.VisuaalinenObjekti;
 import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Ruudut.PeliRuutu;
+import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Utility.*;
 import keimo.Utility.SkaalattavaKuvake.Peilaus;
 
 import java.util.ArrayList;
-import java.util.concurrent.locks.LockSupport;
-import javax.swing.ImageIcon;
+
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -36,6 +40,10 @@ public class GrafiikkaAikaSäieNopea extends Thread {
     static ImageIcon pelaajanKuvake = new ImageIcon("tiedostot/kuvat/pelaaja.png");
     static ArrayList<Long> päivitysAikaLista = new ArrayList<Long>();
     public static ImageIcon uusiTausta;
+
+    static int viimeisinIkkunanLeveys = 0;
+    static int viimeisinIkkunanKorkeus = 0;
+    static boolean ikkunanPäivitys = false;
 
     PeliKentänPäivittäjä peliKentänPäivittäjä = new PeliKentänPäivittäjä();
 
@@ -325,39 +333,178 @@ public class GrafiikkaAikaSäieNopea extends Thread {
         }
     }
 
-    public static void skaalaaHUD() {
+    private static void skaalaaHUD() {
         if (PääIkkuna.ikkuna !=null && PeliRuutu.tavaraPaneli != null && PeliRuutu.kontrolliInfoPaneli != null) {
-            if (PääIkkuna.ikkuna.getHeight() < 750) {
-                PeliRuutu.yläPaneeli.setVisible(false);
-                PeliRuutu.alaPaneeli.setVisible(false);
+            if (tarkistaIkkunanKoonMuutos() || ikkunanPäivitys) {
+                System.out.println("skaalaa ikkuna");
+                if (PääIkkuna.ikkuna.getHeight() > 1074 && PääIkkuna.ikkuna.getWidth() > 1800) {
+                    PeliRuutu.esineenKokoPx = 96;
+                    PeliRuutu.pelaajanKokoPx = 96;
+                    PeliRuutu.vasenYläPaneeli.setPreferredSize(new Dimension(320, 320));
+                    PeliRuutu.vasenKeskiPaneeli.setPreferredSize(new Dimension(320, 320));
+                    PeliRuutu.vasenAlaPaneeli.setPreferredSize(new Dimension(320, 320));
+                    PeliRuutu.oikeaYläPaneeli.setPreferredSize(new Dimension(320, 320));
+                    PeliRuutu.oikeaKeskiPaneeli.setPreferredSize(new Dimension(320, 320));
+                    PeliRuutu.oikeaAlaPaneeli.setPreferredSize(new Dimension(320, 320));
+                    ImageIcon taustaSkaalaattu = new ImageIcon("tiedostot/kuvat/hud/paneeli_tausta_kehys_kokoruutu.png");
+                    PeliRuutu.vasenYläPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.vasenKeskiPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.vasenAlaPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.oikeaYläPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.oikeaKeskiPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.oikeaAlaPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.vasenYläPaneelinTausta.setBounds(0, 0, 320, 320);
+                    PeliRuutu.vasenKeskiPaneelinTausta.setBounds(0, 0, 320, 320);
+                    PeliRuutu.vasenAlaPaneelinTausta.setBounds(0, 0, 320, 320);
+                    PeliRuutu.oikeaYläPaneelinTausta.setBounds(0, 0, 320, 320);
+                    PeliRuutu.oikeaKeskiPaneelinTausta.setBounds(0, 0, 320, 320);
+                    PeliRuutu.oikeaAlaPaneelinTausta.setBounds(0, 0, 320, 320);
+                    PeliRuutu.aikaInfoPaneli.setBounds(10, 10, 300, 300);
+                    PeliRuutu.statsiPaneeli.setBounds(10, 10, 300, 300);
+                    PeliRuutu.invaPanelinHud.setBounds(10, 10, 300, 300);
+                    PeliRuutu.debugInfoPaneli.setBounds(10, 10, 300, 300);
+                    PeliRuutu.tavoiteInfoPaneli.setBounds(10, 10, 300, 300);
+                    PeliRuutu.ostosPanelinHud.setBounds(10, 10, 300, 300);
+                    PeliRuutu.kontrolliInfoPaneli.setBounds(10, 10, 300, 300);
+                    PeliRuutu.peliKentänTaustaPaneli.setPreferredSize(new Dimension(980, 980));
+                    PeliRuutu.vuoropuhePaneli.setBounds(0, 860, 980, 120);
+
+                    PeliRuutu.skaalaaKuvakkeet = true;
+                }
+                else {
+                    PeliRuutu.esineenKokoPx = 64;
+                    PeliRuutu.pelaajanKokoPx = 64;
+                    PeliRuutu.vasenYläPaneeli.setPreferredSize(new Dimension(200, 220));
+                    PeliRuutu.vasenKeskiPaneeli.setPreferredSize(new Dimension(200, 220));
+                    PeliRuutu.vasenAlaPaneeli.setPreferredSize(new Dimension(200, 220));
+                    PeliRuutu.oikeaYläPaneeli.setPreferredSize(new Dimension(200, 220));
+                    PeliRuutu.oikeaKeskiPaneeli.setPreferredSize(new Dimension(200, 220));
+                    PeliRuutu.oikeaAlaPaneeli.setPreferredSize(new Dimension(200, 220));
+                    ImageIcon taustaSkaalaattu = new ImageIcon("tiedostot/kuvat/hud/paneeli_tausta_kehys.png");
+                    PeliRuutu.vasenYläPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.vasenKeskiPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.vasenAlaPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.oikeaYläPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.oikeaKeskiPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.oikeaAlaPaneelinTausta.setIcon(taustaSkaalaattu);
+                    PeliRuutu.vasenYläPaneelinTausta.setBounds(0, 0, 200, 220);
+                    PeliRuutu.vasenKeskiPaneelinTausta.setBounds(0, 0, 200, 220);
+                    PeliRuutu.vasenAlaPaneelinTausta.setBounds(0, 0, 200, 220);
+                    PeliRuutu.oikeaYläPaneelinTausta.setBounds(0, 0, 200, 220);
+                    PeliRuutu.oikeaKeskiPaneelinTausta.setBounds(0, 0, 200, 220);
+                    PeliRuutu.oikeaAlaPaneelinTausta.setBounds(0, 0, 200, 220);
+                    PeliRuutu.aikaInfoPaneli.setBounds(10, 10, 180, 200);
+                    PeliRuutu.statsiPaneeli.setBounds(10, 10, 180, 200);
+                    PeliRuutu.invaPanelinHud.setBounds(10, 10, 180, 200);
+                    PeliRuutu.debugInfoPaneli.setBounds(10, 10, 180, 200);
+                    PeliRuutu.tavoiteInfoPaneli.setBounds(10, 10, 180, 200);
+                    PeliRuutu.ostosPanelinHud.setBounds(10, 10, 180, 200);
+                    PeliRuutu.kontrolliInfoPaneli.setBounds(10, 10, 180, 200);
+                    PeliRuutu.peliKentänTaustaPaneli.setPreferredSize(new Dimension(660, 660));
+                    PeliRuutu.vuoropuhePaneli.setBounds(0, 540, 660, 120);
+                    
+                    PeliRuutu.skaalaaKuvakkeet = false;
+                }
+                PeliRuutu.taustaPaneli.setBounds(0, 0, Peli.kentänKoko * PeliRuutu.esineenKokoPx + 20, Peli.kentänKoko * PeliRuutu.esineenKokoPx + 20);
+                PeliRuutu.taustaLabel.setBounds(0, 0, Peli.kentänKoko * PeliRuutu.esineenKokoPx + 20, Peli.kentänKoko * PeliRuutu.esineenKokoPx + 20);
+                PeliRuutu.peliKenttä.setBounds(10, 10, 10 * PeliRuutu.esineenKokoPx, 10 * PeliRuutu.esineenKokoPx);
+                PeliRuutu.lisäRuutuPaneli.setBounds(2 * PeliRuutu.esineenKokoPx, 2 * PeliRuutu.esineenKokoPx, 6 * PeliRuutu.esineenKokoPx, 6 * PeliRuutu.esineenKokoPx);
+                PeliRuutu.pausePaneli.setBounds(2 * PeliRuutu.esineenKokoPx, 2 * PeliRuutu.esineenKokoPx, 6 * PeliRuutu.esineenKokoPx, 6 * PeliRuutu.esineenKokoPx);
+                Pelaaja.hitbox.setSize(PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
+                Pelaaja.nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
+                Pelaaja.teleport(Pelaaja.sijX, Pelaaja.sijY);
+
+
+                if (PääIkkuna.ikkuna.getHeight() < 750) {
+                    PeliRuutu.yläPaneeli.setVisible(false);
+                    PeliRuutu.alaPaneeli.setVisible(false);
+                }
+                else if (PääIkkuna.ikkuna.getHeight() < 768) {
+                    PeliRuutu.yläPaneeli.setVisible(false);
+                    PeliRuutu.alaPaneeli.setVisible(true);
+                }
+                else {
+                    PeliRuutu.yläPaneeli.setVisible(true);
+                    PeliRuutu.alaPaneeli.setVisible(true);
+                }
+                if (PääIkkuna.ikkuna.getHeight() < 740 || PääIkkuna.ikkuna.getWidth() < 1280) {
+                    PeliRuutu.kokoruudunTakatausta.setVisible(true);
+                }
+                else {
+                    PeliRuutu.kokoruudunTakatausta.setVisible(false);
+                }
+                PeliKenttäMetodit.teleporttaaViholliset = true;
+                PääIkkuna.ikkunanKokoMuutettuEnnenHuoneenLatuasta = true;
+                ikkunanPäivitys = false;
+                PeliRuutu.peliKenttäJaHUD.setBackground(Color.BLACK);
+                PääIkkuna.uudelleenpiirräKenttä = true;
             }
-            else if (PääIkkuna.ikkuna.getHeight() < 768) {
-                PeliRuutu.yläPaneeli.setVisible(false);
-                PeliRuutu.alaPaneeli.setVisible(true);
-            }
-            else {
-                PeliRuutu.yläPaneeli.setVisible(true);
-                PeliRuutu.alaPaneeli.setVisible(true);
-            }
-            if (PääIkkuna.ikkuna.getHeight() < 740 || PääIkkuna.ikkuna.getWidth() < 1280) {
-                PeliRuutu.kokoruudunTakatausta.setVisible(true);
-            }
-            else {
-                PeliRuutu.kokoruudunTakatausta.setVisible(false);
-            }
-            PeliRuutu.peliKenttäJaHUD.setBackground(Color.BLACK);
         }
     }
 
-    public static void odotaMikrosekunteja(long mikrosekunnit){
-        
-        long odotaKunnes = (System.nanoTime() + (mikrosekunnit/2 * 1_000));
-        
-        //while(odotaKunnes > System.nanoTime()){
-        //    ;
-        //}
-        LockSupport.parkNanos(odotaKunnes - System.nanoTime());
+    private static boolean tarkistaIkkunanKoonMuutos() {
+        if (viimeisinIkkunanLeveys != PääIkkuna.ikkuna.getWidth() || viimeisinIkkunanKorkeus != PääIkkuna.ikkuna.getHeight()) {
+            viimeisinIkkunanLeveys = PääIkkuna.ikkuna.getWidth();
+            viimeisinIkkunanKorkeus = PääIkkuna.ikkuna.getHeight();
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
+    private static void tileMuutokset() {
+        if (Peli.huone != null) {
+            if (Peli.huone.annaAlue().startsWith("Kauppa")) {
+                try {
+                    if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof KauppaRuutu) {
+                        if (Peli.pelikenttä[Pelaaja.sijX +1][Pelaaja.sijY] instanceof VisuaalinenObjekti) {
+                            VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[Pelaaja.sijX +1][Pelaaja.sijY];
+                            if (PääIkkuna.tekstiAuki) {
+                                vo.tiedostonNimi = "kassa_vihkoauki.png";
+                            }
+                            else {
+                                vo.tiedostonNimi = "kassa_vihkokiinni.png";
+                            }
+                            vo.päivitäKuvanAsento();
+                        }
+                    }
+                    else if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Pulloautomaatti) {
+                        Pulloautomaatti pulloautomaatti = (Pulloautomaatti)Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
+                        pulloautomaatti.valitseKuvake(pulloautomaatti.tila);
+                    }
+                }
+                catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void lisäPaneliMuutokset() {
+        if (PeliRuutu.lisäRuutuPaneli != null) {
+            if (PeliRuutu.lisäRuutuPaneli.isVisible() && ValintaDialogiRuutu.vasenOsoitin != null) {
+                for (int i = 0; i < ValintaDialogiRuutu.vasenOsoitin.length; i++) {
+                    if (ValintaDialogiRuutu.valintaInt == i) {
+                        ValintaDialogiRuutu.vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/dialogi/osoitin32.png"));
+                    }
+                    else {
+                        ValintaDialogiRuutu.vasenOsoitin[i].setIcon(null);
+                    }
+                }
+            }
+        }
+    }
+
+    // public static void odotaMikrosekunteja(long mikrosekunnit){
+        
+    //     long odotaKunnes = (System.nanoTime() + (mikrosekunnit/2 * 1_000));
+        
+    //     //while(odotaKunnes > System.nanoTime()){
+    //     //    ;
+    //     //}
+    //     LockSupport.parkNanos(odotaKunnes - System.nanoTime());
+    // }
 
     
 
@@ -379,7 +526,6 @@ public class GrafiikkaAikaSäieNopea extends Thread {
                 //Store the last time we rendered.
                 double lastRenderTime = System.nanoTime();
                 while (säieKäynnissä) {
-
                     alkuAika = System.nanoTime();
                     double now = System.nanoTime();
                     int updateCount = 0;
@@ -421,6 +567,8 @@ public class GrafiikkaAikaSäieNopea extends Thread {
                         päivitäPelaajanKuvake();
                         PeliRuutu.päivitäPeliRuutu();
                         PeliRuutu.luoKänniEfekti();
+                        tileMuutokset();
+                        lisäPaneliMuutokset();
                     }
 
                     if (HuoneEditoriIkkuna.vaatiiPäivityksen) {
@@ -432,6 +580,7 @@ public class GrafiikkaAikaSäieNopea extends Thread {
                     if (PääIkkuna.uudelleenpiirräKaikki) {
                         PääIkkuna.pääPaneeli.removeAll();
                         PääIkkuna.pääPaneeli.add(PeliRuutu.luoPeliRuudunGUI());
+                        ikkunanPäivitys = true;
                         PeliRuutu.vaihdaTausta(uusiTausta);
                         PääIkkuna.uudelleenpiirräKaikki = false;
                     }
@@ -497,14 +646,14 @@ public class GrafiikkaAikaSäieNopea extends Thread {
         }
     }
 
-    public void päivitäAjastin(long aiemminKulunutAika) {
+    // public void päivitäAjastin(long aiemminKulunutAika) {
         
-        long odotaKunnes = System.nanoTime() + (10 * 1_000_000) - aiemminKulunutAika;
-        while(odotaKunnes > System.nanoTime()){
-            ;
-        }
-        //LockSupport.parkNanos(odotaKunnes - System.nanoTime());
-    }
+    //     long odotaKunnes = System.nanoTime() + (10 * 1_000_000) - aiemminKulunutAika;
+    //     while(odotaKunnes > System.nanoTime()){
+    //         ;
+    //     }
+    //     //LockSupport.parkNanos(odotaKunnes - System.nanoTime());
+    // }
 
     @Override
     public void run() {
@@ -513,6 +662,7 @@ public class GrafiikkaAikaSäieNopea extends Thread {
         odotusAikaUs = 1_000_000 / PelinAsetukset.tavoiteFPS;
             
         if (!säieKäynnissä) {
+            säieKäynnissä = true;
             peliKentänPäivittäjä.setName("Pelikentän päivittäjä");
             peliKentänPäivittäjä.setPriority(3);
             peliKentänPäivittäjä.run();

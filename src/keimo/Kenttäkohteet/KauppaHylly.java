@@ -12,7 +12,12 @@ public class KauppaHylly extends Kiintopiste {
 
     @Override
     public String kokeileEsinettä(Esine e) {
-        return Pelaaja.lisääOstosKoriin(this.sisältö);
+        if (this.sisältö != null) {
+            return Pelaaja.lisääOstosKoriin(luoSisältö(this.sisältö.annaNimi(), lisäOminaisuudet));
+        }
+        else {
+            return "Tyhjä hylly";
+        }
     }
 
     protected Esine luoSisältö(String esineenNimi, String[] ominaisuusLista) {

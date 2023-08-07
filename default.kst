@@ -603,7 +603,7 @@ Huone 4:
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_9_1+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN];
+        Pikkuvihu_8_1+ominaisuudet:[liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN];
     }
 /Huone
 Huone 5:
@@ -1361,7 +1361,7 @@ Huone 10:
         Tile_9_9+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_3_3+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA];
+        Pikkuvihu_2_3+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA];
     }
 /Huone
 Huone 11:
@@ -3392,7 +3392,7 @@ Huone 25:
         Tile_7_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_7_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3401,8 +3401,8 @@ Huone 25:
         EsteTile_8_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_8_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_8_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3411,8 +3411,8 @@ Huone 25:
         EsteTile_9_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_9_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_9_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_9_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_9_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_9_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_9_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_9_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3550,43 +3550,44 @@ Huone 27:
     #tarina: ;
     #tavoite: ;
     #kenttä: {
+        Jumal Yoda_3_1;
     }
     #maasto: {
         EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_0_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_0_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_0_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_0_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_1_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_1_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_1_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_1_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_1_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_1_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_0+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_2_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_2_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_2_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_2_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_2_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_9+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_3_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_3_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_3_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_3_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_3_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_3_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_3_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3594,20 +3595,20 @@ Huone 27:
         Tile_3_9+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_4_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_4_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_4_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_5_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_5_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_5_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_5_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3617,7 +3618,7 @@ Huone 27:
         Tile_6_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_6_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_6_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_6_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_6_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_6_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_6_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3627,7 +3628,7 @@ Huone 27:
         Tile_7_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_7_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_7_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_7_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_7_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3660,49 +3661,48 @@ Huone 28:
     #nimi: Metsä_1;
     #alue: Metsä;
     #tausta: null;
-    #warp_vasen: ;
+    #warp_vasen: 31;
     #warp_oikea: 29;
     #warp_alas: 27;
     #warp_ylös: 30;
     #tarina: ;
     #tavoite: ;
     #kenttä: {
-        Jumal Yoda_3_2;
     }
     #maasto: {
         EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_0_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_0_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_0_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_0_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_0_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_1_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_1_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_1_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_1_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_1_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_1_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_1_9+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_2_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_2_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_2_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_2_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_2_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_2_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_2_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_3_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_3_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_3_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_3_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_3_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3711,8 +3711,8 @@ Huone 28:
         Tile_3_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_3_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_4_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_4_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_4_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_4_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_4_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_4_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3722,7 +3722,7 @@ Huone 28:
         EsteTile_4_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_5_0+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_5_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_5_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_5_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_5_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -3901,7 +3901,7 @@ Huone 30:
     #warp_alas: 28;
     #warp_ylös: ;
     #tarina: ;
-    #tavoite: Avaa takahuone;
+    #tavoite: ;
     #kenttä: {
         Kuparilager_1_1,
         Kuparilager_1_2,
@@ -4068,6 +4068,123 @@ Huone 30:
         EsteTile_9_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_9_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_9_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+    }
+    #npc: {
+    }
+/Huone
+Huone 31:
+    #nimi: Metsä_3;
+    #alue: Metsä;
+    #tausta: null;
+    #warp_vasen: ;
+    #warp_oikea: 28;
+    #warp_alas: ;
+    #warp_ylös: ;
+    #tarina: ;
+    #tavoite: ;
+    #kenttä: {
+    }
+    #maasto: {
+        EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {

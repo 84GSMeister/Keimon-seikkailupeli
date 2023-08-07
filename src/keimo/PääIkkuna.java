@@ -1,8 +1,9 @@
 package keimo;
 
 import keimo.Ruudut.*;
-import keimo.Ruudut.Lisäruudut.ValintaDialogiIkkuna;
+import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Säikeet.TekstiAjastinSäie;
+import keimo.Dialogi.VuoropuheDialogit;
 import keimo.HuoneEditori.*;
 import keimo.Ikkunat.*;
 
@@ -10,7 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class PääIkkuna {
+public final class PääIkkuna {
 
     public static int ikkunanLeveys = PeliRuutu.esineenKokoPx * Peli.kentänKoko;
     static int ikkunanKorkeus = PeliRuutu.esineenKokoPx * Peli.kentänKoko;
@@ -141,7 +142,7 @@ public class PääIkkuna {
             }
         });
 
-        näytäTapahtumapalkki = new JCheckBoxMenuItem("Näytä tapahtumapalkin teksti");
+        näytäTapahtumapalkki = new JCheckBoxMenuItem("Näytä tapahtumapalkki");
         näytäTapahtumapalkki.setSelected(tapahtumapalkkiNäkyvissä);
         näytäTapahtumapalkki.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -152,9 +153,13 @@ public class PääIkkuna {
         menuF2 = new JMenuItem("F2 Uudelleenpiirrä kaikki");
         menuF2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PääIkkuna.vaatiiPäivityksen = true;
-                PääIkkuna.uudelleenpiirräKaikki = true;
-                PeliRuutu.hudTeksti.setText("Ruudunpäivitys pakotettiin");
+                if (PeliRuutu.peliRuutuPaneli != null) {
+                    if (PeliRuutu.peliRuutuPaneli.isVisible()) {
+                        PääIkkuna.vaatiiPäivityksen = true;
+                        PääIkkuna.uudelleenpiirräKaikki = true;
+                        PeliRuutu.hudTeksti.setText("Ruudunpäivitys pakotettiin");
+                    }
+                }
             }
         });
 
@@ -359,7 +364,7 @@ public class PääIkkuna {
             VuoropuheDialogit.siirrySeuraavaanDialogiRuutuun(VuoropuheDialogit.dialoginPituus - dialogiaJäljellä + 1);
         }
         else if (valintaTulossa != null) {
-            ValintaDialogiIkkuna.luoValintaDialogiIkkuna(valintaTulossa);
+            ValintaDialogiRuutu.luoValintaDialogiIkkuna(valintaTulossa);
             valintaTulossa = null;
         }
         else {
@@ -405,11 +410,11 @@ public class PääIkkuna {
     static void näytäTapahtumapalkki() {
         if (!tapahtumapalkkiNäkyvissä) {
             tapahtumapalkkiNäkyvissä = true;
-            PeliRuutu.hudTeksti.setVisible(true);
+            PeliRuutu.alaPaneeli.setVisible(true);
         }
         else {
             tapahtumapalkkiNäkyvissä = false;
-            PeliRuutu.hudTeksti.setVisible(false);
+            PeliRuutu.alaPaneeli.setVisible(false);
         }
     }
 

@@ -143,6 +143,15 @@ public class ÄänentoistamisSäie extends Thread {
             case "pikkuvihu_damage":
                 ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/pikkuvihu_damage.mp3").toURI().toString()));
             break;
+            case "woof":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/woof.wav").toURI().toString()));
+            break;
+            case "oven_avaus":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/risitas.wav").toURI().toString()));
+            break;
+            case "oven_sulkeminen":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/ovi_kiinni.wav").toURI().toString()));
+            break;
 
             case "tölkki":
                 List<String> tölkkiÄäniLista = Stream.of(new File("tiedostot/äänet/tölkki").listFiles())

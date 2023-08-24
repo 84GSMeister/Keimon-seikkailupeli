@@ -13,12 +13,15 @@ import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Säikeet.*;
 import keimo.Ikkunat.*;
 import keimo.HuoneEditori.*;
+import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
+import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
 
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.PrintWriter;
@@ -83,10 +86,9 @@ public class Peli {
     }
 
     static GrafiikanPäivitysSäie grafiikkaThread = new GrafiikanPäivitysSäie();
-    static AikaSäie aikaThread = new AikaSäie();
+    static PeliSäie aikaThread = new PeliSäie();
     public static ÄänentoistamisSäie ääniThread = new ÄänentoistamisSäie();
     static GrafiikkaAikaSäieNopea gaThread = new GrafiikkaAikaSäieNopea();
-    static TekstiAjastinSäie tekstiaikaThread = new TekstiAjastinSäie();
 
     static int NPCidenMäärä;
     public static int annaNPCidenMäärä() {
@@ -96,7 +98,7 @@ public class Peli {
         NPCidenMäärä++;
         npcLista.add(npc);
     }
-    public static ArrayList<NPC> npcLista = new ArrayList<NPC>();
+    public static List<NPC> npcLista = Collections.synchronizedList(new ArrayList<NPC>());
 
     /**
      * Poimii esineen kentältä tavaraluetteloon.
@@ -846,9 +848,11 @@ public class Peli {
     }
 
     static void siirryTarinaRuutuun(String tarina) {
-        TavoiteLista.suoritaPääTavoite(0);
+        if (tarina.startsWith("koti")) {
+            TavoiteLista.suoritaPääTavoite(0);
+        }
         Peli.pause = true;
-        PääIkkuna.lataaTarinaRuutu("koti");
+        PääIkkuna.lataaTarinaRuutu(tarina);
         TarinaRuutu.tarinaPaneli.requestFocus();
     }
 
@@ -886,7 +890,6 @@ public class Peli {
         grafiikkaThread.stop();
         ääniThread.stop();
         aikaThread.stop();
-        tekstiaikaThread.stop();
         gaThread.stop();
         TekstinPäivitys.suljeAjastimet();
         globaaliTickit = 0;
@@ -984,10 +987,15 @@ public class Peli {
                 PääIkkuna.hudTeksti.setText("Ladattiin huone " + huone.annaNimi() + " (ID: " + huone.annaId() + ")");
                 PääIkkuna.uudelleenpiirräObjektit = true;
                 if (huoneKartta.get(huoneenId).annaTarinaRuudunLataus()) {
-                    pause = true;
-                    siirryTarinaRuutuun(huoneKartta.get(huoneenId).annaTarinaRuudunTunniste());
-                    huoneKartta.get(huoneenId).tarinaRuudunTunniste = null;
-                    //CustomViestiIkkunat.HuoneenVaihtoDialogi.showDialog("" + huoneKartta.get(huoneenId).tarinaRuudunTunniste);
+                    if (TarinaDialogiLista.tarinaKartta.containsKey(huoneKartta.get(huoneenId).annaTarinaRuudunTunniste())) {
+                        pause = true;
+                        siirryTarinaRuutuun(huoneKartta.get(huoneenId).annaTarinaRuudunTunniste());
+                        huoneKartta.get(huoneenId).tarinaRuudunTunniste = null;
+                        //CustomViestiIkkunat.HuoneenVaihtoDialogi.showDialog("" + huoneKartta.get(huoneenId).tarinaRuudunTunniste);
+                    }
+                    else {
+                        PääIkkuna.avaaDialogi(null, "Tarinapätkää " + huoneKartta.get(huoneenId).annaTarinaRuudunTunniste() + " ei löytynyt", "Virhe!", true);
+                    }
                 }
                 
                 if (PääIkkuna.ikkunanKokoMuutettuEnnenHuoneenLatuasta) {
@@ -997,7 +1005,7 @@ public class Peli {
                 return true;
             }
             else {
-                PääIkkuna.avaaDialogi(null, "Huoneeseen warppaaminen vaatii tavoitteen: " + huoneKartta.get(huoneenId).annaVaaditunTavoitteenTunniste(), "Huone lukittu");
+                PääIkkuna.avaaDialogi(null, "Huoneeseen warppaaminen vaatii tavoitteen: " + huoneKartta.get(huoneenId).annaVaaditunTavoitteenTunniste(), "Huone lukittu", true);
                 return false;
             }
             
@@ -1077,6 +1085,7 @@ public class Peli {
                         // uusiHuone = warp.annaKohdeHuone();
                         // huoneVaihdettava = true;
                         // p.teleport(warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY());
+                        warp.ennenWarppia();
                         tarkistaWarpinTurvallisuus(warp.annaKohdeHuone(), warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY(), true);
                         warp.warpinJälkeen();
                     }
@@ -1191,15 +1200,17 @@ public class Peli {
 
     public Peli() {
         
-        AikaSäie.kulunutAika = 0;
+        PeliSäie.kulunutAika = 0;
         TekstinPäivitys.kulunutAika = 0;
         aikaReferenssi = System.nanoTime();
         peliAloitettu = false;
         peliLäpäisty = false;
         TavoiteLista.luoPääTavoiteLista();
         TavoiteLista.luoTavoiteLista();
+        //TarinaDialogiLista.luoVakioTarinaPätkät();
 
         KenttäKohde.nollaaObjektiId();
+        TarinaPätkä.nollaaTarinaId();
         huoneKartta = HuoneLista.luoVakioHuoneKarttaTiedostosta();
         esineValInt = 0;
         valittuEsine = null;
@@ -1232,12 +1243,10 @@ public class Peli {
 
         grafiikkaThread = new GrafiikanPäivitysSäie();
         grafiikkaThread.setName("Grafiikkasäie");
-        aikaThread = new AikaSäie();
-        aikaThread.setName("Aikasäie");
+        aikaThread = new PeliSäie();
+        aikaThread.setName("Pelisäie");
         ääniThread = new ÄänentoistamisSäie();
         ääniThread.setName("Äänisäie");
-        tekstiaikaThread = new TekstiAjastinSäie();
-        tekstiaikaThread.setName("Tekstiajastinsäie");
         gaThread = new GrafiikkaAikaSäieNopea();
         gaThread.setName("Grafiikka-aikasäie nopea");
 
@@ -1252,13 +1261,6 @@ public class Peli {
             IsoNumeroSäie.luoIsoNumeroSäie();
         }
         ääniThread.start();
-        tekstiaikaThread.start();
         TekstinPäivitys.aloitaAjastimet();
-        System.out.print((char)0x4A);
-        System.out.print((char)0x6F);
-        System.out.print((char)0x6E);
-        System.out.print((char)0x74);
-        System.out.print((char)0x74);
-        System.out.println((char)0x75);
     }
 }

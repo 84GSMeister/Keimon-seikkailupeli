@@ -1,6 +1,7 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
+import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -195,6 +196,8 @@ public class HuoneLista {
             File tiedosto = new File("default.kst");
             String[] huoneetMerkkijonoina;
             int huoneidenMääräTiedostossa = 0;
+            String[] tarinaDialogitMerkkijonoina;
+            int tarinaDialogienMääräTiedostossa = 0;
             Path path = FileSystems.getDefault().getPath(tiedosto.getPath());
             Charset charset = Charset.forName("UTF-8");
             BufferedReader read = Files.newBufferedReader(path, charset);
@@ -209,9 +212,14 @@ public class HuoneLista {
                 if (tarkastettavaRivi.startsWith("Huone ")) {
                     huoneidenMääräTiedostossa++;
                 }
+                else if (tarkastettavaRivi.startsWith("Tarina ")) {
+                    tarinaDialogienMääräTiedostossa++;
+                }
             }
             huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
             huoneidenMääräTiedostossa = 0;
+            tarinaDialogitMerkkijonoina = new String[tarinaDialogienMääräTiedostossa];
+            tarinaDialogienMääräTiedostossa = 0;
             read = Files.newBufferedReader(path, charset);
             tarkastettavaRivi = read.readLine();
             while ((tarkastettavaRivi != null)) {
@@ -226,6 +234,17 @@ public class HuoneLista {
                         tarkastettavaRivi = read.readLine();
                     }
                 }
+                else if (tarkastettavaRivi.startsWith("Tarina ")) {
+                    tarinaDialogienMääräTiedostossa++;
+                    tarinaDialogitMerkkijonoina[tarinaDialogienMääräTiedostossa-1] = "";
+                    while (tarkastettavaRivi != null) {
+                        tarinaDialogitMerkkijonoina[tarinaDialogienMääräTiedostossa-1] += tarkastettavaRivi + "\n";
+                        if (tarkastettavaRivi.startsWith("/Tarina")) {
+                            break;
+                        }
+                        tarkastettavaRivi = read.readLine();
+                    }
+                }
                 else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
                     break;
                 }
@@ -234,6 +253,7 @@ public class HuoneLista {
                 }
             }
             huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
+            TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitMerkkijonoina);
         }
         catch (Exception e) {
             e.printStackTrace();

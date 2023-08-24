@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 public class ReunaWarppiIkkuna {
 
@@ -55,31 +56,39 @@ public class ReunaWarppiIkkuna {
     }
 
     static JComboBox<String> luoHuoneenNimiLista() {
-        int huoneListanKoko = HuoneEditoriIkkuna.huoneKartta.size();
-        int huoneListanSuurin = Collections.max(HuoneEditoriIkkuna.huoneKartta.keySet());
-        huoneidenNimet = new String[huoneListanKoko];
-        int toimivatHuoneet = 0;
-        
-        try {
-            for (int i = 0; i < huoneListanSuurin + 1; i++) {
-                if (Peli.huoneKartta.get(i) == null) {
-                    //System.out.println("Huonetta " + i + " ei löytynyt.");
-                    continue;
+        if (HuoneEditoriIkkuna.huoneKartta != null) {
+            int huoneListanKoko = HuoneEditoriIkkuna.huoneKartta.size();
+            int huoneListanSuurin = Collections.max(HuoneEditoriIkkuna.huoneKartta.keySet());
+            huoneidenNimet = new String[huoneListanKoko];
+            int toimivatHuoneet = 0;
+            
+            try {
+                for (int i = 0; i < huoneListanSuurin + 1; i++) {
+                    if (Peli.huoneKartta.get(i) == null) {
+                        //System.out.println("Huonetta " + i + " ei löytynyt.");
+                        continue;
+                    }
+                    else {
+                        huoneidenNimet[toimivatHuoneet] = HuoneEditoriIkkuna.huoneKartta.get(i).annaNimi() + " (" + HuoneEditoriIkkuna.huoneKartta.get(i).annaId() + ")";
+                        toimivatHuoneIndeksit.add(i);
+                        toimivatHuoneet++;
+                        //System.out.println("Huone " + i + ": " + huoneKartta.get(i).annaNimi() + ", ID: " + huoneKartta.get(i).annaId());
+                    }
                 }
-                else {
-                    huoneidenNimet[toimivatHuoneet] = HuoneEditoriIkkuna.huoneKartta.get(i).annaNimi() + " (" + HuoneEditoriIkkuna.huoneKartta.get(i).annaId() + ")";
-                    toimivatHuoneIndeksit.add(i);
-                    toimivatHuoneet++;
-                    //System.out.println("Huone " + i + ": " + huoneKartta.get(i).annaNimi() + ", ID: " + huoneKartta.get(i).annaId());
-                }
+                huoneValikko = new JComboBox<String>(huoneidenNimet);
             }
-            huoneValikko = new JComboBox<String>(huoneidenNimet);
+            catch (ArrayIndexOutOfBoundsException e) {
+                JOptionPane.showMessageDialog(null, "Virheellinen huonelista.\n\nHäire sovelluksessa.", "Array Index out of Bounds", JOptionPane.ERROR_MESSAGE);
+            }
+            catch (NullPointerException e) {
+                System.out.println("Ohitetaan tyhjät indeksit");
+            }
+            catch (NoSuchElementException e) {
+                JOptionPane.showMessageDialog(null, "Virheellinen huonelista.\n\nHäire sovelluksessa.", "NoSuchElementException", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        catch (ArrayIndexOutOfBoundsException e) {
-            JOptionPane.showMessageDialog(null, "Virheellinen huonelista.\n\nHäire sovelluksessa.", "Array Index out of Bounds", JOptionPane.ERROR_MESSAGE);
-        }
-        catch (NullPointerException e) {
-            System.out.println("Ohitetaan tyhjät indeksit");
+        else {
+            JOptionPane.showMessageDialog(null, "Huonekartta on tyhjä. Kokeile luoda uusi huonekartta.", "Huonekartta null", JOptionPane.ERROR_MESSAGE);
         }
         return huoneValikko;
     }

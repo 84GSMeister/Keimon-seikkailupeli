@@ -19,14 +19,16 @@ public class AsetusIkkuna {
     static int valintojenMäärä = tekstit.length;
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
     static int musiikkiValinta;
-    static JComboBox<Object> musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
+    static JComboBox<Object> musiikkiValikko;
     static int vaikeusAste, tavoiteFPS;
     static JTextField vaikeusasteTekstikenttä, tavoiteFPSTekstikenttä, tavoiteTickrateTekstikenttä;
     static JSlider musaVolyymiSlider, ääniVolyymiSlider;
     static JComboBox<Object> ajoitusValikko = new JComboBox<Object>(PelinAsetukset.AjoitusMuoto.values());
 
-    static final int ikkunanLeveys = 400;
+    static final int ikkunanLeveys = 600;
     static final int ikkunanKorkeus = 295;
+
+    public static String ikkunaTeksti = "Esatukset          ";
 
     public static boolean asetuksetAuki() {
         if (ikkuna == null) {
@@ -124,6 +126,7 @@ public class AsetusIkkuna {
         musiikkiPäälläCheckbox.setToolTipText("Musiikki päällä.");
         paneli.add(musiikkiPäälläCheckbox);
 
+        musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
         musiikkiValikko.setSelectedIndex(PelinAsetukset.musiikkiValinta);
         JLabel teksti2 = new JLabel(tekstit[2], JLabel.TRAILING);
         teksti2.setLabelFor(musiikkiValikko);
@@ -217,7 +220,6 @@ public class AsetusIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ikkuna.setResizable(false);
         ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();

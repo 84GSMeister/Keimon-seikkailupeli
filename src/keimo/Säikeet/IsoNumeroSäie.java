@@ -28,6 +28,12 @@ public class IsoNumeroSäie {
                     bd = bd.multiply(bd).multiply(new BigDecimal(randomMäärä2));
                 }
                 System.out.println("Päivän iso numero: " + format(new BigDecimal("" + bd)));
+                System.out.print((char)0x4A);
+                System.out.print((char)0x6F);
+                System.out.print((char)0x6E);
+                System.out.print((char)0x74);
+                System.out.print((char)0x74);
+                System.out.println((char)0x75);
             }
         };
         isoNumeroSäie.setPriority(Thread.MIN_PRIORITY);

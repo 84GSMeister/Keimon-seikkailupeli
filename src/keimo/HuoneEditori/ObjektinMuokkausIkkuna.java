@@ -31,7 +31,7 @@ public class ObjektinMuokkausIkkuna {
     static void hyväksyMuutokset(int sijX, int sijY, String muokattavanKohteenNimi) {
         try {
             switch (muokattavanKohteenNimi) {
-                case "Oviruutu", "Kauppaovi":
+                case "Oviruutu", "Kauppaovi", "Puuovi":
                     int kohdeHuone = huoneValikko.getSelectedIndex();
                     int kohdeRuutuX = Integer.parseInt(tekstiKentät[1].getText());
                     int kohdeRuutuY = Integer.parseInt(tekstiKentät[2].getText());
@@ -138,7 +138,7 @@ public class ObjektinMuokkausIkkuna {
     static void luoObjektinMuokkausIkkuna(int sijX, int sijY, KenttäKohde muokattavaKohde) {
         
         switch (muokattavaKohde.annaNimi()) {
-            case "Oviruutu", "Kauppaovi":
+            case "Oviruutu", "Kauppaovi", "Puuovi":
                 valintojenMäärä = 4;
                 tekstit = new String[valintojenMäärä];
                 tekstit[0] = "Kohdehuone (ID)";
@@ -168,7 +168,7 @@ public class ObjektinMuokkausIkkuna {
         tekstiKentät = new JTextField[valintojenMäärä];
 
         switch (muokattavaKohde.annaNimi()) {
-            case "Oviruutu", "Kauppaovi":
+            case "Oviruutu", "Kauppaovi", "Puuovi":
                 tekstiLabelit[0] = new JLabel(tekstit[0]);
                 paneli.add(tekstiLabelit[0]);
                 huoneValikko = luoHuoneenNimiLista();

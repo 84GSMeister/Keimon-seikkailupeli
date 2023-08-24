@@ -868,7 +868,7 @@ Huone 7:
     #tavoite: ;
     #kenttä: {
         Oviruutu_3_0+ominaisuudet:[kohdehuone=10,kohderuutuX=1,kohderuutuY=9,suunta=YLÖS],
-        Oviruutu_7_2+ominaisuudet:[kohdehuone=8,kohderuutuX=2,kohderuutuY=9,suunta=YLÖS],
+        Puuovi_7_1+ominaisuudet:[kohdehuone=8,kohderuutuX=2,kohderuutuY=9,suunta=YLÖS],
         Juhani_9_8;
     }
     #maasto: {
@@ -943,7 +943,7 @@ Huone 7:
         EsteTile_6_8+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_6_9+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_7_0+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_7_1+ominaisuudet:[kuva=yotalo_seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_1+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_2+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_3+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_4+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -987,7 +987,7 @@ Huone 8:
     #tarina: koti;
     #tavoite: ;
     #kenttä: {
-        Oviruutu_2_9+ominaisuudet:[kohdehuone=7,kohderuutuX=7,kohderuutuY=2,suunta=ALAS],
+        Oviruutu_2_9+ominaisuudet:[kohdehuone=7,kohderuutuX=7,kohderuutuY=1,suunta=ALAS],
         Koriste-esine_4_6+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Koriste-esine_5_6+ominaisuudet:[kuva=pöytä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Koriste-esine_6_6+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
@@ -1489,7 +1489,7 @@ Huone 11:
 /Huone
 Huone 12:
     #nimi: Kauppa_piha;
-    #alue: Kauppa;
+    #alue: Pelto;
     #tausta: tausta_kauppa_piha.png;
     #warp_vasen: ;
     #warp_oikea: 24;
@@ -3190,7 +3190,7 @@ Huone 23:
 /Huone
 Huone 24:
     #nimi: Kauppa_parkkipaikka;
-    #alue: Kauppa;
+    #alue: Pelto;
     #tausta: null;
     #warp_vasen: 12;
     #warp_oikea: ;
@@ -3901,7 +3901,7 @@ Huone 30:
     #warp_alas: 28;
     #warp_ylös: ;
     #tarina: ;
-    #tavoite: ;
+    #tavoite: Avaa takahuone;
     #kenttä: {
         Kuparilager_1_1,
         Kuparilager_1_2,
@@ -4190,5 +4190,25 @@ Huone 31:
     #npc: {
     }
 /Huone
+Tarina 0:
+    #nimi: alku;
+    #pituus: 3;
+    #sivut: {
+        kuva 0: tiedostot/kuvat/tarina/alku/tarina_alku_1.png;
+        teksti 0: <html><p>Keimo herää auringon säteiden aiheuttamaan kipuun. Nämä normaalisti harmittomat luonnonilmiöt olivat päättäneet, että juuri Keimon tulisi kärsiä seuraamuksia eilispäivän nautinnosta. Yksikään kuolevainen ei ole kokenut yhtä murhaavaa krapulaa, kuin sitä, joka yritti paraikaa pitää Keimon maassa. Keimo ei kuitenkaan ollut tavallinen kuolevainen, ja hän kykeni yli-inhimillisellä tahdonvoimallaan avaamaan silmänsä ja katsomaan ympärilleen. </p></html>;
+        kuva 1: tiedostot/kuvat/tarina/alku/tarina_alku_2.gif;
+        teksti 1: <html><p>Valonsäteet jatkoivat Keimon kiusaamista myös sen jälkeen, kun hän oli saanut silmänsä auki. Säteet eivät tuoneet hänen verkkokalvoilleen kuvia, joita hän olisi tunnistanut. Sen sijaan Keimon verkkokalvot täyttyivät kuvista, jotka olisivat tuhonneet heikomman mielen.</p></html>;
+        kuva 2: tiedostot/kuvat/tarina/alku/tarina_alku_3.png;
+        teksti 2: <html><p>Puisto on autioitunut tavallisista ihmisistä.<br>Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä.<br>Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria.<br>Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme.<br><br>Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut?<br>Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin!</p></html>;
+    }
+/Tarina
+Tarina 1:
+    #nimi: koti;
+    #pituus: 1;
+    #sivut: {
+        kuva 0: tiedostot/kuvat/tarina/koti/tarina_koti.png;
+        teksti 0: <html><p>Keimo saapuu kotiin ja huomaa kaikkien tavaroiden olevan levällään.<br>Koti on täydellisessä kaaoksessa.<br>Näyttää siltä kuin joku olisi murtautunut Keimon kotiin ja penkonut tavaroita.<br><br>Kuka täällä on käynyt ja mitä hän haluaa?<br>Parasta napata jotain kättä pidempää ja lähteä selvittämään asiaa.<br></p></html>;
+    }
+/Tarina
 
 </KEIMO>

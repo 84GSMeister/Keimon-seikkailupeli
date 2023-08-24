@@ -104,7 +104,12 @@ public class HuoneenLuontiIkkuna {
             teksti.setLabelFor(tekstiKentät[i]);
             paneli.add(tekstiKentät[i]);
         }
-        tekstiKentät[0].setText("" + Peli.huoneKartta.size());
+        if (Peli.huoneKartta != null) {
+            tekstiKentät[0].setText("" + Peli.huoneKartta.size());
+        }
+        else {
+            tekstiKentät[0].setText("" + 0);
+        }
         tekstiKentät[0].setToolTipText("ID:tä käytetään warppaamiseen huoneiden välillä");
         tekstiKentät[1].setText("");
         tekstiKentät[1].setToolTipText("Ei pakollinen");
@@ -122,10 +127,14 @@ public class HuoneenLuontiIkkuna {
         okNappi.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
                 if (!SwingUtilities.isRightMouseButton(e)) {
-                    HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäReunawarppienTiedot(asetettavaWarpVasen, asetettavaWarpVasenHuoneId, asetettavaWarpOikea, asetettavaWarpOikeaHuoneId, asetettavaWarpAlas, asetettavaWarpAlasHuoneId, asetettavaWarpYlös, asetettavaWarpYlösHuoneId);
-                    if (tarkistaArvot()) {
-                        HuoneEditoriIkkuna.ikkuna.setFocusable(true);
-                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, suunta, true, huoneenId);
+                    if (HuoneEditoriIkkuna.huoneKartta != null) {
+                        if (HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone) != null) {
+                            HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäReunawarppienTiedot(asetettavaWarpVasen, asetettavaWarpVasenHuoneId, asetettavaWarpOikea, asetettavaWarpOikeaHuoneId, asetettavaWarpAlas, asetettavaWarpAlasHuoneId, asetettavaWarpYlös, asetettavaWarpYlösHuoneId);
+                            if (tarkistaArvot()) {
+                                HuoneEditoriIkkuna.ikkuna.setFocusable(true);
+                                ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, suunta, true, huoneenId);
+                            }
+                        }
                     }
                 }
             }
@@ -152,7 +161,6 @@ public class HuoneenLuontiIkkuna {
         ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
-        ikkuna.setAlwaysOnTop(true);
         ikkuna.setLocationRelativeTo(null);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();

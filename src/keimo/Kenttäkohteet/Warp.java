@@ -40,6 +40,10 @@ public abstract class Warp extends KenttäKohde {
         this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
     }
 
+    public void ennenWarppia() {
+
+    }
+
     public void warpinJälkeen() {
 
     }

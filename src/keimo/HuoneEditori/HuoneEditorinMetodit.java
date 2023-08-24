@@ -1,6 +1,8 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
+import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
+import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
@@ -13,7 +15,7 @@ import java.util.Scanner;
 
 public class HuoneEditorinMetodit {
     
-    static HashMap<Integer, Huone> luoHuoneKarttaMerkkijonosta(String[] merkkijonot) {
+    static HashMap<Integer, Huone> luoHuoneKarttaMerkkijonosta(String[] huoneMerkkijonot) {
         HashMap<Integer, Huone> uusiHuoneKartta = new HashMap<Integer, Huone>();
         int uusiHuoneenId = 0;
         String uusiHuoneenNimi = "";
@@ -52,7 +54,9 @@ public class HuoneEditorinMetodit {
 
         int rivejäTarkastettu = 0;
         try {
-            for (String s : merkkijonot) {
+            KenttäKohde.nollaaObjektiId();
+            TarinaPätkä.nollaaTarinaId();
+            for (String s : huoneMerkkijonot) {
                 Scanner sc = new Scanner(s);
                 while (sc.hasNextLine()) {
                     String tarkastettavaRivi = sc.nextLine();
@@ -355,6 +359,81 @@ public class HuoneEditorinMetodit {
         return uusiHuoneKartta;
     }
 
+    static HashMap<String, TarinaPätkä> luoTarinaKarttaMerkkijonosta(String[] tarinaMerkkijonot) {
+        
+        HashMap<String, TarinaPätkä> uusiTarinaKartta = new HashMap<>();
+
+        TarinaDialogiLista.tarinaKartta.clear();
+        int uusiTarinanId = 0;
+        String uusiTarinanNimi = "";
+        int uusiTarinanPituus = 0;
+        ImageIcon[] uudetTarinaPätkänKuvat = new ImageIcon[uusiTarinanPituus];
+        String[] uudetTarinaPätkänKuvatiedostot = new String[uusiTarinanPituus];
+        String[] uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
+        boolean vaihdaRiviä = true;
+
+        int rivejäTarkastettu = 0;
+
+        try {
+            for (String s : tarinaMerkkijonot) {
+                Scanner sc = new Scanner(s);
+                while (sc.hasNextLine()) {
+                    String tarkastettavaRivi = "";
+                    //if (vaihdaRiviä) {
+                        tarkastettavaRivi = sc.nextLine();
+                        rivejäTarkastettu++;
+                    //}
+                    rivejäTarkastettu++;
+                    if (tarkastettavaRivi.startsWith("Tarina")) {
+                        uusiTarinanId = Integer.parseInt(tarkastettavaRivi.substring(7, tarkastettavaRivi.length() -1));
+                        //vaihdaRiviä = true;
+                    }
+                    else if (tarkastettavaRivi.contains("#nimi:")) {
+                        uusiTarinanNimi = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
+                        //vaihdaRiviä = true;
+                    }
+                    else if (tarkastettavaRivi.contains("#pituus:")) {
+                        uusiTarinanPituus = Integer.parseInt(tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1));
+                        //vaihdaRiviä = true;
+                    }
+                    else if (tarkastettavaRivi.contains("sivut:")) {
+                        uudetTarinaPätkänKuvat = new ImageIcon[uusiTarinanPituus];
+                        uudetTarinaPätkänKuvatiedostot = new String[uusiTarinanPituus];
+                        uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
+                        for (int i = 0; i < uusiTarinanPituus*2; i++) {
+                            tarkastettavaRivi = sc.nextLine();
+                            rivejäTarkastettu++;
+                            if (tarkastettavaRivi.contains("kuva ")) {
+                                int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kuva ") +5, tarkastettavaRivi.indexOf("kuva ") +6));
+                                uudetTarinaPätkänKuvat[kuvanNumero] = new ImageIcon(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
+                                uudetTarinaPätkänKuvatiedostot[kuvanNumero] = tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1);
+                            }
+                            else if (tarkastettavaRivi.contains("teksti ")) {
+                                int tekstinNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("teksti ") +7, tarkastettavaRivi.indexOf("teksti ") +8));
+                                uudetTarinaPätkänTekstit[tekstinNumero] = tarkastettavaRivi.substring(18, tarkastettavaRivi.length() -1);
+                            }
+                        }
+                        //vaihdaRiviä = false;
+                    }
+                    // else {
+                    //     vaihdaRiviä = true;
+                    // }
+                }
+                uusiTarinaKartta.put(uusiTarinanNimi, new TarinaPätkä(uusiTarinanNimi, uusiTarinanPituus, uudetTarinaPätkänKuvatiedostot, uudetTarinaPätkänKuvat, uudetTarinaPätkänTekstit));
+                sc.close();
+            }
+        }
+        catch (NumberFormatException nfe) {
+            System.out.println("Virheellinen indeksi");
+            nfe.printStackTrace();
+        }
+        catch (Exception e) {
+            System.out.println("Virhe ladatessa tarinaa tiedostosta");
+            e.printStackTrace();
+        }
+        return uusiTarinaKartta;
+    }
+
     static KenttäKohde luoObjektiTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
         return KenttäKohde.luoObjektiTiedoilla(objektinNimi, määritettySijainti, sijX, sijY, ominaisuusLista);
     }
@@ -367,7 +446,7 @@ public class HuoneEditorinMetodit {
         return NPC.luoNPCTiedoilla(npcnNimi, määritettySijainti, sijX, sijY, ominaisuusLista);
     }
 
-    static String luoMerkkijonotHuonekartasta(HashMap<Integer, Huone> huoneKartta) {
+    static String luoMerkkijonotHuonekartasta(HashMap<Integer, Huone> huoneKartta, HashMap<String, TarinaPätkä> tarinaKartta) {
         String kokoTiedostoMerkkijonona = "";
         kokoTiedostoMerkkijonona += "<KEIMO>\n\n";
         String[] huoneetMerkkijonoina = new String[huoneKartta.size()];
@@ -521,6 +600,34 @@ public class HuoneEditorinMetodit {
 
             kokoTiedostoMerkkijonona += huoneetMerkkijonoina[i];
             kokoTiedostoMerkkijonona += "/Huone" + "\n";
+        }
+        String[] tarinaDialogitMerkkijonoina = new String[TarinaDialogiLista.tarinaKartta.size()];
+        Object[] tarinanTunnisteet = tarinaKartta.keySet().toArray();
+        System.out.println(tarinaKartta.keySet().size());
+        for (int i = 0; i < TarinaDialogiLista.tarinaKartta.size(); i++) {
+            tarinaDialogitMerkkijonoina[i] = "";
+            tarinaDialogitMerkkijonoina[i] += "Tarina " + tarinaKartta.get(tarinanTunnisteet[i]).annaId() + ":" + "\n    ";
+            tarinaDialogitMerkkijonoina[i] += "#nimi: " + tarinaKartta.get(tarinanTunnisteet[i]).annaNimi() + ";" + "\n    ";
+            tarinaDialogitMerkkijonoina[i] += "#pituus: " + tarinaKartta.get(tarinanTunnisteet[i]).annaPituus() + ";" + "\n    ";
+            try {
+                tarinaDialogitMerkkijonoina[i] += "#sivut: " + "{\n";
+                TarinaPätkä tp = tarinaKartta.get(tarinanTunnisteet[i]);
+                for (int j = 0; j < tp.annaPituus(); j++) {
+                    tarinaDialogitMerkkijonoina[i] += "        kuva " + j + ": " + tp.annaKuvatiedostot()[j] + ";\n";
+                    tarinaDialogitMerkkijonoina[i] += "        teksti " + j + ": " + tp.annaTekstit()[j] + ";\n";
+                }
+                if (tarinaDialogitMerkkijonoina[i].charAt(tarinaDialogitMerkkijonoina[i].length()-2 ) != '{' && tarinaDialogitMerkkijonoina[i].charAt(tarinaDialogitMerkkijonoina[i].length()-1 ) != '{') {
+                    tarinaDialogitMerkkijonoina[i] = tarinaDialogitMerkkijonoina[i].substring(0, tarinaDialogitMerkkijonoina[i].length()-2);
+                    tarinaDialogitMerkkijonoina[i] +=";\n";
+                }
+                tarinaDialogitMerkkijonoina[i] += "    }\n";
+            }
+            catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Ei voitu tallentaa tarinan sivuja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa tarinaa", JOptionPane.ERROR_MESSAGE);
+                tarinaDialogitMerkkijonoina[i] += "\n    }\n";
+            }
+            kokoTiedostoMerkkijonona += tarinaDialogitMerkkijonoina[i];
+            kokoTiedostoMerkkijonona += "/Tarina" + "\n";
         }
         kokoTiedostoMerkkijonona += "\n</KEIMO>";
         return kokoTiedostoMerkkijonona;

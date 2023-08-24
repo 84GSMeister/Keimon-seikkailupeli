@@ -1,6 +1,19 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.7.2023): 0.8.2
+## Uusin versio (24.8.2023): 0.8.4
+
+### Versio 0.8.4
+
+ - Tarinaedinaeditori: Editorissa voi itse luoda omia tarinapätkiä, määritellä niille sivumäärän, ja asettaa jokaiselle sivulle kuvan ja tekstin. Tarinapätkät tallentuvat kst-tiedostoon huoneiden jälkeen.
+ - Editorin karttatoimintoa parannettu: nyt sitä voi vetää hiirellä ja zoomata
+ - Lisätty Puuovi (kuin tavallinen oviruutu, mutta pitää äänen ja voi vaihtaa kuvaketta avatessa)
+
+### Versio 0.8.3: Keimon nimipäiväpäivitys
+
+ - Minimap (ei toimi vielä kaikkialla, mm. sisätiloissa)
+ - Uusia Udo haukkuu -remixejä
+ - Huoneen metatietojen muokkausta editorissa tehty selkeämmäksi
+ - Velhometsää muutettu hieman sokkelomaisemmaksi
 
 ### Versio 0.8.2
 

@@ -103,7 +103,7 @@ public class CustomViestiIkkunat {
 
     public static class Ohjeet {
         
-        static String viesti = "Kontrollit\n\nNuolet / WASD: Liiku\nSpace: käytä esinettä\n1-5: Vaihda tavarapaikkaa\nE: Poimi\nQ: Pudota\nF: Vuorovaikutus\nZ: Yhdistä\nX: Katso esinettä\nC: Katso kentän kohdetta\nR: Järjestä tavaraluettelo\n\n\nSeuraava Tavoite:\n\n";
+        static String viesti = "Kontrollit:\n\nNuolet / WASD: Liiku\nSpace: käytä esinettä\n1-6: Vaihda tavarapaikkaa\nE: Poimi / Vuorovaikutus\nQ: Pudota\nZ: Yhdistä\nX: Katso esinettä\n\nLisäkontrollit (näitä ei tarvitse pelissä):\n\nR: Järjestä tavaraluettelo\nF: Vuorovaikutus (kuten E, mutta ei poimi esineitä)\nC: Katso kentän kohdetta (Kuten E/F, mutta ei käytä esinettä)\n\n\nSeuraava Tavoite:\n\n";
         static String otsikko = "Ohjeet";
         static int valitaTyyppi = JOptionPane.OK_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;

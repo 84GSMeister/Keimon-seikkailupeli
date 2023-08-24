@@ -15,6 +15,12 @@ public class JumalYoda extends NPC_KenttäKohde {
     }
 
     @Override
+    public String katso() {
+        this.näytäDialogi(null);
+        return katsomisTeksti;
+    }
+
+    @Override
     public void näytäDialogi(Esine e) {
         if (TavoiteLista.tavoiteLista.get("Löydä Jumal Yoda")) {
             super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/yoda.png");

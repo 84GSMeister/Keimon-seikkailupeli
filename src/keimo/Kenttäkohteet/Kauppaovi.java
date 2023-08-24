@@ -80,7 +80,7 @@ public class Kauppaovi extends Warp {
         }
         if (tuotteidenNimet.length() > 0) {
             tuotteidenNimet = tuotteidenNimet.substring(0, tuotteidenNimet.length()-2);
-            PääIkkuna.avaaDialogi(null, "Juoksit onnistuneesti kaupasta: " + tuotteidenNimet, "Juoksukalja", true);
+            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + tuotteidenNimet + "</p></html>", "Juoksukalja", true);
         }
         Pelaaja.tyhjennäOstoskori();
     }

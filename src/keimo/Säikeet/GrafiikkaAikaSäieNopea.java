@@ -2,6 +2,7 @@ package keimo.Säikeet;
 
 import keimo.*;
 import keimo.HuoneEditori.*;
+import keimo.Ikkunat.AsetusIkkuna;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.KauppaRuutu;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
@@ -506,6 +507,16 @@ public class GrafiikkaAikaSäieNopea extends Thread {
     //     LockSupport.parkNanos(odotaKunnes - System.nanoTime());
     // }
 
+    protected void scrollaaDialogiTeksti() {
+        if (PääIkkuna.tekstiAuki) {
+            if (PääIkkuna.tekstiäJäljellä > 0) {
+                String tulostettavaTeksti = PääIkkuna.dialogiTeksti.substring(0, PääIkkuna.dialogiTeksti.length()-PääIkkuna.tekstiäJäljellä +1);
+                PeliRuutu.vuoropuheTeksti.setText(tulostettavaTeksti);
+                PääIkkuna.tekstiäJäljellä--;
+            }
+        }
+    }
+
     
 
     final JPanel panel = new JPanel();
@@ -545,12 +556,31 @@ public class GrafiikkaAikaSäieNopea extends Thread {
 
                     Peli.globaaliTickit++;
                 
-                    if (Peli.peliKäynnissä && !Peli.pause) {
-                        Peli.pelaajanLiike();
-                        Peli.pelinKulku();
-                        PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
+                    if (Peli.peliKäynnissä) {
+                        if (!Peli.pause) {
+                            Peli.pelaajanLiike();
+                            Peli.pelinKulku();
+                            PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
+                            if (Peli.globaaliTickit % 2 == 0) {
+                                PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
+                            }
+                            if (Peli.globaaliTickit % 10 == 0) {
+                                PeliKenttäMetodit.suoritaPelikenttäMetoditJoka10Tick();
+                            }
+                            if (Peli.globaaliTickit % 120 == 0) {
+                                //ÄänentoistamisSäie.asetaMusatoistimenSijainti(2000);
+                            }
+                        }
                         if (Peli.globaaliTickit % 2 == 0) {
-                            PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
+                            scrollaaDialogiTeksti();
+                        }
+                        if (Peli.globaaliTickit % 5 == 0) {
+                            String muuttuvaMerkki = "" + AsetusIkkuna.ikkunaTeksti.charAt(0);
+                            AsetusIkkuna.ikkunaTeksti = AsetusIkkuna.ikkunaTeksti.substring(1) + muuttuvaMerkki;
+                            //PääIkkuna.ikkuna.setTitle(ikkunaTeksti);
+                            if (AsetusIkkuna.ikkuna != null) {
+                                AsetusIkkuna.ikkuna.setTitle(AsetusIkkuna.ikkunaTeksti);
+                            }
                         }
                     }
 

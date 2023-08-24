@@ -233,49 +233,51 @@ public class PeliKenttäMetodit {
 
     public static void tarkistaVihollisCollision() {
         boolean pelaajanKohdallaVihollinen = false;
-        if (Peli.npcLista != null) {
-            for (NPC npc : Peli.npcLista) {
-                if (npc instanceof Vihollinen) {
-                    Vihollinen vihollinen = (Vihollinen)npc;
-                    if (!vihollinen.onkoKukistettu()) {
-                        vihollinen.valitseKuvake();
-                        if (Pelaaja.hitbox.intersects(vihollinen.hitbox)) {
-                            pelaajanKohdallaVihollinen = true;
-                            Pelaaja.viimeisinOsunutVihollinen = vihollinen;
-                            System.out.println("collision - pelaaja: " + Pelaaja.hitbox.getMinX() + " - " + Pelaaja.hitbox.getMaxX() + ", " + Pelaaja.hitbox.getMinY() + " - " + Pelaaja.hitbox.getMaxY()  + ", vihollinen: " + vihollinen.hitbox.getMinX() + " - " + vihollinen.hitbox.getMaxX() + ", " + vihollinen.hitbox.getMinY() + " - " + vihollinen.hitbox.getMaxY());
-                            if (Pelaaja.reaktioAika <= 0) {
-                                if (Pelaaja.kuolemattomuusAika <= 0) {
-                                    if (Pelaaja.esineet[Peli.esineValInt] instanceof Kilpi && vihollinen.kilpiTehoaa) {
+        try {
+            if (Peli.npcLista != null) {
+                for (NPC npc : Peli.npcLista) {
+                    if (npc instanceof Vihollinen) {
+                        Vihollinen vihollinen = (Vihollinen)npc;
+                        if (!vihollinen.onkoKukistettu()) {
+                            vihollinen.valitseKuvake();
+                            if (Pelaaja.hitbox.intersects(vihollinen.hitbox)) {
+                                pelaajanKohdallaVihollinen = true;
+                                Pelaaja.viimeisinOsunutVihollinen = vihollinen;
+                                System.out.println("collision - pelaaja: " + Pelaaja.hitbox.getMinX() + " - " + Pelaaja.hitbox.getMaxX() + ", " + Pelaaja.hitbox.getMinY() + " - " + Pelaaja.hitbox.getMaxY()  + ", vihollinen: " + vihollinen.hitbox.getMinX() + " - " + vihollinen.hitbox.getMaxX() + ", " + vihollinen.hitbox.getMinY() + " - " + vihollinen.hitbox.getMaxY());
+                                if (Pelaaja.reaktioAika <= 0) {
+                                    if (Pelaaja.kuolemattomuusAika <= 0) {
+                                        if (Pelaaja.esineet[Peli.esineValInt] instanceof Kilpi && vihollinen.kilpiTehoaa) {
 
-                                    }
-                                    else {
-                                        if (Pelaaja.viimeisinOsunutVihollinen instanceof Pikkuvihu) {
-                                            if (TarkistettavatArvot.lyödytVihut > 0) {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY;
-                                            }
-                                            else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY;
-                                            }
-                                            else {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN;
-                                            }
                                         }
-                                        else if (Pelaaja.viimeisinOsunutVihollinen instanceof Pahavihu) {
-                                            if (TarkistettavatArvot.lyödytVihut > 0) {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY;
+                                        else {
+                                            if (Pelaaja.viimeisinOsunutVihollinen instanceof Pikkuvihu) {
+                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY;
+                                                }
+                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY;
+                                                }
+                                                else {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN;
+                                                }
                                             }
-                                            else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY;
+                                            else if (Pelaaja.viimeisinOsunutVihollinen instanceof Pahavihu) {
+                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY;
+                                                }
+                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY;
+                                                }
+                                                else {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN;
+                                                }
                                             }
-                                            else {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN;
+                                            else if (Pelaaja.viimeisinOsunutVihollinen instanceof Vartija) {
+                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.VARTIJA;
                                             }
-                                        }
-                                        else if (Pelaaja.viimeisinOsunutVihollinen instanceof Vartija) {
-                                            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.VARTIJA;
-                                        }
-                                        if (vihollinen.tekeeVahinkoa) {
-                                            Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
+                                            if (vihollinen.tekeeVahinkoa) {
+                                                Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
+                                            }
                                         }
                                     }
                                 }
@@ -283,30 +285,34 @@ public class PeliKenttäMetodit {
                         }
                     }
                 }
-            }
-            if (pelaajanKohdallaVihollinen) {
-                Pelaaja.vähennäReaktioAikaa();
-            }
-            int leikkaavatVihollisHitboxit = 0;
-            for (NPC npc : Peli.npcLista) {
-                if (npc instanceof Vihollinen) {
-                    Vihollinen vihollinen = (Vihollinen)npc;
-                    if (Pelaaja.hitbox.intersects(vihollinen.hitbox)) {
-                        leikkaavatVihollisHitboxit++;
-                        Pelaaja.vihollisenKohdalla = true;
-                        Pelaaja.vihollinenKohdalla = vihollinen;
+                if (pelaajanKohdallaVihollinen) {
+                    Pelaaja.vähennäReaktioAikaa();
+                }
+                int leikkaavatVihollisHitboxit = 0;
+                for (NPC npc : Peli.npcLista) {
+                    if (npc instanceof Vihollinen) {
+                        Vihollinen vihollinen = (Vihollinen)npc;
+                        if (Pelaaja.hitbox.intersects(vihollinen.hitbox)) {
+                            leikkaavatVihollisHitboxit++;
+                            Pelaaja.vihollisenKohdalla = true;
+                            Pelaaja.vihollinenKohdalla = vihollinen;
+                        }
                     }
                 }
+                if (leikkaavatVihollisHitboxit == 0) {
+                    pelaajanKohdallaVihollinen = false;
+                    Pelaaja.reaktioAika = 8;
+                    Pelaaja.vihollisenKohdalla = false;
+                    Pelaaja.vihollinenKohdalla = null;
+                }
+                else {
+                    pelaajanKohdallaVihollinen = true;
+                }
             }
-            if (leikkaavatVihollisHitboxit == 0) {
-                pelaajanKohdallaVihollinen = false;
-                Pelaaja.reaktioAika = 8;
-                Pelaaja.vihollisenKohdalla = false;
-                Pelaaja.vihollinenKohdalla = null;
-            }
-            else {
-                pelaajanKohdallaVihollinen = true;
-            }
+        }
+        catch (ConcurrentModificationException cme) {
+            System.out.println("Viimeisin collision-tarkistus peruutettiin (konkurrenssi-issue).");
+            //cme.printStackTrace();
         }
     }
 

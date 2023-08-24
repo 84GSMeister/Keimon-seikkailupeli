@@ -40,7 +40,7 @@ public class TekstinPäivitys {
             PeliRuutu.ylätekstiTickrate.setText("Tickrate: " + kaksiDesimaalia.format((1000/GrafiikkaAikaSäieNopea.aikaErotusMs)));
         }
         else {
-            PeliRuutu.ylätekstiTickrate.setText("Tickrate: " + kaksiDesimaalia.format((1000/AikaSäie.aikaErotusMs)));
+            PeliRuutu.ylätekstiTickrate.setText("Tickrate: " + kaksiDesimaalia.format((1000/PeliSäie.aikaErotusMs)));
         }
         PeliRuutu.ylätekstiTicks.setText("Tickejä: " + Peli.globaaliTickit);
     });

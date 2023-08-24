@@ -38,9 +38,9 @@ public class PeliRuutu {
     public static JPanel tekstiPaneli, kontrolliInfoPaneli, tavoiteInfoPaneli, aikaInfoPaneli, debugInfoPaneli, invaPaneli, tavaraPaneli, osoitinPaneli, valitunEsineenNimiPaneli, statsiPaneeli;
     public static JLabel[] esineLabel = new JLabel[Pelaaja.esineet.length];
     public static JLabel osoitinLabel, valitunEsineenNimiLabel;
-    public static JLabel[] kontrolliInfoLabel = new JLabel[10];
+    public static JLabel[] kontrolliInfoLabel = new JLabel[7];
     public static JLabel tavoiteOtsikkoLabel, tavoiteInfoLabel;
-    public static JLabel peliTestiLabel, pelaajaLabel, pelaajanEsineLabel, taustaLabel, alueInfoLabel, minimapLabel;
+    public static JLabel peliTestiLabel, pelaajaLabel, pelaajanEsineLabel, taustaLabel, alueInfoLabel, minimapLabel, pelaajaKartallaLabel;
     public static JLabel tölksKuvakeLabel, tölksMääräLabel, hpKuvakeLabel, hpMääräLabel, rahaKuvakeLabel, rahaMääräLabel;
     static JLabel[][] kenttäKohteenKuvake;
     static JLabel[][] maastoKohteenKuvake;
@@ -233,12 +233,12 @@ public class PeliRuutu {
         kontrolliInfoLabel[4] = new JLabel("Q: Pudota");
         kontrolliInfoLabel[5] = new JLabel("Z: Yhdistä");
         kontrolliInfoLabel[6] = new JLabel("X: Katso esinettä");
-        kontrolliInfoLabel[7] = new JLabel("C: Katso kentän kohdetta");
-        kontrolliInfoLabel[8] = new JLabel("F: Vuorovaikutus");
-        kontrolliInfoLabel[9] = new JLabel("R: Järjestä tavaraluettelo");
+        //kontrolliInfoLabel[7] = new JLabel("C: Katso kentän kohdetta");
+        //kontrolliInfoLabel[8] = new JLabel("F: Vuorovaikutus");
+        //kontrolliInfoLabel[9] = new JLabel("R: Järjestä tavaraluettelo");
         
         kontrolliInfoPaneli = new JPanel();
-        kontrolliInfoPaneli.setLayout(new GridLayout(10, 1, 10, 10));
+        kontrolliInfoPaneli.setLayout(new GridLayout(kontrolliInfoLabel.length, 1, 10, 10));
         kontrolliInfoPaneli.setBounds(10, 10, 180, 200);
         kontrolliInfoPaneli.setBackground(new Color(210, 210, 210, 255));
         kontrolliInfoPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
@@ -251,14 +251,28 @@ public class PeliRuutu {
         
 
         alueInfoLabel = new JLabel("Alue");
-        //alueInfoLabel.setPreferredSize(new Dimension(PääIkkuna.ikkunanLeveys, 15));
+        alueInfoLabel.setPreferredSize(new Dimension(180, 20));
         alueInfoLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
         alueInfoLabel.setHorizontalAlignment(JLabel.CENTER);
 
         minimapLabel = new JLabel();
         minimapLabel.setIcon(new ImageIcon("tiedostot/kuvat/kartta/kartta_puisto.png"));
         minimapLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        minimapLabel.setBounds(0, 0, 180, 180);
         minimapLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        pelaajaKartallaLabel = new JLabel(new ImageIcon("tiedostot/kuvat/kartta/pelaaja_kartalla.png"));
+        pelaajaKartallaLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        pelaajaKartallaLabel.setBounds(10, 10, 20, 20);
+        pelaajaKartallaLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        JPanel minimapPaneli = new JPanel();
+        minimapPaneli.setLayout(null);
+        minimapPaneli.setPreferredSize(new Dimension(180, 180));
+        minimapPaneli.setBounds(0, 0, 180, 180);
+        
+        minimapPaneli.add(pelaajaKartallaLabel);
+        minimapPaneli.add(minimapLabel);
 
         alueInfoPaneli = new JPanel();
         //alueInfoPaneli.setLayout(new GridLayout(9, 1, 10, 10));
@@ -269,7 +283,7 @@ public class PeliRuutu {
         //tavoiteInfoPaneli.add(tavoiteOtsikkoLabel);
         //tavoiteInfoPaneli.add(tavoiteInfoLabel);
         alueInfoPaneli.add(alueInfoLabel, BorderLayout.NORTH);
-        alueInfoPaneli.add(minimapLabel, BorderLayout.CENTER);
+        alueInfoPaneli.add(minimapPaneli, BorderLayout.CENTER);
         alueInfoPaneli.revalidate();
         alueInfoPaneli.repaint();
 

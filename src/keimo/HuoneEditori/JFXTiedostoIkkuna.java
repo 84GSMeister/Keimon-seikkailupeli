@@ -1,11 +1,6 @@
 package keimo.HuoneEditori;
 
 import java.io.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
@@ -21,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import javafx.stage.FileChooser.ExtensionFilter;
+import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.Maasto;
@@ -30,7 +26,6 @@ public class JFXTiedostoIkkuna {
     public static void launchAvaaTiedosto() {
         // This method is invoked on the EDT thread
         JFXPanel fxPanel = new JFXPanel();
-
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -58,6 +53,8 @@ public class JFXTiedostoIkkuna {
             HuoneEditoriIkkuna.jfxAvattuTiedosto = fileChooser.showOpenDialog(null);
             String[] huoneetMerkkijonoina;
             int huoneidenMääräTiedostossa = 0;
+            String[] tarinaDialogitTiedostossa;
+            int tarinaDialogienMääräTiedostossa = 0;
             Path path = FileSystems.getDefault().getPath(HuoneEditoriIkkuna.jfxAvattuTiedosto.getPath());
             Charset charset = Charset.forName("UTF-8");
             BufferedReader read = Files.newBufferedReader(path, charset);
@@ -72,9 +69,14 @@ public class JFXTiedostoIkkuna {
                 if (tarkastettavaRivi.startsWith("Huone ")) {
                     huoneidenMääräTiedostossa++;
                 }
+                else if (tarkastettavaRivi.startsWith("Tarina ")) {
+                    tarinaDialogienMääräTiedostossa++;
+                }
             }
             huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
             huoneidenMääräTiedostossa = 0;
+            tarinaDialogitTiedostossa = new String[tarinaDialogienMääräTiedostossa];
+            tarinaDialogienMääräTiedostossa = 0;
             read = Files.newBufferedReader(path, charset);
             tarkastettavaRivi = read.readLine();
             while ((tarkastettavaRivi != null)) {
@@ -89,18 +91,33 @@ public class JFXTiedostoIkkuna {
                         tarkastettavaRivi = read.readLine();
                     }
                 }
+                else if (tarkastettavaRivi.startsWith("Tarina ")) {
+                    tarinaDialogienMääräTiedostossa++;
+                    tarinaDialogitTiedostossa[tarinaDialogienMääräTiedostossa-1] = "";
+                    while (tarkastettavaRivi != null) {
+                        tarinaDialogitTiedostossa[tarinaDialogienMääräTiedostossa-1] += tarkastettavaRivi + "\n";
+                        if (tarkastettavaRivi.startsWith("/Tarina")) {
+                            break;
+                        }
+                        tarkastettavaRivi = read.readLine();
+                    }
+                }
                 else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
                     break;
                 }
                 else {
                     tarkastettavaRivi = read.readLine();
                 }
-                System.out.println(tarkastettavaRivi);
+                //System.out.println(tarkastettavaRivi);
             }
-            for (String s : huoneetMerkkijonoina) {
-                System.out.println("huone: " + s);
-            }
+            // for (String s : huoneetMerkkijonoina) {
+            //     System.out.println("huone: " + s);
+            // }
+            // for (String s : tarinaDialogitTiedostossa) {
+            //     System.out.println("tarina: " + s);
+            // }
             HuoneEditoriIkkuna.huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
+            TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitTiedostossa);
             HuoneEditoriIkkuna.lataaHuoneKartasta(HuoneEditoriIkkuna.muokattavaHuone);
             HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
             HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);

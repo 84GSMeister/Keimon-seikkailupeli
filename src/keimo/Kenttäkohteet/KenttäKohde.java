@@ -210,6 +210,10 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Pulloautomaatti(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
 
+            case "Puuovi":
+                luotavaObjekti = new PuuOvi(sijX, sijY, ominaisuusLista);
+                break;
+
             case "Oviruutu":
                 luotavaObjekti = new Oviruutu(sijX, sijY, ominaisuusLista);
                 break;

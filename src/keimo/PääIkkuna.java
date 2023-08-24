@@ -2,13 +2,17 @@ package keimo;
 
 import keimo.Ruudut.*;
 import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
-import keimo.Säikeet.TekstiAjastinSäie;
+import keimo.Säikeet.PeliSäie;
 import keimo.Dialogi.VuoropuheDialogit;
 import keimo.HuoneEditori.*;
 import keimo.Ikkunat.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import javax.swing.*;
 
 public final class PääIkkuna {
@@ -41,6 +45,7 @@ public final class PääIkkuna {
     public static JPanel pääPaneeli;
     public static boolean ikkunanKokoMuutettuEnnenHuoneenLatuasta = false;
     static GraphicsDevice näytöt = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+    public static String lainausmerkki = "";
 
     static void luoPääikkuna() {
         
@@ -54,7 +59,7 @@ public final class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8.2 pre-alpha (21.7.2023)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8.4 pre-alpha (24.8.2023)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -240,6 +245,7 @@ public final class PääIkkuna {
         ikkuna.revalidate();
         ikkuna.repaint();
 
+        lataaLainausmerkki();
     }
     /**
      * Valitse pääpaneelin "tila" eli mikä osa peliä on näkyvissä.
@@ -253,8 +259,15 @@ public final class PääIkkuna {
         PeliRuutu.peliRuutuAktiivinen = false;
         switch (ruutu) {
             case "tarinaruutu":
-                TarinaRuutu.luoTarinaPaneli("alku");
-                pääPaneeli.add(TarinaRuutu.tarinaPaneli, BorderLayout.CENTER);
+                //try {
+                    TarinaRuutu.luoTarinaPaneli("alku");
+                    pääPaneeli.add(TarinaRuutu.tarinaPaneli, BorderLayout.CENTER);
+                //}
+                //catch (NullPointerException npe) {
+                //    JOptionPane.showMessageDialog(null, "Tarinaa ei voitu ladata. Tämä voi johtua vanhentuneesta default.kst -tiedostosta.", "Tarinaa ei löytynyt", JOptionPane.ERROR_MESSAGE);
+                //    ValikkoRuutu.luoValikkoPaneli();
+                //    pääPaneeli.add(ValikkoRuutu.alkuValikkoPaneli, BorderLayout.CENTER);
+                //}
             break;
             case "valikkoruutu":
                 ValikkoRuutu.luoValikkoPaneli();
@@ -285,10 +298,12 @@ public final class PääIkkuna {
     public static int tekstiäJäljellä;
     public static boolean tekstiAuki = false;
 
+    public static String dialogiTeksti = "";
     static String kelattuTeksti = "";
     private static void luoVuoropuheRuutu(Icon kuvake, String teksti, String nimi) {
         kelattuTeksti = teksti;
-        TekstiAjastinSäie.dialogiTeksti = teksti;
+        //TekstiAjastinSäie.dialogiTeksti = teksti;
+        dialogiTeksti = teksti;
         PeliRuutu.vuoropuheKuvake.setIcon(kuvake);
         PeliRuutu.vuoropuheNimi.setText(nimi);
         tekstiäJäljellä = teksti.length();
@@ -421,5 +436,19 @@ public final class PääIkkuna {
     public static ImageIcon valitsePelaajanKuvake() {
         ImageIcon pelaajanKuvake = Pelaaja.kuvake;
         return pelaajanKuvake;
+    }
+
+    public static void lataaLainausmerkki() {
+        try {
+            Scanner sc = new Scanner(new File("tiedostot/tekstit/lainausmerkki.txt"));
+            while (sc.hasNextLine()) {
+                String rivi = sc.nextLine();
+                lainausmerkki = rivi;
+                System.out.println(lainausmerkki);
+            }
+        }
+        catch (FileNotFoundException fne) {
+            fne.printStackTrace();
+        }
     }
 }

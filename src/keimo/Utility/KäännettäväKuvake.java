@@ -268,23 +268,9 @@ public class KäännettäväKuvake implements Icon {
 		}
 
 		if (skaalaus != 64f) {
-			//if (degrees != 0) {
-				//g2.rotate(Math.toRadians(degrees));
-				//if (degrees == 90) {
-					//g2.translate(0, -skaalaus);
-				//}
-				//else if (degrees == 180) {
-					//g2.translate(-skaalaus, -skaalaus);
-				//}
-				//else if (degrees == 270) {
-					//g2.translate(-skaalaus, 0);
-				//}
-			//}
 			g2.scale(skaalaus/64f, skaalaus/64f);
-			//g2.translate(-(skaalaus - 64f)/2, -(skaalaus - 64f)/2);
 			if (peilaus == Peilaus.PEILAA_Y || peilaus == Peilaus.PEILAA_MOLEMMAT) {
 				g2.translate(0, -(skaalaus - 64f));
-				//g2.translate(0, 0);
 				g2.scale(1, 2);
 			}
 			else {

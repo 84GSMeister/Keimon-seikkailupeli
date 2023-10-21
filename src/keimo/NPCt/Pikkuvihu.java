@@ -1,7 +1,6 @@
 package keimo.NPCt;
 
 import keimo.Ruudut.PeliRuutu;
-import keimo.Säikeet.*;
 import keimo.Utility.SkaalattavaKuvake;
 
 import javax.swing.ImageIcon;
@@ -23,7 +22,6 @@ public class Pikkuvihu extends Vihollinen {
     @Override
     public void vahingoita(int määrä) {
         super.vahingoita(määrä);
-        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
     }
 
     public String katso() {
@@ -43,47 +41,41 @@ public class Pikkuvihu extends Vihollinen {
 
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Pikkuvihu";
-            case "genetiivi":
-                return "Pikkuvihun";
-            case "esiivi":
-                return "Pikkuvihuna";
-            case "partitiivi":
-                return "Pikkuvihua";
-            case "translatiivi":
-                return "Pikkuvihuksi";
-            case "inessiivi":
-                return "Pikkuvihussa";
-            case "elatiivi":
-                return "Pikkuvihusta";
-            case "illatiivi":
-                return "Pikkuvihuun";
-            case "adessiivi":
-                return "Pikkuvihulla";
-            case "ablatiivi":
-                return "Pikkuvihulta";
-            case "allatiivi":
-                return "Pikkuvihulle";
-            default:
-                return "Pikkuvihu";
+            case "nominatiivi": return "Pikkuvihu";
+            case "genetiivi": return "Pikkuvihun";
+            case "esiivi": return "Pikkuvihuna";
+            case "partitiivi": return "Pikkuvihua";
+            case "translatiivi": return "Pikkuvihuksi";
+            case "inessiivi": return "Pikkuvihussa";
+            case "elatiivi": return "Pikkuvihusta";
+            case "illatiivi": return "Pikkuvihuun";
+            case "adessiivi": return "Pikkuvihulla";
+            case "ablatiivi": return "Pikkuvihulta";
+            case "allatiivi": return "Pikkuvihulle";
+            default: return "Pikkuvihu";
         }
     }
 
     @Override
     public void valitseKuvake() {
-        switch (this.npcnSuuntaVasenOikea) {
-            case VASEN:
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
-            break;
-            case OIKEA:
-                this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/pikkuvihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
-            break;
+        if (this.hurtAika > 0) {
+            this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_hurt.png");
+        }
+        else {
+            switch (this.suuntaVasenOikea) {
+                case VASEN:
+                    this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
+                break;
+                case OIKEA:
+                    this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/pikkuvihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
+                break;
+            }
         }
     }
 
     public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
+        super.hp = 2;
         super.vahinko = 1;
         super.nopeus = 3;
         super.tekeeVahinkoa = true;

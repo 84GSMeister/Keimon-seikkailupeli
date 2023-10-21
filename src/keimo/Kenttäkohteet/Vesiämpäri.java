@@ -4,7 +4,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Vesiämpäri extends Esine {
+public final class Vesiämpäri extends Esine {
 
     @Override
     public String käytä() {
@@ -15,30 +15,18 @@ public class Vesiämpäri extends Esine {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Vesiämpäri";
-            case "genetiivi":
-                return "Vesiämpärin";
-            case "esiivi":
-                return "Vesiämpärinä";
-            case "partitiivi":
-                return "Vesiämpäriä";
-            case "translatiivi":
-                return "Vesiämpäriksi";
-            case "inessiivi":
-                return "Vesiämpärissä";
-            case "elatiivi":
-                return "Vesiämpäristä";
-            case "illatiivi":
-                return "Vesiämpäriin";
-            case "adessiivi":
-                return "Vesiämpärillä";
-            case "ablatiivi":
-                return "Vesiämpäriltä";
-            case "allatiivi":
-                return "Vesiämpärille";
-            default:
-                return "Vesiämpäri";
+            case "nominatiivi": return "Vesiämpäri";
+            case "genetiivi": return "Vesiämpärin";
+            case "esiivi": return "Vesiämpärinä";
+            case "partitiivi": return "Vesiämpäriä";
+            case "translatiivi": return "Vesiämpäriksi";
+            case "inessiivi": return "Vesiämpärissä";
+            case "elatiivi": return "Vesiämpäristä";
+            case "illatiivi": return "Vesiämpäriin";
+            case "adessiivi": return "Vesiämpärillä";
+            case "ablatiivi": return "Vesiämpäriltä";
+            case "allatiivi": return "Vesiämpärille";
+            default: return "Vesiämpäri";
         }
     }
 
@@ -50,6 +38,7 @@ public class Vesiämpäri extends Esine {
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
         super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+        super.vahinko = 2;
         super.asetaTiedot();
     }
 }

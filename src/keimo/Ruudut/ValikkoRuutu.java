@@ -15,7 +15,10 @@ public class ValikkoRuutu {
     public static JPanel alkuValikkoPaneli = luoValikkoPaneli();
     public static JPanel kortit;
     public static CardLayout alkuvalikonKorttiLayout;
-    static JPanel logoPaneli, välityhjäPaneli, nappiPaneliAlkuvalikko, nappiPaneliAsetukset, nappiPaneliUlompi;
+    static JPanel logoPaneli, välityhjäPaneli;
+    public static JPanel nappiPaneliAlkuvalikko;
+    static JPanel nappiPaneliAsetukset;
+    static JPanel nappiPaneliUlompi;
     static JLabel logo;
     static JLabel aloita, tekijät, huoneEditori, asetukset, lopeta;
     //static JLabel aloitaVasenOsoitin, aloitaOikeaOsoitin, tekijätVasenOsoitin, tekijätOikeaOsoitin, asetuksetVasenOsoitin, asetuksetOikeaOsoitin;
@@ -68,6 +71,12 @@ public class ValikkoRuutu {
                     valintaAsetuksissa = asetustenMäärä-1;
                 }
                 infoLabelAsetukset.setText(infoTekstiAsetukset[valintaAsetuksissa]);
+                if (valintaAsetuksissa == 2) {
+                    infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 10));
+                }
+                else {
+                    infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 15));
+                }
                 päivitäOsoittimenSijaintiAsetuksissa(valintaAsetuksissa);
                 break;
             case "alas":
@@ -76,6 +85,12 @@ public class ValikkoRuutu {
                     valintaAsetuksissa = 0;
                 }
                 infoLabelAsetukset.setText(infoTekstiAsetukset[valintaAsetuksissa]);
+                if (valintaAsetuksissa == 2) {
+                    infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 10));
+                }
+                else {
+                    infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 15));
+                }
                 päivitäOsoittimenSijaintiAsetuksissa(valintaAsetuksissa);
                 break;
             case "enter":
@@ -188,7 +203,7 @@ public class ValikkoRuutu {
                     case 3:
                         if (PelinAsetukset.tavoiteFPS > 1) {
                             PelinAsetukset.tavoiteFPS--;
-                            PelinAsetukset.RUUDUNPÄIVITYS = PelinAsetukset.tavoiteFPS;
+                            //PelinAsetukset.RUUDUNPÄIVITYS = PelinAsetukset.tavoiteFPS;
                         }
                     break;
                     case 4:
@@ -224,7 +239,7 @@ public class ValikkoRuutu {
                     case 3:
                         if (PelinAsetukset.tavoiteFPS < 1000) {
                             PelinAsetukset.tavoiteFPS++;
-                            PelinAsetukset.RUUDUNPÄIVITYS = PelinAsetukset.tavoiteFPS;
+                            //PelinAsetukset.RUUDUNPÄIVITYS = PelinAsetukset.tavoiteFPS;
                         }
                     break;
                     case 4:
@@ -402,14 +417,29 @@ public class ValikkoRuutu {
         infoTekstiAsetukset[1] = "Musiikki päällä";
 
         infoTekstiAsetukset[2] = "<html><p>" +
-        "0 = Udo haukkuu: Running in the 90s" + "<br>" +
-        "1 = Udo haukkuu: Disco Band" + "<br>" +
-        "2 = Udo haukkuu: Kylie" + "<br>" +
-        "3 = Udo haukkuu: Mario 2 theme" + "<br>" +
-        "4 = Udo haukkuu: Nyan Cat" + "<br>" +
-        "5 = Udo haukkuu: Never Gonna Give You Up" + "<br>" +
-        "6 = Udo haukkuu: Super Mario World" + "<br>" +
-        "7 = Udo haukkuu: Wide President theme" + "<br>" +
+        "0 = Udo haukkuu: Running in the 90s (midi)" + "<br>" +
+        "1 = Udo haukkuu: Disco Band (midi)" + "<br>" +
+        "2 = Udo haukkuu: Kylie (BeepBox)" + "<br>" +
+        "3 = Udo haukkuu: Mario 2 theme (midi)" + "<br>" +
+        "4 = Udo haukkuu: Nyan Cat (midi)" + "<br>" +
+        "5 = Udo haukkuu: Never Gonna Give You Up (midi)" + "<br>" +
+        "6 = Udo haukkuu: Super Mario World (midi)" + "<br>" +
+        "7 = Udo haukkuu: Wide President theme (midi)" + "<br>" +
+        "8 = Udo haukkuu: Alice Deejay - Better off Alone" + "<br>" +
+        "9 = Udo haukkuu: Eiffel 65 - Blue" + "<br>" +
+        "10 = Udo haukkuu: Gigi D'Agostino - L'Amour Toujours (Seppo on bi)" + "<br>" +
+        "11 = Udo haukkuu: Gigi D'Agostino - The Riddle" + "<br>" +
+        "12 = Udo haukkuu: Hixxy - Phaze 2 Phaze" + "<br>" +
+        "13 = Udo haukkuu: Knife Party - Bonfire" + "<br>" +
+        "14 = Udo haukkuu: Knife Party - Rage Valley" + "<br>" +
+        "15 = Udo haukkuu: Martin Garrix- Animals" + "<br>" +
+        "16 = Udo haukkuu: Paradisio - Bailando" + "<br>" +
+        "17 = Udo haukkuu: Rollergirl - Geisha Dreams" + "<br>" +
+        "18 = Udo haukkuu: Running in the 90s" + "<br>" +
+        "19 = Udo haukkuu: Sandy Marton - Camel by Camel" + "<br>" +
+        "20 = Udo haukkuu: Sash - Ecuador" + "<br>" +
+        "21 = Udo haukkuu: Scooter - How Much is the Fish" + "<br>" +
+        "22 = Udo haukkuu: TheFatRat - Windfall" + "<br>" +
         "</p></html>";
 
         infoTekstiAsetukset[3] = "<html><p>" +
@@ -436,16 +466,16 @@ public class ValikkoRuutu {
 
         infoLabelAsetukset = new JLabel(infoTekstiAsetukset[0]);
         infoLabelAsetukset.setForeground(Color.white);
-        infoLabelAsetukset.setPreferredSize(new Dimension(380, 300));
-        infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 13));
+        infoLabelAsetukset.setPreferredSize(new Dimension(480, 300));
+        infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 15));
         infoPaneliAsetukset = new JPanel();
         infoPaneliAsetukset.setBackground(Color.black);
         //infoPaneliAsetukset.setBorder(BorderFactory.createLineBorder(Color.green, 1, false));
-        infoPaneliAsetukset.setPreferredSize(new Dimension(400, 300));
+        infoPaneliAsetukset.setPreferredSize(new Dimension(500, 300));
         infoPaneliAsetukset.add(infoLabelAsetukset);
 
         JPanel nappiJaInfoPaneliAsetukset = new JPanel(new BorderLayout());
-        nappiJaInfoPaneliAsetukset.setPreferredSize(new Dimension(1100, 300));
+        nappiJaInfoPaneliAsetukset.setPreferredSize(new Dimension(1200, 300));
         //nappiJaInfoPaneliAsetukset.setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
         nappiJaInfoPaneliAsetukset.add(nappiPaneliAsetukset, BorderLayout.WEST);
         nappiJaInfoPaneliAsetukset.add(infoPaneliAsetukset, BorderLayout.EAST);

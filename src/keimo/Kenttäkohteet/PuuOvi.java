@@ -5,37 +5,25 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class PuuOvi extends Warp {
+public final class PuuOvi extends Warp {
     
-    // @Override
-    // public String annaNimiSijamuodossa(String sijamuoto) {
-    //     switch (sijamuoto) {
-    //         case "nominatiivi":
-    //             return "Oviruutu";
-    //         case "genetiivi":
-    //             return "Oviruudun";
-    //         case "esiivi":
-    //             return "Oviruutuna";
-    //         case "partitiivi":
-    //             return "Oviruutua";
-    //         case "translatiivi":
-    //             return "Oviruuduksi";
-    //         case "inessiivi":
-    //             return "Oviruudussa";
-    //         case "elatiivi":
-    //             return "Oviruudusta";
-    //         case "illatiivi":
-    //             return "Oviruutuun";
-    //         case "adessiivi":
-    //             return "Oviruudulla";
-    //         case "ablatiivi":
-    //             return "Oviruudulta";
-    //         case "allatiivi":
-    //             return "Oviruudulle";
-    //         default:
-    //             return "Oviruutu";
-    //     }
-    // }
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi": return "Oviruutu";
+            case "genetiivi": return "Oviruudun";
+            case "esiivi": return "Oviruutuna";
+            case "partitiivi": return "Oviruutua";
+            case "translatiivi": return "Oviruuduksi";
+            case "inessiivi": return "Oviruudussa";
+            case "elatiivi": return "Oviruudusta";
+            case "illatiivi": return "Oviruutuun";
+            case "adessiivi": return "Oviruudulla";
+            case "ablatiivi": return "Oviruudulta";
+            case "allatiivi": return "Oviruudulle";
+            default: return "Oviruutu";
+        }
+    }
     
     @Override
     public void asetaSuunta(Suunta suunta) {
@@ -74,16 +62,23 @@ public class PuuOvi extends Warp {
     public void ennenWarppia() {
         ÄänentoistamisSäie.toistaSFX("oven_avaus");
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi_avattu.png");
+        ÄänentoistamisSäie.toistaÄäniJono();
         try {
             Thread.sleep(1700);
             ÄänentoistamisSäie.toistaSFX("oven_sulkeminen");
         }
         catch (InterruptedException e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
         finally {
-            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
+           this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
         }
+    }
+
+    @Override
+    public void warpinJälkeen() {
+        ÄänentoistamisSäie.toistaSFX("oven_sulkeminen");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
     }
 
     public PuuOvi(int sijX, int sijY, String[] ominaisuusLista) {

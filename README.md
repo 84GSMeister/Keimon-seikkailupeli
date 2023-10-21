@@ -1,6 +1,18 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (24.8.2023): 0.8.4
+## Uusin versio (21.10.2023): 0.8.5
+
+### Versio 0.8.5
+
+ - Asevihut
+ - Pomo
+ - Vihollisilla on eläpisteet ja aseilla vahinkopisteet (ei enää niin, että ase tappaa vihollisen ensimmäisellä lyönnillä)
+ - NPC:iden tiedot-kohta editorissa näyttää enemmän tietoja (kuten hp, vahinko ja tehoavat aseet)
+ - Viholliset osaa hakea reitin pelaajaa kohti, jos vihollisen liiketavaksi on asetettu "seuraa reittiä"
+ - Muita uusia liiketapoja viholliselle: ympyräliike ja boss-liike
+ - Portit, napit ja vihollistyyppikohtaiset painelaatat
+ - Jälleen uusia Udo haukkuu -remixejä
+ - Latausikkuna
 
 ### Versio 0.8.4
 

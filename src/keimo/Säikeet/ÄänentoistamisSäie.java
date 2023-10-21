@@ -13,9 +13,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import java.util.HashMap;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,7 +29,13 @@ public class ÄänentoistamisSäie extends Thread {
     private static int musaValinta = 0;
     private static Duration musaLoopKohta;
     private static Random r = new Random();
+    protected static Vector<MediaPlayer> ääniJono = new Vector<>();
     public static List<String> musaLista;
+
+    public static void nollaa() {
+        suljeMusiikki();
+        ääniJono.clear();
+    }
 
     void luoMusaKartta() {
         musaLista = Stream.of(new File("tiedostot/musat").listFiles())
@@ -53,7 +60,7 @@ public class ÄänentoistamisSäie extends Thread {
 
     void toistaMusiikkiJFXMediaPlayer() {
         try {
-            suljeMusiikki();
+            nollaa();
             musaValinta = PelinAsetukset.musiikkiValinta;
             musiikkiSoitin = new MediaPlayer(new Media(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString()));
             if (valitseMusanLoopKohta() > 0) {
@@ -72,6 +79,7 @@ public class ÄänentoistamisSäie extends Thread {
             musiikkiSoitin.setVolume(PelinAsetukset.musaVolyymi);
             if (PelinAsetukset.musiikkiPäällä) {
                 musiikkiSoitin.play();
+                //ääniJono.add(musiikkiSoitin);
             }
         }
         catch (NullPointerException e) {
@@ -152,6 +160,18 @@ public class ÄänentoistamisSäie extends Thread {
             case "oven_sulkeminen":
                 ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/ovi_kiinni.wav").toURI().toString()));
             break;
+            case "ammus":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/ammus.wav").toURI().toString()));
+            break;
+            case "frans_cs":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/frans_cs.mp3").toURI().toString()));
+            break;
+            case "nappi":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/nappi.wav").toURI().toString()));
+            break;
+            case "portti":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/portti.wav").toURI().toString()));
+            break;
 
             case "tölkki":
                 List<String> tölkkiÄäniLista = Stream.of(new File("tiedostot/äänet/tölkki").listFiles())
@@ -167,12 +187,49 @@ public class ÄänentoistamisSäie extends Thread {
             case "Pesäpallomaila":
                 ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/vihollinen_mukilointi.mp3").toURI().toString()));
             break;
+            case "Pikkuvihu_damage":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Pikkuvihu_damage.wav").toURI().toString()));
+            break;
+            case "Pahavihu_damage":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Pahavihu_damage.wav").toURI().toString()));
+            break;
+            case "Asevihu_damage":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Asevihu_damage.wav").toURI().toString()));
+            break;
+            case "Pomo_damage":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Boss_damage.wav").toURI().toString()));
+            break;
+            case "Boss_death":
+                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Boss_death.wav").toURI().toString()));
+            break;
             default:
             break;
         }
         if (ääniToistin != null) {
             ääniToistin.setVolume(PelinAsetukset.ääniVolyymi);
-            ääniToistin.play();
+            //ääniToistin.play();
+            if (ääniJono.size() < 10) {
+                ääniJono.add(ääniToistin);
+            }
+        }
+    }
+
+    public static void toistaÄäniJono() {
+        try {
+            //System.out.println("ääniä jonossa: " + ääniJono.size());
+            for (MediaPlayer mp : ääniJono) {
+                mp.setVolume(PelinAsetukset.ääniVolyymi);
+                mp.setOnEndOfMedia(new Runnable() {
+                    @Override
+                    public void run() {
+                        ääniJono.remove(mp);
+                    }
+                });
+                mp.play();
+            }
+        }
+        catch (ConcurrentModificationException cme) {
+            System.out.println("Viimeisin äänentoisto jonosta peruttiin (konkurrenssi-issue)");
         }
     }
 

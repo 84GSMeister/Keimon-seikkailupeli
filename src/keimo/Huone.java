@@ -1,23 +1,20 @@
 package keimo;
-import java.awt.Color;
+
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.*;
+import keimo.NPCt.*;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import keimo.Kenttäkohteet.*;
-import keimo.Maastot.*;
-import keimo.NPCt.*;
-import keimo.Utility.KäännettäväKuvake;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
 
 public class Huone {
     
@@ -149,7 +146,6 @@ public class Huone {
                 for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
                     for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
                         try {
-                            //KäännettäväKuvake kk = new KäännettäväKuvake(annaHuoneenMaastoSisältö()[j][i].annaKuvake(), 0, false, false, 32);
                             if (annaHuoneenMaastoSisältö()[j][i] != null) {
                                 ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
                                 Image img = imgIcon.getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT);
@@ -173,13 +169,6 @@ public class Huone {
                 maastoPaneli = new JPanel();
                 maastoPaneli.setBounds(0, 0, 160, 160);
                 maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
-                // for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
-                //     for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
-                //         ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
-                //         Image img = imgIcon.getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT);
-                //         maastoPaneli.add(new JLabel(new ImageIcon(img)));
-                //     }
-                // }
                 for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
                     for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
                         try {
@@ -187,10 +176,7 @@ public class Huone {
                                 ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
                                 Image img = imgIcon.getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT);
                                 ImageIcon imgIconScaled = new ImageIcon(img);
-                                KäännettäväKuvake kk = new KäännettäväKuvake(imgIconScaled);
                                 JLabel label = new JLabel(imgIconScaled);
-                                //label.setBounds(0, 0, 16, 16);
-                                //label.setBorder(BorderFactory.createLineBorder(Color.red, 1));
                                 maastoPaneli.add(label);
                             }
                             else {

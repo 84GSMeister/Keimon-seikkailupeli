@@ -287,7 +287,6 @@ public class KarttaIkkuna {
                         }
                     }
                 }
-                int kokoKerroin = (kartanLeveys < kartanKorkeus) ? kartanKorkeus : kartanLeveys;
                 paneli.setBounds(0, 0, 640/zoom*kartanLeveys, 640/zoom*kartanKorkeus);
                 if (paneli.getBounds().width+20 < ikkuna.getBounds().width) {
                     ikkuna.setBounds(ikkuna.getBounds().x, ikkuna.getBounds().y, paneli.getBounds().width+20, ikkuna.getBounds().height);

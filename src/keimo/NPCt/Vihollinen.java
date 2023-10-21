@@ -1,6 +1,8 @@
 package keimo.NPCt;
 
+import keimo.Kenttäkohteet.Esine;
 import keimo.PeliKenttäMetodit.PathFindingExample.Point;
+import keimo.Säikeet.ÄänentoistamisSäie;
 
 //import java.awt.Point;
 import java.util.ArrayList;
@@ -12,6 +14,12 @@ public abstract class Vihollinen extends NPC {
     public boolean tekeeVahinkoa = true;
     public ArrayList<String> tehoavatAseet = new ArrayList<String>();
     public boolean kilpiTehoaa = true;
+    public String ominaisHuuto = "";
+    public int liikeMoodi = 0;
+    public int liikeX = 0;
+    public int liikeY = 0;
+    public boolean ampuu = false;
+    public int ammusVahinko = 0;
 
     public enum LiikeTapa {
         LOOP_NELIÖ_MYÖTÄPÄIVÄÄN,
@@ -24,18 +32,23 @@ public abstract class Vihollinen extends NPC {
         YLÖS_ALAS_ESTEESEEN_ASTI,
         SEURAA_PELAAJAA,
         SEURAA_REITTIÄ,
+        BOSS_LIIKE,
+        YMPYRÄLIIKE_MYÖTÄPÄIVÄÄN,
+        YMPYRÄLIIKE_VASTAPÄIVÄÄN,
         STAATTINEN;
     }
     
     public static int liikkeenPituus = 60;
     
     public int liikuVielä = liikkeenPituus;
+    public int aikaaViimeHuudosta = 0;
     public Suunta[] liikeSuuntaLoopNeliöMyötäpäivään = {Suunta.YLÖS, Suunta.OIKEA, Suunta.ALAS, Suunta.VASEN};
     public Suunta[] liikeSuuntaLoopNeliöVastapäivään = {Suunta.YLÖS, Suunta.VASEN, Suunta.ALAS, Suunta.OIKEA};
     public Suunta[] liikeSuuntaLoopVasenOikea = {Suunta.VASEN, Suunta.OIKEA};
     public Suunta[] liikeSuuntaLoopYlösAlas = {Suunta.YLÖS, Suunta.ALAS};
     public int liikeLoopinVaihe = 0;
     public LiikeTapa liikeTapa = LiikeTapa.LOOP_NELIÖ_VASTAPÄIVÄÄN;
+    protected int hurtAika = 0;
 
     public List<Point> reitti;
     public void tulostaReitinKoordinaatit() {
@@ -49,14 +62,34 @@ public abstract class Vihollinen extends NPC {
         return kukistettu;
     }
 
-    public void kukista(String kukistusTapa) {
+    protected void kukista(String kukistusTapa) {
         this.kukistettu = true;
     }
 
-    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
+    public void vahingoita(Esine esine) {
+        this.hp -= esine.annaVahinko();
+        System.out.println(this.annaNimi() + ", hp: " + this.annaHp());
+        if (this.hp <= 0) {
+            this.kukista(esine.annaNimi());
+            ÄänentoistamisSäie.toistaSFX(esine.annaNimi());
+        }
+        else {
+            this.hurtAika = 10;
+            ÄänentoistamisSäie.toistaSFX(this.annaNimi() + "_damage");
+        }
+    }
+
+    public void vähennäHurtAikaa() {
+        if (this.hurtAika > 0) {
+            this.hurtAika--;
+        }
+    }
+
+    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa, SuuntaVasenOikea suunta) {
         this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet = new String[2];
         this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+        this.lisäOminaisuudet[1] = "suunta=" + suunta;
     }
 
     public void valitseKuvake() {
@@ -70,12 +103,16 @@ public abstract class Vihollinen extends NPC {
                 if (ominaisuus.startsWith("liiketapa=")) {
                     this.liikeTapa = LiikeTapa.valueOf(ominaisuus.substring(10));
                 }
+                else if (ominaisuus.startsWith("suunta=")) {
+                    this.suuntaVasenOikea = SuuntaVasenOikea.valueOf(ominaisuus.substring(7));
+                }
             }
         }
         else {
             this.liikeTapa = LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
         }
-        this.lisäOminaisuudet = new String[1];
+        this.lisäOminaisuudet = new String[2];
         this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+        this.lisäOminaisuudet[1] = "suunta=" + suuntaVasenOikea;
     }
 }

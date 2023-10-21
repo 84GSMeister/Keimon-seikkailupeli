@@ -90,7 +90,7 @@ public class ÄmpäriJonoRuutu {
         
             try {
                 for (int i = 0; i < ämpäriJononPituus; i++) {
-                    Peli.pause = true;
+                    Peli.pauseDialogi = true;
                     testPanel.revalidate();
                     testPanel.repaint();
                     publish((double)i);
@@ -138,7 +138,7 @@ public class ÄmpäriJonoRuutu {
                 fLabel.setText( get() );
                 fProgressBar.setValue(0);
                 worker.cancel(true);
-                Peli.pause = false;
+                Peli.pauseDialogi = false;
                 Peli.valintaDialogi = false;
                 PeliRuutu.lisäRuutuPaneli.removeAll();
                 PeliRuutu.lisäRuutuPaneli.revalidate();
@@ -146,10 +146,10 @@ public class ÄmpäriJonoRuutu {
                 PeliRuutu.lisäRuutuPaneli.setVisible(false);
                 if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
                     Pelaaja.annaEsine(new Vesiämpäri(false, 0, 0));
-                    PääIkkuna.avaaDialogi(new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png"), "Sait uuden esineen: Vesiämpäri", "");
+                    PääIkkuna.avaaDialogi(new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png"), "Sait uuden esineen: Vesiämpäri", "Uusi esine");
                 }
                 else {
-                    PääIkkuna.avaaDialogi(null, "Menit jonottamaan ämpäriä, vaikka sinulla ei ole tilaa tavaraluettelossa. Miltä nyt tuntuu?", "");
+                    PääIkkuna.avaaDialogi(new ImageIcon("tiedostot/kuvat/surunaama.png"), "Menit jonottamaan ämpäriä, vaikka sinulla ei ole tilaa tavaraluettelossa. Miltä nyt tuntuu?", "Jonotus epäonnistui");
                 }
             }
             catch ( InterruptedException e ) {

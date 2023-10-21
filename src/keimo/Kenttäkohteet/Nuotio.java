@@ -5,7 +5,7 @@ import keimo.PääIkkuna;
 
 import javax.swing.ImageIcon;
 
-public class Nuotio extends Kiintopiste {
+public final class Nuotio extends Kiintopiste {
     
     private boolean sytyke = false;
     private boolean polttoaine = false;
@@ -142,30 +142,18 @@ public class Nuotio extends Kiintopiste {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Nuotio";
-            case "genetiivi":
-                return "Nuotion";
-            case "esiivi":
-                return "Nuotiona";
-            case "partitiivi":
-                return "Nuotiota";
-            case "translatiivi":
-                return "Nuotioksi";
-            case "inessiivi":
-                return "Nuotiossa";
-            case "elatiivi":
-                return "Nuotiosta";
-            case "illatiivi":
-                return "Nuotioon";
-            case "adessiivi":
-                return "Nuotiolla";
-            case "ablatiivi":
-                return "Nuotiolta";
-            case "allatiivi":
-                return "Nuotiolle";
-            default:
-                return "Nuotio";
+            case "nominatiivi": return "Nuotio";
+            case "genetiivi": return "Nuotion";
+            case "esiivi": return "Nuotiona";
+            case "partitiivi": return "Nuotiota";
+            case "translatiivi": return "Nuotioksi";
+            case "inessiivi": return "Nuotiossa";
+            case "elatiivi": return "Nuotiosta";
+            case "illatiivi": return "Nuotioon";
+            case "adessiivi": return "Nuotiolla";
+            case "ablatiivi": return "Nuotiolta";
+            case "allatiivi": return "Nuotiolle";
+            default: return "Nuotio";
         }
     }
 

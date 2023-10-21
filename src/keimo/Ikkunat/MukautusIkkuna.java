@@ -163,7 +163,7 @@ public class MukautusIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ikkuna.setLocationRelativeTo(null);
+        ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();

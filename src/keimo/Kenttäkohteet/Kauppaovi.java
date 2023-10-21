@@ -73,14 +73,33 @@ public class Kauppaovi extends Warp {
 
     @Override
     public void warpinJälkeen() {
-        String tuotteidenNimet = "";
-        for (Esine ostos : Pelaaja.ostosKori) {
-            Pelaaja.annaEsine(ostos);
-            tuotteidenNimet += ostos.annaNimi() + ", ";
+        String saatujenTuotteidenNimet = "";
+        String pudotettujenTuotteidenNimet = "";
+        int tyhjätPaikat = 0;
+        for (Esine esine : Pelaaja.esineet) {
+            if (esine == null) {
+                tyhjätPaikat++;
+            }
         }
-        if (tuotteidenNimet.length() > 0) {
-            tuotteidenNimet = tuotteidenNimet.substring(0, tuotteidenNimet.length()-2);
-            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + tuotteidenNimet + "</p></html>", "Juoksukalja", true);
+        for (int i = 0; i < tyhjätPaikat; i++) {
+            Pelaaja.annaEsine(Pelaaja.ostosKori.get(i));
+            saatujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
+        }
+        for (int i = tyhjätPaikat; i < Pelaaja.ostosKori.size(); i++) {
+            pudotettujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
+        }
+        if (saatujenTuotteidenNimet.length() > 0 && pudotettujenTuotteidenNimet.length() > 0) {
+            saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
+            pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
+            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ", mutta sinulta putosi: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)", true);
+        }
+        else if (saatujenTuotteidenNimet.length() > 0) {
+            saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
+            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet + "</p></html>", "Juoksukalja", true);
+        }
+        else if (pudotettujenTuotteidenNimet.length() > 0) {
+            pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
+            PääIkkuna.avaaDialogi(null, "<html><p>Sinulta putosi matkalla: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)", true);
         }
         Pelaaja.tyhjennäOstoskori();
     }

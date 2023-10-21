@@ -10,7 +10,7 @@ public class TarinaDialogiLista {
     public static void luoVakioTarinaPätkät() {
         if (tarinaKartta.size() == 0) {
             luoTarina("alku");
-            //luoTarina("koti");
+            luoTarina("koti");
         }
     }
     

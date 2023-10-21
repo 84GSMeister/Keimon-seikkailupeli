@@ -4,7 +4,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Huume extends Ruoka {
+public final class Huume extends Ruoka {
 
     @Override
     public String käytä(){
@@ -15,30 +15,18 @@ public class Huume extends Ruoka {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Huume";
-            case "genetiivi":
-                return "Huumeen";
-            case "esiivi":
-                return "Huumeena";
-            case "partitiivi":
-                return "Huumetta";
-            case "translatiivi":
-                return "Huumeeksi";
-            case "inessiivi":
-                return "Huumeessa";
-            case "elatiivi":
-                return "Huumeesta";
-            case "illatiivi":
-                return "Huumeeseen";
-            case "adessiivi":
-                return "Huumeella";
-            case "ablatiivi":
-                return "Huumeelta";
-            case "allatiivi":
-                return "Huumeelle";
-            default:
-                return "Huume";
+            case "nominatiivi": return "Huume";
+            case "genetiivi": return "Huumeen";
+            case "esiivi": return "Huumeena";
+            case "partitiivi": return "Huumetta";
+            case "translatiivi": return "Huumeeksi";
+            case "inessiivi": return "Huumeessa";
+            case "elatiivi": return "Huumeesta";
+            case "illatiivi": return "Huumeeseen";
+            case "adessiivi": return "Huumeella";
+            case "ablatiivi": return "Huumeelta";
+            case "allatiivi": return "Huumeelle";
+            default: return "Huume";
         }
     }
     

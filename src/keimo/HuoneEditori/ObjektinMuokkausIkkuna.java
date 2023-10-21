@@ -1,6 +1,8 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
+import keimo.HuoneEditori.DialogiEditori.DialogiEditoriIkkuna;
+import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
 import keimo.Ikkunat.*;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
@@ -27,6 +29,7 @@ public class ObjektinMuokkausIkkuna {
     static ArrayList<Integer> toimivatHuoneIndeksit = new ArrayList<Integer>();
     static JComboBox<Suunta> suuntaValinta;
     static JComboBox<String> sisältöValinta;
+    static JTextField triggeriLista;
 
     static void hyväksyMuutokset(int sijX, int sijY, String muokattavanKohteenNimi) {
         try {
@@ -86,6 +89,27 @@ public class ObjektinMuokkausIkkuna {
                     muokkausIkkuna.dispose();
                 break;
 
+                case "Portti":
+                    Portti portti = (Portti)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
+                    String[] pisteet = triggeriLista.getText().split("; ");
+                    portti.tyhjennäTriggerit();
+                    for (String s : pisteet) {
+                        System.out.println(s);
+                        if (s.length() >= 3) {
+                            try {
+                                int x = Integer.parseInt("" + s.charAt(0));
+                                int y = Integer.parseInt("" + s.charAt(2));
+                                portti.lisääTriggeri(x, y);
+                            }
+                            catch (NumberFormatException nfe) {
+                                System.out.println("Virhe parsiessa numeroa");
+                                nfe.printStackTrace();
+                            }
+                        }
+                    }
+                    muokkausIkkuna.dispose();
+                break;
+
                 default:
                     muokkausIkkuna.dispose();
                 break;
@@ -137,60 +161,121 @@ public class ObjektinMuokkausIkkuna {
 
     static void luoObjektinMuokkausIkkuna(int sijX, int sijY, KenttäKohde muokattavaKohde) {
         
-        switch (muokattavaKohde.annaNimi()) {
-            case "Oviruutu", "Kauppaovi", "Puuovi":
+        //switch (muokattavaKohde.annaNimi()) {
+            //case "Oviruutu", "Kauppaovi", "Puuovi":
+            if (muokattavaKohde instanceof Warp) {
                 valintojenMäärä = 4;
                 tekstit = new String[valintojenMäärä];
                 tekstit[0] = "Kohdehuone (ID)";
                 tekstit[1] = "Kohderuudun X-sijainti";
                 tekstit[2] = "Kohderuudun Y-sijainti";
                 tekstit[3] = "Suunta";
-            break;
+            }
+            //break;
 
-            case "Kauppahylly":
+            //case "Kauppahylly":
+            if (muokattavaKohde instanceof Kirstu || muokattavaKohde instanceof KauppaHylly) {
                 valintojenMäärä = 1;
                 tekstit = new String[valintojenMäärä];
                 tekstit[0] = "Valitse sisältö";
-            break;
+            }
+            //break;
 
-            case "Kirstu":
-                valintojenMäärä = 1;
+            if (muokattavaKohde instanceof NPC_KenttäKohde) {
+                valintojenMäärä = 2;
                 tekstit = new String[valintojenMäärä];
-                tekstit[0] = "Valitse sisältö";
-            break;
+                tekstit[0] = "Valitse dialogi";
+                tekstit[1] = "Luo dialogi";
+            }
 
-            default:
-            break;
-        }
+            //case "Kirstu":
+            //    valintojenMäärä = 1;
+            //    tekstit = new String[valintojenMäärä];
+            //    tekstit[0] = "Valitse sisältö";
+            //break;
+
+            //default:
+            //break;
+
+            if (muokattavaKohde instanceof AvattavaEste) {
+                valintojenMäärä = 2;
+                tekstit = new String[valintojenMäärä];
+                tekstit[0] = "Triggerit";
+                tekstit[1] = "Lisää triggeri";
+            }
+        //}
 
         paneli = new JPanel(new SpringLayout());
         tekstiLabelit = new JLabel[valintojenMäärä];
         tekstiKentät = new JTextField[valintojenMäärä];
 
-        switch (muokattavaKohde.annaNimi()) {
-            case "Oviruutu", "Kauppaovi", "Puuovi":
-                tekstiLabelit[0] = new JLabel(tekstit[0]);
-                paneli.add(tekstiLabelit[0]);
-                huoneValikko = luoHuoneenNimiLista();
-                paneli.add(huoneValikko);
-                for (int i = 1; i < 3; i++) {
-                    tekstiLabelit[i] = new JLabel(tekstit[i]);
-                    paneli.add(tekstiLabelit[i]);
-                    tekstiKentät[i] = new JTextField();
-                    paneli.add(tekstiKentät[i]);
-                }
-                Warp oviruutu = (Warp)muokattavaKohde;
-                huoneValikko.setSelectedIndex(oviruutu.annaKohdeHuone());
-                tekstiKentät[1].setText("" + oviruutu.annaKohdeRuutuX());
-                tekstiKentät[2].setText("" + oviruutu.annaKohdeRuutuY());
-                Suunta[] suuntaLista = {Suunta.VASEN, Suunta.OIKEA, Suunta.YLÖS, Suunta.ALAS};
-                suuntaValinta = new JComboBox<Suunta>(suuntaLista);
-                suuntaValinta.setSelectedItem(oviruutu.annaSuunta());
+        if (muokattavaKohde instanceof Warp) {
+            tekstiLabelit[0] = new JLabel(tekstit[0]);
+            paneli.add(tekstiLabelit[0]);
+            huoneValikko = luoHuoneenNimiLista();
+            paneli.add(huoneValikko);
+            for (int i = 1; i < 3; i++) {
+                tekstiLabelit[i] = new JLabel(tekstit[i]);
+                paneli.add(tekstiLabelit[i]);
+                tekstiKentät[i] = new JTextField();
+                paneli.add(tekstiKentät[i]);
+            }
+            Warp oviruutu = (Warp)muokattavaKohde;
+            huoneValikko.setSelectedIndex(oviruutu.annaKohdeHuone());
+            tekstiKentät[1].setText("" + oviruutu.annaKohdeRuutuX());
+            tekstiKentät[2].setText("" + oviruutu.annaKohdeRuutuY());
+            Suunta[] suuntaLista = {Suunta.VASEN, Suunta.OIKEA, Suunta.YLÖS, Suunta.ALAS};
+            suuntaValinta = new JComboBox<Suunta>(suuntaLista);
+            suuntaValinta.setSelectedItem(oviruutu.annaSuunta());
 
-                tekstiLabelit[3] = new JLabel(tekstit[3]);
-                paneli.add(tekstiLabelit[3]);
-                paneli.add(suuntaValinta);
-            break;
+            tekstiLabelit[3] = new JLabel(tekstit[3]);
+            paneli.add(tekstiLabelit[3]);
+            paneli.add(suuntaValinta);
+        }
+
+        if (muokattavaKohde instanceof NPC_KenttäKohde) {
+            tekstiLabelit[0] = new JLabel(tekstit[0]);
+            paneli.add(tekstiLabelit[0]);
+
+            NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)muokattavaKohde;
+            sisältöValinta = new JComboBox<String>(VuoropuheDialogit.vuoropuheDialogiKartta.keySet().toArray(new String[VuoropuheDialogit.vuoropuheDialogiKartta.keySet().size()]));
+            sisältöValinta.setSelectedItem(kenttäNPC.annaDialogi());
+            paneli.add(sisältöValinta);
+
+            tekstiLabelit[1] = new JLabel(tekstit[1]);
+            paneli.add(tekstiLabelit[1]);
+
+            JButton avaaDialogiEditori = new JButton("Avaa dialogieditori");
+            avaaDialogiEditori.addActionListener(e -> DialogiEditoriIkkuna.luoDialogiEditoriIkkuna());
+            paneli.add(avaaDialogiEditori);
+        }
+        if (muokattavaKohde instanceof AvattavaEste) {
+            tekstiLabelit[0] = new JLabel(tekstit[0]);
+            paneli.add(tekstiLabelit[0]);
+
+            AvattavaEste ae = (AvattavaEste)muokattavaKohde;
+            triggeriLista = new JTextField();
+            triggeriLista.setEditable(false);
+            String s = "";
+            for (Point p : ae.annaVaaditutTriggerit()) {
+                s += p.x + "," + p.y + "; ";
+            }
+            triggeriLista.setText(s);
+            paneli.add(triggeriLista);
+
+            tekstiLabelit[1] = new JLabel(tekstit[1]);
+            paneli.add(tekstiLabelit[1]);
+
+            JButton lisääTriggeri = new JButton("Lisää triggeri");
+            lisääTriggeri.addActionListener(e -> TriggerinValintaIkkuna.luoTriggerinValintaIkkuna((AvattavaEste)muokattavaKohde));
+            paneli.add(lisääTriggeri);
+        }
+
+        switch (muokattavaKohde.annaNimi()) {
+
+            //case "Oviruutu", "Kauppaovi", "Puuovi":
+                
+            //break;
 
             case "Kauppahylly":
                 tekstiLabelit[0] = new JLabel(tekstit[0]);
@@ -235,6 +320,7 @@ public class ObjektinMuokkausIkkuna {
 
         paneli.add(okNappi);
         paneli.add(cancelNappi);
+        paneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, false));
 
         SpringUtilities.makeCompactGrid(paneli, valintojenMäärä + 1, 2, 6, 6, 6, 6);
         ikkunanKorkeus = valintojenMäärä * 30 + 70;
@@ -245,7 +331,7 @@ public class ObjektinMuokkausIkkuna {
         muokkausIkkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         muokkausIkkuna.setLayout(new BorderLayout());
         muokkausIkkuna.setVisible(true);
-        muokkausIkkuna.setLocationRelativeTo(null);
+        muokkausIkkuna.setLocationRelativeTo(HuoneEditoriIkkuna.ikkuna);
         muokkausIkkuna.add(paneli, BorderLayout.CENTER);
         muokkausIkkuna.revalidate();
         muokkausIkkuna.repaint();

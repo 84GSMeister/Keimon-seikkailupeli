@@ -1,7 +1,6 @@
 package keimo.NPCt;
 
 import keimo.Ruudut.PeliRuutu;
-import keimo.Säikeet.*;
 import keimo.Utility.*;
 
 import javax.swing.ImageIcon;
@@ -25,7 +24,6 @@ public class Vartija extends Vihollinen {
     @Override
     public void vahingoita(int määrä) {
         super.vahingoita(määrä);
-        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
     }
 
     public String katso() {
@@ -45,37 +43,25 @@ public class Vartija extends Vihollinen {
 
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Vartija";
-            case "genetiivi":
-                return "Vartijan";
-            case "esiivi":
-                return "Vartijana";
-            case "partitiivi":
-                return "Vartijaa";
-            case "translatiivi":
-                return "Vartijaksi";
-            case "inessiivi":
-                return "Vartijassa";
-            case "elatiivi":
-                return "Vartijasta";
-            case "illatiivi":
-                return "Vartijaan";
-            case "adessiivi":
-                return "Vartijalla";
-            case "ablatiivi":
-                return "Vartijalta";
-            case "allatiivi":
-                return "Vartijalle";
-            default:
-                return "Vartija";
+            case "nominatiivi": return "Vartija";
+            case "genetiivi": return "Vartijan";
+            case "esiivi": return "Vartijana";
+            case "partitiivi": return "Vartijaa";
+            case "translatiivi": return "Vartijaksi";
+            case "inessiivi": return "Vartijassa";
+            case "elatiivi": return "Vartijasta";
+            case "illatiivi": return "Vartijaan";
+            case "adessiivi": return "Vartijalla";
+            case "ablatiivi": return "Vartijalta";
+            case "allatiivi": return "Vartijalle";
+            default: return "Vartija";
         }
     }
 
     @Override
     public void valitseKuvake() {
         if (this.liikkuu) {
-            switch (this.npcnSuuntaVasenOikea) {
+            switch (this.suuntaVasenOikea) {
                 case VASEN:
                     this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/vartija_on.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
                 break;
@@ -85,7 +71,7 @@ public class Vartija extends Vihollinen {
             }
         }
         else {
-            switch (this.npcnSuuntaVasenOikea) {
+            switch (this.suuntaVasenOikea) {
                 case VASEN:
                     this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/vartija_off.png", SkaalattavaKuvake.Peilaus.PEILAA_X);
                 break;
@@ -98,6 +84,7 @@ public class Vartija extends Vihollinen {
 
     public Vartija(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
+        super.hp = Integer.MAX_VALUE;
         super.vahinko = 666;
         super.nopeus = 8;
         super.tekeeVahinkoa = false;

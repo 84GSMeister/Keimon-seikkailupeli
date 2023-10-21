@@ -2,9 +2,7 @@ package keimo.HuoneEditori.TarinaEditori;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Panel;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -12,17 +10,10 @@ import javax.swing.text.BadLocationException;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.geometry.HPos;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 
 public class TarinanTekstinMuokkausIkkuna {
@@ -51,11 +42,8 @@ public class TarinanTekstinMuokkausIkkuna {
         tekstikenttä.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
-                    //System.out.println((int)" ".toCharArray()[0] + " = tyhjä merkki");
-                    //System.out.println((int)" ".toCharArray()[0] + " = space");
                     try {
                         tekstikenttä.getStyledDocument().getText(0, tekstikenttä.getStyledDocument().getLength()-1);
-                        //System.out.println(tekstikenttä.getStyledDocument());
                     }
                     catch (BadLocationException ble) {
                         ble.printStackTrace();
@@ -103,7 +91,6 @@ public class TarinanTekstinMuokkausIkkuna {
             }
             else {
                 TarinaEditoriIkkuna.tarinanTekstit[tarinanSivu].setText("<html><p>" + tekstikenttä.getText() + "</p></html>");
-                //TarinaEditoriIkkuna.tarinanTekstit[tarinanSivu].setText(tekstikenttä.getText());
             }
             TarinaEditoriIkkuna.päivitäTarinaKartta();
             ikkuna.dispose();
@@ -137,9 +124,6 @@ public class TarinanTekstinMuokkausIkkuna {
 
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setLocationRelativeTo(TarinaEditoriIkkuna.ikkuna);
-        //ikkuna.add(otsikkoLabel, BorderLayout.NORTH);
-        //ikkuna.add(scrollattavaPaneli, BorderLayout.CENTER);
-        //ikkuna.add(alaPaneli, BorderLayout.SOUTH);
         ikkuna.add(yläPaneli, BorderLayout.NORTH);
         ikkuna.add(keskiPaneli, BorderLayout.CENTER);
         ikkuna.add(alaPaneli, BorderLayout.SOUTH);

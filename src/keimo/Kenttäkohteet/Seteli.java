@@ -5,7 +5,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Seteli extends Esine {
+public final class Seteli extends Esine {
 
     @Override
     public String käytä() {
@@ -17,34 +17,21 @@ public class Seteli extends Esine {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Seteli";
-            case "genetiivi":
-                return "Setelin";
-            case "esiivi":
-                return "Setelinä";
-            case "partitiivi":
-                return "Seteliä";
-            case "translatiivi":
-                return "Seteliksi";
-            case "inessiivi":
-                return "Setelissä";
-            case "elatiivi":
-                return "Setelistä";
-            case "illatiivi":
-                return "Seteliin";
-            case "adessiivi":
-                return "Setelillä";
-            case "ablatiivi":
-                return "Seteliltä";
-            case "allatiivi":
-                return "Setelille";
-            default:
-                return "Seteli";
+            case "nominatiivi": return "Seteli";
+            case "genetiivi": return "Setelin";
+            case "esiivi": return "Setelinä";
+            case "partitiivi": return "Seteliä";
+            case "translatiivi": return "Seteliksi";
+            case "inessiivi": return "Setelissä";
+            case "elatiivi": return "Setelistä";
+            case "illatiivi": return "Seteliin";
+            case "adessiivi": return "Setelillä";
+            case "ablatiivi": return "Seteliltä";
+            case "allatiivi": return "Setelille";
+            default: return "Seteli";
         }
     }
 
-    
     public Seteli(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Seteli";

@@ -6,7 +6,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Makkara extends Ruoka {
+public final class Makkara extends Ruoka {
     
     boolean paistettu = false;
     boolean käristetty = false;
@@ -20,7 +20,7 @@ public class Makkara extends Ruoka {
             return "Mmm... onpas herkullisen näköistä kyrsää.";
         }
         else {
-            return "Makkaran voisi varmaan paistaa nuotiolla";
+            return "Makkaran voisi varmaan paistaa nuotiolla.";
         }
     }
     
@@ -30,45 +30,33 @@ public class Makkara extends Ruoka {
         if (käristetty) {
             super.heal = -1;
             TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.HIILTYNYT_MAKKARA;
-            return "Ugh. Olipas pahaa hiiltynyttä makkaraa. Menetit 1 elämäpisteen";
+            return "Ugh. Olipas pahaa hiiltynyttä makkaraa. Menetit 1 elämäpisteen.";
         }
         else if (paistettu) {
             super.heal = 5;
-            return "Se oli erittäin makoisaa kyrsää. Sait " + super.heal + " elämäpistettä";
+            return "Se oli erittäin makoisaa kyrsää. Sait " + super.heal + " elämäpistettä.";
         }
         else {
             super.heal = 1;
-            return "Ei niin hyvää raakana. Sait " + super.heal + " elämäpisteen";
+            return "Ei niin hyvää raakana. Sait " + super.heal + " elämäpisteen.";
         }
     }
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Makkara";
-            case "genetiivi":
-                return "Makkaran";
-            case "esiivi":
-                return "Makkarana";
-            case "partitiivi":
-                return "Makkaraa";
-            case "translatiivi":
-                return "Makkaraksi";
-            case "inessiivi":
-                return "Makkarassa";
-            case "elatiivi":
-                return "Makkarasta";
-            case "illatiivi":
-                return "Makkaraan";
-            case "adessiivi":
-                return "Makkaralla";
-            case "ablatiivi":
-                return "Makkaralta";
-            case "allatiivi":
-                return "Makkaralle";
-            default:
-                return "Makkara";
+            case "nominatiivi": return "Makkara";
+            case "genetiivi": return "Makkaran";
+            case "esiivi": return "Makkarana";
+            case "partitiivi": return "Makkaraa";
+            case "translatiivi": return "Makkaraksi";
+            case "inessiivi": return "Makkarassa";
+            case "elatiivi": return "Makkarasta";
+            case "illatiivi": return "Makkaraan";
+            case "adessiivi": return "Makkaralla";
+            case "ablatiivi": return "Makkaralta";
+            case "allatiivi": return "Makkaralle";
+            default: return "Makkara";
         }
     }
 

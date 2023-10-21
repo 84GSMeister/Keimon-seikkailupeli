@@ -3,6 +3,8 @@ package keimo.Kenttäkohteet;
 import keimo.PääIkkuna;
 
 import javax.swing.Icon;
+
+import java.awt.Point;
 import java.awt.image.*;
 
 public abstract class KenttäKohde implements Käännettävä {
@@ -83,9 +85,7 @@ public abstract class KenttäKohde implements Käännettävä {
         return nimi;
     }
 
-    public String annaNimiSijamuodossa(String sijamuoto) {
-        return "<sijamuotojen määrittely puuttuu kohteelta " + this.nimi + ">";
-    }
+    public abstract String annaNimiSijamuodossa(String sijamuoto);
 
     public Icon annaKuvake() {
         return kuvake;
@@ -190,8 +190,20 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Makkara(määritettySijainti, sijX, sijY);
                 break;
 
+            case "Nappi":
+                luotavaObjekti = new Nappi(määritettySijainti, sijX, sijY);
+                break;
+
             case "Nuotio":
                 luotavaObjekti = new Nuotio(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Painelaatta (pahavihu)":
+                luotavaObjekti = new PainelaattaPahavihu(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Painelaatta (pikkuvihu)":
+                luotavaObjekti = new PainelaattaPikkuvihu(määritettySijainti, sijX, sijY);
                 break;
 
             case "Paperi":
@@ -204,6 +216,10 @@ public abstract class KenttäKohde implements Käännettävä {
 
             case "Pontikka-ainekset":
                 luotavaObjekti = new Ponuainekset(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Portti":
+                luotavaObjekti = new Portti(määritettySijainti, sijX, sijY);
                 break;
 
             case "Pulloautomaatti":
@@ -297,6 +313,18 @@ public abstract class KenttäKohde implements Käännettävä {
             tiedot += "kääntö: " + vo.kääntöAsteet + "\n";
             tiedot += "x-peilaus: " + (vo.xPeilaus ? "kyllä" : "ei") + "\n";
             tiedot += "y-peilaus: " + (vo.yPeilaus ? "kyllä" : "ei") + "\n";
+        }
+        else if (this instanceof AvattavaEste) {
+            tiedot += "Tyyppi: Avattava este" + "\n";
+            AvattavaEste ae = (AvattavaEste)this;
+            tiedot += "Vaaditut triggerit: ";
+            for (Point p : ae.annaVaaditutTriggerit()) {
+                tiedot += p.x + "," + p.y + "; ";
+            }
+            tiedot += "\n";
+        }
+        else if (this instanceof Triggeri) {
+            tiedot += "Tyyppi: Triggeri" + "\n";
         }
     }
     

@@ -4,7 +4,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Ponuainekset extends Esine {
+public final class Ponuainekset extends Esine {
     
     @Override
     public String käytä(){

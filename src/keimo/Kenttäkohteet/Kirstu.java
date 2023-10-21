@@ -68,30 +68,18 @@ public class Kirstu extends Kiintopiste {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Kirstu";
-            case "genetiivi":
-                return "Kirstun";
-            case "esiivi":
-                return "Kirstuna";
-            case "partitiivi":
-                return "Kirstua";
-            case "translatiivi":
-                return "Kirstuksi";
-            case "inessiivi":
-                return "Kirstussa";
-            case "elatiivi":
-                return "Kirstusta";
-            case "illatiivi":
-                return "Kirstuun";
-            case "adessiivi":
-                return "Kirstulla";
-            case "ablatiivi":
-                return "Kirstulta";
-            case "allatiivi":
-                return "Kirstulle";
-            default:
-                return "Kirstu";
+            case "nominatiivi": return "Kirstu";
+            case "genetiivi": return "Kirstun";
+            case "esiivi": return "Kirstuna";
+            case "partitiivi": return "Kirstua";
+            case "translatiivi": return "Kirstuksi";
+            case "inessiivi": return "Kirstussa";
+            case "elatiivi": return "Kirstusta";
+            case "illatiivi": return "Kirstuun";
+            case "adessiivi": return "Kirstulla";
+            case "ablatiivi": return "Kirstulta";
+            case "allatiivi": return "Kirstulle";
+            default: return "Kirstu";
         }
     }
 

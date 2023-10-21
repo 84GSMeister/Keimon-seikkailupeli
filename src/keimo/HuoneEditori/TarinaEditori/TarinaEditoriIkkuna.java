@@ -283,9 +283,10 @@ public class TarinaEditoriIkkuna {
                 System.out.println(tarinanKuvatiedostot[sivunId]);
                 tarinanKuvakkeet[sivunId].setText("");
                 päivitäTarinaKartta();
+                päivitäTarinanPituus();
             }
             catch (IndexOutOfBoundsException ioobe) {
-                JOptionPane.showMessageDialog(null, "Kuvatiedoston täytyy olla kansiossa " + PääIkkuna.lainausmerkki + "tiedostot/kuvat/tarina" + PääIkkuna.lainausmerkki + ". Muuten se ei välttämättä tallennu oikein.", "Virheellinen polku", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Kuvatiedoston täytyy olla kansiossa \"tiedostot/kuvat/tarina\". Muuten se ei välttämättä tallennu oikein.", "Virheellinen polku", JOptionPane.WARNING_MESSAGE);
                 ioobe.printStackTrace();
             }
         }

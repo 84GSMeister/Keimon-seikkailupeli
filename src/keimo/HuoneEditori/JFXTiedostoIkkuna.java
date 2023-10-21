@@ -1,13 +1,15 @@
 package keimo.HuoneEditori;
 
+import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
+import keimo.Kenttäkohteet.Käännettävä.Suunta;
+import keimo.Maastot.Maasto;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import javax.swing.JOptionPane;
 
 import javafx.application.*;
 import javafx.embed.swing.JFXPanel;
@@ -16,10 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import javafx.stage.FileChooser.ExtensionFilter;
-import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
-import keimo.Ikkunat.CustomViestiIkkunat;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
-import keimo.Maastot.Maasto;
 
 public class JFXTiedostoIkkuna {
 

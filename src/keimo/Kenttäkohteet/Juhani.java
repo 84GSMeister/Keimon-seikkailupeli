@@ -8,7 +8,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Juhani extends NPC_KenttäKohde {
+public final class Juhani extends NPC_KenttäKohde {
 
     @Override
     public String kokeileEsinettä(Esine e) {
@@ -40,35 +40,24 @@ public class Juhani extends NPC_KenttäKohde {
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
+        //Tätä ei tehdä siksi, että kaikkia näitä tarvitsisi pelissä. Tätä tehdään taiteen itsensä vuoksi.
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Juhani";
-            case "genetiivi":
-                return "Juhanin";
-            case "esiivi":
-                return "Juhanina";
-            case "partitiivi":
-                return "Juhania";
-            case "translatiivi":
-                return "Juhaniksi";
-            case "inessiivi":
-                return "Juhanissa";
-            case "elatiivi":
-                return "Juhanista";
-            case "illatiivi":
-                return "Juhaniin";
-            case "adessiivi":
-                return "Juhanilla";
-            case "ablatiivi":
-                return "Juhanilta";
-            case "allatiivi":
-                return "Juhanille";
-            default:
-                return "Juhani";
+            case "nominatiivi": return "Juhani";
+            case "genetiivi": return "Juhanin";
+            case "esiivi": return "Juhanina";
+            case "partitiivi": return "Juhania";
+            case "translatiivi": return "Juhaniksi";
+            case "inessiivi": return "Juhanissa";
+            case "elatiivi": return "Juhanista";
+            case "illatiivi": return "Juhaniin";
+            case "adessiivi": return "Juhanilla";
+            case "ablatiivi": return "Juhanilta";
+            case "allatiivi": return "Juhanille";
+            default: return "Juhani";
         }
     }
     
-    public Juhani(boolean määritettySijainti, int sijX, int sijY){
+    public Juhani(boolean määritettySijainti, int sijX, int sijY) {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");

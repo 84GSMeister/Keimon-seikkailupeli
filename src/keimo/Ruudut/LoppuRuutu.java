@@ -336,7 +336,8 @@ public class LoppuRuutu {
                 loppuTeksti = "<html><p>" +
                 "Vakioloppuruutu." +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto.png");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/vakioloppuruutu.png");
+                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/vakio_otsikko.png");
             break;
         }
 

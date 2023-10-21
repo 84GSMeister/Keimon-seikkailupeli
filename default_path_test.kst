@@ -1486,6 +1486,7 @@ Huone 11:
         Tile_9_9+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
+        Pikkuvihu_3_3+ominaisuudet:[liiketapa=YMPYRÄLIIKE_MYÖTÄPÄIVÄÄN,suunta=OIKEA];
     }
 /Huone
 Huone 12:
@@ -3304,6 +3305,7 @@ Huone 24:
         Tile_9_9+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
+        Pomo_4_4+ominaisuudet:[liiketapa=BOSS_LIIKE,suunta=OIKEA];
     }
 /Huone
 Huone 25:
@@ -3538,6 +3540,7 @@ Huone 26:
         Tile_9_9+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
+        Pahavihu_5_6+ominaisuudet:[liiketapa=YMPYRÄLIIKE_VASTAPÄIVÄÄN,suunta=OIKEA];
     }
 /Huone
 Huone 27:

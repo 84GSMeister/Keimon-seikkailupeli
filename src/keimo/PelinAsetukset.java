@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class PelinAsetukset {
     
-    public static int RUUDUNPÄIVITYS = 60;
+    public static final int RUUDUNPÄIVITYS = 60;
 
     public static int vaikeusAste = 1;
     public static boolean musiikkiPäällä = false;

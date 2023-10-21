@@ -1,10 +1,9 @@
 package keimo;
 
 import keimo.Ruudut.*;
-import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
-import keimo.Säikeet.PeliSäie;
-import keimo.Dialogi.VuoropuheDialogit;
+import keimo.Ruudut.Lisäruudut.*;
 import keimo.HuoneEditori.*;
+import keimo.HuoneEditori.DialogiEditori.*;
 import keimo.Ikkunat.*;
 
 import java.awt.*;
@@ -25,10 +24,10 @@ public final class PääIkkuna {
     static JMenuBar yläPalkki;
     static JMenu peli, tietoja, debug, työkalut;
     static JMenu huoneSubmenu;
-    static JMenuItem huoneenVaihto, mukauta, huoneEditori;
+    static JMenuItem huoneenVaihto, mukauta, huoneEditori, debugIkkuna;
     static JMenuItem uusiPeli, asetukset, ohjeet, tekijät;
     static JCheckBoxMenuItem näytäSijainti, näytäFPS, näytäReunat, näytäTapahtumapalkki;
-    static JMenuItem menuF2, menuF3, menuF4;
+    static JMenuItem menuF2, menuF3, menuF4, menuF5;
     public static JLabel hudTeksti;
     static JLabel tavoiteTeksti1;
     static JLabel tavoiteTeksti2;
@@ -36,6 +35,7 @@ public final class PääIkkuna {
     public static boolean vaatiiPäivityksen = false;
     public static boolean uudelleenpiirräKaikki = false;
     public static boolean uudelleenpiirräKenttä = false;
+    public static boolean uudelleenpiirräNPCt = false;
     public static boolean uudelleenpiirräObjektit = false;
     public static boolean pelaajaSiirtyi = false;
     public static boolean fpsNäkyvissä = false;
@@ -52,6 +52,13 @@ public final class PääIkkuna {
         ikkunanLeveys = PeliRuutu.esineenKokoPx * Peli.kentänKoko + 50;
         ikkunanKorkeus = PeliRuutu.esineenKokoPx * Peli.kentänKoko + 330;
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         hudTeksti = new JLabel();
 
         /**
@@ -59,7 +66,7 @@ public final class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8.4 pre-alpha (24.8.2023)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8.5 pre-alpha (21.10.2023)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -77,6 +84,7 @@ public final class PääIkkuna {
          */
 
         uusiPeli = new JMenuItem("Uusi peli", new ImageIcon("tiedostot/kuvat/menu/gui/uusipeli.png"));
+        uusiPeli.setAccelerator(KeyStroke.getKeyStroke("F1"));
         uusiPeli.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 uusiIkkuna = true;
@@ -155,7 +163,8 @@ public final class PääIkkuna {
             }
         });
 
-        menuF2 = new JMenuItem("F2 Uudelleenpiirrä kaikki");
+        menuF2 = new JMenuItem("Uudelleenpiirrä kaikki");
+        menuF2.setAccelerator(KeyStroke.getKeyStroke("F2"));
         menuF2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (PeliRuutu.peliRuutuPaneli != null) {
@@ -168,7 +177,8 @@ public final class PääIkkuna {
             }
         });
 
-        menuF3 = new JMenuItem("F3 Uudelleenpiirrä kenttä");
+        menuF3 = new JMenuItem("Uudelleenpiirrä kenttä");
+        menuF3.setAccelerator(KeyStroke.getKeyStroke("F3"));
         menuF3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PääIkkuna.uudelleenpiirräKenttä = true;
@@ -176,8 +186,18 @@ public final class PääIkkuna {
             }
         });
 
-        menuF4 = new JMenuItem("F4 Uudelleenpiirrä objektit");
+        menuF4 = new JMenuItem("Uudelleenpiirrä Entityt");
+        menuF4.setAccelerator(KeyStroke.getKeyStroke("F4"));
         menuF4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PääIkkuna.uudelleenpiirräNPCt = true;
+                PeliRuutu.hudTeksti.setText("Entiteettien päivitys pakotettiin");
+            }
+        });
+
+        menuF5 = new JMenuItem("Uudelleenpiirrä Objektit");
+        menuF5.setAccelerator(KeyStroke.getKeyStroke("F5"));
+        menuF5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PääIkkuna.uudelleenpiirräObjektit = true;
                 PeliRuutu.hudTeksti.setText("Objektien päivitys pakotettiin");
@@ -202,6 +222,13 @@ public final class PääIkkuna {
         huoneSubmenu.setIcon(new ImageIcon("tiedostot/kuvat/menu/gui/huone.png"));
         huoneSubmenu.add(huoneenVaihto);
         huoneSubmenu.add(mukauta);
+
+        debugIkkuna = new JMenuItem("Näytä lisätietoikkuna");
+        debugIkkuna.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                DebugInfoIkkuna.luoDebugInfoIkkuna();
+            }
+        });
         
         debug = new JMenu("Debug");
         debug.add(näytäSijainti);
@@ -212,8 +239,11 @@ public final class PääIkkuna {
         debug.add(menuF2);
         debug.add(menuF3);
         debug.add(menuF4);
+        debug.add(menuF5);
         debug.add(new JSeparator());
         debug.add(huoneSubmenu);
+        debug.add(new JSeparator());
+        debug.add(debugIkkuna);
 
         huoneEditori = new JMenuItem("Huone-editori", new ImageIcon("tiedostot/kuvat/menu/gui/huone-editori.png"));
         huoneEditori.addActionListener(new ActionListener() {
@@ -232,6 +262,7 @@ public final class PääIkkuna {
 
         yläPalkki = new JMenuBar();
         yläPalkki.setPreferredSize(new Dimension(ikkunanLeveys -20,20));
+        //yläPalkki.setBorder(BorderFactory.createLineBorder(Color.black, 1, false));
         yläPalkki.add(peli);
         yläPalkki.add(tietoja);
         yläPalkki.add(debug);
@@ -247,6 +278,17 @@ public final class PääIkkuna {
 
         lataaLainausmerkki();
     }
+
+    public enum Ruudut {
+        EI_MITÄÄN,
+        TARINARUUTU,
+        VALIKKORUUTU,
+        PELIRUUTU,
+        OSIONALKURUUTU,
+        LOPPURUUTU;
+    }
+    public static Ruudut aktiivinenRuutu = Ruudut.EI_MITÄÄN;
+
     /**
      * Valitse pääpaneelin "tila" eli mikä osa peliä on näkyvissä.
      * Jokaisen paneelin sisältö määritellään omassa luokassaan Ruudut-kansiossa.
@@ -262,6 +304,7 @@ public final class PääIkkuna {
                 //try {
                     TarinaRuutu.luoTarinaPaneli("alku");
                     pääPaneeli.add(TarinaRuutu.tarinaPaneli, BorderLayout.CENTER);
+                    aktiivinenRuutu = Ruudut.TARINARUUTU;
                 //}
                 //catch (NullPointerException npe) {
                 //    JOptionPane.showMessageDialog(null, "Tarinaa ei voitu ladata. Tämä voi johtua vanhentuneesta default.kst -tiedostosta.", "Tarinaa ei löytynyt", JOptionPane.ERROR_MESSAGE);
@@ -272,16 +315,20 @@ public final class PääIkkuna {
             case "valikkoruutu":
                 ValikkoRuutu.luoValikkoPaneli();
                 pääPaneeli.add(ValikkoRuutu.alkuValikkoPaneli, BorderLayout.CENTER);
+                aktiivinenRuutu = Ruudut.VALIKKORUUTU;
             break;
             case "peliruutu":
                 pääPaneeli.add(PeliRuutu.peliAluePaneli, BorderLayout.CENTER);
                 PeliRuutu.peliRuutuAktiivinen = true;
+                aktiivinenRuutu = Ruudut.PELIRUUTU;
             break;
             case "osionalkuruutu":
                 pääPaneeli.add(OsionAlkuRuutu.kokeileLuodaOsionAlkuPaneli(), BorderLayout.CENTER);
+                aktiivinenRuutu = Ruudut.OSIONALKURUUTU;
             break;
             case "loppuruutu":
                 pääPaneeli.add(LoppuRuutu.luoLoppuRuutu(), BorderLayout.CENTER);
+                aktiivinenRuutu = Ruudut.LOPPURUUTU;
             break;
         }
         pääPaneeli.revalidate();
@@ -329,7 +376,7 @@ public final class PääIkkuna {
 
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
-            Peli.pause = true;
+            Peli.pauseDialogi = true;
             äläSuljeNuolilla = false;
             tekstiAuki = true;
             luoVuoropuheRuutu(kuvake, teksti, nimi);
@@ -341,7 +388,7 @@ public final class PääIkkuna {
 
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
-            Peli.pause = true;
+            Peli.pauseDialogi = true;
             äläSuljeNuolilla = estäNuolet;
             tekstiAuki = true;
             luoVuoropuheRuutu(kuvake, teksti, nimi);
@@ -353,7 +400,7 @@ public final class PääIkkuna {
 
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet, String valinnanTunniste) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
-            Peli.pause = true;
+            Peli.pauseDialogi = true;
             äläSuljeNuolilla = estäNuolet;
             tekstiAuki = true;
             luoVuoropuheRuutu(kuvake, teksti, nimi);
@@ -383,7 +430,7 @@ public final class PääIkkuna {
             valintaTulossa = null;
         }
         else {
-            Peli.pause = false;
+            Peli.pauseDialogi = false;
             tekstiAuki = false;
             useitaRuutuja = false;
             PeliRuutu.vuoropuhePaneli.setVisible(false);

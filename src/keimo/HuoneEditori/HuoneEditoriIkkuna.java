@@ -2,20 +2,19 @@ package keimo.HuoneEditori;
 
 import keimo.*;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
-import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.NPCt.*;
+import keimo.NPCt.Entity.SuuntaVasenOikea;
 import keimo.NPCt.Vihollinen.LiikeTapa;
 import keimo.Säikeet.*;
 import keimo.Utility.*;
 import keimo.Ikkunat.*;
 
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -72,9 +71,9 @@ public class HuoneEditoriIkkuna {
     static JButton huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nuotio", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
+    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
     static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Seteli", "Suklaalevy", "Vesiämpäri"};
-    static String[] npcNimiLista = {"Pikkuvihu", "Pahavihu", "Vartija"};
+    static String[] npcNimiLista = {"Asevihu", "Pikkuvihu", "Pahavihu", "Pomo", "Vartija"};
     static JComboBox<String> esineValikko;
     static JComboBox<Object> maastoValikko;
     static JComboBox<String> npcValikko;
@@ -333,7 +332,8 @@ public class HuoneEditoriIkkuna {
                         Peli.uusiHuone = 0;
                         Peli.huoneVaihdettava = true;
                         try {
-                            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                         }
                         catch (Exception ex) {
 
@@ -347,7 +347,8 @@ public class HuoneEditoriIkkuna {
                     Peli.uusiHuone = 0;
                     Peli.huoneVaihdettava = true;
                     try {
-                        UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                        //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     }
                     catch (Exception ex) {
 
@@ -376,7 +377,7 @@ public class HuoneEditoriIkkuna {
         tietoja = new JMenu("Tietoja");
         tietoja.add(ohjeet);
 
-        piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta");
+        piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta", new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
         piirräEuklidinenKartta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 KarttaIkkuna.luoKarttaikkuna();
@@ -401,7 +402,7 @@ public class HuoneEditoriIkkuna {
                 käytäKopioitujaOminaisuuksia = false;
                 if (esineValikko.getSelectedItem() == "Koriste-esine") {
                     koristeEsineenKuvaValikko.setEnabled(true);
-                    koristeEsineenKuvaValikko.setToolTipText("Valitse koriste-esineen kuva. Kuvat, joiden nimi päättyy " + PääIkkuna.lainausmerkki +"_e" + PääIkkuna.lainausmerkki + " luovat esteen.");
+                    koristeEsineenKuvaValikko.setToolTipText("Valitse koriste-esineen kuva. Kuvat, joiden nimi päättyy " + "\"_e\"" + " luovat esteen.");
                 }
                 else {
                     koristeEsineenKuvaValikko.setEnabled(false);
@@ -1089,6 +1090,28 @@ public class HuoneEditoriIkkuna {
                 menuItemit.add(peilausValikko);
             break;
 
+            case "Juhani", "Jumal Velho", "Jumal Yoda":
+                NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)k;
+                JMenuItem dialogi = new JMenuItem("Dialogi: " + kenttäNPC.annaDialogi());
+                dialogi.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
+                    }
+                });
+                menuItemit.add(dialogi);
+            break;
+
+            case "Portti":
+                AvattavaEste ae = (AvattavaEste)k;
+                JMenuItem valitseTriggerit = new JMenuItem("Valitse triggerit");
+                valitseTriggerit.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
+                    }
+                });
+                menuItemit.add(valitseTriggerit);
+            break;
+
             case "Koriste-esine":
                 VisuaalinenObjekti ke = (VisuaalinenObjekti)k;
                 kääntöValikko = new JMenu("Kierrä kuvaa");
@@ -1205,15 +1228,16 @@ public class HuoneEditoriIkkuna {
             default:
             break;
 
-            case "Pikkuvihu", "Pahavihu", "Vartija":
+            case "Asevihu", "Pikkuvihu", "Pahavihu", "Pomo", "Vartija":
                 Vihollinen v = (Vihollinen)n;
                 JMenu liikeTapa = new JMenu("Liiketapa");
+                liikeTapa.setToolTipText("Näille vois ehkä joskus tulla joku previewaus-ominaisuus.");
                 for (LiikeTapa lt : LiikeTapa.values()) {
                     JCheckBoxMenuItem liikeTapaValinta = new JCheckBoxMenuItem(lt.name());
                     liikeTapaValinta.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             v.liikeTapa = Vihollinen.LiikeTapa.valueOf(lt.name());
-                            v.päivitäLisäOminaisuudet(lt);
+                            v.päivitäLisäOminaisuudet(lt, v.suuntaVasenOikea);
                         }
                     });
                     if (v.liikeTapa == Vihollinen.LiikeTapa.valueOf(lt.name())) {
@@ -1225,6 +1249,27 @@ public class HuoneEditoriIkkuna {
                     liikeTapa.add(liikeTapaValinta);
                 }
                 menuItemit.add(liikeTapa);
+
+                JMenu suunta = new JMenu("Suunta");
+                suunta.setToolTipText("Vaikuttaa vihollisen katsomissuuntaan sekä asevihun ampumissuuntaan silloin, kun vihollinen on asetettu liikkumaan vain pystysuunnassa.");
+                for (SuuntaVasenOikea suuntaVasenOikea : SuuntaVasenOikea.values()) {
+                    JCheckBoxMenuItem suuntaValinta = new JCheckBoxMenuItem(suuntaVasenOikea.name());
+                    suuntaValinta.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            v.suuntaVasenOikea = Vihollinen.SuuntaVasenOikea.valueOf(suuntaVasenOikea.name());
+                            v.päivitäLisäOminaisuudet(v.liikeTapa, suuntaVasenOikea);
+                        }
+                    });
+                    if (v.suuntaVasenOikea == Vihollinen.SuuntaVasenOikea.valueOf(suuntaVasenOikea.name())) {
+                        suuntaValinta.setSelected(true);
+                    }
+                    else {
+                        suuntaValinta.setSelected(false);
+                    }
+                    suunta.add(suuntaValinta);
+                }
+                menuItemit.add(suunta);
+
             break;
 
         }
@@ -1920,7 +1965,7 @@ public class HuoneEditoriIkkuna {
                 e.printStackTrace(pw);
                 String sStackTrace = sw.toString();
                 System.out.println(sStackTrace);
-                String viesti = "Yritettiin ladata kuvaa maastolle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Jos tämä viesti tulee toistuvasti " + PääIkkuna.lainausmerkki + "jatka" + PääIkkuna.lainausmerkki + " -painamisen jälkeen, ilmoitathan kehittäjille.\n\n" + sStackTrace;
+                String viesti = "Yritettiin ladata kuvaa maastolle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Jos tämä viesti tulee toistuvasti " + "\"jatka\"" + " -painamisen jälkeen, ilmoitathan kehittäjille.\n\n" + sStackTrace;
                 String otsikko = "Virhe ruudunpäivityksessä";
                 int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.showDialog(viesti, otsikko);
                 switch (virheenJälkeenValinta) {

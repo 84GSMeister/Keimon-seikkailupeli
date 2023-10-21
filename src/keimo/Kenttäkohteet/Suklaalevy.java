@@ -4,7 +4,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Suklaalevy extends Ruoka {
+public final class Suklaalevy extends Ruoka {
 
     @Override
     public String käytä(){
@@ -15,30 +15,18 @@ public class Suklaalevy extends Ruoka {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Suklaalevy";
-            case "genetiivi":
-                return "Suklaalevyn";
-            case "esiivi":
-                return "Suklaalevynä";
-            case "partitiivi":
-                return "Suklaalevyä";
-            case "translatiivi":
-                return "Suklaalevyksi";
-            case "inessiivi":
-                return "Suklaalevyssä";
-            case "elatiivi":
-                return "Suklaalevystä";
-            case "illatiivi":
-                return "Suklaalevyyn";
-            case "adessiivi":
-                return "Suklaalevyllä";
-            case "ablatiivi":
-                return "Suklaalevyltä";
-            case "allatiivi":
-                return "Suklaalevylle";
-            default:
-                return "Suklaalevy";
+            case "nominatiivi": return "Suklaalevy";
+            case "genetiivi": return "Suklaalevyn";
+            case "esiivi": return "Suklaalevynä";
+            case "partitiivi": return "Suklaalevyä";
+            case "translatiivi": return "Suklaalevyksi";
+            case "inessiivi": return "Suklaalevyssä";
+            case "elatiivi": return "Suklaalevystä";
+            case "illatiivi": return "Suklaalevyyn";
+            case "adessiivi": return "Suklaalevyllä";
+            case "ablatiivi": return "Suklaalevyltä";
+            case "allatiivi": return "Suklaalevylle";
+            default: return "Suklaalevy";
         }
     }
 

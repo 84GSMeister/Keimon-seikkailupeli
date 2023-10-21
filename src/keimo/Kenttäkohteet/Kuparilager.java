@@ -9,7 +9,7 @@ import keimo.Utility.KäännettäväKuvake;
 import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
 
-public class Kuparilager extends Esine {
+public final class Kuparilager extends Esine {
 
     DecimalFormat df = new DecimalFormat("##.##");
 
@@ -37,30 +37,18 @@ public class Kuparilager extends Esine {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Kuparilager";
-            case "genetiivi":
-                return "Kuparilagerin";
-            case "esiivi":
-                return "Kuparilagerina";
-            case "partitiivi":
-                return "Kuparilageria";
-            case "translatiivi":
-                return "Kuparilageriksi";
-            case "inessiivi":
-                return "Kuparilagerissa";
-            case "elatiivi":
-                return "Kuparilagerista";
-            case "illatiivi":
-                return "Kuparilageriin";
-            case "adessiivi":
-                return "Kuparilagerilla";
-            case "ablatiivi":
-                return "Kuparilagerilta";
-            case "allatiivi":
-                return "Kuparilagerille";
-            default:
-                return "Kuparilager";
+            case "nominatiivi": return "Kuparilager";
+            case "genetiivi": return "Kuparilagerin";
+            case "esiivi": return "Kuparilagerina";
+            case "partitiivi": return "Kuparilageria";
+            case "translatiivi": return "Kuparilageriksi";
+            case "inessiivi": return "Kuparilagerissa";
+            case "elatiivi": return "Kuparilagerista";
+            case "illatiivi": return "Kuparilageriin";
+            case "adessiivi": return "Kuparilagerilla";
+            case "ablatiivi": return "Kuparilagerilta";
+            case "allatiivi": return "Kuparilagerille";
+            default: return "Kuparilager";
         }
     }
 

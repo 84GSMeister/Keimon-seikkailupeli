@@ -25,7 +25,7 @@ public class Pelaaja implements Käännettävä {
     public static int nopeus;
     public static ImageIcon kuvake;
     public static int kuolemattomuusAika;
-    static int reaktioAika;
+    public static int reaktioAika;
     static boolean vihollisenKohdalla = false;
     static Vihollinen vihollinenKohdalla;
     public static Vihollinen viimeisinOsunutVihollinen;
@@ -135,6 +135,12 @@ public class Pelaaja implements Käännettävä {
                                         pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                                     }
                                 }
+                                else if (Peli.pelikenttä[tarkistaVasen][sijY] instanceof AvattavaEste) {
+                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[tarkistaVasen][sijY];
+                                    if (ae.onkoAvattu()) {
+                                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                                    }
+                                }
                                 else {
                                     if (harhaliikkeenTodennäköisyys > Math.random()) {
                                         if (r.nextBoolean()) {
@@ -189,6 +195,12 @@ public class Pelaaja implements Käännettävä {
                                 if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof VisuaalinenObjekti) {
                                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaOikea][sijY];
                                     if (!vo.onkoEste()) {
+                                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                                    }
+                                }
+                                else if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof AvattavaEste) {
+                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[tarkistaOikea][sijY];
+                                    if (ae.onkoAvattu()) {
                                         pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                                     }
                                 }
@@ -249,6 +261,12 @@ public class Pelaaja implements Käännettävä {
                                         pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                                     }
                                 }
+                                else if (Peli.pelikenttä[sijX][tarkistaAlas] instanceof AvattavaEste) {
+                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[sijX][tarkistaAlas];
+                                    if (ae.onkoAvattu()) {
+                                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                                    }
+                                }
                                 else {
                                     if (harhaliikkeenTodennäköisyys > Math.random()) {
                                         if (r.nextBoolean()) {
@@ -299,6 +317,12 @@ public class Pelaaja implements Käännettävä {
                                 if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof VisuaalinenObjekti) {
                                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaYlös];
                                     if (!vo.onkoEste()) {
+                                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                                    }
+                                }
+                                else if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof AvattavaEste) {
+                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[sijX][tarkistaYlös];
+                                    if (ae.onkoAvattu()) {
                                         pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                                     }
                                 }
@@ -572,12 +596,14 @@ public class Pelaaja implements Käännettävä {
             }
         }
         if (ostosKori.size() >= tyhjätPaikat) {
+            PääIkkuna.avaaDialogi(null, "Ostoskoriin ei voi lisätä enempää tavaraa kuin tavaraluettelossa on tyhjiä paikkoja!", "Kauppahylly");
             return "Ostoskoriin ei voi lisätä enempää tavaraa kuin tavaraluettelossa on tyhjiä paikkoja!";
         }
         else if (e != null) {
             ostosKori.add(e);
             PeliRuutu.päivitäOstosPaneli();
             nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
+            PääIkkuna.avaaDialogi(e.annaKuvake(), "Ostoskoriin lisättiin " + e.annaNimi(), "Kauppahylly");
             return "Ostoskoriin lisättiin " + e.annaNimi() + " (+ " + e.annaHinta() + "€)";
         }
         else {

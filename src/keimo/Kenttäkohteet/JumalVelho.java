@@ -6,7 +6,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class JumalVelho extends NPC_KenttäKohde {
+public final class JumalVelho extends NPC_KenttäKohde {
     
     @Override
     public String kokeileEsinettä(Esine e) {
@@ -22,6 +22,24 @@ public class JumalVelho extends NPC_KenttäKohde {
         }
         else {
             PääIkkuna.avaaDialogi(super.dialogiKuvake, "Tervetuloa kaikki mun bordello dello dello dello dello dello dello delloon", super.nimi);
+        }
+    }
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi": return "Jumal Velho";
+            case "genetiivi": return "Jumal Velhon";
+            case "esiivi": return "Jumal Velhona";
+            case "partitiivi": return "Jumal Velhoa";
+            case "translatiivi": return "Jumal Velhoksi";
+            case "inessiivi": return "Jumal Velhossa";
+            case "elatiivi": return "Jumal Velhosta";
+            case "illatiivi": return "Jumal Velhoon";
+            case "adessiivi": return "Jumal Velholla";
+            case "ablatiivi": return "Jumal Velholta";
+            case "allatiivi": return "Jumal Velholle";
+            default: return "Jumal Velho";
         }
     }
 

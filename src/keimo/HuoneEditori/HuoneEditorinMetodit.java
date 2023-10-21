@@ -364,15 +364,15 @@ public class HuoneEditorinMetodit {
         HashMap<String, TarinaPätkä> uusiTarinaKartta = new HashMap<>();
 
         TarinaDialogiLista.tarinaKartta.clear();
-        int uusiTarinanId = 0;
+        //int uusiTarinanId = 0;
         String uusiTarinanNimi = "";
         int uusiTarinanPituus = 0;
         ImageIcon[] uudetTarinaPätkänKuvat = new ImageIcon[uusiTarinanPituus];
         String[] uudetTarinaPätkänKuvatiedostot = new String[uusiTarinanPituus];
         String[] uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
-        boolean vaihdaRiviä = true;
+        //boolean vaihdaRiviä = true;
 
-        int rivejäTarkastettu = 0;
+        //int rivejäTarkastettu = 0;
 
         try {
             for (String s : tarinaMerkkijonot) {
@@ -381,11 +381,11 @@ public class HuoneEditorinMetodit {
                     String tarkastettavaRivi = "";
                     //if (vaihdaRiviä) {
                         tarkastettavaRivi = sc.nextLine();
-                        rivejäTarkastettu++;
+                        //rivejäTarkastettu++;
                     //}
-                    rivejäTarkastettu++;
+                    //rivejäTarkastettu++;
                     if (tarkastettavaRivi.startsWith("Tarina")) {
-                        uusiTarinanId = Integer.parseInt(tarkastettavaRivi.substring(7, tarkastettavaRivi.length() -1));
+                        //uusiTarinanId = Integer.parseInt(tarkastettavaRivi.substring(7, tarkastettavaRivi.length() -1));
                         //vaihdaRiviä = true;
                     }
                     else if (tarkastettavaRivi.contains("#nimi:")) {
@@ -402,7 +402,7 @@ public class HuoneEditorinMetodit {
                         uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
                         for (int i = 0; i < uusiTarinanPituus*2; i++) {
                             tarkastettavaRivi = sc.nextLine();
-                            rivejäTarkastettu++;
+                            //rivejäTarkastettu++;
                             if (tarkastettavaRivi.contains("kuva ")) {
                                 int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kuva ") +5, tarkastettavaRivi.indexOf("kuva ") +6));
                                 uudetTarinaPätkänKuvat[kuvanNumero] = new ImageIcon(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));

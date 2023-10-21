@@ -28,7 +28,7 @@ public class PeliRuutu {
     public static JLayeredPane peliKenttä;
     public static JPanel vuoropuhePaneli, vuoropuhePaneliOikea, taustaPaneli, pausePaneli, lisäRuutuPaneli;
     public static JLabel vuoropuheKuvake, vuoropuheTeksti, vuoropuheNimi, pauseLabel;
-    public static JLabel kokoruudunTakatausta;
+    public static JLabel kokoruudunTakatausta, latausTausta;
     public static JPanel invaPanelinHud, yläPaneeli, alaPaneeli;
     public static JLabel hudTeksti;
     public static JPanel ostosPaneli, ostosOtsikkoPaneli, ostoksetYhteensäPaneli, ostosPanelinHud;
@@ -45,6 +45,7 @@ public class PeliRuutu {
     static JLabel[][] kenttäKohteenKuvake;
     static JLabel[][] maastoKohteenKuvake;
     static JLabel[] npcKuvake;
+    static JLabel[] ammusKuvake;
     public static JPanel peliAluePaneli = luoPeliRuudunGUI();
     static DecimalFormat df = new DecimalFormat("##.##");
     public static boolean skaalaaKuvakkeet = false;
@@ -128,6 +129,10 @@ public class PeliRuutu {
         kokoruudunTakatausta = new JLabel(new ImageIcon("tiedostot/kuvat/taustat/kokoruuduntausta.png"));
         kokoruudunTakatausta.setBounds(0, 0, 10, 10);
         kokoruudunTakatausta.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+
+        latausTausta = new JLabel(new ImageIcon("tiedostot/kuvat/taustat/lataustausta.png"));
+        latausTausta.setBounds(0, 0, 10, 10);
+        latausTausta.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 
         /**
          * Varsinainen pelikenttä
@@ -603,6 +608,10 @@ public class PeliRuutu {
         gbc.gridy = 5;
         gbc.gridwidth = 1;
         peliKenttäJaHUD.add(kokoruudunTakatausta, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        peliKenttäJaHUD.add(latausTausta, gbc);
 
         //peliKenttäJaHUD.setComponentZOrder(peliKenttä, 0);
         peliKenttäJaHUD.setComponentZOrder(peliKentänTaustaPaneli, 0);
@@ -784,13 +793,13 @@ public class PeliRuutu {
                 kohteensijY += esineenKokoPx;
             }
 
-            if (Peli.npcLista != null){
+            if (Peli.npcLista != null) {
                 npcKuvake = new JLabel[Peli.npcLista.size()];
                 for (int i = 0; i < Peli.npcLista.size(); i++) {
                     NPC npc = Peli.npcLista.get(i);
                     npcKuvake[i] = new JLabel();
                     npcKuvake[i].setName("npc" + i);
-                    npcKuvake[i].setIcon(npc.kuvake);
+                    npcKuvake[i].setIcon(npc.annaKuvake());
                     npcKuvake[i].setBounds((int)npc.hitbox.getMinX(), (int)npc.hitbox.getMinY(), pelaajanKokoPx, pelaajanKokoPx);
                     if (PääIkkuna.reunatNäkyvissä) {
                         npcKuvake[i].setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
@@ -799,6 +808,29 @@ public class PeliRuutu {
                         npcKuvake[i].setBorder(null);
                     }
                     peliKenttä.add(npcKuvake[i], Integer.valueOf(3), 0);
+                }
+            }
+            if (Peli.ammusLista != null) {
+                ammusKuvake = new JLabel[Peli.ammusLista.size()];
+                for (int i = 0; i < Peli.ammusLista.size(); i++) {
+                    Ammus ammus = Peli.ammusLista.get(i);
+                    ammusKuvake[i] = new JLabel();
+                    ammusKuvake[i].setName("ammus" + i);
+                    ammusKuvake[i].setIcon(ammus.annaKuvake());
+                    ammusKuvake[i].setBounds((int)ammus.hitbox.getMinX(), (int)ammus.hitbox.getMinY(), 16, 16);
+                    if (PääIkkuna.reunatNäkyvissä) {
+                        ammusKuvake[i].setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
+                    }
+                    else {
+                        ammusKuvake[i].setBorder(null);
+                    }
+                    peliKenttä.add(ammusKuvake[i], Integer.valueOf(3), 0);
+                }
+            }
+            else {
+                ammusKuvake = new JLabel[10];
+                for (int i = 0; i < ammusKuvake.length; i++) {
+                    ammusKuvake[i] = new JLabel();
                 }
             }
             // peliKentänTaustaPaneli.add(taustaLabel, Integer.valueOf(0), 0);
@@ -810,8 +842,9 @@ public class PeliRuutu {
             //peliKentänTaustaPaneli.setComponentZOrder(pelaajaLabel, 0);
         }
         catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ongelma alkuikkunan luonnissa");
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
         }
         catch (IllegalArgumentException e) {
 
@@ -921,9 +954,28 @@ public class PeliRuutu {
                     NPC npc = Peli.npcLista.get(i);
                     if (Peli.npcLista.size() == npcKuvake.length) {
                         if (npcKuvake[i] != null && npc != null) {
-                            npcKuvake[i].setIcon(npc.kuvake);
+                            npcKuvake[i].setIcon(npc.annaKuvake());
+                            npcKuvake[i].setName("npc " + i);
                             //npcKuvake[i].setBounds((int)npc.hitbox.getMinX()+9, (int)npc.hitbox.getMinY()+9, pelaajanKokoPx, pelaajanKokoPx);
                             npcKuvake[i].setBounds(npc.hitbox.getBounds());
+                        }
+                    }
+                }
+            }
+            if (Peli.ammusLista != null) {
+                for (int i = 0; i < Peli.ammusLista.size(); i++) {
+                    Ammus ammus = Peli.ammusLista.get(i);
+                    if (Peli.ammusLista.size() == ammusKuvake.length) {
+                        if (ammusKuvake[i] != null && ammus != null) {
+                            ammusKuvake[i].setIcon(ammus.annaKuvake());
+                            ammusKuvake[i].setName("ammus " + i);
+                            if (ammus.hitbox.getBounds().getMinX() > 0 && ammus.hitbox.getBounds().getMaxX() < Peli.kentänKoko * esineenKokoPx) {
+                                ammusKuvake[i].setVisible(true);
+                                ammusKuvake[i].setBounds(ammus.hitbox.getBounds());
+                            }
+                            else {
+                                ammusKuvake[i].setVisible(false);
+                            }
                         }
                     }
                 }
@@ -1066,16 +1118,16 @@ public class PeliRuutu {
         
         try {
 
-            if (Peli.npcLista != null){
+            if (Peli.npcLista != null) {
                 for (Component comp : peliKenttä.getComponents()) {
                     if (comp.getName() != null) {
                         if (comp.getName().contains("npc")) {
                             peliKenttä.remove(comp);
                         }
                     }
-                    else {
-                        peliKenttä.remove(comp);
-                    }
+                    // else {
+                    //     peliKenttä.remove(comp);
+                    // }
                 }
                 npcKuvake = new JLabel[Peli.npcLista.size()];
                 for (int i = 0; i < Peli.npcLista.size(); i++) {
@@ -1095,12 +1147,67 @@ public class PeliRuutu {
             else {
                 for (int i = 0; i < npcKuvake.length; i++) {
                     npcKuvake[i] = new JLabel(new ImageIcon());
+                    npcKuvake[i].setName("npc " + i);
                     peliKenttä.add(npcKuvake[i], Integer.valueOf(3), 0);
                 }
             }
         }
         catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        catch (IllegalArgumentException e) {
+
+        }
+        catch (NullPointerException e) {
+            System.out.println("ongelma alkuikkunan luonnissa");
+            e.printStackTrace();
+        }
+
+        peliKenttä.revalidate();
+        peliKenttä.repaint();
+    }
+
+    public static void päivitäAmmusKenttä() {
+        try {
+            if (Peli.ammusLista != null) {
+                for (Component comp : peliKenttä.getComponents()) {
+                    if (comp.getName() != null) {
+                        if (comp.getName().contains("ammus")) {
+                            peliKenttä.remove(comp);
+                        }
+                    }
+                }
+                ammusKuvake = new JLabel[Peli.ammusLista.size()];
+                for (int i = 0; i < ammusKuvake.length; i++) {
+                    if (Peli.ammusLista.size() > i) {
+                        Ammus ammus = Peli.ammusLista.get(i);
+                        if (ammus != null) {
+                            ammusKuvake[i] = new JLabel();
+                            ammusKuvake[i].setIcon(ammus.annaKuvake());
+                            ammusKuvake[i].setBounds((int)ammus.hitbox.getMinX(), (int)ammus.hitbox.getMinY(), 16, 16);
+                            if (PääIkkuna.reunatNäkyvissä) {
+                                ammusKuvake[i].setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
+                            }
+                            else {
+                                ammusKuvake[i].setBorder(null);
+                            }
+                            peliKenttä.add(ammusKuvake[i], Integer.valueOf(3), 0);
+                        }
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < ammusKuvake.length; i++) {
+                    ammusKuvake[i] = new JLabel(new ImageIcon());
+                    ammusKuvake[i].setName("ammus " + i);
+                    peliKenttä.add(ammusKuvake[i], Integer.valueOf(3), 0);
+                }
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         catch (IllegalArgumentException e) {
 

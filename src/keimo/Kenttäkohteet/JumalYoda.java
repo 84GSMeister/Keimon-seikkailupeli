@@ -6,7 +6,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class JumalYoda extends NPC_KenttäKohde {
+public final class JumalYoda extends NPC_KenttäKohde {
 
     @Override
     public String kokeileEsinettä(Esine e) {
@@ -18,6 +18,25 @@ public class JumalYoda extends NPC_KenttäKohde {
     public String katso() {
         this.näytäDialogi(null);
         return katsomisTeksti;
+    }
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        //Vaikee kuvitella, että näitäkään ikinä tarvis, mutta laitetaan ihan vaan perfektionismin tähden.
+        switch (sijamuoto) {
+            case "nominatiivi": return "Jumal Yoda";
+            case "genetiivi": return "Jumal Yodan";
+            case "esiivi": return "Jumal Yodana";
+            case "partitiivi": return "Jumal Yodaa";
+            case "translatiivi": return "Jumal Yodaksi";
+            case "inessiivi": return "Jumal Yodassa";
+            case "elatiivi": return "Jumal Yodasta";
+            case "illatiivi": return "Jumal Yodaan";
+            case "adessiivi": return "Jumal Yodalla";
+            case "ablatiivi": return "Jumal Yodalta";
+            case "allatiivi": return "Jumal Yodalle";
+            default: return "Jumal Velho";
+        }
     }
 
     @Override

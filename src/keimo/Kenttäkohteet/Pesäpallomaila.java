@@ -4,35 +4,26 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Pesäpallomaila extends Esine {
+public final class Pesäpallomaila extends Esine {
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
+        //Pesäpallomaila p = new Pesäpallomaila(false, 0, 0);
+        //System.out.println("Haluutsä turpaan? Ja vielä " + p.annanimiSijamuodossa("adessiivi") + "!");
+        // ^ Haluutsä turpaan? Ja vielä Pesäpallomailalla!
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Pesäpallomaila";
-            case "genetiivi":
-                return "Pesäpallomailan";
-            case "esiivi":
-                return "Pesäpallomailana";
-            case "partitiivi":
-                return "Pesäpallomailaa";
-            case "translatiivi":
-                return "Pesäpallomailaksi";
-            case "inessiivi":
-                return "Pesäpallomailassa";
-            case "elatiivi":
-                return "Pesäpallomailasta";
-            case "illatiivi":
-                return "Pesäpallomailaan";
-            case "adessiivi":
-                return "Pesäpallomailalla";
-            case "ablatiivi":
-                return "Pesäpallomailalta";
-            case "allatiivi":
-                return "Pesäpallomailalle";
-            default:
-                return "Pesäpallomaila";
+            case "nominatiivi": return "Pesäpallomaila";
+            case "genetiivi": return "Pesäpallomailan";
+            case "esiivi": return "Pesäpallomailana";
+            case "partitiivi": return "Pesäpallomailaa";
+            case "translatiivi": return "Pesäpallomailaksi";
+            case "inessiivi": return "Pesäpallomailassa";
+            case "elatiivi": return "Pesäpallomailasta";
+            case "illatiivi": return "Pesäpallomailaan";
+            case "adessiivi": return "Pesäpallomailalla";
+            case "ablatiivi": return "Pesäpallomailalta";
+            case "allatiivi": return "Pesäpallomailalle";
+            default: return "Pesäpallomaila";
         }
     }
 
@@ -45,6 +36,7 @@ public class Pesäpallomaila extends Esine {
         super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
         super.käyttöTeksti = "Löit vihollista turpaan";
+        super.vahinko = 1;
         super.asetaTiedot();
     }
 }

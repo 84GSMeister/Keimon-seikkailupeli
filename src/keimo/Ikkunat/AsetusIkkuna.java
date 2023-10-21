@@ -62,18 +62,18 @@ public class AsetusIkkuna {
                 JOptionPane.showMessageDialog(null, "Maksimivaikeusaste on 30.\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
                 PelinAsetukset.vaikeusAste = 30;
             }
-            else if (PelinAsetukset.tavoiteFPS > 1000) {
-                JOptionPane.showMessageDialog(null, "Maksimi-tavoite-FPS on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
-                PelinAsetukset.tavoiteFPS = 1000;
-            }
+            //else if (PelinAsetukset.tavoiteFPS > 1000) {
+            //    JOptionPane.showMessageDialog(null, "Maksimi-tavoite-FPS on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            //    PelinAsetukset.tavoiteFPS = 1000;
+            //}
             else if (PelinAsetukset.tavoiteFPS < 1) {
                 JOptionPane.showMessageDialog(null, "Tavoite-FPS täytyy olla positiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
                 PelinAsetukset.tavoiteFPS = 1;
             }
-            else if (PelinAsetukset.tavoiteTickrate > 1000) {
-                JOptionPane.showMessageDialog(null, "Maksimi-tavoite-tickrate on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
-                PelinAsetukset.tavoiteTickrate = 1000;
-            }
+            //else if (PelinAsetukset.tavoiteTickrate > 1000) {
+            //    JOptionPane.showMessageDialog(null, "Maksimi-tavoite-tickrate on 1000.", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            //    PelinAsetukset.tavoiteTickrate = 1000;
+            //}
             else if (PelinAsetukset.tavoiteTickrate < 1) {
                 JOptionPane.showMessageDialog(null, "Tavoite-tickrate taytyy olla positiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
                 PelinAsetukset.tavoiteTickrate = 1;
@@ -101,7 +101,7 @@ public class AsetusIkkuna {
             PelinAsetukset.tavoiteFPS = 60;
             PelinAsetukset.tavoiteTickrate = 60;
         }
-        Peli.ääniThread.run();
+        Peli.ääniSäie.run();
     }
 
     public static void luoAsetusikkuna() {
@@ -128,6 +128,7 @@ public class AsetusIkkuna {
 
         musiikkiValikko = new JComboBox<Object>(ÄänentoistamisSäie.musaLista.toArray());
         musiikkiValikko.setSelectedIndex(PelinAsetukset.musiikkiValinta);
+        musiikkiValikko.setMaximumRowCount(ÄänentoistamisSäie.musaLista.size());
         JLabel teksti2 = new JLabel(tekstit[2], JLabel.TRAILING);
         teksti2.setLabelFor(musiikkiValikko);
         paneli.add(teksti2);
@@ -166,10 +167,10 @@ public class AsetusIkkuna {
         tavoiteFPSTekstikenttä = new JTextField();
         JLabel teksti5 = new JLabel(tekstit[5], JLabel.TRAILING);
         teksti5.setLabelFor(tavoiteFPSTekstikenttä);
-        teksti5.setToolTipText("<html><p>Tavoite-FPS<br><br>Älä aseta liian suureksi tai<br>käyttöliittymä voi muuttua tökkiväksi<br><br>Oletus: 200</p></html><br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        teksti5.setToolTipText("<html><p>Tavoite-FPS<br><br>Älä aseta liian suureksi tai<br>käyttöliittymä voi muuttua tökkiväksi<br><br>Oletus: 200<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
         paneli.add(teksti5);
         tavoiteFPSTekstikenttä.setText("" + (PelinAsetukset.tavoiteFPS));
-        tavoiteFPSTekstikenttä.setToolTipText("<html><p>Tavoite-FPS<br><br>Älä aseta liian suureksi tai<br>käyttöliittymä voi muuttua tökkiväksi<br><br>Oletus: 200</p></html><br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        tavoiteFPSTekstikenttä.setToolTipText("<html><p>Tavoite-FPS<br><br>Älä aseta liian suureksi tai<br>käyttöliittymä voi muuttua tökkiväksi<br><br>Oletus: 200<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
         paneli.add(tavoiteFPSTekstikenttä);
 
         tavoiteTickrateTekstikenttä = new JTextField();
@@ -185,8 +186,8 @@ public class AsetusIkkuna {
         JLabel teksti7 = new JLabel(tekstit[7], JLabel.TRAILING);
         paneli.add(teksti7);
         teksti7.setLabelFor(ajoitusValikko);
-        teksti7.setToolTipText("<html><p>Tarkempi framerate- ja tickrate-ajoitus parantaa pelin sulavuutta, mutta kasvattaa CPU-käyttöä.<br>Tarkka: Suositellaan 4-ydin- ja paremmille prosessoreille.<br>Nopea: Suositellaan 2-ydin-4-säieprosessoreille.<br>Erittäin nopea: Suositellaan 2-ydinprosessoreille<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
-        ajoitusValikko.setToolTipText("<html><p>Tarkempi framerate- ja tickrate-ajoitus parantaa pelin sulavuutta, mutta kasvattaa CPU-käyttöä.<br>Tarkka: Suositellaan 4-ydin- ja paremmille prosessoreille.<br>Nopea: Suositellaan 2-ydin-4-säieprosessoreille.<br>Erittäin nopea: Suositellaan 2-ydinprosessoreille<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        teksti7.setToolTipText("<html><p>Tarkempi framerate- ja tickrate-ajoitus parantaa pelin sulavuutta, mutta kasvattaa CPU-käyttöä.<br><br>Tarkka: Suositellaan 4-ydin- ja paremmille prosessoreille.<br>Nopea: Suositellaan 2-ydin-4-säieprosessoreille.<br>Erittäin nopea: Suositellaan 2-ydinprosessoreille<br><br>Erittäin nopealla asetuksella FPS- ja Tickrate -säädöt eivät toimi.<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
+        ajoitusValikko.setToolTipText("<html><p>Tarkempi framerate- ja tickrate-ajoitus parantaa pelin sulavuutta, mutta kasvattaa CPU-käyttöä.<br><br>Tarkka: Suositellaan 4-ydin- ja paremmille prosessoreille.<br>Nopea: Suositellaan 2-ydin-4-säieprosessoreille.<br>Erittäin nopea: Suositellaan 2-ydinprosessoreille<br><br>Erittäin nopealla asetuksella FPS- ja Tickrate -säädöt eivät toimi.<br><br>Vaatii uudelleenkäynnistyksen!</p></html>");
         paneli.add(ajoitusValikko);
 
         

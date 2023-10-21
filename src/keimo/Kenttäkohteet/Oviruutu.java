@@ -9,30 +9,18 @@ public class Oviruutu extends Warp {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Oviruutu";
-            case "genetiivi":
-                return "Oviruudun";
-            case "esiivi":
-                return "Oviruutuna";
-            case "partitiivi":
-                return "Oviruutua";
-            case "translatiivi":
-                return "Oviruuduksi";
-            case "inessiivi":
-                return "Oviruudussa";
-            case "elatiivi":
-                return "Oviruudusta";
-            case "illatiivi":
-                return "Oviruutuun";
-            case "adessiivi":
-                return "Oviruudulla";
-            case "ablatiivi":
-                return "Oviruudulta";
-            case "allatiivi":
-                return "Oviruudulle";
-            default:
-                return "Oviruutu";
+            case "nominatiivi": return "Oviruutu";
+            case "genetiivi": return "Oviruudun";
+            case "esiivi": return "Oviruutuna";
+            case "partitiivi": return "Oviruutua";
+            case "translatiivi": return "Oviruuduksi";
+            case "inessiivi": return "Oviruudussa";
+            case "elatiivi": return "Oviruudusta";
+            case "illatiivi": return "Oviruutuun";
+            case "adessiivi": return "Oviruudulla";
+            case "ablatiivi": return "Oviruudulta";
+            case "allatiivi": return "Oviruudulle";
+            default: return "Oviruutu";
         }
     }
     

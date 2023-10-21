@@ -1,6 +1,7 @@
 package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
+import keimo.PääIkkuna;
 import keimo.Utility.KäännettäväKuvake;
 
 import java.io.File;
@@ -11,7 +12,7 @@ public class KauppaHylly extends Kiintopiste {
     protected Esine sisältö;
 
     @Override
-    public String kokeileEsinettä(Esine e) {
+    public String vuorovaikuta(Esine e) {
         if (this.sisältö != null) {
             return Pelaaja.lisääOstosKoriin(luoSisältö(this.sisältö.annaNimi(), lisäOminaisuudet));
         }
@@ -54,7 +55,7 @@ public class KauppaHylly extends Kiintopiste {
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
             }
             if (luoSisältö(esineenNimi, null) != null) {
-                super.katsomisTeksti = "Hyllystä saa" + luoSisältö(esineenNimi, null).annaNimiSijamuodossa("partitiivi");
+                super.katsomisTeksti = "Hyllystä saa " + luoSisältö(esineenNimi, null).annaNimiSijamuodossa("partitiivi");
             }
             else {
                 super.katsomisTeksti = "tyhjä hylly";
@@ -82,6 +83,8 @@ public class KauppaHylly extends Kiintopiste {
         super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kauppahylly.png";
         super.katsomisTeksti = "Tyhjä hylly";
+        super.erillisDialogi = true;
+        super.ignooraaEsineValintaDialogissa = true;
 
         if (ominaisuusLista != null) {
             String esineenNimi = "";
@@ -128,7 +131,7 @@ public class KauppaHylly extends Kiintopiste {
             }
             päivitäLisäOminaisuudet();
             if (luoSisältö(esineenNimi, ominaisuusLista) != null) {
-                super.katsomisTeksti = "Hyllystä saa" + luoSisältö(esineenNimi, ominaisuusLista).annaNimiSijamuodossa("partitiivi");
+                super.katsomisTeksti = "Hyllystä saa " + luoSisältö(esineenNimi, ominaisuusLista).annaNimiSijamuodossa("partitiivi");
             }
         }
         else {

@@ -190,7 +190,7 @@ public class HuoneenVaihtoIkkuna {
         ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
-        ikkuna.setLocationRelativeTo(null);
+        ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();

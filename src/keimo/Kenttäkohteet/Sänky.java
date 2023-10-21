@@ -6,10 +6,10 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Sänky extends Kiintopiste {
+public final class Sänky extends Kiintopiste {
     
     @Override
-    public String kokeileEsinettä(Esine e) {
+    public String vuorovaikuta(Esine e) {
         if (Pelaaja.känninVoimakkuus <= 0) {
             return "Vielä ei nukuta. Kokeile myöhemmin (tai kun olet kännissä)!";
         }
@@ -26,6 +26,24 @@ public class Sänky extends Kiintopiste {
             return "Känni on nollattu, mutta krapula saattaa vaikuttaa elinvoimaasi.";
         }
     }
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi": return "Sänky";
+            case "genetiivi": return "Sängyn";
+            case "esiivi": return "Sänkynä";
+            case "partitiivi": return "Sänkyä";
+            case "translatiivi": return "Sängyksi";
+            case "inessiivi":  return "Sängyssä";
+            case "elatiivi": return "Sängystä";
+            case "illatiivi": return "Sänkyyn";
+            case "adessiivi": return "Sängyllä";
+            case "ablatiivi": return "Sängyltä";
+            case "allatiivi": return "Sängylle";
+            default: return "Sänky";
+        }
+    }
     
     public Sänky (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
@@ -34,6 +52,7 @@ public class Sänky extends Kiintopiste {
         super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "sänky.png";
         super.katsomisTeksti = "Nukuttaako?";
+        super.ignooraaEsineValintaDialogissa = true;
         super.asetaTiedot();
     }
 }

@@ -112,7 +112,7 @@ public class PullonPalautusRuutu {
             edistymisPalkki.setMaximum(pullonPalautuksenPituus);
             try {
                 for (int i = 0; i < pullonPalautuksenPituus; i++) {
-                    Peli.pause = true;
+                    Peli.pauseDialogi = true;
                     int virhe = r.nextInt(0, 10);
                     jatkoSyöteAnnettu = false;
                     switch (virhe) {
@@ -122,7 +122,7 @@ public class PullonPalautusRuutu {
                             edistymisLabel.setText("<html><p>Poista pakkaus ja yritä uudelleen tai hävitä se muuten.<br>(Paina Space)</p></html>");
                             while (!jatkoSyöteAnnettu) {
                                 Thread.sleep(10);
-                                Peli.pause = true;
+                                Peli.pauseDialogi = true;
                             }
                             pulloautomaatti.tila = PulloautomaatinKuvake.AKTIIVINEN;
                         break;
@@ -132,7 +132,7 @@ public class PullonPalautusRuutu {
                             edistymisLabel.setText("<html><p>Palauta pakkaus alkuperäiseen muotoon ja yritä uudelleen.<br>(Paina X)</p></html>");
                             while (!jatkoSyöteAnnettu) {
                                 Thread.sleep(10);
-                                Peli.pause = true;
+                                Peli.pauseDialogi = true;
                             }
                             pulloautomaatti.tila = PulloautomaatinKuvake.AKTIIVINEN;
                         break;
@@ -142,7 +142,7 @@ public class PullonPalautusRuutu {
                             edistymisLabel.setText("<html><p>Älä työnnä kättä automaattiin!<br>(Paina C)</p></html>");
                             while (!jatkoSyöteAnnettu) {
                                 Thread.sleep(10);
-                                Peli.pause = true;
+                                Peli.pauseDialogi = true;
                             }
                             pulloautomaatti.tila = PulloautomaatinKuvake.AKTIIVINEN;
                         break;
@@ -152,7 +152,7 @@ public class PullonPalautusRuutu {
                             edistymisLabel.setText("<html><p>Kauppa ei hyväksy tätä merkkiä!<br>(Paina Z)</p></html>");
                             while (!jatkoSyöteAnnettu) {
                                 Thread.sleep(10);
-                                Peli.pause = true;
+                                Peli.pauseDialogi = true;
                             }
                             pulloautomaatti.tila = PulloautomaatinKuvake.AKTIIVINEN;
                         break;
@@ -199,7 +199,7 @@ public class PullonPalautusRuutu {
                 fProgressBar.setValue(0);
                 worker.cancel(true);
                 pulloautomaatti.tila = PulloautomaatinKuvake.IDLE;
-                Peli.pause = false;
+                Peli.pauseDialogi = false;
                 Peli.valintaDialogi = false;
                 PeliRuutu.lisäRuutuPaneli.removeAll();
                 PeliRuutu.lisäRuutuPaneli.revalidate();

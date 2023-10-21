@@ -6,7 +6,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Kauppias extends NPC_KenttäKohde {
+public final class Kauppias extends NPC_KenttäKohde {
 
     @Override
     public void näytäDialogi(Esine e) {
@@ -46,6 +46,24 @@ public class Kauppias extends NPC_KenttäKohde {
         else {
             PääIkkuna.avaaPitkäDialogiRuutu("kauppa_eivaraa");
             Pelaaja.tyhjennäOstoskori();
+        }
+    }
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi": return "Kauppias";
+            case "genetiivi": return "Kauppiaan";
+            case "esiivi": return "Kauppiaana";
+            case "partitiivi": return "Kauppiasta";
+            case "translatiivi": return "Kauppiaaksi";
+            case "inessiivi": return "Kauppiaassa";
+            case "elatiivi": return "Kauppiaasta";
+            case "illatiivi": return "Kauppiaaseen";
+            case "adessiivi": return "Kauppiaalla";
+            case "ablatiivi": return "Kauppiaalta";
+            case "allatiivi": return "Kauppiaalle";
+            default: return "Kauppias";
         }
     }
     

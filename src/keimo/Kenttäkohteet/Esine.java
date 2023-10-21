@@ -32,6 +32,11 @@ public abstract class Esine extends KenttäKohde {
         return hinta;
     }
 
+    protected int vahinko = 0;
+    public int annaVahinko() {
+        return vahinko;
+    }
+
     /**
      * Yhdistää kaksi esinettä: poistaa esineet ja antaa tilalle yhdistelmän tuloksen.
      * Aseta vanhoille tavaraluettelon paikoille null ja luo uusi esine
@@ -62,7 +67,6 @@ public abstract class Esine extends KenttäKohde {
 
     String käyttöTeksti = "Mitään ei tapahtunut.";
     public String käytä(){
-        //poista = true;
         return käyttöTeksti;
     }
 
@@ -70,34 +74,34 @@ public abstract class Esine extends KenttäKohde {
         return nimi;
     }
 
-    public String annaNimiSijamuodossa(String sijamuoto) {
-        switch (sijamuoto) {
-            case "nominatiivi":
-                return "Tämä esine";
-            case "genetiivi":
-                return "Tämän esineen";
-            case "esiivi":
-                return "Tänä esineenä";
-            case "partitiivi":
-                return "Tätä esinettä";
-            case "translatiivi":
-                return "Täksi esineeksi";
-            case "inessiivi":
-                return "Tässä esineessä";
-            case "elatiivi":
-                return "Tästä esineestä";
-            case "illatiivi":
-                return "Tähän esineeseen";
-            case "adessiivi":
-                return "Tällä esineellä";
-            case "ablatiivi":
-                return "Tältä esineeltä";
-            case "allatiivi":
-                return "Tälle esineelle";
-            default:
-                return "Tämä esine";
-        }
-    }
+    // public String annaNimiSijamuodossa(String sijamuoto) {
+    //     switch (sijamuoto) {
+    //         case "nominatiivi":
+    //             return "Tämä esine";
+    //         case "genetiivi":
+    //             return "Tämän esineen";
+    //         case "esiivi":
+    //             return "Tänä esineenä";
+    //         case "partitiivi":
+    //             return "Tätä esinettä";
+    //         case "translatiivi":
+    //             return "Täksi esineeksi";
+    //         case "inessiivi":
+    //             return "Tässä esineessä";
+    //         case "elatiivi":
+    //             return "Tästä esineestä";
+    //         case "illatiivi":
+    //             return "Tähän esineeseen";
+    //         case "adessiivi":
+    //             return "Tällä esineellä";
+    //         case "ablatiivi":
+    //             return "Tältä esineeltä";
+    //         case "allatiivi":
+    //             return "Tälle esineelle";
+    //         default:
+    //             return "Tämä esine";
+    //     }
+    // }
 
     protected static Esine luoEsine(String esineenNimi, String[] ominaisuusLista) {
         switch (esineenNimi) {

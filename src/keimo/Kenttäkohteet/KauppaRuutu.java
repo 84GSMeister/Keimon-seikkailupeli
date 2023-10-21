@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 public class KauppaRuutu extends Kiintopiste {
     
     @Override
-    public void näytäDialogi(Esine e) {
+    public String vuorovaikuta(Esine e) {
         boolean ponuAineksetOstettu = false;
         for (Esine pelaajanEsine : Pelaaja.ostosKori) {
             if (pelaajanEsine instanceof Ponuainekset) {
@@ -71,6 +71,7 @@ public class KauppaRuutu extends Kiintopiste {
             PääIkkuna.avaaPitkäDialogiRuutu("kauppa_eivaraa");
             Pelaaja.tyhjennäOstoskori();
         }
+        return "";
     }
     
     public KauppaRuutu (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
@@ -81,6 +82,8 @@ public class KauppaRuutu extends Kiintopiste {
         super.tiedostonNimi = "kaupparuutu.png";
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
         super.katsomisTeksti = "Kylien kauppias";
+        super.erillisDialogi = true;
+        super.ignooraaEsineValintaDialogissa = true;
         super.asetaTiedot();
     }
 }

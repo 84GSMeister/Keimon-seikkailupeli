@@ -4,7 +4,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Hiili extends Esine {
+public final class Hiili extends Esine {
 
     @Override
     public String käytä() {
@@ -14,31 +14,22 @@ public class Hiili extends Esine {
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
+        //Hiili h = new Hiili(false, 0, 0);
+        //System.out.println("Mä käyn ihan " + h.annaNimiSijamuodossa("essiivi") + " tässä yrittäessäni koodata.");
+        // ^ Mä käyn ihan Hiilenä tässä yrittäessäni koodata.
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Hiili";
-            case "genetiivi":
-                return "Hiilen";
-            case "esiivi":
-                return "Hiilenä";
-            case "partitiivi":
-                return "Hiiltä";
-            case "translatiivi":
-                return "Hiileksi";
-            case "inessiivi":
-                return "Hiilessä";
-            case "elatiivi":
-                return "Hiilestä";
-            case "illatiivi":
-                return "Hiileen";
-            case "adessiivi":
-                return "Hiilellä";
-            case "ablatiivi":
-                return "Hiileltä";
-            case "allatiivi":
-                return "Hiilelle";
-            default:
-                return "Hiili";
+            case "nominatiivi": return "Hiili";
+            case "genetiivi": return "Hiilen";
+            case "esiivi": return "Hiilenä";
+            case "partitiivi": return "Hiiltä";
+            case "translatiivi": return "Hiileksi";
+            case "inessiivi": return "Hiilessä";
+            case "elatiivi": return "Hiilestä";
+            case "illatiivi": return "Hiileen";
+            case "adessiivi": return "Hiilellä";
+            case "ablatiivi": return "Hiileltä";
+            case "allatiivi": return "Hiilelle";
+            default: return "Hiili";
         }
     }
 

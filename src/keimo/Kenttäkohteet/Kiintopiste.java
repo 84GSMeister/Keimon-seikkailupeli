@@ -15,6 +15,21 @@ public abstract class Kiintopiste extends KenttäKohde {
     boolean yPeilaus = false;
     public String tiedostonNimi;
 
+    protected boolean erillisDialogi = false;
+    public boolean onkoErillisDialogi() {
+        return erillisDialogi;
+    }
+
+    protected boolean ignooraaEsineValintaDialogissa = false;
+    public boolean ignooraaEsineValinta() {
+        return ignooraaEsineValintaDialogissa;
+    }
+
+    protected boolean ohitaDialogiTesktiboksi = false;
+    public boolean ohitaDialogiTesktiboksi() {
+        return ohitaDialogiTesktiboksi;
+    }
+
     boolean vuorovaikutus = false;
     public boolean vuorovaikutusToimii() {
         return vuorovaikutus;
@@ -23,12 +38,15 @@ public abstract class Kiintopiste extends KenttäKohde {
     ArrayList<String> käyvätEsineet = new ArrayList<String>();
 
     public String kokeileEsinettä(Esine e) {
-        System.out.println("Mitään ei tapahtunut!");
-        return "Mitään ei tapahtunut!";
+        return e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi") + ".";
     }
 
     public Esine suoritaMuutoksetEsineelle(Esine e) {
         return super.suoritaMuutoksetEsineelle(e);
+    }
+
+    public String vuorovaikuta(Esine e) {
+        return "Vuorovaikutus";
     }
 
     public String annaNimi(){

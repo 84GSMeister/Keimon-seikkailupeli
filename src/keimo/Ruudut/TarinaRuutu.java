@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -46,7 +47,9 @@ public class TarinaRuutu {
             tarinaTeksti = tarinaPätkä.annaTekstit();
             tarinanKuva = tarinaPätkä.annaKuvat();
 
-            kuva = new JLabel(tarinanKuva[0]);
+            Image img = tarinanKuva[0].getImage();
+            img.flush();
+            kuva = new JLabel(new ImageIcon(img));
 
             kuvaPaneli = new JPanel();
             kuvaPaneli.setBounds(0, 0, 640, 400);
@@ -181,7 +184,9 @@ public class TarinaRuutu {
         }
         else {
             teksti.setText(tarinaTeksti[klikkaustenMäärä]);
-            kuva.setIcon(tarinanKuva[klikkaustenMäärä]);
+            Image img = tarinanKuva[klikkaustenMäärä].getImage();
+            img.flush();
+            kuva.setIcon(new ImageIcon(img));
         }
     }
 

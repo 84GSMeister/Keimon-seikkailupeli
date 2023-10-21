@@ -8,14 +8,10 @@ import keimo.Ruudut.PeliRuutu;
 import java.awt.Rectangle;
 import javax.swing.*;
 
-public abstract class NPC implements Käännettävä{
+public abstract class NPC extends Entity implements Käännettävä {
     
     public int id = 0;
     boolean määritettySijainti = true;
-    public int sijX;
-    public int sijY;
-    protected int alkuSijX;
-    protected int alkuSijY;
     public int nopeus;
     public Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
     protected int hp;
@@ -32,6 +28,12 @@ public abstract class NPC implements Käännettävä{
         //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
         if (this instanceof Vihollinen) {
             Vihollinen v = (Vihollinen)this;
+            tiedot += "HP: " + v.hp + "\n";
+            tiedot += "Vahinko: " + v.vahinko + "\n";
+            if (v.ampuu) {
+                tiedot += "Ammusvahinko: " + v.ammusVahinko + "\n";
+            }
+            tiedot += "Nopeus: " + v.nopeus + "\n";
             if (v.tehoavatAseet != null) {
                 tiedot += "Tehoavat aseet: ";
                 for (String tehoavaAse : v.tehoavatAseet) {
@@ -41,6 +43,9 @@ public abstract class NPC implements Käännettävä{
                 tiedot += "\n";
             }
             tiedot += "Kilpi tehoaa: " + (v.kilpiTehoaa ? "Kyllä" : "Ei") + "\n";
+            if (v.ominaisHuuto != null && v.ominaisHuuto != "") {
+                tiedot += "Ominaishuuto: " + v.ominaisHuuto + "\n";
+            }
         }   
     }
     
@@ -91,12 +96,6 @@ public abstract class NPC implements Käännettävä{
         return kuvake;
     }
 
-    public SuuntaVasenOikea npcnSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-    public enum SuuntaVasenOikea {
-        VASEN,
-        OIKEA;
-    }
-
     private boolean siirrä(Suunta suunta) {
         boolean NPCSiirtyi = false;
         switch (suunta) {
@@ -137,7 +136,8 @@ public abstract class NPC implements Käännettävä{
         try {
             switch (suunta) {
                 case VASEN:
-                    this.npcnSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
+                    this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
+                    this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
                     if (hitbox.getMinX() > 0) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                             NPCSiirtyi = siirrä(Suunta.VASEN);
@@ -150,7 +150,8 @@ public abstract class NPC implements Käännettävä{
                     }
                     break;
                 case OIKEA:
-                    this.npcnSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+                    this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+                    this.suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
                     if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                             NPCSiirtyi = siirrä(Suunta.OIKEA);
@@ -163,6 +164,7 @@ public abstract class NPC implements Käännettävä{
                     }
                     break;
                 case ALAS:
+                    this.suuntaDiagonaali = SuuntaDiagonaali.ALAS;
                     if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx] == null) {
                             NPCSiirtyi = siirrä(Suunta.ALAS);
@@ -175,6 +177,7 @@ public abstract class NPC implements Käännettävä{
                     }
                     break;
                 case YLÖS:
+                    this.suuntaDiagonaali = SuuntaDiagonaali.YLÖS;
                     if (hitbox.getMinY() > 0) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx] == null) {
                             NPCSiirtyi = siirrä(Suunta.YLÖS);
@@ -229,21 +232,29 @@ public abstract class NPC implements Käännettävä{
 
         switch (npcnNimi) {
 
+            case "Asevihu":
+                luotavaNPC = new Asevihu(sijX, sijY, ominaisuusLista);
+            break;
+
             case "Pikkuvihu":
                 luotavaNPC = new Pikkuvihu(sijX, sijY, ominaisuusLista);
-                break;
+            break;
 
             case "Pahavihu":
                 luotavaNPC = new Pahavihu(sijX, sijY, ominaisuusLista);
-                break;
+            break;
+
+            case "Pomo":
+                luotavaNPC = new Boss(sijX, sijY, ominaisuusLista);
+            break;
             
             case "Vartija":
                 luotavaNPC = new Vartija(sijX, sijY, ominaisuusLista);
-                break;
+            break;
 
             default:
                 luotavaNPC = null;
-                break;
+            break;
         }
 
         if (luotavaNPC == null) {

@@ -4,8 +4,7 @@ import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-
-public class Avain extends Esine {
+public final class Avain extends Esine {
 
     @Override
     public String käytä(){
@@ -15,31 +14,22 @@ public class Avain extends Esine {
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
+        //Mitäs sit jos haluiskin monikkomuodot vielä kaikille?
+        //Entäs kaikki muut liitteet ynnä possessiivisuffiksi?
+        //Tähän en kyllä rupee.
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Avain";
-            case "genetiivi":
-                return "Avaimen";
-            case "esiivi":
-                return "Avaimena";
-            case "partitiivi":
-                return "Avainta";
-            case "translatiivi":
-                return "Avaimeksi";
-            case "inessiivi":
-                return "Avaimessa";
-            case "elatiivi":
-                return "Avaimesta";
-            case "illatiivi":
-                return "Avaimeen";
-            case "adessiivi":
-                return "Avaimella";
-            case "ablatiivi":
-                return "Avaimelta";
-            case "allatiivi":
-                return "Avaimelle";
-            default:
-                return "Avain";
+            case "nominatiivi": return "Avain";
+            case "genetiivi": return "Avaimen";
+            case "esiivi": return "Avaimena";
+            case "partitiivi": return "Avainta";
+            case "translatiivi": return "Avaimeksi";
+            case "inessiivi": return "Avaimessa";
+            case "elatiivi": return "Avaimesta";
+            case "illatiivi": return "Avaimeen";
+            case "adessiivi": return "Avaimella";
+            case "ablatiivi": return "Avaimelta";
+            case "allatiivi": return "Avaimelle";
+            default: return "Avain";
         }
     }
     

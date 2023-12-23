@@ -16,12 +16,17 @@ public final class JumalVelho extends NPC_KenttäKohde {
 
     @Override
     public void näytäDialogi(Esine e) {
-        TavoiteLista.suoritaTavoite("Löydä Jumal Yoda");
-        if (TavoiteLista.tavoiteLista.get("Keitä booli")) {
-            PääIkkuna.avaaDialogi(super.dialogiKuvake, "...", super.nimi);
+        if (super.onkoCustomDialogi()) {
+            super.näytäDialogi(e);
         }
         else {
-            PääIkkuna.avaaDialogi(super.dialogiKuvake, "Tervetuloa kaikki mun bordello dello dello dello dello dello dello delloon", super.nimi);
+            TavoiteLista.suoritaTavoite("Löydä Jumal Yoda");
+            if (TavoiteLista.tavoiteLista.get("Keitä booli")) {
+                PääIkkuna.avaaDialogi(super.dialogiKuvake, "...", super.nimi);
+            }
+            else {
+                PääIkkuna.avaaDialogi(super.dialogiKuvake, "Tervetuloa kaikki mun bordello dello dello dello dello dello dello delloon", super.nimi);
+            }
         }
     }
 

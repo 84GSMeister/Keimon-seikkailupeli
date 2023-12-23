@@ -1,8 +1,7 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.HuoneEditori.DialogiEditori.DialogiEditoriIkkuna;
-import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
+import keimo.HuoneEditori.DialogiEditori.*;
 import keimo.Ikkunat.*;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
@@ -30,10 +29,11 @@ public class ObjektinMuokkausIkkuna {
     static JComboBox<Suunta> suuntaValinta;
     static JComboBox<String> sisältöValinta;
     static JTextField triggeriLista;
+    static JCheckBox valintaLaatikko;
 
-    static void hyväksyMuutokset(int sijX, int sijY, String muokattavanKohteenNimi) {
+    static void hyväksyMuutokset(int sijX, int sijY, KenttäKohde muokattavaKohde) {
         try {
-            switch (muokattavanKohteenNimi) {
+            switch (muokattavaKohde.annaNimi()) {
                 case "Oviruutu", "Kauppaovi", "Puuovi":
                     int kohdeHuone = huoneValikko.getSelectedIndex();
                     int kohdeRuutuX = Integer.parseInt(tekstiKentät[1].getText());
@@ -114,6 +114,15 @@ public class ObjektinMuokkausIkkuna {
                     muokkausIkkuna.dispose();
                 break;
             }
+            if (muokattavaKohde instanceof NPC_KenttäKohde) {
+                NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
+                if (valintaLaatikko.isSelected()) {
+                    kenttäNPC.asetaDialogi("" + sisältöValinta.getSelectedItem());
+                }
+                else {
+                    kenttäNPC.asetaDialogi(null);
+                }
+            }
         }
         catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -182,10 +191,11 @@ public class ObjektinMuokkausIkkuna {
             //break;
 
             if (muokattavaKohde instanceof NPC_KenttäKohde) {
-                valintojenMäärä = 2;
+                valintojenMäärä = 3;
                 tekstit = new String[valintojenMäärä];
-                tekstit[0] = "Valitse dialogi";
-                tekstit[1] = "Luo dialogi";
+                tekstit[0] = "Custom-dialogi";
+                tekstit[1] = "Valitse dialogi";
+                tekstit[2] = "Muokkaa dialogeja";
             }
 
             //case "Kirstu":
@@ -234,16 +244,24 @@ public class ObjektinMuokkausIkkuna {
         }
 
         if (muokattavaKohde instanceof NPC_KenttäKohde) {
+            NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)muokattavaKohde;
+
             tekstiLabelit[0] = new JLabel(tekstit[0]);
             paneli.add(tekstiLabelit[0]);
 
-            NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)muokattavaKohde;
+            valintaLaatikko = new JCheckBox();
+            valintaLaatikko.setSelected(kenttäNPC.onkoCustomDialogi());
+            paneli.add(valintaLaatikko);
+
+            tekstiLabelit[1] = new JLabel(tekstit[1]);
+            paneli.add(tekstiLabelit[1]);
+
             sisältöValinta = new JComboBox<String>(VuoropuheDialogit.vuoropuheDialogiKartta.keySet().toArray(new String[VuoropuheDialogit.vuoropuheDialogiKartta.keySet().size()]));
             sisältöValinta.setSelectedItem(kenttäNPC.annaDialogi());
             paneli.add(sisältöValinta);
 
-            tekstiLabelit[1] = new JLabel(tekstit[1]);
-            paneli.add(tekstiLabelit[1]);
+            tekstiLabelit[2] = new JLabel(tekstit[2]);
+            paneli.add(tekstiLabelit[2]);
 
             JButton avaaDialogiEditori = new JButton("Avaa dialogieditori");
             avaaDialogiEditori.addActionListener(e -> DialogiEditoriIkkuna.luoDialogiEditoriIkkuna());
@@ -304,7 +322,7 @@ public class ObjektinMuokkausIkkuna {
         okNappi.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
                 if (!SwingUtilities.isRightMouseButton(e)) {
-                    hyväksyMuutokset(sijX, sijY, muokattavaKohde.annaNimi());
+                    hyväksyMuutokset(sijX, sijY, muokattavaKohde);
                 }
             }
         });

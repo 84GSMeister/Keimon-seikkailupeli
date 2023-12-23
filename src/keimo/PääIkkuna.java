@@ -53,6 +53,7 @@ public final class PääIkkuna {
         ikkunanKorkeus = PeliRuutu.esineenKokoPx * Peli.kentänKoko + 330;
 
         try {
+            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (Exception e) {
@@ -60,13 +61,14 @@ public final class PääIkkuna {
         }
 
         hudTeksti = new JLabel();
+        dialogiaJäljellä = 0;
 
         /**
          * Ikkunan ominaisuudet
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v.0.8.5 pre-alpha (21.10.2023)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v0.8.6 pre-alpha (23.12.2023)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -361,14 +363,15 @@ public final class PääIkkuna {
 
     
 
+    // public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste) {
+    //     VuoropuheDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste);
+    //     avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0]);
+    // }
+
     public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste) {
         VuoropuheDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste);
-        avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0]);
-    }
-
-    public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste, String valinnanTunniste) {
-        VuoropuheDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste);
-        avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0], true, valinnanTunniste);
+        avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0], true, vuoropuheRuudunTunniste);
+        System.out.println(VuoropuheDialogit.valinnanNimi);
     }
 
     public static boolean äläSuljeNuolilla = false;
@@ -386,17 +389,17 @@ public final class PääIkkuna {
         }
     }
 
-    public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet) {
-        if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
-            Peli.pauseDialogi = true;
-            äläSuljeNuolilla = estäNuolet;
-            tekstiAuki = true;
-            luoVuoropuheRuutu(kuvake, teksti, nimi);
-            PeliRuutu.vuoropuheTeksti.setText("");
-            PeliRuutu.vuoropuhePaneli.setVisible(true);
-            Peli.dialoginAvausViive = 5;
-        }
-    }
+    // public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet) {
+    //     if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
+    //         Peli.pauseDialogi = true;
+    //         äläSuljeNuolilla = estäNuolet;
+    //         tekstiAuki = true;
+    //         luoVuoropuheRuutu(kuvake, teksti, nimi);
+    //         PeliRuutu.vuoropuheTeksti.setText("");
+    //         PeliRuutu.vuoropuhePaneli.setVisible(true);
+    //         Peli.dialoginAvausViive = 5;
+    //     }
+    // }
 
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet, String valinnanTunniste) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
@@ -413,7 +416,7 @@ public final class PääIkkuna {
 
     public static void kelaaDialogi() {
         if (tekstiäJäljellä <= 1) {
-            suljeDialogi();
+            edistäDialogia();
         }
         else {
             tekstiäJäljellä = 1;
@@ -421,20 +424,35 @@ public final class PääIkkuna {
         }
     }
 
-    public static void suljeDialogi() {
+    public static void edistäDialogia() {
         if (dialogiaJäljellä > 1) {
             VuoropuheDialogit.siirrySeuraavaanDialogiRuutuun(VuoropuheDialogit.dialoginPituus - dialogiaJäljellä + 1);
         }
         else if (valintaTulossa != null) {
-            ValintaDialogiRuutu.luoValintaDialogiIkkuna(valintaTulossa);
-            valintaTulossa = null;
+            VuoropuheDialogiPätkä vdp = VuoropuheDialogit.vuoropuheDialogiKartta.get(valintaTulossa);
+            if (vdp != null) {
+                if (vdp.onkoValinta()) {
+                    ValintaDialogiRuutu.luoValintaDialogiIkkuna(valintaTulossa);
+                    valintaTulossa = null;
+                }
+                else {
+                    suljeDialogi();
+                }
+            }
+            else {
+                suljeDialogi();
+            }
         }
         else {
-            Peli.pauseDialogi = false;
-            tekstiAuki = false;
-            useitaRuutuja = false;
-            PeliRuutu.vuoropuhePaneli.setVisible(false);
+            suljeDialogi();
         }
+    }
+
+    private static void suljeDialogi() {
+        Peli.pauseDialogi = false;
+        tekstiAuki = false;
+        useitaRuutuja = false;
+        PeliRuutu.vuoropuhePaneli.setVisible(false);
     }
 
     static void näytäTiedot() {

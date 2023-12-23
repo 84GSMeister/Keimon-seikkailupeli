@@ -1,6 +1,14 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.10.2023): 0.8.5
+## Uusin versio (23.12.2023): 0.8.6
+
+### Versio 0.8.6
+
+ - Dialogieditori
+ - Kenttä-NPC:ille voi määrittää Custom-dialogin
+ - Editorissa voi nyt tallentaa yksittäisiä huoneita .ksh-tiedostoon. Huoneen voi tuoda minkä tahansa olemassaolevan huoneen päälle. ksh-tiedoston formaatti on sama kuin kst-tiedoston yksittäisessä huoneessa, mutta id jätetään huomioimatta.
+ - Korjattu kauppaoven aiheuttama kaatuminen (jos kaupasta poistuu tyhjän inventoryn kanssa)
+ - Korjattu editorin virhe NPC:n poistamisessa
 
 ### Versio 0.8.5
 

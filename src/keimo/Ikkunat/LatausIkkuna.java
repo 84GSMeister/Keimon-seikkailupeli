@@ -16,16 +16,17 @@ import javax.imageio.ImageIO;
 public class LatausIkkuna {
 
     static Frame ikkuna;
+    static Label latausTeksti;
 
     public static void luoLatausIkkuna() {
         
         ImgComp latausKuvake = new ImgComp("tiedostot/kuvat/menu/lataus/latauskuvake.png");
         latausKuvake.setPreferredSize(new Dimension(300, 60));
-        Label latausTeksti = new Label("Käynnistetään peliä");
+        latausTeksti = new Label("Käynnistetään peliä");
 
         Panel paneli = new Panel(new BorderLayout());
-        paneli.add(latausTeksti, BorderLayout.NORTH);
         paneli.add(latausKuvake, BorderLayout.CENTER);
+        paneli.add(latausTeksti, BorderLayout.SOUTH);
 
         ikkuna = new Frame("Keimon seikkailupeli");
         //ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
@@ -39,6 +40,7 @@ public class LatausIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.setLocationRelativeTo(null);
+        ikkuna.setAlwaysOnTop(true);
         ikkuna.revalidate();
         ikkuna.repaint();
     }
@@ -73,5 +75,9 @@ public class LatausIkkuna {
                 return new Dimension(ig.getWidth(), ig.getHeight());  
             }  
         }
+    }
+
+    public static void päivitäLatausTeksti(String teksti) {
+        latausTeksti.setText(teksti);
     }
 }

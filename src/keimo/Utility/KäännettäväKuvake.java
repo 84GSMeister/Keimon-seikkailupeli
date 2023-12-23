@@ -35,6 +35,8 @@ public class KäännettäväKuvake implements Icon {
 	private Peilaus peilaus = Peilaus.NORMAALI;
 	private double skaalaus = 64;
 	private float läpinäkyvyys = 1f;
+	private int xSiirto = 0;
+	private int ySiirto = 0;
 
 	private double degrees;
 	private boolean circularIcon;
@@ -119,6 +121,26 @@ public class KäännettäväKuvake implements Icon {
 		}
 		this.skaalaus = skaalaus;
 		this.läpinäkyvyys = läpinäkyvyys;
+	}
+
+	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus, int skaalaus, float läpinäkyvyys, int xSiirto, int ySiirto) {
+		this(icon, degrees, false);
+		if (xPeilaus && yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
+		}
+		else if (xPeilaus) {
+			this.peilaus = Peilaus.PEILAA_X;
+		}
+		else if (yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_Y;
+		}
+		else {
+			this.peilaus = Peilaus.NORMAALI;
+		}
+		this.skaalaus = skaalaus;
+		this.läpinäkyvyys = läpinäkyvyys;
+		this.xSiirto = xSiirto;
+		this.ySiirto = ySiirto;
 	}
 
 	/**
@@ -265,6 +287,13 @@ public class KäännettäväKuvake implements Icon {
 
 		if (läpinäkyvyys < 1) {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, läpinäkyvyys));
+		}
+
+		if (xSiirto != 0) {
+			g2.translate(xSiirto, 0);
+		}
+		if (ySiirto != 0) {
+			g2.translate(0, ySiirto);
 		}
 
 		if (skaalaus != 64f) {

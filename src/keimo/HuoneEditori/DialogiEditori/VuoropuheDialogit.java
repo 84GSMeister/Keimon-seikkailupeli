@@ -17,13 +17,24 @@ public class VuoropuheDialogit {
     public static String[] dialogiTekstit;
     public static String[] dialogiPuhujat;
     public static String vuoropuheTunniste;
+    public static boolean valinta = false;
+    public static int vaihtoehtojenMäärä = 0;
+    public static String valinnanNimi;
+    public static String valinnanOtsikko;
+    public static String[] valinnanVaihtoehdot;
+    public static String[] valinnanVaihtoehtojenKohdeDialogit;
+    public static String[] vaihtoehtojenTriggerit;
 
     public static HashMap<String, VuoropuheDialogiPätkä> vuoropuheDialogiKartta = new HashMap<>();
 
     public static void siirrySeuraavaanDialogiRuutuun(int ruudunNro) {
-        PääIkkuna.avaaDialogi(dialogiKuvat[ruudunNro], dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
-        System.out.println("" + dialogiKuvat[ruudunNro] + " " + dialogiTekstit[ruudunNro] + " " + dialogiPuhujat[ruudunNro]);
-        PääIkkuna.dialogiaJäljellä--;
+        if (ruudunNro >= 0) {
+            if (dialogiKuvat.length > ruudunNro && dialogiTekstit.length > ruudunNro && dialogiPuhujat.length > ruudunNro) {
+                PääIkkuna.avaaDialogi(dialogiKuvat[ruudunNro], dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
+                System.out.println("" + dialogiKuvat[ruudunNro] + " " + dialogiTekstit[ruudunNro] + " " + dialogiPuhujat[ruudunNro]);
+                PääIkkuna.dialogiaJäljellä--;
+            }
+        }
     }
 
     public static void luoYksityiskohtainenVuoropuheRuutu(String vuoropuheRuudunTunniste) {
@@ -41,6 +52,9 @@ public class VuoropuheDialogit {
                     dialogiKuvat[i] = dp.annaKuvat()[i];
                     dialogiTekstit[i] = dp.annaTekstit()[i];
                     dialogiPuhujat[i] = dp.annaPuhujat()[i];
+                }
+                if (dp.onkoValinta()) {
+                    
                 }
             }
         }
@@ -270,6 +284,13 @@ public class VuoropuheDialogit {
         dialogiKuvat = new Icon[dialoginPituus];
         dialogiTekstit = new String[dialoginPituus];
         dialogiPuhujat = new String[dialoginPituus];
+        valinta = true;
+        valinnanNimi = "goblin_valinta";
+        valinnanOtsikko = "Polku pimeälle puolelle?";
+        vaihtoehtojenMäärä = 2;
+        valinnanVaihtoehdot = new String[vaihtoehtojenMäärä];
+        valinnanVaihtoehtojenKohdeDialogit = new String[vaihtoehtojenMäärä];
+        vaihtoehtojenTriggerit = new String[vaihtoehtojenMäärä];
 
         dialogiKuvat[0] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png");
         dialogiKuvat[1] = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png");
@@ -279,7 +300,14 @@ public class VuoropuheDialogit {
 
         dialogiPuhujat[0] = "Jumal Yoda";
         dialogiPuhujat[1] = "Jumal Yoda";
-        vuoropuheDialogiKartta.put(vuoropuheTunniste, new VuoropuheDialogiPätkä(vuoropuheTunniste, dialoginPituus, dialogiKuvat, dialogiTekstit, dialogiPuhujat));
+
+        valinnanVaihtoehdot[0] = "Hmm... no kyllä on!";
+        valinnanVaihtoehdot[1] = "Ei";
+        valinnanVaihtoehtojenKohdeDialogit[0] = "goblin_kyllä";
+        valinnanVaihtoehtojenKohdeDialogit[1] = "goblin_ei";
+        vaihtoehtojenTriggerit[0] = "Avaa takahuone";
+
+        vuoropuheDialogiKartta.put(vuoropuheTunniste, new VuoropuheDialogiPätkä(vuoropuheTunniste, dialoginPituus, dialogiKuvat, dialogiTekstit, dialogiPuhujat, valinta, valinnanNimi, valinnanOtsikko, valinnanVaihtoehdot, valinnanVaihtoehtojenKohdeDialogit, vaihtoehtojenTriggerit));
         
 
         vuoropuheTunniste = "goblin_kyllä";

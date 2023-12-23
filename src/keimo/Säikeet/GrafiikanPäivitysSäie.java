@@ -349,7 +349,7 @@ public class GrafiikanPäivitysSäie extends Thread {
     private static void skaalaaHUD() {
         if (PääIkkuna.ikkuna !=null && PeliRuutu.tavaraPaneli != null && PeliRuutu.kontrolliInfoPaneli != null) {
             if (tarkistaIkkunanKoonMuutos() || ikkunanPäivitys) {
-                if (PääIkkuna.ikkuna.getHeight() > 1074 && PääIkkuna.ikkuna.getWidth() > 1800) {
+                if (PääIkkuna.ikkuna.getHeight() > 1044 && PääIkkuna.ikkuna.getWidth() > 1800) {
                     PeliRuutu.esineenKokoPx = 96;
                     PeliRuutu.pelaajanKokoPx = 96;
                     PeliRuutu.vasenYläPaneeli.setPreferredSize(new Dimension(320, 320));
@@ -358,7 +358,8 @@ public class GrafiikanPäivitysSäie extends Thread {
                     PeliRuutu.oikeaYläPaneeli.setPreferredSize(new Dimension(320, 320));
                     PeliRuutu.oikeaKeskiPaneeli.setPreferredSize(new Dimension(320, 320));
                     PeliRuutu.oikeaAlaPaneeli.setPreferredSize(new Dimension(320, 320));
-                    ImageIcon taustaSkaalaattu = new ImageIcon("tiedostot/kuvat/hud/paneeli_tausta_kehys_kokoruutu.png");
+                    //ImageIcon taustaSkaalaattu = new ImageIcon("tiedostot/kuvat/hud/paneeli_tausta_kehys_kokoruutu.png");
+                    KäännettäväKuvake taustaSkaalaattu = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/hud/paneeli_tausta_kehys.png"), 0, false, false, 108, 1, -96, -64);
                     PeliRuutu.vasenYläPaneelinTausta.setIcon(taustaSkaalaattu);
                     PeliRuutu.vasenKeskiPaneelinTausta.setIcon(taustaSkaalaattu);
                     PeliRuutu.vasenAlaPaneelinTausta.setIcon(taustaSkaalaattu);

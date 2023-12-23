@@ -940,7 +940,7 @@ public class PeliRuutu {
             if (Pelaaja.esineet[Peli.esineValInt] != null) {
                 ImageIcon pelaajanEsineenKuvake = (ImageIcon)Pelaaja.esineet[Peli.esineValInt].annaKuvake();
                 Image kuvake64 = pelaajanEsineenKuvake.getImage();
-                Image kuvake32 = kuvake64.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+                Image kuvake32 = kuvake64.getScaledInstance(32, 32, Image.SCALE_DEFAULT);
                 pelaajanEsineenKuvake = new ImageIcon(kuvake32);
                 pelaajanEsineLabel.setIcon(pelaajanEsineenKuvake);
             }

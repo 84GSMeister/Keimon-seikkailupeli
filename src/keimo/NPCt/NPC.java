@@ -257,9 +257,9 @@ public abstract class NPC extends Entity implements Käännettävä {
             break;
         }
 
-        if (luotavaNPC == null) {
-            JOptionPane.showMessageDialog(null, "Ei voi ladata npc:tä", "luotavaNPC = null", JOptionPane.ERROR_MESSAGE);
-        }
+        // if (luotavaNPC == null) {
+        //     JOptionPane.showMessageDialog(null, "Ei voi ladata npc:tä", "luotavaNPC = null", JOptionPane.ERROR_MESSAGE);
+        // }
         //luotavaNPC.teleport(sijX, sijY);
         return luotavaNPC;
     }

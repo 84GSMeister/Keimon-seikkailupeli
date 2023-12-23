@@ -48,7 +48,7 @@ public class TarinaEditoriIkkuna {
 
     public static void luoTarinaEditoriIkkuna() {
 
-        ikkuna = new JFrame("Tarinaeditori");
+        ikkuna = new JFrame("Tarinaeditori v0.2");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(0, 0, ikkunanLeveys, ikkunanKorkeus);
 

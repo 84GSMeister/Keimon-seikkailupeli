@@ -31,7 +31,7 @@ public class KauppaRuutu extends Kiintopiste {
                     PääIkkuna.avaaDialogi(null, "Ostokset ei mahdu tavaraluetteloon.", "");
                 }
                 else {
-                    PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
+                    //PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
                     Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
                     Pelaaja.ostostenHintaYhteensä = 0;
                     for (Esine ostos : Pelaaja.ostosKori) {
@@ -84,6 +84,7 @@ public class KauppaRuutu extends Kiintopiste {
         super.katsomisTeksti = "Kylien kauppias";
         super.erillisDialogi = true;
         super.ignooraaEsineValintaDialogissa = true;
+        super.ohitaDialogiTesktiboksi = true;
         super.asetaTiedot();
     }
 }

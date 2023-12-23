@@ -559,10 +559,10 @@ public class PeliKenttäMetodit {
                                         }
                                         else {
                                             if (Pelaaja.viimeisinOsunutVihollinen instanceof Pikkuvihu) {
-                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY;
                                                 }
-                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY;
                                                 }
                                                 else {
@@ -570,10 +570,10 @@ public class PeliKenttäMetodit {
                                                 }
                                             }
                                             else if (Pelaaja.viimeisinOsunutVihollinen instanceof Pahavihu) {
-                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY;
                                                 }
-                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY;
                                                 }
                                                 else {
@@ -581,10 +581,10 @@ public class PeliKenttäMetodit {
                                                 }
                                             }
                                             else if (Pelaaja.viimeisinOsunutVihollinen instanceof Asevihu) {
-                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
                                                 }
-                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
                                                 }
                                                 else {

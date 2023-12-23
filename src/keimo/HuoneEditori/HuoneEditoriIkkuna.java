@@ -1,7 +1,10 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
+import keimo.HuoneEditori.DialogiEditori.DialogiEditoriIkkuna;
+import keimo.HuoneEditori.JFXTiedostoIkkuna.TiedostoTyyppi;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
+import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
 import keimo.Kenttäkohteet.*;
 import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
@@ -17,6 +20,8 @@ import keimo.Ikkunat.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import javafx.scene.image.Image;
 
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -48,12 +53,6 @@ public class HuoneEditoriIkkuna {
     static int ikkunanLeveys;
     static int ikkunanKorkeus;
     public static JFrame ikkuna;
-    static JMenuBar yläPalkki;
-    static JMenu tiedosto, peli, tietoja, kartta;
-    static JMenuItem uusi, avaa, tallenna;
-    static JMenuItem kokeilePelissä;
-    static JMenuItem ohjeet;
-    static JMenuItem piirräEuklidinenKartta;
     static JPanel yläPaneeli, yläPaneelinYläosa, YläPaneelinAlaosa, yläVasenPaneeli, yläOikeaPaneeli;
     static JButton hyväksyNappi;
     static JLabel huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel;
@@ -122,17 +121,17 @@ public class HuoneEditoriIkkuna {
      */
     public static void luoEditoriIkkuna() {
         
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            //LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
-            // for (LookAndFeelInfo laf : lafs) {
-            //     System.out.println(laf.getClassName());
-            // }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        //     //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        //     //LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
+        //     // for (LookAndFeelInfo laf : lafs) {
+        //     //     System.out.println(laf.getClassName());
+        //     // }
+        // }
+        // catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 110;
         ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 230;
@@ -143,7 +142,7 @@ public class HuoneEditoriIkkuna {
         maastoKohteenKuvakeObjektiPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvakeNpcPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Huone-editori v0.6.5");
+        ikkuna = new JFrame("Huone-editori v0.7");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
@@ -153,7 +152,7 @@ public class HuoneEditoriIkkuna {
         ikkuna.revalidate();
         ikkuna.repaint();
 
-        uusi = new JMenuItem("Uusi", new ImageIcon("tiedostot/kuvat/menu/gui/uusi_tiedosto.png"));
+        JMenuItem uusi = new JMenuItem("Uusi", new ImageIcon("tiedostot/kuvat/menu/gui/uusi_tiedosto.png"));
         uusi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int tyhjennysValinta = CustomViestiIkkunat.EditorinTyhjennys.showDialog("Haluatko varmasti tyhjentää kaikki huoneet?", "Uusi pohja");
@@ -180,7 +179,7 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        avaa = new JMenuItem("Avaa", new ImageIcon("tiedostot/kuvat/menu/gui/kansio.png"));
+        JMenuItem avaa = new JMenuItem("Avaa", new ImageIcon("tiedostot/kuvat/menu/gui/kansio.png"));
         avaa.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int korvaaMuutokset = JOptionPane.OK_OPTION;
@@ -189,7 +188,7 @@ public class HuoneEditoriIkkuna {
                 }
                 if (korvaaMuutokset != JOptionPane.NO_OPTION) {
                     try {
-                        JFXTiedostoIkkuna.launchAvaaTiedosto();
+                        JFXTiedostoIkkuna.launchAvaaTiedosto(TiedostoTyyppi.KOKO_TIEDOSTO);
                     }
                     catch (Exception ex) {
                         System.out.println("Ei voitu ladata JavaFX:n kirjastoja. Käytetään Swingin tiedostovalintaikkunaa.");
@@ -298,12 +297,12 @@ public class HuoneEditoriIkkuna {
             }
         });
         
-        tallenna = new JMenuItem("Tallenna", new ImageIcon("tiedostot/kuvat/menu/gui/korppu.png"));
+        JMenuItem tallenna = new JMenuItem("Tallenna", new ImageIcon("tiedostot/kuvat/menu/gui/korppu.png"));
         tallenna.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(huoneKartta, TarinaDialogiLista.tarinaKartta);
                 try {
-                    JFXTiedostoIkkuna.launchTallennaTiedosto();
+                    JFXTiedostoIkkuna.launchTallennaTiedosto(TiedostoTyyppi.KOKO_TIEDOSTO);
                 }
                 catch (Exception ex) {
                     tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
@@ -311,12 +310,45 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        tiedosto = new JMenu("Tiedosto");
+        JMenuItem tuoHuone = new JMenuItem("Tuo huone", new ImageIcon("tiedostot/kuvat/menu/gui/tuo_huone.png"));
+        tuoHuone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(huoneKartta, TarinaDialogiLista.tarinaKartta);
+                try {
+                    JFXTiedostoIkkuna.launchAvaaTiedosto(TiedostoTyyppi.VAIN_HUONE);
+                }
+                catch (Exception ex) {
+                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                }
+            }
+        });
+
+        JMenuItem vieHuone = new JMenuItem("Vie huone", new ImageIcon("tiedostot/kuvat/menu/gui/vie_huone.png"));
+        vieHuone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonoHuoneesta(huoneKartta, HuoneEditoriIkkuna.muokattavaHuone);
+                try {
+                    JFXTiedostoIkkuna.launchTallennaTiedosto(TiedostoTyyppi.VAIN_HUONE);
+                }
+                catch (Exception ex) {
+                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                }
+            }
+        });
+
+        JMenu huone = new JMenu("Huone");
+        huone.setIcon(new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
+        huone.add(tuoHuone);
+        huone.add(vieHuone);
+
+        JMenu tiedosto = new JMenu("Tiedosto");
         tiedosto.add(uusi);
         tiedosto.add(avaa);
         tiedosto.add(tallenna);
+        tiedosto.add(new JSeparator());
+        tiedosto.add(huone);
 
-        kokeilePelissä = new JMenuItem("Kokeile pelissä", new ImageIcon("tiedostot/kuvat/menu/gui/uusipeli.png"));
+        JMenuItem kokeilePelissä = new JMenuItem("Kokeile pelissä", new ImageIcon("tiedostot/kuvat/menu/gui/uusipeli.png"));
         kokeilePelissä.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
@@ -357,10 +389,10 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        peli = new JMenu("Peli");
+        JMenu peli = new JMenu("Peli");
         peli.add(kokeilePelissä);
 
-        ohjeet = new JMenuItem("Ohjeet", new ImageIcon("tiedostot/kuvat/menu/gui/ohjeet.png"));
+        JMenuItem ohjeet = new JMenuItem("Ohjeet", new ImageIcon("tiedostot/kuvat/menu/gui/ohjeet.png"));
         ohjeet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String ohjeTeksti = "";
@@ -374,25 +406,40 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        tietoja = new JMenu("Tietoja");
+        JMenu tietoja = new JMenu("Tietoja");
         tietoja.add(ohjeet);
 
-        piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta", new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
+        JMenuItem piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta", new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
         piirräEuklidinenKartta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 KarttaIkkuna.luoKarttaikkuna();
             }
         });
 
-        kartta = new JMenu("Kartta");
+        JMenu kartta = new JMenu("Kartta");
         kartta.add(piirräEuklidinenKartta);
 
-        yläPalkki = new JMenuBar();
+        JMenuItem dialogiEditori = new JMenuItem("Dialogieditori", new ImageIcon("tiedostot/kuvat/menu/gui/puhedialogi.png"));
+        dialogiEditori.addActionListener(e -> {
+            DialogiEditoriIkkuna.luoDialogiEditoriIkkuna();
+        });
+
+        JMenuItem tarinaEditori = new JMenuItem("Tarinaeditori", new ImageIcon("tiedostot/kuvat/menu/gui/dialogieditori_vaihtoehdonkohde.png"));
+        tarinaEditori.addActionListener(e -> {
+            TarinaEditoriIkkuna.luoTarinaEditoriIkkuna();
+        });
+
+        JMenu työkalut = new JMenu("Työkalut");
+        työkalut.add(dialogiEditori);
+        työkalut.add(tarinaEditori);
+
+        JMenuBar yläPalkki = new JMenuBar();
         yläPalkki.setPreferredSize(new Dimension(ikkunanLeveys -20,20));
         yläPalkki.add(tiedosto);
         yläPalkki.add(peli);
         yläPalkki.add(tietoja);
         yläPalkki.add(kartta);
+        yläPalkki.add(työkalut);
         
 
         esineValikko = new JComboBox<String>(kenttäkohdeLista);

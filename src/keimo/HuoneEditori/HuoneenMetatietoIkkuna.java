@@ -34,7 +34,7 @@ public class HuoneenMetatietoIkkuna {
     static JPanel pääPaneeli, yläPaneeli, alaPaneeli, yläVasenPaneeli, yläOikeaPaneeli;
     static JLabel huoneenIdLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;
     static JTextField huoneenIdTekstiKenttä, huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä, valitunKuvanPolku, huoneenDialogiValintaTekstiKenttä, huoneenTavoiteTekstiKenttä;
-    static JButton huoneenKuvaValintaNappi, tarinanMuokkausNappi;
+    static JButton huoneenKuvaValintaNappi, tarinanMuokkausNappi, tavoitteidenMuokkausNappi;
     static JComboBox<Object> huoneenTarinaValintaLaatikko, huoneenTavoiteValintaLaatikko;
     static JFrame ikkuna;
     
@@ -127,6 +127,9 @@ public class HuoneenMetatietoIkkuna {
         tarinanMuokkausNappi = new JButton("Muokkaa tarinadialogeja");
         tarinanMuokkausNappi.addActionListener(e -> TarinaEditoriIkkuna.luoTarinaEditoriIkkuna());
 
+        tavoitteidenMuokkausNappi = new JButton("Muokkaa tavoitteita");
+        tavoitteidenMuokkausNappi.addActionListener(e -> CustomViestiIkkunat.ToteutusPuuttuu2.showDialog());
+
         yläOikeaPaneeli = new JPanel();
         yläOikeaPaneeli.setLayout(new SpringLayout());
         yläOikeaPaneeli.add(placeholder1);
@@ -134,7 +137,7 @@ public class HuoneenMetatietoIkkuna {
         yläOikeaPaneeli.add(placeholder3);
         yläOikeaPaneeli.add(huoneenKuvaValintaNappi);
         yläOikeaPaneeli.add(tarinanMuokkausNappi);
-        yläOikeaPaneeli.add(placeholder6);
+        yläOikeaPaneeli.add(tavoitteidenMuokkausNappi);
         SpringUtilities.makeCompactGrid(yläOikeaPaneeli, 6, 1, 6, 6, 6, 6);
 
         yläPaneeli = new JPanel();
@@ -145,7 +148,6 @@ public class HuoneenMetatietoIkkuna {
 
         JButton okNappi = new JButton("OK");
         okNappi.setBounds(0, 0, 20, 20);
-        okNappi.addActionListener(e -> ikkuna.dispose());
         okNappi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (huoneenNimiTekstiKenttä.getText().contains("(") || huoneenNimiTekstiKenttä.getText().contains(")")) {
@@ -162,6 +164,7 @@ public class HuoneenMetatietoIkkuna {
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenMaastoSisältö(HuoneEditoriIkkuna.maastoKenttä);
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenNPCSisältö(HuoneEditoriIkkuna.npcKenttä);
                     HuoneEditoriIkkuna.huoneenNimiLabel.setText(HuoneEditoriIkkuna.huoneenNimi + " (" + HuoneEditoriIkkuna.huoneenAlue + ")");
+                    ikkuna.dispose();
                 }
             }
         });

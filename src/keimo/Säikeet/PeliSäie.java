@@ -68,13 +68,13 @@ public class PeliSäie extends Thread {
             }
         }
         catch (Exception e) {
-            System.out.println("Ongelma ruudunpäivityksessä");
+            System.out.println("Ongelma pelisäikeessä");
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
             String sStackTrace = sw.toString();
             System.out.println(sStackTrace);
-            String viesti = "Pelisäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+            String viesti = "Pelisäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\nÄlä pliis paina rastia vaan valitse jokin vaihtoehdoista.\n\nVirhekoodi:\n" + sStackTrace;
             String otsikko = "Ongelma säikeessä";
             int virheenJälkeenValinta = CustomViestiIkkunat.GrafiikkäSäieVirhe.showDialog(viesti, otsikko);
             switch (virheenJälkeenValinta) {

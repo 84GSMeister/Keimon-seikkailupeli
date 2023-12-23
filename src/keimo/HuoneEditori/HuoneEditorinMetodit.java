@@ -359,6 +359,350 @@ public class HuoneEditorinMetodit {
         return uusiHuoneKartta;
     }
 
+    static Huone luoHuoneMerkkijonosta(String merkkijono, int id) {
+        int uusiHuoneenId = id;
+        String uusiHuoneenNimi = "";
+        String uusiHuoneenAlue = "";
+        String uusiHuoneenTaustanPolku = "";
+        String uusiHuoneenTarinanTunniste = null;
+        String uusiHuoneenVaadittuTavoite = null;
+        //boolean lataaTarinaRuutu = false;
+
+        String luotavaObjekti = "";
+        int luotavanObjektinX = 0;
+        int luotavanObjektinY = 0;
+        String[] luotavanObjektinOminaisuusLista = {""};
+        ArrayList<KenttäKohde> uusiObjektiLista = new ArrayList<KenttäKohde>();
+
+        String luotavaMaasto = "";
+        int luotavanMaastonX = 0;
+        int luotavanMaastonY = 0;
+        String[] luotavanMaastonOminaisuusLista = {""};
+        ArrayList<Maasto> uusiMaastoLista = new ArrayList<Maasto>();
+
+        String luotavaNPC = "";
+        int luotavanNPCnX = 0;
+        int luotavanNPCnY = 0;
+        String[] luotavanNPCnOminaisuusLista = {""};
+        ArrayList<NPC> uusiNPCLista = new ArrayList<NPC>();
+
+        boolean uusiWarpVasen = false;
+        int uusiWarpVasenHuoneId = 0;
+        boolean uusiWarpOikea = false;
+        int uusiWarpOikeaHuoneId = 0;
+        boolean uusiWarpAlas = false;
+        int uusiWarpAlasHuoneId = 0;
+        boolean uusiWarpYlös = false;
+        int uusiWarpYlösHuoneId = 0;
+
+        int rivejäTarkastettu = 0;
+        try {
+            KenttäKohde.nollaaObjektiId();
+            TarinaPätkä.nollaaTarinaId();
+            //for (String s : huoneMerkkijonot) {
+                Scanner sc = new Scanner(merkkijono);
+                while (sc.hasNextLine()) {
+                    String tarkastettavaRivi = sc.nextLine();
+                    rivejäTarkastettu++;
+                    if (tarkastettavaRivi.startsWith("Huone")) {
+                        //uusiHuoneenId = Integer.parseInt(tarkastettavaRivi.substring(6, tarkastettavaRivi.length() -1));
+                    }
+                    else if (tarkastettavaRivi.contains("#nimi:")) {
+                        uusiHuoneenNimi = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
+                    }
+                    else if (tarkastettavaRivi.contains("#alue:")) {
+                        uusiHuoneenAlue = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
+                    }
+                    else if (tarkastettavaRivi.contains("#tausta:")) {
+                        uusiHuoneenTaustanPolku = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
+                    }
+
+                    else if (tarkastettavaRivi.contains("#warp_vasen:")) {
+                        try {
+                            uusiWarpVasenHuoneId = Integer.parseInt(tarkastettavaRivi.substring(17, tarkastettavaRivi.length() -1));
+                            uusiWarpVasen = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpVasen = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpVasen = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#warp_oikea:")) {
+                        try {
+                            uusiWarpOikeaHuoneId = Integer.parseInt(tarkastettavaRivi.substring(17, tarkastettavaRivi.length() -1));
+                            uusiWarpOikea = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpOikea = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpOikea = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#warp_alas:")) {
+                        try {
+                            uusiWarpAlasHuoneId = Integer.parseInt(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
+                            uusiWarpAlas = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpAlas = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpAlas = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#warp_ylös:")) {
+                        try {
+                            uusiWarpYlösHuoneId = Integer.parseInt(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
+                            uusiWarpYlös = true;
+                        }
+                        catch (NumberFormatException e) {
+                            uusiWarpYlös = false;
+                        }
+                        catch (StringIndexOutOfBoundsException e) {
+                            uusiWarpYlös = false;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#tarina:")) {
+                        try {
+                            uusiHuoneenTarinanTunniste = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
+                            if (uusiHuoneenTarinanTunniste == null || uusiHuoneenTarinanTunniste == "") {
+                                uusiHuoneenTarinanTunniste = null;
+                            }
+                        }
+                        catch (IndexOutOfBoundsException e) {
+                            uusiHuoneenTarinanTunniste = null;
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#tavoite:")) {
+                        try {
+                            uusiHuoneenVaadittuTavoite = tarkastettavaRivi.substring(14, tarkastettavaRivi.length() -1);
+                            if (uusiHuoneenVaadittuTavoite == null || uusiHuoneenVaadittuTavoite == "") {
+                                uusiHuoneenVaadittuTavoite = null;
+                            }
+                        }
+                        catch (IndexOutOfBoundsException e) {
+                            uusiHuoneenVaadittuTavoite = null;
+                        }
+                    }
+
+                    if (tarkastettavaRivi.contains("#kenttä:")) {
+                        if (tarkastettavaRivi.contains("{")) {
+                            tarkastettavaRivi = sc.nextLine();
+                            rivejäTarkastettu++;
+                            while (!tarkastettavaRivi.contains("}")) {
+                                luotavaObjekti = "";
+                                luotavanObjektinX = 0;
+                                luotavanObjektinY = 0;
+                                if (tarkastettavaRivi.startsWith("        ")) {
+                                    if (tarkastettavaRivi.contains("+ominaisuudet:")) {
+                                        String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
+                                        int ominaisuuksienMäärä = 0;
+                                        for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
+                                            if (tarkastettavaRivi.charAt(i) == '=') {
+                                                ominaisuuksienMäärä++;
+                                            }
+                                            else if (tarkastettavaRivi.charAt(i) == ']') {
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < ominaisuuksienMäärä; i++) {
+                                            luotavanObjektinOminaisuusLista = ominaisuudetMerkkijonona.split(",");
+                                        }
+                                        //for (String st : luotavanObjektinOminaisuusLista) {
+                                        //    System.out.println("ominaisuus: " + st);
+                                        //}
+                                        if (tarkastettavaRivi.contains("_")) {
+                                            luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                            luotavanObjektinX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                            luotavanObjektinY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                            uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, true, luotavanObjektinX, luotavanObjektinY, true, luotavanObjektinOminaisuusLista));
+                                        }
+                                        else if (tarkastettavaRivi.contains("+")){
+                                            luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("+"));
+                                            uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY, true, luotavanObjektinOminaisuusLista));
+                                        }
+                                    }
+                                    else if (tarkastettavaRivi.contains("_")) {
+                                        luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                        luotavanObjektinX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                        luotavanObjektinY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                        uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, true, luotavanObjektinX, luotavanObjektinY, false, null));
+                                    }
+                                    else if (tarkastettavaRivi.contains(",")) {
+                                        luotavaObjekti = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf(","));
+                                        uusiObjektiLista.add(luoObjektiTiedoilla(luotavaObjekti, false, luotavanObjektinX, luotavanObjektinY, false, null));
+                                    }
+                                }
+                                if (sc.hasNextLine()) {
+                                    tarkastettavaRivi = sc.nextLine();
+                                    rivejäTarkastettu++;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#maasto:")) {
+                        if (tarkastettavaRivi.contains("{")) {
+                            tarkastettavaRivi = sc.nextLine();
+                            rivejäTarkastettu++;
+                            while (!tarkastettavaRivi.contains("}")) {
+                                luotavaMaasto = "";
+                                luotavanMaastonX = 0;
+                                luotavanMaastonY = 0;
+                                if (tarkastettavaRivi.startsWith("        ")) {
+                                    if (tarkastettavaRivi.contains("+ominaisuudet:")) {
+                                        String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
+                                        int ominaisuuksienMäärä = 0;
+                                        for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
+                                            if (tarkastettavaRivi.charAt(i) == '=') {
+                                                ominaisuuksienMäärä++;
+                                            }
+                                            else if (tarkastettavaRivi.charAt(i) == ']') {
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < ominaisuuksienMäärä; i++) {
+                                            luotavanMaastonOminaisuusLista = ominaisuudetMerkkijonona.split(",");
+                                        }
+                                        // for (String st : luotavanMaastonOminaisuusLista) {
+                                        //     System.out.println("ominaisuus: " + st);
+                                        // }
+                                        if (tarkastettavaRivi.contains("_")) {
+                                            luotavaMaasto = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                            luotavanMaastonX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                            luotavanMaastonY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                            uusiMaastoLista.add(luoMaastoTiedoilla(luotavaMaasto, false, luotavanMaastonX, luotavanMaastonY, true, luotavanMaastonOminaisuusLista));
+                                        }
+                                        else if (tarkastettavaRivi.contains("+")){
+                                            luotavaMaasto = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("+"));
+                                            uusiMaastoLista.add(luoMaastoTiedoilla(luotavaMaasto, false, luotavanMaastonX, luotavanMaastonY, true, luotavanMaastonOminaisuusLista));
+                                        }
+                                    }
+                                    else if (tarkastettavaRivi.contains("_")) {
+                                        luotavaMaasto = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                        luotavanMaastonX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                        luotavanMaastonY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                        uusiMaastoLista.add(luoMaastoTiedoilla(luotavaMaasto, true, luotavanMaastonX, luotavanMaastonY, false, null));
+                                    }
+                                    else if (tarkastettavaRivi.contains(",")) {
+                                        luotavaMaasto = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf(","));
+                                        uusiMaastoLista.add(luoMaastoTiedoilla(luotavaMaasto, false, luotavanMaastonX, luotavanMaastonY, false, null));
+                                    }
+                                }
+                                if (sc.hasNextLine()) {
+                                    tarkastettavaRivi = sc.nextLine();
+                                    rivejäTarkastettu++;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("#npc:")) {
+                        if (tarkastettavaRivi.contains("{")) {
+                            tarkastettavaRivi = sc.nextLine();
+                            rivejäTarkastettu++;
+                            while (!tarkastettavaRivi.contains("}")) {
+                                luotavaNPC = "";
+                                luotavanNPCnX = 0;
+                                luotavanNPCnY = 0;
+                                if (tarkastettavaRivi.startsWith("        ")) {
+                                    if (tarkastettavaRivi.contains("+ominaisuudet:")) {
+                                        String ominaisuudetMerkkijonona = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("[") +1, tarkastettavaRivi.indexOf("]"));
+                                        int ominaisuuksienMäärä = 0;
+                                        for (int i = 0; i < tarkastettavaRivi.length()-1; i++) {
+                                            if (tarkastettavaRivi.charAt(i) == '=') {
+                                                ominaisuuksienMäärä++;
+                                            }
+                                            else if (tarkastettavaRivi.charAt(i) == ']') {
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < ominaisuuksienMäärä; i++) {
+                                            luotavanNPCnOminaisuusLista = ominaisuudetMerkkijonona.split(",");
+                                        }
+                                        //for (String st : luotavanObjektinOminaisuusLista) {
+                                        //    System.out.println("ominaisuus: " + st);
+                                        //}
+                                        if (tarkastettavaRivi.contains("_")) {
+                                            luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                            luotavanNPCnX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                            luotavanNPCnY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                            uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, false, luotavanNPCnX, luotavanNPCnY, true, luotavanNPCnOminaisuusLista));
+                                        }
+                                        else if (tarkastettavaRivi.contains("+")){
+                                            luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("+"));
+                                            uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, false, luotavanNPCnX, luotavanNPCnY, true, luotavanNPCnOminaisuusLista));
+                                        }
+                                    }
+                                    else if (tarkastettavaRivi.contains("_")) {
+                                        luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf("_"));
+                                        luotavanNPCnX = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +1, tarkastettavaRivi.indexOf("_") +2));
+                                        luotavanNPCnY = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("_") +3, tarkastettavaRivi.indexOf("_") +4));
+                                        uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, true, luotavanNPCnX, luotavanNPCnY, false, null));
+                                    }
+                                    else if (tarkastettavaRivi.contains(",")) {
+                                        luotavaNPC = tarkastettavaRivi.substring(8, tarkastettavaRivi.indexOf(","));
+                                        uusiNPCLista.add(luoNPCTiedoilla(luotavaNPC, false, luotavanNPCnX, luotavanNPCnY, false, null));
+                                    }
+                                }
+                                if (sc.hasNextLine()) {
+                                    tarkastettavaRivi = sc.nextLine();
+                                    rivejäTarkastettu++;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                Huone huone = new Huone(uusiHuoneenId, 10, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, uusiHuoneenTarinanTunniste, uusiHuoneenVaadittuTavoite);
+                huone.päivitäReunawarppienTiedot(uusiWarpVasen, uusiWarpVasenHuoneId, uusiWarpOikea, uusiWarpOikeaHuoneId, uusiWarpAlas, uusiWarpAlasHuoneId, uusiWarpYlös, uusiWarpYlösHuoneId);
+                //System.out.println("huone: " + huone.annaId() + ", vasen warp: " + huone.warpVasen + huone.warpVasenHuoneId + ", oikea warp: " + huone.warpOikea + huone.warpOikeaHuoneId + ", alas warp: " + huone.warpAlas + huone.warpAlasHuoneId + ", ylös warp: " + huone.warpYlös + huone.warpYlösHuoneId);
+                //uusiHuoneKartta.put(uusiHuoneenId, huone);
+                uusiObjektiLista.clear();
+                uusiMaastoLista.clear();
+                uusiNPCLista.clear();
+                uusiWarpVasen = false;
+                uusiWarpOikea = false;
+                uusiWarpAlas = false;
+                uusiWarpYlös = false;
+                sc.close();
+                return huone;
+            //}
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            rivejäTarkastettu += 2;
+            String virheViesti = "";
+            virheViesti += ("Virheellinen rivi: " + rivejäTarkastettu + "\n\n");
+            virheViesti += ("huone: " + uusiHuoneenId + "\n");
+            virheViesti += ("nimi: " + uusiHuoneenNimi + "\n");
+            virheViesti += ("alue: " + uusiHuoneenAlue + "\n\n");
+            virheViesti += ("Virhe on todennäköisesti jossakin näistä: " + "\n");
+            virheViesti += ("viimeisin ladattu objekti: " + luotavaObjekti + "\n");
+            virheViesti += ("objektin X: " + luotavanObjektinX + "\n");
+            virheViesti += ("objektin Y: " + luotavanObjektinY + "\n");
+            virheViesti += ("viimeisin ladattu maasto: " + luotavaMaasto + "\n");
+            virheViesti += ("maaston X: " + luotavanMaastonX + "\n");
+            virheViesti += ("maaston Y: " + luotavanMaastonY + "\n");
+            virheViesti += ("viimeisin ladattu npc: " + luotavaNPC + "\n");
+            virheViesti += ("npc:n X: " + luotavanNPCnX + "\n");
+            virheViesti += ("npc:n Y: " + luotavanNPCnY + "\n\n");
+            virheViesti += ("^^Tyhjä, 0, 0 -> todennäköinen virhe");
+            System.out.println(virheViesti);
+            JOptionPane.showMessageDialog(null, "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "Virhe ladatessa tiedostoa.", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
     static HashMap<String, TarinaPätkä> luoTarinaKarttaMerkkijonosta(String[] tarinaMerkkijonot) {
         
         HashMap<String, TarinaPätkä> uusiTarinaKartta = new HashMap<>();
@@ -629,6 +973,193 @@ public class HuoneEditorinMetodit {
             kokoTiedostoMerkkijonona += tarinaDialogitMerkkijonoina[i];
             kokoTiedostoMerkkijonona += "/Tarina" + "\n";
         }
+        kokoTiedostoMerkkijonona += "\n</KEIMO>";
+        return kokoTiedostoMerkkijonona;
+    }
+
+    static String luoMerkkijonoHuoneesta(HashMap<Integer, Huone> huoneKartta, int id) {
+        String kokoTiedostoMerkkijonona = "";
+        kokoTiedostoMerkkijonona += "<KEIMO>\n\n";
+        String huoneetMerkkijonoina = "";
+        //for (Integer i : huoneKartta.keySet()) {
+            huoneetMerkkijonoina = "";
+            huoneetMerkkijonoina += "Huone " + huoneKartta.get(id).annaId() + ":" + "\n    ";
+            huoneetMerkkijonoina += "#nimi: " + huoneKartta.get(id).annaNimi() + ";" + "\n    ";
+            huoneetMerkkijonoina += "#alue: " + huoneKartta.get(id).annaAlue() + ";" + "\n    ";
+            huoneetMerkkijonoina += "#tausta: " + huoneKartta.get(id).annaTaustanPolku() + ";" + "\n    ";
+
+            if (huoneKartta.get(id).annaReunaWarppiTiedot(Suunta.VASEN)) {
+                huoneetMerkkijonoina += "#warp_vasen: " + huoneKartta.get(id).annaReunaWarpinKohdeId(Suunta.VASEN) + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina += "#warp_vasen: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(id).annaReunaWarppiTiedot(Suunta.OIKEA)) {
+                huoneetMerkkijonoina += "#warp_oikea: " + huoneKartta.get(id).annaReunaWarpinKohdeId(Suunta.OIKEA) + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina += "#warp_oikea: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(id).annaReunaWarppiTiedot(Suunta.ALAS)) {
+                huoneetMerkkijonoina += "#warp_alas: " + huoneKartta.get(id).annaReunaWarpinKohdeId(Suunta.ALAS) + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina += "#warp_alas: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(id).annaReunaWarppiTiedot(Suunta.YLÖS)) {
+                huoneetMerkkijonoina += "#warp_ylös: " + huoneKartta.get(id).annaReunaWarpinKohdeId(Suunta.YLÖS) + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina += "#warp_ylös: " + ";" + "\n    ";
+            }
+
+            if (huoneKartta.get(id).annaTarinaRuudunLataus()) {
+                huoneetMerkkijonoina += "#tarina: " + huoneKartta.get(id).annaTarinaRuudunTunniste() + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina += "#tarina: " + ";" + "\n    ";
+            }
+            if (huoneKartta.get(id).annaTavoiteVaatimus()) {
+                huoneetMerkkijonoina += "#tavoite: " + huoneKartta.get(id).annaVaaditunTavoitteenTunniste() + ";" + "\n    ";
+            }
+            else {
+                huoneetMerkkijonoina += "#tavoite: " + ";" + "\n    ";
+            }
+
+            try {
+                huoneetMerkkijonoina += "#kenttä: " + "{\n";
+                for (KenttäKohde[] kk : huoneKartta.get(id).annaHuoneenKenttäSisältö()) {
+                    for (KenttäKohde k : kk) {
+                        if (k != null) {
+                            if (k.onkoMääritettySijainti()) {
+                                huoneetMerkkijonoina += "        " + k.annaNimi() + "_" + k.annaSijX() + "_" + k.annaSijY();
+                            }
+                            else {
+                                huoneetMerkkijonoina += "        " + k.annaNimi();
+                            }
+                            if (k.onkolisäOminaisuuksia()) {
+                                huoneetMerkkijonoina += "+ominaisuudet:[";
+                                for (String s : k.annalisäOminaisuudet()) {
+                                    huoneetMerkkijonoina += s + ",";
+                                }
+                                huoneetMerkkijonoina = huoneetMerkkijonoina.substring(0, huoneetMerkkijonoina.length()-1);
+                                huoneetMerkkijonoina += "]";
+                            }
+                            huoneetMerkkijonoina += ",\n";
+                        }
+                    }
+                }
+                if (huoneetMerkkijonoina.charAt(huoneetMerkkijonoina.length()-2 ) != '{' && huoneetMerkkijonoina.charAt(huoneetMerkkijonoina.length()-1 ) != '{') {
+                    huoneetMerkkijonoina = huoneetMerkkijonoina.substring(0, huoneetMerkkijonoina.length()-2);
+                    huoneetMerkkijonoina +=";\n";
+                }
+                huoneetMerkkijonoina += "    }\n    ";
+            }
+            catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa objekteja", JOptionPane.ERROR_MESSAGE);
+                huoneetMerkkijonoina += "\n    }\n";
+            }
+
+            try {
+                huoneetMerkkijonoina += "#maasto: " + "{\n";
+                for (Maasto[] mm : huoneKartta.get(id).annaHuoneenMaastoSisältö()) {
+                    for (Maasto m : mm) {
+                        if (m != null) {
+                            if (m.onkoMääritettySijainti()) {
+                                huoneetMerkkijonoina += "        " + m.annaNimi() + "_" + m.annaSijX() + "_" + m.annaSijY();
+                            }
+                            else {
+                                huoneetMerkkijonoina += "        " + m.annaNimi();
+                            }
+                            if (m.onkolisäOminaisuuksia()) {
+                                huoneetMerkkijonoina += "+ominaisuudet:[";
+                                for (String s : m.annalisäOminaisuudet()) {
+                                    huoneetMerkkijonoina += s + ",";
+                                }
+                                huoneetMerkkijonoina = huoneetMerkkijonoina.substring(0, huoneetMerkkijonoina.length()-1);
+                                huoneetMerkkijonoina += "]";
+                            }
+                            huoneetMerkkijonoina += ",\n";
+                        }
+                    }
+                }
+                if (huoneetMerkkijonoina.charAt(huoneetMerkkijonoina.length()-2 ) != '{' && huoneetMerkkijonoina.charAt(huoneetMerkkijonoina.length()-1 ) != '{') {
+                    huoneetMerkkijonoina = huoneetMerkkijonoina.substring(0, huoneetMerkkijonoina.length()-2);
+                    huoneetMerkkijonoina +=";\n";
+                }
+                huoneetMerkkijonoina += "    }\n    ";
+            }
+            catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa maastoa", JOptionPane.ERROR_MESSAGE);
+                huoneetMerkkijonoina += "\n    }\n";
+            }
+
+            try {
+                huoneetMerkkijonoina += "#npc: " + "{\n";
+                for (NPC[] nn : huoneKartta.get(id).annaHuoneenNPCSisältö()) {
+                    for (NPC n : nn) {
+                        if (n != null) {
+                            if (n.onkoMääritettySijainti()) {
+                                huoneetMerkkijonoina += "        " + n.annaNimi() + "_" + n.annaSijX() + "_" + n.annaSijY();
+                            }
+                            else {
+                                huoneetMerkkijonoina += "        " + n.annaNimi();
+                            }
+                            if (n.onkolisäOminaisuuksia()) {
+                                huoneetMerkkijonoina += "+ominaisuudet:[";
+                                for (String s : n.annalisäOminaisuudet()) {
+                                    huoneetMerkkijonoina += s + ",";
+                                }
+                                huoneetMerkkijonoina = huoneetMerkkijonoina.substring(0, huoneetMerkkijonoina.length()-1);
+                                huoneetMerkkijonoina += "]";
+                            }
+                            huoneetMerkkijonoina += ",\n";
+                        }
+                    }
+                }
+                if (huoneetMerkkijonoina.charAt(huoneetMerkkijonoina.length()-2 ) != '{' && huoneetMerkkijonoina.charAt(huoneetMerkkijonoina.length()-1 ) != '{') {
+                    huoneetMerkkijonoina = huoneetMerkkijonoina.substring(0, huoneetMerkkijonoina.length()-2);
+                    huoneetMerkkijonoina +=";\n";
+                }
+
+                huoneetMerkkijonoina += "    }\n";
+            }
+            catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Ei voitu tallentaa npc:itä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa NPC:itä", JOptionPane.ERROR_MESSAGE);
+                huoneetMerkkijonoina += "\n    }\n";
+            }
+
+            kokoTiedostoMerkkijonona += huoneetMerkkijonoina;
+            kokoTiedostoMerkkijonona += "/Huone" + "\n";
+        //}
+        // String[] tarinaDialogitMerkkijonoina = new String[TarinaDialogiLista.tarinaKartta.size()];
+        // Object[] tarinanTunnisteet = tarinaKartta.keySet().toArray();
+        // System.out.println(tarinaKartta.keySet().size());
+        // for (int i = 0; i < TarinaDialogiLista.tarinaKartta.size(); i++) {
+        //     tarinaDialogitMerkkijonoina[i] = "";
+        //     tarinaDialogitMerkkijonoina[i] += "Tarina " + tarinaKartta.get(tarinanTunnisteet[i]).annaId() + ":" + "\n    ";
+        //     tarinaDialogitMerkkijonoina[i] += "#nimi: " + tarinaKartta.get(tarinanTunnisteet[i]).annaNimi() + ";" + "\n    ";
+        //     tarinaDialogitMerkkijonoina[i] += "#pituus: " + tarinaKartta.get(tarinanTunnisteet[i]).annaPituus() + ";" + "\n    ";
+        //     try {
+        //         tarinaDialogitMerkkijonoina[i] += "#sivut: " + "{\n";
+        //         TarinaPätkä tp = tarinaKartta.get(tarinanTunnisteet[i]);
+        //         for (int j = 0; j < tp.annaPituus(); j++) {
+        //             tarinaDialogitMerkkijonoina[i] += "        kuva " + j + ": " + tp.annaKuvatiedostot()[j] + ";\n";
+        //             tarinaDialogitMerkkijonoina[i] += "        teksti " + j + ": " + tp.annaTekstit()[j] + ";\n";
+        //         }
+        //         if (tarinaDialogitMerkkijonoina[i].charAt(tarinaDialogitMerkkijonoina[i].length()-2 ) != '{' && tarinaDialogitMerkkijonoina[i].charAt(tarinaDialogitMerkkijonoina[i].length()-1 ) != '{') {
+        //             tarinaDialogitMerkkijonoina[i] = tarinaDialogitMerkkijonoina[i].substring(0, tarinaDialogitMerkkijonoina[i].length()-2);
+        //             tarinaDialogitMerkkijonoina[i] +=";\n";
+        //         }
+        //         tarinaDialogitMerkkijonoina[i] += "    }\n";
+        //     }
+        //     catch (NullPointerException e) {
+        //         JOptionPane.showMessageDialog(null, "Ei voitu tallentaa tarinan sivuja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa tarinaa", JOptionPane.ERROR_MESSAGE);
+        //         tarinaDialogitMerkkijonoina[i] += "\n    }\n";
+        //     }
+        //     kokoTiedostoMerkkijonona += tarinaDialogitMerkkijonoina[i];
+        //     kokoTiedostoMerkkijonona += "/Tarina" + "\n";
+        // }
         kokoTiedostoMerkkijonona += "\n</KEIMO>";
         return kokoTiedostoMerkkijonona;
     }

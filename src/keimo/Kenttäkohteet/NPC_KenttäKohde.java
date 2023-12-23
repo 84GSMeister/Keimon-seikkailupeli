@@ -11,7 +11,11 @@ public abstract class NPC_KenttäKohde extends KenttäKohde {
 
     @Override
     public void näytäDialogi(Esine e) {
-        PääIkkuna.avaaDialogi(dialogiKuvake, valittuDialogi, nimi);
+        PääIkkuna.avaaPitkäDialogiRuutu(valittuDialogi);
+    }
+
+    public boolean onkoCustomDialogi() {
+        return customDialogi;
     }
 
     public String annaDialogi () {
@@ -19,8 +23,14 @@ public abstract class NPC_KenttäKohde extends KenttäKohde {
     }
 
     public void asetaDialogi(String dialogi) {
-        this.customDialogi = true;
-        this.valittuDialogi = dialogi;
+        if (dialogi == null) {
+            this.customDialogi = false;
+            this.valittuDialogi = null;
+        }
+        else {
+            this.customDialogi = true;
+            this.valittuDialogi = dialogi;
+        }
     }
     
     public NPC_KenttäKohde(boolean määritettySijainti, int sijX, int sijY) {

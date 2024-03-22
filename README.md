@@ -1,6 +1,6 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (26.3.2024): 0.9
+## Uusin versio (22.3.2024): 0.9
 
 ### Versio 0.9
 

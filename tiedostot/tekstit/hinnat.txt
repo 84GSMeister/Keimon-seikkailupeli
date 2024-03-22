@@ -1,4 +1,0 @@
-hiiva: 0,22€
-sokeri: 1,55€
-suklaa: 2,49€
-makkara: 2,79€

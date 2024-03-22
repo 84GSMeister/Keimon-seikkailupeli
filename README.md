@@ -1,10 +1,10 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (16.3.2024): 0.9
+## Uusin versio (26.3.2024): 0.9
 
 ### Versio 0.9
 
- - Muakutettava huoneen koko: Automaattinen scrollaus ja yli 10-kokoiset huoneet
+ - Mukautettava huoneen koko: Automaattinen scrollaus ja yli 10-kokoiset huoneet
  - Tasot suunniteltu uudelleen hyödyntäen em. ominaisuutta: Jokainen entinen alue on nyt 1 iso huone
  - Automaattisesti generoidut minimapit
  - Kerättävät esineet: Kolikko

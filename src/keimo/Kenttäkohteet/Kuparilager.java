@@ -4,7 +4,6 @@ import keimo.Pelaaja;
 import keimo.TarkistettavatArvot;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
@@ -18,7 +17,6 @@ public final class Kuparilager extends Esine {
         super.poista = true;
         Pelaaja.kuparit++;
         Pelaaja.känninVoimakkuusFloat += 0.4;
-        Pelaaja.känninVoimakkuus = (int)Pelaaja.känninVoimakkuusFloat;
         ÄänentoistamisSäie.toistaSFX("tölkki");
 
         double kuolemanTodennäköisyys = 0.125 * Pelaaja.känninVoimakkuusFloat - 1;
@@ -30,7 +28,7 @@ public final class Kuparilager extends Esine {
             TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.ALKOHOLIMYRKYTYS;
             Pelaaja.hp = 0;
         }
-
+        System.out.println("Kuoleman todennäköisyys: " + kuolemanTodennäköisyys);
         return "Rahaa tulossa tölkeistä: " + df.format(0.15f * Pelaaja.kuparit) + "€";
     }
 
@@ -55,10 +53,9 @@ public final class Kuparilager extends Esine {
     public Kuparilager(boolean määritettySijainti, int sijX, int sijY){
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kuparilager";
-        super.katsomisTeksti = "0,15€ lisää saldoon!";
+        super.katsomisTeksti = "Uskollinen kupari";
         super.käyttö = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuparilager.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.hinta = 1.05;
         super.asetaTiedot();
     }

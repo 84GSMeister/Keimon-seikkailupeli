@@ -1,4 +1,5 @@
 package keimo.Liikkuminen;
-public class LiikkuminenOikealle extends Liikkuminen{
+
+public class LiikkuminenOikealle extends Liikkuminen {
     
 }

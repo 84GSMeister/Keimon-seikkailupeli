@@ -25,6 +25,38 @@ public class YksisuuntainenTile extends Maasto {
         super.skaalattuKuvake = kenttäkohteenSkaalattuKuvake; 
     }
 
+    public void päivitäEsteenSuunta() {
+        switch (kääntöAsteet) {
+            case 0:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = false;
+            break;
+            case 90:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = false;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = true;
+            break;
+            case 180:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = false;
+                super.estääLiikkumisenYlös = true;
+            break;
+            case 270:
+                super.estääLiikkumisenVasen = false;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = true;
+            break;
+            default:
+            break;
+        }
+        super.asetaTiedot();
+    }
+
     public YksisuuntainenTile(int sijX, int sijY, String[] ominaisuusLista) {
         super.nimi = "Yksisuuntainen Tile";
         super.estääLiikkumisen = false;

@@ -30,6 +30,7 @@ public abstract class Vihollinen extends NPC {
         NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI,
         VASEN_OIKEA_ESTEESEEN_ASTI,
         YLÖS_ALAS_ESTEESEEN_ASTI,
+        VARTIJA_LIIKE,
         SEURAA_PELAAJAA,
         SEURAA_REITTIÄ,
         BOSS_LIIKE,

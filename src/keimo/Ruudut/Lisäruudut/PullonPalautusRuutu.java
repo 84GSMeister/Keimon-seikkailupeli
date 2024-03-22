@@ -20,7 +20,7 @@ public class PullonPalautusRuutu {
     
     private static Random r = new Random();
     public static boolean jatkoSyöteAnnettu = false;
-    public static Pulloautomaatti pulloautomaatti = null;
+    public static Pulloautomaatti pulloautomaatti = new Pulloautomaatti(false, 0, 0, null);
     public static VirheenTyyppi virheenTyyppi = VirheenTyyppi.PAKKAUS;
 
     public static void luoPullonPalautusIkkuna() {
@@ -29,7 +29,8 @@ public class PullonPalautusRuutu {
                 launch();
             }
             else {
-                PääIkkuna.avaaDialogi(null, "Sinulla ei ole yhtään tölkkiä.", "");
+                
+                PääIkkuna.avaaDialogi(pulloautomaatti.annaKuvake(), "Sinulla ei ole yhtään tölkkiä.", "Pulloautomaatti");
             }
         }
         catch (Exception e) {
@@ -80,6 +81,7 @@ public class PullonPalautusRuutu {
     public static void launch() throws InvocationTargetException, InterruptedException {
         
         Peli.valintaDialogi = true;
+        ValintaDialogiRuutu.muutaPanelinKokoa(false, PääIkkuna.isoSkaalaus);
         PeliRuutu.lisäRuutuPanelinTyyppi = LisäRuutuPanelinTyyppi.PULLONPALAUTUS;
         if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Pulloautomaatti) {
             pulloautomaatti = (Pulloautomaatti)Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
@@ -212,10 +214,10 @@ public class PullonPalautusRuutu {
                     Pelaaja.kuparit = 0;
                     DecimalFormat df = new DecimalFormat("##.##");
                     String saatavaRahaFormatoitu = df.format(saatavaRaha);
-                    PääIkkuna.avaaDialogi(null, "Palautit tölkit kauppaan ja sait " + saatavaRahaFormatoitu + "€.", saatavaRahaFormatoitu);
+                    PääIkkuna.avaaDialogi(pulloautomaatti.annaKuvake(), "Palautit tölkit kauppaan ja sait " + saatavaRahaFormatoitu + "€.", "Pulloautomaatti");
                 }
                 else {
-                    PääIkkuna.avaaDialogi(null, "Sinulla ei ole yhtään tölkkiä.", "");
+                    PääIkkuna.avaaDialogi(pulloautomaatti.annaKuvake(), "Sinulla ei ole yhtään tölkkiä.", "Pulloautomaatti");
                 }
             }
             catch (InterruptedException e) {

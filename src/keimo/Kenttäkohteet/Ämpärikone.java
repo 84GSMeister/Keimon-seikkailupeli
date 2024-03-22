@@ -1,21 +1,10 @@
 package keimo.Kenttäkohteet;
 
 import keimo.Ruudut.Lisäruudut.ÄmpäriJonoRuutu;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
 public final class Ämpärikone extends Kiintopiste {
-    
-    // @Override
-    // public String kokeileEsinettä(Esine e) {
-    //     return "Mitään ei tapahtunut.";
-    // }
-
-    // @Override
-    // public void näytäDialogi(Esine e) {
-    //     ÄmpäriJonoRuutu.luoÄmpäriJonoIkkuna();
-    // }
 
     @Override
     public String vuorovaikuta(Esine e) {
@@ -46,7 +35,6 @@ public final class Ämpärikone extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Ämpärikone";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "ämpärikone.png";
         super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
         super.erillisDialogi = true;

@@ -60,8 +60,9 @@ public class ÄmpäriJonoRuutu {
 
     static MySwingWorker worker = new MySwingWorker(edistymisPalkki, edistymisLabel);
    
-    public static void launch( ) throws InvocationTargetException, InterruptedException {
+    public static void launch() throws InvocationTargetException, InterruptedException {
         Peli.valintaDialogi = true;
+        ValintaDialogiRuutu.muutaPanelinKokoa(false, PääIkkuna.isoSkaalaus);
         JPanel panel = luoÄmpäriJonoPaneliGUI();
         PeliRuutu.lisäRuutuPaneli.add(panel, BorderLayout.CENTER);
         PeliRuutu.lisäRuutuPaneli.setVisible(true);

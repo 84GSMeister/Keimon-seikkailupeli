@@ -1,7 +1,5 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Utility.KäännettäväKuvake;
-
 import javax.swing.ImageIcon;
 
 public final class Huume extends Ruoka {
@@ -34,7 +32,6 @@ public final class Huume extends Ruoka {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Huume";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/huume.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.käyttö = true;
         super.heal = 30;
         super.katsomisTeksti = "Tää menee ykkösel alas";

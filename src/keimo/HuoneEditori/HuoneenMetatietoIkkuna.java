@@ -4,7 +4,7 @@ import keimo.TavoiteLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
 import keimo.Ikkunat.CustomViestiIkkunat;
-import keimo.Utility.SpringUtilities;
+import keimo.Utility.Downloaded.SpringUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,23 +29,30 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class HuoneenMetatietoIkkuna {
 
     static final int ikkunanLeveys = 500;
-    static final int ikkunanKorkeus = 250;
+    static final int ikkunanKorkeus = 275;
 
     static JPanel pääPaneeli, yläPaneeli, alaPaneeli, yläVasenPaneeli, yläOikeaPaneeli;
-    static JLabel huoneenIdLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;
-    static JTextField huoneenIdTekstiKenttä, huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä, valitunKuvanPolku, huoneenDialogiValintaTekstiKenttä, huoneenTavoiteTekstiKenttä;
-    static JButton huoneenKuvaValintaNappi, tarinanMuokkausNappi;
+    static JLabel huoneenIdLabel, huoneenKokoLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;
+    static JTextField huoneenIdTekstiKenttä, huoneenKokoTekstiKenttä, huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä, valitunKuvanPolku, huoneenDialogiValintaTekstiKenttä, huoneenTavoiteTekstiKenttä;
+    static JButton huoneenKuvaValintaNappi, tarinanMuokkausNappi, tavoitteidenMuokkausNappi;
     static JComboBox<Object> huoneenTarinaValintaLaatikko, huoneenTavoiteValintaLaatikko;
     static JFrame ikkuna;
     
     public static void luoIkkuna() {
         huoneenIdLabel = new JLabel("Huoneen ID: ");
-        huoneenIdLabel.setToolTipText("Huoneen ID");
+        huoneenIdLabel.setToolTipText("Huoneen ID, ei muokattavissa");
         huoneenIdTekstiKenttä = new JTextField();
         huoneenIdTekstiKenttä.setPreferredSize(new Dimension(200, 20));
-        huoneenIdTekstiKenttä.setToolTipText("Huoneen ID");
+        huoneenIdTekstiKenttä.setToolTipText("Huoneen ID, ei muokattavissa");
         huoneenIdTekstiKenttä.setOpaque(false);
         huoneenIdTekstiKenttä.setEditable(false);
+        huoneenKokoLabel = new JLabel("Huoneen koko: ");
+        huoneenKokoLabel.setToolTipText("Vakiokoko on 10. Sitä suuremmat huoneet ovat tällä hetkellä kokeellisia. Kokoa voi muuttaa huoneen luontivaiheessa.");
+        huoneenKokoTekstiKenttä = new JTextField();
+        huoneenKokoTekstiKenttä.setPreferredSize(new Dimension(200, 20));
+        huoneenKokoTekstiKenttä.setToolTipText("Vakiokoko on 10. Sitä suuremmat huoneet ovat tällä hetkellä kokeellisia. Kokoa voi muuttaa huoneen luontivaiheessa.");
+        huoneenKokoTekstiKenttä.setOpaque(false);
+        huoneenKokoTekstiKenttä.setEditable(false);
         huoneenNimiTekstiKenttäLabel = new JLabel("Huoneen nimi: ");
         huoneenNimiTekstiKenttäLabel.setToolTipText("Nimi ei ole pakollinen, mutta selkeyttävä seikka");
         huoneenNimiTekstiKenttä = new JTextField();
@@ -86,14 +93,16 @@ public class HuoneenMetatietoIkkuna {
         JLabel placeholder3 = new JLabel(" ");
         placeholder3.setFont(new Font("Arial", Font.PLAIN, 18));
         valitunKuvanPolku = new JTextField("Ei kuvaa");
-        JLabel placeholder6 = new JLabel(" ");
-        placeholder6.setFont(new Font("Arial", Font.PLAIN, 18));
+        JLabel placeholder4 = new JLabel(" ");
+        placeholder4.setFont(new Font("Arial", Font.PLAIN, 18));
 
         yläVasenPaneeli = new JPanel();
         yläVasenPaneeli.setLayout(new SpringLayout());
         yläVasenPaneeli.setMaximumSize(new Dimension(300, 60));
         yläVasenPaneeli.add(huoneenIdLabel);
         yläVasenPaneeli.add(huoneenIdTekstiKenttä);
+        yläVasenPaneeli.add(huoneenKokoLabel);
+        yläVasenPaneeli.add(huoneenKokoTekstiKenttä);
         yläVasenPaneeli.add(huoneenNimiTekstiKenttäLabel);
         yläVasenPaneeli.add(huoneenNimiTekstiKenttä);
         yläVasenPaneeli.add(huoneenAlueTekstiKenttäLabel);
@@ -104,7 +113,7 @@ public class HuoneenMetatietoIkkuna {
         yläVasenPaneeli.add(huoneenTarinaValintaLaatikko);
         yläVasenPaneeli.add(huoneenTavoiteTekstiKenttäLabel);
         yläVasenPaneeli.add(huoneenTavoiteValintaLaatikko);
-        SpringUtilities.makeCompactGrid(yläVasenPaneeli, 6, 2, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(yläVasenPaneeli, 7, 2, 6, 6, 6, 6);
 
         huoneenKuvaValintaNappi = new JButton("Valitse kuva");
         huoneenKuvaValintaNappi.setToolTipText("Huoneen taustaksi suositellaan 660x660 pikselin kuvia. Muunkokoiset kuvat voivat näyttää väärältä tai eivät näy kokonaan.");
@@ -127,15 +136,19 @@ public class HuoneenMetatietoIkkuna {
         tarinanMuokkausNappi = new JButton("Muokkaa tarinadialogeja");
         tarinanMuokkausNappi.addActionListener(e -> TarinaEditoriIkkuna.luoTarinaEditoriIkkuna());
 
+        tavoitteidenMuokkausNappi = new JButton("Muokkaa tavoitteita");
+        tavoitteidenMuokkausNappi.addActionListener(e -> CustomViestiIkkunat.ToteutusPuuttuu2.näytäDialogi());
+
         yläOikeaPaneeli = new JPanel();
         yläOikeaPaneeli.setLayout(new SpringLayout());
         yläOikeaPaneeli.add(placeholder1);
         yläOikeaPaneeli.add(placeholder2);
         yläOikeaPaneeli.add(placeholder3);
+        yläOikeaPaneeli.add(placeholder4);
         yläOikeaPaneeli.add(huoneenKuvaValintaNappi);
         yläOikeaPaneeli.add(tarinanMuokkausNappi);
-        yläOikeaPaneeli.add(placeholder6);
-        SpringUtilities.makeCompactGrid(yläOikeaPaneeli, 6, 1, 6, 6, 6, 6);
+        yläOikeaPaneeli.add(tavoitteidenMuokkausNappi);
+        SpringUtilities.makeCompactGrid(yläOikeaPaneeli, 7, 1, 6, 6, 6, 6);
 
         yläPaneeli = new JPanel();
         yläPaneeli.setLayout(new BorderLayout());
@@ -145,11 +158,10 @@ public class HuoneenMetatietoIkkuna {
 
         JButton okNappi = new JButton("OK");
         okNappi.setBounds(0, 0, 20, 20);
-        okNappi.addActionListener(e -> ikkuna.dispose());
         okNappi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (huoneenNimiTekstiKenttä.getText().contains("(") || huoneenNimiTekstiKenttä.getText().contains(")")) {
-                    CustomViestiIkkunat.SulkumerkkiVaroitus.showDialog();
+                    CustomViestiIkkunat.SulkumerkkiVaroitus.näytäDialogi();
                 }
                 else {
                     HuoneEditoriIkkuna.huoneenNimi = huoneenNimiTekstiKenttä.getText();
@@ -162,6 +174,7 @@ public class HuoneenMetatietoIkkuna {
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenMaastoSisältö(HuoneEditoriIkkuna.maastoKenttä);
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenNPCSisältö(HuoneEditoriIkkuna.npcKenttä);
                     HuoneEditoriIkkuna.huoneenNimiLabel.setText(HuoneEditoriIkkuna.huoneenNimi + " (" + HuoneEditoriIkkuna.huoneenAlue + ")");
+                    ikkuna.dispose();
                 }
             }
         });
@@ -171,7 +184,7 @@ public class HuoneenMetatietoIkkuna {
         cancelNappi.addActionListener(e -> ikkuna.dispose());
 
         alaPaneeli = new JPanel();
-        alaPaneeli.setLayout(new FlowLayout(FlowLayout.LEFT));
+        alaPaneeli.setLayout(new FlowLayout(FlowLayout.CENTER));
         alaPaneeli.setMaximumSize(new Dimension(500, 20));
         alaPaneeli.setBounds(0, 0, 500, 30);
         alaPaneeli.add(okNappi);
@@ -187,6 +200,7 @@ public class HuoneenMetatietoIkkuna {
         pääPaneeli.repaint();
 
         huoneenIdTekstiKenttä.setText("" + HuoneEditoriIkkuna.muokattavaHuone);
+        huoneenKokoTekstiKenttä.setText("" + HuoneEditoriIkkuna.huoneenKoko);
         huoneenNimiTekstiKenttä.setText(HuoneEditoriIkkuna.huoneenNimi);
         huoneenAlueTekstiKenttä.setText(HuoneEditoriIkkuna.huoneenAlue);
         //huoneenDialogiValintaTekstiKenttä.setText(HuoneEditoriIkkuna.huoneenAlkuDialoginTunniste);
@@ -200,6 +214,7 @@ public class HuoneenMetatietoIkkuna {
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setBackground(Color.black);
         ikkuna.setLocationRelativeTo(HuoneEditoriIkkuna.ikkuna);
+        ikkuna.setResizable(false);
         ikkuna.setVisible(true);
         ikkuna.add(pääPaneeli);
         ikkuna.revalidate();
@@ -207,10 +222,12 @@ public class HuoneenMetatietoIkkuna {
     }
 
     public static void päivitäTarinaValintaLaatikko() {
-        huoneenTarinaValintaLaatikko.removeAllItems();
-        huoneenTarinaValintaLaatikko.addItem(" ");
-        for (String s : TarinaDialogiLista.tarinaKartta.keySet()) {
-            huoneenTarinaValintaLaatikko.addItem(s);
+        if (huoneenTarinaValintaLaatikko != null) {
+            huoneenTarinaValintaLaatikko.removeAllItems();
+            huoneenTarinaValintaLaatikko.addItem(" ");
+            for (String s : TarinaDialogiLista.tarinaKartta.keySet()) {
+                huoneenTarinaValintaLaatikko.addItem(s);
+            }
         }
     }
 }

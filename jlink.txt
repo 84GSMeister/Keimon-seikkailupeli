@@ -1,1 +1,0 @@
-jlink --module-path java/lib/javafx-sdk-20.0.1/lib --add-modules java.base,javafx.base,javafx.controls,javafx.fxml,javafx.media,javafx.swing,javafx.web --output java/runtime

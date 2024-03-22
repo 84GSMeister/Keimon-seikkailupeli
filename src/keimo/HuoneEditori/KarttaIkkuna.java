@@ -2,15 +2,18 @@ package keimo.HuoneEditori;
 
 import keimo.Huone;
 import keimo.PääIkkuna;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
+import keimo.Utility.Käännettävä.Suunta;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Rectangle;
@@ -20,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -59,6 +63,7 @@ public class KarttaIkkuna {
 
         public KarttaPaneli() {
             setLayout(new BorderLayout());
+            setBackground(new Color(0, 0, 0));
             try {
                 scrollaavaPaneli = new JScrollPane(paneli);
                 scrollaavaPaneli.getHorizontalScrollBar().setValue(scrollaavaPaneli.getHorizontalScrollBar().getMaximum());
@@ -324,88 +329,99 @@ public class KarttaIkkuna {
         kartanLeveys = 0;
         kartanKorkeus = 0;
 
-        while (tarkastettaviaJäljellä) {
-            if (tarkistusKerrrat > kartanKoko) {
-                break;
-            }
-            for (int i = 0; i < tarkastettavat.length; i++) {
-                for (int j = 0; j < tarkastettavat.length; j++) {
-                    if (tarkastettavat[j][i]) {
-                        tarkastettavaX = j;
-                        tarkastettavaY = i;
-                        tarkastettavaHuone = muodostettuHuoneVisualisaatio[j][i];
-                        if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.VASEN)) {
-                            if (tarkastettavaX > 0) {
-                                if (muodostettuHuoneVisualisaatio[tarkastettavaX-1][tarkastettavaY] == null) {
-                                    tarkastettavat[tarkastettavaX-1][tarkastettavaY] = true;
-                                    kartta[tarkastettavaX-1][tarkastettavaY].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN));
-                                    maastoKartta[tarkastettavaX-1][tarkastettavaY].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN)).annaHuoneenMaastoGrafiikka(zoom));
-                                    maastoKartta[tarkastettavaX-1][tarkastettavaY].setName("Huonepaneli " + (tarkastettavaX-1) + ", " + tarkastettavaY + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN)).annaNimi());
-                                    muodostettuHuoneVisualisaatio[tarkastettavaX-1][tarkastettavaY] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN));
-                                    vasemmallaHuone = true;
-                                    kartanLeveys++;
+        try {
+            while (tarkastettaviaJäljellä) {
+                if (tarkistusKerrrat > kartanKoko) {
+                    break;
+                }
+                for (int i = 0; i < tarkastettavat.length; i++) {
+                    for (int j = 0; j < tarkastettavat.length; j++) {
+                        if (tarkastettavat[j][i]) {
+                            tarkastettavaX = j;
+                            tarkastettavaY = i;
+                            tarkastettavaHuone = muodostettuHuoneVisualisaatio[j][i];
+                            if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.VASEN)) {
+                                if (tarkastettavaX > 0) {
+                                    if (muodostettuHuoneVisualisaatio[tarkastettavaX-1][tarkastettavaY] == null) {
+                                        tarkastettavat[tarkastettavaX-1][tarkastettavaY] = true;
+                                        kartta[tarkastettavaX-1][tarkastettavaY].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN));
+                                        maastoKartta[tarkastettavaX-1][tarkastettavaY].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN)).annaHuoneenMaastoGrafiikka(zoom));
+                                        maastoKartta[tarkastettavaX-1][tarkastettavaY].setName("Huonepaneli " + (tarkastettavaX-1) + ", " + tarkastettavaY + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN)).annaNimi());
+                                        muodostettuHuoneVisualisaatio[tarkastettavaX-1][tarkastettavaY] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.VASEN));
+                                        vasemmallaHuone = true;
+                                        kartanLeveys++;
+                                    }
                                 }
                             }
-                        }
-                        else {
-                            vasemmallaHuone = false;
-                        }
-                        if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.OIKEA)) {
-                            if (tarkastettavaX < kartanKoko) {
-                                if (muodostettuHuoneVisualisaatio[tarkastettavaX+1][tarkastettavaY] == null) {
-                                    tarkastettavat[tarkastettavaX+1][tarkastettavaY] = true;
-                                    kartta[tarkastettavaX+1][tarkastettavaY].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA));
-                                    maastoKartta[tarkastettavaX+1][tarkastettavaY].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA)).annaHuoneenMaastoGrafiikka(zoom));
-                                    maastoKartta[tarkastettavaX+1][tarkastettavaY].setName("Huonepaneli " + (tarkastettavaX+1) + ", " + tarkastettavaY + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA)).annaNimi());
-                                    muodostettuHuoneVisualisaatio[tarkastettavaX+1][tarkastettavaY] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA));
-                                    oikeallaHuone = true;
-                                    kartanLeveys++;
+                            else {
+                                vasemmallaHuone = false;
+                            }
+                            if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.OIKEA)) {
+                                if (tarkastettavaX < kartanKoko) {
+                                    if (muodostettuHuoneVisualisaatio[tarkastettavaX+1][tarkastettavaY] == null) {
+                                        tarkastettavat[tarkastettavaX+1][tarkastettavaY] = true;
+                                        kartta[tarkastettavaX+1][tarkastettavaY].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA));
+                                        maastoKartta[tarkastettavaX+1][tarkastettavaY].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA)).annaHuoneenMaastoGrafiikka(zoom));
+                                        maastoKartta[tarkastettavaX+1][tarkastettavaY].setName("Huonepaneli " + (tarkastettavaX+1) + ", " + tarkastettavaY + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA)).annaNimi());
+                                        muodostettuHuoneVisualisaatio[tarkastettavaX+1][tarkastettavaY] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.OIKEA));
+                                        oikeallaHuone = true;
+                                        kartanLeveys++;
+                                    }
                                 }
                             }
-                        }
-                        else {
-                            oikeallaHuone = false;
-                        }
-                        if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.ALAS)) {
-                            if (tarkastettavaY < kartanKoko) {
-                                if (muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY+1] == null) {
-                                    tarkastettavat[tarkastettavaX][tarkastettavaY+1] = true;
-                                    kartta[tarkastettavaX][tarkastettavaY+1].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS));
-                                    maastoKartta[tarkastettavaX][tarkastettavaY+1].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS)).annaHuoneenMaastoGrafiikka(zoom));
-                                    maastoKartta[tarkastettavaX][tarkastettavaY+1].setName("Huonepaneli " + tarkastettavaX + ", " + (tarkastettavaY+1) + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS)).annaNimi());
-                                    muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY+1] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS));
-                                    alhaallaHuone = true;
-                                    kartanKorkeus++;
+                            else {
+                                oikeallaHuone = false;
+                            }
+                            if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.ALAS)) {
+                                if (tarkastettavaY < kartanKoko) {
+                                    if (muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY+1] == null) {
+                                        tarkastettavat[tarkastettavaX][tarkastettavaY+1] = true;
+                                        kartta[tarkastettavaX][tarkastettavaY+1].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS));
+                                        maastoKartta[tarkastettavaX][tarkastettavaY+1].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS)).annaHuoneenMaastoGrafiikka(zoom));
+                                        maastoKartta[tarkastettavaX][tarkastettavaY+1].setName("Huonepaneli " + tarkastettavaX + ", " + (tarkastettavaY+1) + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS)).annaNimi());
+                                        muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY+1] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.ALAS));
+                                        alhaallaHuone = true;
+                                        kartanKorkeus++;
+                                    }
                                 }
                             }
-                        }
-                        else {
-                            alhaallaHuone = false;
-                        }
-                        if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.YLÖS)) {
-                            if (tarkastettavaY > 0) {
-                                if (muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY-1] == null) {
-                                    tarkastettavat[tarkastettavaX][tarkastettavaY-1] = true;
-                                    kartta[tarkastettavaX][tarkastettavaY-1].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS));
-                                    maastoKartta[tarkastettavaX][tarkastettavaY-1].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS)).annaHuoneenMaastoGrafiikka(zoom));
-                                    maastoKartta[tarkastettavaX][tarkastettavaY-1].setName("Huonepaneli " + tarkastettavaX + ", " + (tarkastettavaY-1) + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS)).annaNimi());
-                                    muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY-1] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS));
-                                    ylhäälläHuone = true;
-                                    kartanKorkeus++;
+                            else {
+                                alhaallaHuone = false;
+                            }
+                            if (tarkastettavaHuone.annaReunaWarppiTiedot(Suunta.YLÖS)) {
+                                if (tarkastettavaY > 0) {
+                                    if (muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY-1] == null) {
+                                        tarkastettavat[tarkastettavaX][tarkastettavaY-1] = true;
+                                        kartta[tarkastettavaX][tarkastettavaY-1].setText("Huone " + tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS));
+                                        maastoKartta[tarkastettavaX][tarkastettavaY-1].add(HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS)).annaHuoneenMaastoGrafiikka(zoom));
+                                        maastoKartta[tarkastettavaX][tarkastettavaY-1].setName("Huonepaneli " + tarkastettavaX + ", " + (tarkastettavaY-1) + ": " + HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS)).annaNimi());
+                                        muodostettuHuoneVisualisaatio[tarkastettavaX][tarkastettavaY-1] = HuoneEditoriIkkuna.huoneKartta.get(tarkastettavaHuone.annaReunaWarpinKohdeId(Suunta.YLÖS));
+                                        ylhäälläHuone = true;
+                                        kartanKorkeus++;
+                                    }
                                 }
                             }
+                            else {
+                                ylhäälläHuone = false;
+                            }
+                            tarkastettaviaJäljellä = true;
                         }
-                        else {
-                            ylhäälläHuone = false;
-                        }
-                        tarkastettaviaJäljellä = true;
+                        
                     }
                 }
+                if (!vasemmallaHuone && ! oikeallaHuone && !alhaallaHuone && !ylhäälläHuone) {
+                    //tarkastettaviaJäljellä = false;
+                }
+                tarkistusKerrrat++;
             }
-            if (!vasemmallaHuone && ! oikeallaHuone && !alhaallaHuone && !ylhäälläHuone) {
-                //tarkastettaviaJäljellä = false;
-            }
-            tarkistusKerrrat++;
+        }
+        catch (NullPointerException npe) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            npe.printStackTrace(pw);
+            String sStackTrace = sw.toString();
+            System.out.println(sStackTrace);
+            JOptionPane.showMessageDialog(null, "Karttaa ei voitu luoda.\n\nHuonekartta ei ole euklidisesti jatkuva,\ntai sitten sovelluksessa on häire.\n\n" + sStackTrace, "Virhe kartan luonnissa", JOptionPane.ERROR_MESSAGE);
         }
         ArrayList<Integer> xArvoLista = new ArrayList<>();
         ArrayList<Integer> yArvoLista = new ArrayList<>();

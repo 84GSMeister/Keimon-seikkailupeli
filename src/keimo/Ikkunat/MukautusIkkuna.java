@@ -2,7 +2,7 @@ package keimo.Ikkunat;
 
 import keimo.*;
 import keimo.Kenttäkohteet.*;
-import keimo.Utility.*;
+import keimo.Utility.Downloaded.SpringUtilities;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,40 +21,41 @@ public class MukautusIkkuna {
     static ArrayList<KenttäKohde> huoneenSisältöLista = new ArrayList<KenttäKohde>();
     static JCheckBox tehtäväItemitCheckbox;
 
-    // private static int suklaidenMäärä = 12;
-    // private static int makkaroidenMäärä = 6;
-    // private static int vihujenMäärä = 5;
-
     static void tarkistaArvot() {
         try {
             int huoneenId = Integer.parseInt(tekstiKentät[0].getText());
             String huoneenNimi = tekstiKentät[1].getText();
             int kentänKoko = Integer.parseInt(tekstiKentät[2].getText());
-            //int suklaidenMäärä = Integer.parseInt(tekstiKentät[3].getText());
-            //int makkaroidenMäärä = Integer.parseInt(tekstiKentät[4].getText());
-            //int vihujenMäärä = Integer.parseInt(tekstiKentät[5].getText());
             boolean tehtäväItemit = tehtäväItemitCheckbox.isSelected();
             if (huoneenId < 0) {
                 JOptionPane.showMessageDialog(null, "Negatiivinen ID ei kelpaa.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
             }
             else if (huoneenNimi.contains("(") || huoneenNimi.contains(")")) {
-                CustomViestiIkkunat.SulkumerkkiVaroitus.showDialog();
+                CustomViestiIkkunat.SulkumerkkiVaroitus.näytäDialogi();
             }
             else if (Peli.huoneKartta.containsKey(huoneenId)) {
                 JOptionPane.showMessageDialog(null, "Huone ID:llä " + huoneenId + " löytyy jo.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 if (kentänKoko > 10) {
-                    int kentänKokoVaroitus = CustomViestiIkkunat.IsoKenttäVaroitus.showDialog();
+                    int kentänKokoVaroitus = CustomViestiIkkunat.IsoKenttäVaroitus.näytäDialogi(kentänKoko);
                     if (kentänKokoVaroitus == JOptionPane.OK_OPTION) {
                         asetaArvot(huoneenId, huoneenNimi, kentänKoko, 0, 0, 0, tehtäväItemit);
                     }
+                }
+                else if (kentänKoko == 0) {
+                    int kentänKokoVaroitus = CustomViestiIkkunat.NollaKenttäVaroitus.näytäDialogi(kentänKoko);
+                    if (kentänKokoVaroitus == JOptionPane.OK_OPTION) {
+                        asetaArvot(huoneenId, huoneenNimi, kentänKoko, 0, 0, 0, tehtäväItemit);
+                    }
+                }
+                else if (kentänKoko < 0) {
+                    CustomViestiIkkunat.NegatiivinenKenttäVirhe.näytäDialogi(kentänKoko);
                 }
                 else {
                     asetaArvot(huoneenId, huoneenNimi, kentänKoko, 0, 0, 0, tehtäväItemit);
                 }
             }
-            
         }
         catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
@@ -62,13 +63,7 @@ public class MukautusIkkuna {
     }
 
     static void asetaArvot(int huoneenId, String huoneenNimi, int asetettuKentänKoko, int asetettuSuklaidenMäärä, int asetettuMakkaroidenMäärä, int asetettuVihujenMäärä, boolean tehtäväItemit) {
-        //PääIkkuna.uusiIkkuna = true;
-        //ikkuna.dispose();
         TarkistettavatArvot.uusiKentänKoko = asetettuKentänKoko;
-        // suklaidenMäärä = asetettuSuklaidenMäärä;
-        // makkaroidenMäärä = asetettuMakkaroidenMäärä;
-        // vihujenMäärä = asetettuVihujenMäärä;
-
         if (tehtäväItemit) {
             huoneenSisältöLista.add(new Avain(false, 0, 0));
             huoneenSisältöLista.add(new Kaasupullo(false, 0, 0));
@@ -77,28 +72,13 @@ public class MukautusIkkuna {
             huoneenSisältöLista.add(new Paperi(false, 0, 0));
             huoneenSisältöLista.add(new Vesiämpäri(false, 0, 0));
         }
-        // for (int i = 0; i < suklaidenMäärä; i++) {
-        //     huoneenSisältöLista.add(new Suklaalevy(false, 0, 0));
-        // }
-        // for (int i = 0; i < makkaroidenMäärä; i++) {
-        //     huoneenSisältöLista.add(new Makkara(false, 0, 0));
-        // }
-        // for (int i = 0; i < vihujenMäärä; i++) {
-        //     huoneenSisältöLista.add(new PikkuVihu_KenttäKohde(false, 0, 0));
-        // }
-        
-        //for (KenttäKohde[] k : huoneenSisältö){
-        //    for (KenttäKohde kk : k){
-        //        huoneenSisältöLista.add(kk);
-        //    }
-        //}
         ikkuna.dispose();
         String huoneenSisältöString = "";
         for (KenttäKohde k : huoneenSisältöLista) {
             huoneenSisältöString += k.annaNimi() + ", ";
         }
         System.out.println("Huoneeseen asetetaan " + huoneenSisältöString);
-        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
+        Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
         Peli.huoneVaihdettava = true;
         Peli.uusiHuone = huoneenId;
         huoneenSisältöLista.removeAll(huoneenSisältöLista);

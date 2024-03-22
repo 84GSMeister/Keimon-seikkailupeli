@@ -1,7 +1,5 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Utility.KäännettäväKuvake;
-
 import javax.swing.ImageIcon;
 
 public final class Paperi extends Esine {
@@ -37,7 +35,6 @@ public final class Paperi extends Esine {
         super.katsomisTeksti = "Tämä sopisi hyvin nuotion sytykkeeksi.";
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/paperi.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.asetaTiedot();
     }
 }

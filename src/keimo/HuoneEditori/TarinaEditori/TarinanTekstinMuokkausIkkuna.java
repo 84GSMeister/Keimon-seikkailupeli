@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
+import keimo.Ikkunat.SelainIkkuna;
 
 public class TarinanTekstinMuokkausIkkuna {
     
@@ -25,7 +26,8 @@ public class TarinanTekstinMuokkausIkkuna {
     static JScrollPane scrollattavaPaneli;
 
     static JButton okNappi, cancelNappi;
-    static JPanel nappiPaneli;
+    static JButton taikaNappi;
+    static JPanel nappiPaneliVasen, nappiPaneliOikea;
     static JFXPanel tekstiFXPaneli;
 
     public static void luoTarinanLisäysIkkuna(int tarinanSivu) {
@@ -97,9 +99,16 @@ public class TarinanTekstinMuokkausIkkuna {
         });
         cancelNappi = new JButton("Peruuta");
         cancelNappi.addActionListener(e -> ikkuna.dispose());
-        nappiPaneli = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        nappiPaneli.add(okNappi);
-        nappiPaneli.add(cancelNappi);
+        nappiPaneliVasen = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        nappiPaneliVasen.add(okNappi);
+        nappiPaneliVasen.add(cancelNappi);
+
+        taikaNappi = new JButton("?");
+        taikaNappi.addActionListener(e -> {
+            SelainIkkuna.luoSelainIkkuna();
+        });
+        nappiPaneliOikea = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        nappiPaneliOikea.add(taikaNappi);
 
         JPanel tekstinMuokkausPaneli = new JPanel(new BorderLayout());
         tekstinMuokkausPaneli.setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
@@ -120,7 +129,8 @@ public class TarinanTekstinMuokkausIkkuna {
         keskiPaneli.add(tekstinMuokkausPaneli, BorderLayout.CENTER);
 
         JPanel alaPaneli = new JPanel(new BorderLayout()); 
-        alaPaneli.add(nappiPaneli, BorderLayout.CENTER);
+        alaPaneli.add(nappiPaneliVasen, BorderLayout.WEST);
+        alaPaneli.add(nappiPaneliOikea, BorderLayout.EAST);
 
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setLocationRelativeTo(TarinaEditoriIkkuna.ikkuna);

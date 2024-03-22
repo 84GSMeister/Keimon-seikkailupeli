@@ -18,7 +18,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"Yritä uudestaan (ihan turhaa mut laitoin tän kuitenkin)", "Sulje sovellus"};
 
-        public static int showDialog(String virheViesti) {
+        public static int näytäDialogi(String virheViesti) {
             return JOptionPane.showOptionDialog(null, viesti + "\n\n" + virheViesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
         }
     }
@@ -32,7 +32,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"OK","Peruuta"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[1]);
         }
     }
@@ -47,7 +47,7 @@ public class CustomViestiIkkunat {
         static String[] vaihtoehdot = {"Jee!"};
         static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
-        public static int showDialog(double aika) {
+        public static int näytäDialogi(double aika) {
             int minuutit = (int)aika / 60;
             double sekunnit = (aika % 60);
             String sekunnit2Desimaalia = kaksiDesimaalia.format(sekunnit);
@@ -67,7 +67,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = new ImageIcon("tiedostot/kuvat/surunaama.png");
         static String[] vaihtoehdot = {"Uusi peli", "Lopeta"};
 
-        public static int showDialog(String hävionSyy) {
+        public static int näytäDialogi(String hävionSyy) {
             viesti = hävionSyy + "\n\nHävisit pelin!";
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
@@ -82,7 +82,21 @@ public class CustomViestiIkkunat {
         static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
         static String[] vaihtoehdot = {"Oke", "En usko", "Onks tää vaihtoehto? :D"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class ToteutusPuuttuu2 {
+        
+        static String viesti = "Koodaan tän joskus syssymmällä\n\nOdotathan kärsivällisesti :)";
+        static String otsikko = "Toteutus puuttuu";
+        static int valitaTyyppi = JOptionPane.YES_NO_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
+        static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
+        static String[] vaihtoehdot = {"Oke"};
+
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -96,7 +110,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"Ok"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -110,7 +124,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"Ok"};
 
-        public static int showDialog(String tavoite) {
+        public static int näytäDialogi(String tavoite) {
             return JOptionPane.showOptionDialog(null, viesti + tavoite, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -124,21 +138,52 @@ public class CustomViestiIkkunat {
         static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee_sivuttain.png");
         static String[] vaihtoehdot = {":D",":D",":D"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
 
     public static class IsoKenttäVaroitus {
         
-        static String viesti = "Ei ehkä kannata tehdä noin isoa kenttää. Muutama syy: \n -UI:ta ei ole suuniteltu yli 10-koon kentälle, joten \nse voi mennä yli näytöstäsi(olettaen, että sinulla on 1920 x 1080 -näyttö)\n -se voi lagittaa aika paljon \n -todennäköisesti rikkoo koko pelin";
+        static String viesti;
         static String otsikko = "Melko iso kenttä";
         static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
         static int viestiTyyppi = JOptionPane.WARNING_MESSAGE;
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"Tee silti :D", "Kankel"};
 
-        public static int showDialog() {
+        public static int näytäDialogi(int kentänKoko) {
+            viesti = "Kentän kooksi on valittu " + kentänKoko + ".\n\nPeli on alun perin suunniteltu 10x10-kokoiseksi.\nYli 10-kokoiset kentät ovat tällä hetkellä kokeellinen ominaisuus.";
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class NollaKenttäVaroitus {
+        
+        static String viesti;
+        static String otsikko = "Kentän koko = 0";
+        static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.WARNING_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"<html><p>Ymmärrän asian.</p><p>Olen testaaja ja haluan kokeilla ominaisuutta.</p><p>Tulipas muuten iso nappi.</p></html>", "Kankel"};
+
+        public static int näytäDialogi(int kentänKoko) {
+            viesti = "Kentän koon muuttaminen on tällä hetkellä kokeellinen ominaisuus.\n\nNollakenttä voi aiheuttaa ei-toivottuja tuloksia.";
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class NegatiivinenKenttäVirhe {
+        
+        static String viesti;
+        static String otsikko = "Negatiivinen kenttä";
+        static int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"En tiedä itsekään."};
+
+        public static int näytäDialogi(int kentänKoko) {
+            viesti = "Huoneen koko: " + kentänKoko + "\n\nMitä helvettiä se edes tarkoittaa? :DD";
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -152,7 +197,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"Aasia kunnossa"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -166,7 +211,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee_sivuttain.png");
         static String[] vaihtoehdot = {"OK"};
 
-        public static int showDialog(String dialogiTeksti) {
+        public static int näytäDialogi(String dialogiTeksti) {
             return JOptionPane.showOptionDialog(null, dialogiTeksti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -178,7 +223,7 @@ public class CustomViestiIkkunat {
         //static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
         static String[] vaihtoehdot = {"Jatka", "Sulje sovellus", "Takaisin peliin (sulje editori)"};
 
-        public static int showDialog(String viesti, String otsikko) {
+        public static int näytäDialogi(String viesti, String otsikko) {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -190,7 +235,7 @@ public class CustomViestiIkkunat {
         //static Icon kuvake = new ImageIcon("tiedostot/kuvat/kaksoispistedee.png");
         static String[] vaihtoehdot = {"Uudelleenkäynnistä säie", "Sulje sovellus"};
 
-        public static int showDialog(String viesti, String otsikko) {
+        public static int näytäDialogi(String viesti, String otsikko) {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -201,7 +246,7 @@ public class CustomViestiIkkunat {
         static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;;
         static String[] vaihtoehdot = {"Kyllä", "Ei"};
 
-        public static int showDialog(String viesti, String otsikko) {
+        public static int näytäDialogi(String viesti, String otsikko) {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -212,7 +257,7 @@ public class CustomViestiIkkunat {
         static int viestiTyyppi = JOptionPane.WARNING_MESSAGE;
         static String[] vaihtoehdot = {"Kyllä", "Ei"};
 
-        public static int showDialog(String viesti, String otsikko) {
+        public static int näytäDialogi(String viesti, String otsikko) {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -223,7 +268,7 @@ public class CustomViestiIkkunat {
         static int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
         static String[] vaihtoehdot = {"OK"};
 
-        public static int showDialog(String viesti, String otsikko) {
+        public static int näytäDialogi(String viesti, String otsikko) {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -237,7 +282,7 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"OK","Älä näytä uudestaan","Peruuta"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
@@ -251,8 +296,61 @@ public class CustomViestiIkkunat {
         static Icon kuvake = null;
         static String[] vaihtoehdot = {"OK","Peruuta"};
 
-        public static int showDialog() {
+        public static int näytäDialogi() {
             return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class PoistaDialogiPätkä {
+        
+        static String viesti = "Haluatko varmasti poistaa dialogipätkän?";
+        static String otsikko = "Poista dialogipätkä";
+        static int valitaTyyppi = JOptionPane.YES_NO_OPTION;
+        static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"Kyllä","Ei"};
+
+        public static int näytäDialogi() {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class DialogiKuvanKokoHuomautus {
+        
+        static String otsikko = "Epäoptimaalinen kuvan koko";
+        static int valitaTyyppi = JOptionPane.YES_NO_OPTION;
+        static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"Joo","En"};
+
+        public static int näytäDialogi(String viesti) {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class HuonettaEiLöytynytHuomautus {
+
+        static String otsikko = "Huonetta ei löytynyt";
+        static int valitaTyyppi = JOptionPane.YES_NO_OPTION;
+        static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"Kyllä","Ei"};
+
+        public static int näytäDialogi(String viesti) {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+        }
+    }
+
+    public static class EiWarppia {
+
+        static String otsikko = "Ei warppia";
+        static int valitaTyyppi = JOptionPane.YES_NO_CANCEL_OPTION;
+        static int viestiTyyppi = JOptionPane.QUESTION_MESSAGE;
+        static Icon kuvake = null;
+        static String[] vaihtoehdot = {"Aseta warp","Luo uusi huone","Peruuta"};
+
+        public static int näytäDialogi(String viesti) {
+            return JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[2]);
         }
     }
 }

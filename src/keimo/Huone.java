@@ -1,9 +1,10 @@
 package keimo;
 
+import keimo.Ikkunat.LatausIkkuna;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
+import keimo.Utility.Käännettävä.Suunta;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -336,34 +337,56 @@ public class Huone {
      */
 
     void sijoitaMäärättyynRuutuun(int sijX, int sijY, KenttäKohde k){
-        if (huoneenKenttäSisältö[sijX][sijY] == null) {
-            huoneenKenttäSisältö[sijX][sijY] = k;
-            esineitäKentällä++;
-        }
-        else {
-            if (maastoaKentällä < Peli.kentänKoko * Peli.kentänKoko) {
-                //sijoitaMäärättyynRuutuun(sijX, sijY, t);
+        if (sijX < huoneenKenttäSisältö.length && sijY < huoneenKenttäSisältö.length) {
+            if (huoneenKenttäSisältö[sijX][sijY] == null) {
+                huoneenKenttäSisältö[sijX][sijY] = k;
+                esineitäKentällä++;
             }
             else {
-                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+                if (maastoaKentällä < Peli.kentänKoko * Peli.kentänKoko) {
+                    //sijoitaMäärättyynRuutuun(sijX, sijY, t);
+                }
+                else {
+                    //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Ei voi sijoittaa ruutuun, jossa on jo jotakin.", "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(null, "Ei voi sijoittaa ruutuun, jossa on jo jotakin.", "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String viesti = "Ei voi sijoittaa " + k.annaNimiSijamuodossa("partitiivi") + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenKenttäSisältö.length;
+            viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
+            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), viesti, "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     void sijoitaMäärättyynRuutuun(int sijX, int sijY, Maasto m){
-        if (huoneenMaastoSisältö[sijX][sijY] == null) {
-            huoneenMaastoSisältö[sijX][sijY] = m;
-            maastoaKentällä++;
-        }
-        else {
-            if (maastoaKentällä < Peli.kentänKoko * Peli.kentänKoko) {
-                //sijoitaMäärättyynRuutuun(sijX, sijY, t);
+        if (sijX < huoneenMaastoSisältö.length && sijY < huoneenMaastoSisältö.length) {
+            if (huoneenMaastoSisältö[sijX][sijY] == null) {
+                huoneenMaastoSisältö[sijX][sijY] = m;
+                maastoaKentällä++;
             }
             else {
-                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+                if (maastoaKentällä < Peli.kentänKoko * Peli.kentänKoko) {
+                    //sijoitaMäärättyynRuutuun(sijX, sijY, t);
+                }
+                else {
+                    //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Ei voi sijoittaa ruutuun, jossa on jo jotakin.", "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(null, "Ei voi sijoittaa ruutuun, jossa on jo jotakin.", "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String kuvanNimi = "";
+            if (m.annaLisäOminaisuudet() != null) {
+                for (String s : m.annaLisäOminaisuudet()) {
+                    if (s.startsWith("kuva=")) {
+                        kuvanNimi = s.substring(5);
+                    }
+                }
+            }
+            String viesti = "Ei voi sijoittaa " + m.annaNimiSijamuodossa("partitiivi")+ " (kuva: " + kuvanNimi + ") ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenKenttäSisältö.length;
+            viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
+            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), viesti, "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -384,72 +407,146 @@ public class Huone {
     }
 
     public Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, String tarinaRuudunTunniste, String vaaditunTavoitteenTunniste) {
-        this.id = luontiId;
-        this.nimi = luontiNimi;
-        this.huoneenKoko = luontiKoko;
-        this.huoneenKenttäSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
-        this.huoneenMaastoSisältö = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
-        this.huoneenNPCSisältö = new NPC[Peli.kentänKoko][Peli.kentänKoko];
-        this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
-        this.taustanPolku = luontiTaustanPolku;
-        this.tarinaRuudunTunniste = tarinaRuudunTunniste;
-        this.vaaditunTavoitteenTunniste = vaaditunTavoitteenTunniste;
-        this.alue = luontiAlue;
-
-        try {
-
-            for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
-                for (int j = 0; j < huoneenKenttäSisältö.length; j++) {
-                    this.huoneenKenttäSisältö[j][i] = null;
-                    this.huoneenMaastoSisältö[j][i] = null;
+        switch (luontiKoko) {
+            // case 10:
+            //     this.id = luontiId;
+            //     this.nimi = luontiNimi;
+            //     this.huoneenKoko = luontiKoko;
+            //     this.huoneenKenttäSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
+            //     this.huoneenMaastoSisältö = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
+            //     this.huoneenNPCSisältö = new NPC[Peli.kentänKoko][Peli.kentänKoko];
+            //     this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
+            //     this.taustanPolku = luontiTaustanPolku;
+            //     this.tarinaRuudunTunniste = tarinaRuudunTunniste;
+            //     this.vaaditunTavoitteenTunniste = vaaditunTavoitteenTunniste;
+            //     this.alue = luontiAlue;
+        
+            //     try {
+        
+            //         for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
+            //             for (int j = 0; j < huoneenKenttäSisältö.length; j++) {
+            //                 this.huoneenKenttäSisältö[j][i] = null;
+            //                 this.huoneenMaastoSisältö[j][i] = null;
+            //             }
+            //         }
+            //         for (KenttäKohde k : luontiKenttäSisältö) {
+            //             if (k != null) {
+            //                 if (k.onkoMääritettySijainti()) {
+            //                     sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
+            //                 }
+            //                 else {
+            //                     sijoitaSatunnaiseenRuutuun(k);
+            //                 }
+            //             }
+            //         }
+            //         for (Maasto m : luontiMaastoSisältö) {
+            //             if (m != null) {
+            //                 if (m.onkoMääritettySijainti()) {
+            //                     sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
+            //                 }
+            //                 else {
+            //                     sijoitaSatunnaiseenRuutuun(m);
+            //                 }
+            //             }
+            //         }
+            //         for (NPC n : luontiNPCSisältö) {
+            //             if (n != null) {
+            //                 if (n.onkoMääritettySijainti()) {
+            //                     sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);
+            //                 }
+            //                 else {
+            //                     sijoitaSatunnaiseenRuutuun(n);
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     catch (NullPointerException e) {
+            //         if (luontiKenttäSisältö == null) {
+            //             System.out.println("Kenttäkohteita ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            //         }
+            //         else if (luontiMaastoSisältö == null) {
+            //             System.out.println("Maastoa ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            //         }
+            //         else if (luontiNPCSisältö == null) {
+            //             System.out.println("NPC:itä ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            //         }
+            //         else {
+            //             System.out.println("Joitain elementtejä ei voitu ladata tiedostosta huoneeseen " + id + ".");
+            //             e.printStackTrace();
+            //         }
+            //     }
+            // break;
+        
+            default:
+                this.id = luontiId;
+                this.nimi = luontiNimi;
+                this.huoneenKoko = luontiKoko;
+                this.huoneenKenttäSisältö = new KenttäKohde[luontiKoko][luontiKoko];
+                this.huoneenMaastoSisältö = new Maasto[luontiKoko][luontiKoko];
+                this.huoneenNPCSisältö = new NPC[luontiKoko][luontiKoko];
+                this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
+                this.taustanPolku = luontiTaustanPolku;
+                this.tarinaRuudunTunniste = tarinaRuudunTunniste;
+                this.vaaditunTavoitteenTunniste = vaaditunTavoitteenTunniste;
+                this.alue = luontiAlue;
+        
+                try {
+        
+                    for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
+                        for (int j = 0; j < huoneenKenttäSisältö.length; j++) {
+                            this.huoneenKenttäSisältö[j][i] = null;
+                            this.huoneenMaastoSisältö[j][i] = null;
+                        }
+                    }
+                    for (KenttäKohde k : luontiKenttäSisältö) {
+                        if (k != null) {
+                            if (k.onkoMääritettySijainti()) {
+                                sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
+                            }
+                            else {
+                                sijoitaSatunnaiseenRuutuun(k);
+                            }
+                        }
+                    }
+                    for (Maasto m : luontiMaastoSisältö) {
+                        if (m != null) {
+                            if (m.onkoMääritettySijainti()) {
+                                sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
+                            }
+                            else {
+                                sijoitaSatunnaiseenRuutuun(m);
+                            }
+                        }
+                    }
+                    for (NPC n : luontiNPCSisältö) {
+                        if (n != null) {
+                            if (n.onkoMääritettySijainti()) {
+                                sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);
+                            }
+                            else {
+                                sijoitaSatunnaiseenRuutuun(n);
+                            }
+                        }
+                    }
                 }
-            }
-            for (KenttäKohde k : luontiKenttäSisältö) {
-                if (k != null) {
-                    if (k.onkoMääritettySijainti()) {
-                        sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
+                catch (NullPointerException e) {
+                    if (luontiKenttäSisältö == null) {
+                        System.out.println("Kenttäkohteita ei voitu ladata tiedostosta huoneeseen " + id + ".");
+                    }
+                    else if (luontiMaastoSisältö == null) {
+                        System.out.println("Maastoa ei voitu ladata tiedostosta huoneeseen " + id + ".");
+                    }
+                    else if (luontiNPCSisältö == null) {
+                        System.out.println("NPC:itä ei voitu ladata tiedostosta huoneeseen " + id + ".");
                     }
                     else {
-                        sijoitaSatunnaiseenRuutuun(k);
+                        System.out.println("Joitain elementtejä ei voitu ladata tiedostosta huoneeseen " + id + ".");
+                        e.printStackTrace();
                     }
                 }
-            }
-            for (Maasto m : luontiMaastoSisältö) {
-                if (m != null) {
-                    if (m.onkoMääritettySijainti()) {
-                        sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
-                    }
-                    else {
-                        sijoitaSatunnaiseenRuutuun(m);
-                    }
-                }
-            }
-            for (NPC n : luontiNPCSisältö) {
-                if (n != null) {
-                    if (n.onkoMääritettySijainti()) {
-                        sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);
-                    }
-                    else {
-                        sijoitaSatunnaiseenRuutuun(n);
-                    }
-                }
-            }
+            break;
         }
-        catch (NullPointerException e) {
-            if (luontiKenttäSisältö == null) {
-                System.out.println("Kenttäkohteita ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            }
-            else if (luontiMaastoSisältö == null) {
-                System.out.println("Maastoa ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            }
-            else if (luontiNPCSisältö == null) {
-                System.out.println("NPC:itä ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            }
-            else {
-                System.out.println("Joitain elementtejä ei voitu ladata tiedostosta huoneeseen " + id + ".");
-                e.printStackTrace();
-            }
-        }
+        
     }
 
 }

@@ -2,13 +2,10 @@ package keimo.Kenttäkohteet;
 
 import keimo.PääIkkuna;
 import keimo.TavoiteLista;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
-public class Kirstu extends Kiintopiste {
-    
-    protected Esine sisältö;
+public class Kirstu extends Säiliö {
 
     @Override
     public String kokeileEsinettä(Esine e) {
@@ -82,7 +79,8 @@ public class Kirstu extends Kiintopiste {
             default: return "Kirstu";
         }
     }
-
+    
+    @Override
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new String[4];
@@ -94,32 +92,13 @@ public class Kirstu extends Kiintopiste {
         super.vuorovaikutus = true;
         super.tavoiteSuoritettu = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         TavoiteLista.tarkistaTavoiteEsine(this.luoSisältö(this.annaSisältö(), null));
-    }
-
-    protected Esine luoSisältö(String esineenNimi, String[] ominaisuusLista) {
-        return Esine.luoEsine(esineenNimi, ominaisuusLista);
-    }
-
-    public void asetaSisältö(String esineenNimi, String[] ominaisuusLista) {
-        this.sisältö = luoSisältö(esineenNimi, null);
-    }
-
-    public String annaSisältö() {
-        if (this.sisältö != null) {
-            return sisältö.annaNimi();
-        }
-        else {
-            return "tyhjä";
-        }
     }
 
     public Kirstu(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kirstu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kirstu.png";
         super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
 

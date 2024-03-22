@@ -34,11 +34,11 @@ public class TarinanLisäysIkkuna {
             if ((syöteTeksti == null) || (syöteTeksti == "") || (syöteTeksti.startsWith(" ")) || (syöteTeksti.length() < 1) || (syöteTeksti.contains("(")) || (syöteTeksti.contains(")"))) {
                 JOptionPane.showMessageDialog(null, "Syöte ei voi olla tyhjä, alkaa välilyönnillä tai sisältää sulkumerkkejä.", "Virheellinen syöte", JOptionPane.ERROR_MESSAGE);
             }
-            else if (TarinaDialogiLista.tarinaKartta.containsKey(syöteTeksti)) {
+            else if (TarinaEditoriIkkuna.editorinTarinaKartta.containsKey(syöteTeksti)) {
                 JOptionPane.showMessageDialog(null, "Tarinapätkä " + PääIkkuna.lainausmerkki + syöteTeksti + PääIkkuna.lainausmerkki + " on jo olemassa.", "Tarinapätkä on jo olemassa", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                TarinaDialogiLista.tarinaKartta.put(syöteTeksti, new TarinaPätkä(syöteTeksti, 0, null, null, null));
+                TarinaEditoriIkkuna.editorinTarinaKartta.put(syöteTeksti, new TarinaPätkä(syöteTeksti, 0, null, null, null));
                 ikkuna.dispose();
             }
         });

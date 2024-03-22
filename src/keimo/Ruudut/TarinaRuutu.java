@@ -3,10 +3,11 @@ package keimo.Ruudut;
 import keimo.*;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
+import keimo.Ikkunat.LatausIkkuna;
+import keimo.Utility.KeimoFontit;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -31,10 +32,12 @@ public class TarinaRuutu {
     static ImageIcon[] tarinanKuva;
     static String tarinanTunniste;
 
-    static GridBagLayout tekstiPanelinLayout;;
+    static GridBagLayout tekstiPanelinLayout;
     static GridBagConstraints gbc;
-    public static JPanel yhdistettyTarinaPaneli;
-    
+
+    static GridBagLayout tarinaPanelinLayout;
+    static GridBagConstraints tarinaPanelinGBC;
+    //public static JPanel yhdistettyTarinaPaneli;
 
     public static JPanel luoTarinaPaneli(String tarina) {
 
@@ -50,57 +53,70 @@ public class TarinaRuutu {
             Image img = tarinanKuva[0].getImage();
             img.flush();
             kuva = new JLabel(new ImageIcon(img));
+            //kuva.setBorder(BorderFactory.createLineBorder(Color.white, 1));
 
             kuvaPaneli = new JPanel();
             kuvaPaneli.setBounds(0, 0, 640, 400);
             kuvaPaneli.setBackground(Color.black);
-            kuvaPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
             kuvaPaneli.add(kuva);
 
 
             teksti = new JLabel(tarinaTeksti[0]);
-            teksti.setMinimumSize(new Dimension(560, 180));
-            teksti.setBounds(0, 0, 1000, 240);
-            teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+            teksti.setMinimumSize(new Dimension(640, 225));
+            //teksti.setBorder(BorderFactory.createLineBorder(Color.white));
+            //teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+            teksti.setFont(KeimoFontit.fontti_keimo_14);
             teksti.setForeground(Color.white);
             teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+            
+
             jatka = new JLabel("Space: Jatka");
-            jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+            //jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+            jatka.setFont(KeimoFontit.fontti_keimo_30);
             jatka.setForeground(Color.white);
-            jatka.setPreferredSize(new Dimension(640, 80));
+            jatka.setBounds(0, 0, 640, 40);
             jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-            tekstiPaneli = new JPanel();
+
+            JPanel tekstiPaneli = new JPanel(null);
             tekstiPanelinLayout = new GridBagLayout();
             gbc = new GridBagConstraints();
             tekstiPaneli.setLayout(tekstiPanelinLayout);
-            tekstiPaneli.setBounds(0, 0, 640, 320);
+            tekstiPaneli.setPreferredSize(new Dimension(640, 280));
             tekstiPaneli.setBackground(Color.black);
-            tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+            //tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.white, 1, false));
             gbc.ipadx = 10;
             gbc.ipady = 10;
             gbc.gridx = 0;
             gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
             tekstiPaneli.add(teksti, gbc);
             gbc.ipadx = 10;
             gbc.ipady = 10;
             gbc.gridx = 0;
             gbc.gridy = 1;
+            gbc.anchor = GridBagConstraints.BELOW_BASELINE;
             tekstiPaneli.add(jatka, gbc);
 
 
+            JPanel tarinaPaneliSisempi = new JPanel();
+            tarinaPaneliSisempi.setBackground(Color.black);
+            tarinaPaneliSisempi.setLayout(new BorderLayout());
+            tarinaPaneliSisempi.add(kuvaPaneli, BorderLayout.NORTH);
+            tarinaPaneliSisempi.add(tekstiPaneli, BorderLayout.CENTER);
+
             tarinaPaneli = new JPanel();
-            tarinaPaneli.setLayout(new BorderLayout());
             tarinaPaneli.addKeyListener(new TarinaRuudunKontrollit());
-            tarinaPaneli.add(kuvaPaneli, BorderLayout.NORTH);
-            tarinaPaneli.add(tekstiPaneli, BorderLayout.CENTER);
-            tarinaPaneli.requestFocus();
+            tarinaPaneli.setBackground(Color.black);
+            tarinaPaneli.setLayout(new GridBagLayout());
+            tarinaPaneli.add(tarinaPaneliSisempi);
+
             return tarinaPaneli;
         }
         catch (NullPointerException npe) {
 
-            JOptionPane.showMessageDialog(null, "Tarinaa ei voitu ladata. Tämä voi johtua vanhentuneesta default.kst -tiedostosta.", "Tarinaa ei löytynyt", JOptionPane.ERROR_MESSAGE);
+            npe.printStackTrace();
+            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), "Tarinaa ei voitu ladata. Tämä voi johtua vanhentuneesta default.kst -tiedostosta.", "Tarinaa ei löytynyt", JOptionPane.ERROR_MESSAGE);
             
             kuva = new JLabel("Virhe");
 
@@ -112,23 +128,20 @@ public class TarinaRuutu {
 
 
             teksti = new JLabel("Virhe");
-            teksti.setMinimumSize(new Dimension(560, 180));
-            teksti.setBounds(0, 0, 1000, 240);
-            teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+            teksti.setMinimumSize(new Dimension(640, 225));
+            teksti.setBorder(BorderFactory.createLineBorder(Color.white));
+            //teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+            teksti.setFont(KeimoFontit.fontti_keimo_14);
             teksti.setForeground(Color.white);
             teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             jatka = new JLabel("Space: Jatka");
-            jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+            //jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+            jatka.setFont(KeimoFontit.fontti_keimo_30);
             jatka.setForeground(Color.white);
-            jatka.setPreferredSize(new Dimension(640, 80));
+            jatka.setPreferredSize(new Dimension(640, 40));
             jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            jatka = new JLabel("Space: Jatka");
-            jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-            jatka.setForeground(Color.white);
-            jatka.setPreferredSize(new Dimension(640, 80));
-            jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
         
             tekstiPaneli = new JPanel();
             tekstiPanelinLayout = new GridBagLayout();
@@ -136,7 +149,7 @@ public class TarinaRuutu {
             tekstiPaneli.setLayout(tekstiPanelinLayout);
             tekstiPaneli.setBounds(0, 0, 640, 320);
             tekstiPaneli.setBackground(Color.black);
-            tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+            tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
             gbc.ipadx = 10;
             gbc.ipady = 10;
             gbc.gridx = 0;
@@ -149,12 +162,19 @@ public class TarinaRuutu {
             tekstiPaneli.add(jatka, gbc);
 
 
+
+            JPanel tarinaPaneliSisempi = new JPanel();
+            tarinaPaneliSisempi.setBackground(Color.black);
+            tarinaPaneliSisempi.setLayout(new BorderLayout());
+            tarinaPaneliSisempi.add(kuvaPaneli, BorderLayout.NORTH);
+            tarinaPaneliSisempi.add(tekstiPaneli, BorderLayout.CENTER);
+
             tarinaPaneli = new JPanel();
-            tarinaPaneli.setLayout(new BorderLayout());
             tarinaPaneli.addKeyListener(new TarinaRuudunKontrollit());
-            tarinaPaneli.add(kuvaPaneli, BorderLayout.NORTH);
-            tarinaPaneli.add(tekstiPaneli, BorderLayout.CENTER);
+            tarinaPaneli.setLayout(new GridBagLayout());
+            tarinaPaneli.add(tarinaPaneliSisempi);
             tarinaPaneli.requestFocus();
+
             return tarinaPaneli;
         }
     }
@@ -162,22 +182,18 @@ public class TarinaRuutu {
     static void jatka() {
         klikkaustenMäärä++;
         tarinaPaneli = new JPanel();
-        //tarinaPaneli = luoTarinaPaneli("koti");
+        //tarinaPaneli = luoTarinaPaneli("alku");
         if (klikkaustenMäärä >= tarinanPituusRuutuina -1 && tarinanTunniste == "alku") {
             jatka.setText("Space: Aloita peli");
         }
         if (klikkaustenMäärä >= tarinanPituusRuutuina) {
             if (!Peli.peliAloitettu) {
-                //PääIkkuna.crd.next(PääIkkuna.kortit);
                 PääIkkuna.lataaRuutu("valikkoruutu");
                 ValikkoRuutu.nappiPaneliAlkuvalikko.requestFocus();
             }
             else {
-                //PääIkkuna.crd.previous(PääIkkuna.kortit);
-                //PääIkkuna.crd.previous(PääIkkuna.kortit);
                 PääIkkuna.lataaRuutu("peliruutu");
                 PääIkkuna.ikkuna.requestFocus();
-                //PääIkkuna.kortit.remove(TarinaRuutu.tarinaPaneli);
                 Pelaaja.pakotaPelaajanPysäytys();
                 Peli.pause = false;
             }
@@ -209,7 +225,6 @@ public class TarinaRuutu {
                         jatka();
                         break;
                     default:
-                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
                         break;
                 }
             }

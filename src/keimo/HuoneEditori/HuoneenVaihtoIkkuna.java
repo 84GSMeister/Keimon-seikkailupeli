@@ -1,7 +1,7 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.Utility.*;
+import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,8 +99,11 @@ public class HuoneenVaihtoIkkuna {
         Peli.uusiHuone = huoneenId;
         Peli.huoneVaihdettava = true;
         ikkuna.dispose();
+        if (Pelaaja.sijX >= Peli.huoneKartta.get(huoneenId).annaKoko() || Pelaaja.sijY >= Peli.huoneKartta.get(huoneenId).annaKoko()) {
+            Pelaaja.teleport(0, 0);
+        }
         if (HuoneEditoriIkkuna.editoriAuki()) {
-            HuoneEditoriIkkuna.lataaHuoneKartasta(huoneenId);
+            HuoneEditoriIkkuna.lataaHuoneKartasta(huoneenId, false);
         }
         HuoneEditoriIkkuna.muokattavaHuone = huoneenId;
     }
@@ -287,7 +290,7 @@ public class HuoneenVaihtoIkkuna {
         @Override
         protected void done() {
             try {
-                fLabel.setText( get() );
+                fLabel.setText(get());
                 testFrame.dispose();
                 luoHuoneenVaihtoikkunaJatko();
             }

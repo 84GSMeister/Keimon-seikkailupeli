@@ -6,6 +6,7 @@ import java.awt.*;
 public class SkaalattavaKuvake extends ImageIcon {
 
     Peilaus peilaus = Peilaus.PEILAA_X;
+    float läpinäkyvyys = 1;
     public enum Peilaus {
         NORMAALI,
         PEILAA_X,
@@ -15,6 +16,10 @@ public class SkaalattavaKuvake extends ImageIcon {
     public SkaalattavaKuvake(String filename, Peilaus peilaus) {
         super(filename);
         this.peilaus = peilaus;
+    }
+
+    public SkaalattavaKuvake(String filename, float läpinäkyvyys) {
+        this.läpinäkyvyys = läpinäkyvyys;
     }
 
     @Override
@@ -32,6 +37,9 @@ public class SkaalattavaKuvake extends ImageIcon {
             break;
             default:
             break;
+        }
+        if (läpinäkyvyys < 1) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, läpinäkyvyys));
         }
         super.paintIcon(c, g2, x, y);
     }

@@ -1,10 +1,9 @@
 /.vscode
-/lib
-/maastotesti.png
-/maastotesti_virheellinen.png
 /objektitesti.png
 /launch4j.log
 /launch4j.xml
 /jlink.txt
 /laske_koodirivit.ps1
-/default_*.kst
+/laskerivit.ps1
+/start.bat
+/muistilista.txt

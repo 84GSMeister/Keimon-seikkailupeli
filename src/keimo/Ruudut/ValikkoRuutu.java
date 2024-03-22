@@ -3,7 +3,8 @@ package keimo.Ruudut;
 import keimo.*;
 import keimo.Ikkunat.*;
 import keimo.HuoneEditori.*;
-import keimo.Utility.*;
+import keimo.Utility.KeimoFontit;
+import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,11 +18,10 @@ public class ValikkoRuutu {
     public static CardLayout alkuvalikonKorttiLayout;
     static JPanel logoPaneli, välityhjäPaneli;
     public static JPanel nappiPaneliAlkuvalikko;
-    static JPanel nappiPaneliAsetukset;
+    public static JPanel nappiPaneliAsetukset;
     static JPanel nappiPaneliUlompi;
     static JLabel logo;
     static JLabel aloita, tekijät, huoneEditori, asetukset, lopeta;
-    //static JLabel aloitaVasenOsoitin, aloitaOikeaOsoitin, tekijätVasenOsoitin, tekijätOikeaOsoitin, asetuksetVasenOsoitin, asetuksetOikeaOsoitin;
     static JLabel huoneEditoriVasenOsoitin, huoneEditoriOikeaOsoitin, lopetaVasenOsoitin, lopetaOikeaOsoitin;
     static final int vaihtoehtojenMäärä = 5;
     static int valinta = 0;
@@ -37,8 +37,6 @@ public class ValikkoRuutu {
     public static void painaNäppäintä(String näppäin) {
         PääIkkuna.pääPaneeli.revalidate();
         PääIkkuna.pääPaneeli.repaint();
-        //alkuValikkoPaneli.revalidate();
-        //alkuValikkoPaneli.repaint();
         switch (näppäin) {
             case "ylös":
                 valinta--;
@@ -71,11 +69,13 @@ public class ValikkoRuutu {
                     valintaAsetuksissa = asetustenMäärä-1;
                 }
                 infoLabelAsetukset.setText(infoTekstiAsetukset[valintaAsetuksissa]);
-                if (valintaAsetuksissa == 2) {
+                if (valintaAsetuksissa == 0 || valintaAsetuksissa == 2) {
                     infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 10));
+                    infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_10);
                 }
                 else {
                     infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 15));
+                    infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_16);
                 }
                 päivitäOsoittimenSijaintiAsetuksissa(valintaAsetuksissa);
                 break;
@@ -87,9 +87,11 @@ public class ValikkoRuutu {
                 infoLabelAsetukset.setText(infoTekstiAsetukset[valintaAsetuksissa]);
                 if (valintaAsetuksissa == 2) {
                     infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 10));
+                    infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_10);
                 }
                 else {
                     infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 15));
+                    infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_16);
                 }
                 päivitäOsoittimenSijaintiAsetuksissa(valintaAsetuksissa);
                 break;
@@ -127,21 +129,19 @@ public class ValikkoRuutu {
 
         switch (valinta) {
             case 0: // Aloita peli
-                //PääIkkuna.crd.next(PääIkkuna.kortit);
                 PääIkkuna.lataaRuutu("osionalkuruutu");
                 OsionAlkuRuutu.osionAlkuPaneli.requestFocus();
                 break;
             case 1: // Asetukset
-                //AsetusIkkuna.luoAsetusikkuna();
                 alkuvalikonKorttiLayout.next(kortit);
                 päivitäMuutokset();
                 nappiPaneliAsetukset.requestFocus();
                 break;
             case 2: // Huone-editori
-                HuoneEditoriIkkuna.luoEditoriIkkuna();
+                HuoneEditoriIkkuna.käynnistäEditori();
                 break;
             case 3: // Kehittäjät
-                CustomViestiIkkunat.Credits.showDialog();
+                CustomViestiIkkunat.Credits.näytäDialogi();
                 break;
             case 4: // Lopeta
                 System.exit(0);
@@ -182,9 +182,6 @@ public class ValikkoRuutu {
             case "vasen":
                 switch (valintaAsetuksissa) {
                     case 0:
-                        // if (PelinAsetukset.vaikeusAste > 0) {
-                        //     PelinAsetukset.vaikeusAste--;
-                        // }
                         if (vaVal > 0) {
                             vaVal--;
                             vaValittu = vaVaihtoehdot[vaVal % 4];
@@ -201,9 +198,8 @@ public class ValikkoRuutu {
                         }
                     break;
                     case 3:
-                        if (PelinAsetukset.tavoiteFPS > 1) {
+                        if (PelinAsetukset.tavoiteFPS > 0) {
                             PelinAsetukset.tavoiteFPS--;
-                            //PelinAsetukset.RUUDUNPÄIVITYS = PelinAsetukset.tavoiteFPS;
                         }
                     break;
                     case 4:
@@ -218,9 +214,6 @@ public class ValikkoRuutu {
             case "oikea":
                 switch (valintaAsetuksissa) {
                     case 0:
-                        // if (PelinAsetukset.vaikeusAste < 30) {
-                        //     PelinAsetukset.vaikeusAste++;
-                        // }
                         if (vaVal < vaVaihtoehdot.length -1) {
                             vaVal++;
                             vaValittu = vaVaihtoehdot[vaVal % 4];
@@ -272,6 +265,7 @@ public class ValikkoRuutu {
         //logoPaneli.setBorder(BorderFactory.createLineBorder(Color.red, 1, true));
         logoPaneli.setBackground(Color.black);
         logoPaneli.add(logo);
+
         
         aloita = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_aloita.png"));
         aloita.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -325,32 +319,32 @@ public class ValikkoRuutu {
 
         vaikeusAste = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_vaikeusaste.png"));
         vaikeusAste.setForeground(Color.white);
-        vaikeusAste.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        //vaikeusAste.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         vaikeusAste.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         musiikkiPäällä = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_musiikki.png"));
         musiikkiPäällä.setForeground(Color.white);
-        musiikkiPäällä.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        //musiikkiPäällä.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         musiikkiPäällä.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         valitseMusiikki = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_valitsemusiikki.png"));
         valitseMusiikki.setForeground(Color.white);
-        valitseMusiikki.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        //valitseMusiikki.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         valitseMusiikki.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         tavoiteFPS = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_tavoitefps.png"));
         tavoiteFPS.setForeground(Color.white);
-        tavoiteFPS.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        //tavoiteFPS.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         tavoiteFPS.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         tavoiteTickrate = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_tavoitetickrate.png"));
         tavoiteTickrate.setForeground(Color.white);
-        tavoiteTickrate.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        //tavoiteTickrate.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         tavoiteTickrate.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         takaisin = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_hyväksy.png"));
         takaisin.setForeground(Color.white);
-        takaisin.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        //takaisin.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         takaisin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         vasenOsoitinAsetukset = new JLabel[asetustenMäärä];
@@ -365,6 +359,8 @@ public class ValikkoRuutu {
             oikeaOsoitinAsetukset[i] = new JLabel((""));
             oikeaOsoitinAsetukset[i].setForeground(Color.white);
             oikeaOsoitinAsetukset[i].setFont(new Font("Courier10 BT", Font.PLAIN, 22));
+            oikeaOsoitinAsetukset[i].setFont(KeimoFontit.fontti_keimo_20);
+            oikeaOsoitinAsetukset[i].setPreferredSize(new Dimension(100, 30));
         }
         oikeaOsoitinAsetukset[0].setText("" + PelinAsetukset.vaikeusAste);
         oikeaOsoitinAsetukset[1].setText("" + (PelinAsetukset.musiikkiPäällä ? "PÄÄLLÄ" : "POIS"));
@@ -408,7 +404,7 @@ public class ValikkoRuutu {
 
         infoTekstiAsetukset[0] = "<html><p>" + 
         "Pelin vaikeusaste" + "<br><br>" +
-        "Pasiivinen: viholliset eivät vahingoita" + "<br>" + 
+        "Passiivinen: viholliset eivät vahingoita" + "<br>" + 
         "Normaali: viholliset tekevät normaalia vahinkoa" + "<br>" +
         "Vaikea: viholliset tekevät kaksinkertaista vahinkoa" + "<br>" +
         "Järjetön: viholliset tekevät 10-kertaista vahinkoa" +
@@ -422,8 +418,8 @@ public class ValikkoRuutu {
         "2 = Udo haukkuu: Kylie (BeepBox)" + "<br>" +
         "3 = Udo haukkuu: Mario 2 theme (midi)" + "<br>" +
         "4 = Udo haukkuu: Nyan Cat (midi)" + "<br>" +
-        "5 = Udo haukkuu: Never Gonna Give You Up (midi)" + "<br>" +
-        "6 = Udo haukkuu: Super Mario World (midi)" + "<br>" +
+        "5 = Udo haukkuu: Super Mario World (midi)" + "<br>" +
+        "6 = Udo haukkuu: Never Gonna Give You Up (midi)" + "<br>" +
         "7 = Udo haukkuu: Wide President theme (midi)" + "<br>" +
         "8 = Udo haukkuu: Alice Deejay - Better off Alone" + "<br>" +
         "9 = Udo haukkuu: Eiffel 65 - Blue" + "<br>" +
@@ -467,16 +463,14 @@ public class ValikkoRuutu {
         infoLabelAsetukset = new JLabel(infoTekstiAsetukset[0]);
         infoLabelAsetukset.setForeground(Color.white);
         infoLabelAsetukset.setPreferredSize(new Dimension(480, 300));
-        infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 15));
+        infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_12);
         infoPaneliAsetukset = new JPanel();
         infoPaneliAsetukset.setBackground(Color.black);
-        //infoPaneliAsetukset.setBorder(BorderFactory.createLineBorder(Color.green, 1, false));
         infoPaneliAsetukset.setPreferredSize(new Dimension(500, 300));
         infoPaneliAsetukset.add(infoLabelAsetukset);
 
         JPanel nappiJaInfoPaneliAsetukset = new JPanel(new BorderLayout());
         nappiJaInfoPaneliAsetukset.setPreferredSize(new Dimension(1200, 300));
-        //nappiJaInfoPaneliAsetukset.setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
         nappiJaInfoPaneliAsetukset.add(nappiPaneliAsetukset, BorderLayout.WEST);
         nappiJaInfoPaneliAsetukset.add(infoPaneliAsetukset, BorderLayout.EAST);
 
@@ -496,11 +490,10 @@ public class ValikkoRuutu {
         valikkoPaneli.add(logoPaneli, BorderLayout.NORTH);
         valikkoPaneli.add(nappiPaneliUlompi, BorderLayout.CENTER);
         valikkoPaneli.setBackground(Color.black);
-        //valikkoPaneli.addKeyListener(new MenuKontrollit());
         valikkoPaneli.requestFocus();
         
         alkuValikkoPaneli = valikkoPaneli;
-        //listaaFontit();
+        päivitäMuutokset();
         return valikkoPaneli;
     }
 
@@ -509,11 +502,24 @@ public class ValikkoRuutu {
             if (PelinAsetukset.vaikeusAste < 0) {
                 JOptionPane.showMessageDialog(null, "Vaikeusaste ei voi olla negatiivinen!\n\n0 = Vihollisille ei voi kuolla", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
             }
-            else if (PelinAsetukset.tavoiteFPS < 1) {
-                JOptionPane.showMessageDialog(null, "Tavoite-FPS ei voi olla negatiivinen!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            else if (PelinAsetukset.tavoiteFPS < 0) {
+                JOptionPane.showMessageDialog(null, "Tavoite-FPS ei voi olla negatiivinen!\n\n0 = Max FPS", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                PääIkkuna.uusiIkkuna = true;
+                if (Peli.peliKäynnissä) {
+                    Peli.ääniSäie.run();
+                    Peli.pausetaPeli(false);
+                    Peli.pauseDialogi = false;
+                    Peli.valintaDialogi = false;
+                    PeliRuutu.lisäRuutuPaneli.removeAll();
+                    PeliRuutu.lisäRuutuPaneli.revalidate();
+                    PeliRuutu.lisäRuutuPaneli.repaint();
+                    PeliRuutu.lisäRuutuPaneli.setVisible(false);
+                    PääIkkuna.ikkuna.requestFocus();
+                }
+                else {
+                    PääIkkuna.uusiIkkuna = true;
+                }
             }
         }
         catch (NumberFormatException e) {
@@ -592,8 +598,20 @@ public class ValikkoRuutu {
                         ValikkoRuutu.painaNäppäintäAsetuksissa("enter");
                         break;
                     case KeyEvent.VK_ESCAPE:
-                        alkuvalikonKorttiLayout.previous(kortit);
-                        nappiPaneliAlkuvalikko.requestFocus();
+                        if (Peli.peliKäynnissä) {
+                            Peli.pausetaPeli(false);
+                            Peli.pauseDialogi = false;
+                            Peli.valintaDialogi = false;
+                            PeliRuutu.lisäRuutuPaneli.removeAll();
+                            PeliRuutu.lisäRuutuPaneli.revalidate();
+                            PeliRuutu.lisäRuutuPaneli.repaint();
+                            PeliRuutu.lisäRuutuPaneli.setVisible(false);
+                            PääIkkuna.ikkuna.requestFocus();
+                        }
+                        else {
+                            alkuvalikonKorttiLayout.previous(kortit);
+                            nappiPaneliAlkuvalikko.requestFocus();
+                        }
                         break;
                     case KeyEvent.VK_LEFT, KeyEvent.VK_A:
                         ValikkoRuutu.säädäValikkoa("vasen");
@@ -602,7 +620,6 @@ public class ValikkoRuutu {
                         ValikkoRuutu.säädäValikkoa("oikea");
                         break;
                     default:
-                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
                         break;
                 }
             }

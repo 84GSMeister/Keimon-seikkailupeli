@@ -1,22 +1,21 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
+import keimo.HuoneEditori.DialogiEditori.DialogiEditoriIkkuna;
+import keimo.HuoneEditori.JFXTiedostoIkkuna.TiedostoTyyppi;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
+import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
 import keimo.Kenttäkohteet.*;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.NPCt.*;
 import keimo.NPCt.Entity.SuuntaVasenOikea;
 import keimo.NPCt.Vihollinen.LiikeTapa;
-import keimo.Säikeet.*;
 import keimo.Utility.*;
+import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.Utility.Käännettävä.Suunta;
 import keimo.Ikkunat.*;
-
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -27,19 +26,28 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.*;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import static java.awt.GraphicsDevice.WindowTranslucency.*;
-
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.*;
 import java.nio.file.*;
+import static java.awt.GraphicsDevice.WindowTranslucency.*;
+
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class HuoneEditoriIkkuna {
 
@@ -48,12 +56,6 @@ public class HuoneEditoriIkkuna {
     static int ikkunanLeveys;
     static int ikkunanKorkeus;
     public static JFrame ikkuna;
-    static JMenuBar yläPalkki;
-    static JMenu tiedosto, peli, tietoja, kartta;
-    static JMenuItem uusi, avaa, tallenna;
-    static JMenuItem kokeilePelissä;
-    static JMenuItem ohjeet;
-    static JMenuItem piirräEuklidinenKartta;
     static JPanel yläPaneeli, yläPaneelinYläosa, YläPaneelinAlaosa, yläVasenPaneeli, yläOikeaPaneeli;
     static JButton hyväksyNappi;
     static JLabel huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel;
@@ -65,16 +67,20 @@ public class HuoneEditoriIkkuna {
     static String kopioituObjektinNimi;
 
     static JTabbedPane välilehdet;
+    static JScrollPane scrollattavaObjektiKenttäPaneli, scrollattavaMaastoKenttäPaneli, scrollattavaNPCKenttäPaneli;
+    static JPanel objektiEditointiKenttäPaneliUlompi, maastoEditointiKenttäPaneliUlompi, npcEditointiKenttäPaneliUlompi;
     static JPanel objektiEditointiKenttäPaneli, maastoEditointiKenttäPaneli, npcEditointiKenttäPaneli, editointiKenttäAlue;
     static JPanel peliAluePaneli;
     static JPanel huoneInfoPaneli, huoneenVaihtoPaneli, huoneenNimiPaneli;
     static JButton huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
-    static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
-    static String[] esineLista = {"Avain", "Hiili", "Huume", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Seteli", "Suklaalevy", "Vesiämpäri"};
+    static String[] kenttäkohdeLista;// = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
+    static Map<Object, Icon> esineValikkoKuvakkeet = new TreeMap<Object, Icon>();
+    static Map<Object, Icon> maastoValikkoKuvakkeet = new TreeMap<Object, Icon>();
+    static String[] esineLista = {"Avain", "Hiili", "Huume", "Jallupullo", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Seteli", "Suklaalevy", "Vesiämpäri"};
     static String[] npcNimiLista = {"Asevihu", "Pikkuvihu", "Pahavihu", "Pomo", "Vartija"};
-    static JComboBox<String> esineValikko;
+    static JComboBox<Object> esineValikko;
     static JComboBox<Object> maastoValikko;
     static JComboBox<String> npcValikko;
     static JComboBox<Object> koristeEsineenKuvaValikko;
@@ -98,6 +104,7 @@ public class HuoneEditoriIkkuna {
 
     static JButton[][] kenttäKohteenKuvake, maastoKohteenKuvake, npcKohteenKuvake;
     static JLabel[][] maastoKohteenKuvakeObjektiPanelissa, maastoKohteenKuvakeNpcPanelissa;
+    static int huoneenKoko = 10;
     static KenttäKohde[][] objektiKenttä;
     static Maasto[][] maastoKenttä;
     static NPC[][] npcKenttä;
@@ -116,26 +123,42 @@ public class HuoneEditoriIkkuna {
 
     public static File jfxAvattuTiedosto;
     public static String jfxKokoTiedostoMerkkijonona;
+
+    static class IconListRenderer extends DefaultListCellRenderer {
+        private static final long serialVersionUID = 1L;
+        private Map<Object, Icon> icons; 
+
+        public IconListRenderer(Map<Object, Icon> icons) { 
+            this.icons = icons;
+        } 
+
+        @SuppressWarnings("rawtypes")
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index,boolean isSelected, boolean cellHasFocus) { 
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            Icon icon = icons.get(value);
+            label.setIcon(icon); 
+            return label; 
+        } 
+    }
+
+    public static void käynnistäEditori() {
+        try {
+            EditorinLatausIkkuna.launch();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(ikkuna, "Editoria ei voitu ladata.", "Virhe editorin latauksessa", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     /**
      * Aseta kaikki editori-ikkunan GUI-elementit paikoilleen
      */
-    public static void luoEditoriIkkuna() {
+    protected static void luoEditoriIkkuna() {
         
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            //LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
-            // for (LookAndFeelInfo laf : lafs) {
-            //     System.out.println(laf.getClassName());
-            // }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ikkunanLeveys = esineenKokoPx * Peli.kentänKoko + 110;
-        ikkunanKorkeus = esineenKokoPx * Peli.kentänKoko + 230;
+        ikkunanLeveys = 750;
+        ikkunanKorkeus = 870;
         kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         npcKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
@@ -143,20 +166,20 @@ public class HuoneEditoriIkkuna {
         maastoKohteenKuvakeObjektiPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvakeNpcPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
-        ikkuna = new JFrame("Huone-editori v0.6.5");
+        ikkuna = new JFrame("Huone-editori v0.7");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(600, 100, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setBackground(Color.black);
         ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
-        ikkuna.setVisible(true);
+        ikkuna.setVisible(false);
         ikkuna.revalidate();
         ikkuna.repaint();
 
-        uusi = new JMenuItem("Uusi", new ImageIcon("tiedostot/kuvat/menu/gui/uusi_tiedosto.png"));
+        JMenuItem uusi = new JMenuItem("Uusi", new ImageIcon("tiedostot/kuvat/menu/gui/uusi_tiedosto.png"));
         uusi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int tyhjennysValinta = CustomViestiIkkunat.EditorinTyhjennys.showDialog("Haluatko varmasti tyhjentää kaikki huoneet?", "Uusi pohja");
+                int tyhjennysValinta = CustomViestiIkkunat.EditorinTyhjennys.näytäDialogi("Haluatko varmasti tyhjentää kaikki huoneet?", "Uusi pohja");
                 if (tyhjennysValinta == JOptionPane.YES_OPTION) {
                     for (int i = 0; i < Peli.kentänKoko; i++) {
                         for (int j = 0; j < Peli.kentänKoko; j++) {
@@ -180,23 +203,23 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        avaa = new JMenuItem("Avaa", new ImageIcon("tiedostot/kuvat/menu/gui/kansio.png"));
+        JMenuItem avaa = new JMenuItem("Avaa", new ImageIcon("tiedostot/kuvat/menu/gui/kansio.png"));
         avaa.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int korvaaMuutokset = JOptionPane.OK_OPTION;
                 if (muutoksiaTehty) {
-                    korvaaMuutokset = CustomViestiIkkunat.MuutoksetEditorissa.showDialog();
+                    korvaaMuutokset = CustomViestiIkkunat.MuutoksetEditorissa.näytäDialogi();
                 }
                 if (korvaaMuutokset != JOptionPane.NO_OPTION) {
                     try {
-                        JFXTiedostoIkkuna.launchAvaaTiedosto();
+                        JFXTiedostoIkkuna.launchAvaaTiedosto(TiedostoTyyppi.KOKO_TIEDOSTO);
                     }
                     catch (Exception ex) {
                         System.out.println("Ei voitu ladata JavaFX:n kirjastoja. Käytetään Swingin tiedostovalintaikkunaa.");
                         ex.printStackTrace();
                         korvaaMuutokset = JOptionPane.OK_OPTION;
                         if (muutoksiaTehty) {
-                            korvaaMuutokset = CustomViestiIkkunat.MuutoksetEditorissa.showDialog();
+                            korvaaMuutokset = CustomViestiIkkunat.MuutoksetEditorissa.näytäDialogi();
                         }
                         if (korvaaMuutokset != JOptionPane.NO_OPTION) {
                             try {
@@ -232,6 +255,7 @@ public class HuoneEditoriIkkuna {
                                     huoneidenMääräTiedostossa = 0;
                                     tarinaDialogitMerkkijonoina = new String[tarinaDialogienMääräTiedostossa];
                                     tarinaDialogienMääräTiedostossa = 0;
+                                    read.close();
                                     read = Files.newBufferedReader(path, charset);
                                     tarkastettavaRivi = read.readLine();
                                     while ((tarkastettavaRivi != null)) {
@@ -270,7 +294,7 @@ public class HuoneEditoriIkkuna {
                                     }
                                     huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
                                     TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitMerkkijonoina);
-                                    lataaHuoneKartasta(muokattavaHuone);
+                                    lataaHuoneKartasta(muokattavaHuone, false);
                                     warpVasen = huoneKartta.get(muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
                                     warpOikea = huoneKartta.get(muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);
                                     warpAlas = huoneKartta.get(muokattavaHuone).annaReunaWarppiTiedot(Suunta.ALAS);
@@ -284,6 +308,7 @@ public class HuoneEditoriIkkuna {
                                             m.päivitäKuvanAsento();
                                         }
                                     }
+                                    read.close();
                                 }
                             }
                             catch (FileNotFoundException fnfe) {
@@ -298,12 +323,12 @@ public class HuoneEditoriIkkuna {
             }
         });
         
-        tallenna = new JMenuItem("Tallenna", new ImageIcon("tiedostot/kuvat/menu/gui/korppu.png"));
+        JMenuItem tallenna = new JMenuItem("Tallenna", new ImageIcon("tiedostot/kuvat/menu/gui/korppu.png"));
         tallenna.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(huoneKartta, TarinaDialogiLista.tarinaKartta);
                 try {
-                    JFXTiedostoIkkuna.launchTallennaTiedosto();
+                    JFXTiedostoIkkuna.launchTallennaTiedosto(TiedostoTyyppi.KOKO_TIEDOSTO);
                 }
                 catch (Exception ex) {
                     tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
@@ -311,17 +336,50 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        tiedosto = new JMenu("Tiedosto");
+        JMenuItem tuoHuone = new JMenuItem("Tuo huone", new ImageIcon("tiedostot/kuvat/menu/gui/tuo_huone.png"));
+        tuoHuone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(huoneKartta, TarinaDialogiLista.tarinaKartta);
+                try {
+                    JFXTiedostoIkkuna.launchAvaaTiedosto(TiedostoTyyppi.VAIN_HUONE);
+                }
+                catch (Exception ex) {
+                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                }
+            }
+        });
+
+        JMenuItem vieHuone = new JMenuItem("Vie huone", new ImageIcon("tiedostot/kuvat/menu/gui/vie_huone.png"));
+        vieHuone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonoHuoneesta(huoneKartta, HuoneEditoriIkkuna.muokattavaHuone);
+                try {
+                    JFXTiedostoIkkuna.launchTallennaTiedosto(TiedostoTyyppi.VAIN_HUONE);
+                }
+                catch (Exception ex) {
+                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                }
+            }
+        });
+
+        JMenu huone = new JMenu("Huone");
+        huone.setIcon(new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
+        huone.add(tuoHuone);
+        huone.add(vieHuone);
+
+        JMenu tiedosto = new JMenu("Tiedosto");
         tiedosto.add(uusi);
         tiedosto.add(avaa);
         tiedosto.add(tallenna);
+        tiedosto.add(new JSeparator());
+        tiedosto.add(huone);
 
-        kokeilePelissä = new JMenuItem("Kokeile pelissä", new ImageIcon("tiedostot/kuvat/menu/gui/uusipeli.png"));
+        JMenuItem kokeilePelissä = new JMenuItem("Kokeile pelissä", new ImageIcon("tiedostot/kuvat/menu/gui/uusipeli.png"));
         kokeilePelissä.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
                 if (näytäTallennusVaroitus) {
-                    int valinta = CustomViestiIkkunat.TiedostonTallennusVaroitus.showDialog();
+                    int valinta = CustomViestiIkkunat.TiedostonTallennusVaroitus.näytäDialogi();
                     if (valinta == JOptionPane.NO_OPTION) {
                         näytäTallennusVaroitus = false;
                     }
@@ -357,10 +415,10 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        peli = new JMenu("Peli");
+        JMenu peli = new JMenu("Peli");
         peli.add(kokeilePelissä);
 
-        ohjeet = new JMenuItem("Ohjeet", new ImageIcon("tiedostot/kuvat/menu/gui/ohjeet.png"));
+        JMenuItem ohjeet = new JMenuItem("Ohjeet", new ImageIcon("tiedostot/kuvat/menu/gui/ohjeet.png"));
         ohjeet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String ohjeTeksti = "";
@@ -374,28 +432,89 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        tietoja = new JMenu("Tietoja");
+        JMenu tietoja = new JMenu("Tietoja");
         tietoja.add(ohjeet);
 
-        piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta", new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
+        JMenuItem piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta", new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
         piirräEuklidinenKartta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 KarttaIkkuna.luoKarttaikkuna();
             }
         });
 
-        kartta = new JMenu("Kartta");
+        JMenu kartta = new JMenu("Kartta");
         kartta.add(piirräEuklidinenKartta);
 
-        yläPalkki = new JMenuBar();
+        JMenuItem dialogiEditori = new JMenuItem("Dialogieditori", new ImageIcon("tiedostot/kuvat/menu/gui/puhedialogi.png"));
+        dialogiEditori.addActionListener(e -> {
+            DialogiEditoriIkkuna.luoDialogiEditoriIkkuna();
+        });
+
+        JMenuItem tarinaEditori = new JMenuItem("Tarinaeditori", new ImageIcon("tiedostot/kuvat/menu/gui/dialogieditori_vaihtoehdonkohde.png"));
+        tarinaEditori.addActionListener(e -> {
+            TarinaEditoriIkkuna.luoTarinaEditoriIkkuna();
+        });
+
+        JMenu työkalut = new JMenu("Työkalut");
+        työkalut.add(dialogiEditori);
+        työkalut.add(tarinaEditori);
+
+        JMenuBar yläPalkki = new JMenuBar();
         yläPalkki.setPreferredSize(new Dimension(ikkunanLeveys -20,20));
         yläPalkki.add(tiedosto);
         yläPalkki.add(peli);
         yläPalkki.add(tietoja);
         yläPalkki.add(kartta);
+        yläPalkki.add(työkalut);
         
+        esineValikkoKuvakkeet.put("Avain", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/avain.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Hiili", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/hiili.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Huume", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/huume.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Jallupullo", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/jallupullo.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Juhani", KäännettäväKuvake.luoSkaalattuGif(new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif"), 32));
+        esineValikkoKuvakkeet.put("Jumal Velho", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/velho.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Jumal Yoda", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/yoda.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kaasupullo", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasupullo.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kaasusytytin", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kauppahylly", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kauppaovi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppaovi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kaupparuutu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaupparuutu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kauppias", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kilpi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kilpi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kirstu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kolikko", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kolikko.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Koriste-esine", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/koriste-esine_eikuvaa.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Kuparilager", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuparilager.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Makkara", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Nappi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/nappi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Nuotio", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Painelaatta (pahavihu)", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta_pahavihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Painelaatta (pikkuvihu)", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta_pikkuvihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Paperi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paperi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Penkki", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/puistonpenkki.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Pesäpallomaila", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pesäpallomaila.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Pontikka-ainekset", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/ponuainekset.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Portti", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/portti.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Pulloautomaatti", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pullonpalautus_idle.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Puuovi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Oviruutu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Seteli", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Silta", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/asfaltti_silta.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Suklaalevy", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/suklaalevy.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Sänky", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/sänky.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Vesiämpäri", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Ämpärikone", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
 
-        esineValikko = new JComboBox<String>(kenttäkohdeLista);
+        int kenttäkohdeListanKoko = esineValikkoKuvakkeet.keySet().size();
+        TreeSet<Object> treeSet = new TreeSet<>(esineValikkoKuvakkeet.keySet());
+        kenttäkohdeLista = new String[kenttäkohdeListanKoko];
+        for (int i = 0; i < kenttäkohdeListanKoko; i++) {
+            kenttäkohdeLista[i] = "" + treeSet.getFirst();
+            treeSet.removeFirst();
+        }
+
+        esineValikko = new JComboBox<Object>(new TreeSet<Object>(esineValikkoKuvakkeet.keySet()).toArray());
+        esineValikko.setRenderer(new IconListRenderer(esineValikkoKuvakkeet));
         esineValikko.addKeyListener(editorinNäppäinkomennot);
         esineValikko.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -410,7 +529,9 @@ public class HuoneEditoriIkkuna {
                 }
             }
         });
+
         maastoValikko = new JComboBox<Object>(listaaKuvat("tiedostot/kuvat/maasto").toArray());
+        maastoValikko.setRenderer(new IconListRenderer(listaaKuvatKartaksi("tiedostot/kuvat/maasto", 64)));
         maastoValikko.addKeyListener(editorinNäppäinkomennot);
         maastoValikko.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -426,6 +547,7 @@ public class HuoneEditoriIkkuna {
         });
 
         koristeEsineenKuvaValikko = new JComboBox<Object>(listaaKuvat("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit").toArray());
+        koristeEsineenKuvaValikko.setRenderer(new IconListRenderer(listaaKuvatKartaksi("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit", 20)));
         koristeEsineenKuvaValikko.addKeyListener(editorinNäppäinkomennot);
         koristeEsineenKuvaValikko.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -453,27 +575,54 @@ public class HuoneEditoriIkkuna {
             }
         });
 
-        huoneenVaihtoNappiVasen = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin_pieni.png"), 90));
-        huoneenVaihtoNappiVasen.setPreferredSize(new Dimension(60, 60));
+        huoneenVaihtoNappiVasen = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin_pieni.png"), 90, false));
+        huoneenVaihtoNappiVasen.setPreferredSize(new Dimension(20, 60));
         huoneenVaihtoNappiVasen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (muokattavaHuone <= 0) {
-                    
-                }
-                else {
-                    int uusiHuone = muokattavaHuone -1;
-                    vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
-                    muokattavaHuone--;
+                synchronized (HuoneenLatausSäie.editorinHuoneenLatausLukko) {
+                    if (muokattavaHuone <= 0) {
+                        
+                    }
+                    else {
+                        if (!HuoneenLatausSäie.käynnissä) {
+                            int uusiHuone = muokattavaHuone -1;
+                            vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
+                            muokattavaHuone--;
+                        }
+                        else {
+                            System.out.println("lataus kesken");
+                        }
+                    }
                 }
             }
         });
-        huoneenVaihtoNappiOikea = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin_pieni.png"), 270));
-        huoneenVaihtoNappiOikea.setPreferredSize(new Dimension(60, 60));
+        huoneenVaihtoNappiOikea = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin_pieni.png"), 270, false));
+        huoneenVaihtoNappiOikea.setPreferredSize(new Dimension(20, 60));
         huoneenVaihtoNappiOikea.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int uusiHuone = muokattavaHuone +1;
-                vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
-                muokattavaHuone++;
+                synchronized (HuoneenLatausSäie.editorinHuoneenLatausLukko) {
+                    //System.out.println("EDT ottaa lukon");
+                    if (!HuoneenLatausSäie.käynnissä) {
+                        if (huoneKartta.get(muokattavaHuone +1) != null) {
+                            int uusiHuone = muokattavaHuone +1;
+                            vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
+                            muokattavaHuone++;
+                        }
+                        else {
+                            int luoUusiHuoneValinta = CustomViestiIkkunat.HuonettaEiLöytynytHuomautus.näytäDialogi("Huonetta " + (muokattavaHuone +1) + " ei löytynyt. Haluatko luoda uuden huoneen?");
+                            if (luoUusiHuoneValinta == JOptionPane.YES_OPTION) {
+                                HuoneenLuontiIkkuna.luoHuoneenLuontiIkkuna(null);
+                                // int uusiHuone = muokattavaHuone +1;
+                                // vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
+                                // muokattavaHuone++;
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("lataus kesken");
+                    }
+                }
+                //System.out.println("EDT vapauttaa lukon");
             }
         });
 
@@ -500,10 +649,26 @@ public class HuoneEditoriIkkuna {
         
         objektiEditointiKenttäPaneli = new JPanel();
         objektiEditointiKenttäPaneli.setLayout(null);
-        objektiEditointiKenttäPaneli.setPreferredSize(new Dimension(ikkunanLeveys-30, ikkunanLeveys -30));
+        //objektiEditointiKenttäPaneli.setPreferredSize(new Dimension(ikkunanLeveys-30, ikkunanLeveys -30));
+        objektiEditointiKenttäPaneli.setPreferredSize(new Dimension(640, 640));
+        //objektiEditointiKenttäPaneli.setBounds(0, 0, 640, 640);
         objektiEditointiKenttäPaneli.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         objektiEditointiKenttäPaneli.revalidate();
         objektiEditointiKenttäPaneli.repaint();
+
+        scrollattavaObjektiKenttäPaneli = new JScrollPane(objektiEditointiKenttäPaneli);
+        scrollattavaObjektiKenttäPaneli.setBounds(40, 40, 640, 640);
+        scrollattavaObjektiKenttäPaneli.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollattavaObjektiKenttäPaneli.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollattavaObjektiKenttäPaneli.getVerticalScrollBar().setUnitIncrement(16);
+        JPanel scrollattavanObjektiKentänReunaPaneli = new JPanel();
+        scrollattavanObjektiKentänReunaPaneli.setPreferredSize(new Dimension(640, 640));
+        //scrollattavanObjektiKentänReunaPaneli.setBounds(60, 10, 600, 600);
+        //scrollattavanObjektiKentänReunaPaneli.add(scrollattavaObjektiKenttäPaneli);
+
+        objektiEditointiKenttäPaneliUlompi = new JPanel(null);
+        objektiEditointiKenttäPaneliUlompi.setPreferredSize(new Dimension(640, 640));
+        objektiEditointiKenttäPaneliUlompi.add(scrollattavaObjektiKenttäPaneli);
 
         int kohteenSijX = 10;
         int kohteensijY = 10;
@@ -521,6 +686,18 @@ public class HuoneEditoriIkkuna {
         maastoEditointiKenttäPaneli = new JPanel();
         maastoEditointiKenttäPaneli.setLayout(null);
 
+        scrollattavaMaastoKenttäPaneli = new JScrollPane(maastoEditointiKenttäPaneli);
+        scrollattavaMaastoKenttäPaneli.setBounds(40, 40, 640, 640);
+        scrollattavaMaastoKenttäPaneli.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollattavaMaastoKenttäPaneli.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollattavaMaastoKenttäPaneli.getVerticalScrollBar().setUnitIncrement(16);
+        JPanel scrollattavanMaastoKentänReunaPaneli = new JPanel();
+        scrollattavanMaastoKentänReunaPaneli.setPreferredSize(new Dimension(640, 640));
+
+        maastoEditointiKenttäPaneliUlompi = new JPanel(null);
+        maastoEditointiKenttäPaneliUlompi.setPreferredSize(new Dimension(640, 640));
+        maastoEditointiKenttäPaneliUlompi.add(scrollattavaMaastoKenttäPaneli);
+
         int maastoKohteenSijX = 10;
         int maastoKohteensijY = 10;
         for (int i = 0; i < Peli.kentänKoko; i++) {
@@ -536,6 +713,18 @@ public class HuoneEditoriIkkuna {
 
         npcEditointiKenttäPaneli = new JPanel();
         npcEditointiKenttäPaneli.setLayout(null);
+
+        scrollattavaNPCKenttäPaneli = new JScrollPane(npcEditointiKenttäPaneli);
+        scrollattavaNPCKenttäPaneli.setBounds(40, 40, 640, 640);
+        scrollattavaNPCKenttäPaneli.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollattavaNPCKenttäPaneli.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollattavaNPCKenttäPaneli.getVerticalScrollBar().setUnitIncrement(16);
+        JPanel scrollattavanNPCKentänReunaPaneli = new JPanel();
+        scrollattavanNPCKentänReunaPaneli.setPreferredSize(new Dimension(640, 640));
+
+        npcEditointiKenttäPaneliUlompi = new JPanel(null);
+        npcEditointiKenttäPaneliUlompi.setPreferredSize(new Dimension(640, 640));
+        npcEditointiKenttäPaneliUlompi.add(scrollattavaNPCKenttäPaneli);
 
         int npcKohteenSijX = 10;
         int npcKohteenSijY = 10;
@@ -553,9 +742,9 @@ public class HuoneEditoriIkkuna {
         välilehdet = new JTabbedPane();
         välilehdet.setVisible(true);
         välilehdet.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        välilehdet.add("Objektit", objektiEditointiKenttäPaneli);
-        välilehdet.add("Maasto", maastoEditointiKenttäPaneli);
-        välilehdet.add("NPC:t", npcEditointiKenttäPaneli);
+        välilehdet.add("Objektit", objektiEditointiKenttäPaneliUlompi);
+        välilehdet.add("Maasto", maastoEditointiKenttäPaneliUlompi);
+        välilehdet.add("NPC:t", npcEditointiKenttäPaneliUlompi);
         välilehdet.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 try {
@@ -624,13 +813,19 @@ public class HuoneEditoriIkkuna {
         ikkuna.add(yläPalkki, BorderLayout.NORTH);
         ikkuna.add(kortit, BorderLayout.CENTER);
         ikkuna.addKeyListener(editorinNäppäinkomennot);
+        ikkuna.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent componentEvent) {
+                skaalaaEditointiKenttä();
+            }
+        });
         ikkuna.requestFocus();
         ikkuna.revalidate();
         ikkuna.repaint();
 
         huoneKartta = Peli.huoneKartta;
         luoAlkuIkkuna(0, 0, null);
-        lataaHuoneKartasta(muokattavaHuone);
+        lataaHuoneKartasta(muokattavaHuone, true);
     }
 
     public static boolean editoriAuki() {
@@ -648,7 +843,9 @@ public class HuoneEditoriIkkuna {
     }
 
     public static void asetaPäällimmäiseksi() {
-        ikkuna.requestFocus();
+        if (editoriAuki()) {
+            ikkuna.requestFocus();
+        }
     }
 
     /**
@@ -670,36 +867,53 @@ public class HuoneEditoriIkkuna {
         return kuvaLista;
     }
 
+    public static Map<Object, Icon> listaaKuvatKartaksi(String dir, int kuvanKoko) {
+        switch (kuvanKoko) {
+            case 64:
+                Map<Object, Icon> kuvaKartta = Stream.of(new File(dir).listFiles())
+                    .filter(file -> !file.isDirectory() && (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")))
+                    .collect(Collectors.toMap(File::getName, file -> new ImageIcon(file.getPath())));
+            return kuvaKartta;
+            default:
+                kuvaKartta = Stream.of(new File(dir).listFiles())
+                    .filter(file -> !file.isDirectory() && (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")))
+                    .collect(Collectors.toMap(File::getName, file -> new ImageIcon(new ImageIcon(file.getPath()).getImage().getScaledInstance(kuvanKoko, kuvanKoko, Image.SCALE_DEFAULT))));
+            return kuvaKartta;
+        }
+    }
+
+    static Point hiirenSijainti;
+    static boolean hiiriLiikutettiin;
+
     /**
      * Lataa huonelistasta (huonekartasta) valitulla ID:llä huone editoriin.
      * Tätä käytetään kun halutaan vaihtaa editorissa auki olevaa huonetta.
      * @param uusiHuone ladattavan huoneen ID
      */
-    static void lataaHuoneKartasta(int uusiHuone) {
-        objektiKenttä = huoneKartta.get(uusiHuone).annaHuoneenKenttäSisältö();
-        maastoKenttä = huoneKartta.get(uusiHuone).annaHuoneenMaastoSisältö();
-        npcKenttä = huoneKartta.get(uusiHuone).annaHuoneenNPCSisältö();
-        huoneenNimi = huoneKartta.get(uusiHuone).annaNimi();
-        huoneenAlue = huoneKartta.get(uusiHuone).annaAlue();
-        huoneenAlkuDialoginTunniste = huoneKartta.get(uusiHuone).annaTarinaRuudunTunniste();
-        huoneenVaaditunTavoitteenTunniste = huoneKartta.get(uusiHuone).annaVaaditunTavoitteenTunniste();
-        huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
-        // huoneenNimiTekstiKenttä.setText(huoneenNimi);
-        // huoneenAlueTekstiKenttä.setText(huoneenAlue);
-        // huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialoginTunniste);
-        huoneenTaustakuvaPolku = huoneKartta.get(uusiHuone).annaTaustanPolku();
-        warpVasen = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.VASEN);
-        warpVasenHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
-        warpOikea = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.OIKEA);
-        warpOikeaHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
-        warpAlas = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.ALAS);
-        warpAlasHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
-        warpYlös = huoneKartta.get(uusiHuone).annaReunaWarppiTiedot(Suunta.YLÖS);
-        warpYlösHuoneId = huoneKartta.get(uusiHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
-
-        // for (Huone h : huoneKartta.values()) {
-        //     System.out.println(h.annaTarinaRuudunTunniste());
-        // }
+    static void lataaHuoneKartasta(int uusiHuone, boolean ensimmäinenLataus) {
+        try {
+            if (!ensimmäinenLataus) {
+                if (!HuoneenLatausSäie.käynnissä) {
+                    HuoneenLatausSäie.uusiHuoneLatausSäie = uusiHuone;
+                    //new Thread(huoneenLatausSäie).start();
+                    HuoneenLatausSäie.launch();
+                }
+                else {
+                    System.out.println("lataus kesken");
+                }
+            }
+            else {
+                //new Thread(huoneenLatausSäie).run();
+                HuoneenLatausSäie.launch();
+            }
+        }
+        catch (InvocationTargetException ite) {
+            ite.printStackTrace();
+        }
+        catch (InterruptedException ie) {
+            System.out.println("Lataaminen keskeytettiin.");
+            ie.printStackTrace();
+        }
     }
 
     static void asetaUusiHuoneKarttaan(int nykyinenHuone, boolean tyhjennäHuone) {
@@ -728,16 +942,26 @@ public class HuoneEditoriIkkuna {
         if (huoneenVaaditunTavoitteenTunniste == null || huoneenVaaditunTavoitteenTunniste == "") {
             huoneenVaaditunTavoitteenTunniste = null;
         }
-        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, 10, huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, huoneenAlkuDialoginTunniste, huoneenVaaditunTavoitteenTunniste));
+        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, huoneenKoko, huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, huoneenAlkuDialoginTunniste, huoneenVaaditunTavoitteenTunniste));
         if (tyhjennäHuone) {
             huoneKartta.get(nykyinenHuone).päivitäReunawarppienTiedot(warpVasen, warpVasenHuoneId, warpOikea, warpOikeaHuoneId, warpAlas, warpAlasHuoneId, warpYlös, warpYlösHuoneId);
+            objektiKenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
+            maastoKenttä= new Maasto[Peli.kentänKoko][Peli.kentänKoko];
+            npcKenttä = new NPC[Peli.kentänKoko][Peli.kentänKoko];
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
-                    objektiKenttä[j][i] = null;
-                    maastoKenttä[j][i] = null;
-                    npcKenttä[j][i] = null;
+                    if (i < 10 && j < 10) {
+                        objektiKenttä[j][i] = null;
+                        maastoKenttä[j][i] = null;
+                        npcKenttä[j][i] = null;
+                    }
                 }
             }
+            kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
+            maastoKohteenKuvakeObjektiPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
+            maastoKohteenKuvakeNpcPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
+            maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
+            npcKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
             huoneenNimi = "";
             huoneenAlue = "";
             huoneenAlkuDialoginTunniste = "";
@@ -759,15 +983,15 @@ public class HuoneEditoriIkkuna {
      * @param tyhjennäHuone aseta false vain uutta huonetta luodessa (nollaa mm. reunawarppitiedot)
      */
     static void vaihdaHuonetta(int nykyinenHuone, int seuraavaHuone, boolean tyhjennäHuone) {
-        
         if (huoneKartta != null) {
             if (huoneKartta.containsKey(seuraavaHuone)) {
                 asetaUusiHuoneKarttaan(nykyinenHuone, tyhjennäHuone);
-                lataaHuoneKartasta(seuraavaHuone);
+                lataaHuoneKartasta(seuraavaHuone, false);
             }
             else {
                 asetaUusiHuoneKarttaan(nykyinenHuone, tyhjennäHuone);
             }
+            editorinMuutosHistoria.clear();
         }
         else {
             JOptionPane.showMessageDialog(null, "Huonekartta on tyhjä. Kokeile luoda uusi huonekartta.", "Huonekartta null", JOptionPane.ERROR_MESSAGE);
@@ -785,7 +1009,7 @@ public class HuoneEditoriIkkuna {
             try {
                 File tiedosto = tiedostoSelain.getSelectedFile();
                 if (tiedosto.isFile()) {
-                    int korvaaTiedosto = CustomViestiIkkunat.TiedostonKorvaus.showDialog("Tiedosto " + tiedosto.getName() + " on jo olemassa. Haluatko korvata sen?", "Tiedosto on jo olemassa.");
+                    int korvaaTiedosto = CustomViestiIkkunat.TiedostonKorvaus.näytäDialogi("Tiedosto " + tiedosto.getName() + " on jo olemassa. Haluatko korvata sen?", "Tiedosto on jo olemassa.");
                     if (korvaaTiedosto == JOptionPane.YES_OPTION) {
                         Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedosto.getName()), StandardCharsets.UTF_8);
                         fstream.write(kokoTiedostoMerkkijonona);
@@ -820,8 +1044,15 @@ public class HuoneEditoriIkkuna {
                 String peruttavaMuutos = editorinMuutosHistoria.get(editorinMuutosHistoria.size()-1);
                 int peruttavanKohteenX = 0, peruttavanKohteenY = 0;
                 try {
-                    peruttavanKohteenX = Integer.parseInt(peruttavaMuutos.substring(peruttavaMuutos.indexOf("x=")+2, peruttavaMuutos.indexOf("x=")+3));
-                    peruttavanKohteenY = Integer.parseInt(peruttavaMuutos.substring(peruttavaMuutos.indexOf("y=")+2, peruttavaMuutos.indexOf("y=")+3));
+                    // peruttavanKohteenX = Integer.parseInt(peruttavaMuutos.substring(peruttavaMuutos.indexOf("x=")+2, peruttavaMuutos.indexOf("x=")+3));
+                    // peruttavanKohteenY = Integer.parseInt(peruttavaMuutos.substring(peruttavaMuutos.indexOf("y=")+2, peruttavaMuutos.indexOf("y=")+3));
+
+                    int xAlkuIndeksi = peruttavaMuutos.indexOf("x=") +2;
+                    int xLoppuIndeksi = peruttavaMuutos.indexOf("_", xAlkuIndeksi);
+                    peruttavanKohteenX = Integer.parseInt(peruttavaMuutos.substring(xAlkuIndeksi, xLoppuIndeksi));
+                    int yAlkuIndeksi = peruttavaMuutos.indexOf("y=") +2;
+                    int yLoppuIndeksi = peruttavaMuutos.indexOf("+", yAlkuIndeksi);
+                    peruttavanKohteenY = Integer.parseInt(peruttavaMuutos.substring(yAlkuIndeksi, yLoppuIndeksi));
                 }
                 catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -922,232 +1153,162 @@ public class HuoneEditoriIkkuna {
         tiedot.setText("Tiedot: " + k.annaNimi());
         menuItemit.add(tiedot);
 
-        switch (k.annaNimi()) {
-
-            default:
-            break;
-
-            case "Avain":
-
-            break;
-
-            case "Kaasusytytin", "Tyhjä kaasusytytin", "Toimiva kaasusytytin":
-                Kaasusytytin ks = (Kaasusytytin)k;
+        if (k instanceof Esine) {
+            Esine esine = (Esine)k;
+            if (k instanceof Kaasusytytin) {
+                Kaasusytytin ks = (Kaasusytytin)esine;
                 JCheckBoxMenuItem valitseToimivuus = new JCheckBoxMenuItem("Toimiva");
                 valitseToimivuus.setState(ks.toimiva);
                 valitseToimivuus.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         ks.asetaToimivuus(valitseToimivuus.getState() ? "toimiva" : "tyhjä");
-                        System.out.println(ks.toimiva);
                     }
                 });
                 menuItemit.add(valitseToimivuus);
-            break;
-
-            case "Oviruutu", "Kauppaovi", "Puuovi":
-                Warp r = (Warp)k;
-                JMenuItem warppiKohde = new JMenuItem("Muokkaa warpin kohdetta");
-                warppiKohde.addActionListener(new ActionListener() {
+            }
+        }
+        else if (k instanceof Kiintopiste) {
+            Kiintopiste kp = (Kiintopiste)k;
+            JMenu kääntöValikko = new JMenu("Kierrä kuvaa");
+            JMenuItem kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
+            kääntöMyötäpäivään.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    kp.käännäKuvaa(KääntöValinta.MYÖTÄPÄIVÄÄN);
+                }
+            });
+            JMenuItem kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
+            kääntöVastapäivään.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    kp.käännäKuvaa(KääntöValinta.VASTAPÄIVÄÄN);
+                }
+            });
+            kääntöValikko.add(kääntöMyötäpäivään);
+            kääntöValikko.add(kääntöVastapäivään);
+            menuItemit.add(kääntöValikko);
+            
+            JMenu peilausValikko = new JMenu("Peilaa kuva");
+            JMenuItem peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
+            peilausVaaka.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    kp.peilaaKuva(PeilausValinta.PEILAA_VAAKA);
+                }
+            });
+            JMenuItem peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
+            peilausPysty.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    kp.peilaaKuva(PeilausValinta.PEILAA_PYSTY);
+                }
+            });
+            peilausValikko.add(peilausVaaka);
+            peilausValikko.add(peilausPysty);
+            menuItemit.add(peilausValikko);
+            if (kp instanceof Säiliö) {
+                Säiliö säiliö = (Säiliö)k;
+                JMenuItem säiliönSisältö = new JMenuItem("Sisältö: " + säiliö.annaSisältö());
+                säiliönSisältö.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
                     }
                 });
-                menuItemit.add(warppiKohde);
+                menuItemit.add(säiliönSisältö);
+            }
+        }
+        else if (k instanceof Warp) {
+            Warp r = (Warp)k;
+            JMenuItem warppiKohde = new JMenuItem("Muokkaa warpin kohdetta");
+            warppiKohde.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
+                }
+            });
+            menuItemit.add(warppiKohde);
 
-                JMenuItem lataaWarpinKohdehuone = new JMenuItem("Lataa kohdehuone");
-                lataaWarpinKohdehuone.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        int uusiHuone = r.annaKohdeHuone();
-                        vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
-                        muokattavaHuone = uusiHuone;
+            JMenuItem lataaWarpinKohdehuone = new JMenuItem("Lataa kohdehuone");
+            lataaWarpinKohdehuone.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int uusiHuone = r.annaKohdeHuone();
+                    vaihdaHuonetta(muokattavaHuone, uusiHuone, true);
+                    muokattavaHuone = uusiHuone;
+                }
+            });
+            menuItemit.add(lataaWarpinKohdehuone);
+        }
+        else if (k instanceof NPC_KenttäKohde) {
+            NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)k;
+            JMenuItem dialogi = new JMenuItem("Dialogi: " + kenttäNPC.annaDialogi());
+            dialogi.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
+                }
+            });
+            menuItemit.add(dialogi);
+        }
+        else if (k instanceof AvattavaEste) {
+            JMenuItem valitseTriggerit = new JMenuItem("Valitse triggerit");
+            valitseTriggerit.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
+                }
+            });
+            menuItemit.add(valitseTriggerit);
+        }
+        else if (k instanceof Triggeri) {
+
+        }
+        else if (k instanceof VisuaalinenObjekti) {
+            VisuaalinenObjekti ke = (VisuaalinenObjekti)k;
+            JMenu kääntöValikko = new JMenu("Kierrä kuvaa");
+            JMenuItem kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
+            kääntöMyötäpäivään.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ke.käännäKuvaa(KääntöValinta.MYÖTÄPÄIVÄÄN);
+                }
+            });
+            JMenuItem kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
+            kääntöVastapäivään.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ke.käännäKuvaa(KääntöValinta.VASTAPÄIVÄÄN);
+                }
+            });
+            kääntöValikko.add(kääntöMyötäpäivään);
+            kääntöValikko.add(kääntöVastapäivään);
+            menuItemit.add(kääntöValikko);
+            
+            JMenu peilausValikko = new JMenu("Peilaa kuva");
+            JMenuItem peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
+            peilausVaaka.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ke.peilaaKuva(PeilausValinta.PEILAA_VAAKA);
+                }
+            });
+            JMenuItem peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
+            peilausPysty.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ke.peilaaKuva(PeilausValinta.PEILAA_PYSTY);
+                }
+            });
+            peilausValikko.add(peilausVaaka);
+            peilausValikko.add(peilausPysty);
+            menuItemit.add(peilausValikko);
+
+            JMenuItem dialogi = new JMenuItem();
+            if (ke.onkoKatsottava()) {
+                dialogi = new JMenuItem("Dialogi: " + ke.annaKatsomisDialogi());
+            }
+            else {
+                dialogi = new JMenuItem("Dialogi: " + "<pois käytöstä>");
+            }
+            dialogi.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (ke.onkoEste()) {
+                        JOptionPane.showMessageDialog(ikkuna, "Tämä objekti on este, eli se on luotu kuvasta, jonka nimi päättyy \"_e\".\n\nEsteobjekteilla ei voi olla dialogia, sillä niihin ei voi kävellä, eikä niitä näin ollen voi katsoa.", "Objekti on este", JOptionPane.INFORMATION_MESSAGE);
                     }
-                });
-                menuItemit.add(lataaWarpinKohdehuone);
-            break;
-
-            case "Kirstu":
-                Kirstu kirstu = (Kirstu)k;
-                JMenuItem kirstunSisältö = new JMenuItem("Sisältö: " + kirstu.annaSisältö());
-                kirstunSisältö.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
+                    else {
                         ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
                     }
-                });
-                menuItemit.add(kirstunSisältö);
-                JMenu kääntöValikko = new JMenu("Kierrä kuvaa");
-                JMenuItem kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
-                kääntöMyötäpäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kirstu.käännäKuvaa(KääntöValinta.MYÖTÄPÄIVÄÄN);
-                    }
-                });
-                JMenuItem kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
-                kääntöVastapäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kirstu.käännäKuvaa(KääntöValinta.VASTAPÄIVÄÄN);
-                    }
-                });
-                kääntöValikko.add(kääntöMyötäpäivään);
-                kääntöValikko.add(kääntöVastapäivään);
-                menuItemit.add(kääntöValikko);
-                
-                JMenu peilausValikko = new JMenu("Peilaa kuva");
-                JMenuItem peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
-                peilausVaaka.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kirstu.peilaaKuva(PeilausValinta.PEILAA_VAAKA);
-                    }
-                });
-                JMenuItem peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
-                peilausPysty.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kirstu.peilaaKuva(PeilausValinta.PEILAA_PYSTY);
-                    }
-                });
-                peilausValikko.add(peilausVaaka);
-                peilausValikko.add(peilausPysty);
-                menuItemit.add(peilausValikko);
-            break;
-
-            case "Kauppahylly":
-                KauppaHylly kauppaHylly = (KauppaHylly)k;
-                JMenuItem kauppaHyllynSisältö = new JMenuItem("Sisältö: " + kauppaHylly.annaSisältö());
-                kauppaHyllynSisältö.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
-                    }
-                });
-                menuItemit.add(kauppaHyllynSisältö);
-                kääntöValikko = new JMenu("Kierrä kuvaa");
-                kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
-                kääntöMyötäpäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kauppaHylly.käännäKuvaa(KääntöValinta.MYÖTÄPÄIVÄÄN);
-                    }
-                });
-                kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
-                kääntöVastapäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kauppaHylly.käännäKuvaa(KääntöValinta.VASTAPÄIVÄÄN);
-                    }
-                });
-                kääntöValikko.add(kääntöMyötäpäivään);
-                kääntöValikko.add(kääntöVastapäivään);
-                menuItemit.add(kääntöValikko);
-                
-                peilausValikko = new JMenu("Peilaa kuva");
-                peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
-                peilausVaaka.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kauppaHylly.peilaaKuva(PeilausValinta.PEILAA_VAAKA);
-                    }
-                });
-                peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
-                peilausPysty.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kauppaHylly.peilaaKuva(PeilausValinta.PEILAA_PYSTY);
-                    }
-                });
-                peilausValikko.add(peilausVaaka);
-                peilausValikko.add(peilausPysty);
-                menuItemit.add(peilausValikko);
-            break;
-
-            case "KauppaRuutu", "Nuotio", "Pulloautomaatti", "Sänky", "Ämpärikone":
-                Kiintopiste kp = (Kiintopiste)k;
-                kääntöValikko = new JMenu("Kierrä kuvaa");
-                kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
-                kääntöMyötäpäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kp.käännäKuvaa(KääntöValinta.MYÖTÄPÄIVÄÄN);
-                    }
-                });
-                kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
-                kääntöVastapäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kp.käännäKuvaa(KääntöValinta.VASTAPÄIVÄÄN);
-                    }
-                });
-                kääntöValikko.add(kääntöMyötäpäivään);
-                kääntöValikko.add(kääntöVastapäivään);
-                menuItemit.add(kääntöValikko);
-                
-                peilausValikko = new JMenu("Peilaa kuva");
-                peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
-                peilausVaaka.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kp.peilaaKuva(PeilausValinta.PEILAA_VAAKA);
-                    }
-                });
-                peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
-                peilausPysty.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        kp.peilaaKuva(PeilausValinta.PEILAA_PYSTY);
-                    }
-                });
-                peilausValikko.add(peilausVaaka);
-                peilausValikko.add(peilausPysty);
-                menuItemit.add(peilausValikko);
-            break;
-
-            case "Juhani", "Jumal Velho", "Jumal Yoda":
-                NPC_KenttäKohde kenttäNPC = (NPC_KenttäKohde)k;
-                JMenuItem dialogi = new JMenuItem("Dialogi: " + kenttäNPC.annaDialogi());
-                dialogi.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
-                    }
-                });
-                menuItemit.add(dialogi);
-            break;
-
-            case "Portti":
-                AvattavaEste ae = (AvattavaEste)k;
-                JMenuItem valitseTriggerit = new JMenuItem("Valitse triggerit");
-                valitseTriggerit.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ObjektinMuokkausIkkuna.luoObjektinMuokkausIkkuna(k.annaSijX(), k.annaSijY(), k);
-                    }
-                });
-                menuItemit.add(valitseTriggerit);
-            break;
-
-            case "Koriste-esine":
-                VisuaalinenObjekti ke = (VisuaalinenObjekti)k;
-                kääntöValikko = new JMenu("Kierrä kuvaa");
-                kääntöMyötäpäivään = new JMenuItem("Kierrä myötäpäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_myötäpäivään.png"));
-                kääntöMyötäpäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ke.käännäKuvaa(KääntöValinta.MYÖTÄPÄIVÄÄN);
-                    }
-                });
-                kääntöVastapäivään = new JMenuItem("Kierrä vastapäivään", new ImageIcon("tiedostot/kuvat/menu/gui/kierrä_vastapäivään.png"));
-                kääntöVastapäivään.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ke.käännäKuvaa(KääntöValinta.VASTAPÄIVÄÄN);
-                    }
-                });
-                kääntöValikko.add(kääntöMyötäpäivään);
-                kääntöValikko.add(kääntöVastapäivään);
-                menuItemit.add(kääntöValikko);
-                
-                peilausValikko = new JMenu("Peilaa kuva");
-                peilausVaaka = new JMenuItem("Peilaa vaakasuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_vaaka.png"));
-                peilausVaaka.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ke.peilaaKuva(PeilausValinta.PEILAA_VAAKA);
-                    }
-                });
-                peilausPysty = new JMenuItem("Peilaa pystysuunnassa", new ImageIcon("tiedostot/kuvat/menu/gui/peilaa_pysty.png"));
-                peilausPysty.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        ke.peilaaKuva(PeilausValinta.PEILAA_PYSTY);
-                    }
-                });
-                peilausValikko.add(peilausVaaka);
-                peilausValikko.add(peilausPysty);
-                menuItemit.add(peilausValikko);
-            break;
+                }
+            });
+            menuItemit.add(dialogi);
         }
         return menuItemit;
     }
@@ -1278,12 +1439,13 @@ public class HuoneEditoriIkkuna {
     
     static void luoAlkuIkkuna(int sijX, int sijY, Icon pelaajaKuvake) {
 
-        objektiEditointiKenttäPaneli.removeAll();
+        //objektiEditointiKenttäPaneli.removeAll();
 
         warpVasenNappi = new JButton[3];
         for (int i = 0; i < warpVasenNappi.length; i++){
             JButton jButton = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin.png"), 90, false));
             jButton.setBounds(0, 40, 40, Peli.kentänKoko*esineenKokoPx);
+            jButton.setName("warp_vasen_nappi_" + i);
             jButton.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
@@ -1294,7 +1456,17 @@ public class HuoneEditoriIkkuna {
                                 muokattavaHuone = uusiHuone;
                             }
                             else {
-                                JOptionPane.showMessageDialog(null, "Tässä huoneessa ei ole warppia vasemmalle.\n\nAseta warppi klikkaamalla hiiren oikealla.", "Ei warppia", JOptionPane.INFORMATION_MESSAGE);
+                                String viesti = "Tässä huoneessa ei ole warppia vasemmalle.\n\nHaluatko asettaa warpin olemassaolevaan huoneeseen tai luoda uuden huoneen?";
+                                int valinta = CustomViestiIkkunat.EiWarppia.näytäDialogi(viesti);
+                                switch (valinta) {
+                                    case JOptionPane.YES_OPTION:
+                                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, Suunta.VASEN, false, 0);
+                                    break;
+                                    case JOptionPane.NO_OPTION:
+                                        HuoneenLuontiIkkuna.luoHuoneenLuontiIkkuna(Suunta.VASEN);
+                                    break;
+                                    case JOptionPane.CANCEL_OPTION: break;
+                                }
                             }
                         }
                         else {
@@ -1318,6 +1490,7 @@ public class HuoneEditoriIkkuna {
         for (int i = 0; i < warpOikeaNappi.length; i++){
             JButton jButton = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin.png"), 270, false));
             jButton.setBounds(Peli.kentänKoko*esineenKokoPx + 40, 40, 40, Peli.kentänKoko*esineenKokoPx);
+            jButton.setName("warp_oikea_nappi_" + i);
             jButton.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
@@ -1328,7 +1501,17 @@ public class HuoneEditoriIkkuna {
                                 muokattavaHuone = uusiHuone;
                             }
                             else {
-                                JOptionPane.showMessageDialog(null, "Tässä huoneessa ei ole warppia oikealle.\n\nAseta warppi klikkaamalla hiiren oikealla.", "Ei warppia", JOptionPane.INFORMATION_MESSAGE);
+                                String viesti = "Tässä huoneessa ei ole warppia oikealle.\n\nHaluatko asettaa warpin olemassaolevaan huoneeseen tai luoda uuden huoneen?";
+                                int valinta = CustomViestiIkkunat.EiWarppia.näytäDialogi(viesti);
+                                switch (valinta) {
+                                    case JOptionPane.YES_OPTION:
+                                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, Suunta.OIKEA, false, 0);
+                                    break;
+                                    case JOptionPane.NO_OPTION:
+                                        HuoneenLuontiIkkuna.luoHuoneenLuontiIkkuna(Suunta.OIKEA);
+                                    break;
+                                    case JOptionPane.CANCEL_OPTION: break;
+                                }
                             }
                         }
                         else {
@@ -1352,6 +1535,7 @@ public class HuoneEditoriIkkuna {
         for (int i = 0; i < warpYlösNappi.length; i++){
             JButton jButton = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin.png"), 180, false));
             jButton.setBounds(40, 0, Peli.kentänKoko*esineenKokoPx, 40);
+            jButton.setName("warp_ylös_nappi_" + i);
             jButton.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
@@ -1362,7 +1546,17 @@ public class HuoneEditoriIkkuna {
                                 muokattavaHuone = uusiHuone;
                             }
                             else {
-                                JOptionPane.showMessageDialog(null, "Tässä huoneessa ei ole warppia ylös.\n\nAseta warppi klikkaamalla hiiren oikealla.", "Ei warppia", JOptionPane.INFORMATION_MESSAGE);
+                                String viesti = "Tässä huoneessa ei ole warppia ylös.\n\nHaluatko asettaa warpin olemassaolevaan huoneeseen tai luoda uuden huoneen?";
+                                int valinta = CustomViestiIkkunat.EiWarppia.näytäDialogi(viesti);
+                                switch (valinta) {
+                                    case JOptionPane.YES_OPTION:
+                                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, Suunta.YLÖS, false, 0);
+                                    break;
+                                    case JOptionPane.NO_OPTION:
+                                        HuoneenLuontiIkkuna.luoHuoneenLuontiIkkuna(Suunta.YLÖS);
+                                    break;
+                                    case JOptionPane.CANCEL_OPTION: break;
+                                }
                             }
                         }
                         else {
@@ -1386,6 +1580,7 @@ public class HuoneEditoriIkkuna {
         for (int i = 0; i < warpAlasNappi.length; i++){
             JButton jButton = new JButton(new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/osoitin.png"), 0, false));
             jButton.setBounds(40, Peli.kentänKoko*esineenKokoPx + 40, Peli.kentänKoko*esineenKokoPx, 40);
+            jButton.setName("warp_alas_nappi_" + i);
             jButton.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
@@ -1397,7 +1592,17 @@ public class HuoneEditoriIkkuna {
                                 muokattavaHuone = uusiHuone;
                             }
                             else {
-                                JOptionPane.showMessageDialog(null, "Tässä huoneessa ei ole warppia alas.\n\nAseta warppi klikkaamalla hiiren oikealla.", "Ei warppia", JOptionPane.INFORMATION_MESSAGE);
+                                String viesti = "Tässä huoneessa ei ole warppia alas.\n\nHaluatko asettaa warpin olemassaolevaan huoneeseen tai luoda uuden huoneen?";
+                                int valinta = CustomViestiIkkunat.EiWarppia.näytäDialogi(viesti);
+                                switch (valinta) {
+                                    case JOptionPane.YES_OPTION:
+                                        ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, Suunta.ALAS, false, 0);
+                                    break;
+                                    case JOptionPane.NO_OPTION:
+                                        HuoneenLuontiIkkuna.luoHuoneenLuontiIkkuna(Suunta.ALAS);
+                                    break;
+                                    case JOptionPane.CANCEL_OPTION: break;
+                                }
                             }
                         }
                         else {
@@ -1417,11 +1622,16 @@ public class HuoneEditoriIkkuna {
             warpAlasNappi[i] = jButton;
         }
         
-        int kohteenSijX = 40;
-        int kohteensijY = 40;
+        int kohteenSijX = 0;
+        int kohteensijY = 0;
         objektiKenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
         maastoKenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
         npcKenttä = new NPC[Peli.kentänKoko][Peli.kentänKoko];
+        kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
+        maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
+        npcKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
+        maastoKohteenKuvakeObjektiPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
+        maastoKohteenKuvakeNpcPanelissa = new JLabel[Peli.kentänKoko][Peli.kentänKoko];
         
         for (int i = 0; i < Peli.kentänKoko; i++) {
             for (int j = 0; j < Peli.kentänKoko; j++) {
@@ -1429,8 +1639,11 @@ public class HuoneEditoriIkkuna {
                 int y = i;
                 kenttäKohteenKuvake[x][y] = new JButton(new ImageIcon());
                 maastoKohteenKuvakeObjektiPanelissa[x][y] = new JLabel(new ImageIcon());
+                maastoKohteenKuvakeObjektiPanelissa[x][y].setName("maastokohteen_kuvake_objektipanelissa_" + x + "_" + y);
                 maastoKohteenKuvakeNpcPanelissa[x][y] = new JLabel(new ImageIcon());
+                maastoKohteenKuvakeNpcPanelissa[x][y].setName("maastokohteen_kuvake_npcpanelissa_" + x + "_" + y);
                 kenttäKohteenKuvake[x][y].addKeyListener(editorinNäppäinkomennot);
+                kenttäKohteenKuvake[x][y].setName("kenttäkohteen_kuvake_" + x + "_" + y);
                 kenttäKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                     public void mousePressed (MouseEvent e) {
                         try {
@@ -1499,12 +1712,13 @@ public class HuoneEditoriIkkuna {
 
                 maastoKohteenKuvake[j][i] = new JButton();
                 maastoKohteenKuvake[x][y].addKeyListener(editorinNäppäinkomennot);
+                maastoKohteenKuvake[x][y].setName("maastokohteen_kuvake_" + x + "_" + y);
                 maastoKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                     public void mousePressed (MouseEvent e) {
                         try {
                             muutoksiaTehty = true;
                             if (ctrlPainettu && SwingUtilities.isLeftMouseButton(e)) {
-                                kopioituOminaisuusLista = maastoKenttä[x][y].annalisäOminaisuudet();
+                                kopioituOminaisuusLista = maastoKenttä[x][y].annaLisäOminaisuudet();
                                 käytäKopioitujaOminaisuuksia = true;
                             }
                             else if (SwingUtilities.isLeftMouseButton(e)) {
@@ -1558,6 +1772,7 @@ public class HuoneEditoriIkkuna {
 
                 npcKohteenKuvake[x][y] = new JButton(new ImageIcon());
                 npcKohteenKuvake[x][y].addKeyListener(editorinNäppäinkomennot);
+                npcKohteenKuvake[x][y].setName("npckohteen_kuvake_" + x + "_" + y);
                 npcKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                     public void mousePressed (MouseEvent e) {
                         try {
@@ -1593,114 +1808,99 @@ public class HuoneEditoriIkkuna {
                 });
             }
         }
-        pelaajaLabel = new JLabel(pelaajaKuvake);
-        pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
-        //pelaajaLabel.setIcon(valitsePelaajanKuvake());
-        taustaLabel = new JLabel(new ImageIcon());
-        taustaLabel.setBounds(0, 0, Peli.kentänKoko * esineenKokoPx + 20, Peli.kentänKoko * esineenKokoPx + 20);
         
         try {
-            objektiEditointiKenttäPaneli.add(pelaajaLabel);
-            objektiEditointiKenttäPaneli.add(taustaLabel);
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
-                    if (kenttäKohteenKuvake[j][i] == null) {
-
-                    }
-                    else {
-                        if (j == sijX && i == sijY) {
+                    if (kenttäKohteenKuvake[j][i] != null) {
+                        if (Peli.annaObjektiKenttä().length > i && Peli.annaObjektiKenttä().length > j) {
+                            if (reunatNäkyvissä) {
+                                if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
+                                    if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
+                                        kenttäKohteenKuvake[j][i].setBorder(null);
+                                    }
+                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
+                                        kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
+                                        if (Peli.annaObjektiKenttä()[j][i] instanceof Kiintopiste) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
+                                        }
+                                        else if (Peli.annaObjektiKenttä()[j][i] instanceof Esine) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
+                                        }
+                                        else if (Peli.annaObjektiKenttä()[j][i] instanceof NPC_KenttäKohde) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
+                                            
+                                        }
+                                        else if (Peli.annaObjektiKenttä()[j][i] instanceof Warp) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
+                                        }
+                                    }
+                                }
+                                else if (Peli.annaObjektiKenttä()[j][i] == null) {
+                                    kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                                }
+                            }
+                            else {
+                                kenttäKohteenKuvake[j][i].setBorder(null);
+                            }
                             if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
                                 kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
                             }
                             if (Peli.annaMaastoKenttä()[j][i] instanceof Maasto) {
+                                Maasto m = Peli.annaMaastoKenttä()[j][i];
                                 maastoKohteenKuvake[j][i].setIcon(Peli.annaMaastoKenttä()[j][i].annaKuvake());
+                                maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                                maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
                             }
-                        }
-                        if (reunatNäkyvissä) {
-                            if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
-                                if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
-                                    kenttäKohteenKuvake[j][i].setBorder(null);
-                                }
-                                else if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
-                                    kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
-                                    if (Peli.annaObjektiKenttä()[j][i] instanceof Kiintopiste) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
-                                    }
-                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof Esine) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
-                                    }
-                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof NPC_KenttäKohde) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
-                                        
-                                    }
-                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof Warp) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
-                                    }
-                                }
-                            }
-                            else if (Peli.annaObjektiKenttä()[j][i] == null) {
-                                kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-                            }
-                        }
-                        else {
-                            kenttäKohteenKuvake[j][i].setBorder(null);
-                        }
-                        if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
-                            kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
-                        }
-                        if (Peli.annaMaastoKenttä()[j][i] instanceof Maasto) {
-                            Maasto m = Peli.annaMaastoKenttä()[j][i];
-                            maastoKohteenKuvake[j][i].setIcon(Peli.annaMaastoKenttä()[j][i].annaKuvake());
-                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                        }
-                    
-                        kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
-                        kenttäKohteenKuvake[j][i].setOpaque(false);
-                        kenttäKohteenKuvake[j][i].setContentAreaFilled(false);
-                        kenttäKohteenKuvake[j][i].setBorderPainted(false);
-                        maastoKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
-                        npcKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
-                        npcKohteenKuvake[j][i].setOpaque(false);
-                        npcKohteenKuvake[j][i].setContentAreaFilled(false);
-                        npcKohteenKuvake[j][i].setBorderPainted(false);
-                        maastoKohteenKuvakeObjektiPanelissa[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
-                        maastoKohteenKuvakeNpcPanelissa[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
+                        
+                            kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
+                            kenttäKohteenKuvake[j][i].setOpaque(false);
+                            kenttäKohteenKuvake[j][i].setContentAreaFilled(false);
+                            kenttäKohteenKuvake[j][i].setBorderPainted(false);
+                            maastoKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
+                            npcKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
+                            npcKohteenKuvake[j][i].setOpaque(false);
+                            npcKohteenKuvake[j][i].setContentAreaFilled(false);
+                            npcKohteenKuvake[j][i].setBorderPainted(false);
+                            maastoKohteenKuvakeObjektiPanelissa[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
+                            maastoKohteenKuvakeNpcPanelissa[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
 
-                        objektiEditointiKenttäPaneli.add(kenttäKohteenKuvake[j][i]);
-                        objektiEditointiKenttäPaneli.add(maastoKohteenKuvakeObjektiPanelissa[j][i]);
-                        objektiEditointiKenttäPaneli.setComponentZOrder(kenttäKohteenKuvake[j][i], 1);
-                        objektiEditointiKenttäPaneli.setComponentZOrder(maastoKohteenKuvakeObjektiPanelissa[j][i], 2);
-                        maastoEditointiKenttäPaneli.add(maastoKohteenKuvake[j][i]);
-                        maastoEditointiKenttäPaneli.setComponentZOrder(maastoKohteenKuvake[j][i], 1);
-                        npcEditointiKenttäPaneli.add(npcKohteenKuvake[j][i]);
-                        npcEditointiKenttäPaneli.add(maastoKohteenKuvakeNpcPanelissa[j][i]);
-                        npcEditointiKenttäPaneli.setComponentZOrder(npcKohteenKuvake[j][i], 1);
-                        npcEditointiKenttäPaneli.setComponentZOrder(maastoKohteenKuvakeNpcPanelissa[j][i], 2);
+                            objektiEditointiKenttäPaneli.add(kenttäKohteenKuvake[j][i]);
+                            objektiEditointiKenttäPaneli.add(maastoKohteenKuvakeObjektiPanelissa[j][i]);
+                            objektiEditointiKenttäPaneli.setComponentZOrder(kenttäKohteenKuvake[j][i], 1);
+                            objektiEditointiKenttäPaneli.setComponentZOrder(maastoKohteenKuvakeObjektiPanelissa[j][i], 2);
+                            maastoEditointiKenttäPaneli.add(maastoKohteenKuvake[j][i]);
+                            maastoEditointiKenttäPaneli.setComponentZOrder(maastoKohteenKuvake[j][i], 1);
+                            npcEditointiKenttäPaneli.add(npcKohteenKuvake[j][i]);
+                            npcEditointiKenttäPaneli.add(maastoKohteenKuvakeNpcPanelissa[j][i]);
+                            npcEditointiKenttäPaneli.setComponentZOrder(npcKohteenKuvake[j][i], 1);
+                            npcEditointiKenttäPaneli.setComponentZOrder(maastoKohteenKuvakeNpcPanelissa[j][i], 2);
+                        }
                         kohteenSijX += esineenKokoPx;
                     }
                 }
-                kohteenSijX = 40;
+                kohteenSijX = 0;
                 kohteensijY += esineenKokoPx;
             }
 
-            objektiEditointiKenttäPaneli.add(warpVasenNappi[0]);
-            maastoEditointiKenttäPaneli.add(warpVasenNappi[1]);
-            npcEditointiKenttäPaneli.add(warpVasenNappi[2]);
-            objektiEditointiKenttäPaneli.add(warpOikeaNappi[0]);
-            maastoEditointiKenttäPaneli.add(warpOikeaNappi[1]);
-            npcEditointiKenttäPaneli.add(warpOikeaNappi[2]);
-            objektiEditointiKenttäPaneli.add(warpYlösNappi[0]);
-            maastoEditointiKenttäPaneli.add(warpYlösNappi[1]);
-            npcEditointiKenttäPaneli.add(warpYlösNappi[2]);
-            objektiEditointiKenttäPaneli.add(warpAlasNappi[0]);
-            maastoEditointiKenttäPaneli.add(warpAlasNappi[1]);
-            npcEditointiKenttäPaneli.add(warpAlasNappi[2]);
+            objektiEditointiKenttäPaneliUlompi.add(warpVasenNappi[0]);
+            maastoEditointiKenttäPaneliUlompi.add(warpVasenNappi[1]);
+            npcEditointiKenttäPaneliUlompi.add(warpVasenNappi[2]);
+            objektiEditointiKenttäPaneliUlompi.add(warpOikeaNappi[0]);
+            maastoEditointiKenttäPaneliUlompi.add(warpOikeaNappi[1]);
+            npcEditointiKenttäPaneliUlompi.add(warpOikeaNappi[2]);
+            objektiEditointiKenttäPaneliUlompi.add(warpYlösNappi[0]);
+            maastoEditointiKenttäPaneliUlompi.add(warpYlösNappi[1]);
+            npcEditointiKenttäPaneliUlompi.add(warpYlösNappi[2]);
+            objektiEditointiKenttäPaneliUlompi.add(warpAlasNappi[0]);
+            maastoEditointiKenttäPaneliUlompi.add(warpAlasNappi[1]);
+            npcEditointiKenttäPaneliUlompi.add(warpAlasNappi[2]);
             
-            objektiEditointiKenttäPaneli.setComponentZOrder(pelaajaLabel, 0);
+            //objektiEditointiKenttäPaneli.setComponentZOrder(pelaajaLabel, 0);
             //peliKenttä.setComponentZOrder(taustaLabel, 2);
         }
         catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Jokin meni pieleen", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
         }
         catch (IllegalArgumentException e) {
@@ -1748,12 +1948,22 @@ public class HuoneEditoriIkkuna {
      * Kutsu tätä funktiota joka "framessa", jos editori on auki.
      */
     public static void päivitäEditoriIkkuna() {
-        päivitäObjektiKenttä();
-        päivitäMaastoKenttä();
-        päivitäNPCKenttä();
-        päivitäTooltipit();
-        if (huoneInfoLabel != null) {
-            huoneInfoLabel.setText("Huone " + muokattavaHuone);
+        if (editoriAuki()) {
+            if (!HuoneenLatausSäie.käynnissä) {
+                try {
+                    päivitäObjektiKenttä();
+                    päivitäMaastoKenttä();
+                    päivitäNPCKenttä();
+                    päivitäTooltipit();
+                    Thread.sleep(16);
+                }
+                catch (InterruptedException ie) {
+                    System.out.println("Kuka kehtaa herättää minut uniltani!? T. Vihainen grafiikkasäie");
+                }
+            }
+            // if (huoneInfoLabel != null) {
+            //     huoneInfoLabel.setText("Huone " + muokattavaHuone);
+            // }
         }
     }
 
@@ -1836,62 +2046,64 @@ public class HuoneEditoriIkkuna {
             JOptionPane.showMessageDialog(null, "Virhe päivittäessä editorin elementtejä", "häire", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    static boolean näytäEdistyneetVirheviestit = true;
     static JPanel päivitäObjektiKenttä() {
         
         if (vaatiiPäivityksen && objektiEditointiKenttäPaneli != null && objektiKenttä != null && maastoKenttä != null && npcKenttä != null) {
             try {
-                for (int i = 0; i < Peli.kentänKoko; i++) {
-                    for (int j = 0; j < Peli.kentänKoko; j++) {
-                        if (objektiKenttä[j][i] instanceof KenttäKohde && kenttäKohteenKuvake[j][i] != null) {
-                            kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
-                        }
-                        else if (kenttäKohteenKuvake[j][i] != null) {
-                            kenttäKohteenKuvake[j][i].setIcon(null);
-                        }
-                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
-                            Maasto m = (Maasto)maastoKenttä[j][i];
-                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                        }
-                        else if (maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
-                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(null);
-                        }
+                for (int i = 0; i < objektiKenttä.length; i++) {
+                    for (int j = 0; j < objektiKenttä.length; j++) {
+                        if (true) {
+                            if (objektiKenttä[j][i] instanceof KenttäKohde && kenttäKohteenKuvake[j][i] != null) {
+                                kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
+                            }
+                            else if (kenttäKohteenKuvake[j][i] != null) {
+                                kenttäKohteenKuvake[j][i].setIcon(null);
+                            }
+                            if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
+                                Maasto m = (Maasto)maastoKenttä[j][i];
+                                maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                            }
+                            else if (maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
+                                maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(null);
+                            }
 
-                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
-                            Maasto m = (Maasto)maastoKenttä[j][i];
-                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                        }
-                        else if (maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
-                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(null);
-                        }
+                            if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
+                                Maasto m = (Maasto)maastoKenttä[j][i];
+                                maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                            }
+                            else if (maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
+                                maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(null);
+                            }
 
-                        if (vaatiiKentänPäivityksen) {
-                            if (reunatNäkyvissä) {
-                                if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
+                            if (vaatiiKentänPäivityksen) {
+                                if (reunatNäkyvissä) {
+                                    if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
+                                        kenttäKohteenKuvake[j][i].setBorder(null);
+                                    }
+                                    else if (objektiKenttä[j][i] instanceof KenttäKohde) {
+                                        kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
+                                        if (objektiKenttä[j][i] instanceof Kiintopiste) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
+                                        }
+                                        else if (objektiKenttä[j][i] instanceof Esine) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
+                                        }
+                                        else if (objektiKenttä[j][i] instanceof NPC_KenttäKohde) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
+                                            
+                                        }
+                                        else if (objektiKenttä[j][i] instanceof Warp) {
+                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
+                                        }
+                                    }
+                                    else if (objektiKenttä[j][i] == null) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                                    }
+                                }
+                                else {
                                     kenttäKohteenKuvake[j][i].setBorder(null);
                                 }
-                                else if (objektiKenttä[j][i] instanceof KenttäKohde) {
-                                    kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
-                                    if (objektiKenttä[j][i] instanceof Kiintopiste) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
-                                    }
-                                    else if (objektiKenttä[j][i] instanceof Esine) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
-                                    }
-                                    else if (objektiKenttä[j][i] instanceof NPC_KenttäKohde) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
-                                        
-                                    }
-                                    else if (objektiKenttä[j][i] instanceof Warp) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
-                                    }
-                                }
-                                else if (objektiKenttä[j][i] == null) {
-                                    kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-                                }
-                            }
-                            else {
-                                kenttäKohteenKuvake[j][i].setBorder(null);
                             }
                         }
                     }
@@ -1902,23 +2114,27 @@ public class HuoneEditoriIkkuna {
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
-                GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                //JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+                //GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                System.out.println("Ohitetaan objektikentän grafiikan päivitysyritys");
+                e.printStackTrace();
             }
             catch (NullPointerException e) {
                 System.out.println("Ongelma ruudunpäivityksessä");
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
-                String sStackTrace = sw.toString();
-                System.out.println(sStackTrace);
-                String viesti = "Yritettiin ladata kuvaa objektille, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
-                String otsikko = "Virhe ruudunpäivityksessä";
-                int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.showDialog(viesti, otsikko);
-                switch (virheenJälkeenValinta) {
-                    case JOptionPane.YES_OPTION: break;
-                    case JOptionPane.NO_OPTION: System.exit(0); break;
-                    case JOptionPane.CANCEL_OPTION: ikkuna.dispose(); break;
+                if (näytäEdistyneetVirheviestit) {
+                    String sStackTrace = sw.toString();
+                    System.out.println(sStackTrace);
+                    String viesti = "Yritettiin ladata kuvaa objektille, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+                    String otsikko = "Virhe ruudunpäivityksessä";
+                    int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.näytäDialogi(viesti, otsikko);
+                    switch (virheenJälkeenValinta) {
+                        case JOptionPane.YES_OPTION: break;
+                        case JOptionPane.NO_OPTION: System.exit(0); break;
+                        case JOptionPane.CANCEL_OPTION: ikkuna.dispose(); break;
+                    }
                 }
             }
             catch (IllegalArgumentException e) {
@@ -1938,14 +2154,16 @@ public class HuoneEditoriIkkuna {
         
         if (vaatiiPäivityksen && maastoEditointiKenttäPaneli != null && objektiKenttä != null && maastoKenttä != null && npcKenttä != null) {
             try {
-                for (int i = 0; i < Peli.kentänKoko; i++) {
-                    for (int j = 0; j < Peli.kentänKoko; j++) {
-                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
-                            maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
-                            maastoKenttä[j][i].päivitäKuvanAsento();
-                        }
-                        else if (maastoKohteenKuvake[j][i] != null) {
-                            maastoKohteenKuvake[j][i].setIcon(null);
+                for (int i = 0; i < maastoKenttä.length; i++) {
+                    for (int j = 0; j < maastoKenttä.length; j++) {
+                        if (true) {
+                            if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
+                                maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
+                                maastoKenttä[j][i].päivitäKuvanAsento();
+                            }
+                            else if (maastoKohteenKuvake[j][i] != null) {
+                                maastoKohteenKuvake[j][i].setIcon(null);
+                            }
                         }
                     }
                 }
@@ -1955,23 +2173,25 @@ public class HuoneEditoriIkkuna {
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
-                GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                System.out.println("Ohitetaan maastokentän grafiikan päivitysyritys");
+                e.printStackTrace();
             }
             catch (NullPointerException e) {
                 System.out.println("Ongelma ruudunpäivityksessä");
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
-                String sStackTrace = sw.toString();
-                System.out.println(sStackTrace);
-                String viesti = "Yritettiin ladata kuvaa maastolle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Jos tämä viesti tulee toistuvasti " + "\"jatka\"" + " -painamisen jälkeen, ilmoitathan kehittäjille.\n\n" + sStackTrace;
-                String otsikko = "Virhe ruudunpäivityksessä";
-                int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.showDialog(viesti, otsikko);
-                switch (virheenJälkeenValinta) {
-                    case JOptionPane.YES_OPTION: break;
-                    case JOptionPane.NO_OPTION: System.exit(0); break;
-                    case JOptionPane.CANCEL_OPTION: ikkuna.dispose(); break;
+                if (näytäEdistyneetVirheviestit) {
+                    String sStackTrace = sw.toString();
+                    System.out.println(sStackTrace);
+                    String viesti = "Yritettiin ladata kuvaa maastolle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Jos tämä viesti tulee toistuvasti " + "\"jatka\"" + " -painamisen jälkeen, ilmoitathan kehittäjille.\n\n" + sStackTrace;
+                    String otsikko = "Virhe ruudunpäivityksessä";
+                    int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.näytäDialogi(viesti, otsikko);
+                    switch (virheenJälkeenValinta) {
+                        case JOptionPane.YES_OPTION: break;
+                        case JOptionPane.NO_OPTION: System.exit(0); break;
+                        case JOptionPane.CANCEL_OPTION: ikkuna.dispose(); break;
+                    }
                 }
             }
             catch (IllegalArgumentException e) {
@@ -1989,13 +2209,15 @@ public class HuoneEditoriIkkuna {
         
         if (vaatiiPäivityksen && npcEditointiKenttäPaneli != null && objektiKenttä != null && maastoKenttä != null && npcKenttä != null) {
             try {
-                for (int i = 0; i < Peli.kentänKoko; i++) {
-                    for (int j = 0; j < Peli.kentänKoko; j++) {
-                        if (npcKenttä[j][i] instanceof NPC && npcKohteenKuvake[j][i] != null) {
-                            npcKohteenKuvake[j][i].setIcon(npcKenttä[j][i].annaKuvake());
-                        }
-                        else if (npcKohteenKuvake[j][i] != null) {
-                            npcKohteenKuvake[j][i].setIcon(null);
+                for (int i = 0; i < npcKenttä.length; i++) {
+                    for (int j = 0; j < npcKenttä.length; j++) {
+                        if (true) {
+                            if (npcKenttä[j][i] instanceof NPC && npcKohteenKuvake[j][i] != null) {
+                                npcKohteenKuvake[j][i].setIcon(npcKenttä[j][i].annaKuvake());
+                            }
+                            else if (npcKohteenKuvake[j][i] != null) {
+                                npcKohteenKuvake[j][i].setIcon(null);
+                            }
                         }
                     }
                 }
@@ -2005,23 +2227,27 @@ public class HuoneEditoriIkkuna {
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
-                GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                //JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
+                //GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
+                System.out.println("Ohitetaan npc-kentän grafiikan päivitysyritys");
+                e.printStackTrace();
             }
             catch (NullPointerException e) {
                 System.out.println("Ongelma ruudunpäivityksessä");
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
-                String sStackTrace = sw.toString();
-                System.out.println(sStackTrace);
-                String viesti = "Yritettiin ladata kuvaa npc:lle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
-                String otsikko = "Virhe ruudunpäivityksessä";
-                int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.showDialog(viesti, otsikko);
-                switch (virheenJälkeenValinta) {
-                    case JOptionPane.YES_OPTION: break;
-                    case JOptionPane.NO_OPTION: System.exit(0); break;
-                    case JOptionPane.CANCEL_OPTION: ikkuna.dispose(); break;
+                if (näytäEdistyneetVirheviestit) {
+                    String sStackTrace = sw.toString();
+                    System.out.println(sStackTrace);
+                    String viesti = "Yritettiin ladata kuvaa npc:lle, jota ei ole vielä luotu.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+                    String otsikko = "Virhe ruudunpäivityksessä";
+                    int virheenJälkeenValinta = CustomViestiIkkunat.FataaliVirhe.näytäDialogi(viesti, otsikko);
+                    switch (virheenJälkeenValinta) {
+                        case JOptionPane.YES_OPTION: break;
+                        case JOptionPane.NO_OPTION: System.exit(0); break;
+                        case JOptionPane.CANCEL_OPTION: ikkuna.dispose(); break;
+                    }
                 }
             }
             catch (IllegalArgumentException e) {
@@ -2035,6 +2261,26 @@ public class HuoneEditoriIkkuna {
         return npcEditointiKenttäPaneli;
     }
 
+    private static void skaalaaEditointiKenttä() {
+        int uusiLeveys = ikkuna.getWidth() - 100;
+        int uusiKorkeus = ikkuna.getHeight() - 230;
+        scrollattavaObjektiKenttäPaneli.setBounds(40, 40, uusiLeveys, uusiKorkeus);
+        scrollattavaMaastoKenttäPaneli.setBounds(40, 40, uusiLeveys, uusiKorkeus);
+        scrollattavaNPCKenttäPaneli.setBounds(40, 40, uusiLeveys, uusiKorkeus);
+        for (JButton jb : warpVasenNappi) {
+            jb.setBounds(0, 40, 40, uusiKorkeus);
+        }
+        for (JButton jb : warpOikeaNappi) {
+            jb.setBounds(uusiLeveys + 40, 40, 40, uusiKorkeus);
+        }
+        for (JButton jb : warpYlösNappi) {
+            jb.setBounds(40, 0, uusiLeveys, 40);
+        }
+        for (JButton jb : warpAlasNappi) {
+            jb.setBounds(40, uusiKorkeus + 40, uusiLeveys, 40);
+        }
+    }
+
     static class EditorinNäppäinkomennot implements KeyListener {
 
         /*
@@ -2042,37 +2288,35 @@ public class HuoneEditoriIkkuna {
          */
 
         @Override
-            public void keyTyped(KeyEvent e) {
-                
-            }
+        public void keyTyped(KeyEvent e) {
+            
+        }
     
         @Override
-            public void keyPressed(KeyEvent e) {
+        public void keyPressed(KeyEvent e) {
 
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_CONTROL:
-                        ctrlPainettu = true;
-                    break;
-                    case KeyEvent.VK_Z:
-                        if (ctrlPainettu) {
-                            peruMuutos();
-                        }
-                    break;
-                    default:
-                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
-                    break;
-                }
-                System.out.println(ctrlPainettu);
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_CONTROL:
+                    ctrlPainettu = true;
+                break;
+                case KeyEvent.VK_Z:
+                    if (ctrlPainettu) {
+                        peruMuutos();
+                    }
+                break;
+                default:
+                    System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
+                break;
             }
+        }
     
         @Override
-            public void keyReleased(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_CONTROL:
-                        ctrlPainettu = false;
-                    break;
-                }
-                System.out.println(ctrlPainettu);
+        public void keyReleased(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_CONTROL:
+                    ctrlPainettu = false;
+                break;
             }
+        }
     }
 }

@@ -50,8 +50,44 @@ public abstract class AvattavaEste extends KenttäKohde {
         this.vaaditutTriggerit.clear();
         super.asetaTiedot();
     }
+
+    public void päivitäLisäOminaisuudet() {
+        this.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet = new String[1];
+        String triggeritString = "";
+        for (Point p : vaaditutTriggerit) {
+            triggeritString += "" + p.x + "_" + p.y + ";";
+        }
+        this.lisäOminaisuudet[0] = "triggerit=" + triggeritString;
+    }
     
-    AvattavaEste(boolean määritettySijainti, int sijX, int sijY) {
+    AvattavaEste(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
         super(määritettySijainti, sijX, sijY);
+
+        if (ominaisuusLista != null) {
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("triggerit=")) {
+                    String[] triggerit = ominaisuus.substring(10).split(";");
+                    for (String s : triggerit) {
+                        String[] xy = s.split("_");
+                        try {
+                            int x = Integer.parseInt(xy[0]);
+                            int y = Integer.parseInt(xy[1]);
+                            vaaditutTriggerit.add(new Point(x, y));
+                        }
+                        catch (NumberFormatException nfe) {
+                            System.out.println("Triggerilistan parsiminen epäonnistui.");
+                            nfe.printStackTrace();
+                        }
+                    }
+                }
+            }
+            päivitäLisäOminaisuudet();
+        }
+        else {
+            this.lisäOminaisuuksia = false;
+        }
+        
+        super.asetaTiedot();
     }
 }

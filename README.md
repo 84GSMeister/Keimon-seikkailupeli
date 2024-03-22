@@ -1,12 +1,43 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.10.2023): 0.8.5
+## Uusin versio (22.3.2024): 0.9
+
+### Versio 0.9
+
+ - Muakutettava huoneen koko: Automaattinen scrollaus ja yli 10-kokoiset huoneet
+ - Tasot suunniteltu uudelleen hyödyntäen em. ominaisuutta: Jokainen entinen alue on nyt 1 iso huone
+ - Automaattisesti generoidut minimapit
+ - Kerättävät esineet: Kolikko
+ - Uusi esine: Jallupullo
+ - Uusi esine: Puiston penkki - Toimii kuten sänky, mutta nukkumisesta humalassa menettää enemmän HP:ta
+ - Custom-fontti
+ - Asetusvalikkoa voi selata pelin sisällä (Pause -> Asetukset)
+ - Visuaalisilla objekteilla (a.k.a. Koriste-esineillä) voi olla katsomisdialogi (kuten kenttä_NPC:illä). Dialogeja voi muokata dialogieditorissa.
+ - Dialogieditorissa voi nyt myös luoda ja muokata valintoja
+ - Skaalaus koko näytölle toteutettu uudelleen ja useimmat graafiset ongelmat korjattu
+ - Ääniefekteillä voi olla suunta ja voimakkuus riippuen äänenlähteen sijainnista pelaajan / ruudun keskipisteen suhteen
+ - Editorissa voi päättää huoneen koon luontivaiheessa
+ - Editoria voi scrollata hiiren oikealla
+ - Editorissa objektien kohdalla näkyy niiden kuvake
+ - Editori skaalautuu paremmin ikkunan koon muutokselle
+ - Mediantoisto-ominaisuuksia jälleen parannettu: Eri mediatoistin eri äänitiedostoille: wave-toisimessa on tarkka loop-kohta, mutta mp3- ja ogg-toistimessa voi säätää volyymia tarkemmin.
+ - Osa Pelisäikeen ja Grafiikkasäikeen koodista yrittää viimein toimia edes jollain tasolla säieturvallisesti
+ - Uusi Debug Info -ikkuna
+ - Lisää tölkkiääniä
+
+### Versio 0.8.6
+
+ - Dialogieditori
+ - Kenttä-NPC:ille voi määrittää Custom-dialogin
+ - Editorissa voi nyt tallentaa yksittäisiä huoneita .ksh-tiedostoon. Huoneen voi tuoda minkä tahansa olemassaolevan huoneen päälle. ksh-tiedoston formaatti on sama kuin kst-tiedoston yksittäisessä huoneessa, mutta id jätetään huomioimatta.
+ - Korjattu kauppaoven aiheuttama kaatuminen (jos kaupasta poistuu tyhjän inventoryn kanssa)
+ - Korjattu editorin virhe NPC:n poistamisessa
 
 ### Versio 0.8.5
 
  - Asevihut
  - Pomo
- - Vihollisilla on eläpisteet ja aseilla vahinkopisteet (ei enää niin, että ase tappaa vihollisen ensimmäisellä lyönnillä)
+ - Vihollisilla on elämäpisteet ja aseilla vahinkopisteet (ei enää niin, että ase tappaa vihollisen ensimmäisellä lyönnillä)
  - NPC:iden tiedot-kohta editorissa näyttää enemmän tietoja (kuten hp, vahinko ja tehoavat aseet)
  - Viholliset osaa hakea reitin pelaajaa kohti, jos vihollisen liiketavaksi on asetettu "seuraa reittiä"
  - Muita uusia liiketapoja viholliselle: ympyräliike ja boss-liike
@@ -216,9 +247,12 @@
 
 ### Versio 0.2.2
   - lisätty asetusvalikko ja musiikit
+  - lisätty kilpi ja ämpärikone
   
 ### Versio 0.2.1
   - uudet kuvakkeet
+  - lisätty makkarat, joita voi paistaa
+  - vihollisen päähän voi laittaa ämpärin
 
 ### Versio 0.2
   - lisätty graafinen käyttöliittymä

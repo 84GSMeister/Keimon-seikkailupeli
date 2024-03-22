@@ -12,20 +12,22 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 public class LatausIkkuna {
 
     static Frame ikkuna;
+    static Label latausTeksti;
 
     public static void luoLatausIkkuna() {
         
         ImgComp latausKuvake = new ImgComp("tiedostot/kuvat/menu/lataus/latauskuvake.png");
         latausKuvake.setPreferredSize(new Dimension(300, 60));
-        Label latausTeksti = new Label("Käynnistetään peliä");
+        latausTeksti = new Label("Käynnistetään peliä");
 
         Panel paneli = new Panel(new BorderLayout());
-        paneli.add(latausTeksti, BorderLayout.NORTH);
         paneli.add(latausKuvake, BorderLayout.CENTER);
+        paneli.add(latausTeksti, BorderLayout.SOUTH);
 
         ikkuna = new Frame("Keimon seikkailupeli");
         //ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
@@ -34,11 +36,13 @@ public class LatausIkkuna {
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
+            JOptionPane.showMessageDialog(ikkuna, "Aloitusikkunaa ei voitu ladata. Peli on todennäköisesti yritetty käynnistää väärillä java-argumenteilla.\nTämä virhe voi tulla, jos peli on yritetty käynnistää jar-tiedostosta suoraan.\n\nVersio 0.8.2:sta eteenpäin mukana tulee exe-tiedosto, joka käynnistää pelin automaattisesti oikeilla argumenteilla.", "Virhe ladatessa peliä", JOptionPane.ERROR_MESSAGE);
         }
         ikkuna.setBounds(0, 0, 320, 120);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.setLocationRelativeTo(null);
+        ikkuna.setAlwaysOnTop(true);
         ikkuna.revalidate();
         ikkuna.repaint();
     }
@@ -73,5 +77,13 @@ public class LatausIkkuna {
                 return new Dimension(ig.getWidth(), ig.getHeight());  
             }  
         }
+    }
+
+    public static void päivitäLatausTeksti(String teksti) {
+        latausTeksti.setText(teksti);
+    }
+
+    public static Frame ikkuna() {
+        return ikkuna;
     }
 }

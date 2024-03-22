@@ -1,6 +1,5 @@
 package keimo.HuoneEditori.TarinaEditori;
 
-import keimo.PääIkkuna;
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
 import keimo.HuoneEditori.HuoneenMetatietoIkkuna;
 
@@ -14,6 +13,9 @@ import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -40,6 +42,7 @@ public class TarinaEditoriIkkuna {
     static JButton[] tarinanTekstit;
     static ImageIcon[] tarinanKuvakkeetAlkupKoossa;
     static String[] tarinanKuvatiedostot;
+    static HashMap<String, TarinaPätkä> editorinTarinaKartta = new HashMap<>();
 
     static JPanel alaPaneli;
     static JButton okNappi, cancelNappi;
@@ -48,12 +51,20 @@ public class TarinaEditoriIkkuna {
 
     public static void luoTarinaEditoriIkkuna() {
 
-        ikkuna = new JFrame("Tarinaeditori");
+        List<TarinaPätkä> editorinTpt = TarinaDialogiLista.tarinaKartta.values().stream().toList();
+        editorinTarinaKartta.clear();
+        for (TarinaPätkä tp : editorinTpt) {
+            String[] kopioidutTekstit = Arrays.copyOf(tp.annaTekstit(), tp.annaTekstit().length);
+            String[] kopioidutKuvaTiedostot = Arrays.copyOf(tp.annaKuvatiedostot(), tp.annaKuvatiedostot().length);
+            editorinTarinaKartta.put(tp.annaNimi(), new TarinaPätkä(tp.annaNimi(), tp.annaPituus(), kopioidutKuvaTiedostot, kopioidutTekstit));
+        }
+
+        ikkuna = new JFrame("Tarinaeditori v0.2");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(0, 0, ikkunanLeveys, ikkunanKorkeus);
 
         tarinaValikkoLaatikko = new JComboBox<>();
-        for (String s : TarinaDialogiLista.tarinaKartta.keySet()) {
+        for (String s : editorinTarinaKartta.keySet()) {
             tarinaValikkoLaatikko.addItem(s);
         }
         tarinaValikkoLaatikko.addPropertyChangeListener(new PropertyChangeListener() {
@@ -123,7 +134,6 @@ public class TarinaEditoriIkkuna {
             tarinaPaneli.add(jp);
         }
 
-        String luotavanTarinanTunniste = (String)tarinaValikkoLaatikko.getSelectedItem();
         ImageIcon[] luotavanTarinanKuvakkeet = new ImageIcon[tarinanPituus];
         for (int i = 0; i < luotavanTarinanKuvakkeet.length; i++) {
             luotavanTarinanKuvakkeet[i] = (ImageIcon)tarinanKuvakkeet[i].getIcon();
@@ -135,6 +145,8 @@ public class TarinaEditoriIkkuna {
 
         okNappi = new JButton("OK");
         okNappi.addActionListener(e -> {
+            TarinaDialogiLista.tarinaKartta = editorinTarinaKartta;
+            editorinTarinaKartta = new HashMap<>();
             HuoneenMetatietoIkkuna.päivitäTarinaValintaLaatikko();
             ikkuna.dispose();
         });
@@ -144,6 +156,7 @@ public class TarinaEditoriIkkuna {
         alaPaneli = new JPanel();
         alaPaneli.setBorder(BorderFactory.createLineBorder(Color.blue, 1, false));
         alaPaneli.add(okNappi);
+        alaPaneli.add(cancelNappi);
 
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setLocationRelativeTo(HuoneEditoriIkkuna.ikkuna);
@@ -181,7 +194,7 @@ public class TarinaEditoriIkkuna {
             tarinanTekstit[i].setToolTipText("Klikkaa tästä muokataksesi tekstiä");
             tarinanTekstit[i].addActionListener(e -> TarinanTekstinMuokkausIkkuna.luoTarinanLisäysIkkuna(valittuSivunId));
 
-            TarinaPätkä tp = TarinaDialogiLista.tarinaKartta.get(luotavanTarinanTunniste);
+            TarinaPätkä tp = editorinTarinaKartta.get(luotavanTarinanTunniste);
             if (tp != null) {
                 if (tp.annaKuvatiedostot() != null) {
                     if (tp.annaKuvatiedostot().length > i) {
@@ -212,7 +225,7 @@ public class TarinaEditoriIkkuna {
         }
 
         tarinaValikkoLaatikko.removeAllItems();
-        for (String s : TarinaDialogiLista.tarinaKartta.keySet()) {
+        for (String s : editorinTarinaKartta.keySet()) {
             tarinaValikkoLaatikko.addItem(s);
         }
         tarinaValikkoLaatikko.setSelectedItem(laatikonValittuKohde);
@@ -243,11 +256,11 @@ public class TarinaEditoriIkkuna {
                 System.out.println("teksti " + i + ": " + str);
             }
         }
-        TarinaDialogiLista.tarinaKartta.put(luotavanTarinanTunniste, new TarinaPätkä(luotavanTarinanTunniste, tarinanPituus, luotavanTarinanKuvatiedostot, luotavanTarinanTekstit));
+        editorinTarinaKartta.put(luotavanTarinanTunniste, new TarinaPätkä(luotavanTarinanTunniste, tarinanPituus, luotavanTarinanKuvatiedostot, luotavanTarinanTekstit));
     }
 
     private static void vaihdaTarinaDialogia(String tarinanTunniste) {
-        TarinaPätkä tp = TarinaDialogiLista.tarinaKartta.get(tarinanTunniste);
+        TarinaPätkä tp = editorinTarinaKartta.get(tarinanTunniste);
         if (tp != null) {
             tarinanPituus = tp.annaPituus();
             if (tp.annaKuvatiedostot() != null) {

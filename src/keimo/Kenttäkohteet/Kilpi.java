@@ -1,7 +1,5 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Utility.KäännettäväKuvake;
-
 import javax.swing.ImageIcon;
 
 public final class Kilpi extends Esine {
@@ -30,7 +28,6 @@ public final class Kilpi extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kilpi";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kilpi.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
         super.asetaTiedot();
     }

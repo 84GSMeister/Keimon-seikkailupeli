@@ -3,8 +3,8 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Kenttäkohteet.*;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
-import keimo.Utility.*;
+import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.Utility.Käännettävä.Suunta;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,37 +41,33 @@ public class HuoneenLuontiIkkuna {
             int kentänKoko = Integer.parseInt(tekstiKentät[2].getText());
             boolean tehtäväItemit = tehtäväItemitCheckbox.isSelected();
             if (huoneenId < 0) {
-                JOptionPane.showMessageDialog(null, "Negatiivinen ID ei kelpaa.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            else if (huoneenNimi.contains("(") || huoneenNimi.contains(")")) {
-                CustomViestiIkkunat.SulkumerkkiVaroitus.showDialog();
+                JOptionPane.showMessageDialog(ikkuna, "Negatiivinen ID ei kelpaa.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             else if (Peli.huoneKartta.containsKey(huoneenId)) {
-                JOptionPane.showMessageDialog(null, "Huone ID:llä " + huoneenId + " löytyy jo.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ikkuna, "Huone ID:llä " + huoneenId + " löytyy jo.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            else if (huoneenNimi.contains("(") || huoneenNimi.contains(")")) {
+                CustomViestiIkkunat.SulkumerkkiVaroitus.näytäDialogi();
+                return false;
+            }
+            else if (kentänKoko < 1) {
+                JOptionPane.showMessageDialog(ikkuna, "Huoneen koon täytyy olla positiivinen.", "Virheellinen koko!", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             else {
-                if (kentänKoko > 10) {
-                    int kentänKokoVaroitus = CustomViestiIkkunat.IsoKenttäVaroitus.showDialog();
-                    if (kentänKokoVaroitus == JOptionPane.OK_OPTION) {
-                        asetaArvot(huoneenId, huoneenNimi, kentänKoko, 0, 0, 0, tehtäväItemit);
-                    }
-                }
-                else {
-                    asetaArvot(huoneenId, huoneenNimi, kentänKoko, 0, 0, 0, tehtäväItemit);
-                }
+                asetaArvot(huoneenId, huoneenNimi, kentänKoko, tehtäväItemit);
                 return true;
             }
         }
         catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ikkuna, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    static void asetaArvot(int huoneenId, String huoneenNimi, int asetettuKentänKoko, int asetettuSuklaidenMäärä, int asetettuMakkaroidenMäärä, int asetettuVihujenMäärä, boolean tehtäväItemit) {
+    static void asetaArvot(int huoneenId, String huoneenNimi, int asetettuKentänKoko, boolean tehtäväItemit) {
         TarkistettavatArvot.uusiKentänKoko = asetettuKentänKoko;
 
         if (tehtäväItemit) {
@@ -90,12 +86,13 @@ public class HuoneenLuontiIkkuna {
         }
         System.out.println("Huoneeseen " + huoneenId + " asetetaan " + huoneenSisältöString);
         HuoneEditoriIkkuna.vaihdaHuonetta(HuoneEditoriIkkuna.muokattavaHuone, huoneenId, false);
-        Peli.luoHuone(huoneenId, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
+        Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
         huoneenSisältöLista.removeAll(huoneenSisältöLista);
     }
 
     public static void luoHuoneenLuontiIkkuna(Suunta suunta) {
         
+        Huone h = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone);
         JPanel paneli = new JPanel(new SpringLayout());
         for (int i = 0; i < valintojenMäärä-1; i++) {
             JLabel teksti = new JLabel(tekstit[i], JLabel.TRAILING);
@@ -113,14 +110,11 @@ public class HuoneenLuontiIkkuna {
         tekstiKentät[0].setToolTipText("ID:tä käytetään warppaamiseen huoneiden välillä");
         tekstiKentät[1].setText("");
         tekstiKentät[1].setToolTipText("Ei pakollinen");
-        tekstiKentät[2].setText("" + Peli.kentänKoko);
-        tekstiKentät[2].setToolTipText("Suurin sallittu koko: 10");
+        tekstiKentät[2].setText("" + h.annaKoko());
+        tekstiKentät[2].setToolTipText("Huoneen leveys ja korkeus tileinä: esim. 10 tarkoittaa 10x10-huonetta.");
         paneli.add(new JLabel(tekstit[3]));
         tehtäväItemitCheckbox = new JCheckBox();
         paneli.add(tehtäväItemitCheckbox);
-        //tekstiKentät[3].setText("Kyllä");
-        //tekstiKentät[3].setEditable(false);
-        //tekstiKentät[3].setToolTipText("Avain, Hiili, Paperi, Kaasusytytin, Kaasupullo");
         tehtäväItemitCheckbox.setToolTipText("Avain, Hiili, Paperi, Kaasusytytin, Kaasupullo");
 
         JButton okNappi = new JButton("OK");
@@ -132,7 +126,9 @@ public class HuoneenLuontiIkkuna {
                             HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäReunawarppienTiedot(asetettavaWarpVasen, asetettavaWarpVasenHuoneId, asetettavaWarpOikea, asetettavaWarpOikeaHuoneId, asetettavaWarpAlas, asetettavaWarpAlasHuoneId, asetettavaWarpYlös, asetettavaWarpYlösHuoneId);
                             if (tarkistaArvot()) {
                                 HuoneEditoriIkkuna.ikkuna.setFocusable(true);
-                                ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, suunta, true, huoneenId);
+                                if (suunta != null) {
+                                    ReunaWarppiIkkuna.luoReunaWarppiIkkuna(true, suunta, true, huoneenId);
+                                }
                             }
                         }
                     }
@@ -144,7 +140,6 @@ public class HuoneenLuontiIkkuna {
         cancelNappi.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
                 if (!SwingUtilities.isRightMouseButton(e)) {
-                    //asetettavaWarp = false;
                     ikkuna.dispose();
                     HuoneEditoriIkkuna.ikkuna.setFocusable(true);
                 }

@@ -34,7 +34,7 @@ public class Portti extends AvattavaEste {
         if (avaus) {
             if (päivitäKuvake) {
                 super.kuvake = new ImageIcon(t.createImage("tiedostot/kuvat/kenttäkohteet/portti_auki.gif"));
-                ÄänentoistamisSäie.toistaSFX("portti");
+                ÄänentoistamisSäie.toistaSFX("portti", this.annaSijaintiKentällä());
                 päivitäKuvake = false;
             }
         }
@@ -44,8 +44,8 @@ public class Portti extends AvattavaEste {
         }
     }
     
-    Portti(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
+    Portti(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+        super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Portti";
         super.kuvake = new ImageIcon(t.createImage("tiedostot/kuvat/kenttäkohteet/portti.png"));
         super.katsomisTeksti = "portti";

@@ -1,9 +1,21 @@
 package keimo.Säikeet;
 
 import keimo.*;
-import keimo.Utility.Sound;
 
+import java.awt.Point;
 import java.io.File;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.swing.JOptionPane;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
@@ -13,23 +25,13 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class ÄänentoistamisSäie extends Thread {
     
-    public static MediaPlayer ääniToistin;
+    public static AudioClip ääniToistin;
     public static MediaPlayer musiikkiSoitin;
-    public static AudioClip musiikkiSoitin2;
-    public static Sound musiikkiSoitin3;
     private static int musaValinta = 0;
-    private static Duration musaLoopKohta;
     private static Random r = new Random();
-    protected static Vector<MediaPlayer> ääniJono = new Vector<>();
+    protected static Vector<AudioClip> ääniJono = new Vector<>();
     public static List<String> musaLista;
 
     public static void nollaa() {
@@ -37,50 +39,50 @@ public class ÄänentoistamisSäie extends Thread {
         ääniJono.clear();
     }
 
-    void luoMusaKartta() {
+    public static void luoMusaKartta() {
         musaLista = Stream.of(new File("tiedostot/musat").listFiles())
             .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3") || file.getName().endsWith(".wav")))
             .map(File::getName).sorted()
             .collect(Collectors.toList());
     }
 
-    double valitseMusanLoopKohta() {
+    int valitseMusanLoopKohta() {
+        int loopKohta = 0;
+        double loopKohtaMs = 0;
+        double sampleRate = 48_000;
         switch (PelinAsetukset.musiikkiValinta) {
-            case 0: musaLoopKohta = new Duration(0); break;
-            case 1: musaLoopKohta = new Duration(0); break;
-            case 2: musaLoopKohta = new Duration(0); break;
-            case 3: musaLoopKohta = new Duration(2667); break;
-            case 4: musaLoopKohta = new Duration(28800); break;
-            case 5: musaLoopKohta = new Duration(0); break;
-            case 6: musaLoopKohta = new Duration(0); break;
-            case 7: musaLoopKohta = new Duration(19200); break;
+            case 0: loopKohtaMs = 0; break;
+            case 1: loopKohtaMs = 0; break;
+            case 2: loopKohtaMs = 0; break;
+            case 3: loopKohtaMs = 5_333; break;
+            case 4: loopKohtaMs = 28_800; break;
+            case 5: loopKohtaMs = 0; break;
+            case 6: loopKohtaMs = 1_316; break;
+            case 7: loopKohtaMs = 24_000; break;
         }
-        return musaLoopKohta.toMillis();
+        loopKohta = (int)((loopKohtaMs/1000d) * sampleRate);
+        System.out.println("loop-kohta: " + loopKohta);
+        return loopKohta;
     }
 
-    void toistaMusiikkiJFXMediaPlayer() {
+    void toistaMusiikki() {
+        musaValinta = PelinAsetukset.musiikkiValinta;
+        String musaTiedosto = musaLista.get(musaValinta);
+        if (musaTiedosto.endsWith(".wav")) {
+            toistaMusiikkiClip(musaTiedosto);
+        }
+        else if (musaTiedosto.endsWith(".mp3") || musaTiedosto.endsWith(".ogg")){
+            toistaMusiikkiJFXMediaPlayer(musaTiedosto);
+        }
+    }
+
+    void toistaMusiikkiJFXMediaPlayer(String musaTiedosto) {
         try {
             nollaa();
-            musaValinta = PelinAsetukset.musiikkiValinta;
-            musiikkiSoitin = new MediaPlayer(new Media(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString()));
-            if (valitseMusanLoopKohta() > 0) {
-                // musiikkiSoitin.setOnEndOfMedia(new Runnable() {
-                //     @Override
-                //     public void run() {
-                //         double alkuaika = System.nanoTime();
-                //         musiikkiSoitin.seek(musaLoopKohta);
-                //         musiikkiSoitin.play();
-                //         double loppuAika = System.nanoTime();
-                //         System.out.println("loopin viive: " + (loppuAika - alkuaika)/1_000_000d + " ms");
-                //     }
-                // });
-            }
+            musiikkiSoitin = new MediaPlayer(new Media(new File("tiedostot/musat/" + musaTiedosto).toURI().toString()));
             musiikkiSoitin.setCycleCount(MediaPlayer.INDEFINITE);
             musiikkiSoitin.setVolume(PelinAsetukset.musaVolyymi);
-            if (PelinAsetukset.musiikkiPäällä) {
-                musiikkiSoitin.play();
-                //ääniJono.add(musiikkiSoitin);
-            }
+            musiikkiSoitin.play();
         }
         catch (NullPointerException e) {
             System.out.println("Musiikkia ei voitu toistaa");
@@ -88,47 +90,54 @@ public class ÄänentoistamisSäie extends Thread {
         }
     }
 
-    void toistaMusiikkiJFXAudioClip() {
+    public static Clip clip;
+    void toistaMusiikkiClip(String musaTiedosto) {
         try {
-            suljeMusiikki();
-            musaValinta = PelinAsetukset.musiikkiValinta;
-            musiikkiSoitin2 = new AudioClip(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString());
-            musiikkiSoitin2.setVolume(PelinAsetukset.musaVolyymi);
-            musiikkiSoitin2.setCycleCount(AudioClip.INDEFINITE);
-            if (PelinAsetukset.musiikkiPäällä) {
-                musiikkiSoitin2.play();
-            }
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("tiedostot/musat/" + musaTiedosto));
+            nollaa();
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float gain = (float)(Math.pow(PelinAsetukset.musaVolyymi, (1f/9f))*80 -80);
+            gainControl.setValue(gain);
+            int loopStart = valitseMusanLoopKohta();
+            int loopEnd = clip.getFrameLength()-1;
+            clip.setLoopPoints(loopStart, loopEnd);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
         }
-        catch (NullPointerException e) {
-            System.out.println("Musiikkia ei voitu toistaa");
+        catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    void toistaMusiikkiJavaxSound() {
-        musiikkiSoitin3 = new Sound(new File("tiedostot/musat/" + musaLista.get(musaValinta)).toURI().toString(), true);
-        musiikkiSoitin3.play();
     }
 
     public static void asetaMusanVolyymi(double volyymi) {
         if (musiikkiSoitin != null) {
             musiikkiSoitin.setVolume(volyymi);
-            //System.out.println("Musan volyymi: " + musiikkiSoitin.getVolume());
         }
-        if (musiikkiSoitin2 != null) {
-            musiikkiSoitin2.setVolume(volyymi);
-            if (musiikkiSoitin2.isPlaying()) {
-                musiikkiSoitin2.stop();
-                musiikkiSoitin2.play();
-            }
-            //System.out.println("Musan volyymi: " + musiikkiSoitin2.getVolume());
+        if (clip != null) {
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float gain = (float)(Math.pow(volyymi, (1f/9f))*80 -80);
+            gainControl.setValue(gain);
         }
+        PelinAsetukset.musaVolyymi = volyymi;
+    }
+
+    public static void asetaSFXVolyymi(double volyymi) {
+        if (ääniToistin != null) {
+            ääniToistin.setVolume(volyymi);
+        }
+        PelinAsetukset.ääniVolyymi = volyymi;
+    }
+
+    static float log2(float n) {
+        float result = (float)(Math.log(n)/Math.log(2));
+        return result;
     }
 
     public static void asetaMusatoistimenSijainti(double ms) {
         if (musiikkiSoitin != null) {
             musiikkiSoitin.seek(new Duration(ms));
-            //System.out.println("Musiikkisoitin: Siirrytään kohtaan " + ms + " ms");
         }
     }
 
@@ -136,41 +145,61 @@ public class ÄänentoistamisSäie extends Thread {
         if (musiikkiSoitin != null) {
             musiikkiSoitin.stop();
         }
-        if (musiikkiSoitin2 != null) {
-            musiikkiSoitin2.stop();
+        if (clip != null) {
+            clip.stop();
         }
     }
 
     public static void toistaSFX(String ääni) {
+        ääniToistin = new AudioClip(new File("tiedostot/äänet/pelaaja_damage.mp3").toURI().toString());
+        double defaultVolume = ääniToistin.getVolume();
+        double defaultPan = ääniToistin.getBalance();
+        toistaSFX(ääni, defaultVolume, defaultPan);
+    }
+
+    public static void toistaSFX(String ääni, Point sijaintiKentällä) {
+        double xEtäisyys = Pelaaja.hitbox.getCenterX() - sijaintiKentällä.getX();
+        double yEtäisyys = Pelaaja.hitbox.getCenterY() - sijaintiKentällä.getY();
+        double pan = -xEtäisyys/512;
+        if (pan < -1) pan = -1;
+        else if (pan > 1) pan = 1;
+        double etäisyysKerroinV = Math.min(xEtäisyys, yEtäisyys);
+        double volume = ((100 * etäisyysKerroinV) / 1024 + 100)/100;
+        if (volume > 0.75) volume = 0.75;
+        else if (volume < 0) volume = 0;
+        toistaSFX(ääni, volume, pan);
+    }
+
+    public static void toistaSFX(String ääni, double volume, double pan) {
 
         switch (ääni) {
 
             case "pelaaja_damage":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/pelaaja_damage.mp3").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/pelaaja_damage.mp3").toURI().toString());
             break;
             case "pikkuvihu_damage":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/pikkuvihu_damage.mp3").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/pikkuvihu_damage.mp3").toURI().toString());
             break;
             case "woof":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/woof.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/woof.wav").toURI().toString());
             break;
             case "oven_avaus":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/risitas.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/risitas.wav").toURI().toString());
             break;
             case "oven_sulkeminen":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/ovi_kiinni.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/ovi_kiinni.wav").toURI().toString());
             break;
             case "ammus":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/ammus.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/ammus.wav").toURI().toString());
             break;
             case "frans_cs":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/frans_cs.mp3").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/frans_cs.mp3").toURI().toString());
             break;
             case "nappi":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/nappi.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/nappi.wav").toURI().toString());
             break;
             case "portti":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/portti.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/portti.wav").toURI().toString());
             break;
 
             case "tölkki":
@@ -179,53 +208,65 @@ public class ÄänentoistamisSäie extends Thread {
                 .map(File::getName).sorted()
                 .collect(Collectors.toList());
                 int valitseÄäni = r.nextInt(tölkkiÄäniLista.size());
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/tölkki/tölkki" + valitseÄäni + ".mp3").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/tölkki/tölkki" + valitseÄäni + ".mp3").toURI().toString());
             break;
             case "Vesiämpäri":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/vihollinen_ämpäröinti.mp3").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/vihollinen_ämpäröinti.mp3").toURI().toString());
             break;
             case "Pesäpallomaila":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/vihollinen_mukilointi.mp3").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/vihollinen_mukilointi.mp3").toURI().toString());
             break;
             case "Pikkuvihu_damage":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Pikkuvihu_damage.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/Pikkuvihu_damage.wav").toURI().toString());
             break;
             case "Pahavihu_damage":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Pahavihu_damage.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/Pahavihu_damage.wav").toURI().toString());
             break;
             case "Asevihu_damage":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Asevihu_damage.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/Asevihu_damage.wav").toURI().toString());
             break;
             case "Pomo_damage":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Boss_damage.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/Boss_damage.wav").toURI().toString());
             break;
             case "Boss_death":
-                ääniToistin = new MediaPlayer(new Media(new File("tiedostot/äänet/Boss_death.wav").toURI().toString()));
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/Boss_death.wav").toURI().toString());
+            break;
+            case "Kolikko":
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/koin.wav").toURI().toString());
+            break;
+            case "Kerättävä":
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/kollekt.wav").toURI().toString());
             break;
             default:
             break;
         }
         if (ääniToistin != null) {
-            ääniToistin.setVolume(PelinAsetukset.ääniVolyymi);
-            //ääniToistin.play();
-            if (ääniJono.size() < 10) {
-                ääniJono.add(ääniToistin);
-            }
+            ääniToistin.setVolume(volume * PelinAsetukset.ääniVolyymi);
+            ääniToistin.setBalance(pan);
+
+            // Toista suoraan
+            ääniToistin.play();
+            System.out.println("Toistetaan sfx: " + ääni + ", volume: " + ääniToistin.getVolume() + ", pan: " + ääniToistin.getBalance());
+
+            // Käytä äänijonoa
+            // if (ääniJono.size() < 10) {
+            //     ääniJono.add(ääniToistin);
+            // }
         }
     }
 
     public static void toistaÄäniJono() {
         try {
             //System.out.println("ääniä jonossa: " + ääniJono.size());
-            for (MediaPlayer mp : ääniJono) {
-                mp.setVolume(PelinAsetukset.ääniVolyymi);
-                mp.setOnEndOfMedia(new Runnable() {
-                    @Override
-                    public void run() {
-                        ääniJono.remove(mp);
-                    }
-                });
-                mp.play();
+            for (AudioClip ac : ääniJono) {
+                ac.setVolume(PelinAsetukset.ääniVolyymi);
+                // ac.setOnEndOfMedia(new Runnable() {
+                //     @Override
+                //     public void run() {
+                //         ääniJono.remove(ac);
+                //     }
+                // });
+                ac.play();
             }
         }
         catch (ConcurrentModificationException cme) {
@@ -235,42 +276,24 @@ public class ÄänentoistamisSäie extends Thread {
 
     @Override
     public void run() {
-        JFXPanel fxPanel = new JFXPanel();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                initFX(fxPanel);
-                luoMusaKartta();
-                if (valitseMusanLoopKohta() > 0) {
-                    toistaMusiikkiJFXMediaPlayer();
+        try {
+            JFXPanel fxPanel = new JFXPanel();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    initFX(fxPanel);
+                    luoMusaKartta();
+                    suljeMusiikki();
+                    if (PelinAsetukset.musiikkiPäällä) {
+                        toistaMusiikki();
+                    }
                 }
-                else {
-                    //toistaMusiikkiJFXAudioClip();
-                    toistaMusiikkiJFXMediaPlayer();
-                    //toistaMusiikkiJavaxSound();
-                }
-            }
-        });
-        // while (true) {
-        //     double alkuaika = System.nanoTime();
-        //     if (musiikkiSoitin != null) {
-        //         if (musiikkiSoitin.getCurrentTime().lessThan(musiikkiSoitin.getStopTime())) {
-        //             //System.out.println(musiikkiSoitin.getCurrentTime() + " of " + musiikkiSoitin.getStopTime());
-        //         }
-        //         else {
-        //             musiikkiSoitin.seek(musaLoopKohta);
-        //             double loppuAika = System.nanoTime();
-        //             System.out.println("loopin viive: " + (loppuAika - alkuaika)/1_000_000d + " ms");
-        //             // try {
-        //             //     Thread.sleep(10);
-        //             // }
-        //             // catch (InterruptedException ie) {
-        //             //     ie.printStackTrace();
-        //             // }
-        //             break;
-        //         }
-        //     }
-        // }
+            });
+        }
+        catch (RuntimeException re) {
+            re.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Ei voitu ladata JavaFX:n ajonaikaisia grafiikkakirjastoja.\nMediaelementit eivät välttämättä toimi.", "Virhe ladatessa kirjastoja", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private static void initFX(JFXPanel fxPanel) {

@@ -1,7 +1,7 @@
 package keimo.Ruudut;
 
 import keimo.*;
-import keimo.Utility.SpringUtilities;
+import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -180,8 +180,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_passiivinen.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -193,8 +193,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_lyöty.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -206,8 +206,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_ämpäröity.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -219,8 +219,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_passiivinen.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -232,8 +232,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_lyöty.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -245,8 +245,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_ämpäröity.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -259,8 +259,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_juhani.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -273,8 +273,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_silta.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -286,8 +286,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -299,8 +299,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -312,8 +312,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -325,8 +325,8 @@ public class LoppuRuutu {
                 "Hävisit pelin." + "<br>" +
                 "</p></html>";
                 loppuTekstiInfo = "<html><p>" +
-                "Lyödyt viholliset: " + TarkistettavatArvot.lyödytVihut + "<br>" +
-                "Ämpäröidyt viholliset: " + TarkistettavatArvot.ämpäröidytVihut + "<br>" +
+                "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
+                "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
                 loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_vartija.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -431,7 +431,6 @@ public class LoppuRuutu {
                         painaNäppäintä("enter");
                         break;
                     default:
-                        System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
                         break;
                 }
             }

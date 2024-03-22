@@ -5,13 +5,6 @@ import javax.swing.*;
 
 public class KäännettäväKuvake implements Icon {
 	
-	public enum Rotate {
-		DOWN,
-		UP,
-		UPSIDE_DOWN,
-		ABOUT_CENTER;
-	}
-
     public enum Peilaus {
         NORMAALI,
         PEILAA_X,
@@ -30,48 +23,56 @@ public class KäännettäväKuvake implements Icon {
     }
 
 	private Icon icon;
-
-	private Rotate rotate;
 	private Peilaus peilaus = Peilaus.NORMAALI;
 	private double skaalaus = 64;
 	private float läpinäkyvyys = 1f;
-
-	private double degrees;
-	private boolean circularIcon;
+	private int xSiirto = 0;
+	private int ySiirto = 0;
+	private double kääntöAsteet = 0;
+	private boolean perusMaastoKuvake = true;
 
 	/**
-	 *  Convenience constructor to create a RotatedIcon that is rotated DOWN.
+	 *  Helppo konstruktori peruskenttäkuvakkeille, jos halutaan vain kääntää. <br><br>
+	 *  Kääntöasteet tulee olla 90:llä jaollinen luku. Muuten kuvake ei todennäköisesti piirry oikein.
 	 *
-	 *  @param icon  the Icon to rotate
+	 *  @param kuvake kuvake, jota käännetään
+	 *  @param kääntöAsteet kuvakkeen kääntö asteina (vain 90:llä jaolliset luvut kelpaavat)
 	 */
-	public KäännettäväKuvake(Icon icon) {
-		this(icon, Rotate.UP);
+	public KäännettäväKuvake(Icon kuvake, double kääntöAsteet) {
+		this.icon = kuvake;
+		this.kääntöAsteet = kääntöAsteet;
 	}
 
 	/**
-	 *  Create a RotatedIcon
-	 *
-	 *  @param icon	the Icon to rotate
-	 *  @param rotate  the direction of rotation
+	 * <p>
+	 * Luo käännettävän kuvakkeen.
+	 * Aseta <code> perusMaastoKuvake = false </code> kaikissa tapauksissa, joissa tehdään jokin muu,
+	 * kuin tavallisen 64 pikselin kenttäobjektin/maaston/npc:n kuvake.
+	 * Kenttäkuvakkeet käyttävät hardkoodattuja arvoja kuvan sijainnin korjaamiselle pelikentässä käännön jälkeen.
+	 * <p>
+	 * Jos <code> perusMaastoKuvake </code> on <code> true </code>, <code> kääntöasteet </code> tulee olla 90:lla jaollinen.
+	 * Muille kuin perusmaastokuvakkeille <code> kääntöasteet </code> voi olla mikä tahansa liukuluku.
+	 * 
+	 * @param kuvake kuvake, jota käännetään
+	 * @param kääntöAsteet kuvakkeen kääntö asteina
+	 * @param perusMaastoKuvake onko kyseessä tavallinen 64-pikselin kenttäkuvake
 	 */
-	public KäännettäväKuvake(Icon icon, Rotate rotate) {
-		this.icon = icon;
-		this.rotate = rotate;
+	public KäännettäväKuvake(Icon kuvake, double kääntöAsteet, boolean perusMaastoKuvake) {
+		this(kuvake, kääntöAsteet);
+		this.perusMaastoKuvake = perusMaastoKuvake;
 	}
 
 	/**
-	 *  Create a RotatedIcon. The icon will rotate about its center. This
-	 *  constructor will automatically set the Rotate enum to ABOUT_CENTER.
+	 *  Konstruktori peruskenttäkuvakkeille, jolla voi säätää käännön ja peilauksen. <br><br>
+	 *  Kääntöasteet tulee olla 90:llä jaollinen luku. Muuten kuvake ei todennäköisesti piirry oikein.
 	 *
-	 *  @param icon	the Icon to rotate
-	 *  @param degrees   the degrees of rotation
+	 *  @param kuvake kuvake, jota käännetään/peilataan
+	 *  @param kääntöAsteet kuvakkeen kääntö asteina (vain 90:llä jaolliset luvut kelpaavat)
+	 *  @param xPeilaus peilaa kuvake vaakasuunnassa
+	 *  @param yPeilaus peilaa kuvake pystysuunnassa
 	 */
-	public KäännettäväKuvake(Icon icon, double degrees) {
-		this(icon, degrees, false);
-	}
-
-	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus) {
-		this(icon, degrees, false);
+	public KäännettäväKuvake(Icon kuvake, double kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+		this(kuvake, kääntöAsteet);
 		if (xPeilaus && yPeilaus) {
 			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
 		}
@@ -86,8 +87,20 @@ public class KäännettäväKuvake implements Icon {
 		}
 	}
 
-	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus, int skaalaus) {
-		this(icon, degrees, false);
+	/**
+	 *  Konstruktori peruskenttäkuvakkeiden skaalatulle instanssille, jolla voi säätää käännön ja peilauksen.
+	 *  Skaalattua kuvaketta voi käyttää dialogiruudussa, sekä muissa paikoissa, joissa halutaan suurentaa
+	 *  tavallista 64 pikselin kenttäkuvaketta. <br><br>
+	 *  Kääntöasteet tulee olla 90:llä jaollinen luku. Muuten kuvake ei todennäköisesti piirry oikein.
+	 *
+	 *  @param kuvake kuvake, jota käännetään
+	 *  @param kääntöAsteet kuvakkeen kääntö asteina (vain 90:llä jaolliset luvut kelpaavat)
+	 *  @param xPeilaus peilaa kuvake vaakasuunnassa
+	 *  @param yPeilaus peilaa kuvake pystysuunnassa
+	 *  @param skaalaus kerroin, jolla kuvakkeen kokoa muutetaan alkuperäisestä
+	 */
+	public KäännettäväKuvake(Icon kuvake, double kääntöAsteet, boolean xPeilaus, boolean yPeilaus, double skaalaus) {
+		this(kuvake, kääntöAsteet);
 		if (xPeilaus && yPeilaus) {
 			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
 		}
@@ -103,8 +116,20 @@ public class KäännettäväKuvake implements Icon {
 		this.skaalaus = skaalaus;
 	}
 
-	public KäännettäväKuvake(Icon icon, double degrees, boolean xPeilaus, boolean yPeilaus, int skaalaus, float läpinäkyvyys) {
-		this(icon, degrees, false);
+
+	/**
+	 * Luo muokattavan kuvakkeen.
+	 * Edistyneempi konstruktori, joka mahdollistaa myös muita säätöjä kuvakkeelle.
+	 * 
+	 * @param kuvake kuvake
+	 * @param kääntöAsteet kuvakkeen kääntö asteina
+	 * @param xPeilaus peilaa kuvake vaakasuunnassa
+	 * @param yPeilaus peilaa kuvake pystysuunnassa
+	 * @param skaalaus kerroin, jolla kuvakkeen kokoa muutetaan alkuperäisestä
+	 * @param läpinäkyvyys kuvakkeen läpinäkyvyys (alfa); 0 = täysin läpinäkyvä, 1 = täysin näkyvä
+	 */
+	public KäännettäväKuvake(Icon kuvake, double kääntöAsteet, boolean xPeilaus, boolean yPeilaus, double skaalaus, float läpinäkyvyys) {
+		this(kuvake, kääntöAsteet);
 		if (xPeilaus && yPeilaus) {
 			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
 		}
@@ -122,77 +147,47 @@ public class KäännettäväKuvake implements Icon {
 	}
 
 	/**
-	 *  Create a RotatedIcon. The icon will rotate about its center. This
-	 *  constructor will automatically set the Rotate enum to ABOUT_CENTER.
-	 *
-	 *  @param icon	the Icon to rotate
-	 *  @param degrees   the degrees of rotation
-	 *  @param circularIcon treat the icon as circular so its size doesn't change
+	 * Luo muokattavan kuvakkeen.
+	 * Edistyneempi konstruktori, joka mahdollistaa myös muita säätöjä kuvakkeelle.
+	 * 
+	 * @param kuvake kuvake
+	 * @param kääntöAsteet kuvakkeen kääntö asteina
+	 * @param xPeilaus peilaa kuvake vaakasuunnassa
+	 * @param yPeilaus peilaa kuvake pystysuunnassa
+	 * @param skaalaus kerroin, jolla kuvakkeen kokoa muutetaan alkuperäisestä
+	 * @param läpinäkyvyys kuvakkeen läpinäkyvyys (alfa); 0 = täysin läpinäkyvä, 1 = täysin näkyvä
+	 * @param xSiirto kuvan skaalauksenjälkeisen sijaintivirheen korjaus vaakasuunnassa
+	 * @param ySiirto kuvan skaalauksenjälkeisen sijaintivirheen korjaus pystysuunnassa
+	 * @param perusMaastoKuvake onko kyseessä tavallinen 64-pikselin kenttäkuvake (erittäin todennäköisesti ei, jos tätä konstruktoria käytetään)
 	 */
-	public KäännettäväKuvake(Icon icon, double degrees, boolean circularIcon) {
-		this(icon, Rotate.ABOUT_CENTER);
-		setDegrees( degrees );
-		setCircularIcon( circularIcon );
+	public KäännettäväKuvake(Icon kuvake, double kääntöAsteet, boolean xPeilaus, boolean yPeilaus, double skaalaus, float läpinäkyvyys, int xSiirto, int ySiirto, boolean perusMaastoKuvake) {
+		this(kuvake, kääntöAsteet);
+		if (xPeilaus && yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_MOLEMMAT;
+		}
+		else if (xPeilaus) {
+			this.peilaus = Peilaus.PEILAA_X;
+		}
+		else if (yPeilaus) {
+			this.peilaus = Peilaus.PEILAA_Y;
+		}
+		else {
+			this.peilaus = Peilaus.NORMAALI;
+		}
+		this.skaalaus = skaalaus;
+		this.läpinäkyvyys = läpinäkyvyys;
+		this.xSiirto = xSiirto;
+		this.ySiirto = ySiirto;
+		this.perusMaastoKuvake = perusMaastoKuvake;
 	}
 
-	/**
-	 *  Gets the Icon to be rotated
-	 *
-	 *  @return the Icon to be rotated
-	 */
-	public Icon getIcon() {
-		return icon;
-	}
-
-	/**
-	 *  Gets the Rotate enum which indicates the direction of rotation
-	 *
-	 *  @return the Rotate enum
-	 */
-	public Rotate getRotate() {
-		return rotate;
-	}
-
-	/**
-	 *  Gets the degrees of rotation. Only used for Rotate.ABOUT_CENTER.
-	 *
-	 *  @return the degrees of rotation
-	 */
-	public double getDegrees() {
-		return degrees;
-	}
-
-	/**
-	 *  Set the degrees of rotation. Only used for Rotate.ABOUT_CENTER.
-	 *  This method only sets the degress of rotation, it will not cause
-	 *  the Icon to be repainted. You must invoke repaint() on any
-	 *  component using this icon for it to be repainted.
-	 *
-	 *  @param degrees the degrees of rotation
-	 */
-	public void setDegrees(double degrees) {
-		this.degrees = degrees;
-	}
-
-	/**
-	 *  Is the image circular or rectangular? Only used for Rotate.ABOUT_CENTER.
-	 *  When true, the icon width/height will not change as the Icon is rotated.
-	 *
-	 *  @return true for a circular Icon, false otherwise
-	 */
-	public boolean isCircularIcon() {
-		return circularIcon;
-	}
-
-	/**
-	 *  Set the Icon as circular or rectangular. Only used for Rotate.ABOUT_CENTER.
-	 *  When true, the icon width/height will not change as the Icon is rotated.
-	 *
-	 *  @param true for a circular Icon, false otherwise
-	 */
-	public void setCircularIcon(boolean circularIcon) {
-		this.circularIcon = circularIcon;
-	}
+	public static Icon luoSkaalattuGif(Icon kuvake, int resoluutio) {
+        ImageIcon skaalattuKuvake = (ImageIcon)kuvake;
+        Image kuva64 = skaalattuKuvake.getImage();
+        Image kuva96 = kuva64.getScaledInstance(resoluutio, resoluutio, Image.SCALE_DEFAULT);
+        skaalattuKuvake = new ImageIcon(kuva96);
+        return skaalattuKuvake;
+    }
 
 //
 //  Implement the Icon Interface
@@ -205,21 +200,21 @@ public class KäännettäväKuvake implements Icon {
 	 */
 	@Override
 	public int getIconWidth() {
-		if (rotate == Rotate.ABOUT_CENTER) {
-			if (circularIcon)
+		if (icon != null) {
+			if (perusMaastoKuvake) {
 				return icon.getIconWidth();
+			}
 			else {
-				double radians = Math.toRadians( degrees );
-				double sin = Math.abs( Math.sin( radians ) );
-				double cos = Math.abs( Math.cos( radians ) );
+				double radians = Math.toRadians(kääntöAsteet);
+				double sin = Math.abs( Math.sin(radians));
+				double cos = Math.abs( Math.cos(radians));
 				int width = (int)Math.floor(icon.getIconWidth() * cos + icon.getIconHeight() * sin);
 				return width;
 			}
 		}
-		else if (rotate == Rotate.UPSIDE_DOWN)
-			return icon.getIconWidth();
-		else
-			return icon.getIconHeight();
+		else {
+			return 0;
+		}
 	}
 
 	/**
@@ -229,21 +224,21 @@ public class KäännettäväKuvake implements Icon {
 	 */
 	@Override
 	public int getIconHeight() {
-		if (rotate == Rotate.ABOUT_CENTER) {
-			if (circularIcon)
+		if (icon != null) {
+			if (perusMaastoKuvake) {
 				return icon.getIconHeight();
+			}
 			else {
-				double radians = Math.toRadians( degrees );
-				double sin = Math.abs( Math.sin( radians ) );
-				double cos = Math.abs( Math.cos( radians ) );
+				double radians = Math.toRadians(kääntöAsteet);
+				double sin = Math.abs( Math.sin(radians));
+				double cos = Math.abs( Math.cos(radians));
 				int height = (int)Math.floor(icon.getIconHeight() * cos + icon.getIconWidth() * sin);
 				return height;
 			}
 		}
-		else if (rotate == Rotate.UPSIDE_DOWN)
-			return icon.getIconHeight();
-		else
-			return icon.getIconWidth();
+		else {
+			return 0;
+		}
 	}
 
    /**
@@ -256,70 +251,86 @@ public class KäännettäväKuvake implements Icon {
 	*/
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
-		Graphics2D g2 = (Graphics2D)g.create();
+		if (icon != null) {
+			Graphics2D g2 = (Graphics2D)g.create();
 
-		int cWidth = icon.getIconWidth() / 2;
-		int cHeight = icon.getIconHeight() / 2;
-		//int xAdjustment = (icon.getIconWidth() % 2) == 0 ? 0 : -1;
-		//int yAdjustment = (icon.getIconHeight() % 2) == 0 ? 0 : -1;
+			int cWidth = icon.getIconWidth() / 2;
+			int cHeight = icon.getIconHeight() / 2;
+			//int xAdjustment = (icon.getIconWidth() % 2) == 0 ? 0 : -1;
+			//int yAdjustment = (icon.getIconHeight() % 2) == 0 ? 0 : -1;
 
-		if (läpinäkyvyys < 1) {
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, läpinäkyvyys));
-		}
+			if (läpinäkyvyys < 1) {
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, läpinäkyvyys));
+			}
 
-		if (skaalaus != 64f) {
-			g2.scale(skaalaus/64f, skaalaus/64f);
-			if (peilaus == Peilaus.PEILAA_Y || peilaus == Peilaus.PEILAA_MOLEMMAT) {
-				g2.translate(0, -(skaalaus - 64f));
-				g2.scale(1, 2);
+			if (xSiirto != 0) {
+				g2.translate(xSiirto, 0);
+			}
+			if (ySiirto != 0) {
+				g2.translate(0, ySiirto);
+			}
+
+			if (skaalaus != 64f) {
+				if (perusMaastoKuvake) {
+					g2.scale(skaalaus/64f, skaalaus/64f);
+					if (peilaus == Peilaus.PEILAA_Y || peilaus == Peilaus.PEILAA_MOLEMMAT) {
+						g2.translate(0, -(skaalaus - 64f));
+						g2.scale(1, 2);
+					}
+					else {
+						g2.translate(0, -(skaalaus - 64f)/2);
+					}
+				}
+				else {
+					g2.scale(skaalaus, skaalaus);
+				}
 			}
 			else {
-				g2.translate(0, -(skaalaus - 64f)/2);
-			}
-		}
-		else {
-			if (rotate == Rotate.DOWN) {
-				g2.translate(x + cHeight, y + cWidth);
-				g2.rotate( Math.toRadians( 90 ) );
-				//icon.paintIcon(c, g2,  -cWidth, yAdjustment - cHeight);
-			}
-			else if (rotate == Rotate.UP) {
-				g2.translate(x + cHeight, y + cWidth);
-				g2.rotate( Math.toRadians( -90 ) );
-				//icon.paintIcon(c, g2,  xAdjustment - cWidth, -cHeight);
-			}
-			else if (rotate == Rotate.UPSIDE_DOWN) {
-				g2.translate(x + cWidth, y + cHeight);
-				g2.rotate( Math.toRadians( 180 ) );
-				//icon.paintIcon(c, g2, xAdjustment - cWidth, yAdjustment - cHeight);
-			}
-			else if (rotate == Rotate.ABOUT_CENTER) {
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setClip(x, y, getIconWidth(), getIconHeight());
-				g2.translate((getIconWidth() - icon.getIconWidth()) / 2, (getIconHeight() - icon.getIconHeight()) / 2);
-				g2.rotate(Math.toRadians(degrees), x + cWidth, y + cHeight);
-				//icon.paintIcon(c, g2, x, y);
+				if (perusMaastoKuvake) {
+					if (kääntöAsteet % 360 == 0) {
+						g2.translate(x, y);
+						g2.rotate(Math.toRadians(0));
+					}
+					else if (kääntöAsteet % 360 == 90) {
+						g2.translate(x + icon.getIconHeight(), y);
+						g2.rotate(Math.toRadians(90));
+					}
+					else if (kääntöAsteet % 360 == 180) {
+						g2.translate(x + getIconHeight(), y + getIconWidth());
+						g2.rotate(Math.toRadians(180));
+					}
+					else if (kääntöAsteet % 360 == 270) {
+						g2.translate(x, y + icon.getIconWidth());
+						g2.rotate(Math.toRadians(-90));
+					}
+				}
+				else {
+					g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+					g2.setClip(x, y, getIconWidth(), getIconHeight());
+					g2.translate((getIconWidth() - icon.getIconWidth()) / 2, (getIconHeight() - icon.getIconHeight()) / 2);
+					g2.rotate(Math.toRadians(kääntöAsteet), x + cWidth, y + cHeight);
+				}
+
+				switch (peilaus) {
+					case NORMAALI:
+					break;
+					case PEILAA_X:
+						g2.translate(getIconWidth(), 0);
+						g2.scale(-1, 1);
+					break;
+					case PEILAA_Y:
+						g2.translate(0, getIconHeight());
+						g2.scale(1, -1);
+					break;
+					case PEILAA_MOLEMMAT:
+						g2.translate(getIconWidth(), getIconHeight());
+						g2.scale(-1, -1);
+					break;
+				}
 			}
 
-			switch (peilaus) {
-				case NORMAALI:
-				break;
-				case PEILAA_X:
-					g2.translate(getIconWidth(), 0);
-					g2.scale(-1, 1);
-				break;
-				case PEILAA_Y:
-					g2.translate(0, getIconHeight());
-					g2.scale(1, -1);
-				break;
-				case PEILAA_MOLEMMAT:
-					g2.translate(getIconWidth(), getIconHeight());
-					g2.scale(-1, -1);
-				break;
-			}
+			icon.paintIcon(c, g2, x, y);
+			g2.dispose();
 		}
-
-		icon.paintIcon(c, g2, x, y);
-		g2.dispose();
 	}
 }

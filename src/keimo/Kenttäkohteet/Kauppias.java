@@ -2,7 +2,6 @@ package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
 import keimo.PääIkkuna;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -71,7 +70,6 @@ public final class Kauppias extends NPC_KenttäKohde {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kauppias";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
         super.katsomisTeksti = "Kylien kauppias";
         super.asetaTiedot();

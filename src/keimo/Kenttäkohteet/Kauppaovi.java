@@ -11,30 +11,18 @@ public class Kauppaovi extends Warp {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Oviruutu";
-            case "genetiivi":
-                return "Oviruudun";
-            case "esiivi":
-                return "Oviruutuna";
-            case "partitiivi":
-                return "Oviruutua";
-            case "translatiivi":
-                return "Oviruuduksi";
-            case "inessiivi":
-                return "Oviruudussa";
-            case "elatiivi":
-                return "Oviruudusta";
-            case "illatiivi":
-                return "Oviruutuun";
-            case "adessiivi":
-                return "Oviruudulla";
-            case "ablatiivi":
-                return "Oviruudulta";
-            case "allatiivi":
-                return "Oviruudulle";
-            default:
-                return "Oviruutu";
+            case "nominatiivi": return "Kauppaovi";
+            case "genetiivi": return "Kauppaoven";
+            case "esiivi": return "Kauppaovena";
+            case "partitiivi": return "Kauppaovea";
+            case "translatiivi": return "Kauppaoveksi";
+            case "inessiivi": return "Kauppaovessa";
+            case "elatiivi": return "Kauppaovesta";
+            case "illatiivi": return "Kauppaoveen";
+            case "adessiivi": return "Kauppaovella";
+            case "ablatiivi": return "Kauppaovelta";
+            case "allatiivi": return "Kauppaovelle";
+            default: return "Kauppaovi";
         }
     }
 
@@ -45,28 +33,23 @@ public class Kauppaovi extends Warp {
         switch (suunta) {
             case YLÖS:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
             case ALAS:
                 this.suunta = Suunta.ALAS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 180, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 180, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 180);
                 break;
             case VASEN:
                 this.suunta = Suunta.VASEN;
-                this.kuvake = new KäännettäväKuvake(kuvake, 270, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 270, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 270);
                 break;
             case OIKEA:
                 this.suunta = Suunta.OIKEA;
-                this.kuvake = new KäännettäväKuvake(kuvake, 90, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 90, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 90);
                 break;
             default:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
         }
     }
@@ -82,8 +65,13 @@ public class Kauppaovi extends Warp {
             }
         }
         for (int i = 0; i < tyhjätPaikat; i++) {
-            Pelaaja.annaEsine(Pelaaja.ostosKori.get(i));
-            saatujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
+            if (Pelaaja.ostosKori.size() > i) {
+                Pelaaja.annaEsine(Pelaaja.ostosKori.get(i));
+                saatujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
+            }
+            else {
+                break;
+            }
         }
         for (int i = tyhjätPaikat; i < Pelaaja.ostosKori.size(); i++) {
             pudotettujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
@@ -91,15 +79,21 @@ public class Kauppaovi extends Warp {
         if (saatujenTuotteidenNimet.length() > 0 && pudotettujenTuotteidenNimet.length() > 0) {
             saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
             pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ", mutta sinulta putosi: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)", true);
+            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ",<br><br> mutta sinulta putosi: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)", true, null);
         }
         else if (saatujenTuotteidenNimet.length() > 0) {
             saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
-            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet + "</p></html>", "Juoksukalja", true);
+            PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet + "</p></html>", "Juoksukalja", true, null);
         }
         else if (pudotettujenTuotteidenNimet.length() > 0) {
-            pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-            PääIkkuna.avaaDialogi(null, "<html><p>Sinulta putosi matkalla: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)", true);
+            if (pudotettujenTuotteidenNimet.split(",").length > 2) {
+                pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
+                PääIkkuna.avaaDialogi(null, "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta ne putosivat, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)", true, null);
+            }
+            else {
+                pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
+                PääIkkuna.avaaDialogi(null, "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta se putosi, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)", true, null);
+            }
         }
         Pelaaja.tyhjennäOstoskori();
     }
@@ -117,19 +111,19 @@ public class Kauppaovi extends Warp {
                     this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
                 }
                 else if (ominaisuus.startsWith("kohderuutuX=")) {
-                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
                 }
                 else if (ominaisuus.startsWith("kohderuutuY=")) {
-                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
                 }
                 else if (ominaisuus.startsWith("suunta=")) {
                     String suuntaString = ominaisuus.substring(7);
                     switch (suuntaString) {
-                        case "vasen", "VASEN": this.suunta = Suunta.VASEN; break;
-                        case "oikea", "OIKEA": this.suunta = Suunta.OIKEA; break;
-                        case "ylös", "YLÖS": this.suunta = Suunta.YLÖS; break;
-                        case "alas", "ALAS": this.suunta = Suunta.ALAS; break;
-                        default: this.suunta = Suunta.VASEN; break;
+                        case "vasen", "VASEN", "Vasen": this.suunta = Suunta.VASEN; break;
+                        case "oikea", "OIKEA", "Oikea": this.suunta = Suunta.OIKEA; break;
+                        case "ylös", "YLÖS", "Ylös": this.suunta = Suunta.YLÖS; break;
+                        case "alas", "ALAS", "Alas": this.suunta = Suunta.ALAS; break;
+                        default: this.suunta = Suunta.YLÖS; break;
                     }
                 }
             }

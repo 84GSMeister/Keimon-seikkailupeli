@@ -55,30 +55,18 @@ public abstract class Kiintopiste extends KenttäKohde {
 
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi":
-                return "Tämä kohde";
-            case "genetiivi":
-                return "Tämän kohteem";
-            case "esiivi":
-                return "Tänä kohteena";
-            case "partitiivi":
-                return "Tätä kohdetta";
-            case "translatiivi":
-                return "Täksi kohteeksi";
-            case "inessiivi":
-                return "Tässä kohteessa";
-            case "elatiivi":
-                return "Tästä kohteesta";
-            case "illatiivi":
-                return "Tähän kohteeseen";
-            case "adessiivi":
-                return "Tällä kohteella";
-            case "ablatiivi":
-                return "Tältä kohteelta";
-            case "allatiivi":
-                return "Tälle kohteelle";
-            default:
-                return "Tämä kohde";
+            case "nominatiivi": return "Tämä kohde";
+            case "genetiivi": return "Tämän kohteem";
+            case "esiivi": return "Tänä kohteena";
+            case "partitiivi": return "Tätä kohdetta";
+            case "translatiivi": return "Täksi kohteeksi";
+            case "inessiivi": return "Tässä kohteessa";
+            case "elatiivi": return "Tästä kohteesta";
+            case "illatiivi": return "Tähän kohteeseen";
+            case "adessiivi": return "Tällä kohteella";
+            case "ablatiivi": return "Tältä kohteelta";
+            case "allatiivi": return "Tälle kohteelle";
+            default: return "Tämä kohde";
         }
     }
 
@@ -140,7 +128,6 @@ public abstract class Kiintopiste extends KenttäKohde {
                 this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
             }
         }
-        this.skaalattuKuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus, 96);
     }
 
     public void päivitäLisäOminaisuudet() {

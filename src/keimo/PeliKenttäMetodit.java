@@ -1,15 +1,15 @@
 package keimo;
 
 import keimo.Kenttäkohteet.*;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
 import keimo.NPCt.Entity.SuuntaDiagonaali;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
+import keimo.Utility.Käännettävä.Suunta;
 
-import java.awt.Component;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
@@ -26,6 +26,7 @@ public class PeliKenttäMetodit {
 
     public static void suoritaPelikenttäMetoditJoka2000Tick() {
         tyhjennäAmmusLista();
+        luoAmmus();
     }
 
     public static void suoritaPelikenttäMetoditJoka100Tick() {
@@ -44,7 +45,6 @@ public class PeliKenttäMetodit {
     }
 
     public static void suoritaPelikenttäMetoditJoka2Tick() {
-        tarkistaVartijanAktiivisuus();
         tarkistaVihollistenLiikerata();
     }
 
@@ -212,9 +212,21 @@ public class PeliKenttäMetodit {
                                         vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                     }
                                 break;
-                                case SEURAA_PELAAJAA:
+                                case VARTIJA_LIIKE:
                                     if (vihollinen instanceof Vartija) {
                                         Vartija vartija = (Vartija)vihollinen;
+                                        if (Peli.huone != null) {
+                                            if (Peli.huone.annaNimi().startsWith("Kauppa")) {
+                                                if (Pelaaja.ostostenHintaYhteensä > 0 && Pelaaja.sijY < 4) {
+                                                    vartija.liikkuu = true;
+                                                    vartija.tekeeVahinkoa = true;
+                                                }
+                                                else {
+                                                    vartija.liikkuu = false;
+                                                    vartija.tekeeVahinkoa = false;
+                                                }
+                                            }
+                                        }
                                         if (vartija.liikkuu) {
                                             int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
                                             int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
@@ -238,26 +250,26 @@ public class PeliKenttäMetodit {
                                             }
                                         }
                                     }
-                                    else {
-                                        int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
-                                        int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
-                                        int etäisyysXits = (int)Math.abs(etäisyysX);
-                                        int etäisyysYits = (int)Math.abs(etäisyysY);
-                                        if (etäisyysXits > etäisyysYits) {
-                                            if (etäisyysX < 0) {
-                                                vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                            }
-                                            else {
-                                                vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                            }
+                                break;
+                                case SEURAA_PELAAJAA:
+                                    int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
+                                    int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
+                                    int etäisyysXits = (int)Math.abs(etäisyysX);
+                                    int etäisyysYits = (int)Math.abs(etäisyysY);
+                                    if (etäisyysXits > etäisyysYits) {
+                                        if (etäisyysX < 0) {
+                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
                                         }
                                         else {
-                                            if (etäisyysY < 0) {
-                                                vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                            }
-                                            else {
-                                                vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                            }
+                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                        }
+                                    }
+                                    else {
+                                        if (etäisyysY < 0) {
+                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                        }
+                                        else {
+                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
                                         }
                                     }
                                 break;
@@ -559,10 +571,10 @@ public class PeliKenttäMetodit {
                                         }
                                         else {
                                             if (Pelaaja.viimeisinOsunutVihollinen instanceof Pikkuvihu) {
-                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY;
                                                 }
-                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY;
                                                 }
                                                 else {
@@ -570,10 +582,10 @@ public class PeliKenttäMetodit {
                                                 }
                                             }
                                             else if (Pelaaja.viimeisinOsunutVihollinen instanceof Pahavihu) {
-                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY;
                                                 }
-                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY;
                                                 }
                                                 else {
@@ -581,10 +593,10 @@ public class PeliKenttäMetodit {
                                                 }
                                             }
                                             else if (Pelaaja.viimeisinOsunutVihollinen instanceof Asevihu) {
-                                                if (TarkistettavatArvot.lyödytVihut > 0) {
+                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
                                                 }
-                                                else if (TarkistettavatArvot.ämpäröidytVihut > 0) {
+                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
                                                 }
                                                 else {
@@ -662,7 +674,8 @@ public class PeliKenttäMetodit {
                         Asevihu av = (Asevihu)npc;
                         if (!av.onkoKukistettu()) {
                             Peli.ammusLista.add(new Ammus((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY(), av.suuntaVasenOikea, av.ammusVahinko));
-                            ÄänentoistamisSäie.toistaSFX("ammus");
+                            Point sijainti = new Point((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY());
+                            ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
                         }
                     }
                     else if (npc instanceof Boss) {
@@ -676,7 +689,8 @@ public class PeliKenttäMetodit {
                             Peli.ammusLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄOIKEA, boss.ammusVahinko));
                             Peli.ammusLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAVASEN, boss.ammusVahinko));
                             Peli.ammusLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAOIKEA, boss.ammusVahinko));
-                            ÄänentoistamisSäie.toistaSFX("ammus");
+                            Point sijainti = new Point((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY());
+                            ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
                         }
                     }
                 }
@@ -734,30 +748,6 @@ public class PeliKenttäMetodit {
         }
         catch (ConcurrentModificationException cme) {
             System.out.println("Viimeisin ammusten liikutus peruttiin (konkurrenssi-issue)");
-            cme.printStackTrace();
-        }
-    }
-
-    public static void tarkistaVartijanAktiivisuus() {
-        try {
-            if (Peli.huone.annaId() == 14) {
-                for (NPC npc : Peli.npcLista) {
-                    if (npc instanceof Vartija) {
-                        Vartija vartija = (Vartija)npc;
-                        if (Pelaaja.ostostenHintaYhteensä > 0 && Pelaaja.sijY <= 4) {
-                            vartija.tekeeVahinkoa = true;
-                            vartija.liikkuu = true;
-                        }
-                        else {
-                            vartija.tekeeVahinkoa = false;
-                            vartija.liikkuu = false;
-                        }
-                    }
-                }
-            }
-        }
-        catch (ConcurrentModificationException cme) {
-            System.out.println("Viimeisin vartijan liikkeen tarkistus peruttiin (konkurrenssi-issue).");
             cme.printStackTrace();
         }
     }

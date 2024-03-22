@@ -1,11 +1,12 @@
 package keimo.HuoneEditori;
 
-import keimo.PääIkkuna;
 import keimo.Kenttäkohteet.AvattavaEste;
 import keimo.Kenttäkohteet.KenttäKohde;
 import keimo.Kenttäkohteet.Triggeri;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.JScrollPane;
 
 public class TriggerinValintaIkkuna {
     
@@ -47,7 +48,10 @@ public class TriggerinValintaIkkuna {
         }
 
         JPanel valintaPaneli = new JPanel();
-
+        valintaPaneli.setLayout(new FlowLayout(FlowLayout.LEADING));
+        JScrollPane scrollattavaValintaPaneli = new JScrollPane(valintaPaneli);
+        
+        int triggereitä = 0;
         for (KenttäKohde[] kk : HuoneEditoriIkkuna.objektiKenttä) {
             for (KenttäKohde k : kk) {
                 if (k instanceof Triggeri) {
@@ -65,9 +69,11 @@ public class TriggerinValintaIkkuna {
                         päivitäTriggeriLista();
                     });
                     valintaPaneli.add(triggeriKuvake);
+                    triggereitä++;
                 }
             }
         }
+        valintaPaneli.setPreferredSize(new Dimension(400, ((triggereitä-1)/3+1) * 80 + 40));
 
         JButton okNappi = new JButton("OK");
         okNappi.addActionListener(e -> {
@@ -99,12 +105,12 @@ public class TriggerinValintaIkkuna {
         ikkuna = new JFrame();
         ikkuna.setTitle("Valitse triggerit");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
-        ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, 400, 300);
+        ikkuna.setBounds(0, 0, 440, 300);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setLocationRelativeTo(HuoneEditoriIkkuna.ikkuna);
         ikkuna.add(valitutTriggeritLabel, BorderLayout.NORTH);
-        ikkuna.add(valintaPaneli, BorderLayout.CENTER);
+        ikkuna.add(scrollattavaValintaPaneli, BorderLayout.CENTER);
         ikkuna.add(okCancelPaneli, BorderLayout.SOUTH);
         ikkuna.revalidate();
         ikkuna.repaint();

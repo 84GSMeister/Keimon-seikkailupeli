@@ -1,7 +1,6 @@
 package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -38,7 +37,6 @@ public final class Seteli extends Esine {
         super.käyttö = true;
         super.sopiiKäytettäväksi.add("Juhani");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "2 kybää = 1 massi";
         super.asetaTiedot();
     }

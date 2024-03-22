@@ -4,7 +4,6 @@ import keimo.Pelaaja;
 import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
 import keimo.Pelaaja.KeimonState;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -35,7 +34,12 @@ public final class Juhani extends NPC_KenttäKohde {
 
     @Override
     public void näytäDialogi(Esine e) {
-        PääIkkuna.avaaDialogi(this.annaDialogiKuvake(), this.kokeileEsinettä(e), this.annaNimi());
+        if (super.onkoCustomDialogi()) {
+            super.näytäDialogi(e);
+        }
+        else {
+            PääIkkuna.avaaDialogi(this.annaDialogiKuvake(), this.kokeileEsinettä(e), this.annaNimi());
+        }
     }
 
     @Override
@@ -61,7 +65,6 @@ public final class Juhani extends NPC_KenttäKohde {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png");
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
         super.asetaTiedot();

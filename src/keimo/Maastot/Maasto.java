@@ -1,12 +1,17 @@
 package keimo.Maastot;
 
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
+import keimo.HuoneEditori.HuoneEditoriIkkuna;
+import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.KäännettäväKuvake;
+import keimo.Utility.Käännettävä.Suunta;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 
+import java.awt.Point;
 import java.io.File;
-
+import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -45,26 +50,42 @@ public abstract class Maasto {
         return määritettySijainti;
     }
 
+     /**
+     * Maaston tilen X-koordinaatti
+     * @return X-sijainti (Tile)
+     */
     public int annaSijX() {
         return sijX;
     }
-
+    /**
+     * Maaston tilen Y-koordinaatti
+     * @return Y-sijainti (Tile)
+     */
     public int annaSijY() {
         return sijY;
+    }
+    /**
+     * Maaston sijainti pelikentällä pikseleinä.
+     * Ei maaston sijainti näytöllä vaan scrollattavalla pelikentällä.
+     * @return Maaston sijaintia vastaava piste (java.awt.Point)
+     */
+    public Point annaSijaintiKentällä() {
+        Point sijainti = new Point(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        return sijainti;
     }
 
     public boolean onkolisäOminaisuuksia() {
         return lisäOminaisuuksia;
     }
 
-    public String[] annalisäOminaisuudet() {
+    public String[] annaLisäOminaisuudet() {
         return lisäOminaisuudet;
     }
 
     public String annaLisäOminaisuudetYhtenäMjonona() {
         String mjono = "";
-		if (annalisäOminaisuudet() != null) {
-			for (String s : annalisäOminaisuudet()) {
+		if (annaLisäOminaisuudet() != null) {
+			for (String s : annaLisäOminaisuudet()) {
 				mjono += s + ",";
 			}
             mjono = mjono.substring(0, mjono.length()-1);
@@ -140,6 +161,10 @@ public abstract class Maasto {
                 this.kääntöAsteet = kääntöAsteet % 360;
             break;
         }
+        if (this instanceof YksisuuntainenTile) {
+            YksisuuntainenTile yTile = (YksisuuntainenTile)this;
+            yTile.päivitäEsteenSuunta();
+        }
         päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
     }
@@ -162,6 +187,10 @@ public abstract class Maasto {
                     this.yPeilaus = true;
                 }
             break;
+        }
+        if (this instanceof YksisuuntainenTile) {
+            YksisuuntainenTile yTile = (YksisuuntainenTile)this;
+            yTile.päivitäEsteenSuunta();
         }
         päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
@@ -210,11 +239,26 @@ public abstract class Maasto {
         return luotavaMaasto;
     }
 
+    public static Maasto luoRandomMaasto(int sijX, int sijY) {
+        Random r = new Random();
+        Object[] lista = HuoneEditoriIkkuna.listaaKuvat("tiedostot/kuvat/maasto").toArray();
+        Object kuvaTiedosto = lista[r.nextInt(lista.length)];
+        String[] ominaisuusLista = {"kuva=" + kuvaTiedosto,"kääntö=0","x-peilaus=ei","y-peilaus=ei"};
+        return luoMaastoTiedoilla("Tile", true, sijX, sijY, ominaisuusLista);
+    }
+
     String tiedot = "";
     void asetaTiedot() {
+        tiedot = "";
         tiedot += "Nimi: " + this.annaNimi() + "\n";
-        tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
-        tiedot += "Estää liikkumisen: " + (this.estääköLiikkumisen(Suunta.YLÖS) ? "Kyllä" : "Ei") + "\n";
+
+        List<Suunta> esteSuunnat = new ArrayList<>();
+        if (this.estääköLiikkumisen(Suunta.VASEN)) esteSuunnat.add(Suunta.VASEN);
+        if (this.estääköLiikkumisen(Suunta.OIKEA)) esteSuunnat.add(Suunta.OIKEA);
+        if (this.estääköLiikkumisen(Suunta.YLÖS)) esteSuunnat.add(Suunta.YLÖS);
+        if (this.estääköLiikkumisen(Suunta.ALAS)) esteSuunnat.add(Suunta.ALAS);
+        tiedot += "Estää liikkumisen: " + esteSuunnat.toString() + "\n";
+
         tiedot += "Kuva: " + this.tiedostonNimi;
     }
     

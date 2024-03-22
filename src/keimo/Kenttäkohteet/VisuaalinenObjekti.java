@@ -5,15 +5,14 @@ import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 
 import java.io.File;
-
 import javax.swing.ImageIcon;
 
 public class VisuaalinenObjekti extends KenttäKohde {
 
-    int kääntöAsteet = 0;
-    boolean xPeilaus = false;
-    boolean yPeilaus = false;
     public String tiedostonNimi;
+    private int kääntöAsteet = 0;
+    private boolean xPeilaus = false;
+    private boolean yPeilaus = false;
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -27,6 +26,34 @@ public class VisuaalinenObjekti extends KenttäKohde {
 
     public String annaKuvanTiedostoNimi() {
         return tiedostonNimi;
+    }
+
+    public int annaKääntöAsteet() {
+        return kääntöAsteet;
+    }
+
+    public boolean annaXPeilaus() {
+        return xPeilaus;
+    }
+
+    public boolean annaYPeilaus() {
+        return yPeilaus;
+    }
+
+    private boolean katsottava = false;
+    public boolean onkoKatsottava() {
+        return katsottava;
+    }
+    public void asetaKatsottava(boolean katsottava) {
+        this.katsottava = katsottava;
+    }
+
+    private String katsomisDialogi;
+    public String annaKatsomisDialogi() {
+        return katsomisDialogi;
+    }
+    public void asetaKatsomisDialogi(String dialogi) {
+        this.katsomisDialogi = dialogi;
     }
 
     public void käännäKuvaa(KääntöValinta kääntö) {
@@ -81,16 +108,17 @@ public class VisuaalinenObjekti extends KenttäKohde {
         else {
             this.kuvake = new ImageIcon("tiedostot/kuvat/virhekuva_objekti.png");
         }
-        this.skaalattuKuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus, 96);
     }
 
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
+        this.lisäOminaisuudet = new String[6];
         this.lisäOminaisuudet[0] = "kuva=" + tiedostonNimi;
         this.lisäOminaisuudet[1] = "kääntö=" + kääntöAsteet;
         this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
+        this.lisäOminaisuudet[4] = "katsottava=" + (katsottava ? "kyllä" : "ei");
+        this.lisäOminaisuudet[5] = "dialogi=" + katsomisDialogi;
         super.asetaTiedot();
     }
 
@@ -105,40 +133,53 @@ public class VisuaalinenObjekti extends KenttäKohde {
                 }
                 else if (ominaisuus.startsWith("kääntö=")) {
                     try {
-                        kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
+                        this.kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
                     }
                     catch (NumberFormatException e) {
                         System.out.println("virheellinen syöte: " + kääntöAsteet);
                         e.printStackTrace();
-                        kääntöAsteet = 0;
+                        this.kääntöAsteet = 0;
                     }
                 }
                 else if (ominaisuus.startsWith("x-peilaus=")) {
                     if (ominaisuus.substring(10).startsWith("kyllä")) {
-                        xPeilaus = true;
+                        this.xPeilaus = true;
                     }
                     else {
-                        xPeilaus = false;
+                        this.xPeilaus = false;
                     }
                 }
                 else if (ominaisuus.startsWith("y-peilaus=")) {
                     if (ominaisuus.substring(10).startsWith("kyllä")) {
-                        yPeilaus = true;
+                        this.yPeilaus = true;
                     }
                     else {
-                        yPeilaus = false;
+                        this.yPeilaus = false;
                     }
+                }
+                else if (ominaisuus.startsWith("katsottava=")) {
+                    if (ominaisuus.substring(11).startsWith("kyllä")) {
+                        this.katsottava = true;
+                    }
+                    else {
+                        this.katsottava = false;
+                    }
+                }
+                else if (ominaisuus.startsWith("dialogi=")) {
+                    this.katsomisDialogi = ominaisuus.substring(8);
                 }
             }
             if (tiedostonNimi.endsWith("_e.png")) {
                 this.este = true;
             }
             this.lisäOminaisuuksia = true;
-            this.lisäOminaisuudet = new String[4];
+            this.lisäOminaisuudet = new String[6];
             this.lisäOminaisuudet[0] = "kuva=" + tiedostonNimi;
             this.lisäOminaisuudet[1] = "kääntö=" + kääntöAsteet;
             this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
             this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
+            this.lisäOminaisuudet[4] = "katsottava=" + (katsottava ? "kyllä" : "ei");
+            this.lisäOminaisuudet[5] = "dialogi=" + katsomisDialogi;
         }
         else {
             this.lisäOminaisuuksia = false;

@@ -5,8 +5,8 @@ public class TarkistettavatArvot {
     public static int uusiKentänKoko = 10;
     public static int npcId = 0;
 
-    public static int lyödytVihut = 0;
-    public static int ämpäröidytVihut = 0;
+    private static int lyödytVihut = 0;
+    private static int ämpäröidytVihut = 0;
 
     public static void nollaa() {
         uusiKentänKoko = 10;
@@ -35,9 +35,6 @@ public class TarkistettavatArvot {
         KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN,
         KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY,
         KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY,
-        //KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_PASSIIVINEN,
-        //KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_LYÖTY,
-        //KUOLEMA_VIHOLLINEN_PAHAJAPIKKUVIHU_ÄMPÄRÖITY,
         KUOLEMA_VIHOLLINEN_ASEVIHU,
         KUOLEMA_VIHOLLINEN_AMMUS,
         KUOLEMA_JUHANI,

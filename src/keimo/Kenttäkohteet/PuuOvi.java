@@ -32,28 +32,23 @@ public final class PuuOvi extends Warp {
         switch (suunta) {
             case YLÖS:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
             case ALAS:
                 this.suunta = Suunta.ALAS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 180, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 180, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 180);
                 break;
             case VASEN:
                 this.suunta = Suunta.VASEN;
-                this.kuvake = new KäännettäväKuvake(kuvake, 270, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 270, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 270);
                 break;
             case OIKEA:
                 this.suunta = Suunta.OIKEA;
-                this.kuvake = new KäännettäväKuvake(kuvake, 90, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 90, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 90);
                 break;
             default:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0, false);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
+                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
         }
     }
@@ -65,10 +60,10 @@ public final class PuuOvi extends Warp {
         ÄänentoistamisSäie.toistaÄäniJono();
         try {
             Thread.sleep(1700);
-            ÄänentoistamisSäie.toistaSFX("oven_sulkeminen");
         }
-        catch (InterruptedException e) {
-           e.printStackTrace();
+        catch (InterruptedException ie) {
+            System.out.println("Kuka kehtaa keskeyttää nukkumiseni? T. Vihainen Pelisäie");
+            ie.printStackTrace();
         }
         finally {
            this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
@@ -94,19 +89,19 @@ public final class PuuOvi extends Warp {
                     this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
                 }
                 else if (ominaisuus.startsWith("kohderuutuX=")) {
-                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
                 }
                 else if (ominaisuus.startsWith("kohderuutuY=")) {
-                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.charAt(ominaisuus.indexOf("=") +1));
+                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
                 }
                 else if (ominaisuus.startsWith("suunta=")) {
                     String suuntaString = ominaisuus.substring(7);
                     switch (suuntaString) {
-                        case "vasen", "VASEN": this.suunta = Suunta.VASEN; break;
-                        case "oikea", "OIKEA": this.suunta = Suunta.OIKEA; break;
-                        case "ylös", "YLÖS": this.suunta = Suunta.YLÖS; break;
-                        case "alas", "ALAS": this.suunta = Suunta.ALAS; break;
-                        default: this.suunta = Suunta.VASEN; break;
+                        case "vasen", "VASEN", "Vasen": this.suunta = Suunta.VASEN; break;
+                        case "oikea", "OIKEA", "Oikea": this.suunta = Suunta.OIKEA; break;
+                        case "ylös", "YLÖS", "Ylös": this.suunta = Suunta.YLÖS; break;
+                        case "alas", "ALAS", "Alas": this.suunta = Suunta.ALAS; break;
+                        default: this.suunta = Suunta.YLÖS; break;
                     }
                 }
             }

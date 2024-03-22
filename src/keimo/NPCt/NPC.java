@@ -2,9 +2,10 @@ package keimo.NPCt;
 
 import keimo.Peli;
 import keimo.TarkistettavatArvot;
-import keimo.Kenttäkohteet.Käännettävä;
 import keimo.Ruudut.PeliRuutu;
+import keimo.Utility.Käännettävä;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.*;
 
@@ -24,6 +25,8 @@ public abstract class NPC extends Entity implements Käännettävä {
 
     String tiedot = "";
     void asetaTiedot() {
+        tiedot = "";
+        tiedot += "NPC:n ID: " + this.id + "\n";
         tiedot += "Nimi: " + this.annaNimi() + "\n";
         //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
         if (this instanceof Vihollinen) {
@@ -57,12 +60,28 @@ public abstract class NPC extends Entity implements Käännettävä {
         return määritettySijainti;
     }
 
+    /**
+     * NPC:n tilen X-koordinaatti
+     * @return X-sijainti (Tile)
+     */
     public int annaSijX() {
         return sijX;
     }
-
+    /**
+     * NPC:n tilen Y-koordinaatti
+     * @return Y-sijainti (Tile)
+     */
     public int annaSijY() {
         return sijY;
+    }
+    /**
+     * NPC:n sijainti pelikentällä pikseleinä.
+     * Ei NPC:n sijainti näytöllä vaan scrollattavalla pelikentällä.
+     * @return NPC:n sijaintia vastaava piste (java.awt.Point)
+     */
+    public Point annaSijaintiKentällä() {
+        Point sijainti = new Point(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        return sijainti;
     }
 
     public int annaAlkuSijX() {
@@ -257,9 +276,9 @@ public abstract class NPC extends Entity implements Käännettävä {
             break;
         }
 
-        if (luotavaNPC == null) {
-            JOptionPane.showMessageDialog(null, "Ei voi ladata npc:tä", "luotavaNPC = null", JOptionPane.ERROR_MESSAGE);
-        }
+        // if (luotavaNPC == null) {
+        //     JOptionPane.showMessageDialog(null, "Ei voi ladata npc:tä", "luotavaNPC = null", JOptionPane.ERROR_MESSAGE);
+        // }
         //luotavaNPC.teleport(sijX, sijY);
         return luotavaNPC;
     }

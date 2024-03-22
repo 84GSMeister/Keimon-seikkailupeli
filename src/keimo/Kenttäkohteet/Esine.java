@@ -111,6 +111,8 @@ public abstract class Esine extends KenttäKohde {
                 return new Hiili(false, 0, 0);
             case "Huume":
                 return new Huume(false, 0, 0);
+            case "Jallupullo":
+                return new Jallupullo(false, 0, 0);
             case "Kaasupullo":
                 return new Kaasupullo(false, 0, 0);
             case "Kaasusytytin":
@@ -133,14 +135,9 @@ public abstract class Esine extends KenttäKohde {
                 return new Suklaalevy(false, 0, 0);
             case "Vesiämpäri":
                 return new Vesiämpäri(false, 0, 0);
-            default:
+            case null, default:
                 return null;
         }
-    }
-
-    @Override
-    protected void luoSkaalattuKuvake() {
-        
     }
 
     public Esine(boolean määritettySijainti, int sijX, int sijY) {

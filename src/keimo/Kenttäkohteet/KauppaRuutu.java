@@ -2,7 +2,6 @@ package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
 import keimo.PääIkkuna;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
@@ -31,7 +30,7 @@ public class KauppaRuutu extends Kiintopiste {
                     PääIkkuna.avaaDialogi(null, "Ostokset ei mahdu tavaraluetteloon.", "");
                 }
                 else {
-                    PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
+                    //PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
                     Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
                     Pelaaja.ostostenHintaYhteensä = 0;
                     for (Esine ostos : Pelaaja.ostosKori) {
@@ -73,17 +72,35 @@ public class KauppaRuutu extends Kiintopiste {
         }
         return "";
     }
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        switch (sijamuoto) {
+            case "nominatiivi": return "Kaupparuutu";
+            case "genetiivi": return "Kaupparuudun";
+            case "esiivi": return "Kaupparuutuna";
+            case "partitiivi": return "Kaupparuutua";
+            case "translatiivi": return "Kaupparuuduksi";
+            case "inessiivi": return "Kaupparuudussa";
+            case "elatiivi": return "Kaupparuudusta";
+            case "illatiivi": return "Kaupparuutuun";
+            case "adessiivi": return "Kaupparuudulla";
+            case "ablatiivi": return "Kaupparuudulta";
+            case "allatiivi": return "Kaupparuudulle";
+            default: return "Kaupparuutu";
+        }
+    }
     
     public KauppaRuutu (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kaupparuutu";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaupparuutu.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kaupparuutu.png";
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
         super.katsomisTeksti = "Kylien kauppias";
         super.erillisDialogi = true;
         super.ignooraaEsineValintaDialogissa = true;
+        super.ohitaDialogiTesktiboksi = true;
         super.asetaTiedot();
     }
 }

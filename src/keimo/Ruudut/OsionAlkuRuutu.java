@@ -1,10 +1,10 @@
 package keimo.Ruudut;
 
 import keimo.*;
+import keimo.Utility.KeimoFontit;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.Font;
 import java.io.File;
 
 import javax.swing.*;
@@ -135,12 +135,14 @@ public class OsionAlkuRuutu {
         teksti = new JLabel("Tehtävä: Yritä löytää kotiin");
         teksti.setPreferredSize(new Dimension(640, 250));
         teksti.setForeground(Color.white);
-        teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        //teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        teksti.setFont(KeimoFontit.fontti_keimo_16);
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         jatka = new JLabel("Space: Seuraava");
         jatka.setForeground(Color.white);
-        jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        //jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        jatka.setFont(KeimoFontit.fontti_keimo_30);
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
     
@@ -187,13 +189,15 @@ public class OsionAlkuRuutu {
 
         teksti = new JLabel("Tehtävä: Yritä löytää kotiin");
         teksti.setForeground(Color.white);
-        teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        //teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        teksti.setFont(KeimoFontit.fontti_keimo_16);
         teksti.setPreferredSize(new Dimension(640, 250));
         teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         jatka = new JLabel("Space: Seuraava");
         jatka.setForeground(Color.white);
-        jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        //jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        jatka.setFont(KeimoFontit.fontti_keimo_30);
         jatka.setPreferredSize(new Dimension(640, 80));
         jatka.setAlignmentX(Component.CENTER_ALIGNMENT);
         jatka.requestFocus();
@@ -231,6 +235,7 @@ public class OsionAlkuRuutu {
         Peli.pause = false;
         PääIkkuna.ikkuna.requestFocus();
         Peli.peliAloitettu = true;
+        Peli.peliKäynnissä = true;
         PääIkkuna.uudelleenpiirräKaikki = true;
     }
 

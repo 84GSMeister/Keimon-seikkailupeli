@@ -2,6 +2,9 @@ package keimo.HuoneEditori;
 
 import keimo.*;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
+import keimo.Ikkunat.LatausIkkuna;
+import keimo.Kenttäkohteet.*;
+import keimo.Maastot.Maasto;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
@@ -192,7 +196,7 @@ public class HuoneLista {
     public static HashMap<Integer, Huone> luoVakioHuoneKarttaTiedostosta() {
         HashMap<Integer, Huone> huoneKartta = null;
         try {
-            File tiedosto = new File("default.kst");
+            File tiedosto = new File("tiedostot/pelitiedostot/default.kst");
             String[] huoneetMerkkijonoina;
             int huoneidenMääräTiedostossa = 0;
             String[] tarinaDialogitMerkkijonoina;
@@ -219,6 +223,7 @@ public class HuoneLista {
             huoneidenMääräTiedostossa = 0;
             tarinaDialogitMerkkijonoina = new String[tarinaDialogienMääräTiedostossa];
             tarinaDialogienMääräTiedostossa = 0;
+            read.close();
             read = Files.newBufferedReader(path, charset);
             tarkastettavaRivi = read.readLine();
             while ((tarkastettavaRivi != null)) {
@@ -251,13 +256,35 @@ public class HuoneLista {
                     tarkastettavaRivi = read.readLine();
                 }
             }
+            read.close();
             huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
             TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitMerkkijonoina);
         }
         catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ei voitu ladata tiedostoa default.kst", "Virhe kentän luonnissa", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), "Ei voitu ladata tiedostoa default.kst", "Virhe kentän luonnissa", JOptionPane.ERROR_MESSAGE);
         }
+
+        /**
+         * Testihuone
+         */
+        // int testiHuoneenId = huoneKartta.size();
+        // System.out.println("Testihuoneen id: " + testiHuoneenId);
+        // int testihuoneenKoko = 30;
+        // ArrayList<KenttäKohde> kenttäKohdeLista = new ArrayList<>();
+        // for (int i = 0; i < testihuoneenKoko; i++) {
+        //     for (int j = 0; j < testihuoneenKoko; j++) {
+        //         kenttäKohdeLista.add(KenttäKohde.luoRandomKenttäKohde(j, i));
+        //     }
+        // }
+        // ArrayList<Maasto> maastoLista = new ArrayList<>();
+        // for (int i = 0; i < testihuoneenKoko; i++) {
+        //     for (int j = 0; j < testihuoneenKoko; j++) {
+        //         //maastoLista.add(Maasto.luoRandomMaasto(j, i));
+        //     }
+        // }
+        // Huone testiHuone = new Huone(testiHuoneenId, testihuoneenKoko, "testihuone", null, "testialue", kenttäKohdeLista, maastoLista, null, null, null);
+        // huoneKartta.put(testiHuoneenId, testiHuone);
 
         return huoneKartta;
     }

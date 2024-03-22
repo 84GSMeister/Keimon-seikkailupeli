@@ -1,7 +1,5 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Utility.KäännettäväKuvake;
-
 import javax.swing.ImageIcon;
 
 public final class Hiili extends Esine {
@@ -39,7 +37,6 @@ public final class Hiili extends Esine {
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hiili.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
         super.asetaTiedot();
     }

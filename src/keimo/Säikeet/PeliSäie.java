@@ -6,14 +6,11 @@ import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Ruudut.PeliRuutu;
 import keimo.PelinAsetukset.AjoitusMuoto;
 
-import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DecimalFormat;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class PeliSäie extends Thread {
@@ -25,8 +22,6 @@ public class PeliSäie extends Thread {
     static double aikaErotusNs = 0;
     static double aikaErotusMs = 0;
     public static boolean pelinTilanPäivitysYliajo = false;
-    //public static int idlaaTickejä = 0;
-    //public static boolean keskeytäNormaaliToiminta = false;
 
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
@@ -53,38 +48,46 @@ public class PeliSäie extends Thread {
         }
     }
 
-    static final double TAVOITE_TICKRATE = PelinAsetukset.tavoiteTickrate;
-    static final double TAVOITE_PÄIVITYSAIKA = 1000000000 / TAVOITE_TICKRATE;
+    static double tavoitePäivitysaika = 1_000_000_000 / PelinAsetukset.tavoiteTickrate;
     void pääMetodi() {
         try {
             while (peliLoopKäynnissä) {
-                if (PelinAsetukset.ajoitus == AjoitusMuoto.ERITTÄIN_NOPEA) {
-                    peliLoopNopeaSäie();
-                }
-                else {
-                    peliLoop();
-                }
-                //System.out.println("pelisäie: " + "operaatioaika: " + (operaatioAika - alkuAika)/1_000_000 + " ms, " + "odotusaika: " + (loppuAika - operaatioAika)/1_000_000 + " ms");
+                //synchronized(Peli.grafiikanLatausLukko) {
+                    if (PelinAsetukset.ajoitus == AjoitusMuoto.ERITTÄIN_NOPEA) {
+                        peliLoopNopeaSäie();
+                    }
+                    else {
+                        peliLoop();
+                    }
+                //}
             }
         }
         catch (Exception e) {
-            System.out.println("Ongelma ruudunpäivityksessä");
+            Pelaaja.pakotaPelaajanPysäytys();
+            System.out.println("Ongelma pelisäikeessä");
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
             String sStackTrace = sw.toString();
             System.out.println(sStackTrace);
-            String viesti = "Pelisäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+            String viesti = "Pelisäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\nX: Uudelleenkäynnistä säie.\n\nVirhekoodi:\n" + sStackTrace;
             String otsikko = "Ongelma säikeessä";
-            int virheenJälkeenValinta = CustomViestiIkkunat.GrafiikkäSäieVirhe.showDialog(viesti, otsikko);
+            int virheenJälkeenValinta = CustomViestiIkkunat.GrafiikkäSäieVirhe.näytäDialogi(viesti, otsikko);
             switch (virheenJälkeenValinta) {
                 case JOptionPane.YES_OPTION: run(); break;
                 case JOptionPane.NO_OPTION: System.exit(0); break;
+                case JOptionPane.CLOSED_OPTION: JOptionPane.showMessageDialog(null, "Säie yritetään uudelleenkäynnistää.", "Uudelleenkäynnistys", JOptionPane.INFORMATION_MESSAGE); run(); break;
             }
         }
     }
 
     public static void peliLoop() {
+        if (PelinAsetukset.tavoiteTickrate > 0) {
+            tavoitePäivitysaika = 1_000_000_000 / PelinAsetukset.tavoiteTickrate;
+        }
+        else {
+            tavoitePäivitysaika = 0;
+        }
         double alkuAika = System.nanoTime();
         if (pelinTilanPäivitysYliajo) {
             Peli.pause = false;
@@ -110,30 +113,6 @@ public class PeliSäie extends Thread {
                 }
                 if (Peli.globaaliTickit % 100 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();
-                    // SwingUtilities.invokeLater(new Runnable() {
-                    //     @Override
-                    //     public void run() {
-                    //         EventQueue evnt = Toolkit.getDefaultToolkit().getSystemEventQueue();
-                    //         if (evnt.peekEvent() != null) {
-                    //             //System.out.println(EventQueue.getCurrentEvent());
-                    //             System.out.println(evnt.peekEvent(1));
-                    //             int eventIndex = 0;
-                    //             //while (true) {
-                    //                 if (evnt.peekEvent() != null) {
-                    //                     //try {
-                    //                         System.out.println(evnt.getCurrentEvent());
-                    //                     //}
-                    //                     //catch (InterruptedException ie) {
-                    //                     //    System.out.println("interrupted");
-                    //                     //}
-                    //                 }
-                    //                 //else {
-                    //                 //    break;
-                    //                 //}
-                    //             //}
-                    //         }
-                    //     }
-                    // });
                 }
                 if ((Peli.globaaliTickit-1) % 2000 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2000Tick();
@@ -145,7 +124,6 @@ public class PeliSäie extends Thread {
             if (Peli.globaaliTickit % 5 == 0) {
                 String muuttuvaMerkki = "" + AsetusIkkuna.ikkunaTeksti.charAt(0);
                 AsetusIkkuna.ikkunaTeksti = AsetusIkkuna.ikkunaTeksti.substring(1) + muuttuvaMerkki;
-                //PääIkkuna.ikkuna.setTitle(ikkunaTeksti);
                 if (AsetusIkkuna.ikkuna != null) {
                     AsetusIkkuna.ikkuna.setTitle(AsetusIkkuna.ikkunaTeksti);
                 }
@@ -154,7 +132,7 @@ public class PeliSäie extends Thread {
         
         double operaatioAika = System.nanoTime();
 
-        while (System.nanoTime() - alkuAika < TAVOITE_PÄIVITYSAIKA) {
+        while (System.nanoTime() - alkuAika < tavoitePäivitysaika) {
             Thread.yield();
             try {
                 if (PelinAsetukset.ajoitus == AjoitusMuoto.TARKKA) {}
@@ -171,7 +149,7 @@ public class PeliSäie extends Thread {
         if (!Peli.pause) {
             Peli.globaaliTickit++;
             PeliRuutu.ylätekstiTicks.setText("Tickejä: " + Peli.globaaliTickit);
-            PeliRuutu.ylätekstiTickrate.setText("Tickrate: " + kaksiDesimaalia.format((1000/aikaErotusMs)));
+            PeliRuutu.ylätekstiTickrate.setText("Tickrate: " + kaksiDesimaalia.format((1000/aikaErotusMs)) + " (Tavoite: " + PelinAsetukset.tavoiteTickrate + ")");
             double loppuAika = System.nanoTime();
             aikaErotusNs = loppuAika - alkuAika;
             aikaErotusMs = (aikaErotusNs/1_000_100f);
@@ -218,7 +196,7 @@ public class PeliSäie extends Thread {
         GrafiikanPäivitysSäie.alkuAika = System.nanoTime();
         GrafiikanPäivitysSäie.suoritaGrafiikanPäivitys();
         double operaatioAika = System.nanoTime();
-        while (System.nanoTime() - alkuAika < GrafiikanPäivitysSäie.TAVOITE_RUUDUNPÄIVITYSAIKA) {
+        while (System.nanoTime() - alkuAika < GrafiikanPäivitysSäie.tavoiteRuudunPäivitysAika) {
             Thread.yield();
             try {
                 if (PelinAsetukset.ajoitus == AjoitusMuoto.TARKKA) {}
@@ -262,7 +240,7 @@ public class PeliSäie extends Thread {
         if (!tarkistaTarviikoPeliUudelleenkäynnistää.isRunning()) {
             tarkistaTarviikoPeliUudelleenkäynnistää.start();
         }
-        this.setPriority(4);
+        peliLoopKäynnissä = true;
         pääMetodi();
     }
 }

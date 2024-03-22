@@ -1,15 +1,12 @@
 package keimo.Kenttäkohteet;
 
 import keimo.Pelaaja;
-import keimo.PääIkkuna;
 import keimo.Utility.KäännettäväKuvake;
 
 import java.io.File;
 import javax.swing.ImageIcon;
 
-public class KauppaHylly extends Kiintopiste {
-    
-    protected Esine sisältö;
+public class KauppaHylly extends Säiliö {
 
     @Override
     public String vuorovaikuta(Esine e) {
@@ -19,10 +16,6 @@ public class KauppaHylly extends Kiintopiste {
         else {
             return "Tyhjä hylly";
         }
-    }
-
-    protected Esine luoSisältö(String esineenNimi, String[] ominaisuusLista) {
-        return Esine.luoEsine(esineenNimi, ominaisuusLista);
     }
 
     public void päivitäLisäOminaisuudet() {
@@ -46,12 +39,10 @@ public class KauppaHylly extends Kiintopiste {
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
                 super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
             }
             else {
                 super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
             }
             if (luoSisältö(esineenNimi, null) != null) {
@@ -63,24 +54,10 @@ public class KauppaHylly extends Kiintopiste {
         }
     }
 
-    public void asetaSisältö(String esineenNimi, String[] onimaisuusLista) {
-        this.sisältö = luoSisältö(esineenNimi, onimaisuusLista);
-    }
-
-    public String annaSisältö() {
-        if (this.sisältö != null) {
-            return sisältö.annaNimi();
-        }
-        else {
-            return "tyhjä";
-        }
-    }
-
     public KauppaHylly(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kauppahylly";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "kauppahylly.png";
         super.katsomisTeksti = "Tyhjä hylly";
         super.erillisDialogi = true;
@@ -123,11 +100,9 @@ public class KauppaHylly extends Kiintopiste {
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
                 super.kuvake = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png"), this.kääntöAsteet, this.xPeilaus, this.yPeilaus);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
             }
             else {
                 super.kuvake = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png"), this.kääntöAsteet, this.xPeilaus, this.yPeilaus);
-                super.skaalattuKuvake = new KäännettäväKuvake(kuvake, this.kääntöAsteet, this.xPeilaus, this.yPeilaus, 96);
             }
             päivitäLisäOminaisuudet();
             if (luoSisältö(esineenNimi, ominaisuusLista) != null) {

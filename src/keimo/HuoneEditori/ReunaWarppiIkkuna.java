@@ -1,8 +1,8 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.Kenttäkohteet.Käännettävä.Suunta;
-import keimo.Utility.*;
+import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.Utility.Käännettävä.Suunta;
 
 import javax.swing.*;
 import java.awt.*;
@@ -156,7 +156,12 @@ public class ReunaWarppiIkkuna {
                 if (!SwingUtilities.isRightMouseButton(e)) {
                     int asetettavaHuone = Integer.parseInt(huoneValikko.getSelectedItem().toString().substring(huoneValikko.getSelectedItem().toString().indexOf("(")+1, huoneValikko.getSelectedItem().toString().indexOf(")")));
                     hyväksyMuutokset(suunta, warppiEnabloitu.isSelected(), asetettavaHuone);
-                    JOptionPane.showMessageDialog(null, "Huoneesta " + HuoneEditoriIkkuna.muokattavaHuone + " on nyt " + suunta + " warp huoneeseen " + asetettavaHuone + "\n\nTODO: Aseta automaattisesti warp myös takaisinpäin", "Warppi asetettu", JOptionPane.INFORMATION_MESSAGE);
+                    if (warppiEnabloitu.isSelected()) {
+                        JOptionPane.showMessageDialog(null, "Huoneesta " + HuoneEditoriIkkuna.muokattavaHuone + " on nyt " + suunta.toString() + " warp huoneeseen " + asetettavaHuone + "\n\nTODO: Aseta automaattisesti warp myös takaisinpäin", "Warppi asetettu", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Warp huoneesta " + HuoneEditoriIkkuna.muokattavaHuone + " suuntaan " + suunta.toString() + " on pois käytöstä.", "Warppi ei asetettu", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
         });
@@ -177,7 +182,7 @@ public class ReunaWarppiIkkuna {
         ikkunanKorkeus = valintojenMäärä * 30 + 70;
 
         muokkausIkkuna = new JFrame();
-        muokkausIkkuna.setTitle("Aseta reunawarppi: " + suunta);
+        muokkausIkkuna.setTitle("Aseta reunawarppi: " + suunta.toString());
         muokkausIkkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         muokkausIkkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         muokkausIkkuna.setLayout(new BorderLayout());

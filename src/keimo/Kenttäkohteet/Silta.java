@@ -1,16 +1,10 @@
 package keimo.Kenttäkohteet;
 
 import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
-import keimo.Utility.KäännettäväKuvake;
 
 import javax.swing.ImageIcon;
 
 public final class Silta extends Kiintopiste {
-    
-    // @Override
-    // public void näytäDialogi(Esine e) {
-    //     ValintaDialogiRuutu.luoValintaDialogiIkkuna("silta");
-    // }
 
     @Override
     public String vuorovaikuta(Esine e) {
@@ -44,7 +38,6 @@ public final class Silta extends Kiintopiste {
         super.nimi = "Silta";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/asfaltti_silta.png");
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/silta_dialogi.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.tiedostonNimi = "asfaltti_silta.png";
         super.katsomisTeksti = "Kiva näkymä";
         super.erillisDialogi = true;

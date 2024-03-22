@@ -1,7 +1,5 @@
 package keimo.Kenttäkohteet;
 
-import keimo.Utility.KäännettäväKuvake;
-
 import javax.swing.ImageIcon;
 
 public final class Pesäpallomaila extends Esine {
@@ -33,7 +31,6 @@ public final class Pesäpallomaila extends Esine {
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Pikkuvihu");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/pesäpallomaila.png");
-        super.skaalattuKuvake = new KäännettäväKuvake(kuvake, 0, false, false, 96);
         super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
         super.käyttöTeksti = "Löit vihollista turpaan";
         super.vahinko = 1;

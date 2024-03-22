@@ -2,13 +2,12 @@ package keimo.Liikkuminen;
 public class Liikkuminen {
     
     /**
-     * Täysin kirottua koodia
+     * Täysin kirottua koodia.
+     * 
+     * Mietittiin tossa vaan Lennin kanssa että mitäs jos tekis liikkumisesta olion (Object) :D
+     * Aina kun pelaaja liikkuu niin luodaan uusi Liikkuminen-olio :DDD Olijo-ohjelmoinnin parhauksia :D
+     * mutta naurattaahan se koska tää toimii :DDDddD
      */
-
-    //static int[][][][][][][][][][][] asd = new int[10][][][][][][][][][][];
-
-    protected static transient final int x = 0;
-    private static transient volatile int y = 0;
 
     static void liikkuminen1() {
 
@@ -22,6 +21,11 @@ public class Liikkuminen {
         return (Void) new Object();
     }
 
+    //static int[][][][][][][][][][][] asd = new int[10][][][][][][][][][][];
+
+    protected static transient final int x = 0;
+    private static transient volatile int y = 0;
+
     public void objecti() {
         Object object = new Object();
         if (!(object instanceof Void)) {
@@ -31,7 +35,7 @@ public class Liikkuminen {
 
     Object object() {
         Boolean object = Boolean.valueOf(true);
-        if (object || object instanceof Object) {
+        if (object || object instanceof Object || y == 0) {
             System.out.println(object);
         }
         return object;

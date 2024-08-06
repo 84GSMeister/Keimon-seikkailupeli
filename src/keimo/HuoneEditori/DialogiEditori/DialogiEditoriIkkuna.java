@@ -32,8 +32,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import keimo.TavoiteLista;
 import keimo.HuoneEditori.ObjektinMuokkausIkkuna;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Utility.Downloaded.SpringUtilities;
 
@@ -690,9 +690,9 @@ public class DialogiEditoriIkkuna {
         vasenScrollPaneeli.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         vasenScrollPaneeli.setPreferredSize(new Dimension(200, 300));
 
-        JPanel oikeaPaneeli = new JPanel(new BorderLayout());
-        oikeaPaneeli.setName("oikeapaneeli");
-        oikeaPaneeli.add(new JButton(""));
+        // JPanel oikeaPaneeli = new JPanel(new BorderLayout());
+        // oikeaPaneeli.setName("oikeapaneeli");
+        // oikeaPaneeli.add(new JButton(""));
 
         JLabel puhujanNimiLabel = new JLabel("Puhujan nimi");
         puhujanNimiTekstikenttä = new JTextField();
@@ -1273,7 +1273,7 @@ public class DialogiEditoriIkkuna {
 
         JPanel pääPaneeli = new JPanel(new BorderLayout());
         pääPaneeli.add(vasenScrollPaneeli, BorderLayout.WEST);
-        pääPaneeli.add(oikeaPaneeli, BorderLayout.EAST);
+        //pääPaneeli.add(oikeaPaneeli, BorderLayout.EAST);
         pääPaneeli.add(keskiPaneeli, BorderLayout.CENTER);
         pääPaneeli.add(alaPaneeli, BorderLayout.SOUTH);
 

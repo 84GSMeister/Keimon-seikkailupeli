@@ -3,8 +3,10 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.HuoneEditori.DialogiEditori.DialogiEditoriIkkuna;
 import keimo.HuoneEditori.JFXTiedostoIkkuna.TiedostoTyyppi;
+import keimo.HuoneEditori.Keimo3D.Keimo3D;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteEditoriIkkuna;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
@@ -84,8 +86,8 @@ public class HuoneEditoriIkkuna {
     static JComboBox<Object> maastoValikko;
     static JComboBox<String> npcValikko;
     static JComboBox<Object> koristeEsineenKuvaValikko;
-    static HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
-    static int muokattavaHuone = 0;
+    public static HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
+    public static int muokattavaHuone = 0;
     static String huoneenNimi = "";
     static String huoneenAlue = "";
     static ImageIcon huoneenTaustakuva;
@@ -415,8 +417,12 @@ public class HuoneEditoriIkkuna {
             }
         });
 
+        JMenuItem keimo3D = new JMenuItem("Keimo3D", new ImageIcon("tiedostot/kuvat/menu/gui/keimo3d.png"));
+        keimo3D.addActionListener(e -> Keimo3D.käynnistäKeimo3D());
+
         JMenu peli = new JMenu("Peli");
         peli.add(kokeilePelissä);
+        peli.add(keimo3D);
 
         JMenuItem ohjeet = new JMenuItem("Ohjeet", new ImageIcon("tiedostot/kuvat/menu/gui/ohjeet.png"));
         ohjeet.addActionListener(new ActionListener() {
@@ -435,16 +441,6 @@ public class HuoneEditoriIkkuna {
         JMenu tietoja = new JMenu("Tietoja");
         tietoja.add(ohjeet);
 
-        JMenuItem piirräEuklidinenKartta = new JMenuItem("Piirrä euklidinen kartta", new ImageIcon("tiedostot/kuvat/menu/gui/kartta.png"));
-        piirräEuklidinenKartta.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                KarttaIkkuna.luoKarttaikkuna();
-            }
-        });
-
-        JMenu kartta = new JMenu("Kartta");
-        kartta.add(piirräEuklidinenKartta);
-
         JMenuItem dialogiEditori = new JMenuItem("Dialogieditori", new ImageIcon("tiedostot/kuvat/menu/gui/puhedialogi.png"));
         dialogiEditori.addActionListener(e -> {
             DialogiEditoriIkkuna.luoDialogiEditoriIkkuna();
@@ -455,16 +451,21 @@ public class HuoneEditoriIkkuna {
             TarinaEditoriIkkuna.luoTarinaEditoriIkkuna();
         });
 
+        JMenuItem tavoiteEditori = new JMenuItem("Tavoite-editori", new ImageIcon("tiedostot/kuvat/menu/gui/tavoite-editori.png"));
+        tavoiteEditori.addActionListener(e -> {
+            TavoiteEditoriIkkuna.luoTavoiteEditoriIkkuna();
+        });
+
         JMenu työkalut = new JMenu("Työkalut");
         työkalut.add(dialogiEditori);
         työkalut.add(tarinaEditori);
+        työkalut.add(tavoiteEditori);
 
         JMenuBar yläPalkki = new JMenuBar();
         yläPalkki.setPreferredSize(new Dimension(ikkunanLeveys -20,20));
         yläPalkki.add(tiedosto);
         yläPalkki.add(peli);
         yläPalkki.add(tietoja);
-        yläPalkki.add(kartta);
         yläPalkki.add(työkalut);
         
         esineValikkoKuvakkeet.put("Avain", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/avain.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));

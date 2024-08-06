@@ -1,6 +1,18 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (22.3.2024): 0.9
+## Uusin versio (6.8.2024): 0.9.1
+
+### Versio 0.9.1: Keimon nimipäiväpäivitys
+
+ - Lisätty Enityt: Työnnettävät laatikot
+ - NPC:t, ammukset ym. kuuluu nyt entityjen alaluokkiin
+ - Entityjä voi spawnata F6-näppäimellä. TODO: Entityt editoriin
+ - Lisätty Tavoite-editori
+ - Placeholder cutscene -teksti korvattu Keimon Seikkailupelin logolla
+ - Korjattu tarinadialogin puuttuminen kotiin saapuessa
+ - Korjattu näkymän hyppääminen huoneen yläreunaan latauksen aikana
+ - Poistettu editorin karttaominaisuus (jäi turhaksi huonekokopäivityksen myötä ja oli muutenkin hyvin rikkinäinen)
+ - Kokeellinen: Lisätty Keimo3D Demo
 
 ### Versio 0.9
 
@@ -12,7 +24,7 @@
  - Uusi esine: Puiston penkki - Toimii kuten sänky, mutta nukkumisesta humalassa menettää enemmän HP:ta
  - Custom-fontti
  - Asetusvalikkoa voi selata pelin sisällä (Pause -> Asetukset)
- - Visuaalisilla objekteilla (a.k.a. Koriste-esineillä) voi olla katsomisdialogi (kuten kenttä_NPC:illä). Dialogeja voi muokata dialogieditorissa.
+ - Visuaalisilla objekteilla (a.k.a. Koriste-esineillä) voi olla katsomisdialogi (kuten kenttä-NPC:illä). Dialogeja voi muokata dialogieditorissa.
  - Dialogieditorissa voi nyt myös luoda ja muokata valintoja
  - Skaalaus koko näytölle toteutettu uudelleen ja useimmat graafiset ongelmat korjattu
  - Ääniefekteillä voi olla suunta ja voimakkuus riippuen äänenlähteen sijainnista pelaajan / ruudun keskipisteen suhteen

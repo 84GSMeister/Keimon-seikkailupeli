@@ -40,6 +40,7 @@ public class Nappi extends Triggeri {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Nappi";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nappi.png");
+        super.tiedostonNimi = "nappi.png";
         super.katsomisTeksti = "Mitähän tästä tapahtuu?";
         super.vaadittuEsine = null;
         super.asetaTiedot();

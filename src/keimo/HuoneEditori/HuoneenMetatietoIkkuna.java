@@ -1,8 +1,9 @@
 package keimo.HuoneEditori;
 
-import keimo.TavoiteLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteEditoriIkkuna;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Utility.Downloaded.SpringUtilities;
 
@@ -137,7 +138,7 @@ public class HuoneenMetatietoIkkuna {
         tarinanMuokkausNappi.addActionListener(e -> TarinaEditoriIkkuna.luoTarinaEditoriIkkuna());
 
         tavoitteidenMuokkausNappi = new JButton("Muokkaa tavoitteita");
-        tavoitteidenMuokkausNappi.addActionListener(e -> CustomViestiIkkunat.ToteutusPuuttuu2.näytäDialogi());
+        tavoitteidenMuokkausNappi.addActionListener(e -> TavoiteEditoriIkkuna.luoTavoiteEditoriIkkuna());
 
         yläOikeaPaneeli = new JPanel();
         yläOikeaPaneeli.setLayout(new SpringLayout());

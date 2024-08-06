@@ -14,10 +14,10 @@ public abstract class NPC extends Entity implements Käännettävä {
     public int id = 0;
     boolean määritettySijainti = true;
     public int nopeus;
-    public Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
+    //public Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
     protected int hp;
-    public ImageIcon kuvake;
-    String nimi = "";
+    //public ImageIcon kuvake;
+    
     public boolean onLadattuPelissä = false;
 
     boolean lisäOminaisuuksia = false;
@@ -153,63 +153,153 @@ public abstract class NPC extends Entity implements Käännettävä {
     public boolean kokeileLiikkumista(Suunta suunta) {
         boolean NPCSiirtyi = false;
         try {
-            switch (suunta) {
-                case VASEN:
-                    this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
-                    this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
-                    if (hitbox.getMinX() > 0) {
-                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
-                            NPCSiirtyi = siirrä(Suunta.VASEN);
-                        }
-                        else {
-                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
+            int objektiCollisiot = 0;
+            for (Entity entity : Peli.entityLista) {
+                if (entity != this && entity instanceof LiikkuvaObjekti) {
+                    if (entity.hitbox.intersects(this.hitbox)) {
+                        objektiCollisiot++;
+                    }
+                }
+            }
+            if (objektiCollisiot == 0) {
+                switch (suunta) {
+                    case VASEN:
+                        this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
+                        this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
+                        if (hitbox.getMinX() > 0) {
+                            if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                                 NPCSiirtyi = siirrä(Suunta.VASEN);
                             }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.VASEN);
+                                }
+                            }
                         }
-                    }
-                    break;
-                case OIKEA:
-                    this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-                    this.suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
-                    if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                        if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
-                            NPCSiirtyi = siirrä(Suunta.OIKEA);
-                        }
-                        else {
-                            if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
+                        break;
+                    case OIKEA:
+                        this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+                        this.suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
+                        if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                            if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                                 NPCSiirtyi = siirrä(Suunta.OIKEA);
                             }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.OIKEA);
+                                }
+                            }
                         }
-                    }
-                    break;
-                case ALAS:
-                    this.suuntaDiagonaali = SuuntaDiagonaali.ALAS;
-                    if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx] == null) {
-                            NPCSiirtyi = siirrä(Suunta.ALAS);
-                        }
-                        else {
-                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
+                        break;
+                    case ALAS:
+                        this.suuntaDiagonaali = SuuntaDiagonaali.ALAS;
+                        if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                            if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx] == null) {
                                 NPCSiirtyi = siirrä(Suunta.ALAS);
                             }
-                        }
-                    }
-                    break;
-                case YLÖS:
-                    this.suuntaDiagonaali = SuuntaDiagonaali.YLÖS;
-                    if (hitbox.getMinY() > 0) {
-                        if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx] == null) {
-                            NPCSiirtyi = siirrä(Suunta.YLÖS);
-                        }
-                        else {
-                            if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
-                                NPCSiirtyi = siirrä(Suunta.YLÖS);
+                            else {
+                                if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.ALAS);
+                                }
                             }
                         }
+                        break;
+                    case YLÖS:
+                        this.suuntaDiagonaali = SuuntaDiagonaali.YLÖS;
+                        if (hitbox.getMinY() > 0) {
+                            if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx] == null) {
+                                NPCSiirtyi = siirrä(Suunta.YLÖS);
+                            }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.YLÖS);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException aioobe) {
+            //aioobe.printStackTrace();
+        }
+        return NPCSiirtyi;
+    }
+
+    public boolean kokeileLiikkumista(Suunta suunta, boolean ignoraaCollision) {
+        boolean NPCSiirtyi = false;
+        try {
+            int objektiCollisiot = 0;
+            if (!ignoraaCollision) {
+                for (Entity entity : Peli.entityLista) {
+                    if (entity != this && entity instanceof LiikkuvaObjekti) {
+                        if (entity.hitbox.intersects(this.hitbox)) {
+                            objektiCollisiot++;
+                        }
                     }
-                    break;
-                default:
-                    break;
+                }
+            }
+            if (objektiCollisiot == 0) {
+                switch (suunta) {
+                    case VASEN:
+                        this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
+                        this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
+                        if (hitbox.getMinX() > 0) {
+                            if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
+                                NPCSiirtyi = siirrä(Suunta.VASEN);
+                            }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.VASEN);
+                                }
+                            }
+                        }
+                        break;
+                    case OIKEA:
+                        this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+                        this.suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
+                        if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                            if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
+                                NPCSiirtyi = siirrä(Suunta.OIKEA);
+                            }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.OIKEA);
+                                }
+                            }
+                        }
+                        break;
+                    case ALAS:
+                        this.suuntaDiagonaali = SuuntaDiagonaali.ALAS;
+                        if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                            if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx] == null) {
+                                NPCSiirtyi = siirrä(Suunta.ALAS);
+                            }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.ALAS);
+                                }
+                            }
+                        }
+                        break;
+                    case YLÖS:
+                        this.suuntaDiagonaali = SuuntaDiagonaali.YLÖS;
+                        if (hitbox.getMinY() > 0) {
+                            if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx] == null) {
+                                NPCSiirtyi = siirrä(Suunta.YLÖS);
+                            }
+                            else {
+                                if (!Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx].estääköLiikkumisen(suunta)) {
+                                    NPCSiirtyi = siirrä(Suunta.YLÖS);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         catch (ArrayIndexOutOfBoundsException aioobe) {
@@ -284,14 +374,12 @@ public abstract class NPC extends Entity implements Käännettävä {
     }
 
     NPC(int sijX, int sijY) {
+        super(sijX, sijY);
         this.id = TarkistettavatArvot.npcId;
         TarkistettavatArvot.npcId++;
-        this.sijX = sijX;
-        this.sijY = sijY;
-        this.alkuSijX = sijX;
-        this.alkuSijY = sijY;
         this.onLadattuPelissä = false;
-        this.hitbox.setLocation(sijX, sijY);
+        this.hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
+        this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
         if (Peli.npcLista != null) {
             Peli.lisääNPC(this);
         }

@@ -18,6 +18,7 @@ import keimo.HuoneEditori.*;
 import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -104,7 +105,8 @@ public class Peli {
         npcLista.add(npc);
     }
     public static List<NPC> npcLista = Collections.synchronizedList(new ArrayList<>());
-    public static List<Ammus> ammusLista = Collections.synchronizedList(new ArrayList<>());
+    public static List<Entity> entityLista = Collections.synchronizedList(new ArrayList<>());
+    //public static List<Entity> entityLista = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Poimii esineen kentältä tavaraluetteloon.
@@ -1011,7 +1013,7 @@ public class Peli {
                             }
                         }
                     }
-                    ammusLista.clear();
+                    entityLista.clear();
                     if (huone.annaTausta() != null) {
                         GrafiikanPäivitysSäie.uusiTausta = huone.annaTausta();
                         GrafiikanPäivitysSäie.uusiTaustaSkaalattu = new KäännettäväKuvake(huone.annaTausta(), 0, false, false, 990d/660d, 1, -246, -246, false);
@@ -1287,6 +1289,7 @@ public class Peli {
                     peliKäynnissä = false;
                     TarkistettavatArvot.nollaa();
                     new Peli();
+                    //Keimo3D.launchKeimo3D();
                     //throw new Exception();
                 }
                 catch (Exception e) {

@@ -130,6 +130,7 @@ public class Kauppaovi extends Warp {
         }
 
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppaovi.png");
+        super.tiedostonNimi = "kauppaovi.png";
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new String[4];

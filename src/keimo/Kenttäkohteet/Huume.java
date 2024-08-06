@@ -32,6 +32,7 @@ public final class Huume extends Ruoka {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Huume";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/huume.png");
+        super.tiedostonNimi = "huume.png";
         super.käyttö = true;
         super.heal = 30;
         super.katsomisTeksti = "Tää menee ykkösel alas";

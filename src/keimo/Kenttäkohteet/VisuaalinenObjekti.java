@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
 
 public class VisuaalinenObjekti extends KenttäKohde {
 
-    public String tiedostonNimi;
     private int kääntöAsteet = 0;
     private boolean xPeilaus = false;
     private boolean yPeilaus = false;

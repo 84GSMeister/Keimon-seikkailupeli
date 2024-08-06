@@ -1,7 +1,7 @@
 package keimo.Kenttäkohteet;
 
 import keimo.PääIkkuna;
-import keimo.TavoiteLista;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 
 import javax.swing.ImageIcon;
 
@@ -65,6 +65,7 @@ public final class JumalYoda extends NPC_KenttäKohde {
         super.nimi = "Jumal Yoda";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/goblin.png");
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/goblin_dialogi.png");
+        super.tiedostonNimi = "goblin.png";
         super.katsomisTeksti = "Polku pimeälle puolelle?";
         super.asetaTiedot();
     }

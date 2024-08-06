@@ -1,7 +1,7 @@
 package keimo.Kenttäkohteet;
 
 import keimo.PääIkkuna;
-import keimo.TavoiteLista;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 
 import javax.swing.ImageIcon;
 
@@ -52,6 +52,7 @@ public final class JumalVelho extends NPC_KenttäKohde {
         super.nimi = "Jumal Velho";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/velho.png");
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png");
+        super.tiedostonNimi = "velho.png";
         super.katsomisTeksti = "No se on se Jumal Velho!";
         super.asetaTiedot();
     }

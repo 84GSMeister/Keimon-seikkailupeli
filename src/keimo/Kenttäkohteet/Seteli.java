@@ -37,6 +37,7 @@ public final class Seteli extends Esine {
         super.käyttö = true;
         super.sopiiKäytettäväksi.add("Juhani");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png");
+        super.tiedostonNimi = "seteli.png";
         super.katsomisTeksti = "2 kybää = 1 massi";
         super.asetaTiedot();
     }

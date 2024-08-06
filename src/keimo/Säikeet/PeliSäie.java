@@ -1,6 +1,7 @@
 package keimo.Säikeet;
 
 import keimo.*;
+import keimo.HuoneEditori.Keimo3D.Keimo3D;
 import keimo.Ikkunat.AsetusIkkuna;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Ruudut.PeliRuutu;
@@ -237,6 +238,7 @@ public class PeliSäie extends Thread {
 
     @Override
     public void run() {
+        //Keimo3D.käynnistäKeimo3D();
         if (!tarkistaTarviikoPeliUudelleenkäynnistää.isRunning()) {
             tarkistaTarviikoPeliUudelleenkäynnistää.start();
         }

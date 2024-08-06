@@ -15,8 +15,7 @@ public class Ammus extends Entity {
     public int nopeus;
     public int damage;
     public int elinAika = 240;
-    public ImageIcon kuvake;
-    public Rectangle hitbox = new Rectangle(0, 0, 16, 16);
+    //public ImageIcon kuvake;
     //public SuuntaVasenOikea suunta = SuuntaVasenOikea.VASEN;
     public SuuntaDiagonaali suunta8 = SuuntaDiagonaali.VASEN;
 
@@ -142,6 +141,8 @@ public class Ammus extends Entity {
     }
 
     public Ammus(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Ammus";
         this.id = ammusId;
         ammusId++;
         this.sijX = sijX;
@@ -150,20 +151,24 @@ public class Ammus extends Entity {
         this.damage = 4;
         this.alkuSijX = sijX;
         this.alkuSijY = sijY;
+        this.hitbox = new Rectangle(sijX, sijX, 16, 16);
         this.hitbox.setLocation(sijX, sijY);
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/ammus.png");
+        this.kuvake = new ImageIcon("tiedostot/kuvat/entity/ammus.png");
         this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
     }
 
     public Ammus(int sijX, int sijY, SuuntaVasenOikea suunta, int vahinko) {
+        super(sijX, sijY);
+        super.nimi = "Ammus";
         this.id = ammusId;
         ammusId++;
         this.nopeus = 12;
         this.damage = vahinko;
-        this.hitbox.setLocation(sijX, sijY);
         this.sijX = sijX/PeliRuutu.pelaajanKokoPx;
         this.sijY = sijY/PeliRuutu.pelaajanKokoPx;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/ammus.png");
+        this.hitbox = new Rectangle(sijX, sijX, 16, 16);
+        this.hitbox.setLocation(sijX, sijY);
+        this.kuvake = new ImageIcon("tiedostot/kuvat/entity/ammus.png");
         if (suunta == SuuntaVasenOikea.OIKEA) {
             this.suunta8 = SuuntaDiagonaali.OIKEA;
         }
@@ -173,14 +178,17 @@ public class Ammus extends Entity {
     }
 
     public Ammus(int sijX, int sijY, SuuntaDiagonaali suunta8, int vahinko) {
+        super(sijX, sijY);
+        super.nimi = "Ammus";
         this.id = ammusId;
         ammusId++;
         this.nopeus = 12;
         this.damage = vahinko;
-        this.hitbox.setLocation(sijX, sijY);
         this.sijX = sijX/PeliRuutu.pelaajanKokoPx;
         this.sijY = sijY/PeliRuutu.pelaajanKokoPx;
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/ammus.png");
+        this.hitbox = new Rectangle(sijX, sijX, 16, 16);
+        this.hitbox.setLocation(sijX, sijY);
+        this.kuvake = new ImageIcon("tiedostot/kuvat/entity/ammus.png");
         this.suunta8 = suunta8;
     }
 }

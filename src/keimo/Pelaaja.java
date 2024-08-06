@@ -25,6 +25,7 @@ public class Pelaaja implements Käännettävä {
     public static int kuparit;
     static int syödytRuoat;
     public static int nopeus;
+    public static int vakionopeus = 8;
     public static ImageIcon kuvake;
     public static SkaalattavaKuvake vilkkuvaKuvake;
     public static int kuolemattomuusAika;

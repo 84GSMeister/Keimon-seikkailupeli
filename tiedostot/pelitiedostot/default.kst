@@ -5005,7 +5005,7 @@ Huone 5:
     #warp_oikea: ;
     #warp_alas: ;
     #warp_ylös: ;
-    #tarina: ;
+    #tarina: koti;
     #tavoite: ;
     #kenttä: {
         Koriste-esine_0_1+ominaisuudet:[kuva=pöydänreuna_pc_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],

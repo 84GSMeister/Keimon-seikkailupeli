@@ -110,6 +110,11 @@ public abstract class KenttäKohde implements Käännettävä {
         return kuvake;
     }
 
+    public String tiedostonNimi;
+    public String annaKuvatiedostonNimi() {
+        return tiedostonNimi;
+    }
+
     public Icon annaDialogiKuvake() {
         if (dialogiKuvake == null) {
             return kuvake;

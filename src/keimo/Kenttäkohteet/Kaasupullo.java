@@ -28,6 +28,7 @@ public final class Kaasupullo extends Esine {
         super.yhdistettävä = true;
         super.kelvollisetYhdistettävät.add("Kaasusytytin");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasupullo.png");
+        super.tiedostonNimi = "kaasupullo.png";
         super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
         super.asetaTiedot();
     }

@@ -31,6 +31,7 @@ public final class Ponuainekset extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Pontikka-ainekset";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/ponuainekset.png");
+        super.tiedostonNimi = "ponuainekset.png";
         super.katsomisTeksti = "Ponua voisi käyttää boolissa.";
         super.hinta = 8 * 0.22 + 4 * 1.55 + 4.99;
         super.asetaTiedot();

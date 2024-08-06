@@ -13,7 +13,6 @@ public abstract class Kiintopiste extends KenttäKohde {
     int kääntöAsteet = 0;
     boolean xPeilaus = false;
     boolean yPeilaus = false;
-    public String tiedostonNimi;
 
     protected boolean erillisDialogi = false;
     public boolean onkoErillisDialogi() {

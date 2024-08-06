@@ -1059,7 +1059,7 @@ public class HuoneEditorinMetodit {
         return kokoTiedostoMerkkijonona;
     }
 
-    static String luoMerkkijonoHuoneesta(HashMap<Integer, Huone> huoneKartta, int id) {
+    public static String luoMerkkijonoHuoneesta(HashMap<Integer, Huone> huoneKartta, int id) {
         String kokoTiedostoMerkkijonona = "";
         kokoTiedostoMerkkijonona += "<KEIMO>\n\n";
         String huoneetMerkkijonoina = "";

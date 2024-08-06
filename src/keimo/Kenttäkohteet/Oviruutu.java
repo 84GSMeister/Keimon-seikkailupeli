@@ -84,6 +84,7 @@ public class Oviruutu extends Warp {
         }
 
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png");
+        super.tiedostonNimi = "reunawarppi.png";
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new String[4];

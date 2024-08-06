@@ -108,6 +108,7 @@ public final class PuuOvi extends Warp {
         }
 
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
+        super.tiedostonNimi = "puuovi.png";
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new String[4];

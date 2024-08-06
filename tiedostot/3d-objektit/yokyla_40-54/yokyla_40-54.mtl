@@ -1,0 +1,165 @@
+#
+## Alias MTL Material File
+# Converted from SKP by LIPID Lightsolve
+
+newmtl yotalo_sein‰_taka_harmaa
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_sein√§_taka_1.png
+
+newmtl yotalo_parveke_kaide
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_parveke_kaide.png
+
+newmtl yotalo_sein‰_sivu
+Ka 0.000000 0.000000 0.000000
+Kd 0.576471 0.509804 0.458824
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_sein√§_sivu.png
+
+newmtl yotalo_kivijalka
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_kivijalka.png
+
+newmtl yotalo_k‰yt‰v‰_kaide
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_k√§yt√§v√§_kaide.png
+
+newmtl yotalo_sein‰_etu_kaide
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_sein√§_etu_kaide.png
+
+newmtl yotalo_katto
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_katto.png
+
+newmtl yotalo_numero_46a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_46a.png
+
+newmtl yokyl‰_ovi_punainen
+Ka 0.000000 0.000000 0.000000
+Kd 0.780392 0.258824 0.298039
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yokyl√§_ovi_punainen.png
+
+newmtl yokyl‰_ovi_oranssi
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.501961 0.32549
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yokyl√§_ovi_oranssi.png
+
+newmtl yokyl‰_ovi_keltainen
+Ka 0.000000 0.000000 0.000000
+Kd 0.737255 0.65098 0
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yokyl√§_ovi_keltainen.png
+
+newmtl yokyl‰_ovi_vihre‰
+Ka 0.000000 0.000000 0.000000
+Kd 0.0666667 0.698039 0
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yokyl√§_ovi_vihre√§.png
+
+newmtl yokyl‰_ovi_sininen
+Ka 0.000000 0.000000 0.000000
+Kd 0 0.717647 0.768627
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yokyl√§_ovi_sininen.png
+
+newmtl yokyl‰_ovi_violetti
+Ka 0.000000 0.000000 0.000000
+Kd 0.776471 0.509804 0.909804
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yokyl√§_ovi_violetti.png
+
+newmtl yotalo_numero_44a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_44a.png
+
+newmtl yotalo_numero_48a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_48a.png
+
+newmtl yotalo_numero_50a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_50a.png
+
+newmtl yotalo_numero_52a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_52a.png
+
+newmtl yotalo_numero_54a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_54a.png
+
+newmtl ruoho
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/ruoho.png
+
+newmtl yotalo_numero_25a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_25a.png
+
+newmtl yotalo_numero_27a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_27a.png
+
+newmtl yotalo_numero_29a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_29a.png
+
+newmtl yotalo_numero_31a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_31a.png
+
+newmtl yotalo_numero_42a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_42a.png
+
+newmtl yotalo_numero_40a
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd yokyla_40-54/yotalo_numero_40a.png
+
+newmtl default_material
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+

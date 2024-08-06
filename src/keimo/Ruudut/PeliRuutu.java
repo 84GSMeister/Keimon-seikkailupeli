@@ -3,7 +3,7 @@ package keimo.Ruudut;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PääIkkuna;
-import keimo.TavoiteLista;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
 import keimo.NPCt.*;
@@ -28,7 +28,7 @@ public class PeliRuutu {
     public static JPanel vasenYläPaneeli, vasenKeskiPaneeli, vasenAlaPaneeli, oikeaYläPaneeli, oikeaKeskiPaneeli, oikeaAlaPaneeli;
     public static JLabel vasenYläPaneelinTausta, vasenKeskiPaneelinTausta, vasenAlaPaneelinTausta, oikeaYläPaneelinTausta, oikeaKeskiPaneelinTausta, oikeaAlaPaneelinTausta;
     public static JLayeredPane peliKentänTaustaPaneli;
-    public static JLayeredPane peliKenttä;
+    public static PelikenttäPaneli peliKenttä;
     public static JScrollPane scrollaavaPelikenttä;
     public static JPanel scrollaavanPelikentänPaneeli;
     public static JPanel vuoropuhePaneli, vuoropuhePaneliOikea, pausePaneli, lisäRuutuPaneli;
@@ -50,7 +50,7 @@ public class PeliRuutu {
     static JLabel[][] kenttäKohteenKuvake;
     static JLabel[][] maastoKohteenKuvake;
     static JLabel[] npcKuvake;
-    static JLabel[] ammusKuvake;
+    //static EntitySprite[] entityKuvake;
     public static JPanel peliAluePaneli;// = luoPeliRuudunGUI();
     static DecimalFormat df = new DecimalFormat("##.##");
     protected static ImageIcon[][] kenttäkohteenSkaalattuKuvake = new ImageIcon[Peli.kentänKoko][Peli.kentänKoko];
@@ -112,7 +112,7 @@ public class PeliRuutu {
         lisäRuutuPaneli.setBounds(128, 128, 384, 384);
         lisäRuutuPaneli.setVisible(false);
         
-        peliKenttä = new JLayeredPane();
+        peliKenttä = new PelikenttäPaneli();
         peliKenttä.setLayout(null);
         peliKenttä.setPreferredSize(new Dimension(640, 640));
         peliKenttä.setComponentZOrder(vuoropuhePaneli, 0);
@@ -772,6 +772,8 @@ public class PeliRuutu {
             peliKentänTaustaPaneli.add(alaPaneeli, Integer.valueOf(4), 0);
             peliKentänTaustaPaneli.add(lisäRuutuPaneli, Integer.valueOf(7), 0);
             peliKentänTaustaPaneli.add(pausePaneli, Integer.valueOf(8), 0);
+
+            scrollaaPeliRuutua();
             
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
@@ -844,27 +846,13 @@ public class PeliRuutu {
                     peliKenttä.add(npcKuvake[i], Integer.valueOf(3), 0);
                 }
             }
-            if (Peli.ammusLista != null) {
-                ammusKuvake = new JLabel[Peli.ammusLista.size()];
-                for (int i = 0; i < Peli.ammusLista.size(); i++) {
-                    Ammus ammus = Peli.ammusLista.get(i);
-                    ammusKuvake[i] = new JLabel();
-                    ammusKuvake[i].setName("ammus" + i);
-                    ammusKuvake[i].setIcon(ammus.annaKuvake());
-                    ammusKuvake[i].setBounds((int)ammus.hitbox.getMinX(), (int)ammus.hitbox.getMinY(), 16, 16);
-                    if (PääIkkuna.reunatNäkyvissä) {
-                        ammusKuvake[i].setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
-                    }
-                    else {
-                        ammusKuvake[i].setBorder(null);
-                    }
-                    peliKenttä.add(ammusKuvake[i], Integer.valueOf(3), 0);
-                }
-            }
-            else {
-                ammusKuvake = new JLabel[10];
-                for (int i = 0; i < ammusKuvake.length; i++) {
-                    ammusKuvake[i] = new JLabel();
+            if (Peli.entityLista != null) {
+                for (int i = 0; i < Peli.entityLista.size(); i++) {
+                    Entity entity = Peli.entityLista.get(i);
+                    entity.setName("entity" + i);
+                    entity.setIcon(entity.annaKuvake());
+                    entity.setBounds(entity.hitbox.getBounds());
+                    peliKenttä.add(entity, Integer.valueOf(3), 0);
                 }
             }
             latausTausta.setVisible(false);
@@ -978,24 +966,14 @@ public class PeliRuutu {
                     }
                 }
             }
-            if (Peli.ammusLista != null) {
-                for (int i = 0; i < Peli.ammusLista.size(); i++) {
-                    Ammus ammus = Peli.ammusLista.get(i);
-                    if (Peli.ammusLista.size() == ammusKuvake.length) {
-                        if (ammusKuvake[i] != null && ammus != null) {
-                            ammusKuvake[i].setIcon(ammus.annaKuvake());
-                            ammusKuvake[i].setName("ammus " + i);
-                            if (ammus.hitbox.getBounds().getMinX() > 0 && ammus.hitbox.getBounds().getMaxX() < Peli.kentänKoko * esineenKokoPx) {
-                                ammusKuvake[i].setVisible(true);
-                                ammusKuvake[i].setBounds(ammus.hitbox.getBounds());
-                            }
-                            else {
-                                ammusKuvake[i].setVisible(false);
-                            }
-                        }
-                    }
+            if (Peli.entityLista != null) {
+                for (int i = 0; i < Peli.entityLista.size(); i++) {
+                    Entity entity = Peli.entityLista.get(i);
+                    entity.setBounds(entity.hitbox.getBounds());
                 }
             }
+            peliKenttä.revalidate();
+            peliKenttä.repaint();
             if (Peli.huone != null) {
                 alueInfoLabel.setText(Peli.huone.annaAlue());
             }
@@ -1129,7 +1107,7 @@ public class PeliRuutu {
                     if (Peli.npcLista.size() == npcKuvake.length) {
                         if (tileLiikkuu) {
                             if (npcKuvake[Peli.npcLista.indexOf(npc)] != null && npc != null) {
-                                npcKuvake[Peli.npcLista.indexOf(npc)].setIcon(npc.kuvake);
+                                npcKuvake[Peli.npcLista.indexOf(npc)].setIcon(npc.annaKuvake());
                                 npcKuvake[Peli.npcLista.indexOf(npc)].setBounds((int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getX() + hajontaX + hajontaXKaikki, (int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getY() + hajontaY + hajontaYKaikki, (int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getWidth(), (int)npcKuvake[Peli.npcLista.indexOf(npc)].getBounds().getHeight());
                             }
                         }
@@ -1201,7 +1179,7 @@ public class PeliRuutu {
                 for (int i = 0; i < Peli.npcLista.size(); i++) {
                     NPC npc = Peli.npcLista.get(i);
                     npcKuvake[i] = new JLabel();
-                    npcKuvake[i].setIcon(npc.kuvake);
+                    npcKuvake[i].setIcon(npc.annaKuvake());
                     npcKuvake[i].setBounds((int)npc.hitbox.getMinX(), (int)npc.hitbox.getMinY(), pelaajanKokoPx, pelaajanKokoPx);
                     if (PääIkkuna.reunatNäkyvissä) {
                         npcKuvake[i].setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
@@ -1238,38 +1216,22 @@ public class PeliRuutu {
 
     public static void päivitäAmmusKenttä() {
         try {
-            if (Peli.ammusLista != null) {
+            if (Peli.entityLista != null) {
                 for (Component comp : peliKenttä.getComponents()) {
                     if (comp.getName() != null) {
-                        if (comp.getName().contains("ammus")) {
+                        if (comp.getName().contains("entity")) {
                             peliKenttä.remove(comp);
                         }
                     }
                 }
-                ammusKuvake = new JLabel[Peli.ammusLista.size()];
-                for (int i = 0; i < ammusKuvake.length; i++) {
-                    if (Peli.ammusLista.size() > i) {
-                        Ammus ammus = Peli.ammusLista.get(i);
-                        if (ammus != null) {
-                            ammusKuvake[i] = new JLabel();
-                            ammusKuvake[i].setIcon(ammus.annaKuvake());
-                            ammusKuvake[i].setBounds((int)ammus.hitbox.getMinX(), (int)ammus.hitbox.getMinY(), 16, 16);
-                            if (PääIkkuna.reunatNäkyvissä) {
-                                ammusKuvake[i].setBorder(BorderFactory.createLineBorder(Color.red, 1, false));
-                            }
-                            else {
-                                ammusKuvake[i].setBorder(null);
-                            }
-                            peliKenttä.add(ammusKuvake[i], Integer.valueOf(3), 0);
-                        }
+                if (Peli.entityLista != null) {
+                    for (int i = 0; i < Peli.entityLista.size(); i++) {
+                        Entity entity = Peli.entityLista.get(i);
+                        entity.setName("entity" + i);
+                        entity.setIcon(entity.annaKuvake());
+                        entity.setBounds(entity.hitbox.getBounds());
+                        peliKenttä.add(entity, Integer.valueOf(3), 0);
                     }
-                }
-            }
-            else {
-                for (int i = 0; i < ammusKuvake.length; i++) {
-                    ammusKuvake[i] = new JLabel(new ImageIcon());
-                    ammusKuvake[i].setName("ammus " + i);
-                    peliKenttä.add(ammusKuvake[i], Integer.valueOf(3), 0);
                 }
             }
         }

@@ -66,6 +66,7 @@ public final class Juhani extends NPC_KenttäKohde {
         super.nimi = "Juhani";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif");
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png");
+        super.tiedostonNimi = "juhani.gif";
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
         super.asetaTiedot();
     }

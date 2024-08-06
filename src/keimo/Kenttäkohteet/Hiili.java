@@ -37,6 +37,7 @@ public final class Hiili extends Esine {
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/hiili.png");
+        super.tiedostonNimi = "hiili.png";
         super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
         super.asetaTiedot();
     }

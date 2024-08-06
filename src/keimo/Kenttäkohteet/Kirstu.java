@@ -1,7 +1,7 @@
 package keimo.Kenttäkohteet;
 
 import keimo.PääIkkuna;
-import keimo.TavoiteLista;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 
 import javax.swing.ImageIcon;
 

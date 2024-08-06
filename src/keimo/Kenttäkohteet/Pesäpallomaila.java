@@ -31,6 +31,7 @@ public final class Pesäpallomaila extends Esine {
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Pikkuvihu");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/pesäpallomaila.png");
+        super.tiedostonNimi = "pesäpallomaila.png";
         super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
         super.käyttöTeksti = "Löit vihollista turpaan";
         super.vahinko = 1;

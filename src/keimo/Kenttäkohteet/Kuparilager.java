@@ -56,6 +56,7 @@ public final class Kuparilager extends Esine {
         super.katsomisTeksti = "Uskollinen kupari";
         super.käyttö = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuparilager.png");
+        super.tiedostonNimi = "kuparilager.png";
         super.hinta = 1.05;
         super.asetaTiedot();
     }

@@ -1,0 +1,249 @@
+#
+## Alias MTL Material File
+# Converted from SKP by LIPID Lightsolve
+
+newmtl monitor_black
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/monitor_black.png
+
+newmtl monitor_gray
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/monitor_gray.png
+
+newmtl wall
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wall.png
+
+newmtl door
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/door.png
+
+newmtl wood_railing
+Ka 0.000000 0.000000 0.000000
+Kd 0.756863 0.756863 0.756863
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_railing.png
+
+newmtl n64_logo
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/n64_logo.png
+
+newmtl n64_controller_port
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/n64_controller_port.png
+
+newmtl n64_cartridge_mario64
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/n64_cartridge_mario64.png
+
+newmtl n64_cartridge_gray
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/n64_cartridge_gray.png
+
+newmtl wood_closet
+Ka 0.000000 0.000000 0.000000
+Kd 0.952941 0.976471 0.976471
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_closet.png
+
+newmtl wood_closet_edge
+Ka 0.000000 0.000000 0.000000
+Kd 0.937255 0.937255 0.937255
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_closet_edge.png
+
+newmtl wall_tile
+Ka 0.000000 0.000000 0.000000
+Kd 0.886275 0.886275 0.886275
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wall_tile.png
+
+newmtl floor_planks
+Ka 0.000000 0.000000 0.000000
+Kd 0.588235 0.419608 0.196078
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/floor_planks.png
+
+newmtl wood_table
+Ka 0.000000 0.000000 0.000000
+Kd 0.65098 0.666667 0.666667
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_table.png
+
+newmtl table_leg
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/metal_bar.png
+
+newmtl window
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/window.png
+
+newmtl bed_leg
+Ka 0.000000 0.000000 0.000000
+Kd 0.756863 0.643137 0.505882
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/bed_leg.png
+
+newmtl bed
+Ka 0.000000 0.000000 0.000000
+Kd 0.619608 0.756863 0.678431
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/bed.png
+
+newmtl bed_dark_turquoise
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/bed_dark_turquoise.png
+
+newmtl chair_black
+Ka 0.000000 0.000000 0.000000
+Kd 0.0470588 0.0470588 0.0470588
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/chair_black.png
+
+newmtl keyboard
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/keyboard.png
+
+newmtl floor_bathroom
+Ka 0.000000 0.000000 0.000000
+Kd 0.529412 0.588235 0.666667
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/floor_bathroom.png
+
+newmtl carpet
+Ka 0.000000 0.000000 0.000000
+Kd 0.254902 0.258824 0.266667
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/carpet.png
+
+newmtl sink
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/sink2.png
+
+newmtl oven_front
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/oven_front.png
+
+newmtl oven_top
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/oven_top.png
+
+newmtl cable_black
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/cable_black.png
+
+newmtl PC_case_front
+Ka 0.000000 0.000000 0.000000
+Kd 0.2 0.2 0.2
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/PC_case_front.png
+
+newmtl cable_black1
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/cable_black.png
+
+newmtl PC_case_rear
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/PC_case_rear.png
+
+newmtl metal_pipe
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/metal_pipe.png
+
+newmtl chair_wheel
+Ka 0.000000 0.000000 0.000000
+Kd 0.203922 0.207843 0.196078
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/chair_wheel.png
+
+newmtl white_ceramic
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/white_ceramic.png
+
+newmtl white_bar
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/white_bar.png
+
+newmtl n64_controller
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/n64_controller_2.png
+
+newmtl wood_beam
+Ka 0.000000 0.000000 0.000000
+Kd 0.2 0.160784 0.121569
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_beam.png
+
+newmtl chair_cushion
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/chair_cushion.png
+
+newmtl wood_planks_3
+Ka 0.000000 0.000000 0.000000
+Kd 0.639216 0.505882 0.356863
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_planks_3.png
+
+newmtl wood_chair
+Ka 0.000000 0.000000 0.000000
+Kd 0.556863 0.380392 0.2
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_chair.png
+
+newmtl wood_planks
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.282353 0
+Ks 0.330000 0.330000 0.330000
+map_Kd asunto_yokyla/wood_planks.png
+
+newmtl default_material
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+

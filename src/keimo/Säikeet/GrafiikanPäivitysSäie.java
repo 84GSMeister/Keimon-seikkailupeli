@@ -2,6 +2,7 @@ package keimo.Säikeet;
 
 import keimo.*;
 import keimo.HuoneEditori.*;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Ikkunat.DebugInfoIkkuna;
 import keimo.Kenttäkohteet.KauppaRuutu;

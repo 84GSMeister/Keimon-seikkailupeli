@@ -56,6 +56,7 @@ public class Jallupullo extends Esine {
         super.katsomisTeksti = "Elämän eliksiiri.";
         super.käyttö = true;
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/jallupullo.png");
+        super.tiedostonNimi = "jallupullo.png";
         super.hinta = 18;
         super.asetaTiedot();
     }

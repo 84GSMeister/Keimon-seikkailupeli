@@ -35,6 +35,7 @@ public final class Vesiämpäri extends Esine {
         super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
         super.sopiiKäytettäväksi.add("Nuotio");
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
+        super.tiedostonNimi = "vesiämpäri.png";
         super.vahinko = 2;
         super.asetaTiedot();
     }

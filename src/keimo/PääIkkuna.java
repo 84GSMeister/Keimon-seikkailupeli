@@ -24,7 +24,7 @@ public final class PääIkkuna {
     static JMenuItem huoneenVaihto, mukauta, huoneEditori, debugIkkuna, interrupt;
     static JMenuItem uusiPeli, asetukset, ohjeet, tekijät;
     static JCheckBoxMenuItem näytäSijainti, näytäFPS, näytäReunat, näytäTapahtumapalkki;
-    static JMenuItem menuF2, menuF3, menuF4, menuF5;
+    static JMenuItem menuF2, menuF3, menuF4, menuF5, menuF6;
     public static JLabel hudTeksti;
     static JLabel tavoiteTeksti1;
     static JLabel tavoiteTeksti2;
@@ -68,7 +68,7 @@ public final class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v0.9 pre-alpha (22.3.2024)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v0.9.1 pre-alpha (6.8.2024)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -188,7 +188,7 @@ public final class PääIkkuna {
             }
         });
 
-        menuF4 = new JMenuItem("Uudelleenpiirrä Entityt");
+        menuF4 = new JMenuItem("Uudelleenpiirrä taustat");
         menuF4.setAccelerator(KeyStroke.getKeyStroke("F4"));
         menuF4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -197,12 +197,20 @@ public final class PääIkkuna {
             }
         });
 
-        menuF5 = new JMenuItem("Uudelleenpiirrä Objektit");
+        menuF5 = new JMenuItem("Uudelleenpiirrä objektit");
         menuF5.setAccelerator(KeyStroke.getKeyStroke("F5"));
         menuF5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PääIkkuna.uudelleenpiirräObjektit = true;
                 PeliRuutu.hudTeksti.setText("Objektien päivitys pakotettiin");
+            }
+        });
+
+        menuF6 = new JMenuItem("Luo entity");
+        menuF6.setAccelerator(KeyStroke.getKeyStroke("F6"));
+        menuF6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PeliKenttäMetodit.debugLuoEntity();
             }
         });
 
@@ -255,6 +263,7 @@ public final class PääIkkuna {
         debug.add(menuF3);
         debug.add(menuF4);
         debug.add(menuF5);
+        debug.add(menuF6);
         debug.add(new JSeparator());
         debug.add(huoneSubmenu);
         debug.add(new JSeparator());

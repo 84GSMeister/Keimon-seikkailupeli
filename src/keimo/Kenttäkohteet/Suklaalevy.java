@@ -33,6 +33,7 @@ public final class Suklaalevy extends Ruoka {
         super.nimi = "Suklaalevy";
         super.katsomisTeksti = "Voisin syödä tämän.";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/suklaalevy.png");
+        super.tiedostonNimi = "suklaalevy.png";
         super.heal = 2;
         super.hinta = 2.49;
         super.käyttö = true;

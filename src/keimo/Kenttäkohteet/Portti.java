@@ -48,6 +48,7 @@ public class Portti extends AvattavaEste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Portti";
         super.kuvake = new ImageIcon(t.createImage("tiedostot/kuvat/kenttäkohteet/portti.png"));
+        super.tiedostonNimi = "portti.png";
         super.katsomisTeksti = "portti";
         super.asetaTiedot();
     }

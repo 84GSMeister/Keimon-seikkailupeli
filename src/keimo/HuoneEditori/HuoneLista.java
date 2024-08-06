@@ -5,6 +5,7 @@ import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.Ikkunat.LatausIkkuna;
 import keimo.Kenttäkohteet.*;
 import keimo.Maastot.Maasto;
+import keimo.NPCt.TyönnettäväLaatikko;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -285,6 +286,11 @@ public class HuoneLista {
         // }
         // Huone testiHuone = new Huone(testiHuoneenId, testihuoneenKoko, "testihuone", null, "testialue", kenttäKohdeLista, maastoLista, null, null, null);
         // huoneKartta.put(testiHuoneenId, testiHuone);
+
+        /**
+         * Debug spawn
+         */
+        //Peli.ammusLista.add(new TyönnettäväLaatikko(12, 12));
 
         return huoneKartta;
     }

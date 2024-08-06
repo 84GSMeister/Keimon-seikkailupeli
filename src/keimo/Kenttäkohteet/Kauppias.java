@@ -71,6 +71,7 @@ public final class Kauppias extends NPC_KenttäKohde {
         super.nimi = "Kauppias";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias.png");
         super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+        super.tiedostonNimi = "kauppias.png";
         super.katsomisTeksti = "Kylien kauppias";
         super.asetaTiedot();
     }

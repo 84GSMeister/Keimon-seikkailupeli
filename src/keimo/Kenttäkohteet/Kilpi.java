@@ -28,6 +28,7 @@ public final class Kilpi extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kilpi";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kilpi.png");
+        super.tiedostonNimi = "kilpi.png";
         super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
         super.asetaTiedot();
     }

@@ -34,6 +34,7 @@ public final class Kolikko extends Kerättävä {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kolikko";
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kolikko.png");
+        super.tiedostonNimi = "kolikko.png";
         super.asetaTiedot();
     }
 }

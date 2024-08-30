@@ -4,6 +4,7 @@ import keimo.*;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
 import keimo.Ikkunat.LatausIkkuna;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.KeimoFontit;
 
 import javax.swing.*;
@@ -195,6 +196,9 @@ public class TarinaRuutu {
                 PääIkkuna.lataaRuutu("peliruutu");
                 PääIkkuna.ikkuna.requestFocus();
                 Pelaaja.pakotaPelaajanPysäytys();
+                if (Peli.huone != null) {
+                    ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
+                }
                 Peli.pause = false;
             }
         }
@@ -204,6 +208,7 @@ public class TarinaRuutu {
             img.flush();
             kuva.setIcon(new ImageIcon(img));
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
 
     static class TarinaRuudunKontrollit implements KeyListener {

@@ -4,6 +4,7 @@ import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.*;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Vartija extends Vihollinen {
 
@@ -11,14 +12,13 @@ public class Vartija extends Vihollinen {
     
     @Override
     public void kukista(String kukistusTapa) {
-        if (!this.kukistettu) {
-            this.kukistettu = true;
-            switch (kukistusTapa) {
-                case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
-                case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png"); break;
-                default: this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
-            }
+        super.kukista(kukistusTapa);
+        switch (kukistusTapa) {
+            case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
+            case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png"); break;
+            default: this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
         }
+        JOptionPane.showMessageDialog(null, "Huijaatko?", "", JOptionPane.QUESTION_MESSAGE);
     }
 
     @Override

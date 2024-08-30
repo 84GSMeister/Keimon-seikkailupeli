@@ -1,6 +1,7 @@
 package keimo.Ruudut;
 
 import keimo.*;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
@@ -377,6 +378,7 @@ public class LoppuRuutu {
             default:
                 break;
         }
+        ÄänentoistamisSäie.toistaSFX("valinta");
     }
 
     static void päivitäOsoittimenSijainti(int valinta) {
@@ -393,6 +395,7 @@ public class LoppuRuutu {
     static void hyväksy(int valinta) {
 
         if (kelausViive <= 0) {
+            ÄänentoistamisSäie.toistaSFX("hyväksy");
             switch (valinta) {
                 case 0: // Uusi peli
                     PääIkkuna.uusiIkkuna = true;

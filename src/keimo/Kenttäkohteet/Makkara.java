@@ -24,7 +24,8 @@ public final class Makkara extends Ruoka {
     }
     
     @Override
-    public String käytä(){
+    public String käytä() {
+        super.käytä();
         super.poista = true;
         if (käristetty) {
             super.heal = -1;

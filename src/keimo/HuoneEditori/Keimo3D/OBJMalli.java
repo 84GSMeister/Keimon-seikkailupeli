@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class OBJMalli implements GLEventListener {
+public class OBJMalli {
 
     Build builder;
     Random random = new Random();
@@ -36,16 +36,41 @@ public class OBJMalli implements GLEventListener {
     float scale = 1;
     boolean invertYZ = false;
 
-    public static int randU1 = 0;
-    public static int randV1 = 0;
-    public static int randU2 = 0;
-    public static int randV2 = 0;
-    public static int randU3 = 0;
-    public static int randV3 = 0;
+    public static float randU1 = 0;
+    public static float randV1 = 0;
+    public static float randU2 = 0;
+    public static float randV2 = 0;
+    public static float randU3 = 0;
+    public static float randV3 = 0;
 
-    @Override
-    public void display(GLAutoDrawable glautodrawable) {
-        GL2 gl = glautodrawable.getGL().getGL2();
+    public void alusta(GL2 gl) {
+        try {
+            String textureFileName = defaultTextureFileName;
+            File im = new File(textureFileName);
+            Texture t = TextureIO.newTexture(im, true);
+            defaultTextureInt = t.getTextureObject(gl);
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        };
+        for (Material m : builder.materialLib.values()) {
+            System.out.println(m.mapKdFilename);
+            if (m.mapKdFilename != null) {
+                try {
+                    String textureFileName = "tiedostot/3d-objektit/" + modelName + "/" + m.mapKdFilename;
+                    File im = new File(textureFileName);
+                    Texture t = TextureIO.newTexture(im, true);
+                    textureInts.add(t.getTextureObject(gl));
+                    textureFileNames.add(m.mapKdFilename);
+                }
+                catch (IOException ioe) {
+                    ioe.printStackTrace();
+                };
+            }
+        }
+    }
+
+    public void piirrä(GL2 gl) {
         gl.glColor3f(1f, 1f, 1f);
         if (builder != null) {
             for (Face f : builder.faces) {
@@ -73,14 +98,44 @@ public class OBJMalli implements GLEventListener {
                 //     }
                 // }
                 try {
+                    //System.out.println("Objekti: ");
                     for (int i = 0; i < f.vertices.size(); i++) {
                         FaceVertex fv1 = f.vertices.get(0);
                         FaceVertex fv2 = f.vertices.get(1);
                         FaceVertex fv3 = f.vertices.get(2);
+                        float minU = 0;
+                        float minV = 0;
+                        if (fv1.t != null && fv2.t != null && fv3.t != null) {
+                            if (fv1.t.u < 0 || fv2.t.u < 0 || fv3.t.u < 0) {
+                                minU = fv1.t.u;
+                                if (fv2.t.u < fv1.t.u) {
+                                    minU = fv2.t.u;
+                                    if (fv3.t.u < fv2.t.u) {
+                                        minU = fv3.t.u;
+                                    }
+                                }
+                                else if (fv3.t.u < fv1.t.u) {
+                                    minU = fv3.t.u;
+                                }
+                            }
+                            if (fv1.t.v < 0 || fv2.t.v < 0 || fv3.t.v < 0) {
+                                minV = fv1.t.v;
+                                if (fv2.t.v < fv1.t.v) {
+                                    minV = fv2.t.v;
+                                    if (fv3.t.v < fv2.t.v) {
+                                        minV = fv3.t.v;
+                                    }
+                                }
+                                else if (fv3.t.v < fv1.t.v) {
+                                    minV = fv3.t.v;
+                                }
+                            }
+                        }
                         if (fv1.t != null) {
-                            int u = 0, v = 0;
+                            //int u = 0, v = 0;
+                            float u = fv1.t.u, v = fv1.t.v;
                             //gl.glTexCoord2f(u, v);
-                            gl.glTexCoord2f(randU1, randV1);
+                            gl.glTexCoord2f(u + randU1 - minU, v + randV1 - minV);
                             //System.out.println("Vertex1: UV in file: " + fv1.t.u + ", " + fv1.t.v + "; UV in code: " + u + ", " + v + "; Normal: " + fv1.n.x + " " + fv1.n.y + " " + fv1.n.z);
                         }
                         if (invertYZ) {
@@ -90,9 +145,10 @@ public class OBJMalli implements GLEventListener {
                             gl.glVertex3f(fv1.v.x * scale + originX, fv1.v.y * scale + originY, fv1.v.z * scale + originZ);
                         }
                         if (fv2.t != null) {
-                            int u = 1, v = 1;
+                            //int u = 1, v = 0;
+                            float u = fv2.t.u, v = fv2.t.v;
                             //gl.glTexCoord2f(u, v);
-                            gl.glTexCoord2f(randU2, randV2);
+                            gl.glTexCoord2f(u + randU2 - minU, v + randV2 - minV);
                             //System.out.println("Vertex2: UV in file: " + fv2.t.u + ", " + fv2.t.v + "; UV in code: " + u + ", " + v + "; Normal: " + fv2.n.x + " " + fv2.n.y + " " + fv2.n.z);
                         }
                         if (invertYZ) {
@@ -102,9 +158,10 @@ public class OBJMalli implements GLEventListener {
                             gl.glVertex3f(fv2.v.x * scale + originX, fv2.v.y * scale + originY, fv2.v.z * scale + originZ);
                         }
                         if (fv3.t != null) {
-                            int u = 0, v = 1;
+                            //int u = 0, v = 1;
+                            float u = fv3.t.u, v = fv3.t.v;
                             //gl.glTexCoord2f(u, v);
-                            gl.glTexCoord2f(randU3, randV3);
+                            gl.glTexCoord2f(u + randU3 - minU, v + randV3 - minV);
                             //System.out.println("Vertex3: UV in file: " + fv3.t.u + ", " + fv3.t.v + "; UV in code: " + u + ", " + v + "; Normal: " + fv3.n.x + " " + fv3.n.y + " " + fv3.n.z);
                         }
                         if (invertYZ) {
@@ -114,6 +171,12 @@ public class OBJMalli implements GLEventListener {
                             gl.glVertex3f(fv3.v.x * scale + originX, fv3.v.y * scale + originY, fv3.v.z * scale + originZ);
                         }
                     }
+                    // try {
+                    //     Thread.sleep(10);
+                    // }
+                    // catch (InterruptedException e) {
+                    //     e.printStackTrace();
+                    // }
                 }
                 catch (IndexOutOfBoundsException ioobe) {
                     System.out.println("Only triangles supported.");
@@ -154,45 +217,6 @@ public class OBJMalli implements GLEventListener {
                 gl.glEnd();
             }
         }
-    }
-
-    @Override
-    public void dispose(GLAutoDrawable glautodrawable) {
-
-    }
-
-    @Override
-    public void init(GLAutoDrawable glautodrawable) {
-        final GL2 gl = glautodrawable.getGL().getGL2();
-        try {
-            String textureFileName = defaultTextureFileName;
-            File im = new File(textureFileName);
-            Texture t = TextureIO.newTexture(im, true);
-            defaultTextureInt = t.getTextureObject(gl);
-        }
-        catch (IOException ioe) {
-            ioe.printStackTrace();
-        };
-        for (Material m : builder.materialLib.values()) {
-            System.out.println(m.mapKdFilename);
-            if (m.mapKdFilename != null) {
-                try {
-                    String textureFileName = "tiedostot/3d-objektit/" + modelName + "/" + m.mapKdFilename;
-                    File im = new File(textureFileName);
-                    Texture t = TextureIO.newTexture(im, true);
-                    textureInts.add(t.getTextureObject(gl));
-                    textureFileNames.add(m.mapKdFilename);
-                }
-                catch (IOException ioe) {
-                    ioe.printStackTrace();
-                };
-            }
-        }
-    }
-
-    @Override
-    public void reshape(GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
-
     }
 
     public OBJMalli(String objNimi, float skaala, Point3D origin, boolean käännäYZ) {

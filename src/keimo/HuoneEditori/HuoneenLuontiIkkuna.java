@@ -86,7 +86,7 @@ public class HuoneenLuontiIkkuna {
         }
         System.out.println("Huoneeseen " + huoneenId + " asetetaan " + huoneenSisältöString);
         HuoneEditoriIkkuna.vaihdaHuonetta(HuoneEditoriIkkuna.muokattavaHuone, huoneenId, false);
-        Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
+        Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null, null);
         huoneenSisältöLista.removeAll(huoneenSisältöLista);
     }
 

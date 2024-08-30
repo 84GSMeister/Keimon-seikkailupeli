@@ -21,10 +21,10 @@ public class HuoneenVaihtoIkkuna {
     static String[] huoneidenNimet;
     static JComboBox<String> huoneValikko;
     static int valintojenMäärä = tekstit.length;
-    static int warppiTapa = 0;
+    //static int warppiTapa = 0;
     static JTextField kohdeHuoneTekstikenttä;
-    static JRadioButton warppaaIdllä, warppaaListalla;
-	static ButtonGroup warppiTapaValinta = new ButtonGroup();
+    //static JRadioButton warppaaIdllä, warppaaListalla;
+	//static ButtonGroup warppiTapaValinta = new ButtonGroup();
     static ArrayList<Integer> toimivatHuoneIndeksit = new ArrayList<Integer>();
 
     public static void luoHuoneenNimiLista() {
@@ -56,23 +56,23 @@ public class HuoneenVaihtoIkkuna {
         }
     }
     
-    static void tarkistaArvot(int valinta) {
-        switch (valinta) {
-            default:
-                try {
-                    int huoneenId = Integer.parseInt(kohdeHuoneTekstikenttä.getText());
-                    if (Peli.huoneKartta.containsKey(huoneenId)) {
-                        asetaArvot(huoneenId);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Huonetta ID:llä " + huoneenId + " ei löytynyt.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
-                }
-                break;
-            case 1:
+    static void tarkistaArvot() {
+        //switch (valinta) {
+            // default:
+            //     try {
+            //         int huoneenId = Integer.parseInt(kohdeHuoneTekstikenttä.getText());
+            //         if (Peli.huoneKartta.containsKey(huoneenId)) {
+            //             asetaArvot(huoneenId);
+            //         }
+            //         else {
+            //             JOptionPane.showMessageDialog(null, "Huonetta ID:llä " + huoneenId + " ei löytynyt.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
+            //         }
+            //     }
+            //     catch (NumberFormatException e) {
+            //         JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+            //     }
+            // break;
+            //default:
                 try {
                     //int huoneenId = toimivatHuoneIndeksit.get(huoneValikko.getSelectedIndex());
                     //huoneenId = Integer.parseInt("" + huoneidenNimet[huoneValikko.getSelectedIndex()].charAt(huoneidenNimet[huoneValikko.getSelectedIndex()].indexOf("(")));
@@ -90,18 +90,17 @@ public class HuoneenVaihtoIkkuna {
                 catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
                 }
-                break;
-        }
+            //break;
+        //}
     }
 
     static void asetaArvot(int huoneenId) {
-        Peli.lataaHuone(huoneenId);
-        Peli.uusiHuone = huoneenId;
-        Peli.huoneVaihdettava = true;
+        Peli.lataaHuone(huoneenId, true);
         ikkuna.dispose();
         if (Pelaaja.sijX >= Peli.huoneKartta.get(huoneenId).annaKoko() || Pelaaja.sijY >= Peli.huoneKartta.get(huoneenId).annaKoko()) {
             Pelaaja.teleport(0, 0);
         }
+        Pelaaja.teleporttaaLähimpäänTurvalliseenKohtaan(Pelaaja.sijX, Pelaaja.sijY);
         if (HuoneEditoriIkkuna.editoriAuki()) {
             HuoneEditoriIkkuna.lataaHuoneKartasta(huoneenId, false);
         }
@@ -124,32 +123,32 @@ public class HuoneenVaihtoIkkuna {
 
         JPanel paneli = new JPanel(new SpringLayout());
 
-        warppaaIdllä = new JRadioButton("");
-        warppaaIdllä.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				warppiTapa = 0;
-			}
-		});
-        kohdeHuoneTekstikenttä = new JTextField();
-        JLabel teksti0 = new JLabel(tekstit[0], JLabel.TRAILING);
-        teksti0.setLabelFor(kohdeHuoneTekstikenttä);
-        warppiTapaValinta.add(warppaaIdllä);
-        paneli.add(warppaaIdllä);
-        paneli.add(teksti0);
-        paneli.add(kohdeHuoneTekstikenttä);
+        // warppaaIdllä = new JRadioButton("");
+        // warppaaIdllä.addActionListener(new ActionListener() {
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		warppiTapa = 0;
+		// 	}
+		// });
+        // kohdeHuoneTekstikenttä = new JTextField();
+        // JLabel teksti0 = new JLabel(tekstit[0], JLabel.TRAILING);
+        // teksti0.setLabelFor(kohdeHuoneTekstikenttä);
+        // warppiTapaValinta.add(warppaaIdllä);
+        // paneli.add(warppaaIdllä);
+        // paneli.add(teksti0);
+        // paneli.add(kohdeHuoneTekstikenttä);
 
-        warppaaListalla = new JRadioButton("");
+        //warppaaListalla = new JRadioButton("");
         //warppaaListalla.setSelected(true);
-        warppaaListalla.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				warppiTapa = 1;
-			}
-		});
+        // warppaaListalla.addActionListener(new ActionListener() {
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		warppiTapa = 1;
+		// 	}
+		// });
         huoneValikko = new JComboBox<String>(huoneidenNimet);
         JLabel teksti1 = new JLabel(tekstit[1], JLabel.TRAILING);
         teksti1.setLabelFor(huoneValikko);
-        warppiTapaValinta.add(warppaaListalla);
-        paneli.add(warppaaListalla);
+        //warppiTapaValinta.add(warppaaListalla);
+        //paneli.add(warppaaListalla);
         paneli.add(teksti1);
         paneli.add(huoneValikko);
 
@@ -158,7 +157,7 @@ public class HuoneenVaihtoIkkuna {
         okNappi.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
                 if (!SwingUtilities.isRightMouseButton(e)) {
-                    tarkistaArvot(warppiTapa);
+                    tarkistaArvot();
                 }
             }
         });
@@ -172,21 +171,21 @@ public class HuoneenVaihtoIkkuna {
             }
         });
 
-        JButton kolmasNappi = new JButton("");
-        kolmasNappi.setVisible(false);
-        kolmasNappi.addMouseListener(new MouseAdapter() {
-            public void mousePressed (MouseEvent e) {
-                if (!SwingUtilities.isRightMouseButton(e)) {
-                    ikkuna.dispose();
-                }
-            }
-        });
+        // JButton kolmasNappi = new JButton("");
+        // kolmasNappi.setVisible(false);
+        // kolmasNappi.addMouseListener(new MouseAdapter() {
+        //     public void mousePressed (MouseEvent e) {
+        //         if (!SwingUtilities.isRightMouseButton(e)) {
+        //             ikkuna.dispose();
+        //         }
+        //     }
+        // });
 
-        paneli.add(kolmasNappi);
+        //paneli.add(kolmasNappi);
         paneli.add(okNappi);
         paneli.add(cancelNappi);
 
-        SpringUtilities.makeCompactGrid(paneli, 3, 3, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(paneli, 2, 2, 6, 6, 6, 6);
 
         ikkuna = new JFrame("Warppaa huoneeseen");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());

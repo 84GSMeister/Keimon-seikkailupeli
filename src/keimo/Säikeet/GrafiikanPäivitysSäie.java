@@ -13,6 +13,7 @@ import keimo.Ruudut.OsionAlkuRuutu;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Ruudut.TarinaRuutu;
 import keimo.Ruudut.ValikkoRuutu;
+import keimo.Ruudut.Lisäruudut.AsetusRuutu;
 import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Utility.*;
 import keimo.Utility.Käännettävä.Suunta;
@@ -507,6 +508,12 @@ public class GrafiikanPäivitysSäie extends Thread {
                 else {
                     PeliRuutu.kokoruudunTakatausta.setVisible(false);
                 }
+                if (Peli.asetuksetAuki) {
+                    Peli.asetuksetAuki = true;
+                    PeliRuutu.lisäRuutuPaneli.removeAll();
+                    PeliRuutu.lisäRuutuPaneli.add(AsetusRuutu.luoKompaktiValikkoRuutu());
+                    AsetusRuutu.nappiPaneliAsetukset.requestFocus();
+                }
                 PääIkkuna.ikkunanKokoMuutettuEnnenHuoneenLatuasta = true;
                 ikkunanPäivitys = false;
                 PeliRuutu.peliKenttäJaHUD.setBackground(Color.BLACK);
@@ -733,6 +740,8 @@ public class GrafiikanPäivitysSäie extends Thread {
                 }
                 if (PääIkkuna.uudelleenpiirräKenttä) {
                     PeliRuutu.peliKenttä.removeAll();
+                    if (PääIkkuna.isoSkaalaus) PeliRuutu.keskitäPelikenttä(Peli.kentänKoko, 960);
+                    else PeliRuutu.keskitäPelikenttä(Peli.kentänKoko, 640);
                     PeliRuutu.alustaPeliRuutu();
                     PääIkkuna.uudelleenpiirräKenttä = false;
                     PääIkkuna.uudelleenpiirräTaustat = true;
@@ -751,7 +760,6 @@ public class GrafiikanPäivitysSäie extends Thread {
                     PääIkkuna.uudelleenpiirräObjektit = true;
                 }
                 if (PääIkkuna.uudelleenpiirräObjektit) {
-                    PeliRuutu.päivitäNPCKenttä();
                     PeliRuutu.päivitäAmmusKenttä();
                     PääIkkuna.uudelleenpiirräObjektit = false;
                 }

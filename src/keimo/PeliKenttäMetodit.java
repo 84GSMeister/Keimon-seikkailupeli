@@ -30,7 +30,7 @@ public class PeliKenttäMetodit {
     }
 
     public static void suoritaPelikenttäMetoditJoka100Tick() {
-        poistaAmmukset();
+        //poistaAmmukset();
         luoAmmus();
         //debugLuoEntity();
     }
@@ -57,15 +57,20 @@ public class PeliKenttäMetodit {
         tarkistaVihollisCollision();
         tarkistaLiikutettavanEsineenCollision();
         Pelaaja.vähennäKuolemattomuusAikaa();
+        Pelaaja.vähennäHyökkäysAikaa();
         Peli.vähennäKäyttöViivettä();
         liikutaAmmuksia();
         liikutaVihollisia();
+        poistaTyhjätEsineetInvasta();
     }
 
     static void teleporttaaViholliset() {
         try {
-            for (NPC npc : Peli.npcLista) {
-                npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
+            for (Entity entity : Peli.entityLista) {
+                if (entity instanceof NPC) {
+                    NPC npc = (NPC)entity;
+                    npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
+                }
             }
         }
         catch (ConcurrentModificationException cme) {
@@ -93,14 +98,17 @@ public class PeliKenttäMetodit {
 
     static void tarkistaPaineLaatat() {
         try {
-            for (NPC npc : Peli.npcLista) {
-                if (npc instanceof Vihollinen) {
-                    Vihollinen v = (Vihollinen)npc;
-                    if (Peli.pelikenttä[v.sijX][v.sijY] instanceof Triggeri) {
-                        Triggeri trg = (Triggeri)Peli.pelikenttä[v.sijX][v.sijY];
-                        if (trg.annaVaadittuVihollinen() != null) {
-                            if (trg.annaVaadittuVihollinen().annaNimi().startsWith(v.annaNimi())) {
-                                trg.triggeröi();
+            for (Entity entity : Peli.entityLista) {
+                if (entity instanceof NPC) {
+                    NPC npc = (NPC)entity;
+                    if (npc instanceof Vihollinen) {
+                        Vihollinen v = (Vihollinen)npc;
+                        if (Peli.pelikenttä[v.sijX][v.sijY] instanceof Triggeri) {
+                            Triggeri trg = (Triggeri)Peli.pelikenttä[v.sijX][v.sijY];
+                            if (trg.annaVaadittuVihollinen() != null) {
+                                if (trg.annaVaadittuVihollinen().annaNimi().startsWith(v.annaNimi())) {
+                                    trg.triggeröi();
+                                }
                             }
                         }
                     }
@@ -132,6 +140,19 @@ public class PeliKenttäMetodit {
         }
     }
 
+    static void poistaTyhjätEsineetInvasta() {
+        for (int i = 0; i < Pelaaja.esineet.length; i++) {
+            if (Pelaaja.esineet[i] != null) {
+                if (Pelaaja.esineet[i].poistoon()) {
+                    if (Peli.valittuEsine == Pelaaja.esineet[i]) {
+                        Peli.valittuEsine = null;
+                    }
+                    Pelaaja.esineet[i] = null;
+                }
+            }
+        }
+    }
+
     static void tarkistaVihollistenLiikerata() {
         Vihollinen.liikkeenPituus = PeliRuutu.esineenKokoPx;
     }
@@ -139,436 +160,438 @@ public class PeliKenttäMetodit {
     static boolean liikutaVihollisia() {
         boolean vihollinenLiikutettiin = false;
         //boolean pelaajanKohdallaVihollinen = false;
-        try {
-            if (Peli.npcLista != null) {
-                for (NPC npc : Peli.npcLista) {
-                    if (npc instanceof Vihollinen) {
-                        Vihollinen vihollinen = (Vihollinen)npc;
-                        if (!vihollinen.onkoKukistettu()) {
-                            vihollinen.vähennäHurtAikaa();
-                            vihollinen.valitseKuvake();
-                            switch (vihollinen.liikeTapa) {
-                                case LOOP_NELIÖ_MYÖTÄPÄIVÄÄN:
-                                    if (vihollinen.liikuVielä > 0) {
-                                        vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöMyötäpäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöMyötäpäivään.length]);
-                                        vihollinen.liikuVielä--;
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case LOOP_NELIÖ_VASTAPÄIVÄÄN:
-                                    if (vihollinen.liikuVielä > 0) {
-                                        vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöVastapäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöVastapäivään.length]);
-                                        vihollinen.liikuVielä--;
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case LOOP_VASEN_OIKEA:
-                                    if (vihollinen.liikuVielä > 0) {
-                                        vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopVasenOikea[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length]);
-                                        vihollinen.liikuVielä--;
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case LOOP_YLÖS_ALAS:
-                                    if (vihollinen.liikuVielä > 0) {
-                                        vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopYlösAlas[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length]);
-                                        vihollinen.liikuVielä--;
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI:
-                                    if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöMyötäpäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöMyötäpäivään.length])) {
+        synchronized(Peli.entityLista) {
+            try {
+                if (Peli.entityLista != null) {
+                    for (Entity npc : Peli.entityLista) {
+                        if (npc instanceof Vihollinen) {
+                            Vihollinen vihollinen = (Vihollinen)npc;
+                            if (!vihollinen.onkoKukistettu()) {
+                                vihollinen.vähennäHurtAikaa();
+                                vihollinen.valitseKuvake();
+                                switch (vihollinen.liikeTapa) {
+                                    case LOOP_NELIÖ_MYÖTÄPÄIVÄÄN:
+                                        if (vihollinen.liikuVielä > 0) {
+                                            vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöMyötäpäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöMyötäpäivään.length]);
+                                            vihollinen.liikuVielä--;
+                                        }
+                                        else {
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                        }
+                                    break;
+                                    case LOOP_NELIÖ_VASTAPÄIVÄÄN:
+                                        if (vihollinen.liikuVielä > 0) {
+                                            vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöVastapäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöVastapäivään.length]);
+                                            vihollinen.liikuVielä--;
+                                        }
+                                        else {
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                        }
+                                    break;
+                                    case LOOP_VASEN_OIKEA:
+                                        if (vihollinen.liikuVielä > 0) {
+                                            vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopVasenOikea[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length]);
+                                            vihollinen.liikuVielä--;
+                                        }
+                                        else {
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                        }
+                                    break;
+                                    case LOOP_YLÖS_ALAS:
+                                        if (vihollinen.liikuVielä > 0) {
+                                            vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopYlösAlas[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length]);
+                                            vihollinen.liikuVielä--;
+                                        }
+                                        else {
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                        }
+                                    break;
+                                    case NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI:
+                                        if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöMyötäpäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöMyötäpäivään.length])) {
 
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI:
-                                    if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöVastapäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöVastapäivään.length])) {
-                                        
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case VASEN_OIKEA_ESTEESEEN_ASTI:
-                                    if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopVasenOikea[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length])) {
-                                        ;
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case YLÖS_ALAS_ESTEESEEN_ASTI:
-                                    if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopYlösAlas[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length])) {
-                                        ;
-                                    }
-                                    else {
-                                        vihollinen.liikeLoopinVaihe++;
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                    }
-                                break;
-                                case VARTIJA_LIIKE:
-                                    if (vihollinen instanceof Vartija) {
-                                        Vartija vartija = (Vartija)vihollinen;
-                                        if (Peli.huone != null) {
-                                            if (Peli.huone.annaNimi().startsWith("Kauppa")) {
-                                                if (Pelaaja.ostostenHintaYhteensä > 0 && Pelaaja.sijY < 4) {
-                                                    vartija.liikkuu = true;
-                                                    vartija.tekeeVahinkoa = true;
-                                                }
-                                                else {
-                                                    vartija.liikkuu = false;
-                                                    vartija.tekeeVahinkoa = false;
-                                                }
-                                            }
-                                        }
-                                        if (vartija.liikkuu) {
-                                            int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
-                                            int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
-                                            int etäisyysXits = (int)Math.abs(etäisyysX);
-                                            int etäisyysYits = (int)Math.abs(etäisyysY);
-                                            if (etäisyysXits > etäisyysYits) {
-                                                if (etäisyysX < 0) {
-                                                    vartija.kokeileLiikkumista(Suunta.VASEN);
-                                                }
-                                                else {
-                                                    vartija.kokeileLiikkumista(Suunta.OIKEA);
-                                                }
-                                            }
-                                            else {
-                                                if (etäisyysY < 0) {
-                                                    vartija.kokeileLiikkumista(Suunta.YLÖS);
-                                                }
-                                                else {
-                                                    vartija.kokeileLiikkumista(Suunta.ALAS);
-                                                }
-                                            }
-                                        }
-                                    }
-                                break;
-                                case SEURAA_PELAAJAA:
-                                    int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
-                                    int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
-                                    int etäisyysXits = (int)Math.abs(etäisyysX);
-                                    int etäisyysYits = (int)Math.abs(etäisyysY);
-                                    if (etäisyysXits > etäisyysYits) {
-                                        if (etäisyysX < 0) {
-                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
                                         }
                                         else {
-                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                         }
-                                    }
-                                    else {
-                                        if (etäisyysY < 0) {
-                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                    break;
+                                    case NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI:
+                                        if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopNeliöVastapäivään[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopNeliöVastapäivään.length])) {
+                                            
                                         }
                                         else {
-                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
                                         }
-                                    }
-                                break;
-                                case SEURAA_REITTIÄ:
-                                    if (vihollinen.reitti != null) {
-                                        if (vihollinen.reitti.size() >= 1) {
-                                            PathFindingExample.Point seuraavaPiste = vihollinen.reitti.get(0);
-                                            if (vihollinen.sijX == seuraavaPiste.x && vihollinen.sijY == seuraavaPiste.y) {
-                                                vihollinen.reitti.remove(0);
+                                    break;
+                                    case VASEN_OIKEA_ESTEESEEN_ASTI:
+                                        if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopVasenOikea[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length])) {
+                                            ;
+                                        }
+                                        else {
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                        }
+                                    break;
+                                    case YLÖS_ALAS_ESTEESEEN_ASTI:
+                                        if (vihollinen.kokeileLiikkumista(vihollinen.liikeSuuntaLoopYlösAlas[vihollinen.liikeLoopinVaihe % vihollinen.liikeSuuntaLoopVasenOikea.length])) {
+                                            ;
+                                        }
+                                        else {
+                                            vihollinen.liikeLoopinVaihe++;
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                        }
+                                    break;
+                                    case VARTIJA_LIIKE:
+                                        if (vihollinen instanceof Vartija) {
+                                            Vartija vartija = (Vartija)vihollinen;
+                                            if (Peli.huone != null) {
+                                                if (Peli.huone.annaNimi().startsWith("Kauppa")) {
+                                                    if (Pelaaja.ostostenHintaYhteensä > 0 && Pelaaja.sijY < 4) {
+                                                        vartija.liikkuu = true;
+                                                        vartija.tekeeVahinkoa = true;
+                                                    }
+                                                    else {
+                                                        vartija.liikkuu = false;
+                                                        vartija.tekeeVahinkoa = false;
+                                                    }
+                                                }
+                                            }
+                                            if (vartija.liikkuu) {
+                                                int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
+                                                int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
+                                                int etäisyysXits = (int)Math.abs(etäisyysX);
+                                                int etäisyysYits = (int)Math.abs(etäisyysY);
+                                                if (etäisyysXits > etäisyysYits) {
+                                                    if (etäisyysX < 0) {
+                                                        vartija.kokeileLiikkumista(Suunta.VASEN);
+                                                    }
+                                                    else {
+                                                        vartija.kokeileLiikkumista(Suunta.OIKEA);
+                                                    }
+                                                }
+                                                else {
+                                                    if (etäisyysY < 0) {
+                                                        vartija.kokeileLiikkumista(Suunta.YLÖS);
+                                                    }
+                                                    else {
+                                                        vartija.kokeileLiikkumista(Suunta.ALAS);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    break;
+                                    case SEURAA_PELAAJAA:
+                                        int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
+                                        int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
+                                        int etäisyysXits = (int)Math.abs(etäisyysX);
+                                        int etäisyysYits = (int)Math.abs(etäisyysY);
+                                        if (etäisyysXits > etäisyysYits) {
+                                            if (etäisyysX < 0) {
+                                                vihollinen.kokeileLiikkumista(Suunta.VASEN);
                                             }
                                             else {
-                                                if (vihollinen.sijX > seuraavaPiste.x) {
-                                                    vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                                vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                            }
+                                        }
+                                        else {
+                                            if (etäisyysY < 0) {
+                                                vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                            }
+                                            else {
+                                                vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                            }
+                                        }
+                                    break;
+                                    case SEURAA_REITTIÄ:
+                                        if (vihollinen.reitti != null) {
+                                            if (vihollinen.reitti.size() >= 1) {
+                                                PathFindingExample.Point seuraavaPiste = vihollinen.reitti.get(0);
+                                                if (vihollinen.sijX == seuraavaPiste.x && vihollinen.sijY == seuraavaPiste.y) {
+                                                    vihollinen.reitti.remove(0);
                                                 }
-                                                else if (vihollinen.sijX < seuraavaPiste.x) {
+                                                else {
+                                                    if (vihollinen.sijX > seuraavaPiste.x) {
+                                                        vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                                    }
+                                                    else if (vihollinen.sijX < seuraavaPiste.x) {
+                                                        vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                                    }
+                                                    if (vihollinen.sijY < seuraavaPiste.y) {
+                                                        vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                                    }
+                                                    else if (vihollinen.sijY > seuraavaPiste.y) {
+                                                        vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    break;
+                                    case BOSS_LIIKE:
+                                        Random r = new Random();
+                                        switch (vihollinen.liikeMoodi) {
+                                            default:
+                                                if (vihollinen.liikuVielä > 0) {
+                                                    switch (bossLiikeSuunta) {
+                                                        case 0: vihollinen.kokeileLiikkumista(Suunta.VASEN); break;
+                                                        case 1: vihollinen.kokeileLiikkumista(Suunta.OIKEA); break;
+                                                        case 2: vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
+                                                        case 3: vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
+                                                        case 4: vihollinen.kokeileLiikkumista(Suunta.VASEN); vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
+                                                        case 5: vihollinen.kokeileLiikkumista(Suunta.VASEN); vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
+                                                        case 6: vihollinen.kokeileLiikkumista(Suunta.OIKEA); vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
+                                                        case 7: vihollinen.kokeileLiikkumista(Suunta.OIKEA); vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
+                                                        default: break;
+                                                    }
+                                                    vihollinen.liikuVielä--;
+                                                }
+                                                else {
+                                                    vihollinen.liikeLoopinVaihe++;
+                                                    bossLiikeSuunta = r.nextInt(0, 8);
+                                                    vihollinen.liikeMoodi = r.nextInt(0, 5);
+                                                    if (vihollinen.liikeMoodi == 0) {
+                                                        vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
+                                                    }
+                                                    else {
+                                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                                        vihollinen.liikeX = 10;
+                                                        vihollinen.liikeY = 0;
+                                                    }
+                                                }
+                                            break;
+                                            case 1:
+                                                int alkupNopeus = vihollinen.nopeus;
+                                                vihollinen.nopeus = 1;
+                                                if (vihollinen.liikuVielä > 0) {
+                                                    if (vihollinen.liikeX > 0) {
+                                                        for (int i = 0; i < vihollinen.liikeX; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                                        }
+                                                    }
+                                                    else {
+                                                        for (int i = 0; i < -vihollinen.liikeX; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                                        }
+                                                    }
+                                                    if (vihollinen.liikeY > 0) {
+                                                        for (int i = 0; i < vihollinen.liikeY; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                                        }
+                                                    }
+                                                    else {
+                                                        for (int i = 0; i < -vihollinen.liikeY; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                                        }
+                                                    }
+                                                    if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -10) {
+                                                        vihollinen.liikeX--;
+                                                    }
+                                                    else if (vihollinen.liikeX < 10) {
+                                                        vihollinen.liikeX++;
+                                                    }
+                                                    if ((vihollinen.liikuVielä > Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä < Vihollinen.liikkeenPituus/4) && vihollinen.liikeY < 10) {
+                                                        vihollinen.liikeY++;
+                                                    }
+                                                    else if (vihollinen.liikeY > -10) {
+                                                        vihollinen.liikeY--;
+                                                    }
+                                                    vihollinen.liikuVielä--;
+                                                    //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
+                                                }
+                                                else {
+                                                    vihollinen.liikeLoopinVaihe++;
+                                                    bossLiikeSuunta = r.nextInt(0, 8);
+                                                    vihollinen.liikeMoodi = 0;
+                                                    if (vihollinen.liikeMoodi == 0) {
+                                                        vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
+                                                    }
+                                                    else {
+                                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                                        vihollinen.liikeX = 10;
+                                                        vihollinen.liikeY = 0;
+                                                    }
+                                                }
+                                                vihollinen.nopeus = alkupNopeus;
+                                            break;
+                                            case 2:
+                                                alkupNopeus = vihollinen.nopeus;
+                                                vihollinen.nopeus = 1;
+                                                if (vihollinen.liikuVielä > 0) {
+                                                    if (vihollinen.liikeX > 0) {
+                                                        for (int i = 0; i < vihollinen.liikeX; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                                        }
+                                                    }
+                                                    else {
+                                                        for (int i = 0; i < -vihollinen.liikeX; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                                        }
+                                                    }
+                                                    if (vihollinen.liikeY > 0) {
+                                                        for (int i = 0; i < vihollinen.liikeY; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
+                                                        }
+                                                    }
+                                                    else {
+                                                        for (int i = 0; i < -vihollinen.liikeY; i++) {
+                                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
+                                                        }
+                                                    }
+                                                    if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -10) {
+                                                        vihollinen.liikeX--;
+                                                    }
+                                                    else if (vihollinen.liikeX < 10) {
+                                                        vihollinen.liikeX++;
+                                                    }
+                                                    if ((vihollinen.liikuVielä > Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä < Vihollinen.liikkeenPituus/4) && vihollinen.liikeY > -10) {
+                                                        vihollinen.liikeY--;
+                                                    }
+                                                    else if (vihollinen.liikeY < 10) {
+                                                        vihollinen.liikeY++;
+                                                    }
+                                                    vihollinen.liikuVielä--;
+                                                    //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
+                                                }
+                                                else {
+                                                    vihollinen.liikeLoopinVaihe++;
+                                                    bossLiikeSuunta = r.nextInt(0, 8);
+                                                    vihollinen.liikeMoodi = 0;
+                                                    if (vihollinen.liikeMoodi == 0) {
+                                                        vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
+                                                    }
+                                                    else {
+                                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                                        vihollinen.liikeX = 10;
+                                                        vihollinen.liikeY = 0;
+                                                    }
+                                                }
+                                                vihollinen.nopeus = alkupNopeus;
+                                            break;
+                                        }
+                                        if (vihollinen.aikaaViimeHuudosta > 0) {
+                                            vihollinen.aikaaViimeHuudosta--;
+                                        }
+                                        else {
+                                            ÄänentoistamisSäie.toistaSFX(vihollinen.ominaisHuuto);
+                                            vihollinen.aikaaViimeHuudosta = r.nextInt(20, 1000);
+                                        }
+                                    break;
+                                    case YMPYRÄLIIKE_MYÖTÄPÄIVÄÄN:
+                                        int alkupNopeus = vihollinen.nopeus;
+                                        vihollinen.nopeus = 1;
+                                        if (vihollinen.liikuVielä > 0) {
+                                            if (vihollinen.liikeX > 0) {
+                                                for (int i = 0; i < vihollinen.liikeX; i++) {
                                                     vihollinen.kokeileLiikkumista(Suunta.OIKEA);
                                                 }
-                                                if (vihollinen.sijY < seuraavaPiste.y) {
+                                            }
+                                            else {
+                                                for (int i = 0; i < -vihollinen.liikeX; i++) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.VASEN);
+                                                }
+                                            }
+                                            if (vihollinen.liikeY > 0) {
+                                                for (int i = 0; i < vihollinen.liikeY; i++) {
                                                     vihollinen.kokeileLiikkumista(Suunta.ALAS);
                                                 }
-                                                else if (vihollinen.sijY > seuraavaPiste.y) {
+                                            }
+                                            else {
+                                                for (int i = 0; i < -vihollinen.liikeY; i++) {
                                                     vihollinen.kokeileLiikkumista(Suunta.YLÖS);
                                                 }
                                             }
+                                            if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -16) {
+                                                vihollinen.liikeX--;
+                                            }
+                                            else if (vihollinen.liikeX < 16) {
+                                                vihollinen.liikeX++;
+                                            }
+                                            if ((vihollinen.liikuVielä >= Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä <= Vihollinen.liikkeenPituus/4) && vihollinen.liikeY < 16) {
+                                                vihollinen.liikeY++;
+                                            }
+                                            else if (vihollinen.liikeY > -16) {
+                                                vihollinen.liikeY--;
+                                            }
+                                            vihollinen.liikuVielä--;
+                                            //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
                                         }
-                                    }
-                                break;
-                                case BOSS_LIIKE:
-                                    Random r = new Random();
-                                    switch (vihollinen.liikeMoodi) {
-                                        default:
-                                            if (vihollinen.liikuVielä > 0) {
-                                                switch (bossLiikeSuunta) {
-                                                    case 0: vihollinen.kokeileLiikkumista(Suunta.VASEN); break;
-                                                    case 1: vihollinen.kokeileLiikkumista(Suunta.OIKEA); break;
-                                                    case 2: vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
-                                                    case 3: vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
-                                                    case 4: vihollinen.kokeileLiikkumista(Suunta.VASEN); vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
-                                                    case 5: vihollinen.kokeileLiikkumista(Suunta.VASEN); vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
-                                                    case 6: vihollinen.kokeileLiikkumista(Suunta.OIKEA); vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
-                                                    case 7: vihollinen.kokeileLiikkumista(Suunta.OIKEA); vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
-                                                    default: break;
+                                        else {
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                            vihollinen.liikeX = 16;
+                                            vihollinen.liikeY = 0;
+                                        }
+                                        vihollinen.nopeus = alkupNopeus;
+                                    break;
+                                    case YMPYRÄLIIKE_VASTAPÄIVÄÄN:
+                                        alkupNopeus = vihollinen.nopeus;
+                                        vihollinen.nopeus = 1;
+                                        if (vihollinen.liikuVielä > 0) {
+                                            if (vihollinen.liikeX > 0) {
+                                                for (int i = 0; i < vihollinen.liikeX; i++) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.OIKEA);
                                                 }
-                                                vihollinen.liikuVielä--;
                                             }
                                             else {
-                                                vihollinen.liikeLoopinVaihe++;
-                                                bossLiikeSuunta = r.nextInt(0, 8);
-                                                vihollinen.liikeMoodi = r.nextInt(0, 5);
-                                                if (vihollinen.liikeMoodi == 0) {
-                                                    vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
-                                                }
-                                                else {
-                                                    vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                                    vihollinen.liikeX = 10;
-                                                    vihollinen.liikeY = 0;
+                                                for (int i = 0; i < -vihollinen.liikeX; i++) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.VASEN);
                                                 }
                                             }
-                                        break;
-                                        case 1:
-                                            int alkupNopeus = vihollinen.nopeus;
-                                            vihollinen.nopeus = 1;
-                                            if (vihollinen.liikuVielä > 0) {
-                                                if (vihollinen.liikeX > 0) {
-                                                    for (int i = 0; i < vihollinen.liikeX; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                                    }
+                                            if (vihollinen.liikeY > 0) {
+                                                for (int i = 0; i < vihollinen.liikeY; i++) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.ALAS);
                                                 }
-                                                else {
-                                                    for (int i = 0; i < -vihollinen.liikeX; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                                    }
-                                                }
-                                                if (vihollinen.liikeY > 0) {
-                                                    for (int i = 0; i < vihollinen.liikeY; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                                    }
-                                                }
-                                                else {
-                                                    for (int i = 0; i < -vihollinen.liikeY; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                                    }
-                                                }
-                                                if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -10) {
-                                                    vihollinen.liikeX--;
-                                                }
-                                                else if (vihollinen.liikeX < 10) {
-                                                    vihollinen.liikeX++;
-                                                }
-                                                if ((vihollinen.liikuVielä > Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä < Vihollinen.liikkeenPituus/4) && vihollinen.liikeY < 10) {
-                                                    vihollinen.liikeY++;
-                                                }
-                                                else if (vihollinen.liikeY > -10) {
-                                                    vihollinen.liikeY--;
-                                                }
-                                                vihollinen.liikuVielä--;
-                                                //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
                                             }
                                             else {
-                                                vihollinen.liikeLoopinVaihe++;
-                                                bossLiikeSuunta = r.nextInt(0, 8);
-                                                vihollinen.liikeMoodi = 0;
-                                                if (vihollinen.liikeMoodi == 0) {
-                                                    vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
-                                                }
-                                                else {
-                                                    vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                                    vihollinen.liikeX = 10;
-                                                    vihollinen.liikeY = 0;
+                                                for (int i = 0; i < -vihollinen.liikeY; i++) {
+                                                    vihollinen.kokeileLiikkumista(Suunta.YLÖS);
                                                 }
                                             }
-                                            vihollinen.nopeus = alkupNopeus;
-                                        break;
-                                        case 2:
-                                            alkupNopeus = vihollinen.nopeus;
-                                            vihollinen.nopeus = 1;
-                                            if (vihollinen.liikuVielä > 0) {
-                                                if (vihollinen.liikeX > 0) {
-                                                    for (int i = 0; i < vihollinen.liikeX; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                                    }
-                                                }
-                                                else {
-                                                    for (int i = 0; i < -vihollinen.liikeX; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                                    }
-                                                }
-                                                if (vihollinen.liikeY > 0) {
-                                                    for (int i = 0; i < vihollinen.liikeY; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                                    }
-                                                }
-                                                else {
-                                                    for (int i = 0; i < -vihollinen.liikeY; i++) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                                    }
-                                                }
-                                                if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -10) {
-                                                    vihollinen.liikeX--;
-                                                }
-                                                else if (vihollinen.liikeX < 10) {
-                                                    vihollinen.liikeX++;
-                                                }
-                                                if ((vihollinen.liikuVielä > Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä < Vihollinen.liikkeenPituus/4) && vihollinen.liikeY > -10) {
-                                                    vihollinen.liikeY--;
-                                                }
-                                                else if (vihollinen.liikeY < 10) {
-                                                    vihollinen.liikeY++;
-                                                }
-                                                vihollinen.liikuVielä--;
-                                                //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
+                                            if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -16) {
+                                                vihollinen.liikeX--;
                                             }
-                                            else {
-                                                vihollinen.liikeLoopinVaihe++;
-                                                bossLiikeSuunta = r.nextInt(0, 8);
-                                                vihollinen.liikeMoodi = 0;
-                                                if (vihollinen.liikeMoodi == 0) {
-                                                    vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
-                                                }
-                                                else {
-                                                    vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                                    vihollinen.liikeX = 10;
-                                                    vihollinen.liikeY = 0;
-                                                }
+                                            else if (vihollinen.liikeX < 16) {
+                                                vihollinen.liikeX++;
                                             }
-                                            vihollinen.nopeus = alkupNopeus;
-                                        break;
-                                    }
-                                    if (vihollinen.aikaaViimeHuudosta > 0) {
-                                        vihollinen.aikaaViimeHuudosta--;
-                                    }
-                                    else {
-                                        ÄänentoistamisSäie.toistaSFX(vihollinen.ominaisHuuto);
-                                        vihollinen.aikaaViimeHuudosta = r.nextInt(20, 1000);
-                                    }
-                                break;
-                                case YMPYRÄLIIKE_MYÖTÄPÄIVÄÄN:
-                                    int alkupNopeus = vihollinen.nopeus;
-                                    vihollinen.nopeus = 1;
-                                    if (vihollinen.liikuVielä > 0) {
-                                        if (vihollinen.liikeX > 0) {
-                                            for (int i = 0; i < vihollinen.liikeX; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.OIKEA);
+                                            if ((vihollinen.liikuVielä >= Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä <= Vihollinen.liikkeenPituus/4) && vihollinen.liikeY > -16) {
+                                                vihollinen.liikeY--;
                                             }
+                                            else if (vihollinen.liikeY < 16) {
+                                                vihollinen.liikeY++;
+                                            }
+                                            vihollinen.liikuVielä--;
                                         }
                                         else {
-                                            for (int i = 0; i < -vihollinen.liikeX; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                            }
+                                            vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
+                                            vihollinen.liikeX = 16;
+                                            vihollinen.liikeY = 0;
                                         }
-                                        if (vihollinen.liikeY > 0) {
-                                            for (int i = 0; i < vihollinen.liikeY; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                            }
-                                        }
-                                        else {
-                                            for (int i = 0; i < -vihollinen.liikeY; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                            }
-                                        }
-                                        if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -16) {
-                                            vihollinen.liikeX--;
-                                        }
-                                        else if (vihollinen.liikeX < 16) {
-                                            vihollinen.liikeX++;
-                                        }
-                                        if ((vihollinen.liikuVielä >= Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä <= Vihollinen.liikkeenPituus/4) && vihollinen.liikeY < 16) {
-                                            vihollinen.liikeY++;
-                                        }
-                                        else if (vihollinen.liikeY > -16) {
-                                            vihollinen.liikeY--;
-                                        }
-                                        vihollinen.liikuVielä--;
-                                        //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
-                                    }
-                                    else {
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                        vihollinen.liikeX = 16;
-                                        vihollinen.liikeY = 0;
-                                    }
-                                    vihollinen.nopeus = alkupNopeus;
-                                break;
-                                case YMPYRÄLIIKE_VASTAPÄIVÄÄN:
-                                    alkupNopeus = vihollinen.nopeus;
-                                    vihollinen.nopeus = 1;
-                                    if (vihollinen.liikuVielä > 0) {
-                                        if (vihollinen.liikeX > 0) {
-                                            for (int i = 0; i < vihollinen.liikeX; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                            }
-                                        }
-                                        else {
-                                            for (int i = 0; i < -vihollinen.liikeX; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                            }
-                                        }
-                                        if (vihollinen.liikeY > 0) {
-                                            for (int i = 0; i < vihollinen.liikeY; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                            }
-                                        }
-                                        else {
-                                            for (int i = 0; i < -vihollinen.liikeY; i++) {
-                                                vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                            }
-                                        }
-                                        if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -16) {
-                                            vihollinen.liikeX--;
-                                        }
-                                        else if (vihollinen.liikeX < 16) {
-                                            vihollinen.liikeX++;
-                                        }
-                                        if ((vihollinen.liikuVielä >= Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä <= Vihollinen.liikkeenPituus/4) && vihollinen.liikeY > -16) {
-                                            vihollinen.liikeY--;
-                                        }
-                                        else if (vihollinen.liikeY < 16) {
-                                            vihollinen.liikeY++;
-                                        }
-                                        vihollinen.liikuVielä--;
-                                    }
-                                    else {
-                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                        vihollinen.liikeX = 16;
-                                        vihollinen.liikeY = 0;
-                                    }
-                                    vihollinen.nopeus = alkupNopeus;
-                                break;
-                                case STAATTINEN:
-                                break;
+                                        vihollinen.nopeus = alkupNopeus;
+                                    break;
+                                    case STAATTINEN:
+                                    break;
+                                }
+                                siirräVihollinenPoisEsineenSisältä(vihollinen);
                             }
-                            siirräVihollinenPoisEsineenSisältä(vihollinen);
                         }
                     }
                 }
             }
+            catch (ConcurrentModificationException e) {
+                System.out.println("Viimeisin vihollisten liikuttamisyritys peruutettiin (konkurrenssi-issue)");
+            }
+            return vihollinenLiikutettiin;
         }
-        catch (ConcurrentModificationException e) {
-            System.out.println("Viimeisin vihollisten liikuttamisyritys peruutettiin (konkurrenssi-issue)");
-        }
-        return vihollinenLiikutettiin;
     }
 
     public static void tarkistaVihollisCollision() {
         boolean pelaajanKohdallaVihollinen = false;
         try {
-            if (Peli.npcLista != null) {
-                for (NPC npc : Peli.npcLista) {
+            if (Peli.entityLista != null) {
+                for (Entity npc : Peli.entityLista) {
                     if (npc instanceof Vihollinen) {
                         Vihollinen vihollinen = (Vihollinen)npc;
                         if (!vihollinen.onkoKukistettu()) {
@@ -577,50 +600,60 @@ public class PeliKenttäMetodit {
                                 pelaajanKohdallaVihollinen = true;
                                 Pelaaja.viimeisinOsunutVihollinen = vihollinen;
                                 //System.out.println("collision - pelaaja: " + Pelaaja.hitbox.getMinX() + " - " + Pelaaja.hitbox.getMaxX() + ", " + Pelaaja.hitbox.getMinY() + " - " + Pelaaja.hitbox.getMaxY()  + ", vihollinen: " + vihollinen.hitbox.getMinX() + " - " + vihollinen.hitbox.getMaxX() + ", " + vihollinen.hitbox.getMinY() + " - " + vihollinen.hitbox.getMaxY());
-                                if (Pelaaja.reaktioAika <= 0) {
-                                    if (Pelaaja.kuolemattomuusAika <= 0) {
-                                        if (Pelaaja.esineet[Peli.esineValInt] instanceof Kilpi && vihollinen.kilpiTehoaa) {
-
+                                if (Pelaaja.hyökkäysAika > 0) {
+                                    if (vihollinen.tehoavatAseet.contains(Pelaaja.käytettyAse.annaNimi())) {
+                                        if (vihollinen.annaHurtAika() <= 0) {
+                                            vihollinen.vahingoita(Pelaaja.käytettyAse);
+                                            Pelaaja.käytettyAse.käytä();
                                         }
-                                        else {
-                                            if (Pelaaja.viimeisinOsunutVihollinen instanceof Pikkuvihu) {
-                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY;
-                                                }
-                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY;
-                                                }
-                                                else {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN;
-                                                }
+                                    }
+                                }
+                                else {
+                                    if (Pelaaja.reaktioAika <= 0) {
+                                        if (Pelaaja.kuolemattomuusAika <= 0) {
+                                            if (Pelaaja.esineet[Peli.esineValInt] instanceof Kilpi && vihollinen.kilpiTehoaa) {
+
                                             }
-                                            else if (Pelaaja.viimeisinOsunutVihollinen instanceof Pahavihu) {
-                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY;
+                                            else {
+                                                if (Pelaaja.viimeisinOsunutVihollinen instanceof Pikkuvihu) {
+                                                    if (TarkistettavatArvot.annaLyödytVihut() > 0) {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY;
+                                                    }
+                                                    else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY;
+                                                    }
+                                                    else {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN;
+                                                    }
                                                 }
-                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY;
+                                                else if (Pelaaja.viimeisinOsunutVihollinen instanceof Pahavihu) {
+                                                    if (TarkistettavatArvot.annaLyödytVihut() > 0) {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY;
+                                                    }
+                                                    else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY;
+                                                    }
+                                                    else {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN;
+                                                    }
                                                 }
-                                                else {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN;
+                                                else if (Pelaaja.viimeisinOsunutVihollinen instanceof Asevihu) {
+                                                    if (TarkistettavatArvot.annaLyödytVihut() > 0) {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                    }
+                                                    else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                    }
+                                                    else {
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                    }
                                                 }
-                                            }
-                                            else if (Pelaaja.viimeisinOsunutVihollinen instanceof Asevihu) {
-                                                if (TarkistettavatArvot.annaLyödytVihut() > 0) {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                else if (Pelaaja.viimeisinOsunutVihollinen instanceof Vartija) {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.VARTIJA;
                                                 }
-                                                else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                if (vihollinen.tekeeVahinkoa) {
+                                                    Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
                                                 }
-                                                else {
-                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
-                                                }
-                                            }
-                                            else if (Pelaaja.viimeisinOsunutVihollinen instanceof Vartija) {
-                                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.VARTIJA;
-                                            }
-                                            if (vihollinen.tekeeVahinkoa) {
-                                                Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
                                             }
                                         }
                                     }
@@ -633,7 +666,7 @@ public class PeliKenttäMetodit {
                     Pelaaja.vähennäReaktioAikaa();
                 }
                 int leikkaavatVihollisHitboxit = 0;
-                for (NPC npc : Peli.npcLista) {
+                for (Entity npc : Peli.entityLista) {
                     if (npc instanceof Vihollinen) {
                         Vihollinen vihollinen = (Vihollinen)npc;
                         if (Pelaaja.hitbox.intersects(vihollinen.hitbox)) {
@@ -800,48 +833,40 @@ public class PeliKenttäMetodit {
         try {
             if (Peli.entityLista != null) {
                 if (Peli.entityLista.size() > 0) {
-                    //for (Entity entity1 : Peli.entityLista) {
-                        //if (entity1 instanceof LiikkuvaObjekti) {
-                            Vihollinen vihollinen = (Vihollinen)entity;
-                            for (Entity entity2 : Peli.entityLista) {
-                                if (entity != entity2 && entity2 instanceof LiikkuvaObjekti) {
-                                    LiikkuvaObjekti obj2 = (LiikkuvaObjekti)entity2;
-                                    if (vihollinen.hitbox.intersects(obj2.hitbox)) {
-                                        double xDelta = Math.abs(obj2.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
-                                        double yDelta = Math.abs(obj2.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
-                                        if (xDelta > yDelta) {
-                                            if (obj2.hitbox.getCenterX() > vihollinen.hitbox.getCenterX()) {
-                                                System.out.println("asd1");
-                                                if (vihollinen.kokeileLiikkumista(Suunta.VASEN, true)) {
-                                                    System.out.println("Vihollinen siirrettiin vasemmalle");
-                                                }
-                                            }
-                                            else {
-                                                System.out.println("asd2");
-                                                if (vihollinen.kokeileLiikkumista(Suunta.OIKEA, true)) {
-                                                    System.out.println("Vihollinen siirrettiin oikealle");
-                                                }
-                                            }
+                    Vihollinen vihollinen = (Vihollinen)entity;
+                    for (Entity entity2 : Peli.entityLista) {
+                        if (entity != entity2 && entity2 instanceof LiikkuvaObjekti) {
+                            LiikkuvaObjekti obj2 = (LiikkuvaObjekti)entity2;
+                            if (vihollinen.hitbox.intersects(obj2.hitbox)) {
+                                double xDelta = Math.abs(obj2.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
+                                double yDelta = Math.abs(obj2.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
+                                if (xDelta > yDelta) {
+                                    if (obj2.hitbox.getCenterX() > vihollinen.hitbox.getCenterX()) {
+                                        if (vihollinen.kokeileLiikkumista(Suunta.VASEN, true)) {
+                                            //System.out.println("Vihollinen siirrettiin vasemmalle");
                                         }
-                                        else {
-                                            if (obj2.hitbox.getCenterY() > vihollinen.hitbox.getCenterY()) {
-                                                System.out.println("asd3");
-                                                if (vihollinen.kokeileLiikkumista(Suunta.YLÖS, true)) {
-                                                    System.out.println("Vihollinen siirrettiin ylös");
-                                                }
-                                            }
-                                            else {
-                                                System.out.println("asd4");
-                                                if (vihollinen.kokeileLiikkumista(Suunta.ALAS, true)) {
-                                                    System.out.println("Vihollinen siirrettiin alas");
-                                                }
-                                            }
+                                    }
+                                    else {
+                                        if (vihollinen.kokeileLiikkumista(Suunta.OIKEA, true)) {
+                                            //System.out.println("Vihollinen siirrettiin oikealle");
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (obj2.hitbox.getCenterY() > vihollinen.hitbox.getCenterY()) {
+                                        if (vihollinen.kokeileLiikkumista(Suunta.YLÖS, true)) {
+                                            //System.out.println("Vihollinen siirrettiin ylös");
+                                        }
+                                    }
+                                    else {
+                                        if (vihollinen.kokeileLiikkumista(Suunta.ALAS, true)) {
+                                            //System.out.println("Vihollinen siirrettiin alas");
                                         }
                                     }
                                 }
                             }
-                        //}
-                    //}
+                        }
+                    }
                 }
             }
         }
@@ -851,39 +876,43 @@ public class PeliKenttäMetodit {
     }
 
     public static void luoAmmus() {
-        try {
-            if (Peli.npcLista != null) {
-                for (NPC npc : Peli.npcLista) {
-                    if (npc instanceof Asevihu) {
-                        Asevihu av = (Asevihu)npc;
-                        if (!av.onkoKukistettu()) {
-                            Peli.entityLista.add(new Ammus((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY(), av.suuntaVasenOikea, av.ammusVahinko));
-                            Point sijainti = new Point((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY());
-                            ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
+        synchronized(Peli.entityLista) {
+            try {
+                if (Peli.entityLista != null) {
+                    for (Entity npc : Peli.entityLista) {
+                        if (npc instanceof Asevihu) {
+                            Asevihu av = (Asevihu)npc;
+                            if (!av.onkoKukistettu()) {
+                                Peli.entityLista.add(new Ammus((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY(), av.suuntaVasenOikea, av.ammusVahinko));
+                                Point sijainti = new Point((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY());
+                                ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
+                            }
                         }
-                    }
-                    else if (npc instanceof Boss) {
-                        Boss boss = (Boss)npc;
-                        if (!boss.onkoKukistettu()) {
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.VASEN, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.OIKEA, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAS, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÖS, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄVASEN, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄOIKEA, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAVASEN, boss.ammusVahinko));
-                            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAOIKEA, boss.ammusVahinko));
-                            Point sijainti = new Point((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY());
-                            ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
+                        else if (npc instanceof Boss) {
+                            Boss boss = (Boss)npc;
+                            if (!boss.onkoKukistettu()) {
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.VASEN, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.OIKEA, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAS, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÖS, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄVASEN, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄOIKEA, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAVASEN, boss.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAOIKEA, boss.ammusVahinko));
+                                Point sijainti = new Point((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY());
+                                ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
+                            }
                         }
                     }
                 }
+                PääIkkuna.uudelleenpiirräObjektit = true;
+                //System.out.println(Peli.ammusLista.size());
             }
-            PääIkkuna.uudelleenpiirräObjektit = true;
-            //System.out.println(Peli.ammusLista.size());
-        }
-        catch (ConcurrentModificationException cme) {
-            System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");
+            catch (ConcurrentModificationException cme) {
+                System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");
+                cme.printStackTrace();
+                PääIkkuna.uudelleenpiirräObjektit = true;
+            }
         }
     }
 
@@ -910,24 +939,30 @@ public class PeliKenttäMetodit {
     }
 
     public static void liikutaAmmuksia() {
-        try {
-            if (Peli.entityLista != null) {
-                if (Peli.entityLista.size() > 0) {
-                    for (Entity entity : Peli.entityLista) {
-                        if (entity instanceof Ammus) {
-                            Ammus ammus = (Ammus)entity;
-                            ammus.elinAika--;
-                            if (ammus.kokeileLiikettä(ammus.suunta8)) {
-                                ammus.liikuta8suuntaan(ammus.suunta8);
+        synchronized(Peli.entityLista) {
+            try {
+                if (Peli.entityLista != null) {
+                    if (Peli.entityLista.size() > 0) {
+                        for (Entity entity : Peli.entityLista) {
+                            if (entity instanceof Ammus) {
+                                Ammus ammus = (Ammus)entity;
+                                ammus.elinAika--;
+                                if (ammus.kokeileLiikettä(ammus.suunta8)) {
+                                    ammus.liikuta8suuntaan(ammus.suunta8);
+                                }
+                                if (ammus.elinAika <= 0) {
+                                    Peli.entityLista.remove(ammus);
+                                    Ammus.ammusId--;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        catch (ConcurrentModificationException cme) {
-            System.out.println("Viimeisin ammusten liikutus peruttiin (konkurrenssi-issue)");
-            cme.printStackTrace();
+            catch (ConcurrentModificationException cme) {
+                System.out.println("Viimeisin ammusten liikutus peruttiin (konkurrenssi-issue)");
+                cme.printStackTrace();
+            }
         }
     }
 
@@ -948,8 +983,8 @@ public class PeliKenttäMetodit {
 
     public static void suoritaReitinhakuVihollisille() {
         try {
-            if (Peli.npcLista != null) {
-                for (NPC npc : Peli.npcLista) {
+            if (Peli.entityLista != null) {
+                for (Entity npc : Peli.entityLista) {
                     if (npc instanceof Vihollinen) {
                         Vihollinen vihollinen = (Vihollinen)npc;
                         PathFindingExample.reitinHakuPelaajaaKohti(vihollinen);

@@ -1,11 +1,11 @@
 package keimo.NPCt;
 
-import java.awt.Rectangle;
-
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.Käännettävä.Suunta;
+
+import java.awt.Rectangle;
 
 public abstract class LiikkuvaObjekti extends Entity {
 
@@ -13,6 +13,7 @@ public abstract class LiikkuvaObjekti extends Entity {
     protected int sisäHitboxOffset;
     public Rectangle ulkoHitbox;
     protected int ulkoHitboxOffset;
+    public boolean voiTyöntää;
 
     private boolean siirrä(Suunta suunta) {
         boolean NPCSiirtyi = false;

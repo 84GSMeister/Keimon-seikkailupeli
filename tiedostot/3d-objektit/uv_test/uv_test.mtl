@@ -1,0 +1,21 @@
+#
+## Alias MTL Material File
+# Converted from SKP by LIPID Lightsolve
+
+newmtl chair_wheel
+Ka 0.000000 0.000000 0.000000
+Kd 0.203922 0.207843 0.196078
+Ks 0.330000 0.330000 0.330000
+map_Kd uv_test/chair_wheel.png
+
+newmtl cable_black1
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd uv_test/cable_black.png
+
+newmtl default_material
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+

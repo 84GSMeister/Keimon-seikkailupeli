@@ -52,4 +52,9 @@ public class TarkistettavatArvot {
     public static int annaÄmpäröidytVihut() {
         return ämpäröidytVihut;
     }
+
+    public static int luoNpcId() {
+        npcId++;
+        return npcId -1;
+    }
 }

@@ -17,7 +17,7 @@ public class Jallupullo extends Esine {
         super.poista = true;
         Pelaaja.kuparit++;
         Pelaaja.känninVoimakkuusFloat += 4;
-        ÄänentoistamisSäie.toistaSFX("tölkki");
+        ÄänentoistamisSäie.toistaSFX("pullo");
 
         double kuolemanTodennäköisyys = 0.125 * Pelaaja.känninVoimakkuusFloat - 1;
         if (kuolemanTodennäköisyys < 0) {

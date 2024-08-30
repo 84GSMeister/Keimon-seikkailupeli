@@ -30,13 +30,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class HuoneenMetatietoIkkuna {
 
     static final int ikkunanLeveys = 500;
-    static final int ikkunanKorkeus = 275;
+    static final int ikkunanKorkeus = 295;
+    static String[] musat = {"overworld", "puisto", "tarina", "boss"};
 
     static JPanel pääPaneeli, yläPaneeli, alaPaneeli, yläVasenPaneeli, yläOikeaPaneeli;
-    static JLabel huoneenIdLabel, huoneenKokoLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;
+    static JLabel huoneenIdLabel, huoneenKokoLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenMusaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;
     static JTextField huoneenIdTekstiKenttä, huoneenKokoTekstiKenttä, huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä, valitunKuvanPolku, huoneenDialogiValintaTekstiKenttä, huoneenTavoiteTekstiKenttä;
     static JButton huoneenKuvaValintaNappi, tarinanMuokkausNappi, tavoitteidenMuokkausNappi;
-    static JComboBox<Object> huoneenTarinaValintaLaatikko, huoneenTavoiteValintaLaatikko;
+    static JComboBox<Object> huoneenMusaValintaLaatikko, huoneenTarinaValintaLaatikko, huoneenTavoiteValintaLaatikko;
     static JFrame ikkuna;
     
     public static void luoIkkuna() {
@@ -66,7 +67,16 @@ public class HuoneenMetatietoIkkuna {
         huoneenAlueTekstiKenttä.setToolTipText("Tätä käytetään identifioimaan oikea kartta alueelle");
         huoneenKuvaTekstiKenttäLabel = new JLabel("Huoneen tausta: ");
         huoneenKuvaTekstiKenttäLabel.setToolTipText("Huoneen taustaksi suositellaan 660x660 pikselin kuvia. Muunkokoiset kuvat voivat näyttää väärältä tai eivät näy kokonaan.");
-        
+
+        huoneenMusaTekstiKenttäLabel = new JLabel("Huoneen musiikki: ");
+        huoneenMusaTekstiKenttäLabel.setToolTipText("Valitse huoneessa soiva musiikki. Jos vierekkäisten huoneiden musiikki on sama, se ei ala alusta huonetta ladatessa.");
+        huoneenMusaValintaLaatikko = new JComboBox<Object>();
+        huoneenMusaValintaLaatikko.addItem(" ");
+        for (String s : musat) {
+            huoneenMusaValintaLaatikko.addItem(s);
+        }
+        huoneenMusaValintaLaatikko.setToolTipText("Tämä tarinapätkä tulee, kun huone ladataan ensimmäisen kerran.");
+
         huoneenDialogiTekstiKenttäLabel = new JLabel("Huoneen alkudialogi: ");
         huoneenDialogiTekstiKenttäLabel.setToolTipText("Tämä tarinapätkä tulee, kun huone ladataan ensimmäisen kerran.");
         //huoneenDialogiValintaTekstiKenttä = new JTextField();
@@ -96,6 +106,8 @@ public class HuoneenMetatietoIkkuna {
         valitunKuvanPolku = new JTextField("Ei kuvaa");
         JLabel placeholder4 = new JLabel(" ");
         placeholder4.setFont(new Font("Arial", Font.PLAIN, 18));
+        JLabel placeholder5 = new JLabel(" ");
+        placeholder4.setFont(new Font("Arial", Font.PLAIN, 18));
 
         yläVasenPaneeli = new JPanel();
         yläVasenPaneeli.setLayout(new SpringLayout());
@@ -110,11 +122,13 @@ public class HuoneenMetatietoIkkuna {
         yläVasenPaneeli.add(huoneenAlueTekstiKenttä);
         yläVasenPaneeli.add(huoneenKuvaTekstiKenttäLabel);
         yläVasenPaneeli.add(valitunKuvanPolku);
+        yläVasenPaneeli.add(huoneenMusaTekstiKenttäLabel);
+        yläVasenPaneeli.add(huoneenMusaValintaLaatikko);
         yläVasenPaneeli.add(huoneenDialogiTekstiKenttäLabel);
         yläVasenPaneeli.add(huoneenTarinaValintaLaatikko);
         yläVasenPaneeli.add(huoneenTavoiteTekstiKenttäLabel);
         yläVasenPaneeli.add(huoneenTavoiteValintaLaatikko);
-        SpringUtilities.makeCompactGrid(yläVasenPaneeli, 7, 2, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(yläVasenPaneeli, 8, 2, 6, 6, 6, 6);
 
         huoneenKuvaValintaNappi = new JButton("Valitse kuva");
         huoneenKuvaValintaNappi.setToolTipText("Huoneen taustaksi suositellaan 660x660 pikselin kuvia. Muunkokoiset kuvat voivat näyttää väärältä tai eivät näy kokonaan.");
@@ -147,9 +161,10 @@ public class HuoneenMetatietoIkkuna {
         yläOikeaPaneeli.add(placeholder3);
         yläOikeaPaneeli.add(placeholder4);
         yläOikeaPaneeli.add(huoneenKuvaValintaNappi);
+        yläOikeaPaneeli.add(placeholder5);
         yläOikeaPaneeli.add(tarinanMuokkausNappi);
         yläOikeaPaneeli.add(tavoitteidenMuokkausNappi);
-        SpringUtilities.makeCompactGrid(yläOikeaPaneeli, 7, 1, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(yläOikeaPaneeli, 8, 1, 6, 6, 6, 6);
 
         yläPaneeli = new JPanel();
         yläPaneeli.setLayout(new BorderLayout());
@@ -171,9 +186,9 @@ public class HuoneenMetatietoIkkuna {
                     HuoneEditoriIkkuna.huoneenVaaditunTavoitteenTunniste = (String)huoneenTavoiteValintaLaatikko.getSelectedItem();
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäNimiJaAlue(HuoneEditoriIkkuna.huoneenNimi, HuoneEditoriIkkuna.huoneenAlue);
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäAlkudialogi(HuoneEditoriIkkuna.huoneenAlkuDialoginTunniste);
-                    HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenKenttäSisältö(HuoneEditoriIkkuna.objektiKenttä);
-                    HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenMaastoSisältö(HuoneEditoriIkkuna.maastoKenttä);
-                    HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenNPCSisältö(HuoneEditoriIkkuna.npcKenttä);
+                    //HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenKenttäSisältö(HuoneEditoriIkkuna.objektiKenttä);
+                    //HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenMaastoSisältö(HuoneEditoriIkkuna.maastoKenttä);
+                    //HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenNPCSisältö(HuoneEditoriIkkuna.npcKenttä);
                     HuoneEditoriIkkuna.huoneenNimiLabel.setText(HuoneEditoriIkkuna.huoneenNimi + " (" + HuoneEditoriIkkuna.huoneenAlue + ")");
                     ikkuna.dispose();
                 }
@@ -206,6 +221,7 @@ public class HuoneenMetatietoIkkuna {
         huoneenAlueTekstiKenttä.setText(HuoneEditoriIkkuna.huoneenAlue);
         //huoneenDialogiValintaTekstiKenttä.setText(HuoneEditoriIkkuna.huoneenAlkuDialoginTunniste);
         valitunKuvanPolku.setText(HuoneEditoriIkkuna.huoneenTaustakuvaPolku);
+        huoneenMusaValintaLaatikko.setSelectedItem(HuoneEditoriIkkuna.huoneenMusa);
         huoneenTarinaValintaLaatikko.setSelectedItem(HuoneEditoriIkkuna.huoneenAlkuDialoginTunniste);
         huoneenTavoiteValintaLaatikko.setSelectedItem(HuoneEditoriIkkuna.huoneenVaaditunTavoitteenTunniste);
 

@@ -15,6 +15,7 @@ import com.jogamp.opengl.util.awt.TextRenderer;
 
 import java.awt.Frame;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
 
@@ -57,10 +58,18 @@ public class Keimo3D {
     static float pitch = 0;
     static float roll = 0;
 
-    static boolean testUNeg = false;
-    static boolean testUPos = false;
-    static boolean testVNeg = false;
-    static boolean testVPos = false;
+    static boolean testU1Neg = false;
+    static boolean testU1Pos = false;
+    static boolean testV1Neg = false;
+    static boolean testV1Pos = false;
+    static boolean testU2Neg = false;
+    static boolean testU2Pos = false;
+    static boolean testV2Neg = false;
+    static boolean testV2Pos = false;
+    static boolean testU3Neg = false;
+    static boolean testU3Pos = false;
+    static boolean testV3Neg = false;
+    static boolean testV3Pos = false;
     static int testUV = 0;
     
     static TextRenderer renderer;
@@ -71,6 +80,8 @@ public class Keimo3D {
     static boolean säieKäynnissä = false;
 
     protected static final Frame frame = new Frame("Keimo3D demo");
+
+    protected static ArrayList<MukautuvaKenttäObjekti> testiObjektit = new ArrayList<>();
 
     public static void käynnistäKeimo3D() {
         try {
@@ -200,17 +211,53 @@ public class Keimo3D {
                     case KeyEvent.VK_NUMPAD9:
                         rotZNeg = true;
                     break;
-                    case KeyEvent.VK_LEFT:
-                        testUNeg = true;
+                    // case KeyEvent.VK_LEFT:
+                    //     testU1Neg = true;
+                    // break;
+                    // case KeyEvent.VK_RIGHT:
+                    //     testU1Pos = true;
+                    // break;
+                    // case KeyEvent.VK_DOWN:
+                    //     testV1Neg = true;
+                    // break;
+                    // case KeyEvent.VK_UP:
+                    //     testV1Pos = true;
+                    // break;
+                    case KeyEvent.VK_Y:
+                        testU1Neg = true;
                     break;
-                    case KeyEvent.VK_RIGHT:
-                        testUPos = true;
+                    case KeyEvent.VK_U:
+                        testU1Pos = true;
                     break;
-                    case KeyEvent.VK_DOWN:
-                        testVNeg = true;
+                    case KeyEvent.VK_I:
+                        testV1Neg = true;
                     break;
-                    case KeyEvent.VK_UP:
-                        testVPos = true;
+                    case KeyEvent.VK_O:
+                        testV1Pos = true;
+                    break;
+                    case KeyEvent.VK_H:
+                        testU2Neg = true;
+                    break;
+                    case KeyEvent.VK_J:
+                        testU2Pos = true;
+                    break;
+                    case KeyEvent.VK_K:
+                        testV2Neg = true;
+                    break;
+                    case KeyEvent.VK_L:
+                        testV2Pos = true;
+                    break;
+                    case KeyEvent.VK_N:
+                        testU3Neg = true;
+                    break;
+                    case KeyEvent.VK_M:
+                        testU3Pos = true;
+                    break;
+                    case KeyEvent.VK_COMMA:
+                        testV3Neg = true;
+                    break;
+                    case KeyEvent.VK_PERIOD:
+                        testV3Pos = true;
                     break;
                     default:
                         System.out.println("other pressed");
@@ -264,25 +311,58 @@ public class Keimo3D {
                     case KeyEvent.VK_NUMPAD9:
                         rotZNeg = false;
                     break;
-                    case KeyEvent.VK_LEFT:
-                        testUNeg = false;
+                    // case KeyEvent.VK_LEFT:
+                    //     testUNeg = false;
+                    // break;
+                    // case KeyEvent.VK_RIGHT:
+                    //     testUPos = false;
+                    // break;
+                    // case KeyEvent.VK_DOWN:
+                    //     testVNeg = false;
+                    // break;
+                    // case KeyEvent.VK_UP:
+                    //     testVPos = false;
+                    // break;
+                    case KeyEvent.VK_Y:
+                        testU1Neg = false;
                     break;
-                    case KeyEvent.VK_RIGHT:
-                        testUPos = false;
+                    case KeyEvent.VK_U:
+                        testU1Pos = false;
                     break;
-                    case KeyEvent.VK_DOWN:
-                        testVNeg = false;
+                    case KeyEvent.VK_I:
+                        testV1Neg = false;
                     break;
-                    case KeyEvent.VK_UP:
-                        testVPos = false;
+                    case KeyEvent.VK_O:
+                        testV1Pos = false;
+                    break;
+                    case KeyEvent.VK_H:
+                        testU2Neg = false;
+                    break;
+                    case KeyEvent.VK_J:
+                        testU2Pos = false;
+                    break;
+                    case KeyEvent.VK_K:
+                        testV2Neg = false;
+                    break;
+                    case KeyEvent.VK_L:
+                        testV2Pos = false;
+                    break;
+                    case KeyEvent.VK_N:
+                        testU3Neg = false;
+                    break;
+                    case KeyEvent.VK_M:
+                        testU3Pos = false;
+                    break;
+                    case KeyEvent.VK_COMMA:
+                        testV3Neg = false;
+                    break;
+                    case KeyEvent.VK_PERIOD:
+                        testV3Pos = false;
                     break;
                 }
             }
         });
         glcanvas.addGLEventListener(new Objektit3D());
-        glcanvas.addGLEventListener(new OBJMalli("asunto_yokyla", 2, new Point3D(-10, -6.25f, -10), false));
-        glcanvas.addGLEventListener(new OBJMalli("yokyla_40-54", 1, new Point3D(-110, 100, 0), true));
-        glcanvas.addGLEventListener(new OBJMalli("Wooden_Crate_2_test", 1, new Point3D(-10, 10, 0), true));
         glcanvas.addGLEventListener(new HUDTeksti());
         
 
@@ -393,6 +473,46 @@ public class Keimo3D {
         roll %= 360;
     }
 
+    private static void liikutaObjekteja() {
+        for (OBJMalli testObj : Objektit3D.testiObjektit) {
+            if (testObj instanceof MukautuvaKenttäObjekti) {
+                MukautuvaKenttäObjekti obj = (MukautuvaKenttäObjekti) testObj;
+                switch (obj.objektiTyyppi) {
+                    case LIIKKUVA_X_EDESTAKAISIN:
+                        if (obj.liikettäJäljellä > 0) {
+                            if (obj.käänteinenSuunta) obj.originX -= obj.liikkeenSuuruus;
+                            else obj.originX += obj.liikkeenSuuruus;
+                            obj.liikettäJäljellä--;
+                        }
+                    break;
+                    case LIIKKUVA_Y_EDESTAKAISIN:
+                        if (obj.liikettäJäljellä > 0) {
+                            if (obj.käänteinenSuunta) obj.originY -= obj.liikkeenSuuruus;
+                            else obj.originY += obj.liikkeenSuuruus;
+                            obj.liikettäJäljellä--;
+                        }
+                    break;
+                    case LIIKKUVA_Z_EDESTAKAISIN:
+                        if (obj.liikettäJäljellä > 0) {
+                            if (obj.käänteinenSuunta) obj.originZ -= obj.liikkeenSuuruus;
+                            else obj.originZ += obj.liikkeenSuuruus;
+                            obj.liikettäJäljellä--;
+                        }
+                    break;
+                    case PYÖRIVÄ_Y:
+                        obj.rotaatioY += obj.liikkeenSuuruus;
+                    break;
+                    case null, default:
+                    break;
+                }
+                if (obj.liikettäJäljellä <= 0) {
+                    obj.käänteinenSuunta = !obj.käänteinenSuunta;
+                    obj.liikettäJäljellä = 100;
+                }
+            }
+        }
+    }
+
     private enum Liike {
         ETEENPÄIN,
         TAAKSEPÄIN,
@@ -471,15 +591,96 @@ public class Keimo3D {
                 vSpeed -= 0.002f;
             }
         }
-        if (testUNeg) {
-            testUV--;
-            randUV();
-        }
-        if (testUPos) {
-            testUV++;
-            randUV();
-        }
+        mitenVitunVammaisenFunktionVoiTarviaUVMäppäystenTestaamiseenKysynpäVaan();
+        liikutaObjekteja();
         //System.out.println("" + doJump + " " + vSpeed);
+    }
+
+    private static void mitenVitunVammaisenFunktionVoiTarviaUVMäppäystenTestaamiseenKysynpäVaan() {
+        if (testU1Neg) {
+            //testUV--;
+            //randUV();
+            OBJMalli.randU1 -= 0.1f;
+            System.out.println("randU1: " + OBJMalli.randU1);
+            System.out.println("randV1: " + OBJMalli.randV1);
+        }
+        if (testU1Pos) {
+            //testUV++;
+            //randUV();
+            OBJMalli.randU1 += 0.1f;
+            System.out.println("randU1: " + OBJMalli.randU1);
+            System.out.println("randV1: " + OBJMalli.randV1);
+        }
+        if (testV1Neg) {
+            //testUV--;
+            //randUV();
+            OBJMalli.randV1 -= 0.1f;
+            System.out.println("randU1: " + OBJMalli.randU1);
+            System.out.println("randV1: " + OBJMalli.randV1);
+        }
+        if (testV1Pos) {
+            //testUV++;
+            //randUV();
+            OBJMalli.randV1 += 0.1f;
+            System.out.println("randU1: " + OBJMalli.randU1);
+            System.out.println("randV1: " + OBJMalli.randV1);
+        }
+        if (testU2Neg) {
+            //testUV--;
+            //randUV();
+            OBJMalli.randU2 -= 0.1f;
+            System.out.println("randU2: " + OBJMalli.randU2);
+            System.out.println("randV2: " + OBJMalli.randV2);
+        }
+        if (testU2Pos) {
+            //testUV++;
+            //randUV();
+            OBJMalli.randU2 += 0.1f;
+            System.out.println("randU2: " + OBJMalli.randU2);
+            System.out.println("randV2: " + OBJMalli.randV2);
+        }
+        if (testV2Neg) {
+            //testUV--;
+            //randUV();
+            OBJMalli.randV2 -= 0.1f;
+            System.out.println("randU2: " + OBJMalli.randU2);
+            System.out.println("randV2: " + OBJMalli.randV2);
+        }
+        if (testV2Pos) {
+            //testUV++;
+            //randUV();
+            OBJMalli.randV2 += 0.1f;
+            System.out.println("randU2: " + OBJMalli.randU2);
+            System.out.println("randV2: " + OBJMalli.randV2);
+        }
+        if (testU3Neg) {
+            //testUV--;
+            //randUV();
+            OBJMalli.randU3 -= 0.1f;
+            System.out.println("randU3: " + OBJMalli.randU3);
+            System.out.println("randV3: " + OBJMalli.randV3);
+        }
+        if (testU3Pos) {
+            //testUV++;
+            //randUV();
+            OBJMalli.randU3 += 0.1f;
+            System.out.println("randU3: " + OBJMalli.randU3);
+            System.out.println("randV3: " + OBJMalli.randV3);
+        }
+        if (testV3Neg) {
+            //testUV--;
+            //randUV();
+            OBJMalli.randV3 -= 0.1f;
+            System.out.println("randU3: " + OBJMalli.randU3);
+            System.out.println("randV3: " + OBJMalli.randV3);
+        }
+        if (testV3Pos) {
+            //testUV++;
+            //randUV();
+            OBJMalli.randV3 += 0.1f;
+            System.out.println("randU3: " + OBJMalli.randU3);
+            System.out.println("randV3: " + OBJMalli.randV3);
+        }
     }
 
     private static void randUV() {

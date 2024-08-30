@@ -7,6 +7,7 @@ import keimo.Säikeet.*;
 import keimo.Utility.Käännettävä;
 import keimo.Utility.SkaalattavaKuvake;
 import keimo.Liikkuminen.*;
+import keimo.Maastot.EsteTile;
 
 import javax.swing.*;
 import java.awt.Rectangle;
@@ -30,6 +31,9 @@ public class Pelaaja implements Käännettävä {
     public static SkaalattavaKuvake vilkkuvaKuvake;
     public static int kuolemattomuusAika;
     public static int reaktioAika;
+    public static int hyökkäysAika;
+    public static int hyökkäysViive;
+    public static Ase käytettyAse;
     static boolean vihollisenKohdalla = false;
     static Vihollinen vihollinenKohdalla;
     public static Vihollinen viimeisinOsunutVihollinen;
@@ -628,6 +632,44 @@ public class Pelaaja implements Käännettävä {
         }
     }
 
+    public static void teleporttaaLähimpäänTurvalliseenKohtaan(int alkuX, int alkuY) {
+        boolean kenttäTurvallinen = false;
+        boolean maastoTurvallinen = false;
+        for (int y = alkuY; y < Peli.kentänKoko; y++) {
+            for (int x = alkuX; x < Peli.kentänKoko; x++) {
+                if (Peli.maastokenttä[x][y] instanceof EsteTile) {
+                    maastoTurvallinen = false;
+                }
+                else {
+                    maastoTurvallinen = true;
+                }
+                if (Peli.pelikenttä[x][y] instanceof VisuaalinenObjekti) {
+                    VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[x][y];
+                    if (vo.onkoEste()) {
+                        kenttäTurvallinen = false;
+                    }
+                    else {
+                        kenttäTurvallinen = true;
+                    }
+                }
+                else {
+                    kenttäTurvallinen = true;
+                }
+
+                if (kenttäTurvallinen && maastoTurvallinen) {
+                    teleport(x, y);
+                    return;
+                }
+            }
+        }
+        if (alkuX == 0 && alkuY == 0) {
+            PääIkkuna.avaaDialogi(null, "Huoneessa ei ole turvallisia ruutuja", "Turvallinen teleporttaus epäonnistui");
+        }
+        else {
+            teleporttaaLähimpäänTurvalliseenKohtaan(0, 0);
+        }
+    }
+
     public static int annaEsineidenMäärä() {
         int määrä = 0;
         for (int i = 0; i < esineet.length; i++) {
@@ -681,6 +723,15 @@ public class Pelaaja implements Käännettävä {
     public static void vähennäReaktioAikaa() {
         if (reaktioAika > 0) {
             reaktioAika--;
+        }
+    }
+
+    public static void vähennäHyökkäysAikaa() {
+        if (hyökkäysAika > 0) {
+            hyökkäysAika--;
+        }
+        if (hyökkäysViive > 0) {
+            hyökkäysViive--;
         }
     }
 

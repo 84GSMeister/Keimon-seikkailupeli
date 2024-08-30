@@ -16,6 +16,7 @@ public class TarinaPätkä {
     protected ImageIcon[] kuvat;
     protected String[] kuvatiedostot;
     protected String[] tekstit;
+    protected String taustamusa;
 
     public int annaId() {
         return id;
@@ -39,6 +40,10 @@ public class TarinaPätkä {
 
     public String[] annaTekstit() {
         return tekstit;
+    }
+
+    public String annaTaustamusa() {
+        return taustamusa;
     }
 
     public TarinaPätkä(String nimi, int pituus, String[] kuvatiedostot, String[] tekstit) {

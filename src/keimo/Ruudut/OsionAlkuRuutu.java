@@ -1,6 +1,7 @@
 package keimo.Ruudut;
 
 import keimo.*;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.KeimoFontit;
 
 import java.awt.*;
@@ -255,11 +256,12 @@ public class OsionAlkuRuutu {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_SPACE, KeyEvent.VK_ENTER:
+                        ÄänentoistamisSäie.toistaSFX("Valinta");
                         jatka();
-                        break;
+                    break;
                     default:
                         System.out.println("Näppäimellä "+ e.getKeyCode() + " ei ole toimintoa.");
-                        break;
+                    break;
                 }
             }
     

@@ -101,7 +101,6 @@ public class PeliSäie extends Thread {
             if (!Peli.pause && !Peli.pauseDialogi) {
                 Peli.pelaajanLiike();
                 Peli.pelinKulku();
-                ÄänentoistamisSäie.toistaÄäniJono();
                 PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
                 if (Peli.globaaliTickit % 2 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
@@ -112,12 +111,12 @@ public class PeliSäie extends Thread {
                 if (Peli.globaaliTickit % 60 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka60Tick();
                 }
-                if (Peli.globaaliTickit % 100 == 0) {
-                    PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();
-                }
-                if ((Peli.globaaliTickit-1) % 2000 == 0) {
+                if (Peli.globaaliTickit % 2000 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2000Tick();
                 }
+                if (Peli.globaaliTickit % 100 == 0) {
+                    PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();
+                }   
             }
             if (Peli.globaaliTickit % 2 == 0) {
                 scrollaaDialogiTeksti();
@@ -134,7 +133,7 @@ public class PeliSäie extends Thread {
         double operaatioAika = System.nanoTime();
 
         while (System.nanoTime() - alkuAika < tavoitePäivitysaika) {
-            Thread.yield();
+            //Thread.yield();
             try {
                 if (PelinAsetukset.ajoitus == AjoitusMuoto.TARKKA) {}
                 else {

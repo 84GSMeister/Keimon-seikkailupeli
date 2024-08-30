@@ -2,6 +2,22 @@
 
 ## Uusin versio (6.8.2024): 0.9.1
 
+### Versio 0.9.2
+
+ - Lisätty Pomohuone Velhometsään
+ - Hyökkäysmekaniikat uudistettu: Nyt pelaaja voi lyödä ilmaa aseella, ja jos lyönnin aikana osuu viholliseen, vihollinen ottaa vahinkoa
+ - Editorissa voi lisätä entityjä (NPC:t ja muut entityt nyt samassa valikossa). Valikkoon lisätty myös kuvakkeet.
+ - Entityt voivat olla kaiken kokoisia. Lisätty iso laatikko.
+ - Ämpärijonosta voi poistua (Korjattu dialoginvalinnan sivuvaikutukset ämpärijonoruudussa)
+ - Lisätty ääniefektit: kerääminen, pudottaminen, hyökkäys, esineen käyttäminen, jallupullo
+ - Lisätty ääniefektit alkuvalikkoon ja tarinaruutuun
+ - Lisätty äänitesti-ikkuna
+ - Musat vaihtuvat huonekohtaisesti (vanha musavalikko siirretty äänitestin taakse (Peli -> Asetukset -> Avaa äänitesti))
+ - Korjattu tappolaskuri vastaamaan kukistettuja vihollisia lyöntien määrän sijaan
+ - Valintaruutujen (dialogivalinta, ämpärijono) GUI hieman uudistettu
+ - Korjattu virheelliset tilet ja objektit kotoa
+ - Lisää tölkkiääniä
+
 ### Versio 0.9.1: Keimon nimipäiväpäivitys
 
  - Lisätty Enityt: Työnnettävät laatikot

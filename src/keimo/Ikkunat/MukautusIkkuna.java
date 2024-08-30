@@ -78,7 +78,7 @@ public class MukautusIkkuna {
             huoneenSisältöString += k.annaNimi() + ", ";
         }
         System.out.println("Huoneeseen asetetaan " + huoneenSisältöString);
-        Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null);
+        Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null, null);
         Peli.huoneVaihdettava = true;
         Peli.uusiHuone = huoneenId;
         huoneenSisältöLista.removeAll(huoneenSisältöLista);

@@ -2,7 +2,7 @@ package keimo.Kenttäkohteet;
 
 import javax.swing.ImageIcon;
 
-public final class Vesiämpäri extends Esine {
+public final class Vesiämpäri extends Ase {
 
     @Override
     public String käytä() {
@@ -37,6 +37,8 @@ public final class Vesiämpäri extends Esine {
         super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png");
         super.tiedostonNimi = "vesiämpäri.png";
         super.vahinko = 2;
+        super.hyökkäysAika = 10;
+        super.hyökkäysViive = 30;
         super.asetaTiedot();
     }
 }

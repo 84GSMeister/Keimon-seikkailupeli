@@ -3,9 +3,6 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.Ikkunat.LatausIkkuna;
-import keimo.Kenttäkohteet.*;
-import keimo.Maastot.Maasto;
-import keimo.NPCt.TyönnettäväLaatikko;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +10,6 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;

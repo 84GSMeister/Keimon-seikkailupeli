@@ -25,7 +25,15 @@ public abstract class Lepopaikka extends Kiintopiste {
             System.out.println("hp: " + Pelaaja.hp);
             Pelaaja.päivitäTerveys();
             Pelaaja.känninVoimakkuusFloat = 0;
-            return "Känni on nollattu, mutta krapula saattaa vaikuttaa elinvoimaasi.";
+            if (hpVähennys <= 0) {
+                return "Nukuit kännisen yön yli. Sinulle ei tullut krapulaa.";
+            }
+            else if (hpVähennys == 1) {
+                return "Nukuit kännisen yön yli. Nyt sinulla on krapula (menetit " + hpVähennys + " elämäpisteen).";
+            }
+            else {
+                return "Nukuit kännisen yön yli. Nyt sinulla on krapula (menetit " + hpVähennys + " elämäpistettä).";
+            }
         }
     }
     

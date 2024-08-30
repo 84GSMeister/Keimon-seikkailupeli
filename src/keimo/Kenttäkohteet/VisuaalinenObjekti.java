@@ -52,7 +52,15 @@ public class VisuaalinenObjekti extends KenttäKohde {
         return katsomisDialogi;
     }
     public void asetaKatsomisDialogi(String dialogi) {
-        this.katsomisDialogi = dialogi;
+        if (dialogi == null) {
+            this.katsottava = false;
+            this.katsomisDialogi = null;
+        }
+        else {
+            this.katsottava = true;
+            this.katsomisDialogi = dialogi;
+        }
+        päivitäLisäOminaisuudet();
     }
 
     public void käännäKuvaa(KääntöValinta kääntö) {

@@ -25,25 +25,25 @@ public class HuoneEditorinMetodit {
         String uusiHuoneenTaustanPolku = "";
         String uusiHuoneenTarinanTunniste = null;
         String uusiHuoneenVaadittuTavoite = null;
-        //boolean lataaTarinaRuutu = false;
+        String uusiMusa = null;
 
         String luotavaObjekti = "";
         int luotavanObjektinX = 0;
         int luotavanObjektinY = 0;
         String[] luotavanObjektinOminaisuusLista = {""};
-        ArrayList<KenttäKohde> uusiObjektiLista = new ArrayList<KenttäKohde>();
+        ArrayList<KenttäKohde> uusiObjektiLista = new ArrayList<>();
 
         String luotavaMaasto = "";
         int luotavanMaastonX = 0;
         int luotavanMaastonY = 0;
         String[] luotavanMaastonOminaisuusLista = {""};
-        ArrayList<Maasto> uusiMaastoLista = new ArrayList<Maasto>();
+        ArrayList<Maasto> uusiMaastoLista = new ArrayList<>();
 
         String luotavaNPC = "";
         int luotavanNPCnX = 0;
         int luotavanNPCnY = 0;
         String[] luotavanNPCnOminaisuusLista = {""};
-        ArrayList<NPC> uusiNPCLista = new ArrayList<NPC>();
+        ArrayList<Entity> uusiNPCLista = new ArrayList<>();
 
         boolean uusiWarpVasen = false;
         int uusiWarpVasenHuoneId = 0;
@@ -83,6 +83,9 @@ public class HuoneEditorinMetodit {
                     }
                     else if (tarkastettavaRivi.contains("#tausta:")) {
                         uusiHuoneenTaustanPolku = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
+                    }
+                    else if (tarkastettavaRivi.contains("#musa:")) {
+                        uusiMusa = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
                     }
 
                     else if (tarkastettavaRivi.contains("#warp_vasen:")) {
@@ -391,7 +394,7 @@ public class HuoneEditorinMetodit {
                         }
                     }
                 }
-                Huone huone = new Huone(uusiHuoneenId, uusiHuoneenKoko, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, uusiHuoneenTarinanTunniste, uusiHuoneenVaadittuTavoite);
+                Huone huone = new Huone(uusiHuoneenId, uusiHuoneenKoko, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, uusiMusa, uusiHuoneenTarinanTunniste, uusiHuoneenVaadittuTavoite);
                 huone.päivitäReunawarppienTiedot(uusiWarpVasen, uusiWarpVasenHuoneId, uusiWarpOikea, uusiWarpOikeaHuoneId, uusiWarpAlas, uusiWarpAlasHuoneId, uusiWarpYlös, uusiWarpYlösHuoneId);
                 //System.out.println("huone: " + huone.annaId() + ", vasen warp: " + huone.warpVasen + huone.warpVasenHuoneId + ", oikea warp: " + huone.warpOikea + huone.warpOikeaHuoneId + ", alas warp: " + huone.warpAlas + huone.warpAlasHuoneId + ", ylös warp: " + huone.warpYlös + huone.warpYlösHuoneId);
                 uusiHuoneKartta.put(uusiHuoneenId, huone);
@@ -438,25 +441,25 @@ public class HuoneEditorinMetodit {
         String uusiHuoneenTaustanPolku = "";
         String uusiHuoneenTarinanTunniste = null;
         String uusiHuoneenVaadittuTavoite = null;
-        //boolean lataaTarinaRuutu = false;
+        String uusiMusa = null;
 
         String luotavaObjekti = "";
         int luotavanObjektinX = 0;
         int luotavanObjektinY = 0;
         String[] luotavanObjektinOminaisuusLista = {""};
-        ArrayList<KenttäKohde> uusiObjektiLista = new ArrayList<KenttäKohde>();
+        ArrayList<KenttäKohde> uusiObjektiLista = new ArrayList<>();
 
         String luotavaMaasto = "";
         int luotavanMaastonX = 0;
         int luotavanMaastonY = 0;
         String[] luotavanMaastonOminaisuusLista = {""};
-        ArrayList<Maasto> uusiMaastoLista = new ArrayList<Maasto>();
+        ArrayList<Maasto> uusiMaastoLista = new ArrayList<>();
 
         String luotavaNPC = "";
         int luotavanNPCnX = 0;
         int luotavanNPCnY = 0;
         String[] luotavanNPCnOminaisuusLista = {""};
-        ArrayList<NPC> uusiNPCLista = new ArrayList<NPC>();
+        ArrayList<Entity> uusiNPCLista = new ArrayList<>();
 
         boolean uusiWarpVasen = false;
         int uusiWarpVasenHuoneId = 0;
@@ -496,6 +499,9 @@ public class HuoneEditorinMetodit {
                     }
                     else if (tarkastettavaRivi.contains("#tausta:")) {
                         uusiHuoneenTaustanPolku = tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1);
+                    }
+                    else if (tarkastettavaRivi.contains("#musa:")) {
+                        uusiMusa = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
                     }
 
                     else if (tarkastettavaRivi.contains("#warp_vasen:")) {
@@ -744,7 +750,7 @@ public class HuoneEditorinMetodit {
                         }
                     }
                 }
-                Huone huone = new Huone(uusiHuoneenId, uusiHuoneenKoko, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, uusiHuoneenTarinanTunniste, uusiHuoneenVaadittuTavoite);
+                Huone huone = new Huone(uusiHuoneenId, uusiHuoneenKoko, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, uusiMusa, uusiHuoneenTarinanTunniste, uusiHuoneenVaadittuTavoite);
                 huone.päivitäReunawarppienTiedot(uusiWarpVasen, uusiWarpVasenHuoneId, uusiWarpOikea, uusiWarpOikeaHuoneId, uusiWarpAlas, uusiWarpAlasHuoneId, uusiWarpYlös, uusiWarpYlösHuoneId);
                 //System.out.println("huone: " + huone.annaId() + ", vasen warp: " + huone.warpVasen + huone.warpVasenHuoneId + ", oikea warp: " + huone.warpOikea + huone.warpOikeaHuoneId + ", alas warp: " + huone.warpAlas + huone.warpAlasHuoneId + ", ylös warp: " + huone.warpYlös + huone.warpYlösHuoneId);
                 //uusiHuoneKartta.put(uusiHuoneenId, huone);
@@ -867,8 +873,8 @@ public class HuoneEditorinMetodit {
         return Maasto.luoMaastoTiedoilla(maastonNimi, määritettySijainti, sijX, sijY, ominaisuusLista);
     }
 
-    static NPC luoNPCTiedoilla(String npcnNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
-        return NPC.luoNPCTiedoilla(npcnNimi, määritettySijainti, sijX, sijY, ominaisuusLista);
+    static Entity luoNPCTiedoilla(String npcnNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
+        return Entity.luoEntityTiedoilla(npcnNimi, määritettySijainti, sijX, sijY, ominaisuusLista);
     }
 
     static String luoMerkkijonotHuonekartasta(HashMap<Integer, Huone> huoneKartta, HashMap<String, TarinaPätkä> tarinaKartta) {
@@ -882,6 +888,7 @@ public class HuoneEditorinMetodit {
             huoneetMerkkijonoina[i] += "#nimi: " + huoneKartta.get(i).annaNimi() + ";" + "\n    ";
             huoneetMerkkijonoina[i] += "#alue: " + huoneKartta.get(i).annaAlue() + ";" + "\n    ";
             huoneetMerkkijonoina[i] += "#tausta: " + huoneKartta.get(i).annaTaustanPolku() + ";" + "\n    ";
+            huoneetMerkkijonoina[i] += "#musa: " + huoneKartta.get(i).annaHuoneenMusa() + ";" + "\n    ";
 
             if (huoneKartta.get(i).annaReunaWarppiTiedot(Suunta.VASEN)) {
                 huoneetMerkkijonoina[i] += "#warp_vasen: " + huoneKartta.get(i).annaReunaWarpinKohdeId(Suunta.VASEN) + ";" + "\n    ";
@@ -991,8 +998,8 @@ public class HuoneEditorinMetodit {
 
             try {
                 huoneetMerkkijonoina[i] += "#npc: " + "{\n";
-                for (NPC[] nn : huoneKartta.get(i).annaHuoneenNPCSisältö()) {
-                    for (NPC n : nn) {
+                for (Entity[] nn : huoneKartta.get(i).annaHuoneenNPCSisältö()) {
+                    for (Entity n : nn) {
                         if (n != null) {
                             if (n.onkoMääritettySijainti()) {
                                 huoneetMerkkijonoina[i] += "        " + n.annaNimi() + "_" + n.annaSijX() + "_" + n.annaSijY();
@@ -1070,6 +1077,7 @@ public class HuoneEditorinMetodit {
             huoneetMerkkijonoina += "#nimi: " + huoneKartta.get(id).annaNimi() + ";" + "\n    ";
             huoneetMerkkijonoina += "#alue: " + huoneKartta.get(id).annaAlue() + ";" + "\n    ";
             huoneetMerkkijonoina += "#tausta: " + huoneKartta.get(id).annaTaustanPolku() + ";" + "\n    ";
+            huoneetMerkkijonoina += "#musa: " + huoneKartta.get(id).annaHuoneenMusa() + ";" + "\n    ";
 
             if (huoneKartta.get(id).annaReunaWarppiTiedot(Suunta.VASEN)) {
                 huoneetMerkkijonoina += "#warp_vasen: " + huoneKartta.get(id).annaReunaWarpinKohdeId(Suunta.VASEN) + ";" + "\n    ";
@@ -1179,8 +1187,8 @@ public class HuoneEditorinMetodit {
 
             try {
                 huoneetMerkkijonoina += "#npc: " + "{\n";
-                for (NPC[] nn : huoneKartta.get(id).annaHuoneenNPCSisältö()) {
-                    for (NPC n : nn) {
+                for (Entity[] nn : huoneKartta.get(id).annaHuoneenNPCSisältö()) {
+                    for (Entity n : nn) {
                         if (n != null) {
                             if (n.onkoMääritettySijainti()) {
                                 huoneetMerkkijonoina += "        " + n.annaNimi() + "_" + n.annaSijX() + "_" + n.annaSijY();

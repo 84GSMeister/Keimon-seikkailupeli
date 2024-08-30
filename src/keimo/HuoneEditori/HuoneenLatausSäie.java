@@ -149,6 +149,7 @@ public class HuoneenLatausSäie { //implements Runnable {
                 HuoneEditoriIkkuna.huoneInfoLabel.setText("Huone " + uusiHuoneLatausSäie);
                 HuoneEditoriIkkuna.huoneenNimiLabel.setText(HuoneEditoriIkkuna.huoneenNimi + " (" + HuoneEditoriIkkuna.huoneenAlue + ")");
                 HuoneEditoriIkkuna.huoneenTaustakuvaPolku = HuoneEditoriIkkuna.huoneKartta.get(uusiHuoneLatausSäie).annaTaustanPolku();
+                HuoneEditoriIkkuna.huoneenMusa = HuoneEditoriIkkuna.huoneKartta.get(uusiHuoneLatausSäie).annaHuoneenMusa();
                 HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(uusiHuoneLatausSäie).annaReunaWarppiTiedot(Suunta.VASEN);
                 HuoneEditoriIkkuna.warpVasenHuoneId = HuoneEditoriIkkuna.huoneKartta.get(uusiHuoneLatausSäie).annaReunaWarpinKohdeId(Suunta.VASEN);
                 HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(uusiHuoneLatausSäie).annaReunaWarppiTiedot(Suunta.OIKEA);
@@ -191,7 +192,7 @@ public class HuoneenLatausSäie { //implements Runnable {
                 HuoneEditoriIkkuna.huoneenKoko = uusiKoko;
                 HuoneEditoriIkkuna.objektiKenttä = new KenttäKohde[uusiKoko][uusiKoko];
                 HuoneEditoriIkkuna.maastoKenttä = new Maasto[uusiKoko][uusiKoko];
-                HuoneEditoriIkkuna.npcKenttä = new NPC[uusiKoko][uusiKoko];
+                HuoneEditoriIkkuna.npcKenttä = new Entity[uusiKoko][uusiKoko];
                 HuoneEditoriIkkuna.kenttäKohteenKuvake = new JButton[uusiKoko][uusiKoko];
                 HuoneEditoriIkkuna.maastoKohteenKuvakeObjektiPanelissa = new JLabel[uusiKoko][uusiKoko];
                 HuoneEditoriIkkuna.maastoKohteenKuvakeNpcPanelissa = new JLabel[uusiKoko][uusiKoko];
@@ -218,7 +219,7 @@ public class HuoneenLatausSäie { //implements Runnable {
             int kohteensijY = 0;
             HuoneEditoriIkkuna.objektiKenttä = new KenttäKohde[uusiKoko][uusiKoko];
             HuoneEditoriIkkuna.maastoKenttä = new Maasto[uusiKoko][uusiKoko];
-            HuoneEditoriIkkuna.npcKenttä = new NPC[uusiKoko][uusiKoko];
+            HuoneEditoriIkkuna.npcKenttä = new Entity[uusiKoko][uusiKoko];
             HuoneEditoriIkkuna.kenttäKohteenKuvake = new JButton[uusiKoko][uusiKoko];
             HuoneEditoriIkkuna.maastoKohteenKuvake = new JButton[uusiKoko][uusiKoko];
             HuoneEditoriIkkuna.npcKohteenKuvake = new JButton[uusiKoko][uusiKoko];
@@ -437,8 +438,8 @@ public class HuoneenLatausSäie { //implements Runnable {
                                 if (SwingUtilities.isLeftMouseButton(e)) {
                                     String[] ominaisuusLista = new String[1];
                                     ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                    HuoneEditoriIkkuna.asetaNPCRuutuun(x, y, HuoneEditoriIkkuna.npcNimiLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()], ominaisuusLista);
-                                    HuoneEditoriIkkuna.tallennaMuutos("npc_aseta_" + HuoneEditoriIkkuna.npcNimiLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                    HuoneEditoriIkkuna.asetaNPCRuutuun(x, y, HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()], ominaisuusLista);
+                                    HuoneEditoriIkkuna.tallennaMuutos("npc_aseta_" + HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                                 }
                                 else if (SwingUtilities.isRightMouseButton(e)) {
                                     HuoneEditoriIkkuna.hiirenSijainti = e.getPoint();
@@ -447,7 +448,7 @@ public class HuoneenLatausSäie { //implements Runnable {
                                 else if (SwingUtilities.isMiddleMouseButton(e)) {
                                     String[] ominaisuusLista = new String[1];
                                     ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                    HuoneEditoriIkkuna.tallennaMuutos("npc_poista_" + HuoneEditoriIkkuna.npcNimiLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                    HuoneEditoriIkkuna.tallennaMuutos("npc_poista_" + HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                                     HuoneEditoriIkkuna.asetaNPCRuutuun(x, y, "", ominaisuusLista);
                                 }
                             }

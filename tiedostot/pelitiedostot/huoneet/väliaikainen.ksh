@@ -5,6 +5,7 @@ Huone 0:
     #nimi: Jatkuva_puisto;
     #alue: Puisto;
     #tausta: tausta_puisto.png;
+    #musa: puisto;
     #warp_vasen: 1;
     #warp_oikea: ;
     #warp_alas: ;
@@ -928,9 +929,11 @@ Huone 0:
         EsteTile_29_29+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_2_15+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=OIKEA],
-        Pahavihu_14_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA],
-        Pikkuvihu_14_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=OIKEA];
+        Pikkuvihu_2_13+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=OIKEA],
+        Laatikko_6_15,
+        Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA],
+        Pikkuvihu_17_23+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=OIKEA],
+        Laatikko_26_16;
     }
 /Huone
 

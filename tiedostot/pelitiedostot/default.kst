@@ -5,6 +5,7 @@ Huone 0:
     #nimi: Jatkuva_puisto;
     #alue: Puisto;
     #tausta: tausta_puisto.png;
+    #musa: puisto;
     #warp_vasen: 1;
     #warp_oikea: ;
     #warp_alas: ;
@@ -929,8 +930,10 @@ Huone 0:
     }
     #npc: {
         Pikkuvihu_2_13+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=OIKEA],
+        Laatikko_6_15,
         Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA],
-        Pikkuvihu_17_23+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=OIKEA];
+        Pikkuvihu_17_23+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=OIKEA],
+        Laatikko_26_16;
     }
 /Huone
 Huone 1:
@@ -938,6 +941,7 @@ Huone 1:
     #nimi: Asuintalot;
     #alue: Asuintalot;
     #tausta: tausta_asuintalot.png;
+    #musa: overworld;
     #warp_vasen: ;
     #warp_oikea: 0;
     #warp_alas: ;
@@ -1381,6 +1385,7 @@ Huone 2:
     #nimi: Pelto;
     #alue: Pelto;
     #tausta: tausta_pelto.png;
+    #musa: overworld;
     #warp_vasen: ;
     #warp_oikea: ;
     #warp_alas: 1;
@@ -2729,6 +2734,24 @@ Huone 2:
         Tile_31_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_31_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_31_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_32_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_32_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_32_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_7+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_8+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_10+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_11+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_12+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_13+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_14+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_15+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_16+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_32_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_32_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_32_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_32_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2751,6 +2774,14 @@ Huone 2:
         Tile_32_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_32_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_32_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_33_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_33_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_33_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_33_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2773,6 +2804,7 @@ Huone 2:
         Tile_33_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_33_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_33_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_34_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_34_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_34_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_34_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2795,6 +2827,7 @@ Huone 2:
         Tile_34_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_34_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_34_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_35_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_35_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_35_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_35_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2817,6 +2850,7 @@ Huone 2:
         Tile_35_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_35_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_35_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_36_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_36_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_36_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_36_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2839,6 +2873,7 @@ Huone 2:
         Tile_36_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_36_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_36_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_37_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_37_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_37_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_37_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2861,6 +2896,7 @@ Huone 2:
         Tile_37_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_37_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_37_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_38_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_38_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_38_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_38_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2883,6 +2919,7 @@ Huone 2:
         Tile_38_37+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_38_38+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_38_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_39_17+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_39_18+ominaisuudet:[kuva=jalkakäytävä.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_39_19+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_39_20+ominaisuudet:[kuva=asfaltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -2907,7 +2944,9 @@ Huone 2:
         Tile_39_39+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_13_33+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA];
+        Laatikko_8_16,
+        Pikkuvihu_13_33+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA],
+        Laatikko_31_8;
     }
 /Huone
 Huone 3:
@@ -2915,8 +2954,9 @@ Huone 3:
     #nimi: Metsä;
     #alue: Metsä;
     #tausta: tausta_metsä.png;
+    #musa: puisto;
     #warp_vasen: ;
-    #warp_oikea: ;
+    #warp_oikea: 7;
     #warp_alas: 1;
     #warp_ylös: 6;
     #tarina: ;
@@ -2924,7 +2964,7 @@ Huone 3:
     #kenttä: {
         Kuparilager_6_1,
         Kolikko_7_14,
-        Oviruutu_9_23+ominaisuudet:[kohdehuone=2,kohderuutuX=31,kohderuutuY=3,suunta=Vasen],
+        Oviruutu_9_23+ominaisuudet:[kohdehuone=2,kohderuutuX=31,kohderuutuY=4,suunta=Vasen],
         Kuparilager_11_1,
         Kuparilager_12_3,
         Kuparilager_12_5,
@@ -3823,7 +3863,7 @@ Huone 3:
         EsteTile_28_29+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_29_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_29_1+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_29_2+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_29_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_29_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_29_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -5001,6 +5041,7 @@ Huone 5:
     #nimi: Koti;
     #alue: Koti;
     #tausta: Koti;
+    #musa: tarina;
     #warp_vasen: ;
     #warp_oikea: ;
     #warp_alas: ;
@@ -5015,14 +5056,14 @@ Huone 5:
         Oviruutu_2_19+ominaisuudet:[kohdehuone=1,kohderuutuX=17,kohderuutuY=1,suunta=Alas],
         Koriste-esine_3_1+ominaisuudet:[kuva=pöydänkeskus_tv1_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_4_1+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Koriste-esine_4_16+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=kyläkauppa],
+        Koriste-esine_4_16+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kaasusytytin_4_18+ominaisuudet:[toimivuus=tyhjä],
         Kirstu_5_8+ominaisuudet:[sisältö=Pesäpallomaila,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Koriste-esine_5_16+ominaisuudet:[kuva=pöytä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_6_16+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei,katsottava=kyllä,dialogi=null],
         Koriste-esine_8_7+ominaisuudet:[kuva=sänky2.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=kyläkauppa],
         Sänky_8_8,
-        Koriste-esine_11_4+ominaisuudet:[kuva=wc_pönttö.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=asd],
+        Koriste-esine_11_4+ominaisuudet:[kuva=wc_pönttö.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Seteli_12_4,
         Koriste-esine_13_4+ominaisuudet:[kuva=wc_lavuaari.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_15_4+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -5097,8 +5138,8 @@ Huone 5:
         Tile_3_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_3_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_3_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_3_7+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        EsteTile_3_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä,y-peilaus=ei],
+        EsteTile_3_7+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä],
         EsteTile_3_9+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         EsteTile_3_10+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
         EsteTile_3_11+ominaisuudet:[kuva=kylmiö_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -5339,6 +5380,7 @@ Huone 6:
     #nimi: Metsä_kalja;
     #alue: Metsä;
     #tausta: null;
+    #musa: puisto;
     #warp_vasen: ;
     #warp_oikea: ;
     #warp_alas: 3;
@@ -5516,15 +5558,138 @@ Huone 6:
     #npc: {
     }
 /Huone
-Tarina 0:
+Huone 7:
+    #koko: 10;
+    #nimi: Metsä_boss;
+    #alue: Metsä;
+    #tausta: tausta_kaboom.png;
+    #musa: boss;
+    #warp_vasen: 3;
+    #warp_oikea: ;
+    #warp_alas: ;
+    #warp_ylös: ;
+    #tarina: boss;
+    #tavoite: Etsi pesäpallomaila;
+    #kenttä: {
+        Suklaalevy_0_7,
+        Pesäpallomaila_8_8,
+        Suklaalevy_9_2;
+    }
+    #maasto: {
+        EsteTile_0_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_0_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_1_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_2_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_3_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_4_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_5_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_6_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_7_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_3+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_4+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_5+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_6+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_8_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_1+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_2+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_3+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_4+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_5+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_6+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_7+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_8+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        EsteTile_9_9+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+    }
+    #npc: {
+        Pomo_4_4+ominaisuudet:[liiketapa=BOSS_LIIKE,suunta=OIKEA];
+    }
+/Huone
+Tarina 6:
     #nimi: boss;
     #pituus: 1;
     #sivut: {
-        kuva 0: null;
-        teksti 0: <html>  <head>      </head>  <body>    <p>      ebin boss fightti alkaa t&#228;st&#228;    </p>  </body></html>;
+        kuva 0: tiedostot\kuvat\tarina\boss\tarina_boss_1.png;
+        teksti 0: <html>  <head>      </head>  <body>    <p>      Ilke&#228; hahmo ilmaantuu yll&#228;tt&#228;en pensaan takaa. H&#228;n yritt&#228;&#228; johdattaa       sinut kaidalle tielle hirveiden pelien &#228;&#228;relle.    </p>    <p>      Sinun t&#228;ytyy pysy&#228; lujana ja vastustaa h&#228;nen houkutuksia. Torju h&#228;nen       h&#228;veli&#228;&#228;t pyynt&#246;ns&#228; kaikin keinoin!    </p>  </body></html>;
     }
 /Tarina
-Tarina 1:
+Tarina 4:
     #nimi: alku;
     #pituus: 3;
     #sivut: {
@@ -5536,7 +5701,7 @@ Tarina 1:
         teksti 2: <html><p>Puisto on autioitunut tavallisista ihmisistä.<br>Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä.<br>Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria.<br>Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme.<br><br>Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut?<br>Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin!</p></html>;
     }
 /Tarina
-Tarina 2:
+Tarina 5:
     #nimi: koti;
     #pituus: 1;
     #sivut: {

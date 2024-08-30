@@ -4,6 +4,7 @@ import keimo.Peli;
 import keimo.PelinAsetukset;
 import keimo.PääIkkuna;
 import keimo.Ruudut.PeliRuutu;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import java.awt.BorderLayout;
@@ -42,10 +43,10 @@ public class AsetusRuutu {
         musiikkiPäällä.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         musiikkiPäällä.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel valitseMusiikki = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_valitsemusiikki.png"));
-        valitseMusiikki.setForeground(Color.white);
-        valitseMusiikki.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
-        valitseMusiikki.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel äänetPäällä = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_äänet.png"));
+        äänetPäällä.setForeground(Color.white);
+        äänetPäällä.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
+        äänetPäällä.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel tavoiteFPS = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_tavoitefps.png"));
         tavoiteFPS.setForeground(Color.white);
@@ -75,9 +76,9 @@ public class AsetusRuutu {
             oikeaOsoitinAsetukset[i].setForeground(Color.white);
             oikeaOsoitinAsetukset[i].setFont(new Font("Courier10 BT", Font.PLAIN, 22));
         }
-        oikeaOsoitinAsetukset[0].setText("" + PelinAsetukset.vaikeusAste);
+        oikeaOsoitinAsetukset[0].setText("" + vaValittu);
         oikeaOsoitinAsetukset[1].setText("" + (PelinAsetukset.musiikkiPäällä ? "PÄÄLLÄ" : "POIS"));
-        oikeaOsoitinAsetukset[2].setText("" + PelinAsetukset.musiikkiValinta);
+        oikeaOsoitinAsetukset[2].setText("" + (PelinAsetukset.äänetPäällä ? "PÄÄLLÄ" : "POIS"));
         oikeaOsoitinAsetukset[3].setText("" + PelinAsetukset.tavoiteFPS);
         oikeaOsoitinAsetukset[4].setText("" + PelinAsetukset.tavoiteTickrate);
         oikeaOsoitinAsetukset[5] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
@@ -98,7 +99,7 @@ public class AsetusRuutu {
         nappiPaneliAsetukset.add(musiikkiPäällä);
         nappiPaneliAsetukset.add(oikeaOsoitinAsetukset[1]);
         nappiPaneliAsetukset.add(vasenOsoitinAsetukset[2]);
-        nappiPaneliAsetukset.add(valitseMusiikki);
+        nappiPaneliAsetukset.add(äänetPäällä);
         nappiPaneliAsetukset.add(oikeaOsoitinAsetukset[2]);
         nappiPaneliAsetukset.add(vasenOsoitinAsetukset[3]);
         nappiPaneliAsetukset.add(tavoiteFPS);
@@ -226,6 +227,7 @@ public class AsetusRuutu {
             default:
                 break;
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
 
     private static void päivitäOsoittimenSijaintiAsetuksissa(int valinta) {
@@ -270,7 +272,6 @@ public class AsetusRuutu {
             }
             else {
                 if (Peli.peliKäynnissä) {
-                    Peli.ääniSäie.run();
                     Peli.pausetaPeli(false);
                     Peli.pauseDialogi = false;
                     Peli.valintaDialogi = false;
@@ -293,7 +294,8 @@ public class AsetusRuutu {
     private static int vaVal = 1;
     private static String[] vaVaihtoehdot = {"Passiivinen", "Normaali", "Vaikea", "Järjetön"};
     private static String vaValittu = vaVaihtoehdot[1];
-    private static int musVal = 0;
+    private static int musVal = 1;
+    private static int ääniVal = 1;
     private static void säädäValikkoa(String näppäin) {
         switch (näppäin) {
             case "vasen":
@@ -313,9 +315,8 @@ public class AsetusRuutu {
                         PelinAsetukset.musiikkiPäällä = musVal % 2 != 0;
                     break;
                     case 2:
-                        if (PelinAsetukset.musiikkiValinta > 0) {
-                            PelinAsetukset.musiikkiValinta--;
-                        }
+                        ääniVal--;
+                        PelinAsetukset.äänetPäällä = ääniVal % 2 != 0;
                     break;
                     case 3:
                         if (PelinAsetukset.tavoiteFPS > 0) {
@@ -349,9 +350,8 @@ public class AsetusRuutu {
                         PelinAsetukset.musiikkiPäällä = musVal % 2 != 0;
                     break;
                     case 2:
-                        if (PelinAsetukset.musiikkiValinta < PelinAsetukset.musalistanPituus-1) {
-                            PelinAsetukset.musiikkiValinta++;
-                        }
+                        ääniVal++;
+                        PelinAsetukset.äänetPäällä = ääniVal % 2 != 0;
                     break;
                     case 3:
                         if (PelinAsetukset.tavoiteFPS < 1000) {
@@ -369,13 +369,14 @@ public class AsetusRuutu {
                 }
             break;
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
         päivitäMuutokset();
     }
 
     private static void päivitäMuutokset() {
         oikeaOsoitinAsetukset[0].setText("" + vaValittu);
         oikeaOsoitinAsetukset[1].setText("" + (PelinAsetukset.musiikkiPäällä ? "PÄÄLLÄ" : "POIS"));
-        oikeaOsoitinAsetukset[2].setText("" + PelinAsetukset.musiikkiValinta);
+        oikeaOsoitinAsetukset[2].setText("" + (PelinAsetukset.äänetPäällä ? "PÄÄLLÄ" : "POIS"));
         oikeaOsoitinAsetukset[3].setText("" + PelinAsetukset.tavoiteFPS);
         oikeaOsoitinAsetukset[4].setText("" + PelinAsetukset.tavoiteTickrate);
     }

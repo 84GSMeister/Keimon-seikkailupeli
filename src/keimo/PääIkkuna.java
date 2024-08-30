@@ -2,6 +2,7 @@ package keimo;
 
 import keimo.Ruudut.*;
 import keimo.Ruudut.Lisäruudut.*;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.HuoneEditori.*;
 import keimo.HuoneEditori.DialogiEditori.*;
 import keimo.Ikkunat.*;
@@ -68,7 +69,7 @@ public final class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v0.9.1 pre-alpha (6.8.2024)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v0.9.2 pre-alpha (19.8.2024)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -248,9 +249,6 @@ public final class PääIkkuna {
             if (Peli.grafiikkaSäie.getState() == Thread.State.TIMED_WAITING) {
                 Peli.grafiikkaSäie.interrupt();
             }
-            if (Peli.ääniSäie.getState() == Thread.State.TIMED_WAITING) {
-                Peli.ääniSäie.interrupt();
-            }
         });
         
         debug = new JMenu("Debug");
@@ -328,6 +326,7 @@ public final class PääIkkuna {
                 TarinaRuutu.luoTarinaPaneli("alku");
                 pääPaneeli.add(TarinaRuutu.tarinaPaneli, BorderLayout.CENTER);
                 aktiivinenRuutu = Ruudut.TARINARUUTU;
+                ÄänentoistamisSäie.toistaPeliMusa("tarina");
             break;
             case "valikkoruutu":
                 ValikkoRuutu.luoValikkoPaneli();
@@ -355,6 +354,7 @@ public final class PääIkkuna {
     public static void lataaTarinaRuutu(String tarinaRuudunTunniste) {
         pääPaneeli.removeAll();
         pääPaneeli.add(TarinaRuutu.luoTarinaPaneli(tarinaRuudunTunniste), BorderLayout.CENTER);
+        ÄänentoistamisSäie.toistaPeliMusa("tarina");
         pääPaneeli.revalidate();
         pääPaneeli.repaint();
     }
@@ -381,16 +381,10 @@ public final class PääIkkuna {
 
     
 
-    // public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste) {
-    //     VuoropuheDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste);
-    //     avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0]);
-    // }
-
     public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste) {
         if (VuoropuheDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste)) {
             avaaDialogi(VuoropuheDialogit.dialogiKuvat[0], VuoropuheDialogit.dialogiTekstit[0], VuoropuheDialogit.dialogiPuhujat[0], true, vuoropuheRuudunTunniste);
         }
-        //System.out.println(VuoropuheDialogit.valinnanNimi);
     }
 
     public static boolean äläSuljeNuolilla = false;
@@ -429,6 +423,7 @@ public final class PääIkkuna {
             tekstiäJäljellä = 1;
             PeliRuutu.vuoropuheTeksti.setText(kelattuTeksti);
         }
+        ÄänentoistamisSäie.toistaSFX("Valitse");
     }
 
     public static void edistäDialogia() {

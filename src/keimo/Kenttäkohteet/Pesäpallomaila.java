@@ -2,7 +2,7 @@ package keimo.Kenttäkohteet;
 
 import javax.swing.ImageIcon;
 
-public final class Pesäpallomaila extends Esine {
+public final class Pesäpallomaila extends Ase {
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -35,6 +35,8 @@ public final class Pesäpallomaila extends Esine {
         super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
         super.käyttöTeksti = "Löit vihollista turpaan";
         super.vahinko = 1;
+        super.hyökkäysAika = 5;
+        super.hyökkäysViive = 20;
         super.asetaTiedot();
     }
 }

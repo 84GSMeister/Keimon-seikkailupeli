@@ -9,14 +9,13 @@ public class Pikkuvihu extends Vihollinen {
 
     @Override
     public void kukista(String kukistusTapa) {
-        if (!this.kukistettu) {
-            this.kukistettu = true;
-            switch (kukistusTapa) {
-                case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
-                case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png"); break;
-                default: this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
-            }
+        super.kukista(kukistusTapa);
+        switch (kukistusTapa) {
+            case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
+            case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png"); break;
+            default: this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
         }
+        
     }
 
     @Override

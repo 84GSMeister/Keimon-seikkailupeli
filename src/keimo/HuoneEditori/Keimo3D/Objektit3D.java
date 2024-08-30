@@ -18,6 +18,9 @@ public class Objektit3D implements GLEventListener {
     TestiPyramidi testiPyramidi = new TestiPyramidi(1, 0, -6);
     TestiKuutio testiKuutio = new TestiKuutio(-1, 2, -3);
 
+    protected static ArrayList<OBJMalli> testiObjektit = new ArrayList<>();
+    
+
     private GLU glu = new GLU();
 
     public Objektit3D() {
@@ -25,6 +28,13 @@ public class Objektit3D implements GLEventListener {
         lattiaTilet.clear();
         Kenttä.tallennaVäliaikainenTiedosto();
         Kenttä.lataaGrafiikatKSTstä();
+        testiObjektit.add(new OBJMalli("asunto_yokyla", 2, new Point3D(-10, -6.25f, -10), false));
+        testiObjektit.add(new OBJMalli("yokyla_40-54", 1, new Point3D(-110, 100, 0), true));
+        testiObjektit.add(new OBJMalli("Wooden_Crate_2_test", 1, new Point3D(-10, 10, 0), true));
+        testiObjektit.add(new MukautuvaKenttäObjekti("Wooden_Crate_2", 1, new Point3D(-10, 0, -1), false, MukautuvaKenttäObjekti.ObjektiTyyppi.LIIKKUVA_X_EDESTAKAISIN, 0.02f));
+        testiObjektit.add(new MukautuvaKenttäObjekti("Wooden_Crate_2", 1, new Point3D(-10, 0, -1), false, MukautuvaKenttäObjekti.ObjektiTyyppi.LIIKKUVA_Y_EDESTAKAISIN, 0.01f));
+        testiObjektit.add(new MukautuvaKenttäObjekti("Wooden_Crate_2", 1, new Point3D(-10, 0, -1), false, MukautuvaKenttäObjekti.ObjektiTyyppi.LIIKKUVA_Z_EDESTAKAISIN, 0.03f));
+        testiObjektit.add(new MukautuvaKenttäObjekti("Wooden_Crate_2", 1, new Point3D(-10, 0, -1), false, MukautuvaKenttäObjekti.ObjektiTyyppi.PYÖRIVÄ_Y, 0.5f));
     }
 
     @Override
@@ -33,6 +43,9 @@ public class Objektit3D implements GLEventListener {
         piirräLattia(gl);
         piirräObjektit(gl);
         piirräTestiObjektit(gl);
+        for (OBJMalli obj : testiObjektit) {
+            obj.piirrä(gl);
+        }
     }
 
     @Override
@@ -68,6 +81,9 @@ public class Objektit3D implements GLEventListener {
         catch (IOException ioe) {
             ioe.printStackTrace();
         };
+        for (OBJMalli obj : testiObjektit) {
+            obj.alusta(gl);
+        }
     }
 
     @Override
@@ -95,44 +111,7 @@ public class Objektit3D implements GLEventListener {
 
     private void piirräObjektit(GL2 gl) {
         for (KenttäObjekti ko : kenttäObjektit) {
-            gl.glBindTexture(GL2.GL_TEXTURE_2D, ko.textureInt);
-            gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1f, 1f, 1f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY, ko.posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY, ko.posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY + 1, ko.posZ + 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY + 1, ko.posZ + 0.5f);
-
-            // Back Face
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY, ko.posZ - 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY + 1, ko.posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY + 1, ko.posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY, ko.posZ - 0.5f);
-
-            // Top Face
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY + 1, ko.posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY + 1, ko.posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY + 1, ko.posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY + 1, ko.posZ - 0.5f);
-
-            // Bottom Face
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY, ko.posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY, ko.posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY, ko.posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY, ko.posZ + 0.5f);
-
-            // Right face
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY, ko.posZ - 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY + 1, ko.posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY + 1, ko.posZ + 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(ko.posX + 0.5f, ko.posY, ko.posZ + 0.5f);
-
-            // Left Face
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY, ko.posZ - 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY, ko.posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY + 1, ko.posZ + 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(ko.posX - 0.5f, ko.posY + 1, ko.posZ - 0.5f);
-            gl.glEnd();
+            ko.piirrä(gl);
         }
     }
 

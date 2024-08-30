@@ -10,8 +10,9 @@ public class PelinAsetukset {
     public static final int RUUDUNPÄIVITYS = 60;
 
     public static int vaikeusAste = 1;
-    public static boolean musiikkiPäällä = false;
-    public static int musiikkiValinta = 0;
+    public static boolean musiikkiPäällä = true;
+    public static boolean äänetPäällä = true;
+    //public static int musiikkiValinta = 0;
     public static int tavoiteFPS = 0;
     public static int tavoiteTickrate = 60;
     public static AjoitusMuoto ajoitus = AjoitusMuoto.TARKKA;

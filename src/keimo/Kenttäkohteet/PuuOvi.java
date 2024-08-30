@@ -57,7 +57,6 @@ public final class PuuOvi extends Warp {
     public void ennenWarppia() {
         ÄänentoistamisSäie.toistaSFX("oven_avaus");
         this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi_avattu.png");
-        ÄänentoistamisSäie.toistaÄäniJono();
         try {
             Thread.sleep(1700);
         }

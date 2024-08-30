@@ -9,6 +9,7 @@ import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Ruudut.PeliRuutu.LisäRuutuPanelinTyyppi;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.KeimoFontit;
 import keimo.Utility.Downloaded.SpringUtilities;
@@ -28,6 +29,7 @@ public class ValintaDialogiRuutu {
         else {
             valintaInt--;
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
     public static void kasvataValintaa() {
         if (valintaInt >= valintojenMäärä-1) {
@@ -36,6 +38,7 @@ public class ValintaDialogiRuutu {
         else {
             valintaInt++;
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
 
     public static void luoValintaDialogiIkkuna(String tekstiTunniste) {
@@ -77,19 +80,16 @@ public class ValintaDialogiRuutu {
     private static JPanel valintaPaneli;
     public static JLabel[] vasenOsoitin;
     private static JLabel[] valinnat;
-    private static JLabel edistymisLabel;
     private static String valintaDialoginTunniste1;
 
     private static JPanel luoValintaDialogiPaneliGUI(String valintaDialoginTunniste) {
         valintaDialoginTunniste1 = valintaDialoginTunniste;
-        //vdp = VuoropuheDialogit.vuoropuheDialogiKartta.get(valintaDialoginTunniste);
-        testPanel = new JPanel();
+        testPanel = new JPanel(new BorderLayout());
         testPanel.removeAll();
         if (valintaDialoginTunniste == "pause" || valintaDialoginTunniste == "silta") {
             switch (valintaDialoginTunniste) {
                 case "pause":
                     otsikkoLabel = new JLabel("Pause");
-                    //otsikkoLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 24));
                     otsikkoLabel.setFont(KeimoFontit.fontti_keimo_20);
                     otsikkoLabel.setPreferredSize(new Dimension(382, 100));
                     otsikkoLabel.setForeground(Color.white);
@@ -109,7 +109,6 @@ public class ValintaDialogiRuutu {
                     valinnat[2] = new JLabel("Uusi peli");
                     valinnat[3] = new JLabel("Lopeta");
                     for (int i = 0; i < valintojenMäärä; i++) {
-                        //valinnat[i].setFont(new Font("Courier10 BT", Font.PLAIN, 30));
                         valinnat[i].setFont(KeimoFontit.fontti_keimo_30);
                         valinnat[i].setForeground(Color.white);
                         valinnat[i].setBackground(Color.black);
@@ -120,25 +119,19 @@ public class ValintaDialogiRuutu {
                         valintaPaneli.add(vasenOsoitin[i]);
                         valintaPaneli.add(valinnat[i]);
                     }
-                    valintaPaneli.setPreferredSize(new Dimension(382, 270));
+                    valintaPaneli.setBounds(0, 0, 382, 270);
                     valintaPaneli.setForeground(Color.white);
                     valintaPaneli.setBackground(Color.black);
                     valintaPaneli.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
                     SpringUtilities.makeCompactGrid(valintaPaneli, valintojenMäärä, 2, 6, 6, 6, 6);
             
-                    edistymisLabel = new JLabel("");
-                    edistymisLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 20));
-                    edistymisLabel.setPreferredSize(new Dimension(300, 100));
-            
                     testPanel.setForeground(Color.white);
                     testPanel.setBackground(Color.black);
                     testPanel.add(otsikkoLabel, BorderLayout.NORTH);
                     testPanel.add(valintaPaneli, BorderLayout.CENTER);
-                    testPanel.add(edistymisLabel, BorderLayout.SOUTH);
                 break;
                 case "silta":
                     otsikkoLabel = new JLabel("Hyppää?");
-                    //otsikkoLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 24));
                     otsikkoLabel.setFont(KeimoFontit.fontti_keimo_20);
                     otsikkoLabel.setPreferredSize(new Dimension(300, 100));
 
@@ -151,7 +144,6 @@ public class ValintaDialogiRuutu {
                     valinnat[0] = new JLabel("Kyllä");
                     valinnat[1] = new JLabel("Ei");
                     for (int i = 0; i < valintojenMäärä; i++) {
-                        //valinnat[i].setFont(new Font("Courier10 BT", Font.PLAIN, 30));
                         valinnat[i].setFont(KeimoFontit.fontti_keimo_30);
                     }
 
@@ -163,97 +155,38 @@ public class ValintaDialogiRuutu {
                     valintaPaneli.setPreferredSize(new Dimension(300, 100));
                     SpringUtilities.makeCompactGrid(valintaPaneli, valintojenMäärä, 2, 6, 6, 6, 6);
             
-                    edistymisLabel = new JLabel("");
-                    edistymisLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 20));
-                    edistymisLabel.setPreferredSize(new Dimension(300, 100));
-            
                     testPanel.setPreferredSize(new Dimension(300, 300));
                     testPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
                     testPanel.add(otsikkoLabel, BorderLayout.NORTH);
                     testPanel.add(valintaPaneli, BorderLayout.CENTER);
-                    testPanel.add(edistymisLabel, BorderLayout.SOUTH);
                 break;
-                // case "goblin":
-                //     otsikkoLabel = new JLabel("<html><p>Polku pimeälle puolelle, onko?</p></html>");
-                //     //otsikkoLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 16));
-                //     otsikkoLabel.setFont(KeimoFontit.fontti_keimo_20);
-                //     otsikkoLabel.setPreferredSize(new Dimension(300, 100));
-
-                //     valintojenMäärä = 2;
-                //     vasenOsoitin = new JLabel[valintojenMäärä];
-                //     vasenOsoitin[0] = new JLabel();
-                //     vasenOsoitin[1] = new JLabel();
-
-                //     valinnat = new JLabel[valintojenMäärä];
-                //     valinnat[0] = new JLabel("Hrmm...no kyllä on!");
-                //     valinnat[1] = new JLabel("Ei");
-                //     for (int i = 0; i < valintojenMäärä; i++) {
-                //         //valinnat[i].setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-                //         valinnat[i].setFont(KeimoFontit.fontti_keimo_30);
-                //     }
-
-                //     valintaPaneli = new JPanel(new SpringLayout());
-                //     for (int i = 0; i < valintojenMäärä; i++) {
-                //         valintaPaneli.add(vasenOsoitin[i]);
-                //         valintaPaneli.add(valinnat[i]);
-                //     }
-                //     valintaPaneli.setPreferredSize(new Dimension(300, 100));
-                //     SpringUtilities.makeCompactGrid(valintaPaneli, valintojenMäärä, 2, 6, 6, 6, 6);
-            
-                //     edistymisLabel = new JLabel("");
-                //     edistymisLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 20));
-                //     edistymisLabel.setPreferredSize(new Dimension(300, 100));
-            
-                //     testPanel.setPreferredSize(new Dimension(300, 300));
-                //     testPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-                //     testPanel.add(otsikkoLabel, BorderLayout.NORTH);
-                //     testPanel.add(valintaPaneli, BorderLayout.CENTER);
-                //     testPanel.add(edistymisLabel, BorderLayout.SOUTH);
-                // break;
             }
         }
         else {
             if (vdp.onkoValinta()) {
                 otsikkoLabel = new JLabel("<html><p>" + vdp.annaValinnanOtsikko() + "</p></html>");
-                //otsikkoLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 16));
-                otsikkoLabel.setFont(KeimoFontit.fontti_keimo_12);
+                otsikkoLabel.setFont(KeimoFontit.fontti_keimo_16);
+                otsikkoLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 otsikkoLabel.setPreferredSize(new Dimension(300, 100));
 
                 valintojenMäärä = vdp.annaValinnanVaihtoehdot().length;
                 vasenOsoitin = new JLabel[valintojenMäärä];
-                //vasenOsoitin[0] = new JLabel();
-                //vasenOsoitin[1] = new JLabel();
-
                 valinnat = new JLabel[valintojenMäärä];
-                //valinnat[0] = new JLabel("Hrmm...no kyllä on!");
-                //valinnat[1] = new JLabel("Ei");
                 valintaPaneli = new JPanel(new SpringLayout());
                 for (int i = 0; i < valintojenMäärä; i++) {
                     vasenOsoitin[i] = new JLabel();
-                    valinnat[i] = new JLabel(vdp.annaValinnanVaihtoehdot()[i]);
-                    //valinnat[i].setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+                    valinnat[i] = new JLabel("<html>" + vdp.annaValinnanVaihtoehdot()[i] + "</html>");
                     valinnat[i].setFont(KeimoFontit.fontti_keimo_20);
                     valintaPaneli.add(vasenOsoitin[i]);
                     valintaPaneli.add(valinnat[i]);
                 }
-
-                // valintaPaneli = new JPanel(new SpringLayout());
-                // for (int i = 0; i < valintojenMäärä; i++) {
-                //     valintaPaneli.add(vasenOsoitin[i]);
-                //     valintaPaneli.add(valinnat[i]);
-                // }
-                valintaPaneli.setPreferredSize(new Dimension(300, 100));
+                valintaPaneli.setBorder(BorderFactory.createLineBorder(Color.black));
                 SpringUtilities.makeCompactGrid(valintaPaneli, valintojenMäärä, 2, 6, 6, 6, 6);
-        
-                edistymisLabel = new JLabel("");
-                edistymisLabel.setFont(new Font("Courier10 BT", Font.PLAIN, 20));
-                edistymisLabel.setPreferredSize(new Dimension(300, 100));
         
                 testPanel.setPreferredSize(new Dimension(300, 300));
                 testPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
                 testPanel.add(otsikkoLabel, BorderLayout.NORTH);
                 testPanel.add(valintaPaneli, BorderLayout.CENTER);
-                testPanel.add(edistymisLabel, BorderLayout.SOUTH);
             }
             else {
                 return null;
@@ -322,13 +255,6 @@ public class ValintaDialogiRuutu {
             }
         }
         else {
-            // if (valintaInt == 0) {
-            //     TavoiteLista.suoritaTavoite("Avaa takahuone");
-            //     PääIkkuna.avaaPitkäDialogiRuutu("goblin_kyllä", null);
-            // }
-            // else {
-            //     PääIkkuna.avaaPitkäDialogiRuutu("goblin_ei", null);
-            // }
             if (vdp.annaTriggerit() != null) {
                 if (vdp.annaTriggerit()[valintaInt] != null) {
                     TavoiteLista.suoritaTavoite(vdp.annaTriggerit()[valintaInt]);
@@ -341,7 +267,7 @@ public class ValintaDialogiRuutu {
             PeliRuutu.lisäRuutuPaneli.repaint();
             PeliRuutu.lisäRuutuPaneli.setVisible(false);
         }
-        
+        ÄänentoistamisSäie.toistaSFX("Hyväksy");
     }
     public static void peruValinta() {
         switch (valintaDialoginTunniste1) {

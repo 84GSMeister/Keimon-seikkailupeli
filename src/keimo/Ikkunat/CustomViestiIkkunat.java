@@ -103,7 +103,15 @@ public class CustomViestiIkkunat {
 
     public static class Credits {
         
-        static String viesti = "Jonttu:\n-ohjelmointi\n\nUdo:\n-grafiikat\n-vuh-ääni\n\nKrisy:\n-kenttäsuunnittelu\n-tarina";
+        //static String viesti = "Jonttu:\n-ohjelmointi\n\nUdo:\n-grafiikat\n-vuh-ääni\n\nKrisy:\n-kenttäsuunnittelu\n-tarina";
+        static String viesti = "Tuottaja:\n    Joonatan\n\n" +
+        "Pelisuunnittelu:\n    Joonatan\n\n" +
+        "Ohjelmointi:\n    Joonatan\n\n" +
+        "Grafiikat ja animaatiot:\n    Unto\n\n" +
+        "Äänisuunnittelu:\n    Joonatan\n\n" +
+        "Musat:\n    Joonatan\n    Unto\n\n" +
+        "Kenttäsuunnittelu:\n    Kristian\n    Unto\n    Joonatan\n\n" +
+        "Tarina:\n    Kristian\n\n";
         static String otsikko = "Kehittäjät";
         static int valitaTyyppi = JOptionPane.OK_OPTION;
         static int viestiTyyppi = JOptionPane.INFORMATION_MESSAGE;
@@ -125,7 +133,7 @@ public class CustomViestiIkkunat {
         static String[] vaihtoehdot = {"Ok"};
 
         public static int näytäDialogi(String tavoite) {
-            return JOptionPane.showOptionDialog(null, viesti + tavoite, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
+            return JOptionPane.showOptionDialog(null, viesti + "" + tavoite, otsikko, valitaTyyppi, viestiTyyppi, kuvake, vaihtoehdot, vaihtoehdot[0]);
         }
     }
 

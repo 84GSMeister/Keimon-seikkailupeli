@@ -7,12 +7,10 @@ import keimo.Utility.Käännettävä;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import javax.swing.*;
 
 public abstract class NPC extends Entity implements Käännettävä {
     
-    public int id = 0;
-    boolean määritettySijainti = true;
+    
     public int nopeus;
     //public Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
     protected int hp;
@@ -20,99 +18,9 @@ public abstract class NPC extends Entity implements Käännettävä {
     
     public boolean onLadattuPelissä = false;
 
-    boolean lisäOminaisuuksia = false;
-    String[] lisäOminaisuudet;
-
-    String tiedot = "";
-    void asetaTiedot() {
-        tiedot = "";
-        tiedot += "NPC:n ID: " + this.id + "\n";
-        tiedot += "Nimi: " + this.annaNimi() + "\n";
-        //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
-        if (this instanceof Vihollinen) {
-            Vihollinen v = (Vihollinen)this;
-            tiedot += "HP: " + v.hp + "\n";
-            tiedot += "Vahinko: " + v.vahinko + "\n";
-            if (v.ampuu) {
-                tiedot += "Ammusvahinko: " + v.ammusVahinko + "\n";
-            }
-            tiedot += "Nopeus: " + v.nopeus + "\n";
-            if (v.tehoavatAseet != null) {
-                tiedot += "Tehoavat aseet: ";
-                for (String tehoavaAse : v.tehoavatAseet) {
-                    tiedot += tehoavaAse + ", ";
-                }
-                tiedot = tiedot.substring(0, tiedot.length()-2);
-                tiedot += "\n";
-            }
-            tiedot += "Kilpi tehoaa: " + (v.kilpiTehoaa ? "Kyllä" : "Ei") + "\n";
-            if (v.ominaisHuuto != null && v.ominaisHuuto != "") {
-                tiedot += "Ominaishuuto: " + v.ominaisHuuto + "\n";
-            }
-        }   
-    }
-    
-    public String annaTiedot() {
-        return tiedot;
-    }
-
-    public boolean onkoMääritettySijainti() {
-        return määritettySijainti;
-    }
-
-    /**
-     * NPC:n tilen X-koordinaatti
-     * @return X-sijainti (Tile)
-     */
-    public int annaSijX() {
-        return sijX;
-    }
-    /**
-     * NPC:n tilen Y-koordinaatti
-     * @return Y-sijainti (Tile)
-     */
-    public int annaSijY() {
-        return sijY;
-    }
-    /**
-     * NPC:n sijainti pelikentällä pikseleinä.
-     * Ei NPC:n sijainti näytöllä vaan scrollattavalla pelikentällä.
-     * @return NPC:n sijaintia vastaava piste (java.awt.Point)
-     */
     public Point annaSijaintiKentällä() {
         Point sijainti = new Point(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
         return sijainti;
-    }
-
-    public int annaAlkuSijX() {
-        return alkuSijX;
-    }
-
-    public int annaAlkuSijY() {
-        return alkuSijY;
-    }
-
-    public boolean onkolisäOminaisuuksia() {
-        return lisäOminaisuuksia;
-    }
-
-    public String[] annalisäOminaisuudet() {
-        return lisäOminaisuudet;
-    }
-
-    public String annaLisäOminaisuudetYhtenäMjonona() {
-        String mjono = "";
-		if (annalisäOminaisuudet() != null) {
-			for (String s : annalisäOminaisuudet()) {
-				mjono += s + ",";
-			}
-            mjono = mjono.substring(0, mjono.length()-1);
-		}
-        return mjono;
-    }
-
-    public Icon annaKuvake() {
-        return kuvake;
     }
 
     private boolean siirrä(Suunta suunta) {
@@ -335,44 +243,6 @@ public abstract class NPC extends Entity implements Käännettävä {
         return "Tältä kohteelta puuttuu sijamuotojen määritys.";
     }
 
-    public static NPC luoNPCTiedoilla(String npcnNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-
-        NPC luotavaNPC;
-
-        switch (npcnNimi) {
-
-            case "Asevihu":
-                luotavaNPC = new Asevihu(sijX, sijY, ominaisuusLista);
-            break;
-
-            case "Pikkuvihu":
-                luotavaNPC = new Pikkuvihu(sijX, sijY, ominaisuusLista);
-            break;
-
-            case "Pahavihu":
-                luotavaNPC = new Pahavihu(sijX, sijY, ominaisuusLista);
-            break;
-
-            case "Pomo":
-                luotavaNPC = new Boss(sijX, sijY, ominaisuusLista);
-            break;
-            
-            case "Vartija":
-                luotavaNPC = new Vartija(sijX, sijY, ominaisuusLista);
-            break;
-
-            default:
-                luotavaNPC = null;
-            break;
-        }
-
-        // if (luotavaNPC == null) {
-        //     JOptionPane.showMessageDialog(null, "Ei voi ladata npc:tä", "luotavaNPC = null", JOptionPane.ERROR_MESSAGE);
-        // }
-        //luotavaNPC.teleport(sijX, sijY);
-        return luotavaNPC;
-    }
-
     NPC(int sijX, int sijY) {
         super(sijX, sijY);
         this.id = TarkistettavatArvot.npcId;
@@ -380,8 +250,5 @@ public abstract class NPC extends Entity implements Käännettävä {
         this.onLadattuPelissä = false;
         this.hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
         this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
-        if (Peli.npcLista != null) {
-            Peli.lisääNPC(this);
-        }
     }
 }

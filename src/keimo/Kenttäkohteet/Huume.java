@@ -5,7 +5,8 @@ import javax.swing.ImageIcon;
 public final class Huume extends Ruoka {
 
     @Override
-    public String käytä(){
+    public String käytä() {
+        super.käytä();
         super.poista = true;
         return "Never stop the madness! (sait 30 elämäpistettä)";
     }

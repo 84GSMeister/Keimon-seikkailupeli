@@ -2,6 +2,7 @@ package keimo.Ruudut;
 
 import keimo.*;
 import keimo.Ikkunat.*;
+import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.HuoneEditori.*;
 import keimo.Utility.KeimoFontit;
 import keimo.Utility.Downloaded.SpringUtilities;
@@ -27,7 +28,7 @@ public class ValikkoRuutu {
     static int valinta = 0;
     static JLabel[] vasenOsoitin, vasenOsoitinAsetukset, oikeaOsoitinAsetukset;
 
-    static JLabel vaikeusAste, musiikkiPäällä, valitseMusiikki, tavoiteFPS, tavoiteTickrate, takaisin;
+    static JLabel vaikeusAste, musiikkiPäällä, äänetPäällä, tavoiteFPS, tavoiteTickrate, takaisin;
     static final int asetustenMäärä = 6;
     static int valintaAsetuksissa = 0;
     static JPanel infoPaneliAsetukset;
@@ -58,6 +59,7 @@ public class ValikkoRuutu {
             default:
                 break;
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
 
     public static void painaNäppäintäAsetuksissa(String näppäin) {
@@ -69,7 +71,7 @@ public class ValikkoRuutu {
                     valintaAsetuksissa = asetustenMäärä-1;
                 }
                 infoLabelAsetukset.setText(infoTekstiAsetukset[valintaAsetuksissa]);
-                if (valintaAsetuksissa == 0 || valintaAsetuksissa == 2) {
+                if (valintaAsetuksissa == 0) {
                     infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 10));
                     infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_10);
                 }
@@ -85,7 +87,7 @@ public class ValikkoRuutu {
                     valintaAsetuksissa = 0;
                 }
                 infoLabelAsetukset.setText(infoTekstiAsetukset[valintaAsetuksissa]);
-                if (valintaAsetuksissa == 2) {
+                if (valintaAsetuksissa == 0) {
                     infoLabelAsetukset.setFont(new Font("Courier10 BT", Font.PLAIN, 10));
                     infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_10);
                 }
@@ -101,12 +103,13 @@ public class ValikkoRuutu {
             default:
                 break;
         }
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
 
     static void päivitäOsoittimenSijainti(int valinta) {
         for (int i = 0; i < vaihtoehtojenMäärä; i++) {
             if (i == valinta) {
-                vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+                vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
             }
             else {
                 vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
@@ -117,7 +120,7 @@ public class ValikkoRuutu {
     static void päivitäOsoittimenSijaintiAsetuksissa(int valinta) {
         for (int i = 0; i < asetustenMäärä; i++) {
             if (i == valinta) {
-                vasenOsoitinAsetukset[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+                vasenOsoitinAsetukset[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
             }
             else {
                 vasenOsoitinAsetukset[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
@@ -131,6 +134,7 @@ public class ValikkoRuutu {
             case 0: // Aloita peli
                 PääIkkuna.lataaRuutu("osionalkuruutu");
                 OsionAlkuRuutu.osionAlkuPaneli.requestFocus();
+                ÄänentoistamisSäie.toistaSFX("Hyväksy");
                 break;
             case 1: // Asetukset
                 alkuvalikonKorttiLayout.next(kortit);
@@ -176,7 +180,8 @@ public class ValikkoRuutu {
     static int vaVal = 1;
     static String[] vaVaihtoehdot = {"Passiivinen", "Normaali", "Vaikea", "Järjetön"};
     static String vaValittu = vaVaihtoehdot[1];
-    static int musVal = 0;
+    static int musVal = 1;
+    static int ääniVal = 1;
     public static void säädäValikkoa(String näppäin) {
         switch (näppäin) {
             case "vasen":
@@ -185,26 +190,30 @@ public class ValikkoRuutu {
                         if (vaVal > 0) {
                             vaVal--;
                             vaValittu = vaVaihtoehdot[vaVal % 4];
+                            ÄänentoistamisSäie.toistaSFX("Valinta");
                         }
                         PelinAsetukset.valitseVaikeusaste(vaValittu);
                     break;
                     case 1:
                         musVal--;
                         PelinAsetukset.musiikkiPäällä = musVal % 2 != 0;
+                        ÄänentoistamisSäie.toistaSFX("Valinta");
                     break;
                     case 2:
-                        if (PelinAsetukset.musiikkiValinta > 0) {
-                            PelinAsetukset.musiikkiValinta--;
-                        }
+                        ääniVal--;
+                        PelinAsetukset.äänetPäällä = ääniVal % 2 != 0;
+                        ÄänentoistamisSäie.toistaSFX("Valinta");
                     break;
                     case 3:
                         if (PelinAsetukset.tavoiteFPS > 0) {
                             PelinAsetukset.tavoiteFPS--;
+                            ÄänentoistamisSäie.toistaSFX("Valinta");
                         }
                     break;
                     case 4:
                         if (PelinAsetukset.tavoiteTickrate > 1) {
                             PelinAsetukset.tavoiteTickrate--;
+                            ÄänentoistamisSäie.toistaSFX("Valinta");
                         }
                     break;
                     default:
@@ -217,27 +226,30 @@ public class ValikkoRuutu {
                         if (vaVal < vaVaihtoehdot.length -1) {
                             vaVal++;
                             vaValittu = vaVaihtoehdot[vaVal % 4];
+                            ÄänentoistamisSäie.toistaSFX("Valinta");
                         }
                         PelinAsetukset.valitseVaikeusaste(vaValittu);
                     break;
                     case 1:
                         musVal++;
                         PelinAsetukset.musiikkiPäällä = musVal % 2 != 0;
+                        ÄänentoistamisSäie.toistaSFX("Valinta");
                     break;
                     case 2:
-                        if (PelinAsetukset.musiikkiValinta < PelinAsetukset.musalistanPituus-1) {
-                            PelinAsetukset.musiikkiValinta++;
-                        }
+                        ääniVal++;
+                        PelinAsetukset.äänetPäällä = ääniVal % 2 != 0;
+                        ÄänentoistamisSäie.toistaSFX("Valinta");
                     break;
                     case 3:
                         if (PelinAsetukset.tavoiteFPS < 1000) {
                             PelinAsetukset.tavoiteFPS++;
-                            //PelinAsetukset.RUUDUNPÄIVITYS = PelinAsetukset.tavoiteFPS;
+                            ÄänentoistamisSäie.toistaSFX("Valinta");
                         }
                     break;
                     case 4:
                         if (PelinAsetukset.tavoiteTickrate < 1000) {
                             PelinAsetukset.tavoiteTickrate++;
+                            ÄänentoistamisSäie.toistaSFX("Valinta");
                         }
                     break;
                     default:
@@ -251,7 +263,7 @@ public class ValikkoRuutu {
     public static void päivitäMuutokset() {
         oikeaOsoitinAsetukset[0].setText("" + vaValittu);
         oikeaOsoitinAsetukset[1].setText("" + (PelinAsetukset.musiikkiPäällä ? "PÄÄLLÄ" : "POIS"));
-        oikeaOsoitinAsetukset[2].setText("" + PelinAsetukset.musiikkiValinta);
+        oikeaOsoitinAsetukset[2].setText("" + (PelinAsetukset.äänetPäällä ? "PÄÄLLÄ" : "POIS"));
         oikeaOsoitinAsetukset[3].setText("" + PelinAsetukset.tavoiteFPS);
         oikeaOsoitinAsetukset[4].setText("" + PelinAsetukset.tavoiteTickrate);
     }
@@ -286,7 +298,7 @@ public class ValikkoRuutu {
         for (int i = 0; i < vaihtoehtojenMäärä; i++) {
             vasenOsoitin[i] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
         }
-        vasenOsoitin[valinta] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+        vasenOsoitin[valinta] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
     
         nappiPaneliAlkuvalikko = new JPanel();
         SpringLayout nappiPaneliAlkuvalikonlayout = new SpringLayout();
@@ -327,10 +339,10 @@ public class ValikkoRuutu {
         //musiikkiPäällä.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
         musiikkiPäällä.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        valitseMusiikki = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_valitsemusiikki.png"));
-        valitseMusiikki.setForeground(Color.white);
+        äänetPäällä = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_äänet.png"));
+        äänetPäällä.setForeground(Color.white);
         //valitseMusiikki.setFont(new Font("Courier10 BT", Font.PLAIN, 30));
-        valitseMusiikki.setAlignmentX(Component.CENTER_ALIGNMENT);
+        äänetPäällä.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         tavoiteFPS = new JLabel(new ImageIcon("tiedostot/kuvat/menu/asetukset_tavoitefps.png"));
         tavoiteFPS.setForeground(Color.white);
@@ -352,19 +364,19 @@ public class ValikkoRuutu {
             vasenOsoitinAsetukset[i] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
             vasenOsoitinAsetukset[i].setPreferredSize(new Dimension(50, 30));
         }
-        vasenOsoitinAsetukset[valintaAsetuksissa] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+        vasenOsoitinAsetukset[valintaAsetuksissa] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
 
         oikeaOsoitinAsetukset = new JLabel[asetustenMäärä];
         for (int i = 0; i < asetustenMäärä; i++) {
             oikeaOsoitinAsetukset[i] = new JLabel((""));
             oikeaOsoitinAsetukset[i].setForeground(Color.white);
             oikeaOsoitinAsetukset[i].setFont(new Font("Courier10 BT", Font.PLAIN, 22));
-            oikeaOsoitinAsetukset[i].setFont(KeimoFontit.fontti_keimo_20);
-            oikeaOsoitinAsetukset[i].setPreferredSize(new Dimension(100, 30));
+            oikeaOsoitinAsetukset[i].setFont(KeimoFontit.fontti_keimo_14);
+            oikeaOsoitinAsetukset[i].setPreferredSize(new Dimension(60, 30));
         }
         oikeaOsoitinAsetukset[0].setText("" + PelinAsetukset.vaikeusAste);
         oikeaOsoitinAsetukset[1].setText("" + (PelinAsetukset.musiikkiPäällä ? "PÄÄLLÄ" : "POIS"));
-        oikeaOsoitinAsetukset[2].setText("" + PelinAsetukset.musiikkiValinta);
+        oikeaOsoitinAsetukset[2].setText("" + (PelinAsetukset.äänetPäällä ? "PÄÄLLÄ" : "POIS"));
         oikeaOsoitinAsetukset[3].setText("" + PelinAsetukset.tavoiteFPS);
         oikeaOsoitinAsetukset[4].setText("" + PelinAsetukset.tavoiteTickrate);
         oikeaOsoitinAsetukset[5] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
@@ -385,7 +397,7 @@ public class ValikkoRuutu {
         nappiPaneliAsetukset.add(musiikkiPäällä);
         nappiPaneliAsetukset.add(oikeaOsoitinAsetukset[1]);
         nappiPaneliAsetukset.add(vasenOsoitinAsetukset[2]);
-        nappiPaneliAsetukset.add(valitseMusiikki);
+        nappiPaneliAsetukset.add(äänetPäällä);
         nappiPaneliAsetukset.add(oikeaOsoitinAsetukset[2]);
         nappiPaneliAsetukset.add(vasenOsoitinAsetukset[3]);
         nappiPaneliAsetukset.add(tavoiteFPS);
@@ -410,32 +422,12 @@ public class ValikkoRuutu {
         "Järjetön: viholliset tekevät 10-kertaista vahinkoa" +
         "</p></html>";
 
-        infoTekstiAsetukset[1] = "Musiikki päällä";
+        infoTekstiAsetukset[1] = "<html><p>" +
+        "Musiikki päällä" +
+        "</p></html>";
 
         infoTekstiAsetukset[2] = "<html><p>" +
-        "0 = Udo haukkuu: Running in the 90s (midi)" + "<br>" +
-        "1 = Udo haukkuu: Disco Band (midi)" + "<br>" +
-        "2 = Udo haukkuu: Kylie (BeepBox)" + "<br>" +
-        "3 = Udo haukkuu: Mario 2 theme (midi)" + "<br>" +
-        "4 = Udo haukkuu: Nyan Cat (midi)" + "<br>" +
-        "5 = Udo haukkuu: Super Mario World (midi)" + "<br>" +
-        "6 = Udo haukkuu: Never Gonna Give You Up (midi)" + "<br>" +
-        "7 = Udo haukkuu: Wide President theme (midi)" + "<br>" +
-        "8 = Udo haukkuu: Alice Deejay - Better off Alone" + "<br>" +
-        "9 = Udo haukkuu: Eiffel 65 - Blue" + "<br>" +
-        "10 = Udo haukkuu: Gigi D'Agostino - L'Amour Toujours (Seppo on bi)" + "<br>" +
-        "11 = Udo haukkuu: Gigi D'Agostino - The Riddle" + "<br>" +
-        "12 = Udo haukkuu: Hixxy - Phaze 2 Phaze" + "<br>" +
-        "13 = Udo haukkuu: Knife Party - Bonfire" + "<br>" +
-        "14 = Udo haukkuu: Knife Party - Rage Valley" + "<br>" +
-        "15 = Udo haukkuu: Martin Garrix- Animals" + "<br>" +
-        "16 = Udo haukkuu: Paradisio - Bailando" + "<br>" +
-        "17 = Udo haukkuu: Rollergirl - Geisha Dreams" + "<br>" +
-        "18 = Udo haukkuu: Running in the 90s" + "<br>" +
-        "19 = Udo haukkuu: Sandy Marton - Camel by Camel" + "<br>" +
-        "20 = Udo haukkuu: Sash - Ecuador" + "<br>" +
-        "21 = Udo haukkuu: Scooter - How Much is the Fish" + "<br>" +
-        "22 = Udo haukkuu: TheFatRat - Windfall" + "<br>" +
+        "äänet päällä" +
         "</p></html>";
 
         infoTekstiAsetukset[3] = "<html><p>" +
@@ -462,7 +454,7 @@ public class ValikkoRuutu {
 
         infoLabelAsetukset = new JLabel(infoTekstiAsetukset[0]);
         infoLabelAsetukset.setForeground(Color.white);
-        infoLabelAsetukset.setPreferredSize(new Dimension(480, 300));
+        infoLabelAsetukset.setPreferredSize(new Dimension(500, 300));
         infoLabelAsetukset.setFont(KeimoFontit.fontti_keimo_12);
         infoPaneliAsetukset = new JPanel();
         infoPaneliAsetukset.setBackground(Color.black);
@@ -494,6 +486,7 @@ public class ValikkoRuutu {
         
         alkuValikkoPaneli = valikkoPaneli;
         päivitäMuutokset();
+        ÄänentoistamisSäie.toistaPeliMusa("valikko");
         return valikkoPaneli;
     }
 
@@ -507,7 +500,6 @@ public class ValikkoRuutu {
             }
             else {
                 if (Peli.peliKäynnissä) {
-                    Peli.ääniSäie.run();
                     Peli.pausetaPeli(false);
                     Peli.pauseDialogi = false;
                     Peli.valintaDialogi = false;

@@ -3,6 +3,7 @@ package keimo.Ikkunat;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PääIkkuna;
+import keimo.NPCt.Entity;
 import keimo.NPCt.NPC;
 import keimo.NPCt.Vihollinen;
 import keimo.Utility.Downloaded.SpringUtilities;
@@ -197,7 +198,7 @@ public class DebugInfoIkkuna {
             dInfoVihLiikJäljellä.removeAll();
             dInfoVihSuunta.removeAll();
             dInfoVihSuuntaSeuraava.removeAll();
-            for (NPC npc : Peli.npcLista) {
+            for (Entity npc : Peli.entityLista) {
                 if (npc instanceof Vihollinen) {
                     Vihollinen v = (Vihollinen)npc;
                 

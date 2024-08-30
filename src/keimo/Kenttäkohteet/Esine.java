@@ -32,11 +32,6 @@ public abstract class Esine extends KenttäKohde {
         return hinta;
     }
 
-    protected int vahinko = 0;
-    public int annaVahinko() {
-        return vahinko;
-    }
-
     /**
      * Yhdistää kaksi esinettä: poistaa esineet ja antaa tilalle yhdistelmän tuloksen.
      * Aseta vanhoille tavaraluettelon paikoille null ja luo uusi esine
@@ -66,11 +61,11 @@ public abstract class Esine extends KenttäKohde {
     public ArrayList<String> sopiiKäytettäväksi = new ArrayList<String>();
 
     String käyttöTeksti = "Mitään ei tapahtunut.";
-    public String käytä(){
+    public String käytä() {
         return käyttöTeksti;
     }
 
-    public String annaNimi(){
+    public String annaNimi() {
         return nimi;
     }
 

@@ -1,10 +1,10 @@
 package keimo.NPCt;
 
-import keimo.Kenttäkohteet.Esine;
+import keimo.TarkistettavatArvot;
+import keimo.Kenttäkohteet.Ase;
 import keimo.PeliKenttäMetodit.PathFindingExample.Point;
 import keimo.Säikeet.ÄänentoistamisSäie;
 
-//import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,14 +65,15 @@ public abstract class Vihollinen extends NPC {
 
     protected void kukista(String kukistusTapa) {
         this.kukistettu = true;
+        TarkistettavatArvot.lisääTappoLaskuriin(kukistusTapa);
     }
 
-    public void vahingoita(Esine esine) {
-        this.hp -= esine.annaVahinko();
+    public void vahingoita(Ase ase) {
+        this.hp -= ase.annaVahinko();
         System.out.println(this.annaNimi() + ", hp: " + this.annaHp());
         if (this.hp <= 0) {
-            this.kukista(esine.annaNimi());
-            ÄänentoistamisSäie.toistaSFX(esine.annaNimi());
+            this.kukista(ase.annaNimi());
+            ÄänentoistamisSäie.toistaSFX(ase.annaNimi());
         }
         else {
             this.hurtAika = 10;
@@ -84,6 +85,10 @@ public abstract class Vihollinen extends NPC {
         if (this.hurtAika > 0) {
             this.hurtAika--;
         }
+    }
+
+    public int annaHurtAika() {
+        return this.hurtAika;
     }
 
     public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa, SuuntaVasenOikea suunta) {

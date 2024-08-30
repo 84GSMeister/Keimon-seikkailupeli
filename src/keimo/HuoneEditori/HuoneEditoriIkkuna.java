@@ -78,13 +78,14 @@ public class HuoneEditoriIkkuna {
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
     static String[] kenttäkohdeLista;// = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
+    static String[] entityLista;// = {"Asevihu", "Pikkuvihu", "Pahavihu", "Pomo", "Vartija"};
     static Map<Object, Icon> esineValikkoKuvakkeet = new TreeMap<Object, Icon>();
     static Map<Object, Icon> maastoValikkoKuvakkeet = new TreeMap<Object, Icon>();
+    static Map<Object, Icon> entityValikkoKuvakkeet = new TreeMap<Object, Icon>();
     static String[] esineLista = {"Avain", "Hiili", "Huume", "Jallupullo", "Kaasupullo", "Kaasusytytin", "Kilpi", "Kuparilager", "Makkara", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Seteli", "Suklaalevy", "Vesiämpäri"};
-    static String[] npcNimiLista = {"Asevihu", "Pikkuvihu", "Pahavihu", "Pomo", "Vartija"};
     static JComboBox<Object> esineValikko;
     static JComboBox<Object> maastoValikko;
-    static JComboBox<String> npcValikko;
+    static JComboBox<Object> npcValikko;
     static JComboBox<Object> koristeEsineenKuvaValikko;
     public static HashMap<Integer, Huone> huoneKartta = new HashMap<Integer, Huone>();
     public static int muokattavaHuone = 0;
@@ -94,6 +95,7 @@ public class HuoneEditoriIkkuna {
     static String huoneenTaustakuvaPolku = "";
     static String huoneenAlkuDialoginTunniste = "";
     static String huoneenVaaditunTavoitteenTunniste = "";
+    static String huoneenMusa = "";
     static boolean warpVasen = false;
     static boolean warpOikea = false;
     static boolean warpAlas = false;
@@ -109,7 +111,7 @@ public class HuoneEditoriIkkuna {
     static int huoneenKoko = 10;
     static KenttäKohde[][] objektiKenttä;
     static Maasto[][] maastoKenttä;
-    static NPC[][] npcKenttä;
+    static Entity[][] npcKenttä;
     static JLabel pelaajaLabel, taustaLabel;
     static JPanel hud;
     static CardLayout crd;
@@ -195,7 +197,7 @@ public class HuoneEditoriIkkuna {
                     }
                     else {
                         huoneKartta = new HashMap<Integer, Huone>();
-                        huoneKartta.put(0, new Huone(0, 10, null, "Uusi huone 0", "", null, null, null, "", ""));
+                        huoneKartta.put(0, new Huone(0, 10, null, "Uusi huone 0", "", null, null, null, null, "", ""));
                         Peli.huoneKartta = huoneKartta;
                     }
                     huoneenNimi = "";
@@ -507,11 +509,11 @@ public class HuoneEditoriIkkuna {
         esineValikkoKuvakkeet.put("Ämpärikone", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
 
         int kenttäkohdeListanKoko = esineValikkoKuvakkeet.keySet().size();
-        TreeSet<Object> treeSet = new TreeSet<>(esineValikkoKuvakkeet.keySet());
+        TreeSet<Object> kenttäkohdeTreeSet = new TreeSet<>(esineValikkoKuvakkeet.keySet());
         kenttäkohdeLista = new String[kenttäkohdeListanKoko];
         for (int i = 0; i < kenttäkohdeListanKoko; i++) {
-            kenttäkohdeLista[i] = "" + treeSet.getFirst();
-            treeSet.removeFirst();
+            kenttäkohdeLista[i] = "" + kenttäkohdeTreeSet.getFirst();
+            kenttäkohdeTreeSet.removeFirst();
         }
 
         esineValikko = new JComboBox<Object>(new TreeSet<Object>(esineValikkoKuvakkeet.keySet()).toArray());
@@ -539,7 +541,27 @@ public class HuoneEditoriIkkuna {
                 käytäKopioitujaOminaisuuksia = false;
             }
         });
-        npcValikko = new JComboBox<String>(npcNimiLista);
+
+        entityValikkoKuvakkeet.put("Asevihu", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/asevihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("IsoLaatikko", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/iso_laatikko.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("Laatikko", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/työnnettävä_laatikko.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("Pahavihu", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/pahavihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("Pikkuvihu", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("Pomo", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/boss.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("TestiEntity", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/apu_pesukone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        entityValikkoKuvakkeet.put("Vartija", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/vartija_off.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+
+        int entityListanKoko = entityValikkoKuvakkeet.keySet().size();
+        TreeSet<Object> entityTreeSet = new TreeSet<>(entityValikkoKuvakkeet.keySet());
+        entityLista = new String[entityListanKoko];
+        for (int i = 0; i < entityListanKoko; i++) {
+            entityLista[i] = "" + entityTreeSet.getFirst();
+            entityTreeSet.removeFirst();
+        }
+
+        npcValikko = new JComboBox<Object>(new TreeSet<Object>(entityValikkoKuvakkeet.keySet()).toArray());
+        //npcValikko = new JComboBox<Object>(entityLista);
+        npcValikko.setRenderer(new IconListRenderer(entityValikkoKuvakkeet));
         npcValikko.addKeyListener(editorinNäppäinkomennot);
         npcValikko.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -745,7 +767,7 @@ public class HuoneEditoriIkkuna {
         välilehdet.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         välilehdet.add("Objektit", objektiEditointiKenttäPaneliUlompi);
         välilehdet.add("Maasto", maastoEditointiKenttäPaneliUlompi);
-        välilehdet.add("NPC:t", npcEditointiKenttäPaneliUlompi);
+        välilehdet.add("Entityt", npcEditointiKenttäPaneliUlompi);
         välilehdet.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 try {
@@ -771,7 +793,7 @@ public class HuoneEditoriIkkuna {
                             esineValikkoPaneli.add(maastoValikko, BorderLayout.WEST);
                             koristeEsineenKuvaValikko.setEnabled(false);
                             break;
-                        case "NPC:t":
+                        case "Entityt":
                             esineValikkoPaneli.add(npcValikko, BorderLayout.WEST);
                             koristeEsineenKuvaValikko.setEnabled(false);
                             break;
@@ -931,9 +953,9 @@ public class HuoneEditoriIkkuna {
             }
         }
 
-        ArrayList<NPC> npcKenttäLista = new ArrayList<NPC>();
-        for (NPC[] nn : npcKenttä) {
-            for (NPC n : nn) {
+        ArrayList<Entity> npcKenttäLista = new ArrayList<Entity>();
+        for (Entity[] nn : npcKenttä) {
+            for (Entity n : nn) {
                 npcKenttäLista.add(n);
             }
         }
@@ -943,12 +965,12 @@ public class HuoneEditoriIkkuna {
         if (huoneenVaaditunTavoitteenTunniste == null || huoneenVaaditunTavoitteenTunniste == "") {
             huoneenVaaditunTavoitteenTunniste = null;
         }
-        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, huoneenKoko, huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, huoneenAlkuDialoginTunniste, huoneenVaaditunTavoitteenTunniste));
+        huoneKartta.put(nykyinenHuone, new Huone(nykyinenHuone, huoneenKoko, huoneenNimi, huoneenTaustakuvaPolku, huoneenAlue, objektiKenttäLista, maastoKenttäLista, npcKenttäLista, huoneenMusa, huoneenAlkuDialoginTunniste, huoneenVaaditunTavoitteenTunniste));
         if (tyhjennäHuone) {
             huoneKartta.get(nykyinenHuone).päivitäReunawarppienTiedot(warpVasen, warpVasenHuoneId, warpOikea, warpOikeaHuoneId, warpAlas, warpAlasHuoneId, warpYlös, warpYlösHuoneId);
             objektiKenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
             maastoKenttä= new Maasto[Peli.kentänKoko][Peli.kentänKoko];
-            npcKenttä = new NPC[Peli.kentänKoko][Peli.kentänKoko];
+            npcKenttä = new Entity[Peli.kentänKoko][Peli.kentänKoko];
             for (int i = 0; i < Peli.kentänKoko; i++) {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
                     if (i < 10 && j < 10) {
@@ -1132,7 +1154,7 @@ public class HuoneEditoriIkkuna {
     }
 
     static void asetaNPCRuutuun(int sijX, int sijY, String npcnNimi, String[] ominaisuusLista) {
-        npcKenttä[sijX][sijY] = NPC.luoNPCTiedoilla(npcnNimi, true, sijX, sijY, ominaisuusLista);
+        npcKenttä[sijX][sijY] = Entity.luoEntityTiedoilla(npcnNimi, true, sijX, sijY, ominaisuusLista);
     }
 
     /**
@@ -1372,14 +1394,14 @@ public class HuoneEditoriIkkuna {
         return menuItemit;
     }
 
-    static ArrayList<JMenuItem> luoOikeaClickOminaisuusLista(NPC n) {
+    static ArrayList<JMenuItem> luoOikeaClickOminaisuusLista(Entity n) {
 
         ArrayList<JMenuItem> menuItemit = new ArrayList<JMenuItem>();
 
         JMenuItem tiedot = new JMenuItem("Tiedot");
         tiedot.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, n.annaTiedot(), "NPC:n tiedot", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, n.annaTiedot(), "Entityn tiedot", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         tiedot.setText("Tiedot: " + n.annaNimi());
@@ -1627,7 +1649,7 @@ public class HuoneEditoriIkkuna {
         int kohteensijY = 0;
         objektiKenttä = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
         maastoKenttä = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
-        npcKenttä = new NPC[Peli.kentänKoko][Peli.kentänKoko];
+        npcKenttä = new Entity[Peli.kentänKoko][Peli.kentänKoko];
         kenttäKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         maastoKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
         npcKohteenKuvake = new JButton[Peli.kentänKoko][Peli.kentänKoko];
@@ -1781,8 +1803,8 @@ public class HuoneEditoriIkkuna {
                             if (SwingUtilities.isLeftMouseButton(e)) {
                                 String[] ominaisuusLista = new String[1];
                                 ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                asetaNPCRuutuun(x, y, npcNimiLista[npcValikko.getSelectedIndex()], ominaisuusLista);
-                                tallennaMuutos("npc_aseta_" + npcNimiLista[npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                asetaNPCRuutuun(x, y, entityLista[npcValikko.getSelectedIndex()], ominaisuusLista);
+                                tallennaMuutos("npc_aseta_" + entityLista[npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                             }
                             else if (SwingUtilities.isRightMouseButton(e)) {
                                 JPopupMenu ominaisuusMenu = new JPopupMenu();
@@ -1794,7 +1816,7 @@ public class HuoneEditoriIkkuna {
                             else if (SwingUtilities.isMiddleMouseButton(e)) {
                                 String[] ominaisuusLista = new String[1];
                                 ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                tallennaMuutos("npc_poista_" + npcNimiLista[npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                tallennaMuutos("npc_poista_" + entityLista[npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                                 asetaNPCRuutuun(x, y, "", ominaisuusLista);
                             }
                             else {
@@ -2213,7 +2235,7 @@ public class HuoneEditoriIkkuna {
                 for (int i = 0; i < npcKenttä.length; i++) {
                     for (int j = 0; j < npcKenttä.length; j++) {
                         if (true) {
-                            if (npcKenttä[j][i] instanceof NPC && npcKohteenKuvake[j][i] != null) {
+                            if (npcKenttä[j][i] instanceof Entity && npcKohteenKuvake[j][i] != null) {
                                 npcKohteenKuvake[j][i].setIcon(npcKenttä[j][i].annaKuvake());
                             }
                             else if (npcKohteenKuvake[j][i] != null) {

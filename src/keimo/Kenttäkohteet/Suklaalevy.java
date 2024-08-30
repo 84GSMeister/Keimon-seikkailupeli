@@ -5,7 +5,8 @@ import javax.swing.ImageIcon;
 public final class Suklaalevy extends Ruoka {
 
     @Override
-    public String käytä(){
+    public String käytä() {
+        super.käytä();
         this.poista = true;
         return "Se maistui hyvältä. Sait " + this.heal + " elämäpistettä.";
     }

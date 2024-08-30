@@ -6,16 +6,10 @@ import keimo.Maastot.*;
 import keimo.NPCt.*;
 import keimo.Utility.Käännettävä.Suunta;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class Huone {
     
@@ -24,7 +18,7 @@ public class Huone {
     private int huoneenKoko;
     private KenttäKohde[][] huoneenKenttäSisältö;
     private Maasto[][] huoneenMaastoSisältö;
-    private NPC[][] huoneenNPCSisältö;
+    private Entity[][] huoneenNPCSisältö;
     private ImageIcon tausta;
     private String taustanPolku;
     private String alue;
@@ -42,6 +36,7 @@ public class Huone {
     private int warpOikeaHuoneId = 0;
     private int warpAlasHuoneId = 0;
     private int warpYlösHuoneId = 0;
+    private String musa;
 
     static Random r = new Random();
 
@@ -102,98 +97,102 @@ public class Huone {
         return huoneenMaastoSisältö;
     }
 
-    public NPC[][] annaHuoneenNPCSisältö() {
+    public Entity[][] annaHuoneenNPCSisältö() {
         return huoneenNPCSisältö;
     }
 
-    public JPanel annaHuoneenMaastoGrafiikka() {
-        JPanel maastoPaneli = new JPanel();
-        maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
-        // for (Maasto[] mm : annaHuoneenMaastoSisältö()) {
-        //     for (Maasto m : mm) {
-        //         maastoPaneli.add(new JLabel(m.annaKuvake()));
-        //     }
-        // }
-        for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
-            for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
-                maastoPaneli.add(new JLabel(annaHuoneenMaastoSisältö()[j][i].annaKuvake()));
-            }
-        }
-        return maastoPaneli;
+    public String annaHuoneenMusa() {
+        return musa;
     }
 
-    public JPanel annaHuoneenMaastoGrafiikka(int zoom) {
-        JPanel maastoPaneli;
-        switch (zoom) {
-            default:
-                maastoPaneli = new JPanel();
-                maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
-                for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
-                    for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
-                        if (annaHuoneenMaastoSisältö()[j][i] != null) {
-                            maastoPaneli.add(new JLabel(annaHuoneenMaastoSisältö()[j][i].annaKuvake()));
-                        }
-                        else {
-                            maastoPaneli.add(new JLabel());
-                        }
-                    }
-                }
-            break;
-            case 2:
-                maastoPaneli = new JPanel();
-                maastoPaneli.setBounds(0, 0, 320, 320);
-                maastoPaneli.setPreferredSize(new Dimension(320, 320));
-                maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
-                for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
-                    for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
-                        try {
-                            if (annaHuoneenMaastoSisältö()[j][i] != null) {
-                                ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
-                                Image img = imgIcon.getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT);
-                                JLabel label = new JLabel(new ImageIcon(img));
-                                label.setBounds(0, 0, 32, 32);
-                                label.setPreferredSize(new Dimension(32, 32));
-                                maastoPaneli.add(label);
-                            }
-                            else {
-                                maastoPaneli.add(new JLabel());
-                            }
-                        }
-                        catch (ClassCastException cce) {
-                            System.out.println("Ei voitu ladata tilen " + j + " " + i + " kuvaketta huoneessa " + annaId());
-                            maastoPaneli.add(new JLabel());
-                        }
-                    }
-                }
-            break;
-            case 4:
-                maastoPaneli = new JPanel();
-                maastoPaneli.setBounds(0, 0, 160, 160);
-                maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
-                for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
-                    for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
-                        try {
-                            if (annaHuoneenMaastoSisältö()[j][i] != null) {
-                                ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
-                                Image img = imgIcon.getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT);
-                                ImageIcon imgIconScaled = new ImageIcon(img);
-                                JLabel label = new JLabel(imgIconScaled);
-                                maastoPaneli.add(label);
-                            }
-                            else {
-                                maastoPaneli.add(new JLabel());
-                            }
-                        }
-                        catch (ClassCastException cce) {
-                            System.out.println("Ei voitu ladata tilen " + j + " " + i + " kuvaketta huoneessa " + annaId());
-                            maastoPaneli.add(new JLabel());
-                        }
-                    }
-                }
-            break;
-        }
-        return maastoPaneli;
-    }
+    // public JPanel annaHuoneenMaastoGrafiikka() {
+    //     JPanel maastoPaneli = new JPanel();
+    //     maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
+    //     // for (Maasto[] mm : annaHuoneenMaastoSisältö()) {
+    //     //     for (Maasto m : mm) {
+    //     //         maastoPaneli.add(new JLabel(m.annaKuvake()));
+    //     //     }
+    //     // }
+    //     for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
+    //         for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
+    //             maastoPaneli.add(new JLabel(annaHuoneenMaastoSisältö()[j][i].annaKuvake()));
+    //         }
+    //     }
+    //     return maastoPaneli;
+    // }
+
+    // public JPanel annaHuoneenMaastoGrafiikka(int zoom) {
+    //     JPanel maastoPaneli;
+    //     switch (zoom) {
+    //         default:
+    //             maastoPaneli = new JPanel();
+    //             maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
+    //             for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
+    //                 for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
+    //                     if (annaHuoneenMaastoSisältö()[j][i] != null) {
+    //                         maastoPaneli.add(new JLabel(annaHuoneenMaastoSisältö()[j][i].annaKuvake()));
+    //                     }
+    //                     else {
+    //                         maastoPaneli.add(new JLabel());
+    //                     }
+    //                 }
+    //             }
+    //         break;
+    //         case 2:
+    //             maastoPaneli = new JPanel();
+    //             maastoPaneli.setBounds(0, 0, 320, 320);
+    //             maastoPaneli.setPreferredSize(new Dimension(320, 320));
+    //             maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
+    //             for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
+    //                 for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
+    //                     try {
+    //                         if (annaHuoneenMaastoSisältö()[j][i] != null) {
+    //                             ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
+    //                             Image img = imgIcon.getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT);
+    //                             JLabel label = new JLabel(new ImageIcon(img));
+    //                             label.setBounds(0, 0, 32, 32);
+    //                             label.setPreferredSize(new Dimension(32, 32));
+    //                             maastoPaneli.add(label);
+    //                         }
+    //                         else {
+    //                             maastoPaneli.add(new JLabel());
+    //                         }
+    //                     }
+    //                     catch (ClassCastException cce) {
+    //                         System.out.println("Ei voitu ladata tilen " + j + " " + i + " kuvaketta huoneessa " + annaId());
+    //                         maastoPaneli.add(new JLabel());
+    //                     }
+    //                 }
+    //             }
+    //         break;
+    //         case 4:
+    //             maastoPaneli = new JPanel();
+    //             maastoPaneli.setBounds(0, 0, 160, 160);
+    //             maastoPaneli.setLayout(new GridLayout(10, 10, 0, 0));
+    //             for (int i = 0; i < annaHuoneenMaastoSisältö().length; i++) {
+    //                 for (int j = 0; j < annaHuoneenMaastoSisältö().length; j++) {
+    //                     try {
+    //                         if (annaHuoneenMaastoSisältö()[j][i] != null) {
+    //                             ImageIcon imgIcon = (ImageIcon)annaHuoneenMaastoSisältö()[j][i].annaKuvake();
+    //                             Image img = imgIcon.getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT);
+    //                             ImageIcon imgIconScaled = new ImageIcon(img);
+    //                             JLabel label = new JLabel(imgIconScaled);
+    //                             maastoPaneli.add(label);
+    //                         }
+    //                         else {
+    //                             maastoPaneli.add(new JLabel());
+    //                         }
+    //                     }
+    //                     catch (ClassCastException cce) {
+    //                         System.out.println("Ei voitu ladata tilen " + j + " " + i + " kuvaketta huoneessa " + annaId());
+    //                         maastoPaneli.add(new JLabel());
+    //                     }
+    //                 }
+    //             }
+    //         break;
+    //     }
+    //     return maastoPaneli;
+    // }
 
     public void päivitäNimiJaAlue(String nimi, String alue) {
         this.nimi = nimi;
@@ -308,7 +307,7 @@ public class Huone {
         }
     }
 
-    void sijoitaSatunnaiseenRuutuun(NPC n){
+    void sijoitaSatunnaiseenRuutuun(Entity n){
         int randX = r.nextInt(Peli.kentänKoko);
         int randY = r.nextInt(Peli.kentänKoko);
         if (huoneenNPCSisältö[randX][randY] == null) {
@@ -390,7 +389,7 @@ public class Huone {
         }
     }
 
-    void sijoitaMäärättyynRuutuun(int sijX, int sijY, NPC n){
+    void sijoitaMäärättyynRuutuun(int sijX, int sijY, Entity n){
         if (huoneenNPCSisältö[sijX][sijY] == null) {
             huoneenNPCSisältö[sijX][sijY] = n;
             npcitäKentällä++;
@@ -406,89 +405,21 @@ public class Huone {
         }
     }
 
-    public Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<NPC> luontiNPCSisältö, String tarinaRuudunTunniste, String vaaditunTavoitteenTunniste) {
+    public Huone(int luontiId, int luontiKoko, String luontiNimi, String luontiTaustanPolku, String luontiAlue, ArrayList<KenttäKohde> luontiKenttäSisältö, ArrayList<Maasto> luontiMaastoSisältö, ArrayList<Entity> luontiNPCSisältö, String musa, String tarinaRuudunTunniste, String vaaditunTavoitteenTunniste) {
         switch (luontiKoko) {
-            // case 10:
-            //     this.id = luontiId;
-            //     this.nimi = luontiNimi;
-            //     this.huoneenKoko = luontiKoko;
-            //     this.huoneenKenttäSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
-            //     this.huoneenMaastoSisältö = new Maasto[Peli.kentänKoko][Peli.kentänKoko];
-            //     this.huoneenNPCSisältö = new NPC[Peli.kentänKoko][Peli.kentänKoko];
-            //     this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
-            //     this.taustanPolku = luontiTaustanPolku;
-            //     this.tarinaRuudunTunniste = tarinaRuudunTunniste;
-            //     this.vaaditunTavoitteenTunniste = vaaditunTavoitteenTunniste;
-            //     this.alue = luontiAlue;
-        
-            //     try {
-        
-            //         for (int i = 0; i < huoneenKenttäSisältö.length; i++) {
-            //             for (int j = 0; j < huoneenKenttäSisältö.length; j++) {
-            //                 this.huoneenKenttäSisältö[j][i] = null;
-            //                 this.huoneenMaastoSisältö[j][i] = null;
-            //             }
-            //         }
-            //         for (KenttäKohde k : luontiKenttäSisältö) {
-            //             if (k != null) {
-            //                 if (k.onkoMääritettySijainti()) {
-            //                     sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
-            //                 }
-            //                 else {
-            //                     sijoitaSatunnaiseenRuutuun(k);
-            //                 }
-            //             }
-            //         }
-            //         for (Maasto m : luontiMaastoSisältö) {
-            //             if (m != null) {
-            //                 if (m.onkoMääritettySijainti()) {
-            //                     sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
-            //                 }
-            //                 else {
-            //                     sijoitaSatunnaiseenRuutuun(m);
-            //                 }
-            //             }
-            //         }
-            //         for (NPC n : luontiNPCSisältö) {
-            //             if (n != null) {
-            //                 if (n.onkoMääritettySijainti()) {
-            //                     sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);
-            //                 }
-            //                 else {
-            //                     sijoitaSatunnaiseenRuutuun(n);
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     catch (NullPointerException e) {
-            //         if (luontiKenttäSisältö == null) {
-            //             System.out.println("Kenttäkohteita ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            //         }
-            //         else if (luontiMaastoSisältö == null) {
-            //             System.out.println("Maastoa ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            //         }
-            //         else if (luontiNPCSisältö == null) {
-            //             System.out.println("NPC:itä ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            //         }
-            //         else {
-            //             System.out.println("Joitain elementtejä ei voitu ladata tiedostosta huoneeseen " + id + ".");
-            //             e.printStackTrace();
-            //         }
-            //     }
-            // break;
-        
             default:
                 this.id = luontiId;
                 this.nimi = luontiNimi;
                 this.huoneenKoko = luontiKoko;
                 this.huoneenKenttäSisältö = new KenttäKohde[luontiKoko][luontiKoko];
                 this.huoneenMaastoSisältö = new Maasto[luontiKoko][luontiKoko];
-                this.huoneenNPCSisältö = new NPC[luontiKoko][luontiKoko];
+                this.huoneenNPCSisältö = new Entity[luontiKoko][luontiKoko];
                 this.tausta = new ImageIcon("tiedostot/kuvat/taustat/" + luontiTaustanPolku);
                 this.taustanPolku = luontiTaustanPolku;
                 this.tarinaRuudunTunniste = tarinaRuudunTunniste;
                 this.vaaditunTavoitteenTunniste = vaaditunTavoitteenTunniste;
                 this.alue = luontiAlue;
+                this.musa = musa;
         
                 try {
         
@@ -518,7 +449,7 @@ public class Huone {
                             }
                         }
                     }
-                    for (NPC n : luontiNPCSisältö) {
+                    for (Entity n : luontiNPCSisältö) {
                         if (n != null) {
                             if (n.onkoMääritettySijainti()) {
                                 sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);

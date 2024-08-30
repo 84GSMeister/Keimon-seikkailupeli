@@ -1,8 +1,5 @@
 package keimo.HuoneEditori.TavoiteEditori;
 
-import keimo.PääIkkuna;
-import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.HuoneEditori.HuoneenMetatietoIkkuna;
 import keimo.HuoneEditori.Keimo3D.Keimo3D;
 
 import java.awt.BorderLayout;

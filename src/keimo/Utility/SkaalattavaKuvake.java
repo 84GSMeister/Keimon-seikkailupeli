@@ -3,8 +3,12 @@ package keimo.Utility;
 import javax.swing.ImageIcon;
 import java.awt.*;
 
+/**
+ * Legacya <br><br>
+ * Tää pitäis poistaa ja korvata kaikki instanssit KäännettäväKuvake-objekteilla.
+ */
 public class SkaalattavaKuvake extends ImageIcon {
-
+    
     Peilaus peilaus = Peilaus.PEILAA_X;
     float läpinäkyvyys = 1;
     public enum Peilaus {
@@ -13,11 +17,19 @@ public class SkaalattavaKuvake extends ImageIcon {
         PEILAA_Y;
     }
 
+    /**
+     * Legacya <br><br>
+     * Tää pitäis poistaa ja korvata kaikki instanssit KäännettäväKuvake-objekteilla.
+     */
     public SkaalattavaKuvake(String filename, Peilaus peilaus) {
         super(filename);
         this.peilaus = peilaus;
     }
 
+    /**
+     * Legacya <br><br>
+     * Tää pitäis poistaa ja korvata kaikki instanssit KäännettäväKuvake-objekteilla.
+     */
     public SkaalattavaKuvake(String filename, float läpinäkyvyys) {
         this.läpinäkyvyys = läpinäkyvyys;
     }

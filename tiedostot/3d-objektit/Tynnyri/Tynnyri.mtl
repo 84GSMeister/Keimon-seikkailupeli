@@ -1,0 +1,21 @@
+#
+## Alias MTL Material File
+# Converted from SKP by LIPID Lightsolve
+
+newmtl wood
+Ka 0.000000 0.000000 0.000000
+Kd 0.517647 0.380392 0.25098
+Ks 0.330000 0.330000 0.330000
+map_Kd Tynnyri/wood.png
+
+newmtl metal_pipe
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd Tynnyri/metal_pipe.png
+
+newmtl default_material
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+

@@ -7,8 +7,8 @@ import keimo.TarkistettavatArvot;
 import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogiPätkä;
 import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
+import keimo.Peli.ToimintoIkkunanTyyppi;
 import keimo.Ruudut.PeliRuutu;
-import keimo.Ruudut.PeliRuutu.LisäRuutuPanelinTyyppi;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.KeimoFontit;
@@ -49,7 +49,7 @@ public class ValintaDialogiRuutu {
                 if (vdp.onkoValinta()) {
                     Peli.pauseDialogi = true;
                     Peli.valintaDialogi = true;
-                    PeliRuutu.lisäRuutuPanelinTyyppi = LisäRuutuPanelinTyyppi.VALINTADIALOGI;
+                    Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.VALINTADIALOGI;
                     valintaInt = 0;
                     JPanel panel = luoValintaDialogiPaneliGUI(vdp.annaValinnanNimi());
                     PeliRuutu.lisäRuutuPaneli.add(panel, BorderLayout.CENTER);
@@ -60,7 +60,7 @@ public class ValintaDialogiRuutu {
             else if (tekstiTunniste == "pause" || tekstiTunniste == "silta") {
                 Peli.pauseDialogi = true;
                 Peli.valintaDialogi = true;
-                PeliRuutu.lisäRuutuPanelinTyyppi = LisäRuutuPanelinTyyppi.VALINTADIALOGI;
+                Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.VALINTADIALOGI;
                 valintaInt = 0;
                 JPanel panel = luoValintaDialogiPaneliGUI(tekstiTunniste);
                 PeliRuutu.lisäRuutuPaneli.add(panel, BorderLayout.CENTER);
@@ -133,6 +133,8 @@ public class ValintaDialogiRuutu {
                 case "silta":
                     otsikkoLabel = new JLabel("Hyppää?");
                     otsikkoLabel.setFont(KeimoFontit.fontti_keimo_20);
+                    otsikkoLabel.setForeground(Color.white);
+                    otsikkoLabel.setBackground(Color.black);
                     otsikkoLabel.setPreferredSize(new Dimension(300, 100));
 
                     valintojenMäärä = 2;
@@ -145,9 +147,13 @@ public class ValintaDialogiRuutu {
                     valinnat[1] = new JLabel("Ei");
                     for (int i = 0; i < valintojenMäärä; i++) {
                         valinnat[i].setFont(KeimoFontit.fontti_keimo_30);
+                        valinnat[i].setForeground(Color.white);
+                        valinnat[i].setBackground(Color.black);
                     }
 
                     valintaPaneli = new JPanel(new SpringLayout());
+                    valintaPaneli.setForeground(Color.white);
+                    valintaPaneli.setBackground(Color.black);
                     for (int i = 0; i < valintojenMäärä; i++) {
                         valintaPaneli.add(vasenOsoitin[i]);
                         valintaPaneli.add(valinnat[i]);
@@ -155,8 +161,10 @@ public class ValintaDialogiRuutu {
                     valintaPaneli.setPreferredSize(new Dimension(300, 100));
                     SpringUtilities.makeCompactGrid(valintaPaneli, valintojenMäärä, 2, 6, 6, 6, 6);
             
+                    testPanel.setForeground(Color.white);
+                    testPanel.setBackground(Color.black);
                     testPanel.setPreferredSize(new Dimension(300, 300));
-                    testPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                    testPanel.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
                     testPanel.add(otsikkoLabel, BorderLayout.NORTH);
                     testPanel.add(valintaPaneli, BorderLayout.CENTER);
                 break;
@@ -166,6 +174,8 @@ public class ValintaDialogiRuutu {
             if (vdp.onkoValinta()) {
                 otsikkoLabel = new JLabel("<html><p>" + vdp.annaValinnanOtsikko() + "</p></html>");
                 otsikkoLabel.setFont(KeimoFontit.fontti_keimo_16);
+                otsikkoLabel.setForeground(Color.white);
+                otsikkoLabel.setBackground(Color.black);
                 otsikkoLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 otsikkoLabel.setPreferredSize(new Dimension(300, 100));
 
@@ -173,18 +183,24 @@ public class ValintaDialogiRuutu {
                 vasenOsoitin = new JLabel[valintojenMäärä];
                 valinnat = new JLabel[valintojenMäärä];
                 valintaPaneli = new JPanel(new SpringLayout());
+                valintaPaneli.setForeground(Color.white);
+                valintaPaneli.setBackground(Color.black);
                 for (int i = 0; i < valintojenMäärä; i++) {
                     vasenOsoitin[i] = new JLabel();
                     valinnat[i] = new JLabel("<html>" + vdp.annaValinnanVaihtoehdot()[i] + "</html>");
                     valinnat[i].setFont(KeimoFontit.fontti_keimo_20);
+                    valinnat[i].setForeground(Color.white);
+                    valinnat[i].setBackground(Color.black);
                     valintaPaneli.add(vasenOsoitin[i]);
                     valintaPaneli.add(valinnat[i]);
                 }
-                valintaPaneli.setBorder(BorderFactory.createLineBorder(Color.black));
+                valintaPaneli.setBorder(BorderFactory.createLineBorder(Color.white));
                 SpringUtilities.makeCompactGrid(valintaPaneli, valintojenMäärä, 2, 6, 6, 6, 6);
         
+                testPanel.setForeground(Color.white);
+                testPanel.setBackground(Color.black);
                 testPanel.setPreferredSize(new Dimension(300, 300));
-                testPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                testPanel.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
                 testPanel.add(otsikkoLabel, BorderLayout.NORTH);
                 testPanel.add(valintaPaneli, BorderLayout.CENTER);
             }

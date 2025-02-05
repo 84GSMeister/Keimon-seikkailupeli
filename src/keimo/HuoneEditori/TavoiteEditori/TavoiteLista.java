@@ -1,8 +1,12 @@
 package keimo.HuoneEditori.TavoiteEditori;
 
-import keimo.Kenttäkohteet.*;
-
 import java.util.HashMap;
+
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.esine.Esine;
+import keimo.kenttäkohteet.esine.Pesäpallomaila;
+import keimo.kenttäkohteet.kiintopiste.Kiintopiste;
+import keimo.kenttäkohteet.kiintopiste.Nuotio;
 
 public class TavoiteLista {
     
@@ -32,6 +36,11 @@ public class TavoiteLista {
         pääTavoitteet.put(1, "Etsi pesäpallomaila");
         pääTavoitteet.put(2, "Etsi nuotiopaikka");
         pääTavoitteet.put(3, "Sytytä nuotio");
+        pääTavoitteet.put(4, "Etsi Keimo-Baari");
+        pääTavoitteet.put(5, "Etsi Pasi");
+        pääTavoitteet.put(6, "Etsi Velhometsä");
+        pääTavoitteet.put(7, "Etsi Velhometsän bileet");
+        pääTavoitteet.put(8, "Voita pomo");
         nykyinenTavoite = pääTavoitteet.get(0);
     }
 
@@ -40,6 +49,11 @@ public class TavoiteLista {
         tavoiteLista.put(pääTavoitteet.get(1), false);
         tavoiteLista.put(pääTavoitteet.get(2), false);
         tavoiteLista.put(pääTavoitteet.get(3), false);
+        tavoiteLista.put(pääTavoitteet.get(4), false);
+        tavoiteLista.put(pääTavoitteet.get(5), false);
+        tavoiteLista.put(pääTavoitteet.get(6), false);
+        tavoiteLista.put(pääTavoitteet.get(7), false);
+        tavoiteLista.put(pääTavoitteet.get(8), false);
         tavoiteLista.put("Löydä Jumal Yoda", false);
         tavoiteLista.put("Avaa takahuone", false);
         tavoiteLista.put("Keitä booli", false);
@@ -80,5 +94,12 @@ public class TavoiteLista {
                 }
             }
         }
+    }
+
+    public static void nollaaTavoiteLista() {
+        pääTavoitteet.clear();
+        tavoiteLista.clear();
+        luoPääTavoiteLista();
+        luoTavoiteLista();
     }
 }

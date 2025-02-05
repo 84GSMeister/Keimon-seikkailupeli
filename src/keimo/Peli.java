@@ -1,14 +1,26 @@
 package keimo;
 
-import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
-import keimo.NPCt.*;
 import keimo.TarkistettavatArvot.PelinLopetukset;
-import keimo.Utility.KeimoFontit;
 import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.entityt.*;
+import keimo.entityt.npc.NPC;
+import keimo.keimoEngine.KeimoEngine;
+import keimo.keimoEngine.toiminnot.Dialogit;
+import keimo.keimoEngine.toiminnot.Vuorovaikutukset;
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.esine.Ase;
+import keimo.kenttäkohteet.esine.Esine;
+import keimo.kenttäkohteet.esine.Ruoka;
+import keimo.kenttäkohteet.esine.Seteli;
+import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
+import keimo.kenttäkohteet.kerättävä.Kerättävä;
+import keimo.kenttäkohteet.kiintopiste.Kiintopiste;
+import keimo.kenttäkohteet.triggeri.Triggeri;
+import keimo.kenttäkohteet.warp.Oviruutu;
+import keimo.kenttäkohteet.warp.Warp;
 import keimo.Pelaaja.*;
-import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Ruudut.*;
 import keimo.Ruudut.Lisäruudut.PullonPalautusRuutu;
 import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
@@ -16,9 +28,7 @@ import keimo.Ruudut.Lisäruudut.ÄmpäriJonoRuutu;
 import keimo.Säikeet.*;
 import keimo.Ikkunat.*;
 import keimo.HuoneEditori.*;
-import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
-import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 
 import java.util.Scanner;
@@ -29,9 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.Thread.State;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -45,7 +52,7 @@ public class Peli {
      *  -joitain luokkia ei kommentoitu
      *  -esineiden käytä() -metodeissa bugeja ja puuttuvia toteutuksia
      */
-    
+    public static KeimoEngine engine;
     public static boolean pause = true;
     public static boolean pauseDialogi = false;
     protected static double pauseAlkuAika = 0;
@@ -66,6 +73,8 @@ public class Peli {
     public static Huone huone;
     static String häviönSyy = "";
     static int aloitusHp = 10;
+    public static boolean latausValmis = false;
+    public static boolean legacy = false;
 
     int esineitäKentällä = 0;
     public static Pelaaja p = new Pelaaja();
@@ -77,13 +86,15 @@ public class Peli {
     static boolean peliHävitty = false;
     public static Esine valittuEsine;
     public static int esineValInt = 0;
-    static Näppäinkomennot nk = new Näppäinkomennot();
+    public static int yhdistettäväTavarapaikka = -1;
+    public static boolean yhdistäminenKäynnissä = false;
+    public static Näppäinkomennot nk = new Näppäinkomennot();
     static boolean voiWarpata = false;
     static boolean estäEpäturvallisetWarpit = true;
-    static boolean voiWarpataVasen = false;
-    static boolean voiWarpataOikea = false;
-    static boolean voiWarpataAlas = false;
-    static boolean voiWarpataYlös = false;
+    public static boolean voiWarpataVasen = false;
+    public static boolean voiWarpataOikea = false;
+    public static boolean voiWarpataAlas = false;
+    public static boolean voiWarpataYlös = false;
     
     public static KenttäKohde[][] annaObjektiKenttä() {
         return pelikenttä;
@@ -93,11 +104,46 @@ public class Peli {
         return maastokenttä;
     }
 
-    protected static GrafiikanPäivitysSäie grafiikkaSäie = new GrafiikanPäivitysSäie();
-    protected static PeliSäie peliSäie = new PeliSäie();
-    public static ÄänentoistamisSäie ääniSäie = new ÄänentoistamisSäie();
-
     public static List<Entity> entityLista = Collections.synchronizedList(new ArrayList<>());
+
+    public enum Ruudut {
+		PELIRUUTU,
+		TARINARUUTU,
+		VALIKKORUUTU,
+        ASETUSRUUTU,
+        ASETUSRUUTU_GRAFIIKKA,
+        ASETUSRUUTU_ÄÄNI,
+        ASETUSRUUTU_PELI,
+        KEHITTÄJÄRUUTU,
+		LOPPURUUTU,
+        VIRHERUUTU;
+	}
+	public static Ruudut aktiivinenRuutu;
+
+    public enum SyötteenTila {
+        PELI,
+        DIALOGI,
+        TOIMINTO;
+        //ASETUKSET;
+        //ASETUKSET_GRAFIIKKA,
+        //ASETUKSET_ÄÄNI,
+        //ASETUKSET_PELI;
+    }
+    public static SyötteenTila syötteenTila = SyötteenTila.PELI;
+
+    public enum ToimintoIkkunanTyyppi {
+        PULLONPALAUTUS,
+        VALINTADIALOGI,
+        ÄMPÄRIJONO,
+        KARTTA,
+        OHJEET,
+        MINIPELI;
+    }
+    public static ToimintoIkkunanTyyppi toimintoIkkuna;
+
+    public static GrafiikanPäivitysSäie grafiikkaSäie = new GrafiikanPäivitysSäie();
+    public static PeliSäie peliSäie = new PeliSäie();
+    public static ÄänentoistamisSäie ääniSäie = new ÄänentoistamisSäie();
 
     /**
      * Poimii esineen kentältä tavaraluetteloon.
@@ -111,53 +157,19 @@ public class Peli {
      * @.post true
      */
 
-    static void poimi(int x, int y){
-        if (pelikenttä[x][y] instanceof Esine){
-            if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
-                for (int i = 0; i < Pelaaja.esineet.length; i++) {
-                    if (Pelaaja.esineet[i] == null) {
-                        Pelaaja.esineet[i] = (Esine)pelikenttä[x][y];
-                        ÄänentoistamisSäie.toistaSFX("Kerää");
-                        break;
-                    }
+    public static void poimi(int x, int y) {
+        if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
+            for (int i = 0; i < Pelaaja.esineet.length; i++) {
+                if (Pelaaja.esineet[i] == null) {
+                    Pelaaja.esineet[i] = (Esine)pelikenttä[x][y];
+                    ÄänentoistamisSäie.toistaSFX("Kerää");
+                    break;
                 }
-                valittuEsine = Pelaaja.esineet[esineValInt];
-                PääIkkuna.hudTeksti.setText("Sait uuden esineen: " + pelikenttä[x][y].annaNimiSijamuodossa("nominatiivi"));
-                pelikenttä[x][y] = null;
-                TavoiteLista.tarkistaTavoiteEsine(valittuEsine);
             }
-            else {
-                PääIkkuna.hudTeksti.setText("Ei voida poimia! Tavaraluettelo täynnä! Kokeile pudottaa jokin esine tyhjään ruutuun");
-            }
+            valittuEsine = Pelaaja.esineet[esineValInt];
+            pelikenttä[x][y] = null;
+            TavoiteLista.tarkistaTavoiteEsine(valittuEsine);
         }
-        else if (pelikenttä[x][y] instanceof Kiintopiste || pelikenttä[x][y] instanceof NPC_KenttäKohde) {
-            vuorovaikutus(esineValInt);
-        }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Triggeri) {
-            Triggeri trg = (Triggeri)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            if (trg.annaVaadittuVihollinen() != null) {
-                PääIkkuna.avaaDialogi(null, trg.katso(), trg.annaNimi());
-            }
-            else if (trg.annaVaadittuEsine() != null) {
-                PääIkkuna.avaaDialogi(null, "Tähän tarvitaan jokin esine.", trg.annaNimi());
-            }
-            else {
-                trg.triggeröi();
-            }
-        }
-        else if (pelikenttä[x][y] instanceof VisuaalinenObjekti) {
-            VisuaalinenObjekti vo = (VisuaalinenObjekti)pelikenttä[x][y];
-            if (vo.onkoKatsottava()) {
-                PääIkkuna.avaaPitkäDialogiRuutu(vo.annaKatsomisDialogi());
-            }
-        }
-        else if (pelikenttä[x][y] == null) {
-            PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään poimittavaa");
-        }
-        else{
-            PääIkkuna.hudTeksti.setText("Vain esineitä voi poimia! " + pelikenttä[x][y].annaNimi() + " ei ole esine.");
-        }
-        PääIkkuna.vaatiiPäivityksen = true;
     }
 
     /**
@@ -172,21 +184,24 @@ public class Peli {
      * @.post true
      */
 
-    static void pudota(int x, int y, int esineVal){
-        if (Pelaaja.esineet[esineVal] == null) {
-            PääIkkuna.hudTeksti.setText("Ei pudotettavaa esinettä!");
-        }
-        else {
+    public static void pudota(int x, int y, int esineVal) {
+        if (Pelaaja.esineet[esineVal] != null) {
             if (pelikenttä[x][y] == null) {
                 pelikenttä[x][y] = Pelaaja.esineet[esineVal];
-                PääIkkuna.hudTeksti.setText(Pelaaja.esineet[esineVal].annaNimiSijamuodossa("nominatiivi") + " pudotettiin tavaraluettelosta ruutuun " + x + ", " + y);
                 Pelaaja.esineet[esineVal] = null;
                 valittuEsine = null;
                 ÄänentoistamisSäie.toistaSFX("Pudota");
             }
-            else {
-                PääIkkuna.hudTeksti.setText("Ei voida pudottaa tähän! Kohteessa on jo jotakin.");
-            }
+        }
+        PääIkkuna.vaatiiPäivityksen = true;
+    }
+
+    public static void painaE(int x, int y) {
+        if (pelikenttä[x][y] instanceof Esine){
+            poimi(x, y);
+        }
+        else {
+            vuorovaikutus(pelikenttä[x][y], esineValInt);
         }
         PääIkkuna.vaatiiPäivityksen = true;
     }
@@ -194,13 +209,11 @@ public class Peli {
     /*
      * Tarkista onko esine yhdistettävä
      */
-    static boolean tarkistaYhdistettävyys(int valinta) {
+    public static boolean tarkistaYhdistettävyys(int valinta) {
         if (Pelaaja.esineet[valinta] == null) {
-            PääIkkuna.hudTeksti.setText("Ei valittua esinettä");
             return false;
         }
         else if (!Pelaaja.esineet[valinta].onkoYhdistettävä()) {
-            PääIkkuna.hudTeksti.setText("" + Pelaaja.esineet[valinta].annaNimiSijamuodossa("nominatiivi") + " ei sovi yhdistettäväksi!");
             return false;
         }
         else {
@@ -212,9 +225,8 @@ public class Peli {
      * Tarkistaa sisältääkö valitun esineen lista yhdistyksen kohteena olevan esineen
      * Tarkistaa ettei valinta ole tyhjä (null)
      */
-    static boolean kokeileYhdistämistä(int val1, int val2) {
+    public static boolean kokeileYhdistämistä(int val1, int val2) {
         if (Pelaaja.esineet[val2] == null) {
-            PääIkkuna.hudTeksti.setText("Ei voi yhdistää tyhjään tavarapaikkaan.");
             return false;
         }
         else {
@@ -222,7 +234,6 @@ public class Peli {
                 return true;
             }
             else {
-                PääIkkuna.hudTeksti.setText("Näitä esineitä ei voi yhdistää keskenään");
                 return false;
             }
         }
@@ -253,135 +264,124 @@ public class Peli {
             }
             valittuEsine = Pelaaja.esineet[esineValInt];
             PääIkkuna.avaaDialogi(new ImageIcon("tiedostot/kuvat/hud/järjestäminen.png"), "Tavaraluettelo järjestettiin.", "Järjestäminen");
-            PääIkkuna.hudTeksti.setText("Tavaraluettelo järjestettiin");
         }
     }
 
-    static void käyttö(int esine) {
-        voiWarpata = false;
+    public static void käyttö(int esine) {
         valittuEsine = Pelaaja.esineet[esine];
-        if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Warp) {
-            Warp warp = (Warp)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            if (warppiViive <= 0) {
-                voiWarpata = true;
-                tarkistaWarpinTurvallisuus(warp.annaKohdeHuone(), warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY(), true);
-            }
-        }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof NPC_KenttäKohde) {
-            vuorovaikutus(esineValInt);
-        }
-        else {
-            käytäEsinettä(esine);
-        }
+        KenttäKohde k = pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
+        käytäEsinettä(k, esine);
         PääIkkuna.uudelleenpiirräObjektit = true;
     }
 
-    static void käytäEsinettä(int esine) {
-        if (Pelaaja.esineet[esine] == null) {
-            PääIkkuna.hudTeksti.setText("Ei valittua esinettä.");
-        }
-        else {
-            if (valittuEsine.onkoKäyttö()) {
-                if (valittuEsine instanceof Ruoka) {
-                    Ruoka ruoka = (Ruoka)valittuEsine;
-                    PääIkkuna.avaaDialogi(ruoka.annaDialogiKuvake(), ruoka.käytä(), ruoka.annaNimi());
-                    p.syöRuoka(ruoka.annaParannusMäärä());
-                }
-                else if (valittuEsine instanceof Seteli) {
-                    PääIkkuna.avaaDialogi(valittuEsine.annaDialogiKuvake(), valittuEsine.käytä(), valittuEsine.annaNimi());
-                }
-                else if (valittuEsine instanceof Kuparilager || valittuEsine instanceof Seteli || valittuEsine instanceof Jallupullo) {
-                    PääIkkuna.hudTeksti.setText(valittuEsine.käytä());
-                }
-                if (valittuEsine != null) {
-                    if (valittuEsine.poistoon()){
-                        Pelaaja.esineet[esine] = null;
-                        valittuEsine = null;
+    static void käytäEsinettä(KenttäKohde k, int esine) {
+        if (legacy) {
+            if (Pelaaja.esineet[esine] != null) {
+                if (valittuEsine.onkoKäyttö()) {
+                    if (valittuEsine instanceof Ruoka) {
+                        Ruoka ruoka = (Ruoka)valittuEsine;
+                        PääIkkuna.avaaDialogi(ruoka.annaDialogiKuvake(), ruoka.käytä(), ruoka.annaNimi());
+                        Pelaaja.syöRuoka(ruoka.annaParannusMäärä());
                     }
-                }
-            }
-            else if (valittuEsine.onkoKenttäkäyttöön()) {
-                if (valittuEsine instanceof Ase) {
-                    Ase ase = (Ase)valittuEsine;
-                    if (Pelaaja.hyökkäysViive <= 0) {
-                        Pelaaja.käytettyAse = ase;
-                        Pelaaja.hyökkäysAika += ase.annaHyökkäysAika();
-                        Pelaaja.hyökkäysViive += ase.annaHyökkäysViive();
-                        ÄänentoistamisSäie.toistaSFX("Hyökkäys");
+                    else if (valittuEsine instanceof Seteli) {
+                        PääIkkuna.avaaDialogi(valittuEsine.annaDialogiKuvake(), valittuEsine.käytä(), valittuEsine.annaNimi());
                     }
-                }
-            }
-            else {
-                PääIkkuna.hudTeksti.setText(valittuEsine.katso());
-            }
-        }
-    }
-
-    static void vuorovaikutus(int esine) {
-        valittuEsine = Pelaaja.esineet[esine];
-
-        if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] == null) {
-            PääIkkuna.hudTeksti.setText("Kohteessa ei ole mitään.");
-        }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Kiintopiste) {
-            Kiintopiste kp = (Kiintopiste)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            if (!kp.ignooraaEsineValinta()) {
-                if (Pelaaja.esineet[esine] == null) {
-                    if (!kp.onkoErillisDialogi()) {
-                        PääIkkuna.avaaDialogi(kp.annaKuvake(), kp.katso(), kp.annaNimi());
+                    if (valittuEsine != null) {
+                        if (valittuEsine.poistoon()){
+                            Pelaaja.esineet[esine] = null;
+                            valittuEsine = null;
+                        }
                     }
-                    kp.vuorovaikuta(valittuEsine);
                 }
                 else if (valittuEsine.onkoKenttäkäyttöön()) {
-                    PääIkkuna.avaaDialogi(kp.annaDialogiKuvake(), kp.kokeileEsinettä(valittuEsine), kp.annaNimi());
+                    if (valittuEsine instanceof Ase) {
+                        Ase ase = (Ase)valittuEsine;
+                        if (Pelaaja.käyttöViive <= 0) {
+                            Pelaaja.käytettyAse = ase;
+                            Pelaaja.hyökkäysAika += ase.annaHyökkäysAika();
+                            Pelaaja.käyttöViive += ase.annaHyökkäysViive();
+                            ÄänentoistamisSäie.toistaSFX("Hyökkäys");
+                        }
+                    }
+                }
+            }
+        }
+        else Vuorovaikutukset.käytäEsinettä(k, valittuEsine);
+    }
+
+    static void vuorovaikutus(KenttäKohde k, int esine) {
+        if (legacy) {
+            valittuEsine = Pelaaja.esineet[esine];
+
+            if (k == null) {
+
+            }
+            else if (k instanceof Kiintopiste) {
+                Kiintopiste kp = (Kiintopiste)k;
+                if (!kp.ignooraaEsineValinta()) {
+                    if (Pelaaja.esineet[esine] == null) {
+                        if (!kp.onkoErillisDialogi()) {
+                            PääIkkuna.avaaDialogi(kp.annaKuvake(), kp.katso(), kp.annaNimi());
+                        }
+                        kp.vuorovaikuta(valittuEsine);
+                    }
+                    else if (valittuEsine.onkoKenttäkäyttöön()) {
+                        PääIkkuna.avaaDialogi(kp.annaDialogiKuvake(), kp.kokeileEsinettä(valittuEsine), kp.annaNimi());
+                        valittuEsine = Pelaaja.esineet[esineValInt];
+                        valittuEsine = kp.suoritaMuutoksetEsineelle(valittuEsine);
+                        Pelaaja.esineet[esineValInt] = valittuEsine;
+                        TavoiteLista.tarkistaTavoiteKiintopiste(kp);
+                    }
+                    else {
+                        PääIkkuna.avaaDialogi(kp.annaDialogiKuvake(), valittuEsine.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + kp.annaNimiSijamuodossa("illatiivi") + ".", kp.annaNimi());
+                    }
+                }
+                else {
+                    if (kp.ohitaDialogiTesktiboksi()) {
+                        kp.vuorovaikuta(valittuEsine);
+                    }
+                    else {
+                        PääIkkuna.avaaDialogi(kp.annaDialogiKuvake(), kp.vuorovaikuta(valittuEsine), kp.annaNimi());
+                    }
+                }
+            }
+            else if (k instanceof NPC_KenttäKohde) {
+                NPC_KenttäKohde kn = (NPC_KenttäKohde)k;
+                if (Pelaaja.esineet[esine] == null) {
+                    kn.näytäDialogi(valittuEsine);
+                }
+                else if (valittuEsine.onkoKenttäkäyttöön()) {
+                    PääIkkuna.avaaDialogi(kn.annaDialogiKuvake(), kn.kokeileEsinettä(valittuEsine), kn.annaNimi());
                     valittuEsine = Pelaaja.esineet[esineValInt];
-                    valittuEsine = kp.suoritaMuutoksetEsineelle(valittuEsine);
+                    //valittuEsine = kn.suoritaMuutoksetEsineelle(valittuEsine);
                     Pelaaja.esineet[esineValInt] = valittuEsine;
-                    TavoiteLista.tarkistaTavoiteKiintopiste(kp);
+                }
+            }
+            else if (k instanceof Warp) {
+                k.näytäDialogi(valittuEsine);
+            }
+            else if (k instanceof Triggeri) {
+                Triggeri trg = (Triggeri)k;
+                if (trg.annaVaadittuVihollinen() != null) {
+                    PääIkkuna.avaaDialogi(null, trg.katso(), trg.annaNimi());
+                }
+                else if (trg.annaVaadittuEsine() != null) {
+                    PääIkkuna.avaaDialogi(null, "Tähän tarvitaan jokin esine.", trg.annaNimi());
                 }
                 else {
-                    PääIkkuna.hudTeksti.setText(valittuEsine.annaNimiSijamuodossa("adessiivi") + " ei ole erikoiskäyttöä.");
-                    PääIkkuna.avaaDialogi(kp.annaDialogiKuvake(), valittuEsine.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + kp.annaNimiSijamuodossa("illatiivi") + ".", kp.annaNimi());
+                    trg.triggeröi();
                 }
             }
-            else {
-                if (kp.ohitaDialogiTesktiboksi()) {
-                    kp.vuorovaikuta(valittuEsine);
-                }
-                else {
-                    PääIkkuna.avaaDialogi(kp.annaDialogiKuvake(), kp.vuorovaikuta(valittuEsine), kp.annaNimi());
+            else if (k instanceof VisuaalinenObjekti) {
+                VisuaalinenObjekti vo = (VisuaalinenObjekti)k;
+                if (vo.onkoKatsottava()) {
+                    PääIkkuna.avaaPitkäDialogiRuutu(vo.annaKatsomisDialogi());
                 }
             }
+
+            PääIkkuna.uudelleenpiirräObjektit = true;
         }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof NPC_KenttäKohde) {
-            NPC_KenttäKohde kn = (NPC_KenttäKohde)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            if (Pelaaja.esineet[esine] == null) {
-                kn.näytäDialogi(valittuEsine);
-            }
-            else if (valittuEsine.onkoKenttäkäyttöön()) {
-                PääIkkuna.avaaDialogi(kn.annaDialogiKuvake(), kn.kokeileEsinettä(valittuEsine), kn.annaNimi());
-                valittuEsine = Pelaaja.esineet[esineValInt];
-                //valittuEsine = kn.suoritaMuutoksetEsineelle(valittuEsine);
-                Pelaaja.esineet[esineValInt] = valittuEsine;
-            }
-        }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Triggeri) {
-            Triggeri trg = (Triggeri)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            if (trg.annaVaadittuEsine() == null) {
-                trg.triggeröi();
-            }
-        }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Esine) {
-            PääIkkuna.hudTeksti.setText("Ei voi käyttää kentällä lojuviin esineisiin. Kokeile etsiä muita kiintopisteitä.");
-        }
-        else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Warp) {
-            KenttäKohde kk = pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            kk.näytäDialogi(valittuEsine);
-        }
-        else {
-            PääIkkuna.hudTeksti.setText("Käyttö ei onnistunut. Häire sovelluksessa? Ilmoitathan kehittäjille!");
-        }
-        PääIkkuna.uudelleenpiirräObjektit = true;
+        else Vuorovaikutukset.vuorovaikuta(pelikenttä[Pelaaja.sijX][Pelaaja.sijY], valittuEsine);
     }
 
     static void suoritaReunanTarkistus() {
@@ -482,7 +482,6 @@ public class Peli {
 
     static void katso() {
         if (!(pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof VisuaalinenObjekti)) {
-            PääIkkuna.hudTeksti.setText(pelikenttä[Pelaaja.sijX][Pelaaja.sijY].katso());
             if (PeliRuutu.vuoropuhePaneli.isVisible()) {
                 PääIkkuna.kelaaDialogi();
             }
@@ -497,7 +496,6 @@ public class Peli {
     }
 
     static void katsoTavaraluetteloa() {
-        PääIkkuna.hudTeksti.setText(Pelaaja.esineet[esineValInt].katso());
         if (PeliRuutu.vuoropuhePaneli.isVisible()) {
             PääIkkuna.kelaaDialogi();
         }
@@ -511,9 +509,6 @@ public class Peli {
         /*
          * Määritellään mitä eri näppäinkomennot tekee ja mitä metodeja kutsutaan
          */
-    
-        boolean yhdistäminenKäynnissä = false;
-        int yhdistettäväTavarapaikka = -1;
 
         static boolean vasenPainettu = false;
         static boolean oikeaPainettu = false;
@@ -550,7 +545,7 @@ public class Peli {
                             p.aloitaLiike(Suunta.YLÖS);
                             break;
                         case KeyEvent.VK_E:
-                            poimi(Pelaaja.sijX, Pelaaja.sijY);
+                            painaE(Pelaaja.sijX, Pelaaja.sijY);
                             PääIkkuna.uudelleenpiirräObjektit = true;
                             break;
                         case KeyEvent.VK_Q:
@@ -677,7 +672,7 @@ public class Peli {
                         break;
                     }
                     if (pelaajaSiirtyi) {
-                        suoritaKohtaaminen();
+                        //suoritaKohtaaminen();
                         PääIkkuna.vaatiiPäivityksen = true;
                         PääIkkuna.pelaajaSiirtyi = true;
                     }
@@ -755,16 +750,11 @@ public class Peli {
                     }
                 }
                 else if (valintaDialogi) {
-                    switch (PeliRuutu.lisäRuutuPanelinTyyppi) {
+                    switch (toimintoIkkuna) {
                         case PULLONPALAUTUS:
                             if (PeliRuutu.lisäRuutuPaneli.isVisible()) {    
-                                System.out.println(e.getKeyCode());
-                                System.out.println(KeyEvent.VK_SPACE);
-                                System.out.println(e.getKeyCode() == KeyEvent.VK_SPACE);
-                                System.out.println(PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.PAKKAUS);
                                 if (PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.PAKKAUS && e.getKeyCode() == KeyEvent.VK_SPACE) {
                                     PullonPalautusRuutu.jatkoSyöteAnnettu = true;
-                                    System.out.println(PullonPalautusRuutu.jatkoSyöteAnnettu);
                                 }
                                 else if (PullonPalautusRuutu.virheenTyyppi == PullonPalautusRuutu.VirheenTyyppi.MUOTO && e.getKeyCode() == KeyEvent.VK_X) {
                                     PullonPalautusRuutu.jatkoSyöteAnnettu = true;
@@ -823,7 +813,7 @@ public class Peli {
     public static void pausetaPeli(boolean pauseta) {
         if (pauseta) {
             pauseAlkuAika = System.nanoTime();
-            ValintaDialogiRuutu.luoValintaDialogiIkkuna("pause");
+            if (legacy) ValintaDialogiRuutu.luoValintaDialogiIkkuna("pause");
         }
         else {
             pauseLoppuAika = System.nanoTime();
@@ -834,13 +824,21 @@ public class Peli {
         ajastinPysäytetty = pauseta;
     }
 
-    static void siirryTarinaRuutuun(String tarina) {
+    public static void siirryTarinaRuutuun(String tarina) {
         if (tarina.startsWith("koti")) {
             TavoiteLista.suoritaPääTavoite(0);
         }
+        else if (tarina.startsWith("baari")) TavoiteLista.suoritaPääTavoite(4);
+        else if (tarina.startsWith("metsä")) TavoiteLista.suoritaPääTavoite(6);
+        else if (tarina.startsWith("boss")) TavoiteLista.suoritaPääTavoite(7);
         Peli.pause = true;
-        PääIkkuna.lataaTarinaRuutu(tarina);
-        TarinaRuutu.tarinaPaneli.requestFocus();
+        if (legacy) {
+            PääIkkuna.lataaTarinaRuutu(tarina);
+            TarinaRuutu.tarinaPaneli.requestFocus();
+        }
+        else {
+            KeimoEngine.lataaTarinaRuutu(tarina);
+        }
     }
 
     static void siirryLoppuRuutuun(int sulkuTapa) {
@@ -858,9 +856,14 @@ public class Peli {
             default:
                 break;
         }
-        PääIkkuna.lataaRuutu("loppuruutu");
-        LoppuRuutu.valitseLoppuRuutu(TarkistettavatArvot.pelinLoppuSyy);
-        LoppuRuutu.loppuruutuPaneli.requestFocus();
+        if (legacy) {
+            PääIkkuna.lataaRuutu("loppuruutu");
+            LoppuRuutu.valitseLoppuRuutu(TarkistettavatArvot.pelinLoppuSyy);
+            LoppuRuutu.loppuruutuPaneli.requestFocus();
+        }
+        else {
+            KeimoEngine.lataaLoppuRuutu(TarkistettavatArvot.pelinLoppuSyy);
+        }
     }
 
     public static void suljePeli() {
@@ -894,10 +897,16 @@ public class Peli {
         try {
             if (huoneKartta != null) {
                 if (huoneKartta.get(huoneenId) != null) {
-                    if ((huoneKartta.get(huoneenId).annaHuoneenMaastoSisältö()[kohteenX][kohteenY] instanceof EsteTile) && estäEpäturvallisetWarpit) {
-                        if (näytäHuomautus) {
-                            Pelaaja.pakotaPelaajanPysäytys();
-                            JOptionPane.showMessageDialog(null, "Warpin kohteessa on este tai kohde on kentän ulkopuolella.\n\nWarppaamisen epäturvallisiin kohteisiin voi sallia editorissa.", "Warppaaminen epäonnistui", JOptionPane.INFORMATION_MESSAGE);
+                    if (huoneKartta.get(huoneenId).annaHuoneenMaastoSisältö()[kohteenX][kohteenY] != null) {
+                        if ((huoneKartta.get(huoneenId).annaHuoneenMaastoSisältö()[kohteenX][kohteenY].estääköLiikkumisen(null)) && estäEpäturvallisetWarpit) {
+                            if (näytäHuomautus) {
+                                Pelaaja.pakotaPelaajanPysäytys();
+                                if (legacy) JOptionPane.showMessageDialog(null, "Warpin kohteessa on este tai kohde on kentän ulkopuolella.\n\nWarppaamisen epäturvallisiin kohteisiin voi sallia editorissa.", "Warppaaminen epäonnistui", JOptionPane.INFORMATION_MESSAGE);
+                                else Dialogit.avaaDialogi("", "Warpin kohteessa on este tai kohde on kentän ulkopuolella.", "Warppaaminen epäonnistui");
+                            }
+                        }
+                        else {
+                            kokeileHuoneenLatausta(huoneenId, kohteenX, kohteenY);
                         }
                     }
                     else if (huoneKartta.get(huoneenId).annaHuoneenKenttäSisältö()[kohteenX][kohteenY] != null) {
@@ -924,12 +933,12 @@ public class Peli {
             }
         }
         catch (IndexOutOfBoundsException ioobe) {
-            PääIkkuna.näytäVirheIlmoitusDialogi("Yritettiin warpata kentän ulkopuolelle kohdehuoneessa! Reunawarpit toimivat vain, jos huoneet ovat samankokoisia (ehkä tulossa korjaus). Käytä warppiobjekteja toistaiseksi.", "Virheellinen warppi");
+            if (legacy) PääIkkuna.näytäVirheIlmoitusDialogi("Yritettiin warpata kentän ulkopuolelle kohdehuoneessa! Reunawarpit toimivat vain, jos huoneet ovat samankokoisia (ehkä tulossa korjaus). Käytä warppiobjekteja toistaiseksi.", "Virheellinen warppi");
             ioobe.printStackTrace();
         }
     }
 
-    private static boolean muutaKentänKokoa(int uusiKoko) {
+    public static boolean muutaKentänKokoa(int uusiKoko) {
         if (kentänKoko != uusiKoko) {
             kentänKoko = uusiKoko;
             kentänAlaraja = 0;
@@ -943,9 +952,12 @@ public class Peli {
 
     private static void kokeileHuoneenLatausta(int huoneenId, int kohteenX, int kohteenY) {
         synchronized(huoneenLatausLukko) {
-            if (lataaHuone(huoneenId)) {
-                Pelaaja.teleport(kohteenX, kohteenY);
+            if (legacy) {
+                if (lataaHuone(huoneenId)) {
+                    Pelaaja.teleport(kohteenX, kohteenY);
+                }
             }
+            else engine.lataaHuone(huoneenId, kohteenX, kohteenY, false);
         }
     }
 
@@ -977,16 +989,18 @@ public class Peli {
                             }
                         }
                     }
-                    entityLista.clear();
-                    for (Entity[] nn : huone.annaHuoneenNPCSisältö()) {
-                        for (Entity entity : nn) {
-                            if (entity != null) {
-                                entityLista.add(entity);
-                                if (entity instanceof NPC) {
-                                    NPC npc = (NPC)entity;
-                                    if (!npc.onLadattuPelissä) {
-                                        npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
-                                        npc.onLadattuPelissä = true;
+                    synchronized (Peli.entityLista) {
+                        entityLista.clear();
+                        for (Entity[] nn : huone.annaHuoneenNPCSisältö()) {
+                            for (Entity entity : nn) {
+                                if (entity != null) {
+                                    entityLista.add(entity);
+                                    if (entity instanceof NPC) {
+                                        NPC npc = (NPC)entity;
+                                        if (!npc.onLadattuPelissä) {
+                                            npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
+                                            npc.onLadattuPelissä = true;
+                                        }
                                     }
                                 }
                             }
@@ -1001,7 +1015,6 @@ public class Peli {
                     voiWarpataAlas = false;
                     voiWarpataYlös = false;
                     warppiViive = 20;
-                    PääIkkuna.hudTeksti.setText("Ladattiin huone " + huone.annaNimi() + " (ID: " + huone.annaId() + ")");
                     boolean toistaMusaTarinanJälkeen = false;
                     if (huoneKartta.get(huoneenId).annaTarinaRuudunLataus() && !debug) {
                         if (TarinaDialogiLista.tarinaKartta.containsKey(huoneKartta.get(huoneenId).annaTarinaRuudunTunniste())) {
@@ -1038,7 +1051,7 @@ public class Peli {
         }
         catch (NullPointerException e) {
             pause = true;
-            JOptionPane.showMessageDialog(null, "Ongelma ladatessa huonetta " + huoneenId + ".", "Huonetta ei löytynyt.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ongelma ladatessa huonetta " + huoneenId + ". Tämä voi johtua viallisesta default.kst-tiedostosta.", "Huonetta ei löytynyt.", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             pause = false;
             return false;
@@ -1068,7 +1081,7 @@ public class Peli {
     }
 
     public static int warppiViive = 0;
-    static int dialoginAvausViive = 0;
+    public static int dialoginAvausViive = 0;
     /**
      * Warppiviiveen tarkoitus on estää liian tiheät reunan yli warppaukset, jotta reunaan ei jää jumiin jatkuvaan warppilooppiin.
      * Warppiviivettä vähennetään yhdellä joka framessa.
@@ -1088,43 +1101,91 @@ public class Peli {
      * Tarkista jokaisen liikkeen jälkeen, onko pelaaja warpin kohdalla (reunawarp tai Warp-objekti).
      * Jos on, tarkista voiko kohteeseen warpata.
      */
+    // public static void pelaajanLiikeVanha() {
+    //     try {
+    //         if (Pelaaja.liikutaPelaajaa()) {
+    //             suoritaReunanTarkistus();
+    //             suoritaKohtaaminen();
+    //             PääIkkuna.vaatiiPäivityksen = true;
+    //             PääIkkuna.pelaajaSiirtyi = true;
+    //             if (warppiViive == 0) {
+    //                 if (voiWarpataVasen && Näppäinkomennot.vasenPainettu) {
+    //                     int kohdeHuoneenKoko = huoneKartta.get(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.VASEN)).annaKoko();
+    //                     tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.VASEN), kohdeHuoneenKoko-1, Pelaaja.sijY, false);
+    //                 }
+    //                 else if (voiWarpataOikea && Näppäinkomennot.oikeaPainettu) {
+    //                     tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.OIKEA), kentänAlaraja, Pelaaja.sijY, false);
+    //                 }
+    //                 else if (voiWarpataAlas && Näppäinkomennot.alasPainettu) {
+    //                     tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.ALAS), Pelaaja.sijX, kentänAlaraja, false);
+    //                 }
+    //                 else if (voiWarpataYlös && Näppäinkomennot.ylösPainettu) {
+    //                     int kohdeHuoneenKoko = huoneKartta.get(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.YLÖS)).annaKoko();
+    //                     tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.YLÖS), Pelaaja.sijX, kohdeHuoneenKoko-1, false);
+    //                 }
+    //                 else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Warp) {
+    //                     Warp warp = (Warp)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
+    //                     if (
+    //                         warp.annaSuunta() == KenttäKohde.Suunta.VASEN && Näppäinkomennot.vasenPainettu ||
+    //                         warp.annaSuunta() == KenttäKohde.Suunta.OIKEA && Näppäinkomennot.oikeaPainettu ||
+    //                         warp.annaSuunta() == KenttäKohde.Suunta.ALAS && Näppäinkomennot.alasPainettu ||
+    //                         warp.annaSuunta() == KenttäKohde.Suunta.YLÖS && Näppäinkomennot.ylösPainettu
+    //                     ) {
+    //                         warp.ennenWarppia();
+    //                         tarkistaWarpinTurvallisuus(warp.annaKohdeHuone(), warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY(), true);
+    //                         warp.warpinJälkeen();
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     catch (NullPointerException npe) {
+    //         System.out.println("Pelaajan liike epäonnistui.");
+    //         npe.printStackTrace();
+    //     }
+    // }
+
+    /**
+     * Simuloi pelaajan liike-tickejä.
+     * Tarkista jokaisen liikkeen jälkeen, onko pelaaja warpin kohdalla (reunawarp tai Warp-objekti).
+     * Jos on, tarkista voiko kohteeseen warpata.
+     */
     public static void pelaajanLiike() {
         try {
-            if (Pelaaja.liikutaPelaajaa()) {
-                suoritaReunanTarkistus();
-                suoritaKohtaaminen();
-                PääIkkuna.vaatiiPäivityksen = true;
-                PääIkkuna.pelaajaSiirtyi = true;
-                if (warppiViive == 0) {
-                    if (voiWarpataVasen && Näppäinkomennot.vasenPainettu) {
-                        int kohdeHuoneenKoko = huoneKartta.get(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.VASEN)).annaKoko();
-                        tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.VASEN), kohdeHuoneenKoko-1, Pelaaja.sijY, false);
-                    }
-                    else if (voiWarpataOikea && Näppäinkomennot.oikeaPainettu) {
-                        tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.OIKEA), kentänAlaraja, Pelaaja.sijY, false);
-                    }
-                    else if (voiWarpataAlas && Näppäinkomennot.alasPainettu) {
-                        tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.ALAS), Pelaaja.sijX, kentänAlaraja, false);
-                    }
-                    else if (voiWarpataYlös && Näppäinkomennot.ylösPainettu) {
-                        int kohdeHuoneenKoko = huoneKartta.get(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.YLÖS)).annaKoko();
-                        tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.YLÖS), Pelaaja.sijX, kohdeHuoneenKoko-1, false);
-                    }
-                    else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Warp) {
-                        Warp warp = (Warp)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-                        if (
-                            warp.annaSuunta() == KenttäKohde.Suunta.VASEN && Näppäinkomennot.vasenPainettu ||
-                            warp.annaSuunta() == KenttäKohde.Suunta.OIKEA && Näppäinkomennot.oikeaPainettu ||
-                            warp.annaSuunta() == KenttäKohde.Suunta.ALAS && Näppäinkomennot.alasPainettu ||
-                            warp.annaSuunta() == KenttäKohde.Suunta.YLÖS && Näppäinkomennot.ylösPainettu
-                        ) {
-                            warp.ennenWarppia();
-                            tarkistaWarpinTurvallisuus(warp.annaKohdeHuone(), warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY(), true);
-                            warp.warpinJälkeen();
-                        }
+            suoritaReunanTarkistus();
+            suoritaKohtaaminen();
+            PääIkkuna.vaatiiPäivityksen = true;
+            PääIkkuna.pelaajaSiirtyi = true;
+            if (warppiViive == 0) {
+                if (voiWarpataVasen && (keimo.keimoEngine.io.NäppäinKomennot.vasenPainettu || Näppäinkomennot.vasenPainettu)) {
+                    int kohdeHuoneenKoko = huoneKartta.get(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.VASEN)).annaKoko();
+                    tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.VASEN), kohdeHuoneenKoko-1, Pelaaja.sijY, false);
+                }
+                else if (voiWarpataOikea && (keimo.keimoEngine.io.NäppäinKomennot.oikeaPainettu || Näppäinkomennot.oikeaPainettu)) {
+                    tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.OIKEA), kentänAlaraja, Pelaaja.sijY, false);
+                }
+                else if (voiWarpataAlas && (keimo.keimoEngine.io.NäppäinKomennot.alasPainettu || Näppäinkomennot.alasPainettu)) {
+                    tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.ALAS), Pelaaja.sijX, kentänAlaraja, false);
+                }
+                else if (voiWarpataYlös && (keimo.keimoEngine.io.NäppäinKomennot.ylösPainettu || Näppäinkomennot.ylösPainettu)) {
+                    int kohdeHuoneenKoko = huoneKartta.get(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.YLÖS)).annaKoko();
+                    tarkistaWarpinTurvallisuus(huone.annaReunaWarpinKohdeId(KenttäKohde.Suunta.YLÖS), Pelaaja.sijX, kohdeHuoneenKoko-1, false);
+                }
+                else if (pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Warp) {
+                    Warp warp = (Warp)pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
+                    if (
+                        warp.annaSuunta() == KenttäKohde.Suunta.VASEN && (keimo.keimoEngine.io.NäppäinKomennot.vasenPainettu || Näppäinkomennot.vasenPainettu) ||
+                        warp.annaSuunta() == KenttäKohde.Suunta.OIKEA && (keimo.keimoEngine.io.NäppäinKomennot.oikeaPainettu || Näppäinkomennot.oikeaPainettu) ||
+                        warp.annaSuunta() == KenttäKohde.Suunta.ALAS && (keimo.keimoEngine.io.NäppäinKomennot.alasPainettu || Näppäinkomennot.alasPainettu) ||
+                        warp.annaSuunta() == KenttäKohde.Suunta.YLÖS && (keimo.keimoEngine.io.NäppäinKomennot.ylösPainettu || Näppäinkomennot.ylösPainettu)
+                    ) {
+                        warp.ennenWarppia();
+                        tarkistaWarpinTurvallisuus(warp.annaKohdeHuone(), warp.annaKohdeRuutuX(), warp.annaKohdeRuutuY(), true);
+                        warp.warpinJälkeen();
                     }
                 }
             }
+            Pelaaja.pelaajaLiikkuu = false;
         }
         catch (NullPointerException npe) {
             System.out.println("Pelaajan liike epäonnistui.");
@@ -1181,15 +1242,16 @@ public class Peli {
         if (huoneVaihdettava) {
             synchronized(Peli.huoneenLatausLukko) {
                 System.out.println("Pelisäie ottaa lukon");
-                lataaHuone(uusiHuone);
+                if (legacy) lataaHuone(uusiHuone);
+                else engine.lataaHuone(uusiHuone, Pelaaja.sijX, Pelaaja.sijY, true);
                 boolean turvallinenRuutuLöydetty = false;
-                if (Pelaaja.sijX >= huone.annaKoko() || Pelaaja.sijY >= huone.annaKoko()) {
+                if (Peli.huone != null && (Pelaaja.sijX >= huone.annaKoko() || Pelaaja.sijY >= huone.annaKoko())) {
                     JOptionPane.showMessageDialog(PääIkkuna.ikkuna, "Pelaajan nykyinen sijainti on uuden huoneen ulkopuolella. Pelaaja siirretään ensimmäiseen turvalliseen ruutuun.", "Pelaaja uuden huoneen ulkopuolella", JOptionPane.WARNING_MESSAGE);
                     for (int i = 0; i < huone.annaKoko(); i++) {
                         if (!turvallinenRuutuLöydetty) {
                             for (int j = 0; j < huone.annaKoko(); j++) {
                                 if (huone.annaHuoneenMaastoSisältö()[j][i] != null) {
-                                    if (!(huone.annaHuoneenMaastoSisältö()[j][i] instanceof EsteTile)) {
+                                    if (!(huone.annaHuoneenMaastoSisältö()[j][i].estääköLiikkumisen(null))) {
                                         Pelaaja.teleport(j, i);
                                         turvallinenRuutuLöydetty = true;
                                         break;
@@ -1234,7 +1296,8 @@ public class Peli {
             PääIkkuna.uusiIkkuna = false;
             uusiHuone = 0;
             huoneVaihdettava = true;
-            uusiPeli();
+            if (legacy) KäynnistinIkkuna.luoPeliVanha();
+            else uusiPeli();
         }
 
         tarkistaPelinTila();
@@ -1251,7 +1314,8 @@ public class Peli {
             PääIkkuna.uusiIkkuna = false;
             uusiHuone = 0;
             huoneVaihdettava = true;
-            uusiPeli();
+            if (legacy) KäynnistinIkkuna.luoPeliVanha();
+            else uusiPeli();
         }
     }
 
@@ -1261,44 +1325,10 @@ public class Peli {
     static boolean uusiKäynnistysYritys = false;
 
     public static void uusiPeli() {
-        
-        LatausIkkuna.palautaLatausIkkuna();
-        
-        Thread latausThread = new Thread() {
-            public void run() {
-                try {
-                    kentänKoko = TarkistettavatArvot.uusiKentänKoko;
-                    kentänYläraja = kentänAlaraja + kentänKoko - 1;
-                    pause = true;
-                    peliKäynnissä = false;
-                    TarkistettavatArvot.nollaa();
-                    new Peli();
-                    //Keimo3D.launchKeimo3D();
-                    //throw new Exception();
-                }
-                catch (Exception e) {
-                    LatausIkkuna.suljeLatausIkkuna();
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    e.printStackTrace(pw);
-                    String sStackTrace = sw.toString();
-                    int virheValinta = CustomViestiIkkunat.SuljeVirheenJälkeen.näytäDialogi(sStackTrace);
-                    if (virheValinta == 1) {
-                        System.exit(0);
-                    }
-                    else {
-                        LatausIkkuna.luoLatausIkkuna();
-                        uusiPeli();
-                    }
-                }
-            }
-        };
-        latausThread.start();
+        KäynnistinIkkuna.luoKäynnistinIkkuna();
     }
 
-    public Peli() {
-
-        LatausIkkuna.päivitäLatausTeksti("Alustetaan peli...");
+    public static void nollaaPeli() {
         PeliSäie.kulunutAika = 0;
         aikaReferenssi = System.nanoTime();
         peliAloitettu = false;
@@ -1308,67 +1338,91 @@ public class Peli {
         ajastinPysäytetty = false;
         uusiHuone = 0;
         huoneVaihdettava = true;
-        
-        LatausIkkuna.päivitäLatausTeksti("Ladataan dialogeja...");
-        TavoiteLista.luoPääTavoiteLista();
-        TavoiteLista.luoTavoiteLista();
-        VuoropuheDialogit.luoVakioVuoropuheDialogit();
-        TarinaPätkä.nollaaTarinaId();
-        KeimoFontit.rekisteröiFontit();
-
-        LatausIkkuna.päivitäLatausTeksti("Ladataan huoneita...");
-        KenttäKohde.nollaaObjektiId();
-        huoneKartta = HuoneLista.luoVakioHuoneKarttaTiedostosta();
-        if (huoneKartta != null) {
-            if (huoneKartta.get(0) != null) {
-                muutaKentänKokoa(huoneKartta.get(0).annaKoko());
-            }
-        }
-        LatausIkkuna.päivitäLatausTeksti("Ladataan pelaajaa...");
         esineValInt = 0;
         valittuEsine = null;
+        syötteenTila = SyötteenTila.PELI;
         p = new Pelaaja();
-        if (Pelaaja.sijX < kentänKoko && Pelaaja.sijY < kentänKoko) {
-            Pelaaja.teleport(Pelaaja.sijX, Pelaaja.sijY);
-        }
-        else {
-            Pelaaja.teleport(0, 0);
-        }
-        TarkistettavatArvot.pelinLoppuSyy = TarkistettavatArvot.PelinLopetukset.VAKIO;
-
-        LatausIkkuna.päivitäLatausTeksti("Ladataan grafiikkaa...");
-        if (PääIkkuna.ikkuna != null && PääIkkuna.pääPaneeli != null) {
-            PääIkkuna.ikkuna.remove(PääIkkuna.pääPaneeli);
-        }
-        PääIkkuna.luoPääikkuna();
-        PääIkkuna.ikkuna.addKeyListener(nk);
-        PääIkkuna.vaatiiPäivityksen = true;
-        PeliRuutu.luoPeliRuudunGUI();
+        HuoneLista.luoVakioHuoneKarttaTiedostosta();
+        Pelaaja.teleporttaaSpawniin();
+        TarkistettavatArvot.pelinLoppuSyy = null;
+        TarkistettavatArvot.nollaa();
+        TavoiteLista.nollaaTavoiteLista();
         ÄänentoistamisSäie.suljeMusa();
-        PääIkkuna.lataaRuutu("tarinaruutu");
-        TarinaRuutu.tarinaPaneli.requestFocus();
-
-        LatausIkkuna.päivitäLatausTeksti("Käynnistetään säikeitä...");
-        if (grafiikkaSäie.getState() == State.NEW || grafiikkaSäie.getState() == State.TERMINATED) {
-            grafiikkaSäie = new GrafiikanPäivitysSäie();
-            grafiikkaSäie.setName("Grafiikkasäie");
-            if (PelinAsetukset.ajoitus != AjoitusMuoto.ERITTÄIN_NOPEA) {
-                grafiikkaSäie.start();
-            }
-        }
-        if (peliSäie.getState() == State.NEW || peliSäie.getState() == State.TERMINATED) {
-            peliSäie = new PeliSäie();
-            peliSäie.setName("Pelisäie");
-            peliSäie.start();
-        }
-        
-        LatausIkkuna.päivitäLatausTeksti("Valmis.");
-        try {
-            Thread.sleep(25);
-        } 
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        LatausIkkuna.suljeLatausIkkuna();
     }
+
+    // public Peli() {
+
+    //     latausValmis = false;
+    //     LatausIkkuna.päivitäLatausTeksti("Alustetaan peli...");
+    //     PeliSäie.kulunutAika = 0;
+    //     aikaReferenssi = System.nanoTime();
+    //     peliAloitettu = false;
+    //     peliLäpäisty = false;
+    //     pauseDialogi = false;
+    //     valintaDialogi = false;
+    //     ajastinPysäytetty = false;
+    //     uusiHuone = 0;
+    //     huoneVaihdettava = true;
+
+    //     LatausIkkuna.päivitäLatausTeksti("Ladataan KeimoEngine...");
+    //     KeimoEngine engine = new KeimoEngine();
+    //     engine.start();
+    //     while (!engine.glKäynnistetty) {
+    //         try {
+    //             Thread.sleep(100);
+    //         }
+    //         catch (InterruptedException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+        
+    //     LatausIkkuna.päivitäLatausTeksti("Ladataan pelaajaa...");
+    //     esineValInt = 0;
+    //     valittuEsine = null;
+    //     p = new Pelaaja();
+    //     if (Pelaaja.sijX < kentänKoko && Pelaaja.sijY < kentänKoko) {
+    //         Pelaaja.teleport(Pelaaja.sijX, Pelaaja.sijY);
+    //     }
+    //     else {
+    //         Pelaaja.teleport(0, 0);
+    //     }
+    //     TarkistettavatArvot.pelinLoppuSyy = TarkistettavatArvot.PelinLopetukset.VAKIO;
+
+    //     LatausIkkuna.päivitäLatausTeksti("Ladataan grafiikkaa...");
+        
+    //     if (PääIkkuna.ikkuna != null && PääIkkuna.pääPaneeli != null) {
+    //         PääIkkuna.ikkuna.remove(PääIkkuna.pääPaneeli);
+    //     }
+    //     PääIkkuna.luoPääikkuna();
+        
+    //     PääIkkuna.ikkuna.addKeyListener(nk);
+    //     PääIkkuna.vaatiiPäivityksen = true;
+    //     PeliRuutu.luoPeliRuudunGUI();
+    //     ÄänentoistamisSäie.suljeMusa();
+    //     PääIkkuna.lataaRuutu("tarinaruutu");
+    //     TarinaRuutu.tarinaPaneli.requestFocus();
+
+    //     LatausIkkuna.päivitäLatausTeksti("Käynnistetään säikeitä...");
+    //     if (grafiikkaSäie.getState() == State.NEW || grafiikkaSäie.getState() == State.TERMINATED) {
+    //         grafiikkaSäie = new GrafiikanPäivitysSäie();
+    //         grafiikkaSäie.setName("Grafiikkasäie");
+    //         if (PelinAsetukset.ajoitus != AjoitusMuoto.ERITTÄIN_NOPEA) {
+    //             grafiikkaSäie.start();
+    //         }
+    //     }
+    //     if (peliSäie.getState() == State.NEW || peliSäie.getState() == State.TERMINATED) {
+    //         peliSäie = new PeliSäie();
+    //         peliSäie.setName("Pelisäie");
+    //         peliSäie.start();
+    //     }
+        
+    //     LatausIkkuna.päivitäLatausTeksti("Valmis.");
+    //     try {
+    //         Thread.sleep(25);
+    //     } 
+    //     catch (InterruptedException e) {
+    //         e.printStackTrace();
+    //     }
+    //     LatausIkkuna.suljeLatausIkkuna();
+    // }
 }

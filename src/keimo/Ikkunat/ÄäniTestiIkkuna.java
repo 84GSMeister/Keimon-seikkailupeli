@@ -1,7 +1,6 @@
 package keimo.Ikkunat;
 
 import keimo.PääIkkuna;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import java.awt.BorderLayout;

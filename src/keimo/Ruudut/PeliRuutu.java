@@ -4,13 +4,17 @@ import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PääIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
-import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
-import keimo.NPCt.*;
 import keimo.Säikeet.GrafiikanPäivitysSäie;
 import keimo.Utility.KeimoFontit;
 import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.SkaalattavaKuvake;
+import keimo.entityt.*;
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.esine.Esine;
+import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
+import keimo.kenttäkohteet.kiintopiste.Kiintopiste;
+import keimo.kenttäkohteet.warp.Warp;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -657,13 +661,6 @@ public class PeliRuutu {
         alustaPeliRuutu();
 
         return peliAluePaneli;
-    }
-
-    public static LisäRuutuPanelinTyyppi lisäRuutuPanelinTyyppi;
-    public enum LisäRuutuPanelinTyyppi {
-        VALINTADIALOGI,
-        PULLONPALAUTUS,
-        ÄMPÄRIJONO;
     }
 
     public static void näytäFPS() {

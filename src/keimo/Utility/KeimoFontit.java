@@ -6,10 +6,16 @@ import java.io.File;
 
 public class KeimoFontit {
 
-    public static Font fontti_keimo_10, fontti_keimo_12, fontti_keimo_14, fontti_keimo_16, fontti_keimo_20, fontti_keimo_30;
+    public static Font fontti_keimo_10,
+    fontti_keimo_12,
+    fontti_keimo_14,
+    fontti_keimo_16,
+    fontti_keimo_20,
+    fontti_keimo_30,
+    fontti_keimo_36;
     
     private static void openFontTTF(String name) {
-        String fontPath = "tiedostot/kuvat/font/" + name + ".ttf";
+        String fontPath = "tiedostot/fontit/" + name + ".ttf";
         File fonttiTiedosto = new File(fontPath);
         try {
             Font fontti;
@@ -20,6 +26,7 @@ public class KeimoFontit {
             fontti_keimo_16 = fontti.deriveFont(16f);
             fontti_keimo_20 = fontti.deriveFont(20f);
             fontti_keimo_30 = fontti.deriveFont(30f);
+            fontti_keimo_36 = fontti.deriveFont(36f);
         }
         catch (Exception e) {
             System.out.println("Fonttia ei voitu ladata");
@@ -36,5 +43,6 @@ public class KeimoFontit {
         ge.registerFont(fontti_keimo_16);
         ge.registerFont(fontti_keimo_20);
         ge.registerFont(fontti_keimo_30);
+        ge.registerFont(fontti_keimo_36);
     }
 }

@@ -1,6 +1,8 @@
 package keimo.HuoneEditori;
 
-import keimo.*;
+import keimo.Pelaaja;
+import keimo.Peli;
+import keimo.PääIkkuna;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
@@ -28,22 +30,22 @@ public class HuoneenVaihtoIkkuna {
     static ArrayList<Integer> toimivatHuoneIndeksit = new ArrayList<Integer>();
 
     public static void luoHuoneenNimiLista() {
-        int huoneListanKoko = Peli.huoneKartta.size();
-        int huoneListanSuurin = Collections.max(Peli.huoneKartta.keySet());
+        int huoneListanKoko = HuoneEditoriIkkuna.huoneKartta.size();
+        int huoneListanSuurin = Collections.max(HuoneEditoriIkkuna.huoneKartta.keySet());
         huoneidenNimet = new String[huoneListanKoko];
         int toimivatHuoneet = 0;
         
         try {
             for (int i = 0; i < huoneListanSuurin + 1; i++) {
-                if (Peli.huoneKartta.get(i) == null) {
+                if (HuoneEditoriIkkuna.huoneKartta.get(i) == null) {
                     System.out.println("Huonetta " + i + " ei löytynyt.");
                     continue;
                 }
                 else {
-                    huoneidenNimet[toimivatHuoneet] = Peli.huoneKartta.get(i).annaNimi() + " (" + Peli.huoneKartta.get(i).annaId() + ")";
+                    huoneidenNimet[toimivatHuoneet] = HuoneEditoriIkkuna.huoneKartta.get(i).annaNimi() + " (" + HuoneEditoriIkkuna.huoneKartta.get(i).annaId() + ")";
                     toimivatHuoneIndeksit.add(i);
                     toimivatHuoneet++;
-                    System.out.println("Huone " + i + ": " + Peli.huoneKartta.get(i).annaNimi() + ", ID: " + Peli.huoneKartta.get(i).annaId());
+                    System.out.println("Huone " + i + ": " + HuoneEditoriIkkuna.huoneKartta.get(i).annaNimi() + ", ID: " + HuoneEditoriIkkuna.huoneKartta.get(i).annaId());
                 }
             }
             huoneValikko = new JComboBox<String>(huoneidenNimet);
@@ -80,7 +82,7 @@ public class HuoneenVaihtoIkkuna {
                     String huoneStringPelkkäNumero = huoneString.substring(1, huoneString.length()-1);
                     int huoneenId = Integer.parseInt(huoneStringPelkkäNumero);
                     System.out.println(huoneStringPelkkäNumero);
-                    if (Peli.huoneKartta.containsKey(huoneenId)) {
+                    if (HuoneEditoriIkkuna.huoneKartta.containsKey(huoneenId)) {
                         asetaArvot(huoneenId);
                     }
                     else {
@@ -95,12 +97,18 @@ public class HuoneenVaihtoIkkuna {
     }
 
     static void asetaArvot(int huoneenId) {
-        Peli.lataaHuone(huoneenId, true);
-        ikkuna.dispose();
-        if (Pelaaja.sijX >= Peli.huoneKartta.get(huoneenId).annaKoko() || Pelaaja.sijY >= Peli.huoneKartta.get(huoneenId).annaKoko()) {
-            Pelaaja.teleport(0, 0);
+        try {
+            Peli.lataaHuone(huoneenId, true);
+            ikkuna.dispose();
+            if (Pelaaja.sijX >= Peli.huoneKartta.get(huoneenId).annaKoko() || Pelaaja.sijY >= Peli.huoneKartta.get(huoneenId).annaKoko()) {
+                Pelaaja.teleport(0, 0);
+            }
+            Pelaaja.teleporttaaLähimpäänTurvalliseenKohtaan(Pelaaja.sijX, Pelaaja.sijY);
         }
-        Pelaaja.teleporttaaLähimpäänTurvalliseenKohtaan(Pelaaja.sijX, Pelaaja.sijY);
+        catch (NullPointerException npe) {
+            System.out.println("Ongelma ladatessa huonetta pelin huonekartasta.");
+            npe.printStackTrace();
+        }
         if (HuoneEditoriIkkuna.editoriAuki()) {
             HuoneEditoriIkkuna.lataaHuoneKartasta(huoneenId, false);
         }
@@ -189,7 +197,7 @@ public class HuoneenVaihtoIkkuna {
 
         ikkuna = new JFrame("Warppaa huoneeseen");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
-        ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
+        ikkuna.setBounds(100, 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
         ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
@@ -244,8 +252,8 @@ public class HuoneenVaihtoIkkuna {
       
         @Override
         protected String doInBackground() throws Exception {
-            int huoneListanKoko = Peli.huoneKartta.size();
-            huoneListanSuurin = Collections.max(Peli.huoneKartta.keySet());
+            int huoneListanKoko = HuoneEditoriIkkuna.huoneKartta.size();
+            huoneListanSuurin = Collections.max(HuoneEditoriIkkuna.huoneKartta.keySet());
             huoneidenNimet = new String[huoneListanKoko];
             int toimivatHuoneet = 0;
             PROGRESS_BAR.setMaximum(huoneListanSuurin);
@@ -253,15 +261,15 @@ public class HuoneenVaihtoIkkuna {
             try {
                 for (int i = 0; i < huoneListanSuurin + 1; i++) {
                     publish((double)i);
-                    if (Peli.huoneKartta.get(i) == null) {
+                    if (HuoneEditoriIkkuna.huoneKartta.get(i) == null) {
                         System.out.println("Huonetta " + i + " ei löytynyt.");
                         continue;
                     }
                     else {
-                        huoneidenNimet[toimivatHuoneet] = Peli.huoneKartta.get(i).annaNimi() + " (" + Peli.huoneKartta.get(i).annaId() + ")";
+                        huoneidenNimet[toimivatHuoneet] = HuoneEditoriIkkuna.huoneKartta.get(i).annaNimi() + " (" + HuoneEditoriIkkuna.huoneKartta.get(i).annaId() + ")";
                         toimivatHuoneIndeksit.add(i);
                         toimivatHuoneet++;
-                        System.out.println("Huone " + i + ": " + Peli.huoneKartta.get(i).annaNimi() + ", ID: " + Peli.huoneKartta.get(i).annaId());
+                        System.out.println("Huone " + i + ": " + HuoneEditoriIkkuna.huoneKartta.get(i).annaNimi() + ", ID: " + HuoneEditoriIkkuna.huoneKartta.get(i).annaId());
                     }
                 }
                 huoneValikko = new JComboBox<String>(huoneidenNimet);

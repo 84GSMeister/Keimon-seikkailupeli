@@ -3,10 +3,10 @@ package keimo.Ruudut.Lisäruudut;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PääIkkuna;
-import keimo.Kenttäkohteet.Pulloautomaatti;
-import keimo.Kenttäkohteet.Pulloautomaatti.PulloautomaatinKuvake;
+import keimo.Peli.ToimintoIkkunanTyyppi;
 import keimo.Ruudut.PeliRuutu;
-import keimo.Ruudut.PeliRuutu.LisäRuutuPanelinTyyppi;
+import keimo.kenttäkohteet.kiintopiste.Pulloautomaatti;
+import keimo.kenttäkohteet.kiintopiste.Pulloautomaatti.PulloautomaatinKuvake;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -82,10 +82,10 @@ public class PullonPalautusRuutu {
         
         Peli.valintaDialogi = true;
         ValintaDialogiRuutu.muutaPanelinKokoa(false, PääIkkuna.isoSkaalaus);
-        PeliRuutu.lisäRuutuPanelinTyyppi = LisäRuutuPanelinTyyppi.PULLONPALAUTUS;
+        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.PULLONPALAUTUS;
         if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Pulloautomaatti) {
             pulloautomaatti = (Pulloautomaatti)Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            pulloautomaatti.valitseKuvake(PulloautomaatinKuvake.AKTIIVINEN);
+            pulloautomaatti.valitseTila(PulloautomaatinKuvake.AKTIIVINEN);
         }
         
         JPanel panel = luoPullonPalautusPaneliGUI();

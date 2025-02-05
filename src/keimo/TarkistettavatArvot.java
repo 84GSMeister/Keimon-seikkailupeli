@@ -23,22 +23,22 @@ public class TarkistettavatArvot {
         }
     }
 
-    public static PelinLopetukset pelinLoppuSyy = PelinLopetukset.VAKIO;
+    public static PelinLopetukset pelinLoppuSyy = null;
 
     public static enum PelinLopetukset {
-        VAKIO,
         NORMAALI_VOITTO,
-        KUOLEMA_TESTI,
         KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN,
         KUOLEMA_VIHOLLINEN_PIKKUVIHU_LYÖTY,
         KUOLEMA_VIHOLLINEN_PIKKUVIHU_ÄMPÄRÖITY,
         KUOLEMA_VIHOLLINEN_PAHAVIHU_PASSIIVINEN,
         KUOLEMA_VIHOLLINEN_PAHAVIHU_LYÖTY,
         KUOLEMA_VIHOLLINEN_PAHAVIHU_ÄMPÄRÖITY,
-        KUOLEMA_VIHOLLINEN_ASEVIHU,
-        KUOLEMA_VIHOLLINEN_AMMUS,
+        KUOLEMA_VIHOLLINEN_ASEVIHU_PASSIIVINEN,
+        KUOLEMA_VIHOLLINEN_ASEVIHU_LYÖTY,
+        KUOLEMA_VIHOLLINEN_ASEVIHU_ÄMPÄRÖITY,
         KUOLEMA_JUHANI,
         KUOLEMA_SILLALTA_ALAS,
+        KUOLEMA_BOSS,
         YLENSYÖNTI,
         HIILTYNYT_MAKKARA,
         ALKOHOLIMYRKYTYS,

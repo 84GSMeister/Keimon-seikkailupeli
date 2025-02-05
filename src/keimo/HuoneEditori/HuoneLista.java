@@ -3,6 +3,7 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.Ikkunat.LatausIkkuna;
+import keimo.keimoEngine.toiminnot.Dialogit;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -187,17 +188,18 @@ public class HuoneLista {
 
      /**
       * Lataa pelin alussa luotava kenttä default.kst -tiedostosta
-      * 
       */
 
-    public static HashMap<Integer, Huone> luoVakioHuoneKarttaTiedostosta() {
-        HashMap<Integer, Huone> huoneKartta = null;
+    public static void luoVakioHuoneKarttaTiedostosta() {
         try {
             File tiedosto = new File("tiedostot/pelitiedostot/default.kst");
             String[] huoneetMerkkijonoina;
             int huoneidenMääräTiedostossa = 0;
             String[] tarinaDialogitMerkkijonoina;
             int tarinaDialogienMääräTiedostossa = 0;
+            String[] vuoropuheDialogitMerkkijonoina;
+            int vuoropuheDialogienMääräTiedostossa = 0;
+            String asetuksetMerkkijonona = "";
             Path path = FileSystems.getDefault().getPath(tiedosto.getPath());
             Charset charset = Charset.forName("UTF-8");
             BufferedReader read = Files.newBufferedReader(path, charset);
@@ -215,15 +217,29 @@ public class HuoneLista {
                 else if (tarkastettavaRivi.startsWith("Tarina ")) {
                     tarinaDialogienMääräTiedostossa++;
                 }
+                else if (tarkastettavaRivi.startsWith("Dialogi ")) {
+                    vuoropuheDialogienMääräTiedostossa++;
+                }
             }
             huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
             huoneidenMääräTiedostossa = 0;
             tarinaDialogitMerkkijonoina = new String[tarinaDialogienMääräTiedostossa];
             tarinaDialogienMääräTiedostossa = 0;
+            vuoropuheDialogitMerkkijonoina = new String[vuoropuheDialogienMääräTiedostossa];
+            vuoropuheDialogienMääräTiedostossa = 0;
             read.close();
             read = Files.newBufferedReader(path, charset);
             tarkastettavaRivi = read.readLine();
             while ((tarkastettavaRivi != null)) {
+                if (tarkastettavaRivi.startsWith("Asetukset")) {
+                    while (tarkastettavaRivi != null) {
+                        asetuksetMerkkijonona += tarkastettavaRivi + "\n";
+                        if (tarkastettavaRivi.startsWith("/Asetukset")) {
+                            break;
+                        }
+                        tarkastettavaRivi = read.readLine();
+                    }
+                }
                 if (tarkastettavaRivi.startsWith("Huone ")) {
                     huoneidenMääräTiedostossa++;
                     huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] = "";
@@ -246,6 +262,17 @@ public class HuoneLista {
                         tarkastettavaRivi = read.readLine();
                     }
                 }
+                else if (tarkastettavaRivi.startsWith("Dialogi ")) {
+                    vuoropuheDialogienMääräTiedostossa++;
+                    vuoropuheDialogitMerkkijonoina[vuoropuheDialogienMääräTiedostossa-1] = "";
+                    while (tarkastettavaRivi != null) {
+                        vuoropuheDialogitMerkkijonoina[vuoropuheDialogienMääräTiedostossa-1] += tarkastettavaRivi + "\n";
+                        if (tarkastettavaRivi.startsWith("/Dialogi")) {
+                            break;
+                        }
+                        tarkastettavaRivi = read.readLine();
+                    }
+                }
                 else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
                     break;
                 }
@@ -254,8 +281,10 @@ public class HuoneLista {
                 }
             }
             read.close();
-            huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
+            HuoneEditorinMetodit.lataaAsetuksetMerkkijonosta(asetuksetMerkkijonona);
+            Peli.huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
             TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitMerkkijonoina);
+            Dialogit.PitkätDialogit.vuoropuheDialogiKartta = HuoneEditorinMetodit.luoDialogiKarttaMerkkijonosta(vuoropuheDialogitMerkkijonoina);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -287,7 +316,5 @@ public class HuoneLista {
          * Debug spawn
          */
         //Peli.ammusLista.add(new TyönnettäväLaatikko(12, 12));
-
-        return huoneKartta;
     }
 }

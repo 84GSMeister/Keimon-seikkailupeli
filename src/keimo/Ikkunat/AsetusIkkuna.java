@@ -18,8 +18,6 @@ public class AsetusIkkuna {
     static int valintojenMäärä = tekstit.length;
     static JCheckBox musiikkiPäälläCheckbox = new JCheckBox();
     static JCheckBox äänetPäälläCheckbox = new JCheckBox();
-    //static int musiikkiValinta;
-    //static JComboBox<Object> musiikkiValikko;
     static int vaikeusAste, tavoiteFPS;
     static JTextField vaikeusasteTekstikenttä, tavoiteFPSTekstikenttä, tavoiteTickrateTekstikenttä;
     static JSlider musaVolyymiSlider, ääniVolyymiSlider;
@@ -217,7 +215,6 @@ public class AsetusIkkuna {
         ikkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
-        ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();

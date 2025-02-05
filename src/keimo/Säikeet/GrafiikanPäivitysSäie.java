@@ -5,9 +5,6 @@ import keimo.HuoneEditori.*;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Ikkunat.DebugInfoIkkuna;
-import keimo.Kenttäkohteet.KauppaRuutu;
-import keimo.Kenttäkohteet.Pulloautomaatti;
-import keimo.Kenttäkohteet.VisuaalinenObjekti;
 import keimo.PelinAsetukset.AjoitusMuoto;
 import keimo.Ruudut.OsionAlkuRuutu;
 import keimo.Ruudut.PeliRuutu;
@@ -18,6 +15,9 @@ import keimo.Ruudut.Lisäruudut.ValintaDialogiRuutu;
 import keimo.Utility.*;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.Utility.SkaalattavaKuvake.Peilaus;
+import keimo.kenttäkohteet.VisuaalinenObjekti;
+import keimo.kenttäkohteet.kiintopiste.KauppaRuutu;
+import keimo.kenttäkohteet.kiintopiste.Pulloautomaatti;
 
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
@@ -551,7 +551,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                     }
                     else if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] instanceof Pulloautomaatti) {
                         Pulloautomaatti pulloautomaatti = (Pulloautomaatti)Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-                        pulloautomaatti.valitseKuvake(pulloautomaatti.tila);
+                        pulloautomaatti.valitseTila(pulloautomaatti.tila);
                     }
                 }
                 catch (IndexOutOfBoundsException e) {
@@ -566,7 +566,7 @@ public class GrafiikanPäivitysSäie extends Thread {
             if (PeliRuutu.lisäRuutuPaneli.isVisible() && ValintaDialogiRuutu.vasenOsoitin != null) {
                 for (int i = 0; i < ValintaDialogiRuutu.vasenOsoitin.length; i++) {
                     if (ValintaDialogiRuutu.valintaInt == i) {
-                        ValintaDialogiRuutu.vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/dialogi/osoitin32.png"));
+                        ValintaDialogiRuutu.vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/dialogi/osoitin32.gif"));
                     }
                     else {
                         ValintaDialogiRuutu.vasenOsoitin[i].setIcon(null);
@@ -647,7 +647,7 @@ public class GrafiikanPäivitysSäie extends Thread {
             e.printStackTrace(pw);
             String sStackTrace = sw.toString();
             System.out.println(sStackTrace);
-            String viesti = "Grafiikkasäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\n" + sStackTrace;
+            String viesti = "Grafiikkasäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\nVirhekoodi:\n" + sStackTrace;
             String otsikko = "Ongelma grafiikkasäikeessä";
             int virheenJälkeenValinta = CustomViestiIkkunat.GrafiikkäSäieVirhe.näytäDialogi(viesti, otsikko);
             switch (virheenJälkeenValinta) {

@@ -1,7 +1,37 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (6.8.2024): 0.9.1
+## Uusin versio (5.2.2025): 1.0 Alfa
 
+### Versio 1.0 Alfa
+
+ - Uusi grafiikkamoottori (OpenGL- ja Shader-pohjainen). Ominaisuuksia mm:
+	- Huomattavasti parempi suorituskyky ja rajaton huoneen koko (muistin määrän puitteissa)
+	- Kokonäyttö (F11) ja ikkunan koon vapaa muuttaminen
+	- Kentän skaalaus, zoomaus, kääntö
+	- 3D-objektit
+	- liikkuvat ja pyörivät objektit
+	- Elementtien päällekkäisyys (mm. kenttä ja HUD)
+	- Häivytysefekti (huonetta vaihtaessa)
+	- Tummennusefekti (Velhometsä) sekä muut väriefektit
+	- Todella ruma tekstin renderöinti (toistaiseksi, tullaan varmasti parantamaan myöhemmin)
+	Vanhaa pelimoottoria pystyy vielä käyttämään toistaiseksi ongelmatilanteissa.
+ - Uusi alue: Keimo-baari
+ - Uusi alue: Yo-kylä Itä (Asuintalot rakennettu uudelleen paremmassa mittakaavassa)
+ - Uusi alue: Temppeli
+ - Uudet musat: koti, kauppa, metsä, baari ja temppeli
+ - Uusia tavoitteita: SPOILER! Pelaajan täytyy nuotion sytyttämisen jälkeen etsiä Keimo-baari, jutella Pasille, etsiä Velhometsä ja päihittää pomo.
+ - Kaljasta saa lyhytaikaisen kuolemattomuuden (hyödyllinen varsinkin pomotaistelussa)
+ - Lisätty vinkkitekstit näppäimille, kun pelaaja on esineen tai kiintopisteen kohdalla
+ - Lisätty katsottava kartta-esine
+ - Asetus- ja kehittäjävalikko uudistettu
+ - Collision-tarkistus muutettu niin, että se tarkistaa pelaajan ja laatan hitboxin (neliö) leikkauksen, eikä vain pelaajan sijaintia (pelaaja ei enää voi kävellä puoliksi laatan sisään).
+ - Editoriin lisätty zoomaus
+ - Editorissa voi päättää pelaajan aloitushuoneen ja -sijainnin (tallentuu kst-tiedostoon)
+ - Korjattu editorin ongelma luodessa tasoja tyhjän huonekartan päälle
+ - Dialogit tallentuvat nyt kst-tiedostoon. Muokkaukset dialogeihin voi tallentaa.
+ - Lisätty kilinä-ääni poimiessa kaljaa ostoskoriin
+ - Lisää tölkkiääniä
+ 
 ### Versio 0.9.2
 
  - Lisätty Pomohuone Velhometsään

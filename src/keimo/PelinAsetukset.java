@@ -18,30 +18,22 @@ public class PelinAsetukset {
     public static AjoitusMuoto ajoitus = AjoitusMuoto.TARKKA;
     public static double musaVolyymi = 0.5d;
     public static double ääniVolyymi = 0.5d;
+    public static int pelinNopeus = 60;
+    public static int resoluutioX, resoluutioY;
 
     static List<String> musaLista = Stream.of(new File("tiedostot/musat").listFiles())
-        .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3") || file.getName().endsWith(".wav")))
+        .filter(file -> !file.isDirectory() && ((file.getName().endsWith(".mp3") || file.getName().endsWith(".wav"))))
         .map(File::getName).sorted()
         .collect(Collectors.toList());
     public static int musalistanPituus = musaLista.size();
 
     public static void valitseVaikeusaste(String vaikeusAsteNimi) {
         switch (vaikeusAsteNimi) {
-            case "Passiivinen":
-                vaikeusAste = 0;
-            break;
-            case "Normaali":
-                vaikeusAste = 1;
-            break;
-            case "Vaikea":
-                vaikeusAste = 2;
-            break;
-            case "Järjetön":
-                vaikeusAste = 10;
-            break;
-            default:
-                vaikeusAste = 1;
-            break;
+            case "Passiivinen": vaikeusAste = 0; break;
+            case "Normaali": vaikeusAste = 1; break;
+            case "Vaikea": vaikeusAste = 2; break;
+            case "Järjetön": vaikeusAste = 10; break;
+            default: vaikeusAste = 1; break;
         }
     }
 

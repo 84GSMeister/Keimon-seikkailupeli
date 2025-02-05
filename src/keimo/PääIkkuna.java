@@ -48,7 +48,7 @@ public final class PääIkkuna {
     public static String viimeisinDialogiPuhuja = "";
     public static Icon viimeisinDialogiKuvake = null;
 
-    static void luoPääikkuna() {
+    public static void luoPääikkuna() {
         
         ikkunanLeveys = PeliRuutu.esineenKokoPx * Peli.kentänKoko + 50;
         ikkunanKorkeus = PeliRuutu.esineenKokoPx * Peli.kentänKoko + 330;
@@ -69,7 +69,7 @@ public final class PääIkkuna {
          */
         
         if (ikkuna == null) {
-            ikkuna = new JFrame("Keimon Seikkailupeli v0.9.2 pre-alpha (19.8.2024)");
+            ikkuna = new JFrame("Keimon Seikkailupeli v0.9.3d pre-alpha (5.9.2024)");
             ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
             ikkuna.setLayout(new BorderLayout());
             ikkuna.setBackground(Color.black);
@@ -301,6 +301,13 @@ public final class PääIkkuna {
         ikkuna.repaint();
     }
 
+    public enum SyötteenTila {
+        PELI,
+        DIALOGI,
+        VALINTA;
+    }
+    public static SyötteenTila syötteenTila = SyötteenTila.PELI;
+
     public enum Ruudut {
         EI_MITÄÄN,
         TARINARUUTU,
@@ -393,6 +400,7 @@ public final class PääIkkuna {
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
             Peli.pauseDialogi = true;
+            syötteenTila = SyötteenTila.DIALOGI;
             äläSuljeNuolilla = false;
             tekstiAuki = true;
             luoVuoropuheRuutu(kuvake, "<html>" + teksti, nimi);
@@ -405,6 +413,7 @@ public final class PääIkkuna {
     public static void avaaDialogi(Icon kuvake, String teksti, String nimi, boolean estäNuolet, String valinnanTunniste) {
         if (Peli.dialoginAvausViive <= 0 || useitaRuutuja) {
             Peli.pauseDialogi = true;
+            syötteenTila = SyötteenTila.DIALOGI;
             äläSuljeNuolilla = estäNuolet;
             tekstiAuki = true;
             luoVuoropuheRuutu(kuvake, "<html>" + teksti, nimi);
@@ -436,6 +445,7 @@ public final class PääIkkuna {
                 if (vdp.onkoValinta()) {
                     ValintaDialogiRuutu.luoValintaDialogiIkkuna(valintaTulossa);
                     valintaTulossa = null;
+                    syötteenTila = SyötteenTila.VALINTA;
                 }
                 else {
                     suljeDialogi();
@@ -452,6 +462,7 @@ public final class PääIkkuna {
 
     private static void suljeDialogi() {
         Peli.pauseDialogi = false;
+        syötteenTila = SyötteenTila.PELI;
         tekstiAuki = false;
         useitaRuutuja = false;
         PeliRuutu.vuoropuhePaneliOikea.setBackground(Color.white);

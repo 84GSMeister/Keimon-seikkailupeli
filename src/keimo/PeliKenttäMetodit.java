@@ -1,48 +1,62 @@
 package keimo;
 
-import keimo.Kenttäkohteet.*;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Maastot.*;
-import keimo.NPCt.*;
-import keimo.NPCt.Entity.SuuntaDiagonaali;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.entityt.*;
+import keimo.entityt.npc.Asevihu;
+import keimo.entityt.npc.Boss;
+import keimo.entityt.npc.NPC;
+import keimo.entityt.npc.Pahavihu;
+import keimo.entityt.npc.Pikkuvihu;
+import keimo.entityt.npc.Vartija;
+import keimo.entityt.npc.Vihollinen;
+import keimo.keimoEngine.liikeSimulaatiot.BossSimulaatio;
+import keimo.keimoEngine.liikeSimulaatiot.ReitinhakuSimulaatio;
+import keimo.keimoEngine.liikeSimulaatiot.VartijaSimulaatio;
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
+import keimo.kenttäkohteet.esine.Kilpi;
+import keimo.kenttäkohteet.esine.Kuparilager;
+import keimo.kenttäkohteet.kiintopiste.KaljaAutomaatti;
+import keimo.kenttäkohteet.triggeri.Triggeri;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.awt.Rectangle;
 import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
 
 public class PeliKenttäMetodit {
     
     static KenttäKohde[][] pelikenttä;
     static Maasto[][] maastokenttä;
 
-    public static boolean teleporttaaViholliset = false;
-    private static int bossLiikeSuunta = 0;
-
     public static void suoritaPelikenttäMetoditJoka2000Tick() {
         tyhjennäAmmusLista();
         luoAmmus();
     }
 
+    public static void suoritaPelikenttäMetoditJoka600Tick() {
+        luoKalja();
+    }
+
     public static void suoritaPelikenttäMetoditJoka100Tick() {
-        //poistaAmmukset();
         luoAmmus();
         //debugLuoEntity();
+        tarkistaPeliMusa();
     }
 
     public static void suoritaPelikenttäMetoditJoka60Tick() {
-        //luoAmmus();
+
     }
 
     public static void suoritaPelikenttäMetoditJoka10Tick() {
-        suoritaReitinhakuVihollisille();
+        ReitinhakuSimulaatio.suoritaReitinhakuVihollisille();
         tarkistaPaineLaatat();
         tarkistaTriggerit();
+        tarkistaPomonTila();
     }
 
     public static void suoritaPelikenttäMetoditJoka2Tick() {
@@ -50,9 +64,6 @@ public class PeliKenttäMetodit {
     }
 
     public static void suoritaPelikenttäMetoditJokaTick() {
-        if (teleporttaaViholliset) {
-            teleporttaaViholliset();
-        }
         tarkistaAmmusCollision();
         tarkistaVihollisCollision();
         tarkistaLiikutettavanEsineenCollision();
@@ -64,60 +75,52 @@ public class PeliKenttäMetodit {
         poistaTyhjätEsineetInvasta();
     }
 
-    static void teleporttaaViholliset() {
-        try {
-            for (Entity entity : Peli.entityLista) {
-                if (entity instanceof NPC) {
-                    NPC npc = (NPC)entity;
-                    npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
-                }
-            }
-        }
-        catch (ConcurrentModificationException cme) {
-            System.out.println("Viimeisin vihollisten teleporttaus peruutettiin (konkurrenssi-issue)");
-            cme.printStackTrace();
-        }
-        finally {
-            teleporttaaViholliset = false;
+    private static void tarkistaPeliMusa() {
+        if (Peli.huone != null) {
+            ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
         }
     }
 
     public static void tyhjennäAmmusLista() {
-        try {
-            for (Entity e : Peli.entityLista) {
-                if (e instanceof Ammus) {
-                    Peli.entityLista.remove(e);
+        synchronized (Peli.entityLista) {
+            try {
+                for (Entity e : Peli.entityLista) {
+                    if (e instanceof Ammus) {
+                        Peli.entityLista.remove(e);
+                    }
                 }
             }
-        }
-        catch (ConcurrentModificationException cme) {
-            System.out.println("Viimeisin kentän tyhjennys peruutettiin (konkurrenssi-issue)");
-            cme.printStackTrace();
+            catch (ConcurrentModificationException cme) {
+                System.out.println("Viimeisin kentän tyhjennys peruutettiin (konkurrenssi-issue)");
+                cme.printStackTrace();
+            }
         }
     }
 
     static void tarkistaPaineLaatat() {
-        try {
-            for (Entity entity : Peli.entityLista) {
-                if (entity instanceof NPC) {
-                    NPC npc = (NPC)entity;
-                    if (npc instanceof Vihollinen) {
-                        Vihollinen v = (Vihollinen)npc;
-                        if (Peli.pelikenttä[v.sijX][v.sijY] instanceof Triggeri) {
-                            Triggeri trg = (Triggeri)Peli.pelikenttä[v.sijX][v.sijY];
-                            if (trg.annaVaadittuVihollinen() != null) {
-                                if (trg.annaVaadittuVihollinen().annaNimi().startsWith(v.annaNimi())) {
-                                    trg.triggeröi();
+        synchronized (Peli.entityLista) {
+            try {
+                for (Entity entity : Peli.entityLista) {
+                    if (entity instanceof NPC) {
+                        NPC npc = (NPC)entity;
+                        if (npc instanceof Vihollinen) {
+                            Vihollinen v = (Vihollinen)npc;
+                            if (Peli.pelikenttä[v.sijX][v.sijY] instanceof Triggeri) {
+                                Triggeri trg = (Triggeri)Peli.pelikenttä[v.sijX][v.sijY];
+                                if (trg.annaVaadittuVihollinen() != null) {
+                                    if (trg.annaVaadittuVihollinen().annaNimi().startsWith(v.annaNimi())) {
+                                        trg.triggeröi();
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-        catch (ConcurrentModificationException cme) {
-            System.out.println("Viimeisin triggerien tarkistus peruutettiin (konkurrenssi-issue)");
-            cme.printStackTrace();
+            catch (ConcurrentModificationException cme) {
+                System.out.println("Viimeisin triggerien tarkistus peruutettiin (konkurrenssi-issue)");
+                cme.printStackTrace();
+            }
         }
     }
 
@@ -166,8 +169,8 @@ public class PeliKenttäMetodit {
                     for (Entity npc : Peli.entityLista) {
                         if (npc instanceof Vihollinen) {
                             Vihollinen vihollinen = (Vihollinen)npc;
+                            vihollinen.vähennäHurtAikaa();
                             if (!vihollinen.onkoKukistettu()) {
-                                vihollinen.vähennäHurtAikaa();
                                 vihollinen.valitseKuvake();
                                 switch (vihollinen.liikeTapa) {
                                     case LOOP_NELIÖ_MYÖTÄPÄIVÄÄN:
@@ -249,40 +252,7 @@ public class PeliKenttäMetodit {
                                     case VARTIJA_LIIKE:
                                         if (vihollinen instanceof Vartija) {
                                             Vartija vartija = (Vartija)vihollinen;
-                                            if (Peli.huone != null) {
-                                                if (Peli.huone.annaNimi().startsWith("Kauppa")) {
-                                                    if (Pelaaja.ostostenHintaYhteensä > 0 && Pelaaja.sijY < 4) {
-                                                        vartija.liikkuu = true;
-                                                        vartija.tekeeVahinkoa = true;
-                                                    }
-                                                    else {
-                                                        vartija.liikkuu = false;
-                                                        vartija.tekeeVahinkoa = false;
-                                                    }
-                                                }
-                                            }
-                                            if (vartija.liikkuu) {
-                                                int etäisyysX = (int)(Pelaaja.hitbox.getCenterX() - vihollinen.hitbox.getCenterX());
-                                                int etäisyysY = (int)(Pelaaja.hitbox.getCenterY() - vihollinen.hitbox.getCenterY());
-                                                int etäisyysXits = (int)Math.abs(etäisyysX);
-                                                int etäisyysYits = (int)Math.abs(etäisyysY);
-                                                if (etäisyysXits > etäisyysYits) {
-                                                    if (etäisyysX < 0) {
-                                                        vartija.kokeileLiikkumista(Suunta.VASEN);
-                                                    }
-                                                    else {
-                                                        vartija.kokeileLiikkumista(Suunta.OIKEA);
-                                                    }
-                                                }
-                                                else {
-                                                    if (etäisyysY < 0) {
-                                                        vartija.kokeileLiikkumista(Suunta.YLÖS);
-                                                    }
-                                                    else {
-                                                        vartija.kokeileLiikkumista(Suunta.ALAS);
-                                                    }
-                                                }
-                                            }
+                                            VartijaSimulaatio.simuloiVartija(vartija);
                                         }
                                     break;
                                     case SEURAA_PELAAJAA:
@@ -308,176 +278,12 @@ public class PeliKenttäMetodit {
                                         }
                                     break;
                                     case SEURAA_REITTIÄ:
-                                        if (vihollinen.reitti != null) {
-                                            if (vihollinen.reitti.size() >= 1) {
-                                                PathFindingExample.Point seuraavaPiste = vihollinen.reitti.get(0);
-                                                if (vihollinen.sijX == seuraavaPiste.x && vihollinen.sijY == seuraavaPiste.y) {
-                                                    vihollinen.reitti.remove(0);
-                                                }
-                                                else {
-                                                    if (vihollinen.sijX > seuraavaPiste.x) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                                    }
-                                                    else if (vihollinen.sijX < seuraavaPiste.x) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                                    }
-                                                    if (vihollinen.sijY < seuraavaPiste.y) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                                    }
-                                                    else if (vihollinen.sijY > seuraavaPiste.y) {
-                                                        vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        ReitinhakuSimulaatio.simuloiReitinhaku(vihollinen);
                                     break;
                                     case BOSS_LIIKE:
-                                        Random r = new Random();
-                                        switch (vihollinen.liikeMoodi) {
-                                            default:
-                                                if (vihollinen.liikuVielä > 0) {
-                                                    switch (bossLiikeSuunta) {
-                                                        case 0: vihollinen.kokeileLiikkumista(Suunta.VASEN); break;
-                                                        case 1: vihollinen.kokeileLiikkumista(Suunta.OIKEA); break;
-                                                        case 2: vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
-                                                        case 3: vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
-                                                        case 4: vihollinen.kokeileLiikkumista(Suunta.VASEN); vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
-                                                        case 5: vihollinen.kokeileLiikkumista(Suunta.VASEN); vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
-                                                        case 6: vihollinen.kokeileLiikkumista(Suunta.OIKEA); vihollinen.kokeileLiikkumista(Suunta.YLÖS); break;
-                                                        case 7: vihollinen.kokeileLiikkumista(Suunta.OIKEA); vihollinen.kokeileLiikkumista(Suunta.ALAS); break;
-                                                        default: break;
-                                                    }
-                                                    vihollinen.liikuVielä--;
-                                                }
-                                                else {
-                                                    vihollinen.liikeLoopinVaihe++;
-                                                    bossLiikeSuunta = r.nextInt(0, 8);
-                                                    vihollinen.liikeMoodi = r.nextInt(0, 5);
-                                                    if (vihollinen.liikeMoodi == 0) {
-                                                        vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
-                                                    }
-                                                    else {
-                                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                                        vihollinen.liikeX = 10;
-                                                        vihollinen.liikeY = 0;
-                                                    }
-                                                }
-                                            break;
-                                            case 1:
-                                                int alkupNopeus = vihollinen.nopeus;
-                                                vihollinen.nopeus = 1;
-                                                if (vihollinen.liikuVielä > 0) {
-                                                    if (vihollinen.liikeX > 0) {
-                                                        for (int i = 0; i < vihollinen.liikeX; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                                        }
-                                                    }
-                                                    else {
-                                                        for (int i = 0; i < -vihollinen.liikeX; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                                        }
-                                                    }
-                                                    if (vihollinen.liikeY > 0) {
-                                                        for (int i = 0; i < vihollinen.liikeY; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                                        }
-                                                    }
-                                                    else {
-                                                        for (int i = 0; i < -vihollinen.liikeY; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                                        }
-                                                    }
-                                                    if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -10) {
-                                                        vihollinen.liikeX--;
-                                                    }
-                                                    else if (vihollinen.liikeX < 10) {
-                                                        vihollinen.liikeX++;
-                                                    }
-                                                    if ((vihollinen.liikuVielä > Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä < Vihollinen.liikkeenPituus/4) && vihollinen.liikeY < 10) {
-                                                        vihollinen.liikeY++;
-                                                    }
-                                                    else if (vihollinen.liikeY > -10) {
-                                                        vihollinen.liikeY--;
-                                                    }
-                                                    vihollinen.liikuVielä--;
-                                                    //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
-                                                }
-                                                else {
-                                                    vihollinen.liikeLoopinVaihe++;
-                                                    bossLiikeSuunta = r.nextInt(0, 8);
-                                                    vihollinen.liikeMoodi = 0;
-                                                    if (vihollinen.liikeMoodi == 0) {
-                                                        vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
-                                                    }
-                                                    else {
-                                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                                        vihollinen.liikeX = 10;
-                                                        vihollinen.liikeY = 0;
-                                                    }
-                                                }
-                                                vihollinen.nopeus = alkupNopeus;
-                                            break;
-                                            case 2:
-                                                alkupNopeus = vihollinen.nopeus;
-                                                vihollinen.nopeus = 1;
-                                                if (vihollinen.liikuVielä > 0) {
-                                                    if (vihollinen.liikeX > 0) {
-                                                        for (int i = 0; i < vihollinen.liikeX; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.OIKEA);
-                                                        }
-                                                    }
-                                                    else {
-                                                        for (int i = 0; i < -vihollinen.liikeX; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.VASEN);
-                                                        }
-                                                    }
-                                                    if (vihollinen.liikeY > 0) {
-                                                        for (int i = 0; i < vihollinen.liikeY; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.ALAS);
-                                                        }
-                                                    }
-                                                    else {
-                                                        for (int i = 0; i < -vihollinen.liikeY; i++) {
-                                                            vihollinen.kokeileLiikkumista(Suunta.YLÖS);
-                                                        }
-                                                    }
-                                                    if (vihollinen.liikuVielä > Vihollinen.liikkeenPituus/2 && vihollinen.liikeX > -10) {
-                                                        vihollinen.liikeX--;
-                                                    }
-                                                    else if (vihollinen.liikeX < 10) {
-                                                        vihollinen.liikeX++;
-                                                    }
-                                                    if ((vihollinen.liikuVielä > Vihollinen.liikkeenPituus*3/4 || vihollinen.liikuVielä < Vihollinen.liikkeenPituus/4) && vihollinen.liikeY > -10) {
-                                                        vihollinen.liikeY--;
-                                                    }
-                                                    else if (vihollinen.liikeY < 10) {
-                                                        vihollinen.liikeY++;
-                                                    }
-                                                    vihollinen.liikuVielä--;
-                                                    //System.out.println("liikeX: " + vihollinen.liikeX + " liikeY: " + vihollinen.liikeY + " liikuvielä: " + vihollinen.liikuVielä);
-                                                }
-                                                else {
-                                                    vihollinen.liikeLoopinVaihe++;
-                                                    bossLiikeSuunta = r.nextInt(0, 8);
-                                                    vihollinen.liikeMoodi = 0;
-                                                    if (vihollinen.liikeMoodi == 0) {
-                                                        vihollinen.liikuVielä = r.nextInt(Vihollinen.liikkeenPituus/10, Vihollinen.liikkeenPituus/2);
-                                                    }
-                                                    else {
-                                                        vihollinen.liikuVielä = Vihollinen.liikkeenPituus;
-                                                        vihollinen.liikeX = 10;
-                                                        vihollinen.liikeY = 0;
-                                                    }
-                                                }
-                                                vihollinen.nopeus = alkupNopeus;
-                                            break;
-                                        }
-                                        if (vihollinen.aikaaViimeHuudosta > 0) {
-                                            vihollinen.aikaaViimeHuudosta--;
-                                        }
-                                        else {
-                                            ÄänentoistamisSäie.toistaSFX(vihollinen.ominaisHuuto);
-                                            vihollinen.aikaaViimeHuudosta = r.nextInt(20, 1000);
+                                        if (vihollinen instanceof Boss) {
+                                            Boss boss = (Boss)vihollinen;
+                                            BossSimulaatio.simuloiBoss(boss);
                                         }
                                     break;
                                     case YMPYRÄLIIKE_MYÖTÄPÄIVÄÄN:
@@ -610,7 +416,7 @@ public class PeliKenttäMetodit {
                                 }
                                 else {
                                     if (Pelaaja.reaktioAika <= 0) {
-                                        if (Pelaaja.kuolemattomuusAika <= 0) {
+                                        if (Pelaaja.kuolemattomuusAika <= 0 && Pelaaja.känniKuolemattomuus <= 0) {
                                             if (Pelaaja.esineet[Peli.esineValInt] instanceof Kilpi && vihollinen.kilpiTehoaa) {
 
                                             }
@@ -639,17 +445,20 @@ public class PeliKenttäMetodit {
                                                 }
                                                 else if (Pelaaja.viimeisinOsunutVihollinen instanceof Asevihu) {
                                                     if (TarkistettavatArvot.annaLyödytVihut() > 0) {
-                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU_LYÖTY;
                                                     }
                                                     else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) {
-                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU_ÄMPÄRÖITY;
                                                     }
                                                     else {
-                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU;
+                                                        TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU_PASSIIVINEN;
                                                     }
                                                 }
                                                 else if (Pelaaja.viimeisinOsunutVihollinen instanceof Vartija) {
                                                     TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.VARTIJA;
+                                                }
+                                                else if (Pelaaja.viimeisinOsunutVihollinen instanceof Boss) {
+                                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_BOSS;
                                                 }
                                                 if (vihollinen.tekeeVahinkoa) {
                                                     Pelaaja.vahingoita(vihollinen.vahinko * PelinAsetukset.vaikeusAste);
@@ -700,10 +509,16 @@ public class PeliKenttäMetodit {
                     if (entity instanceof Ammus) {
                         Ammus ammus = (Ammus)entity;
                         if (Pelaaja.hitbox.intersects(ammus.hitbox)) {
-                            System.out.println("collision - pelaaja: " + Pelaaja.hitbox.getMinX() + " - " + Pelaaja.hitbox.getMaxX() + ", " + Pelaaja.hitbox.getMinY() + " - " + Pelaaja.hitbox.getMaxY()  + ", ammus: " + ammus.hitbox.getMinX() + " - " + ammus.hitbox.getMaxX() + ", " + ammus.hitbox.getMinY() + " - " + ammus.hitbox.getMaxY());
-                            if (Pelaaja.kuolemattomuusAika <= 0) {
-                                TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_AMMUS;
+                            if (Pelaaja.kuolemattomuusAika <= 0 && Pelaaja.känniKuolemattomuus <= 0) {
                                 Pelaaja.vahingoita(ammus.damage * PelinAsetukset.vaikeusAste);
+                                if (ammus.ampuja instanceof Asevihu) {
+                                    if (TarkistettavatArvot.annaLyödytVihut() > 0) TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU_LYÖTY;
+                                    else if (TarkistettavatArvot.annaÄmpäröidytVihut() > 0) TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU_ÄMPÄRÖITY;
+                                    else TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_VIHOLLINEN_ASEVIHU_PASSIIVINEN;
+                                }
+                                else if (ammus.ampuja instanceof Boss) {
+                                    TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.KUOLEMA_BOSS;
+                                }
                             }
                         }
                     }
@@ -716,33 +531,73 @@ public class PeliKenttäMetodit {
     }
 
     public static void tarkistaLiikutettavanEsineenCollision() {
+        // try {
+        //     if (Peli.entityLista != null) {
+        //         if (Peli.entityLista.size() > 0) {
+        //             for (Entity entity : Peli.entityLista) {
+        //                 if (entity instanceof LiikkuvaObjekti) {
+        //                     LiikkuvaObjekti obj = (LiikkuvaObjekti)entity;
+        //                     if (obj.ulkoHitbox.contains(Pelaaja.hitbox.getCenterX(), Pelaaja.hitbox.getCenterY())) {
+        //                         int törmäykset = 0;
+        //                         for (Entity törmääväEntity : Peli.entityLista) {
+        //                             if (obj != törmääväEntity && obj.hitbox.intersects(törmääväEntity.hitbox)) {
+        //                                 törmäykset++;
+        //                             }
+        //                         }
+        //                         if (törmäykset == 0) {
+        //                             if (obj.kokeileLiikkumista(Pelaaja.keimonSuunta)) {
+        //                                 System.out.println("x: " + obj.sijX + ", y: " + obj.sijY);
+        //                             }
+        //                         }
+        //                         else {
+        //                             siirräEsinePoisMuidenEsineidenSisältä(obj);
+        //                         }
+        //                     }
+        //                     if (obj.hitbox.contains(Pelaaja.hitbox.getCenterX(), Pelaaja.hitbox.getCenterY())) {
+        //                         siirräPelaajaPoisEsineenSisältä(obj);
+        //                     }
+        //                     else {
+        //                         Pelaaja.nopeus = Pelaaja.vakionopeus;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         else {
+        //             Pelaaja.nopeus = Pelaaja.vakionopeus;
+        //         }
+        //     }
+        // }
+        // catch (ConcurrentModificationException cme) {
+        //     System.out.println("Viimeisin liikutettavien objektien liikuttamisyritys peruttiin (konkurrenssi-issue)");
+        // }
         try {
             if (Peli.entityLista != null) {
                 if (Peli.entityLista.size() > 0) {
                     for (Entity entity : Peli.entityLista) {
                         if (entity instanceof LiikkuvaObjekti) {
                             LiikkuvaObjekti obj = (LiikkuvaObjekti)entity;
-                            if (obj.ulkoHitbox.contains(Pelaaja.hitbox.getCenterX(), Pelaaja.hitbox.getCenterY())) {
-                                int törmäykset = 0;
-                                for (Entity törmääväEntity : Peli.entityLista) {
-                                    if (obj != törmääväEntity && obj.hitbox.intersects(törmääväEntity.hitbox)) {
-                                        törmäykset++;
-                                    }
+                            int tarkistaVasen = (int)(Pelaaja.hitbox.getMinX()-Pelaaja.nopeus)/PeliRuutu.pelaajanKokoPx;
+                            int tarkistaOikea = (int)(Pelaaja.hitbox.getMaxX())/PeliRuutu.pelaajanKokoPx;
+                            int tarkistaAlas = (int)(Pelaaja.hitbox.getMaxY())/PeliRuutu.pelaajanKokoPx;
+                            int tarkistaYlös = (int)(Pelaaja.hitbox.getMinY()-Pelaaja.nopeus)/PeliRuutu.pelaajanKokoPx;
+                            Rectangle uusiSijainti = new Rectangle(PeliRuutu.esineenKokoPx, PeliRuutu.esineenKokoPx);
+                            switch (Pelaaja.keimonSuunta) {
+                                case VASEN -> {
+                                    uusiSijainti.setLocation((int)(Pelaaja.hitbox.getMinX()-Pelaaja.nopeus), (int)Pelaaja.hitbox.getY());
                                 }
-                                if (törmäykset == 0) {
-                                    if (obj.kokeileLiikkumista(Pelaaja.keimonSuunta)) {
-                                        System.out.println("x: " + obj.sijX + ", y: " + obj.sijY);
-                                    }
+                                case OIKEA -> {
+                                    uusiSijainti.setLocation((int)(Pelaaja.hitbox.getMaxX()), (int)Pelaaja.hitbox.getY());
                                 }
-                                else {
-                                    siirräEsinePoisMuidenEsineidenSisältä(obj);
+                                case ALAS -> {
+                                    uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(Pelaaja.hitbox.getMaxY()));
+                                }
+                                case YLÖS -> {
+                                    uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(Pelaaja.hitbox.getMinY()-Pelaaja.nopeus));
                                 }
                             }
-                            if (obj.hitbox.contains(Pelaaja.hitbox.getCenterX(), Pelaaja.hitbox.getCenterY())) {
-                                siirräPelaajaPoisEsineenSisältä(obj);
-                            }
-                            else {
-                                Pelaaja.nopeus = Pelaaja.vakionopeus;
+                            if (Pelaaja.hitbox.intersects(obj.hitbox)) {
+                            //if (uusiSijainti.intersects(obj.hitbox)) {
+                                obj.kokeileLiikkumista(Pelaaja.keimonSuunta);
                             }
                         }
                     }
@@ -879,27 +734,15 @@ public class PeliKenttäMetodit {
         synchronized(Peli.entityLista) {
             try {
                 if (Peli.entityLista != null) {
+                    //Iterator<Entity> i = Peli.entityLista.iterator();
+                    //while (i.hasNext()) {
                     for (Entity npc : Peli.entityLista) {
+                        //Entity npc = i.next();
                         if (npc instanceof Asevihu) {
                             Asevihu av = (Asevihu)npc;
                             if (!av.onkoKukistettu()) {
-                                Peli.entityLista.add(new Ammus((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY(), av.suuntaVasenOikea, av.ammusVahinko));
+                                Peli.entityLista.add(new Ammus((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY(), av.suuntaVasenOikea, av.ammusVahinko, av));
                                 Point sijainti = new Point((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY());
-                                ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
-                            }
-                        }
-                        else if (npc instanceof Boss) {
-                            Boss boss = (Boss)npc;
-                            if (!boss.onkoKukistettu()) {
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.VASEN, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.OIKEA, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAS, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÖS, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄVASEN, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄOIKEA, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAVASEN, boss.ammusVahinko));
-                                Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAOIKEA, boss.ammusVahinko));
-                                Point sijainti = new Point((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY());
                                 ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
                             }
                         }
@@ -909,8 +752,8 @@ public class PeliKenttäMetodit {
                 //System.out.println(Peli.ammusLista.size());
             }
             catch (ConcurrentModificationException cme) {
-                System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");
-                cme.printStackTrace();
+                //System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");
+                //cme.printStackTrace();
                 PääIkkuna.uudelleenpiirräObjektit = true;
             }
         }
@@ -960,8 +803,46 @@ public class PeliKenttäMetodit {
                 }
             }
             catch (ConcurrentModificationException cme) {
-                System.out.println("Viimeisin ammusten liikutus peruttiin (konkurrenssi-issue)");
-                cme.printStackTrace();
+                //System.out.println("Viimeisin ammusten liikutus peruttiin (konkurrenssi-issue)");
+                //cme.printStackTrace();
+            }
+        }
+    }
+
+    public static void tarkistaPomonTila() {
+        if (TavoiteLista.nykyinenTavoite.startsWith("Voita pomo")) {
+            try {
+                if (Peli.entityLista != null) {
+                    for (Entity entity : Peli.entityLista) {
+                        if (entity instanceof Boss) {
+                            Boss boss = (Boss)entity;
+                            if (boss.onkoKukistettu()){
+                                if (boss.annaHurtAika() <= 0) {
+                                    TavoiteLista.suoritaPääTavoite(8);
+                                    Peli.peliLäpäisty = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                PääIkkuna.uudelleenpiirräObjektit = true;
+            }
+            catch (ConcurrentModificationException cme) {
+                System.out.println("Viimeisin pomon tilan tarkistus peruttiin (konkurrenssi-issue)");
+            }
+        }
+    }
+
+    public static void luoKalja() {
+        for (int y = 0; y < Peli.pelikenttä.length; y++) {
+            for (int x = 0; x < Peli.pelikenttä.length; x++) {
+                if (Peli.pelikenttä[x][y] instanceof KaljaAutomaatti) {
+                    if (x > 0) {
+                        if (Peli.pelikenttä[x-1][y] == null) {
+                            Peli.pelikenttä[x-1][y] = new Kuparilager(true, 0, 0);
+                        }
+                    }
+                }
             }
         }
     }
@@ -978,118 +859,6 @@ public class PeliKenttäMetodit {
         }
         catch (ConcurrentModificationException cme) {
             System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");
-        }
-    }
-
-    public static void suoritaReitinhakuVihollisille() {
-        try {
-            if (Peli.entityLista != null) {
-                for (Entity npc : Peli.entityLista) {
-                    if (npc instanceof Vihollinen) {
-                        Vihollinen vihollinen = (Vihollinen)npc;
-                        PathFindingExample.reitinHakuPelaajaaKohti(vihollinen);
-                    }
-                }
-            }
-        }
-        catch (ConcurrentModificationException e) {
-            System.out.println("Viimeisin vihollisten reitinhaun laskeminen peruutettiin (konkurrenssi-issue)");
-        }
-    }
-
-    public static class PathFindingExample {
-
-        public static class Point {
-            public int x;
-            public int y;
-            public Point previous;
-    
-            public Point(int x, int y, Point previous) {
-                this.x = x;
-                this.y = y;
-                this.previous = previous;
-            }
-    
-            @Override
-            public String toString() { return String.format("(%d, %d)", x, y); }
-    
-            @Override
-            public boolean equals(Object o) {
-                Point point = (Point) o;
-                return x == point.x && y == point.y;
-            }
-    
-            @Override
-            public int hashCode() { return Objects.hash(x, y); }
-    
-            public Point offset(int ox, int oy) { return new Point(x + ox, y + oy, this);  }
-        }
-
-        public static boolean voiKävellä(Maasto[][] map, Point point) {
-            if (point.y < 0 || point.y > map.length - 1) return false;
-            if (point.x < 0 || point.x > map[0].length - 1) return false;
-            if (Peli.maastokenttä[point.x][point.y] instanceof EsteTile) return false;
-            if (Peli.maastokenttä[point.x][point.y] instanceof Tile) return true;
-            else return false;
-        }
-
-        public static List<Point> etsiViereiset(Maasto[][] map, Point point) {
-            List<Point> neighbors = new ArrayList<>();
-            Point up = point.offset(0,  1);
-            Point down = point.offset(0,  -1);
-            Point left = point.offset(-1, 0);
-            Point right = point.offset(1, 0);
-            if (voiKävellä(map, up)) neighbors.add(up);
-            if (voiKävellä(map, down)) neighbors.add(down);
-            if (voiKävellä(map, left)) neighbors.add(left);
-            if (voiKävellä(map, right)) neighbors.add(right);
-            return neighbors;
-        }
-
-        public static List<Point> etsiReitti(Maasto[][] map, Point start, Point end) {
-            boolean finished = false;
-            List<Point> used = new ArrayList<>();
-            used.add(start);
-            while (!finished) {
-                List<Point> newOpen = new ArrayList<>();
-                for(int i = 0; i < used.size(); ++i){
-                    Point point = used.get(i);
-                    for (Point neighbor : etsiViereiset(map, point)) {
-                        if (!used.contains(neighbor) && !newOpen.contains(neighbor)) {
-                            newOpen.add(neighbor);
-                        }
-                    }
-                }
-    
-                for(Point point : newOpen) {
-                    used.add(point);
-                    if (end.equals(point)) {
-                        finished = true;
-                        break;
-                    }
-                }
-    
-                if (!finished && newOpen.isEmpty())
-                    return null;
-            }
-    
-            List<Point> path = new ArrayList<>();
-            Point point = used.get(used.size() - 1);
-            while(point.previous != null) {
-                path.add(0, point);
-                point = point.previous;
-            }
-            return path;
-        }
-
-        public static void reitinHakuPelaajaaKohti(Vihollinen vihollinen) {
-            
-            Maasto[][] kartta = Peli.maastokenttä;
-    
-            Point alku = new Point(vihollinen.sijX, vihollinen.sijY, null);
-            Point loppu = new Point(Pelaaja.sijX, Pelaaja.sijY, null);
-            List<Point> path = etsiReitti(kartta, alku, loppu);
-            vihollinen.reitti = path;
         }
     }
 }

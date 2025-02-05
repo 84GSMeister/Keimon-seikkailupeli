@@ -1,0 +1,15 @@
+#
+## Alias MTL Material File
+# Converted from SKP by LIPID Lightsolve
+
+newmtl kolikko
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd Kolikko/kolikko.png
+
+newmtl default_material
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+

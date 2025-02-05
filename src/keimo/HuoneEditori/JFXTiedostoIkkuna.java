@@ -121,6 +121,7 @@ public class JFXTiedostoIkkuna {
                     }
                     HuoneEditoriIkkuna.huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
                     TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitTiedostossa);
+                    HuoneEditoriIkkuna.muokattavaHuone = 0;
                     HuoneEditoriIkkuna.lataaHuoneKartasta(HuoneEditoriIkkuna.muokattavaHuone, false);
                     HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
                     HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);

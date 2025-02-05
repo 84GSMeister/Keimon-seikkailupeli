@@ -31,7 +31,7 @@ public class HuoneenMetatietoIkkuna {
 
     static final int ikkunanLeveys = 500;
     static final int ikkunanKorkeus = 295;
-    static String[] musat = {"overworld", "puisto", "tarina", "boss"};
+    static String[] musat = {"baari", "boss", "kauppa", "koti", "metsä", "overworld", "puisto", "tarina", "temppeli", "valikko"};
 
     static JPanel pääPaneeli, yläPaneeli, alaPaneeli, yläVasenPaneeli, yläOikeaPaneeli;
     static JLabel huoneenIdLabel, huoneenKokoLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenMusaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;
@@ -182,9 +182,11 @@ public class HuoneenMetatietoIkkuna {
                 else {
                     HuoneEditoriIkkuna.huoneenNimi = huoneenNimiTekstiKenttä.getText();
                     HuoneEditoriIkkuna.huoneenAlue = huoneenAlueTekstiKenttä.getText();
+                    HuoneEditoriIkkuna.huoneenMusa = "" + huoneenMusaValintaLaatikko.getSelectedItem();
                     HuoneEditoriIkkuna.huoneenAlkuDialoginTunniste = (String)huoneenTarinaValintaLaatikko.getSelectedItem();
                     HuoneEditoriIkkuna.huoneenVaaditunTavoitteenTunniste = (String)huoneenTavoiteValintaLaatikko.getSelectedItem();
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäNimiJaAlue(HuoneEditoriIkkuna.huoneenNimi, HuoneEditoriIkkuna.huoneenAlue);
+                    HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäMusa(HuoneEditoriIkkuna.huoneenMusa);
                     HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäAlkudialogi(HuoneEditoriIkkuna.huoneenAlkuDialoginTunniste);
                     //HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenKenttäSisältö(HuoneEditoriIkkuna.objektiKenttä);
                     //HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).päivitäHuoneenMaastoSisältö(HuoneEditoriIkkuna.maastoKenttä);

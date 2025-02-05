@@ -4,6 +4,7 @@ import keimo.*;
 import keimo.HuoneEditori.Keimo3D.Keimo3D;
 import keimo.Ikkunat.AsetusIkkuna;
 import keimo.Ikkunat.CustomViestiIkkunat;
+import keimo.Ikkunat.KäynnistinIkkuna;
 import keimo.Ruudut.PeliRuutu;
 import keimo.PelinAsetukset.AjoitusMuoto;
 
@@ -33,7 +34,8 @@ public class PeliSäie extends Thread {
             PääIkkuna.uusiIkkuna = false;
             Peli.uusiHuone = 0;
             Peli.huoneVaihdettava = true;
-            Peli.uusiPeli();
+            //Peli.uusiPeli();
+            KäynnistinIkkuna.luoPeliVanha();
         }
     });
 
@@ -71,13 +73,13 @@ public class PeliSäie extends Thread {
             e.printStackTrace(pw);
             String sStackTrace = sw.toString();
             System.out.println(sStackTrace);
-            String viesti = "Pelisäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\nX: Uudelleenkäynnistä säie.\n\nVirhekoodi:\n" + sStackTrace;
+            String viesti = "Pelisäie on kaatunut.\n\nHäire sovelluksessa. Ilmoitathan kehittäjille.\n\nVirhekoodi:\n" + sStackTrace;
             String otsikko = "Ongelma säikeessä";
             int virheenJälkeenValinta = CustomViestiIkkunat.GrafiikkäSäieVirhe.näytäDialogi(viesti, otsikko);
             switch (virheenJälkeenValinta) {
                 case JOptionPane.YES_OPTION: run(); break;
                 case JOptionPane.NO_OPTION: System.exit(0); break;
-                case JOptionPane.CLOSED_OPTION: JOptionPane.showMessageDialog(null, "Säie yritetään uudelleenkäynnistää.", "Uudelleenkäynnistys", JOptionPane.INFORMATION_MESSAGE); run(); break;
+                case JOptionPane.CLOSED_OPTION: run(); break;
             }
         }
     }
@@ -116,7 +118,7 @@ public class PeliSäie extends Thread {
                 }
                 if (Peli.globaaliTickit % 100 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();
-                }   
+                }
             }
             if (Peli.globaaliTickit % 2 == 0) {
                 scrollaaDialogiTeksti();

@@ -25,8 +25,6 @@ import javax.sound.sampled.FloatControl;
 import javafx.scene.media.AudioClip;
 
 public class ÄänentoistamisSäie {
-
-    // Tää nyt ei oo varsinainen säie nykyiseltä toteutukseltaan, mutta javan valmiit toteutukset, joita tässä hyödynnetään, käyttää säikeitä.
     
     public static AudioClip ääniToistin;
     private static Random r = new Random();
@@ -34,6 +32,7 @@ public class ÄänentoistamisSäie {
     public static List<String> musaLista;
     protected static Clip clip;
     protected static String nytSoi;
+    private static Object äänisäikeenLukko = new Object();
 
     private static int valitsePeliMusanLoopKohta(String musa) {
         int loopKohta = 0;
@@ -55,6 +54,21 @@ public class ÄänentoistamisSäie {
             case "valikko":
                 loopKohtaMs = 6_400;
             break;
+            case "metsä":
+                loopKohtaMs = 8_350;
+            break;
+            case "baari":
+                loopKohtaMs = 6_857;
+            break;
+            case "koti":
+                loopKohtaMs = 7_680;
+            break;
+            case "temppeli":
+                loopKohtaMs = 17_455;
+            break;
+            case "kauppa":
+                loopKohtaMs = 16_700;
+            break;
             case null, default:
                 loopKohtaMs = 0;
             break;
@@ -63,65 +77,113 @@ public class ÄänentoistamisSäie {
         return loopKohta;
     }
 
+    /**
+     * Todo: Korjaa pelin pysähtyminen musan feidatessa.
+     * Ehkä joku pakotettu latausruutu jolloin säie ehtii viimeistellä toimintansa.
+     * @param musa
+     */
     public static void toistaPeliMusa(String musa) {
-        try {
-            if (nytSoi == null || !nytSoi.equals(musa)) {
-                nytSoi = musa;
-                if (clip != null) {
-                    clip.stop();
-                }
-                AudioInputStream audioInputStream = null;
-                boolean toista = true;
-                String tiedostotyyppi = "";
-                String tiedostonNimi = "";
-                switch (musa) {
-                    case "overworld":
-                        tiedostonNimi = "tiedostot/musat/keimo/keimo_overworld.wav";
-                    break;
-                    case "puisto":
-                        tiedostonNimi = "tiedostot/musat/keimo/keimo_puisto.wav";
-                    break;
-                    case "tarina":
-                        tiedostonNimi = "tiedostot/musat/keimo/keimo_sad_tarina.wav";
-                    break;
-                    case "boss":
-                        tiedostonNimi = "tiedostot/musat/keimo/keimo_taistelu_boss_v2.wav";
-                    break;
-                    case "valikko":
-                        tiedostonNimi = "tiedostot/musat/keimo/keimo_valikko.wav";
-                    break;
-                    case null, default:
-                        toista = false;
-                    break;
-                }
-                if (toista && PelinAsetukset.musiikkiPäällä) {
-                    clip = AudioSystem.getClip();
-                    tiedostotyyppi = tiedostonNimi.substring(tiedostonNimi.length()-3, tiedostonNimi.length());
-                    switch (tiedostotyyppi) {
-                        case "wav":
-                            audioInputStream = AudioSystem.getAudioInputStream(new File(tiedostonNimi));    
-                            clip.open(audioInputStream);
+        synchronized(äänisäikeenLukko) {
+            try {
+                if (nytSoi == null || !nytSoi.equals(musa)) {
+                    nytSoi = musa;
+                    if (clip != null) {
+                        if (clip.getFramePosition() > 0) {
+                            clip.stop();
+                        }
+                        else {
+                            clip.stop();
+                        }
+                    }
+                    AudioInputStream audioInputStream = null;
+                    boolean toista = true;
+                    String tiedostotyyppi = "";
+                    String tiedostonNimi = "";
+                    switch (musa) {
+                        case "overworld":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_overworld.wav";
                         break;
-                        case "mp3":
-                            decodeMP3Data(tiedostonNimi);
+                        case "puisto":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_puisto.wav";
+                        break;
+                        case "tarina":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_sad_tarina.wav";
+                        break;
+                        case "boss":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_taistelu_boss_v2.wav";
+                        break;
+                        case "valikko":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_valikko.wav";
+                        break;
+                        case "metsä":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_metsä.wav";
+                        break;
+                        case "koti":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_koti.wav";
+                        break;
+                        case "baari":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_baari.wav";
+                        break;
+                        case "kauppa":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_kauppa.wav";
+                        break;
+                        case "temppeli":
+                            tiedostonNimi = "tiedostot/musat/keimo/keimo_temppeli.wav";
+                        break;
+                        case null, default:
+                            toista = false;
                         break;
                     }
-                    FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    float gain = (float)(Math.pow(PelinAsetukset.musaVolyymi, (1f/9f))*80 -80);
-                    gainControl.setValue(gain);
-                    int loopStart = valitsePeliMusanLoopKohta(musa);
-                    int loopEnd = clip.getFrameLength()-1;
-                    clip.setLoopPoints(loopStart, loopEnd);
-                    clip.loop(Clip.LOOP_CONTINUOUSLY);
-                    clip.start();
-                    System.out.println("pituus: " + clip.getMicrosecondLength());
+                    if (toista && PelinAsetukset.musiikkiPäällä) {
+                        clip = AudioSystem.getClip();
+                        tiedostotyyppi = tiedostonNimi.substring(tiedostonNimi.length()-3, tiedostonNimi.length());
+                        switch (tiedostotyyppi) {
+                            case "wav":
+                                audioInputStream = AudioSystem.getAudioInputStream(new File(tiedostonNimi));    
+                                clip.open(audioInputStream);
+                            break;
+                            case "mp3":
+                                decodeMP3Data(tiedostonNimi);
+                            break;
+                        }
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        float gain = (float)(Math.pow(PelinAsetukset.musaVolyymi, (1f/9f))*80 -80);
+                        gainControl.setValue(gain);
+                        int loopStart = valitsePeliMusanLoopKohta(musa);
+                        int loopEnd = clip.getFrameLength()-1;
+                        clip.setLoopPoints(loopStart, loopEnd);
+                        clip.loop(Clip.LOOP_CONTINUOUSLY);
+                        clip.start();
+                    }
                 }
             }
+            catch (Exception e) {
+                System.out.println("Musiikkia ei voitu toistaa");
+                e.printStackTrace();
+            }
         }
-        catch (Exception e) {
-            System.out.println("Musiikkia ei voitu toistaa");
-            e.printStackTrace();
-        }
+    }
+
+    private static void fadeVaihdaMusa(Clip clip) {
+        //new Thread() {
+        //    public void run() {
+                //synchronized(äänisäikeenLukko) {
+                    double vol = PelinAsetukset.musaVolyymi;
+                    for (int i = 0; i < 100; i++) {
+                        try {
+                            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            float gain = (float)(Math.pow(vol, (1f/9f))*80 -80);
+                            gainControl.setValue(gain);
+                            vol -= 0.01;
+                            Thread.sleep(20);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                //}
+        //    }
+        //}.start();
     }
 
     private static AudioInputStream decodeMP3Data(String tiedostonNimi) {
@@ -152,19 +214,23 @@ public class ÄänentoistamisSäie {
     }
 
     public static void suljeMusa() {
-        nytSoi = null;
-        if (clip != null) {
-            clip.stop();
+        synchronized(äänisäikeenLukko) {
+            nytSoi = null;
+            if (clip != null) {
+                clip.stop();
+            }
         }
     }
 
     public static void asetaMusanVolyymi(double volyymi) {
-        if (clip != null) {
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float gain = (float)(Math.pow(volyymi, (1f/9f))*80 -80);
-            gainControl.setValue(gain);
+        synchronized(äänisäikeenLukko) {
+            if (clip != null) {
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float gain = (float)(Math.pow(volyymi, (1f/9f))*80 -80);
+                gainControl.setValue(gain);
+            }
+            PelinAsetukset.musaVolyymi = volyymi;
         }
-        PelinAsetukset.musaVolyymi = volyymi;
     }
 
     public static void asetaSFXVolyymi(double volyymi) {
@@ -283,6 +349,15 @@ public class ÄänentoistamisSäie {
             case "Hyväksy":
                 ääniToistin = new AudioClip(new File("tiedostot/äänet/akkept.wav").toURI().toString());
             break;
+            case "Kartta":
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/kartta.mp3").toURI().toString());
+            break;
+            case "Juoman_kaato":
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/juoman_kaato.mp3").toURI().toString());
+            break;
+            case "Kalja_kilinä":
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/kalja_kilinä.mp3").toURI().toString());
+            break;
             case null, default:
             break;
         }
@@ -290,7 +365,6 @@ public class ÄänentoistamisSäie {
             ääniToistin.setVolume(volume * PelinAsetukset.ääniVolyymi);
             ääniToistin.setBalance(pan);
             ääniToistin.play();
-            //System.out.println("Toistetaan sfx: " + ääni + ", volume: " + ääniToistin.getVolume() + ", pan: " + ääniToistin.getBalance());
         }
     }
 }

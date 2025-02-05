@@ -2,12 +2,16 @@ package keimo.HuoneEditori;
 
 import keimo.Pelaaja;
 import keimo.Peli;
-import keimo.Kenttäkohteet.*;
 import keimo.Maastot.*;
-import keimo.NPCt.*;
-import keimo.NPCt.Vihollinen.LiikeTapa;
 import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.entityt.*;
+import keimo.entityt.npc.Vihollinen.LiikeTapa;
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.esine.Esine;
+import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
+import keimo.kenttäkohteet.kiintopiste.Kiintopiste;
+import keimo.kenttäkohteet.warp.Warp;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -30,6 +34,9 @@ public class HuoneenLatausSäie { //implements Runnable {
     private static JProgressBar edistymisPalkki;
     private static JLabel edistymisTeksti;
     protected static double edistyminen = 0;
+
+    static int lastTileX = 0;
+    static int lastTileY = 0;
     
     // @Override
     // public void run() {
@@ -240,7 +247,7 @@ public class HuoneenLatausSäie { //implements Runnable {
                     HuoneEditoriIkkuna.kenttäKohteenKuvake[x][y].setName("kenttäkohteen_kuvake_" + x + "_" + y);
                     HuoneEditoriIkkuna.kenttäKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mousePressed (MouseEvent e) {
+                        public void mousePressed(MouseEvent e) {
                             try {
                                 HuoneEditoriIkkuna.muutoksiaTehty = true;
                                 if (HuoneEditoriIkkuna.ctrlPainettu && SwingUtilities.isLeftMouseButton(e)) {
@@ -316,7 +323,18 @@ public class HuoneenLatausSäie { //implements Runnable {
                     });
                     HuoneEditoriIkkuna.kenttäKohteenKuvake[x][y].addMouseMotionListener(new MouseAdapter() {
                         public void mouseDragged(MouseEvent e) {
-                            if (SwingUtilities.isRightMouseButton(e)) {
+                            if (SwingUtilities.isLeftMouseButton(e)) {
+                                if (HuoneEditoriIkkuna.maalausKäytössä) {
+                                    int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                                    int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                                    if (newTileX != lastTileX || newTileY != lastTileY) {
+                                        lastTileX = newTileX;
+                                        lastTileY = newTileY;
+                                        HuoneEditoriIkkuna.klikkaaEsineRuutuun(newTileX, newTileY, e);
+                                    }
+                                }
+                            }
+                            else if (SwingUtilities.isRightMouseButton(e)) {
                                 HuoneEditoriIkkuna.hiiriLiikutettiin = true;
                                 if (HuoneEditoriIkkuna.hiirenSijainti != null) {
                                     JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, HuoneEditoriIkkuna.objektiEditointiKenttäPaneli);
@@ -334,6 +352,31 @@ public class HuoneenLatausSäie { //implements Runnable {
                                     }
                                 }
                             }
+                            else if (SwingUtilities.isMiddleMouseButton(e)) {
+                                if (HuoneEditoriIkkuna.maalausKäytössä) {
+                                    int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                                    int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                                    if (newTileX != lastTileX || newTileY != lastTileY) {
+                                        lastTileX = newTileX;
+                                        lastTileY = newTileY;
+                                        HuoneEditoriIkkuna.klikkaaEsineRuutuun(newTileX, newTileY, e);
+                                    }
+                                }
+                            }
+                        }
+                        public void mouseMoved(MouseEvent e) {
+                            int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                            int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                            if (newTileX != lastTileX || newTileY != lastTileY) {
+                                lastTileX = newTileX;
+                                lastTileY = newTileY;
+                                if (HuoneEditoriIkkuna.objektiKenttä[x][y] != null) {
+                                    HuoneEditoriIkkuna.hiirenSijaintiLabel.setText(x + ", " + y + ": " + HuoneEditoriIkkuna.objektiKenttä[x][y].annaNimi());
+                                }
+                                else {
+                                    HuoneEditoriIkkuna.hiirenSijaintiLabel.setText(x + ", " + y);
+                                }
+                            }
                         }
                     });
                     HuoneEditoriIkkuna.maastoKohteenKuvake[j][i] = new JButton();
@@ -341,7 +384,7 @@ public class HuoneenLatausSäie { //implements Runnable {
                     HuoneEditoriIkkuna.maastoKohteenKuvake[x][y].setName("maastokohteen_kuvake_" + x + "_" + y);
                     HuoneEditoriIkkuna.maastoKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mousePressed (MouseEvent e) {
+                        public void mousePressed(MouseEvent e) {
                             try {
                                 HuoneEditoriIkkuna.muutoksiaTehty = true;
                                 if (HuoneEditoriIkkuna.ctrlPainettu && SwingUtilities.isLeftMouseButton(e)) {
@@ -405,7 +448,18 @@ public class HuoneenLatausSäie { //implements Runnable {
                     });
                     HuoneEditoriIkkuna.maastoKohteenKuvake[x][y].addMouseMotionListener(new MouseAdapter() {
                         public void mouseDragged(MouseEvent e) {
-                            if (SwingUtilities.isRightMouseButton(e)) {
+                            if (SwingUtilities.isLeftMouseButton(e)) {
+                                if (HuoneEditoriIkkuna.maalausKäytössä) {
+                                    int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                                    int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                                    if (newTileX != lastTileX || newTileY != lastTileY) {
+                                        lastTileX = newTileX;
+                                        lastTileY = newTileY;
+                                        HuoneEditoriIkkuna.klikkaaMaastoRuutuun(newTileX, newTileY, e);
+                                    }
+                                }
+                            }
+                            else if (SwingUtilities.isRightMouseButton(e)) {
                                 HuoneEditoriIkkuna.hiiriLiikutettiin = true;
                                 if (HuoneEditoriIkkuna.hiirenSijainti != null) {
                                     JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, HuoneEditoriIkkuna.maastoEditointiKenttäPaneli);
@@ -423,6 +477,31 @@ public class HuoneenLatausSäie { //implements Runnable {
                                     }
                                 }
                             }
+                            else if (SwingUtilities.isMiddleMouseButton(e)) {
+                                if (HuoneEditoriIkkuna.maalausKäytössä) {
+                                    int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                                    int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                                    if (newTileX != lastTileX || newTileY != lastTileY) {
+                                        lastTileX = newTileX;
+                                        lastTileY = newTileY;
+                                        HuoneEditoriIkkuna.klikkaaMaastoRuutuun(newTileX, newTileY, e);
+                                    }
+                                }
+                            }
+                        }
+                        public void mouseMoved(MouseEvent e) {
+                            int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                            int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                            if (newTileX != lastTileX || newTileY != lastTileY) {
+                                lastTileX = newTileX;
+                                lastTileY = newTileY;
+                                if (HuoneEditoriIkkuna.maastoKenttä[x][y] != null) {
+                                    HuoneEditoriIkkuna.hiirenSijaintiLabel.setText(x + ", " + y + ": " + HuoneEditoriIkkuna.maastoKenttä[x][y].annaKuvanTiedostoNimi());
+                                }
+                                else {
+                                    HuoneEditoriIkkuna.hiirenSijaintiLabel.setText(x + ", " + y);
+                                }
+                            }
                         }
                     });
 
@@ -431,15 +510,15 @@ public class HuoneenLatausSäie { //implements Runnable {
                     HuoneEditoriIkkuna.npcKohteenKuvake[x][y].setName("npckohteen_kuvake_" + x + "_" + y);
                     HuoneEditoriIkkuna.npcKohteenKuvake[x][y].addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mousePressed (MouseEvent e) {
+                        public void mousePressed(MouseEvent e) {
                             HuoneEditoriIkkuna.hiirenSijainti = e.getPoint();
                             try {
                                 HuoneEditoriIkkuna.muutoksiaTehty = true;
                                 if (SwingUtilities.isLeftMouseButton(e)) {
                                     String[] ominaisuusLista = new String[1];
                                     ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                    HuoneEditoriIkkuna.asetaNPCRuutuun(x, y, HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()], ominaisuusLista);
-                                    HuoneEditoriIkkuna.tallennaMuutos("npc_aseta_" + HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                    HuoneEditoriIkkuna.asetaNPCRuutuun(x, y, HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.entityValikko.getSelectedIndex()], ominaisuusLista);
+                                    HuoneEditoriIkkuna.tallennaMuutos("npc_aseta_" + HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.entityValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                                 }
                                 else if (SwingUtilities.isRightMouseButton(e)) {
                                     HuoneEditoriIkkuna.hiirenSijainti = e.getPoint();
@@ -448,7 +527,7 @@ public class HuoneenLatausSäie { //implements Runnable {
                                 else if (SwingUtilities.isMiddleMouseButton(e)) {
                                     String[] ominaisuusLista = new String[1];
                                     ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-                                    HuoneEditoriIkkuna.tallennaMuutos("npc_poista_" + HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.npcValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
+                                    HuoneEditoriIkkuna.tallennaMuutos("npc_poista_" + HuoneEditoriIkkuna.entityLista[HuoneEditoriIkkuna.entityValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + HuoneEditoriIkkuna.npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                                     HuoneEditoriIkkuna.asetaNPCRuutuun(x, y, "", ominaisuusLista);
                                 }
                             }
@@ -472,7 +551,18 @@ public class HuoneenLatausSäie { //implements Runnable {
                     });
                     HuoneEditoriIkkuna.npcKohteenKuvake[x][y].addMouseMotionListener(new MouseAdapter() {
                         public void mouseDragged(MouseEvent e) {
-                            if (SwingUtilities.isRightMouseButton(e)) {
+                            if (SwingUtilities.isLeftMouseButton(e)) {
+                                if (HuoneEditoriIkkuna.maalausKäytössä) {
+                                    int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                                    int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                                    if (newTileX != lastTileX || newTileY != lastTileY) {
+                                        lastTileX = newTileX;
+                                        lastTileY = newTileY;
+                                        HuoneEditoriIkkuna.klikkaaEntityRuutuun(newTileX, newTileY, e);
+                                    }
+                                }
+                            }
+                            else if (SwingUtilities.isRightMouseButton(e)) {
                                 HuoneEditoriIkkuna.hiiriLiikutettiin = true;
                                 if (HuoneEditoriIkkuna.hiirenSijainti != null) {
                                     JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, HuoneEditoriIkkuna.npcEditointiKenttäPaneli);
@@ -488,6 +578,31 @@ public class HuoneenLatausSäie { //implements Runnable {
                                         HuoneEditoriIkkuna.maastoEditointiKenttäPaneli.scrollRectToVisible(view);
                                         HuoneEditoriIkkuna.npcEditointiKenttäPaneli.scrollRectToVisible(view);
                                     }
+                                }
+                            }
+                            else if (SwingUtilities.isMiddleMouseButton(e)) {
+                                if (HuoneEditoriIkkuna.maalausKäytössä) {
+                                    int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                                    int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                                    if (newTileX != lastTileX || newTileY != lastTileY) {
+                                        lastTileX = newTileX;
+                                        lastTileY = newTileY;
+                                        HuoneEditoriIkkuna.klikkaaEntityRuutuun(newTileX, newTileY, e);
+                                    }
+                                }
+                            }
+                        }
+                        public void mouseMoved(MouseEvent e) {
+                            int newTileX = (x * HuoneEditoriIkkuna.zoom + e.getX())/HuoneEditoriIkkuna.zoom;
+                            int newTileY = (y * HuoneEditoriIkkuna.zoom + e.getY())/HuoneEditoriIkkuna.zoom;
+                            if (newTileX != lastTileX || newTileY != lastTileY) {
+                                lastTileX = newTileX;
+                                lastTileY = newTileY;
+                                if (HuoneEditoriIkkuna.npcKenttä[x][y] != null) {
+                                    HuoneEditoriIkkuna.hiirenSijaintiLabel.setText(x + ", " + y + ": " + HuoneEditoriIkkuna.npcKenttä[x][y].annaNimi());
+                                }
+                                else {
+                                    HuoneEditoriIkkuna.hiirenSijaintiLabel.setText(x + ", " + y);
                                 }
                             }
                         }

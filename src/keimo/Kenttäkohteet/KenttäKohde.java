@@ -1,10 +1,20 @@
-package keimo.Kenttäkohteet;
+package keimo.kenttäkohteet;
 
 import keimo.PääIkkuna;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.Käännettävä;
+import keimo.keimoEngine.grafiikat.Kuva;
+import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
+import keimo.kenttäkohteet.avattavaEste.*;
+import keimo.kenttäkohteet.warp.*;
+import keimo.kenttäkohteet.kiintopiste.*;
+import keimo.kenttäkohteet.esine.*;
+import keimo.kenttäkohteet.triggeri.*;
+import keimo.kenttäkohteet.kenttäNPC.*;
+import keimo.kenttäkohteet.kerättävä.*;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.*;
 import java.util.Random;
 import javax.swing.Icon;
@@ -15,12 +25,25 @@ public abstract class KenttäKohde implements Käännettävä {
     int sijX;
     int sijY;
     public boolean lisäOminaisuuksia = false;
-    String[] lisäOminaisuudet;
+    protected String[] lisäOminaisuudet;
+    public Rectangle hitbox;
 
     public static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
 
     protected int objektinId = 0;
     private static int seuraavaObjektinId = 0;
+    
+    public Transform3D transform = new Transform3D();
+
+    protected boolean kolmiUlotteinen = false;
+    public boolean onkoKolmiUlotteinen() {
+        return kolmiUlotteinen;
+    }
+
+    protected String obj3dMallinTunniste;
+    public String anna3dMallinTunniste() {
+        return obj3dMallinTunniste;
+    }
 
     public static void nollaaObjektiId() {
         seuraavaObjektinId = 0;
@@ -73,6 +96,27 @@ public abstract class KenttäKohde implements Käännettävä {
         return mjono;
     }
 
+    protected boolean este = false;
+    public boolean onkoEste() {
+        return este;
+    }
+
+    protected int kääntöAsteet = 0;
+    protected boolean xPeilaus = false;
+    protected boolean yPeilaus = false;
+
+    public int annaKääntöAsteet() {
+        return kääntöAsteet;
+    }
+
+    public boolean annaXPeilaus() {
+        return xPeilaus;
+    }
+
+    public boolean annaYPeilaus() {
+        return yPeilaus;
+    }
+
     Suunta suunta;
     
     BufferedImage käännettäväKuvake;
@@ -84,7 +128,7 @@ public abstract class KenttäKohde implements Käännettävä {
 
     boolean vaatiiPäivityksen = true;
 
-    String katsomisTeksti = "vakioteksti";
+    protected String katsomisTeksti = "vakioteksti";
     public String katso() {
         return katsomisTeksti;
     }
@@ -106,26 +150,57 @@ public abstract class KenttäKohde implements Käännettävä {
 
     public abstract String annaNimiSijamuodossa(String sijamuoto);
 
+    public String haeDialogiTeksti(String teksti) {
+        return katso();
+    }
+
     public Icon annaKuvake() {
         return kuvake;
     }
 
     public String tiedostonNimi;
-    public String annaKuvatiedostonNimi() {
+    public String annaKuvanTiedostoNimi() {
         return tiedostonNimi;
     }
 
+    // protected String tekstuurinNimi;
+    // public String annaTekstuurinNimi() {
+    //     return tekstuurinNimi;
+    // }
+
+    protected Kuva tekstuuri;
+    public Kuva annaTekstuuri() {
+        return tekstuuri;
+    }
+
+    protected Kuva dialogiTekstuuri;
+    public Kuva annaDialogiTekstuuri() {
+        if (dialogiTekstuuri == null) return tekstuuri;
+        else return dialogiTekstuuri;
+    }
+
     public Icon annaDialogiKuvake() {
-        if (dialogiKuvake == null) {
-            return kuvake;
-        }
-        else {
-            return dialogiKuvake;
-        }
+        if (dialogiKuvake == null) return kuvake;
+        else return dialogiKuvake;
     }
 
     public void näytäDialogi(Esine e) {
         PääIkkuna.avaaDialogi(kuvake, katsomisTeksti, nimi);
+    }
+
+    public float liikeY = 0;
+    public float annaLiikeY() {
+        return liikeY;
+    }
+
+    protected float liikeNopeus = 4f;
+    public float annaLiikeNopeus() {
+        return liikeNopeus;
+    }
+
+    protected float pyörimisNopeus = 1f;
+    public float annaPyörimisNopeus() {
+        return pyörimisNopeus;
     }
 
     public static KenttäKohde luoObjektiTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
@@ -135,6 +210,14 @@ public abstract class KenttäKohde implements Käännettävä {
         switch (objektinNimi) {
             case "Avain":
                 luotavaObjekti = new Avain(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Baariruutu":
+                luotavaObjekti = new BaariRuutu(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Baariovi":
+                luotavaObjekti = new Baariovi(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Hiili":
@@ -167,6 +250,14 @@ public abstract class KenttäKohde implements Käännettävä {
 
             case "Kaasusytytin":
                 luotavaObjekti = new Kaasusytytin(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Kalja-automaatti":
+                luotavaObjekti = new KaljaAutomaatti(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Kartta":
+                luotavaObjekti = new Kartta(määritettySijainti, sijX, sijY);
                 break;
 
             case "Kauppahylly":
@@ -217,6 +308,10 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Nuotio(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
 
+            case "Olutlasi":
+                luotavaObjekti = new Olutlasi(määritettySijainti, sijX, sijY);
+                break;
+
             case "Painelaatta (pahavihu)":
                 luotavaObjekti = new PainelaattaPahavihu(määritettySijainti, sijX, sijY);
                 break;
@@ -227,6 +322,14 @@ public abstract class KenttäKohde implements Käännettävä {
 
             case "Paperi":
                 luotavaObjekti = new Paperi(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Pasi":
+                luotavaObjekti = new Pasi(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Pelikone":
+                luotavaObjekti = new Pelikone(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
 
             case "Penkki":
@@ -261,6 +364,10 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Seteli(määritettySijainti, sijX, sijY);
                 break;
 
+            case "Sieni":
+                luotavaObjekti = new Sieni(määritettySijainti, sijX, sijY);
+                break;
+
             case "Silta":
                 luotavaObjekti = new Silta(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
@@ -271,6 +378,10 @@ public abstract class KenttäKohde implements Käännettävä {
 
             case "Sänky":
                 luotavaObjekti = new Sänky(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Tynnyri":
+                luotavaObjekti = new Tynnyri(määritettySijainti, sijX, sijY);
                 break;
 
             case "Vesiämpäri":
@@ -294,19 +405,28 @@ public abstract class KenttäKohde implements Käännettävä {
     }
 
     String tiedot = "";
-    void asetaTiedot() {
+    protected void asetaTiedot() {
         tiedot = "";
         tiedot += "Objektin ID: " + this.objektinId + "\n";
         tiedot += "Nimi: " + this.annaNimi() + "\n";
         //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
-		
+        if (this.tiedostonNimi != null && this.tiedostonNimi.length() > 4) {
+            //this.tekstuurinNimi = this.tiedostonNimi.substring(0, this.tiedostonNimi.length()-4);
+        }
 
         if (this instanceof Esine) {
-            tiedot += "Tyyppi: Esine" + "\n";
+            tiedot += "Tyyppi: Esine";
+            if (this instanceof Ruoka) {
+                tiedot += ", Ruoka";
+            }
+            else if (this instanceof Ase) {
+                tiedot += ", Ase";
+            }
+            tiedot += "\n";
 
             Esine esine = (Esine)this;
             tiedot += "Kulutustavaraa: " + (esine.onkoKäyttö() ? "Kyllä" : "Ei") + "\n";
-			if (esine.kenttäkäyttö) {
+			if (esine.onkoKenttäkäyttöön()) {
                 tiedot += "Sopii käytettäväksi: ";
                 for (String s : esine.sopiiKäytettäväksi) {
                     tiedot += s + ", ";
@@ -314,7 +434,7 @@ public abstract class KenttäKohde implements Käännettävä {
 				tiedot = tiedot.substring(0, tiedot.length()-2);
                 tiedot += "\n";
             }
-            if (esine.yhdistettävä) {
+            if (esine.onkoYhdistettävä()) {
                 tiedot += "Sopii yhdistettäväksi: ";
                 for (String s : esine.kelvollisetYhdistettävät) {
                     tiedot += s + ", ";
@@ -324,11 +444,19 @@ public abstract class KenttäKohde implements Käännettävä {
             }
         }
         else if (this instanceof Kiintopiste){
-            tiedot += "Tyyppi: Kiintopiste" + "\n";
+            tiedot += "Tyyppi: Kiintopiste";
+            if (this instanceof Säiliö) {
+                tiedot += ", Säiliö";
+            }
+            else if (this instanceof Lepopaikka) {
+                tiedot += ", Lepopaikka";
+            }
+            tiedot += "\n";
         }
 
         else if (this instanceof NPC_KenttäKohde) {
-            tiedot += "Tyyppi: Kenttä-NPC" + "\n";
+            tiedot += "Tyyppi: Kenttä-NPC";
+            tiedot += "\n";
         }
 
         else if (this instanceof Warp) {
@@ -347,8 +475,10 @@ public abstract class KenttäKohde implements Käännettävä {
             tiedot += "Tyyppi: Avattava este" + "\n";
             AvattavaEste ae = (AvattavaEste)this;
             tiedot += "Vaaditut triggerit: ";
-            for (Point p : ae.annaVaaditutTriggerit()) {
-                tiedot += p.x + "," + p.y + "; ";
+            if (ae.annaVaaditutTriggerit() != null) {
+                for (Point p : ae.annaVaaditutTriggerit()) {
+                    tiedot += p.x + "," + p.y + "; ";
+                }
             }
             tiedot += "\n";
         }
@@ -370,5 +500,8 @@ public abstract class KenttäKohde implements Käännettävä {
         this.sijY = sijY;
         this.objektinId = seuraavaObjektinId;
         seuraavaObjektinId++;
+        this.hitbox = new Rectangle(PeliRuutu.esineenKokoPx, PeliRuutu.esineenKokoPx);
+        this.hitbox.setLocation(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        asetaTiedot();
     }
 }

@@ -2,8 +2,8 @@ package keimo.HuoneEditori.Keimo3D;
 
 import com.jogamp.opengl.GL2;
 
-import keimo.Kenttäkohteet.KenttäKohde;
-import keimo.Kenttäkohteet.VisuaalinenObjekti;
+import keimo.kenttäkohteet.KenttäKohde;
+import keimo.kenttäkohteet.VisuaalinenObjekti;
 
 public class KenttäObjekti {
 
@@ -15,43 +15,43 @@ public class KenttäObjekti {
 
     public void piirrä(GL2 gl) {
         gl.glBindTexture(GL2.GL_TEXTURE_2D, textureInt);
-            gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1f, 1f, 1f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ + 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ + 0.5f);
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(1f, 1f, 1f);
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ + 0.5f);
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ + 0.5f);
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ + 0.5f);
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ + 0.5f);
 
-            // Back Face
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ - 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ - 0.5f);
+        // Back Face
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ - 0.5f);
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ - 0.5f);
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ - 0.5f);
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ - 0.5f);
 
-            // Top Face
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ - 0.5f);
+        // Top Face
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ - 0.5f);
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ + 0.5f);
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ + 0.5f);
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ - 0.5f);
 
-            // Bottom Face
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY, posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY, posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ + 0.5f);
+        // Bottom Face
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY, posZ - 0.5f);
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY, posZ - 0.5f);
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ + 0.5f);
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ + 0.5f);
 
-            // Right face
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ - 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ - 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ + 0.5f);
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ + 0.5f);
+        // Right face
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ - 0.5f);
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ - 0.5f);
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX + 0.5f, posY + 1, posZ + 0.5f);
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX + 0.5f, posY, posZ + 0.5f);
 
-            // Left Face
-            gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ - 0.5f);
-            gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ + 0.5f);
-            gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ + 0.5f);
-            gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ - 0.5f);
-            gl.glEnd();
+        // Left Face
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ - 0.5f);
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(posX - 0.5f, posY, posZ + 0.5f);
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ + 0.5f);
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(posX - 0.5f, posY + 1, posZ - 0.5f);
+        gl.glEnd();
     }
     
     public KenttäObjekti(String objectName, String[] propertyList, int posX, int posY, int posZ) {
@@ -60,10 +60,10 @@ public class KenttäObjekti {
         this.posY = posY;
         this.posZ = posZ;
         if (k instanceof VisuaalinenObjekti) {
-            this.textureFileName = "tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + k.annaKuvatiedostonNimi();
+            this.textureFileName = "tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + k.annaKuvanTiedostoNimi();
         }
         else {
-            this.textureFileName = "tiedostot/kuvat/kenttäkohteet/" + k.annaKuvatiedostonNimi();
+            this.textureFileName = "tiedostot/kuvat/kenttäkohteet/" + k.annaKuvanTiedostoNimi();
         }
     }
 }

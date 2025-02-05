@@ -1,13 +1,16 @@
 package keimo;
 
-import keimo.Kenttäkohteet.*;
-import keimo.NPCt.*;
 import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.*;
 import keimo.Utility.Käännettävä;
 import keimo.Utility.SkaalattavaKuvake;
+import keimo.entityt.*;
+import keimo.entityt.npc.Vihollinen;
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
+import keimo.kenttäkohteet.esine.Ase;
+import keimo.kenttäkohteet.esine.Esine;
 import keimo.Liikkuminen.*;
-import keimo.Maastot.EsteTile;
 
 import javax.swing.*;
 import java.awt.Rectangle;
@@ -20,7 +23,10 @@ public class Pelaaja implements Käännettävä {
     static int valittuEsine = 0;
     public static int sijX;
     public static int sijY;
-    public static Rectangle hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
+    public static int alkuHuone;
+    public static int alkuSijX;
+    public static int alkuSijY;
+    public static final Rectangle hitbox = new Rectangle(0, 0, 56, 56);
     public static int hp;
     public static double raha;
     public static int kuparit;
@@ -32,7 +38,7 @@ public class Pelaaja implements Käännettävä {
     public static int kuolemattomuusAika;
     public static int reaktioAika;
     public static int hyökkäysAika;
-    public static int hyökkäysViive;
+    public static int käyttöViive;
     public static Ase käytettyAse;
     static boolean vihollisenKohdalla = false;
     static Vihollinen vihollinenKohdalla;
@@ -40,15 +46,19 @@ public class Pelaaja implements Käännettävä {
     public static ArrayList<Esine> ostosKori = new ArrayList<Esine>();
     public static double ostostenHintaYhteensä;
     public static float känninVoimakkuusFloat;
+    public static int känniKuolemattomuus;
     private static Random r = new Random();
+    public static boolean pelaajaLiikkuu = false;
+    public static boolean noclip = false;
+    public static boolean ohitaTavoitteet = false;
 
     /**
      * Valitse tila, jonka mukaan kuvake valitaan grafiikkasäikeessä sekä
      * @param parannus kasvata hp:ta
      */
 
-    void syöRuoka(int parannus) {
-        this.paranna(parannus);
+    public static void syöRuoka(int parannus) {
+        paranna(parannus);
         syödytRuoat++;
         switch (syödytRuoat) {
             case 0:
@@ -119,309 +129,175 @@ public class Pelaaja implements Käännettävä {
      * Tarkista, voiko valittuun suuntaan liikkua
      * Jos voi, kutsu siirry() -metodia
      * Tätä metodia toistetaan niin kauan, kun jokin nuolinäppäin on pohjassa
-     * @param suunta
+     * @param suunta liikkeen suunta
      * @return siirtyikö pelaaja (valitussa suunnassa ei este tai kentän reuna)
      */
+     public static boolean kokeileLiikkumista(Suunta suunta) {
+        return kokeileLiikkumista(suunta, true);
+     }
 
-    static boolean kokeileLiikkumista(Suunta suunta) {
+     public static boolean kokeileLiikkumista(Suunta suunta, boolean känniLiike) {
         boolean pelaajaSiirtyi = false;
+        boolean pelaajaVoiLiikkua = true;
         float harhaliikkeenTodennäköisyys = känninVoimakkuusFloat/5 - 0.3f;
         int tarkistaVasen = (int)(hitbox.getMinX()-nopeus)/PeliRuutu.pelaajanKokoPx;
         int tarkistaOikea = (int)(hitbox.getMaxX())/PeliRuutu.pelaajanKokoPx;
         int tarkistaAlas = (int)(hitbox.getMaxY())/PeliRuutu.pelaajanKokoPx;
         int tarkistaYlös = (int)(hitbox.getMinY()-nopeus)/PeliRuutu.pelaajanKokoPx;
+        Rectangle uusiSijainti = new Rectangle(56, 56);
         try {
             switch (suunta) {
-                case VASEN:
-                    if (hitbox.getMinX() > 0) {
-                        // Visuaalinen objekti vasemmalla
-                        if (Peli.maastokenttä[tarkistaVasen][sijY] != null && Peli.pelikenttä[tarkistaVasen][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
-                                if (Peli.pelikenttä[tarkistaVasen][sijY] instanceof VisuaalinenObjekti) {
-                                    VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaVasen][sijY];
-                                    if (!vo.onkoEste()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                                    }
-                                }
-                                else if (Peli.pelikenttä[tarkistaVasen][sijY] instanceof AvattavaEste) {
-                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[tarkistaVasen][sijY];
-                                    if (ae.onkoAvattu()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                                    }
-                                }
-                                else {
-                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                        if (r.nextBoolean()) {
-                                            if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
-                                                if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                                    siirry(new LiikkuminenAlas());
-                                                }
-                                            }
-                                        }
-                                        else {
-                                            if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
-                                                if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                                    siirry(new LiikkuminenYlös());
-                                                }
-                                            }
-                                        }
-                                    }
-                                    pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                case VASEN -> {
+                    uusiSijainti.setLocation((int)(hitbox.getMinX()-nopeus), (int)Pelaaja.hitbox.getY());
+                }
+                case OIKEA -> {
+                    uusiSijainti.setLocation((int)(hitbox.getMaxX()), (int)Pelaaja.hitbox.getY());
+                }
+                case ALAS -> {
+                    uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(hitbox.getMaxY()));
+                }
+                case YLÖS -> {
+                    uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(hitbox.getMinY()-nopeus));
+                }
+            }
+            if (
+                tarkistaVasen >= 0 &&
+                tarkistaOikea < Peli.annaMaastoKenttä().length &&
+                tarkistaYlös >= 0 &&
+                tarkistaAlas < Peli.annaMaastoKenttä().length
+            ) {
+                if (Peli.annaMaastoKenttä()[tarkistaVasen][sijY] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][sijY].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[tarkistaOikea][sijY] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][sijY].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[sijX][tarkistaAlas] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[sijX][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaMaastoKenttä()[sijX][tarkistaYlös] != null) {
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[sijX][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                }
+            }
+            if (
+                tarkistaVasen >= 0 &&
+                tarkistaOikea < Peli.annaObjektiKenttä().length &&
+                tarkistaYlös >= 0 &&
+                tarkistaAlas < Peli.annaObjektiKenttä().length
+            ) {
+                if (Peli.annaObjektiKenttä()[tarkistaVasen][sijY] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][sijY].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][sijY].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[tarkistaOikea][sijY] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][sijY].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][sijY].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[sijX][tarkistaAlas] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[sijX][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[sijX][tarkistaAlas].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+                if (Peli.annaObjektiKenttä()[sijX][tarkistaYlös] != null) {
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[sijX][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[sijX][tarkistaYlös].onkoEste()) pelaajaVoiLiikkua = false;
+                }
+            }
+            else {
+                switch (suunta) {
+                    case VASEN -> {
+                        pelaajaVoiLiikkua = false;
+                        if (tarkistaVasen >= 0) {
+                            if (Peli.annaMaastoKenttä()[tarkistaVasen][sijY] != null) {
+                                if (!Peli.annaMaastoKenttä()[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+                                    pelaajaVoiLiikkua = true;
                                 }
                             }
-                        }
-                        // Maasto vasemmalla
-                        else if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
-                                if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                    if (r.nextBoolean()) {
-                                        if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
-                                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenAlas());
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
-                                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenYlös());
-                                            }
-                                        }
-                                    }
-                                }
-                                pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
-                            }
-                        }
-                        // Tyhjä vasemmalla
-                        else {
-                            if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                if (r.nextBoolean()) {
-                                    siirry(new LiikkuminenAlas());
-                                }
-                                else {
-                                    siirry(new LiikkuminenYlös());
-                                }
-                            }
-                            pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                         }
                     }
-                break;
-                case OIKEA:
-                    if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                        // Visuaalinen objekti oikealla
-                        if (Peli.maastokenttä[tarkistaOikea][sijY] != null && Peli.pelikenttä[tarkistaOikea][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
-                                if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof VisuaalinenObjekti) {
-                                    VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaOikea][sijY];
-                                    if (!vo.onkoEste()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
-                                    }
-                                }
-                                else if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof AvattavaEste) {
-                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[tarkistaOikea][sijY];
-                                    if (ae.onkoAvattu()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
-                                    }
-                                }
-                                else {
-                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                        if (r.nextBoolean()) {
-                                            if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
-                                                if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                                    siirry(new LiikkuminenAlas());
-                                                }
-                                            }
-                                        }
-                                        else {
-                                            if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
-                                                if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                                    siirry(new LiikkuminenYlös());
-                                                }
-                                            }
-                                        }
-                                    }
-                                    pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                    case OIKEA -> {
+                        pelaajaVoiLiikkua = false;
+                        if (tarkistaOikea < Peli.annaMaastoKenttä().length) {
+                            if (Peli.annaMaastoKenttä()[tarkistaOikea][sijY] != null) {
+                                if (!Peli.annaMaastoKenttä()[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+                                    pelaajaVoiLiikkua = true;
                                 }
                             }
-                        }
-                        // Maasto oikealla
-                        else if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
-                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
-                                if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                    if (r.nextBoolean()) {
-                                        if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
-                                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenAlas());
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
-                                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenYlös());
-                                            }
-                                        }
-                                    }
-                                }
-                                pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
-                            }
-                        }
-                        // Tyhjä oikealla
-                        else {
-                            if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                if (r.nextBoolean()) {
-                                    siirry(new LiikkuminenAlas());
-                                }
-                                else {
-                                    siirry(new LiikkuminenYlös());
-                                }
-                            }
-                            pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
                         }
                     }
-                break;
-                case ALAS:
-                    if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                        // Visuaalinen objekti alhaalla
-                        if (Peli.maastokenttä[sijX][tarkistaAlas] != null && Peli.pelikenttä[sijX][tarkistaAlas] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                if (Peli.pelikenttä[sijX][tarkistaAlas] instanceof VisuaalinenObjekti) {
-                                    VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaAlas];
-                                    if (!vo.onkoEste()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                                    }
-                                }
-                                else if (Peli.pelikenttä[sijX][tarkistaAlas] instanceof AvattavaEste) {
-                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[sijX][tarkistaAlas];
-                                    if (ae.onkoAvattu()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                                    }
-                                }
-                                else {
-                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                        if (r.nextBoolean()) {
-                                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenVasemmalle());
-                                            }
-                                        }
-                                        else {
-                                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenOikealle());
-                                            }
-                                        }
-                                    }
-                                    pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                    case ALAS -> {
+                        pelaajaVoiLiikkua = false;
+                        if (tarkistaAlas < Peli.annaMaastoKenttä().length) {
+                            if (Peli.annaMaastoKenttä()[sijX][tarkistaAlas] != null) {
+                                if (!Peli.annaMaastoKenttä()[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                                    pelaajaVoiLiikkua = true;
                                 }
                             }
-                        }
-                        // Maasto alhaalla
-                        else if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                    if (r.nextBoolean()) {
-                                        if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
-                                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(Suunta.VASEN)) {
-                                                siirry(new LiikkuminenVasemmalle());
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
-                                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(Suunta.OIKEA)) {
-                                                siirry(new LiikkuminenOikealle());
-                                            }
-                                        }
-                                    }
-                                }
-                                pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                            }
-                        }
-                        // Tyhjä alhaalla
-                        else {
-                            if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                if (r.nextBoolean()) {
-                                    siirry(new LiikkuminenVasemmalle());
-                                }
-                                else {
-                                    siirry(new LiikkuminenOikealle());
-                                }
-                            }
-                            pelaajaSiirtyi = siirry(new LiikkuminenAlas());
                         }
                     }
-                break;
-                case YLÖS:
-                    if (hitbox.getMinY() > 0) {
-                        // Visuaalinen objekti ylhäällä
-                        if (Peli.maastokenttä[sijX][tarkistaYlös] != null && Peli.pelikenttä[sijX][tarkistaYlös] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof VisuaalinenObjekti) {
-                                    VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaYlös];
-                                    if (!vo.onkoEste()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                                    }
-                                }
-                                else if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof AvattavaEste) {
-                                    AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[sijX][tarkistaYlös];
-                                    if (ae.onkoAvattu()) {
-                                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                                    }
-                                }
-                                else {
-                                    if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                        if (r.nextBoolean()) {
-                                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenVasemmalle());
-                                            }
-                                        }
-                                        else {
-                                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
-                                                siirry(new LiikkuminenOikealle());
-                                            }
-                                        }
-                                    }
-                                    pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                    case YLÖS -> {
+                        pelaajaVoiLiikkua = false;
+                        if (tarkistaYlös >= 0) {
+                            if (Peli.annaMaastoKenttä()[sijX][tarkistaYlös] != null) {
+                                if (!Peli.annaMaastoKenttä()[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                                    pelaajaVoiLiikkua = true;
                                 }
                             }
-                        }
-                        // Maasto ylhäällä
-                        else if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
-                            if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                    if (r.nextBoolean()) {
-                                        if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
-                                            if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(Suunta.VASEN)) {
-                                                siirry(new LiikkuminenVasemmalle());
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
-                                            if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(Suunta.OIKEA)) {
-                                                siirry(new LiikkuminenOikealle());
-                                            }
-                                        }
-                                    }
-                                }
-                                pelaajaSiirtyi = siirry(new LiikkuminenYlös());
-                            }
-                        }
-                        // Tyhjä ylhäällä
-                        else {
-                            if (harhaliikkeenTodennäköisyys > Math.random()) {
-                                if (r.nextBoolean()) {
-                                    siirry(new LiikkuminenVasemmalle());
-                                }
-                                else {
-                                    siirry(new LiikkuminenOikealle());
-                                }
-                            }
-                            pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                         }
                     }
-                break;
-                default:
-                break;
+                }
+            }
+            if (Pelaaja.noclip) pelaajaVoiLiikkua = true;
+            if (pelaajaVoiLiikkua) {
+                switch (suunta) {
+                    case VASEN -> {
+                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    case OIKEA -> {
+                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    case ALAS -> {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                    case YLÖS -> {
+                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                }
             }
         }
         catch (NullPointerException npe) {
@@ -432,8 +308,322 @@ public class Pelaaja implements Käännettävä {
             System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan (kentän ulkopuolella).");
             aioobe.printStackTrace();
         }
+        pelaajaLiikkuu = pelaajaSiirtyi;
         return pelaajaSiirtyi;
     }
+
+    // public static boolean kokeileLiikkumista2(Suunta suunta) {
+    //     boolean pelaajaSiirtyi = false;
+    //     float harhaliikkeenTodennäköisyys = känninVoimakkuusFloat/5 - 0.3f;
+    //     int tarkistaVasen = (int)(hitbox.getMinX()-nopeus)/PeliRuutu.pelaajanKokoPx;
+    //     int tarkistaOikea = (int)(hitbox.getMaxX())/PeliRuutu.pelaajanKokoPx;
+    //     int tarkistaAlas = (int)(hitbox.getMaxY())/PeliRuutu.pelaajanKokoPx;
+    //     int tarkistaYlös = (int)(hitbox.getMinY()-nopeus)/PeliRuutu.pelaajanKokoPx;
+    //     try {
+    //         switch (suunta) {
+    //             case VASEN:
+    //                 if (hitbox.getMinX() > 0) {
+    //                     // Visuaalinen objekti vasemmalla
+    //                     if (Peli.maastokenttä[tarkistaVasen][sijY] != null && Peli.pelikenttä[tarkistaVasen][sijY] != null) {
+    //                         if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+    //                             if (Peli.pelikenttä[tarkistaVasen][sijY] instanceof VisuaalinenObjekti) {
+    //                                 VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaVasen][sijY];
+    //                                 if (!vo.onkoEste()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+    //                                 }
+    //                             }
+    //                             else if (Peli.pelikenttä[tarkistaVasen][sijY] instanceof AvattavaEste) {
+    //                                 AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[tarkistaVasen][sijY];
+    //                                 if (ae.onkoAvattu()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+    //                                 }
+    //                             }
+    //                             else {
+    //                                 if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                     if (r.nextBoolean()) {
+    //                                         if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
+    //                                             if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+    //                                                 siirry(new LiikkuminenAlas());
+    //                                             }
+    //                                         }
+    //                                     }
+    //                                     else {
+    //                                         if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
+    //                                             if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+    //                                                 siirry(new LiikkuminenYlös());
+    //                                             }
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+    //                             }
+    //                         }
+    //                     }
+    //                     // Maasto vasemmalla
+    //                     else if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
+    //                         if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+    //                             if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                 if (r.nextBoolean()) {
+    //                                     if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
+    //                                         if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenAlas());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 else {
+    //                                     if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
+    //                                         if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenYlös());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             }
+    //                             pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+    //                         }
+    //                     }
+    //                     // Tyhjä vasemmalla
+    //                     else {
+    //                         if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                             if (r.nextBoolean()) {
+    //                                 siirry(new LiikkuminenAlas());
+    //                             }
+    //                             else {
+    //                                 siirry(new LiikkuminenYlös());
+    //                             }
+    //                         }
+    //                         pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+    //                     }
+    //                 }
+    //             break;
+    //             case OIKEA:
+    //                 if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+    //                     // Visuaalinen objekti oikealla
+    //                     if (Peli.maastokenttä[tarkistaOikea][sijY] != null && Peli.pelikenttä[tarkistaOikea][sijY] != null) {
+    //                         if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+    //                             if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof VisuaalinenObjekti) {
+    //                                 VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[tarkistaOikea][sijY];
+    //                                 if (!vo.onkoEste()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+    //                                 }
+    //                             }
+    //                             else if (Peli.pelikenttä[tarkistaOikea][sijY] instanceof AvattavaEste) {
+    //                                 AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[tarkistaOikea][sijY];
+    //                                 if (ae.onkoAvattu()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+    //                                 }
+    //                             }
+    //                             else {
+    //                                 if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                     if (r.nextBoolean()) {
+    //                                         if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
+    //                                             if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+    //                                                 siirry(new LiikkuminenAlas());
+    //                                             }
+    //                                         }
+    //                                     }
+    //                                     else {
+    //                                         if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
+    //                                             if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+    //                                                 siirry(new LiikkuminenYlös());
+    //                                             }
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+    //                             }
+    //                         }
+    //                     }
+    //                     // Maasto oikealla
+    //                     else if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
+    //                         if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+    //                             if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                 if (r.nextBoolean()) {
+    //                                     if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
+    //                                         if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenAlas());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 else {
+    //                                     if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
+    //                                         if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenYlös());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             }
+    //                             pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+    //                         }
+    //                     }
+    //                     // Tyhjä oikealla
+    //                     else {
+    //                         if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                             if (r.nextBoolean()) {
+    //                                 siirry(new LiikkuminenAlas());
+    //                             }
+    //                             else {
+    //                                 siirry(new LiikkuminenYlös());
+    //                             }
+    //                         }
+    //                         pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+    //                     }
+    //                 }
+    //             break;
+    //             case ALAS:
+    //                 if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+    //                     // Visuaalinen objekti alhaalla
+    //                     if (Peli.maastokenttä[sijX][tarkistaAlas] != null && Peli.pelikenttä[sijX][tarkistaAlas] != null) {
+    //                         if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+    //                             if (Peli.pelikenttä[sijX][tarkistaAlas] instanceof VisuaalinenObjekti) {
+    //                                 VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaAlas];
+    //                                 if (!vo.onkoEste()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+    //                                 }
+    //                             }
+    //                             else if (Peli.pelikenttä[sijX][tarkistaAlas] instanceof AvattavaEste) {
+    //                                 AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[sijX][tarkistaAlas];
+    //                                 if (ae.onkoAvattu()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+    //                                 }
+    //                             }
+    //                             else {
+    //                                 if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                     if (r.nextBoolean()) {
+    //                                         if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenVasemmalle());
+    //                                         }
+    //                                     }
+    //                                     else {
+    //                                         if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenOikealle());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+    //                             }
+    //                         }
+    //                     }
+    //                     // Maasto alhaalla
+    //                     else if (Peli.maastokenttä[sijX][tarkistaAlas] != null) {
+    //                         if (!Peli.maastokenttä[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+    //                             if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                 if (r.nextBoolean()) {
+    //                                     if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
+    //                                         if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(Suunta.VASEN)) {
+    //                                             siirry(new LiikkuminenVasemmalle());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 else {
+    //                                     if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
+    //                                         if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(Suunta.OIKEA)) {
+    //                                             siirry(new LiikkuminenOikealle());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             }
+    //                             pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+    //                         }
+    //                     }
+    //                     // Tyhjä alhaalla
+    //                     else {
+    //                         if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                             if (r.nextBoolean()) {
+    //                                 siirry(new LiikkuminenVasemmalle());
+    //                             }
+    //                             else {
+    //                                 siirry(new LiikkuminenOikealle());
+    //                             }
+    //                         }
+    //                         pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+    //                     }
+    //                 }
+    //             break;
+    //             case YLÖS:
+    //                 if (hitbox.getMinY() > 0) {
+    //                     // Visuaalinen objekti ylhäällä
+    //                     if (Peli.maastokenttä[sijX][tarkistaYlös] != null && Peli.pelikenttä[sijX][tarkistaYlös] != null) {
+    //                         if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+    //                             if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof VisuaalinenObjekti) {
+    //                                 VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[sijX][tarkistaYlös];
+    //                                 if (!vo.onkoEste()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+    //                                 }
+    //                             }
+    //                             else if (Peli.pelikenttä[sijX][tarkistaYlös] instanceof AvattavaEste) {
+    //                                 AvattavaEste ae = (AvattavaEste)Peli.pelikenttä[sijX][tarkistaYlös];
+    //                                 if (ae.onkoAvattu()) {
+    //                                     pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+    //                                 }
+    //                             }
+    //                             else {
+    //                                 if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                     if (r.nextBoolean()) {
+    //                                         if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenVasemmalle());
+    //                                         }
+    //                                     }
+    //                                     else {
+    //                                         if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+    //                                             siirry(new LiikkuminenOikealle());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+    //                             }
+    //                         }
+    //                     }
+    //                     // Maasto ylhäällä
+    //                     else if (Peli.maastokenttä[sijX][tarkistaYlös] != null) {
+    //                         if (!Peli.maastokenttä[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+    //                             if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                                 if (r.nextBoolean()) {
+    //                                     if (Peli.maastokenttä[tarkistaVasen][sijY] != null) {
+    //                                         if (!Peli.maastokenttä[tarkistaVasen][sijY].estääköLiikkumisen(Suunta.VASEN)) {
+    //                                             siirry(new LiikkuminenVasemmalle());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                                 else {
+    //                                     if (Peli.maastokenttä[tarkistaOikea][sijY] != null) {
+    //                                         if (!Peli.maastokenttä[tarkistaOikea][sijY].estääköLiikkumisen(Suunta.OIKEA)) {
+    //                                             siirry(new LiikkuminenOikealle());
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             }
+    //                             pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+    //                         }
+    //                     }
+    //                     // Tyhjä ylhäällä
+    //                     else {
+    //                         if (harhaliikkeenTodennäköisyys > Math.random()) {
+    //                             if (r.nextBoolean()) {
+    //                                 siirry(new LiikkuminenVasemmalle());
+    //                             }
+    //                             else {
+    //                                 siirry(new LiikkuminenOikealle());
+    //                             }
+    //                         }
+    //                         pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+    //                     }
+    //                 }
+    //             break;
+    //             default:
+    //             break;
+    //         }
+    //     }
+    //     catch (NullPointerException npe) {
+    //         System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan.");
+    //         npe.printStackTrace();
+    //     }
+    //     catch (ArrayIndexOutOfBoundsException aioobe) {
+    //         System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan (kentän ulkopuolella).");
+    //         aioobe.printStackTrace();
+    //     }
+    //     pelaajaLiikkuu = pelaajaSiirtyi;
+    //     return pelaajaSiirtyi;
+    // }
 
     public static void annaEsine(Esine e) {
         if (e != null) {
@@ -444,10 +634,6 @@ public class Pelaaja implements Käännettävä {
                         break;
                     }
                 }
-                PääIkkuna.hudTeksti.setText("Sait uuden " + e.annaNimiSijamuodossa("genetiivi"));
-            }
-            else {
-                PääIkkuna.hudTeksti.setText("Ei voida poimia! Tavaraluettelo täynnä! Kokeile pudottaa jokin esine tyhjään ruutuun");
             }
             Peli.valittuEsine = esineet[Peli.esineValInt];
         }
@@ -637,24 +823,20 @@ public class Pelaaja implements Käännettävä {
         boolean maastoTurvallinen = false;
         for (int y = alkuY; y < Peli.kentänKoko; y++) {
             for (int x = alkuX; x < Peli.kentänKoko; x++) {
-                if (Peli.maastokenttä[x][y] instanceof EsteTile) {
-                    maastoTurvallinen = false;
-                }
-                else {
-                    maastoTurvallinen = true;
+                if (Peli.maastokenttä[x][y] != null) {
+                    if (Peli.maastokenttä[x][y].estääköLiikkumisen(null)) {
+                        maastoTurvallinen = false;
+                    }
+                    else maastoTurvallinen = true;
                 }
                 if (Peli.pelikenttä[x][y] instanceof VisuaalinenObjekti) {
                     VisuaalinenObjekti vo = (VisuaalinenObjekti)Peli.pelikenttä[x][y];
                     if (vo.onkoEste()) {
                         kenttäTurvallinen = false;
                     }
-                    else {
-                        kenttäTurvallinen = true;
-                    }
+                    else kenttäTurvallinen = true;
                 }
-                else {
-                    kenttäTurvallinen = true;
-                }
+                else kenttäTurvallinen = true;
 
                 if (kenttäTurvallinen && maastoTurvallinen) {
                     teleport(x, y);
@@ -668,6 +850,12 @@ public class Pelaaja implements Käännettävä {
         else {
             teleporttaaLähimpäänTurvalliseenKohtaan(0, 0);
         }
+    }
+
+    public static void teleporttaaSpawniin() {
+        sijX = alkuSijX;
+        sijY = alkuSijY;
+        hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
     }
 
     public static int annaEsineidenMäärä() {
@@ -693,8 +881,8 @@ public class Pelaaja implements Käännettävä {
         ÄänentoistamisSäie.toistaSFX("pelaaja_damage");
         päivitäTerveys();
     }
-
-    void paranna(int määrä) {
+        
+    static void paranna(int määrä) {
         hp += määrä;
         päivitäTerveys();
     }
@@ -718,6 +906,9 @@ public class Pelaaja implements Käännettävä {
         if (kuolemattomuusAika > 0) {
             kuolemattomuusAika--;
         }
+        if (känniKuolemattomuus > 0) {
+            känniKuolemattomuus--;
+        }
     }
 
     public static void vähennäReaktioAikaa() {
@@ -730,8 +921,8 @@ public class Pelaaja implements Käännettävä {
         if (hyökkäysAika > 0) {
             hyökkäysAika--;
         }
-        if (hyökkäysViive > 0) {
-            hyökkäysViive--;
+        if (käyttöViive > 0) {
+            käyttöViive--;
         }
     }
 
@@ -743,14 +934,16 @@ public class Pelaaja implements Käännettävä {
             }
         }
         if (ostosKori.size() >= tyhjätPaikat) {
-            PääIkkuna.avaaDialogi(null, "Ostoskoriin ei voi lisätä enempää tavaraa kuin tavaraluettelossa on tyhjiä paikkoja!", "Kauppahylly");
+            if (Peli.legacy) PääIkkuna.avaaDialogi(null, "Ostoskoriin ei voi lisätä enempää tavaraa kuin tavaraluettelossa on tyhjiä paikkoja!", "Kauppahylly");
             return "Ostoskoriin ei voi lisätä enempää tavaraa kuin tavaraluettelossa on tyhjiä paikkoja!";
         }
         else if (e != null) {
             ostosKori.add(e);
-            PeliRuutu.päivitäOstosPaneli();
             nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
-            PääIkkuna.avaaDialogi(e.annaKuvake(), "Ostoskoriin lisättiin " + e.annaNimi(), "Kauppahylly");
+            if (Peli.legacy) {
+                PeliRuutu.päivitäOstosPaneli();
+                PääIkkuna.avaaDialogi(e.annaKuvake(), "Ostoskoriin lisättiin " + e.annaNimi(), "Kauppahylly");
+            }
             return "Ostoskoriin lisättiin " + e.annaNimi() + " (+ " + e.annaHinta() + "€)";
         }
         else {
@@ -760,23 +953,25 @@ public class Pelaaja implements Käännettävä {
 
     public static void tyhjennäOstoskori() {
         ostosKori.removeAll(ostosKori);
+        ostostenHintaYhteensä = 0;
         PeliRuutu.päivitäOstosPaneli();
         nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * PeliRuutu.pelaajanKokoPx / 64f);
     }
 
-    Pelaaja() {
+    public Pelaaja() {
         hp = Peli.aloitusHp;
         raha = 0;
         kuparit = 0;
         syödytRuoat = 0;
         nopeus = 8;
+        for (int i = 0; i < esineet.length; i++) esineet[i] = null;
         kuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
         vilkkuvaKuvake = new SkaalattavaKuvake("tiedostot/kuvat/keimo_idle.gif", 0.05f);
         keimonState = KeimonState.IDLE;
         keimonKylläisyys = KeimonKylläisyys.LAIHA;
         keimonTerveys = KeimonTerveys.OK;
-        sijX = 13;
-        sijY = 13;
+        sijX = alkuSijX;
+        sijY = alkuSijY;
         //hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx +10, sijY * PeliRuutu.pelaajanKokoPx +10);
         pelaajaLiikkuuVasen = false;
         pelaajaLiikkuuOikea = false;

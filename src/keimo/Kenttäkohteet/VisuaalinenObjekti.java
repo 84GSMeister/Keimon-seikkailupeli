@@ -1,42 +1,22 @@
-package keimo.Kenttäkohteet;
+package keimo.kenttäkohteet;
 
 import keimo.Utility.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
+import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 import java.io.File;
 import javax.swing.ImageIcon;
 
 public class VisuaalinenObjekti extends KenttäKohde {
 
-    private int kääntöAsteet = 0;
-    private boolean xPeilaus = false;
-    private boolean yPeilaus = false;
-
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         return katsomisTeksti;
     }
     
-    private boolean este = false;
-    public boolean onkoEste() {
-        return este;
-    }
-
     public String annaKuvanTiedostoNimi() {
         return tiedostonNimi;
-    }
-
-    public int annaKääntöAsteet() {
-        return kääntöAsteet;
-    }
-
-    public boolean annaXPeilaus() {
-        return xPeilaus;
-    }
-
-    public boolean annaYPeilaus() {
-        return yPeilaus;
     }
 
     private boolean katsottava = false;
@@ -111,6 +91,7 @@ public class VisuaalinenObjekti extends KenttäKohde {
                 this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
                 this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
             }
+            this.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
         }
         else {
             this.kuvake = new ImageIcon("tiedostot/kuvat/virhekuva_objekti.png");

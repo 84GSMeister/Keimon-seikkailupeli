@@ -3,10 +3,9 @@ package keimo.Ikkunat;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PääIkkuna;
-import keimo.NPCt.Entity;
-import keimo.NPCt.NPC;
-import keimo.NPCt.Vihollinen;
 import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.entityt.Entity;
+import keimo.entityt.npc.Vihollinen;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -198,62 +197,64 @@ public class DebugInfoIkkuna {
             dInfoVihLiikJäljellä.removeAll();
             dInfoVihSuunta.removeAll();
             dInfoVihSuuntaSeuraava.removeAll();
-            for (Entity npc : Peli.entityLista) {
-                if (npc instanceof Vihollinen) {
-                    Vihollinen v = (Vihollinen)npc;
-                
-                    JLabel infoViholliset = new JLabel("Vihollinen " + v.id);
-                    dInfoVihollinen.add(infoViholliset);
+            synchronized (Peli.entityLista) {
+                for (Entity npc : Peli.entityLista) {
+                    if (npc instanceof Vihollinen) {
+                        Vihollinen v = (Vihollinen)npc;
+                    
+                        JLabel infoViholliset = new JLabel("Vihollinen " + v.id);
+                        dInfoVihollinen.add(infoViholliset);
 
-                    JLabel infoVihTyyppi = new JLabel("" + v.annaNimi());
-                    dInfoVihTyyppi.add(infoVihTyyppi);
+                        JLabel infoVihTyyppi = new JLabel("" + v.annaNimi());
+                        dInfoVihTyyppi.add(infoVihTyyppi);
 
-                    JLabel infoVihSijX = new JLabel("" + v.hitbox.x);
-                    dInfoVihSijX.add(infoVihSijX);
+                        JLabel infoVihSijX = new JLabel("" + v.hitbox.x);
+                        dInfoVihSijX.add(infoVihSijX);
 
-                    JLabel infoVihSijY = new JLabel("" + v.hitbox.y);
-                    dInfoVihSijY.add(infoVihSijY);
+                        JLabel infoVihSijY = new JLabel("" + v.hitbox.y);
+                        dInfoVihSijY.add(infoVihSijY);
 
-                    JLabel infoVihNopeus = new JLabel("" + v.nopeus);
-                    dInfoVihNopeus.add(infoVihNopeus);
+                        JLabel infoVihNopeus = new JLabel("" + v.nopeus);
+                        dInfoVihNopeus.add(infoVihNopeus);
 
-                    JLabel infoVihLiikJäljellä = new JLabel("" + v.liikuVielä);
-                    dInfoVihLiikJäljellä.add(infoVihLiikJäljellä);
+                        JLabel infoVihLiikJäljellä = new JLabel("" + v.liikuVielä);
+                        dInfoVihLiikJäljellä.add(infoVihLiikJäljellä);
 
-                    // dInfoVihSijX.setText("" + v.hitbox.getCenterX());
-                    // dInfoVihSijY.setText("" + v.hitbox.getCenterY());
-                    // dInfoVihNopeus.setText("" + v.nopeus);
-                    // dInfoVihLiikJäljellä.setText("" + v.liikuVielä);
+                        // dInfoVihSijX.setText("" + v.hitbox.getCenterX());
+                        // dInfoVihSijY.setText("" + v.hitbox.getCenterY());
+                        // dInfoVihNopeus.setText("" + v.nopeus);
+                        // dInfoVihLiikJäljellä.setText("" + v.liikuVielä);
 
-                    String suunta = "";
-                    String suuntaSeuraava = "";
+                        String suunta = "";
+                        String suuntaSeuraava = "";
 
-                    switch (v.liikeTapa) {
-                        case LOOP_NELIÖ_MYÖTÄPÄIVÄÄN, NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI:
-                            suunta = "" + v.liikeSuuntaLoopNeliöMyötäpäivään[v.liikeLoopinVaihe % v.liikeSuuntaLoopNeliöMyötäpäivään.length];
-                            suuntaSeuraava = "" + v.liikeSuuntaLoopNeliöMyötäpäivään[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopNeliöMyötäpäivään.length];
-                        break;
-                        case LOOP_NELIÖ_VASTAPÄIVÄÄN, NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI:
-                            suunta = "" + v.liikeSuuntaLoopNeliöVastapäivään[v.liikeLoopinVaihe % v.liikeSuuntaLoopNeliöVastapäivään.length];
-                            suuntaSeuraava = "" + v.liikeSuuntaLoopNeliöVastapäivään[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopNeliöVastapäivään.length];
-                        break;
-                        case LOOP_VASEN_OIKEA, VASEN_OIKEA_ESTEESEEN_ASTI:
-                            suunta = "" + v.liikeSuuntaLoopVasenOikea[v.liikeLoopinVaihe % v.liikeSuuntaLoopVasenOikea.length];
-                            suuntaSeuraava = "" + v.liikeSuuntaLoopVasenOikea[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopVasenOikea.length];
-                        break;
-                        case LOOP_YLÖS_ALAS, YLÖS_ALAS_ESTEESEEN_ASTI:
-                            suunta = "" + v.liikeSuuntaLoopYlösAlas[v.liikeLoopinVaihe % v.liikeSuuntaLoopYlösAlas.length];
-                            suuntaSeuraava = "" + v.liikeSuuntaLoopYlösAlas[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopYlösAlas.length];
-                        break;
-                        default:
-                        break;
+                        switch (v.liikeTapa) {
+                            case LOOP_NELIÖ_MYÖTÄPÄIVÄÄN, NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI:
+                                suunta = "" + v.liikeSuuntaLoopNeliöMyötäpäivään[v.liikeLoopinVaihe % v.liikeSuuntaLoopNeliöMyötäpäivään.length];
+                                suuntaSeuraava = "" + v.liikeSuuntaLoopNeliöMyötäpäivään[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopNeliöMyötäpäivään.length];
+                            break;
+                            case LOOP_NELIÖ_VASTAPÄIVÄÄN, NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI:
+                                suunta = "" + v.liikeSuuntaLoopNeliöVastapäivään[v.liikeLoopinVaihe % v.liikeSuuntaLoopNeliöVastapäivään.length];
+                                suuntaSeuraava = "" + v.liikeSuuntaLoopNeliöVastapäivään[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopNeliöVastapäivään.length];
+                            break;
+                            case LOOP_VASEN_OIKEA, VASEN_OIKEA_ESTEESEEN_ASTI:
+                                suunta = "" + v.liikeSuuntaLoopVasenOikea[v.liikeLoopinVaihe % v.liikeSuuntaLoopVasenOikea.length];
+                                suuntaSeuraava = "" + v.liikeSuuntaLoopVasenOikea[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopVasenOikea.length];
+                            break;
+                            case LOOP_YLÖS_ALAS, YLÖS_ALAS_ESTEESEEN_ASTI:
+                                suunta = "" + v.liikeSuuntaLoopYlösAlas[v.liikeLoopinVaihe % v.liikeSuuntaLoopYlösAlas.length];
+                                suuntaSeuraava = "" + v.liikeSuuntaLoopYlösAlas[(v.liikeLoopinVaihe +1) % v.liikeSuuntaLoopYlösAlas.length];
+                            break;
+                            default:
+                            break;
+                        }
+
+                        JLabel infoVihSuunta = new JLabel(suunta);
+                        dInfoVihSuunta.add(infoVihSuunta);
+
+                        JLabel infoVihSuuntaSeuraava = new JLabel(suuntaSeuraava);
+                        dInfoVihSuuntaSeuraava.add(infoVihSuuntaSeuraava);
                     }
-
-                    JLabel infoVihSuunta = new JLabel(suunta);
-                    dInfoVihSuunta.add(infoVihSuunta);
-
-                    JLabel infoVihSuuntaSeuraava = new JLabel(suuntaSeuraava);
-                    dInfoVihSuuntaSeuraava.add(infoVihSuuntaSeuraava);
                 }
             }
         }

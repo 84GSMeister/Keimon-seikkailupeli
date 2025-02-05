@@ -8,9 +8,11 @@ public class VuoropuheDialogiPätkä {
 
     protected static DecimalFormat df = new DecimalFormat("##.##");
 
+    protected int id;
     public String vuoropuheTunniste;
     private int dialoginPituus = 0;
     private Icon[] dialogiKuvat;
+    private String[] dialogiKuvienTiedostoNimet;
     private String[] dialogiTekstit;
     private String[] dialogiPuhujat;
     private boolean valinta = false;
@@ -19,6 +21,16 @@ public class VuoropuheDialogiPätkä {
     private String[] valinnanVaihtoehdot;
     private String[] valinnanVaihtoehtojenKohdeDialogit;
     private String[] triggerit;
+
+    static int tarinaId = 0;
+
+    public static void nollaaTarinaId() {
+        tarinaId = 0;
+    }
+
+    public int annaId() {
+        return id;
+    }
 
     public String annaTunniste() {
         return vuoropuheTunniste;
@@ -38,6 +50,10 @@ public class VuoropuheDialogiPätkä {
 
     public Icon[] annaKuvat() {
         return dialogiKuvat;
+    }
+
+    public String[] annaKuvienTiedostoNimet() {
+        return dialogiKuvienTiedostoNimet;
     }
 
     public String[] annaTekstit() {
@@ -84,6 +100,20 @@ public class VuoropuheDialogiPätkä {
         this.vuoropuheTunniste = vuoropuheTunniste;
         this.dialoginPituus = dialoginPituus;
         this.dialogiKuvat = dialogiKuvat;
+        this.dialogiTekstit = dialogiTekstit;
+        this.dialogiPuhujat = dialogiPuhujat;
+        this.valinta = valinta;
+        this.valinnanNimi = valinnanNimi;
+        this.valinnanOtsikko = valinnanOtsikko;
+        this.valinnanVaihtoehdot = valinnanVaihtoehdot;
+        this.valinnanVaihtoehtojenKohdeDialogit = valinnanVaihtoehtojenKohdeDialogit;
+        this.triggerit = triggerit;
+    }
+
+    public VuoropuheDialogiPätkä(String vuoropuheTunniste, int dialoginPituus, String[] dialogiKuvienTiedostoNimet, String[] dialogiTekstit, String[] dialogiPuhujat, boolean valinta, String valinnanNimi, String valinnanOtsikko, String[] valinnanVaihtoehdot, String[] valinnanVaihtoehtojenKohdeDialogit, String[] triggerit) {
+        this.vuoropuheTunniste = vuoropuheTunniste;
+        this.dialoginPituus = dialoginPituus;
+        this.dialogiKuvienTiedostoNimet = dialogiKuvienTiedostoNimet;
         this.dialogiTekstit = dialogiTekstit;
         this.dialogiPuhujat = dialogiPuhujat;
         this.valinta = valinta;

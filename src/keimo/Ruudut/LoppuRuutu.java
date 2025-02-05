@@ -97,7 +97,7 @@ public class LoppuRuutu {
         for (int i = 0; i < vaihtoehtojenMäärä; i++) {
             vasenOsoitin[i] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
         }
-        vasenOsoitin[valinta] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+        vasenOsoitin[valinta] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
     
         nappiPaneli = new JPanel();
         SpringLayout nappiPanelinlayout = new SpringLayout();
@@ -166,15 +166,6 @@ public class LoppuRuutu {
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/voitto_otsikko.png");
             break;
 
-            case KUOLEMA_TESTI:
-                kelausViive = 20;
-                loppuTeksti = "<html><p>" +
-                "Hävisit pelin!" +
-                "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_testi.jpg");
-                loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
-            break;
-
             case KUOLEMA_VIHOLLINEN_PIKKUVIHU_PASSIIVINEN:
                 loppuTeksti = "<html><p>" +
                 "Sait selkääsi!" + "<br>" +
@@ -184,7 +175,7 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_passiivinen.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_pikkuvihu_passiivinen.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
@@ -197,7 +188,7 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_lyöty.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_pikkuvihu_lyöty.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
@@ -210,7 +201,7 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pikkuvihu_ämpäröity.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_pikkuvihu_ämpäröity.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
@@ -223,7 +214,7 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_passiivinen.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_pahavihu_passiivinen.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
@@ -236,7 +227,7 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_lyöty.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_pahavihu_lyöty.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
@@ -249,7 +240,7 @@ public class LoppuRuutu {
                 "Lyödyt viholliset: " + TarkistettavatArvot.annaLyödytVihut() + "<br>" +
                 "Ämpäröidyt viholliset: " + TarkistettavatArvot.annaÄmpäröidytVihut() + "<br>" +
                 "</p></html>";
-                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_vihollinen_pahavihu_ämpäröity.gif");
+                loppuKuva = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_kuolema_pahavihu_ämpäröity.gif");
                 loppuOtsikko = new ImageIcon("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
             break;
 
@@ -357,34 +348,36 @@ public class LoppuRuutu {
 
     public static void painaNäppäintä(String näppäin) {
 
-        switch (näppäin) {
-            case "ylös":
-                valinta--;
-                if (valinta < 0) {
-                    valinta = 1;
-                }
-                päivitäOsoittimenSijainti(valinta);
-                break;
-            case "alas":
-                valinta++;
-                if (valinta > 1) {
-                    valinta = 0;
-                }
-                päivitäOsoittimenSijainti(valinta);
-                break;
-            case "enter":
-                hyväksy(valinta);
-                break;
-            default:
-                break;
+        if (kelausViive <= 0) {
+            switch (näppäin) {
+                case "ylös":
+                    valinta--;
+                    if (valinta < 0) {
+                        valinta = 1;
+                    }
+                    päivitäOsoittimenSijainti(valinta);
+                    break;
+                case "alas":
+                    valinta++;
+                    if (valinta > 1) {
+                        valinta = 0;
+                    }
+                    päivitäOsoittimenSijainti(valinta);
+                    break;
+                case "enter":
+                    hyväksy(valinta);
+                    break;
+                default:
+                    break;
+            }
+            ÄänentoistamisSäie.toistaSFX("valinta");
         }
-        ÄänentoistamisSäie.toistaSFX("valinta");
     }
 
     static void päivitäOsoittimenSijainti(int valinta) {
         for (int i = 0; i < vaihtoehtojenMäärä; i++) {
             if (i == valinta) {
-                vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+                vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
             }
             else {
                 vasenOsoitin[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));

@@ -32,10 +32,11 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import keimo.HuoneEditori.ObjektinMuokkausIkkuna;
+import keimo.HuoneEditori.HuoneEditoriIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.keimoEngine.toiminnot.Dialogit;
 
 public class DialogiEditoriIkkuna {
 
@@ -59,7 +60,8 @@ public class DialogiEditoriIkkuna {
     static JPanel esikatseluDialogiPaneeli, esikatseluValintaPaneeli;
 
     private static void uudelleenAlustaDialogiKartta() {
-        List<VuoropuheDialogiPätkä> editorinVdpt = VuoropuheDialogit.vuoropuheDialogiKartta.values().stream().toList();
+        //List<VuoropuheDialogiPätkä> editorinVdpt = VuoropuheDialogit.vuoropuheDialogiKartta.values().stream().toList();
+        List<VuoropuheDialogiPätkä> editorinVdpt = Dialogit.PitkätDialogit.vuoropuheDialogiKartta.values().stream().toList();
         editorinDialogiKartta.clear();
         for (VuoropuheDialogiPätkä vdp : editorinVdpt) {
             String[] kopioidutTekstit = Arrays.copyOf(vdp.annaTekstit(), vdp.annaTekstit().length);
@@ -83,7 +85,7 @@ public class DialogiEditoriIkkuna {
         ikkuna = new JFrame("Dialogieditori v0.2");
         ikkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
         ikkuna.setBounds(0, 0, 800, 600);
-        ikkuna.setLocationRelativeTo(null);
+        ikkuna.setLocationRelativeTo(HuoneEditoriIkkuna.ikkuna);
         ikkuna.setVisible(true);
 
         JMenuItem tuoTekstitiedostosta = new JMenuItem("Tuo tekstitiedostosta");
@@ -141,14 +143,14 @@ public class DialogiEditoriIkkuna {
                 MutableTreeNode dialogiPuunValinnanOtsikkoNode = new DefaultMutableTreeNode("O: " + vdp.annaValinnanOtsikko());
                 dialogiPuunValintaKansio.add(dialogiPuunValinnanOtsikkoNode);
                 for (int i = 0; i < vdp.annaValinnanVaihtoehdot().length; i++) {
-                    MutableTreeNode dialogiPuunValintaVaihtoehtoNode = new DefaultMutableTreeNode("V: " + vdp.annaValinnanVaihtoehdot()[i]);
+                    DefaultMutableTreeNode dialogiPuunValintaVaihtoehtoNode = new DefaultMutableTreeNode("V: " + vdp.annaValinnanVaihtoehdot()[i]);
                     dialogiPuunValintaKansio.add(dialogiPuunValintaVaihtoehtoNode);
                     if (vdp.annaTriggerit()[i] != null) {
                         MutableTreeNode dialogiPuunTriggeriNode = new DefaultMutableTreeNode("T: " + vdp.annaTriggerit()[i]);
-                        dialogiPuunValintaKansio.add(dialogiPuunTriggeriNode);
+                        dialogiPuunValintaVaihtoehtoNode.add(dialogiPuunTriggeriNode);
                     }
                     MutableTreeNode dialogiPuunValintaVaihtoehdonKohdeNode = new DefaultMutableTreeNode("D: " + vdp.annaValinnanVaihtoehtojenKohdeDialogit()[i]);
-                    dialogiPuunValintaKansio.add(dialogiPuunValintaVaihtoehdonKohdeNode);
+                    dialogiPuunValintaVaihtoehtoNode.add(dialogiPuunValintaVaihtoehdonKohdeNode);
                 }
             }
             dialogiPuunJuuri.add(dialogiPuunKansio);
@@ -169,7 +171,7 @@ public class DialogiEditoriIkkuna {
                             if (vdp.annaPituus() > dialogiIndeksi) {
                                 tekstiMuokkausKenttä.setText(vdp.annaTekstit()[dialogiIndeksi]);
                                 puhujanNimiTekstikenttä.setText(vdp.annaPuhujat()[dialogiIndeksi]);
-                                puhujanKuvaNappi.setIcon(vdp.annaKuvat()[dialogiIndeksi]);
+                                if (vdp.annaKuvat() != null) puhujanKuvaNappi.setIcon(vdp.annaKuvat()[dialogiIndeksi]);
                                 esikatseluPuhujanKuvaLabel.setIcon(puhujanKuvaNappi.getIcon());
                                 dialogiMuokkausPaneeli.setVisible(true);
                                 valintaMuokkausPaneeli.setVisible(false);
@@ -209,7 +211,12 @@ public class DialogiEditoriIkkuna {
                             valinnanVaihtoehtoTekstikenttä.setText(("" + löydettyNode).substring(3, ("" + löydettyNode).length()));
                             valintaMuokkausPaneeli.add(valinnanVaihtoehtoPaneeli);
                         }
-                        else if (löydettyNode.toString().startsWith("T:")) {
+                        esikatseluPaneeli.removeAll();
+                        esikatseluPaneeli.add(esikatseluValintaPaneeli);
+                        esikatseluPaneeli.setVisible(true);
+                    }
+                    else if (löydettyNode.getLevel() == 4) {
+                        if (löydettyNode.toString().startsWith("T:")) {
                             valintaMuokkausPaneeli.add(valinnanTriggeriPaneeli);
                             valinnanTriggeriValinta.setSelectedItem(("" + löydettyNode).substring(3, ("" + löydettyNode).length()));
                         }
@@ -431,7 +438,7 @@ public class DialogiEditoriIkkuna {
                                                     editorinDialogiKartta.put(vdp.annaTunniste(), new VuoropuheDialogiPätkä(vdp.annaTunniste(), vdp.annaPituus(), uusiKuvaLista, uusiTekstiLista, uusiPuhujaLista, vdp.onkoValinta(), vdp.annaValinnanNimi(), vdp.annaValinnanOtsikko(), vdp.annaValinnanVaihtoehdot(), vdp.annaValinnanVaihtoehtojenKohdeDialogit(), vdp.annaTriggerit()));
                                                 }
                                                 else {
-                                                    editorinDialogiKartta.put("" + löydettyNode.getParent(), new VuoropuheDialogiPätkä("" + lisättäväNode, 0, null, null, null, false, null, null, null, null, null));
+                                                    editorinDialogiKartta.put("" + löydettyNode.getParent(), new VuoropuheDialogiPätkä("" + lisättäväNode, 0, new Icon[1], null, null, false, null, null, null, null, null));
                                                 }
                                             }
                                             else {
@@ -521,7 +528,7 @@ public class DialogiEditoriIkkuna {
                                                 String kohdeDialoginNimi = "" + editorinDialogiKartta.keySet().toArray()[0];
                                                 MutableTreeNode lisättäväNodeVaihtoehtonKohde = new DefaultMutableTreeNode("D: " + kohdeDialoginNimi);
                                                 model.insertNodeInto(lisättäväNodeVaihtoehto, löydettyNode, löydettyNode.getChildCount());
-                                                model.insertNodeInto(lisättäväNodeVaihtoehtonKohde, löydettyNode, löydettyNode.getChildCount());
+                                                model.insertNodeInto(lisättäväNodeVaihtoehtonKohde, lisättäväNodeVaihtoehto, lisättäväNodeVaihtoehto.getChildCount());
                                             }
                                         }
                                     });
@@ -662,14 +669,19 @@ public class DialogiEditoriIkkuna {
                     if (node.toString().startsWith("V:")) {
                         setIcon(dialogiVaihtoehtoKuvake);
                     }
-                    else if (node.toString().startsWith("D:")) {
+                    else if (node.toString().startsWith("O:")) {
+                        setIcon(dialogiValintaOtsikkoKuvake);
+                    }
+                    else {
+                        setIcon(null);
+                    }
+                }
+                else if (nodeLevel == 4) {
+                    if (node.toString().startsWith("D:")) {
                         setIcon(dialogiVaihtoehdonKohdeKuvake);
                     }
                     else if (node.toString().startsWith("T:")) {
                         setIcon(dialogiTriggeriKuvake);
-                    }
-                    else if (node.toString().startsWith("O:")) {
-                        setIcon(dialogiValintaOtsikkoKuvake);
                     }
                     else {
                         setIcon(null);
@@ -755,11 +767,23 @@ public class DialogiEditoriIkkuna {
                         if (valitseKuvaVirheestäHuolimatta == JOptionPane.YES_OPTION) {
                             puhujanKuvaNappi.setIcon(new ImageIcon(img));
                             esikatseluPuhujanKuvaLabel.setIcon(puhujanKuvaNappi.getIcon());
+                            DefaultMutableTreeNode valittuNode = (DefaultMutableTreeNode)dialogipuu.getSelectionPath().getLastPathComponent();
+                            String dialogiPätkänNimi = "" + valittuNode.getParent();
+                            VuoropuheDialogiPätkä vdp = editorinDialogiKartta.get("" + dialogiPätkänNimi);
+                            Icon[] puhujanKuvat = vdp.annaKuvat();
+                            puhujanKuvat[valittuNode.getParent().getIndex(valittuNode)] = puhujanKuvaNappi.getIcon();
+                            editorinDialogiKartta.put(dialogiPätkänNimi, new VuoropuheDialogiPätkä(dialogiPätkänNimi, vdp.annaPituus(), puhujanKuvat, vdp.annaTekstit(), vdp.annaPuhujat()));
                         }
                     }
                     else {
                         puhujanKuvaNappi.setIcon(new ImageIcon(img));
                         esikatseluPuhujanKuvaLabel.setIcon(puhujanKuvaNappi.getIcon());
+                        DefaultMutableTreeNode valittuNode = (DefaultMutableTreeNode)dialogipuu.getSelectionPath().getLastPathComponent();
+                        String dialogiPätkänNimi = "" + valittuNode.getParent();
+                        VuoropuheDialogiPätkä vdp = editorinDialogiKartta.get("" + dialogiPätkänNimi);
+                        Icon[] puhujanKuvat = vdp.annaKuvat();
+                        puhujanKuvat[valittuNode.getParent().getIndex(valittuNode)] = puhujanKuvaNappi.getIcon();
+                        editorinDialogiKartta.put(dialogiPätkänNimi, new VuoropuheDialogiPätkä(dialogiPätkänNimi, vdp.annaPituus(), puhujanKuvat, vdp.annaTekstit(), vdp.annaPuhujat()));
                     }
                 }
                 catch (IOException ioe) {
@@ -1255,8 +1279,8 @@ public class DialogiEditoriIkkuna {
         okNappi.setBounds(0, 0, 20, 20);
         okNappi.addActionListener(e -> {
             VuoropuheDialogit.vuoropuheDialogiKartta = editorinDialogiKartta;
+            Dialogit.PitkätDialogit.vuoropuheDialogiKartta = editorinDialogiKartta;
             editorinDialogiKartta = new HashMap<>();
-            ObjektinMuokkausIkkuna.päivitäDialogiValintaLaatikko();
             ikkuna.dispose();
         });
 
@@ -1300,17 +1324,22 @@ public class DialogiEditoriIkkuna {
                 }
                 ArrayList<String> triggereidenNimet = new ArrayList<>();
                 for (int i = 0; i < parent.getChildCount(); i++) {
-                    if (("" + parent.getChildAt(i)).startsWith("V:") && ("" + parent.getChildAt(i+1)).startsWith("T:")) {
-                        triggereidenNimet.add(("" + parent.getChildAt(i+1)));
-                    }
-                    else if (("" + parent.getChildAt(i)).startsWith("V:")) {
-                        triggereidenNimet.add("<Ei triggeriä>");
+                    if (("" + parent.getChildAt(i)).startsWith("V:") && (parent.getChildAt(i)).getChildCount() > 1) {
+                        for (int j = 0; j < parent.getChildAt(i).getChildCount(); j++) {
+                            if (("" + parent.getChildAt(i).getChildAt(j)).startsWith("T: ")) {
+                                triggereidenNimet.add(("" + parent.getChildAt(i).getChildAt(j)));
+                            }
+                        }
                     }
                 }
                 ArrayList<String> dialogienNimet = new ArrayList<>();
                 for (int i = 0; i < parent.getChildCount(); i++) {
-                    if (("" + parent.getChildAt(i)).startsWith("D:")) {
-                        dialogienNimet.add(("" + parent.getChildAt(i)));
+                    DefaultMutableTreeNode alaNode = (DefaultMutableTreeNode)parent.getChildAt(i);
+                    if (alaNode.getChildCount() > 0) {
+                        DefaultMutableTreeNode dialogiNode = (DefaultMutableTreeNode)alaNode.getChildAt(alaNode.getChildCount()-1);
+                        if (("" + dialogiNode).startsWith("D:")) {
+                            dialogienNimet.add(("" + dialogiNode));
+                        }
                     }
                 }
                 if (esikatseluValinnanVaihtoehtoPaneli != null) {
@@ -1325,7 +1354,13 @@ public class DialogiEditoriIkkuna {
                         valinta.setAlignmentX(JLabel.LEFT_ALIGNMENT);
                         valinta.setPreferredSize(new Dimension(32, 64/vaihtoehdot));
                         valinnanVaihtoehtoYksittäinenPaneeli.add(valinta, BorderLayout.CENTER);
-                        JLabel triggeriJaDialogi = new JLabel("->    " + triggereidenNimet.get(i) + "    ->    " + dialogienNimet.get(i).substring(3));
+                        JLabel triggeriJaDialogi;
+                        if (triggereidenNimet.size() > i) {
+                            triggeriJaDialogi = new JLabel("->    " + triggereidenNimet.get(i) + "    ->    " + dialogienNimet.get(i).substring(3));
+                        }
+                        else {
+                            triggeriJaDialogi = new JLabel("->    " + "<ei triggeriä>" + "    ->    " + dialogienNimet.get(i).substring(3));
+                        }
                         triggeriJaDialogi.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
                         triggeriJaDialogi.setPreferredSize(new Dimension(250, 64/vaihtoehdot));
                         valinnanVaihtoehtoYksittäinenPaneeli.add(triggeriJaDialogi, BorderLayout.EAST);

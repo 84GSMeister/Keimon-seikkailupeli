@@ -1,8 +1,14 @@
 package keimo.Ikkunat;
 
 import keimo.*;
-import keimo.Kenttäkohteet.*;
 import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.kenttäkohteet.*;
+import keimo.kenttäkohteet.esine.Avain;
+import keimo.kenttäkohteet.esine.Hiili;
+import keimo.kenttäkohteet.esine.Kaasupullo;
+import keimo.kenttäkohteet.esine.Kaasusytytin;
+import keimo.kenttäkohteet.esine.Paperi;
+import keimo.kenttäkohteet.esine.Vesiämpäri;
 
 import java.awt.*;
 import java.awt.event.*;

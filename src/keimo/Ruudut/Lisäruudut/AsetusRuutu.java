@@ -68,7 +68,7 @@ public class AsetusRuutu {
             vasenOsoitinAsetukset[i] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));
             vasenOsoitinAsetukset[i].setPreferredSize(new Dimension(50, 30));
         }
-        vasenOsoitinAsetukset[valintaAsetuksissa] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+        vasenOsoitinAsetukset[valintaAsetuksissa] = new JLabel(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
 
         oikeaOsoitinAsetukset = new JLabel[asetustenMäärä];
         for (int i = 0; i < asetustenMäärä; i++) {
@@ -233,7 +233,7 @@ public class AsetusRuutu {
     private static void päivitäOsoittimenSijaintiAsetuksissa(int valinta) {
         for (int i = 0; i < asetustenMäärä; i++) {
             if (i == valinta) {
-                vasenOsoitinAsetukset[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.png"));
+                vasenOsoitinAsetukset[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_osoitin.gif"));
             }
             else {
                 vasenOsoitinAsetukset[i].setIcon(new ImageIcon("tiedostot/kuvat/menu/main_tyhjä.png"));

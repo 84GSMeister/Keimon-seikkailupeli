@@ -19,7 +19,7 @@ import java.awt.Color;
 
 public class TarinaRuutu {
     
-    public static JPanel tarinaPaneli = luoTarinaPaneli("alku");
+    public static JPanel tarinaPaneli;
     static JPanel kuvaPaneli;
     static JPanel tekstiPaneli;
     static JLabel kuva;
@@ -180,7 +180,11 @@ public class TarinaRuutu {
         }
     }
 
-    static void jatka() {
+    public static JPanel annaTarinaPaneli() {
+        return tarinaPaneli;
+    }
+
+    public static void jatka() {
         klikkaustenMäärä++;
         tarinaPaneli = new JPanel();
         //tarinaPaneli = luoTarinaPaneli("alku");

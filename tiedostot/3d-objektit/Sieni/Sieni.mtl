@@ -1,0 +1,21 @@
+#
+## Alias MTL Material File
+# Converted from SKP by LIPID Lightsolve
+
+newmtl sieni_hattu
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd Sieni/sieni_hattu.png
+
+newmtl sieni_jalka
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+map_Kd Sieni/sieni_jalka.png
+
+newmtl default_material
+Ka 0.000000 0.000000 0.000000
+Kd 0.330000 0.330000 0.330000
+Ks 0.330000 0.330000 0.330000
+

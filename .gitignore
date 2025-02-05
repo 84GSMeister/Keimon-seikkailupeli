@@ -1,4 +1,5 @@
 /.vscode
+/jlink
 /jlink.exe
 /jlink.bat
 /jlink.txt
@@ -7,6 +8,10 @@
 /laskerivit.ps1
 /muistilista.txt
 /start.bat
-/java/Peli.jar
+/java/peli.jar
 /tiedostot/pelitiedostot/huoneet
-/tiedostot/pelitiedostot/default(old).kst
+/tiedostot/pelitiedostot/default_old.kst
+/tiedostot/pelitiedostot/default_2.kst
+/hs_err_pid*
+/replay_pid*
+/debug.log

@@ -8,6 +8,7 @@ import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.Random;
 import java.util.List;
@@ -25,12 +26,14 @@ public abstract class Maasto {
     int kääntöAsteet = 0;
     boolean xPeilaus = false;
     boolean yPeilaus = false;
+    public Rectangle hitbox;
 
     protected String nimi;
     protected String katsomisTeksti;
     protected Icon kuvake;
     protected Icon skaalattuKuvake;
     protected String tiedostonNimi;
+    protected String tekstuuri;
     protected boolean estääLiikkumisen = false;
     protected boolean estääLiikkumisenVasen = false;
     protected boolean estääLiikkumisenOikea = false;
@@ -99,16 +102,11 @@ public abstract class Maasto {
         }
         else {
             switch (suunta) {
-                case VASEN:
-                    return estääLiikkumisenVasen;
-                case OIKEA:
-                    return estääLiikkumisenOikea;
-                case ALAS:
-                    return estääLiikkumisenAlas;
-                case YLÖS:
-                    return estääLiikkumisenYlös;
-                default:
-                    return false;
+                case VASEN: return estääLiikkumisenVasen;
+                case OIKEA: return estääLiikkumisenOikea;
+                case ALAS: return estääLiikkumisenAlas;
+                case YLÖS: return estääLiikkumisenYlös;
+                case null, default: return false;
             }
         }
     }
@@ -123,6 +121,10 @@ public abstract class Maasto {
 
     public Icon annaKuvake() {
         return kuvake;
+    }
+
+    public String annaTekstuuri() {
+        return tekstuuri;
     }
 
     public Icon annaSkaalattuKuvake() {
@@ -161,10 +163,10 @@ public abstract class Maasto {
                 this.kääntöAsteet = kääntöAsteet % 360;
             break;
         }
-        if (this instanceof YksisuuntainenTile) {
-            YksisuuntainenTile yTile = (YksisuuntainenTile)this;
-            yTile.päivitäEsteenSuunta();
-        }
+        // if (this instanceof YksisuuntainenTile) {
+        //     YksisuuntainenTile yTile = (YksisuuntainenTile)this;
+        //     yTile.päivitäEsteenSuunta();
+        // }
         päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
     }
@@ -188,10 +190,10 @@ public abstract class Maasto {
                 }
             break;
         }
-        if (this instanceof YksisuuntainenTile) {
-            YksisuuntainenTile yTile = (YksisuuntainenTile)this;
-            yTile.päivitäEsteenSuunta();
-        }
+        // if (this instanceof YksisuuntainenTile) {
+        //     YksisuuntainenTile yTile = (YksisuuntainenTile)this;
+        //     yTile.päivitäEsteenSuunta();
+        // }
         päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
     }
@@ -224,11 +226,11 @@ public abstract class Maasto {
                 break;
 
             case "EsteTile":
-                luotavaMaasto = new EsteTile(sijX, sijY, ominaisuusLista);
+                luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
                 break;
             
             case "Yksisuuntainen Tile":
-                luotavaMaasto = new YksisuuntainenTile(sijX, sijY, ominaisuusLista);
+                luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
                 break;
 
             default:

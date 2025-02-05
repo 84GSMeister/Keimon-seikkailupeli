@@ -3,10 +3,10 @@ package keimo.Ruudut.Lisäruudut;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PääIkkuna;
-import keimo.Kenttäkohteet.Vesiämpäri;
+import keimo.Peli.ToimintoIkkunanTyyppi;
 import keimo.Ruudut.PeliRuutu;
-import keimo.Ruudut.PeliRuutu.LisäRuutuPanelinTyyppi;
 import keimo.Utility.KeimoFontit;
+import keimo.kenttäkohteet.esine.Vesiämpäri;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -88,7 +88,7 @@ public class ÄmpäriJonoRuutu {
     public static void launch() throws InvocationTargetException, InterruptedException {
         Peli.valintaDialogi = true;
         ValintaDialogiRuutu.muutaPanelinKokoa(false, PääIkkuna.isoSkaalaus);
-        PeliRuutu.lisäRuutuPanelinTyyppi = LisäRuutuPanelinTyyppi.ÄMPÄRIJONO;
+        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.ÄMPÄRIJONO;
         JPanel panel = luoÄmpäriJonoPaneliGUI();
         PeliRuutu.lisäRuutuPaneli.add(panel, BorderLayout.CENTER);
         PeliRuutu.lisäRuutuPaneli.setVisible(true);

@@ -230,7 +230,7 @@ public class OsionAlkuRuutu {
         return osionAlkuPaneli;
     }
 
-    static void jatka() {
+    public static void jatka() {
         PääIkkuna.lataaRuutu("peliruutu");
         Peli.aikaReferenssi = System.nanoTime();
         Peli.pause = false;

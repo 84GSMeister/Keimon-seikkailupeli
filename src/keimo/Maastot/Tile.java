@@ -1,5 +1,8 @@
 package keimo.Maastot;
 
+import keimo.Ruudut.PeliRuutu;
+
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Tile extends Maasto {
@@ -13,14 +16,37 @@ public class Tile extends Maasto {
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
     }
 
-    // @Override
-    // protected void luoSkaalattuKuvake() {
-    //     ImageIcon kenttäkohteenSkaalattuKuvake = (ImageIcon)super.kuvake;
-    //     Image kuvake64 = kenttäkohteenSkaalattuKuvake.getImage();
-    //     Image kuvake96 = kuvake64.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
-    //     kenttäkohteenSkaalattuKuvake = new ImageIcon(kuvake96);
-    //     super.skaalattuKuvake = kenttäkohteenSkaalattuKuvake; 
-    // }
+    public void päivitäEsteenSuunta() {
+        switch (kääntöAsteet) {
+            case 0:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = false;
+            break;
+            case 90:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = false;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = true;
+            break;
+            case 180:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = false;
+                super.estääLiikkumisenYlös = true;
+            break;
+            case 270:
+                super.estääLiikkumisenVasen = false;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = true;
+            break;
+            default:
+            break;
+        }
+        super.asetaTiedot();
+    }
 
     public Tile(int sijX, int sijY, String[] ominaisuusLista) {
         super.nimi = "Tile";
@@ -34,6 +60,7 @@ public class Tile extends Maasto {
             if (ominaisuus.startsWith("kuva=")) {
                 this.tiedostonNimi = ominaisuus.substring(5);
                 this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
+                this.tekstuuri = katsomisTeksti;
             }
             else if (ominaisuus.startsWith("kääntö=")) {
                 try {
@@ -58,7 +85,14 @@ public class Tile extends Maasto {
                 else {
                     super.yPeilaus = false;
                 }
-            }
+            }   
+        }
+
+        if (katsomisTeksti.endsWith("_e")) {
+            this.estääLiikkumisen = true;
+        }
+        if (katsomisTeksti.endsWith("_y")) {
+            päivitäEsteenSuunta();
         }
 
         this.lisäOminaisuudet = new String[4];
@@ -68,6 +102,8 @@ public class Tile extends Maasto {
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
 
         super.kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
+        super.hitbox = new Rectangle(PeliRuutu.esineenKokoPx, PeliRuutu.esineenKokoPx);
+        super.hitbox.setLocation(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
         super.asetaTiedot();
         //luoSkaalattuKuvake();
     }

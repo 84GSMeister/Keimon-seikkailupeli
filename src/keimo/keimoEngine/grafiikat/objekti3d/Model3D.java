@@ -12,6 +12,7 @@ import static org.lwjgl.opengl.GL30.*;
 public class Model3D {
     private final String id;
     private List<Material> materialList;
+    private Transform3D transform = new Transform3D();
 
     public Model3D(String id, List<Material> materialList) {
         this.id = id;
@@ -28,6 +29,10 @@ public class Model3D {
 
     public List<Material> getMaterialList() {
         return materialList;
+    }
+
+    public Transform3D getTransform() {
+        return transform;
     }
 
     public void draw() {

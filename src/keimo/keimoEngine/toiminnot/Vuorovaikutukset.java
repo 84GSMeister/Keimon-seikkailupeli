@@ -7,6 +7,7 @@ import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.gui.toimintoIkkunat.*;
 import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.VisuaalinenObjekti;
+import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
 import keimo.kenttäkohteet.esine.*;
 import keimo.kenttäkohteet.kenttäNPC.*;
 import keimo.kenttäkohteet.kiintopiste.*;
@@ -20,52 +21,60 @@ public class Vuorovaikutukset {
             Kiintopiste kp = (Kiintopiste)k;
             if (kp instanceof Nuotio) {
                 Nuotio n = (Nuotio)kp;
-                if (TavoiteLista.nykyinenTavoite.startsWith("Etsi nuotiopaikka")) TavoiteLista.suoritaPääTavoite(2);
-                if (!n.onSytytetty()) {
-                    if (e instanceof Paperi) {
-                        n.kokeileEsinettä(e);
-                        e = null;
-                        Peli.valittuEsine = e;
-                        Pelaaja.esineet[Peli.esineValInt] = e;
-                        Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("lisää sytyke"), n.annaNimi());
-                    }
-                    else if (e instanceof Hiili) {
-                        n.kokeileEsinettä(e);
-                        e = null;
-                        Peli.valittuEsine = e;
-                        Pelaaja.esineet[Peli.esineValInt] = e;
-                        Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("lisää polttoaine"), n.annaNimi());
-                    }
-                    else if (e instanceof Kaasusytytin) {
-                        Kaasusytytin ks = (Kaasusytytin)e;
-                        if (!ks.toimiva) {
-                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("ei_toimiva"), n.annaNimi());
+                if (TavoiteLista.nykyinenTavoite.startsWith("Löydä takaisin kotiin")) {
+                    Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), "Sinun on löydettävä kotiin ensin. Voit palata myöhemmin nuotion äärelle.", n.annaNimi());
+                }
+                else if (TavoiteLista.nykyinenTavoite.startsWith("Etsi pesäpallomaila")) {
+                    Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), "Sinun kannattaisi etsiä jokin ase. Voit palata myöhemmin nuotion äärelle.", n.annaNimi());
+                }
+                else {
+                    if (TavoiteLista.nykyinenTavoite.startsWith("Etsi nuotiopaikka")) TavoiteLista.suoritaPääTavoite(2);
+                    if (!n.onSytytetty()) {
+                        if (e instanceof Paperi) {
+                            n.kokeileEsinettä(e);
+                            e = null;
+                            Peli.valittuEsine = e;
+                            Pelaaja.esineet[Peli.esineValInt] = e;
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("lisää sytyke"), n.annaNimi());
                         }
-                        else if (ks.toimiva && n.onkoPolttoaine() && n.onkoSytyke()) {
-                            n.sytytä(true);
-                            TavoiteLista.suoritaPääTavoite(3);
-                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("sytytä"), n.annaNimi());
+                        else if (e instanceof Hiili) {
+                            n.kokeileEsinettä(e);
+                            e = null;
+                            Peli.valittuEsine = e;
+                            Pelaaja.esineet[Peli.esineValInt] = e;
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("lisää polttoaine"), n.annaNimi());
+                        }
+                        else if (e instanceof Kaasusytytin) {
+                            Kaasusytytin ks = (Kaasusytytin)e;
+                            if (!ks.toimiva) {
+                                Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("ei_toimiva"), n.annaNimi());
+                            }
+                            else if (ks.toimiva && n.onkoPolttoaine() && n.onkoSytyke()) {
+                                n.sytytä(true);
+                                TavoiteLista.suoritaPääTavoite(3);
+                                Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("sytytä"), n.annaNimi());
+                            }
+                            else Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
+                        }
+                        else if (e instanceof Makkara) {
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("makkara_ei_sytytetty"), n.annaNimi());
+                        }
+                        else if (e != null) {
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + n.annaNimiSijamuodossa("illatiivi"), n.annaNimi());
                         }
                         else Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
                     }
-                    else if (e instanceof Makkara) {
-                        Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("makkara_ei_sytytetty"), n.annaNimi());
+                    else {
+                        if (e instanceof Makkara) {
+                            Makkara m = (Makkara)e;
+                            Dialogit.avaaDialogi(m.annaDialogiTekstuuri(), m.paista(), m.annaNimi());
+                        }
+                        else if (e instanceof Vesiämpäri) {
+                            n.sytytä(false);
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("sammuta"), n.annaNimi());
+                        }
+                        else Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
                     }
-                    else if (e != null) {
-                        Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + n.annaNimiSijamuodossa("illatiivi"), n.annaNimi());
-                    }
-                    else Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
-                }
-                else {
-                    if (e instanceof Makkara) {
-                        Makkara m = (Makkara)e;
-                        Dialogit.avaaDialogi(m.annaDialogiTekstuuri(), m.paista(), m.annaNimi());
-                    }
-                    else if (e instanceof Vesiämpäri) {
-                        n.sytytä(false);
-                        Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("sammuta"), n.annaNimi());
-                    }
-                    else Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
                 }
             }
             else if (kp instanceof Kirstu) {
@@ -266,6 +275,9 @@ public class Vuorovaikutukset {
         else if (k instanceof VisuaalinenObjekti) {
             VisuaalinenObjekti vo = (VisuaalinenObjekti)k;
             if (vo.onkoKatsottava()) Dialogit.avaaPitkäDialogiRuutu(vo.annaKatsomisDialogi());
+        }
+        else if (k instanceof AvattavaEste) {
+
         }
         else if (k != null) {
             Dialogit.avaaDialogi(k.annaDialogiTekstuuri(), k.katso(), k.annaNimi());

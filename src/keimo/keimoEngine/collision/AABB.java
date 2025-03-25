@@ -1,7 +1,6 @@
 package keimo.keimoEngine.collision;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 public class AABB {
     private Vector2f center, half_extent;

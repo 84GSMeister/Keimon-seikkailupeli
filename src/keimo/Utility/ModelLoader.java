@@ -1,10 +1,5 @@
 package keimo.Utility;
 
-import org.joml.Vector4f;
-import org.lwjgl.PointerBuffer;
-import org.lwjgl.assimp.*;
-import org.lwjgl.system.MemoryStack;
-
 import keimo.keimoEngine.grafiikat.objekti3d.Material;
 import keimo.keimoEngine.grafiikat.objekti3d.Mesh3D;
 import keimo.keimoEngine.grafiikat.objekti3d.Model3D;
@@ -14,6 +9,10 @@ import java.io.File;
 import java.nio.IntBuffer;
 import java.util.*;
 
+import org.joml.Vector4f;
+import org.lwjgl.PointerBuffer;
+import org.lwjgl.assimp.*;
+import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.assimp.Assimp.*;
 
 public class ModelLoader {

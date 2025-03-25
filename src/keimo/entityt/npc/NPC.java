@@ -4,7 +4,6 @@ import keimo.Peli;
 import keimo.TarkistettavatArvot;
 import keimo.Maastot.Maasto;
 import keimo.Ruudut.PeliRuutu;
-import keimo.Utility.Käännettävä;
 import keimo.entityt.Entity;
 import keimo.entityt.LiikkuvaObjekti;
 import keimo.kenttäkohteet.KenttäKohde;
@@ -14,7 +13,7 @@ import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public abstract class NPC extends Entity implements Käännettävä {
+public abstract class NPC extends Entity {
     
     public int nopeus;
     public int hp;
@@ -83,7 +82,7 @@ public abstract class NPC extends Entity implements Käännettävä {
                 switch (suunta) {
                     case VASEN:
                         this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
-                        this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
+                        this.suunta = Suunta.VASEN;
                         if (hitbox.getMinX() > 0) {
                             Maasto m = Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY];
                             KenttäKohde k = Peli.annaObjektiKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY];
@@ -94,7 +93,7 @@ public abstract class NPC extends Entity implements Käännettävä {
                         break;
                     case OIKEA:
                         this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-                        this.suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
+                        this.suunta = Suunta.OIKEA;
                         if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                             Maasto m = Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY];
                             KenttäKohde k = Peli.annaObjektiKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY];
@@ -104,7 +103,7 @@ public abstract class NPC extends Entity implements Käännettävä {
                         }
                         break;
                     case ALAS:
-                        this.suuntaDiagonaali = SuuntaDiagonaali.ALAS;
+                        this.suunta = Suunta.ALAS;
                         if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                             Maasto m = Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx];
                             KenttäKohde k = Peli.annaObjektiKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx];
@@ -114,7 +113,7 @@ public abstract class NPC extends Entity implements Käännettävä {
                         }
                         break;
                     case YLÖS:
-                        this.suuntaDiagonaali = SuuntaDiagonaali.YLÖS;
+                        this.suunta = Suunta.YLÖS;
                         if (hitbox.getMinY() > 0) {
                             Maasto m = Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx];
                             KenttäKohde k = Peli.annaObjektiKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx];

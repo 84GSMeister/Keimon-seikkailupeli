@@ -12,11 +12,12 @@ import java.nio.FloatBuffer;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
+
+import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
 
 public class Shader {
     private int vs, fs, program;
-    private int uniformMatProjection, uniformMatTransformWorld, uniformMatTransformObject;
 
     public Shader(String fileName) {
         vs = glCreateShader(GL_VERTEX_SHADER);
@@ -52,10 +53,6 @@ public class Shader {
             System.err.println(glGetProgramInfoLog(program));
             System.exit(1);
         }
-
-        uniformMatProjection = glGetUniformLocation(program, "projection");
-        uniformMatTransformWorld = glGetUniformLocation(program, "transformWorld");
-        uniformMatTransformObject = glGetUniformLocation(program, "transformObject");
     }
 
 	protected void destroy() throws Throwable {
@@ -65,27 +62,6 @@ public class Shader {
 		glDeleteShader(fs);
 		glDeleteProgram(program);
 	}
-
-    public void setCamera(Kamera kamera) {
-        if (uniformMatProjection != 1) {
-            float[] matrix = new float[16];
-            kamera.getProjection().get(matrix);
-            glUniformMatrix4fv(uniformMatProjection, false, matrix);
-        }
-        if (uniformMatTransformWorld != 1) {
-            float[] matrix = new float[16];
-            kamera.getTransformation().get(matrix);
-            glUniformMatrix4fv(uniformMatTransformWorld, false, matrix);
-        }
-    }
-
-    public void setTransform(Transform3D transform) {
-        if (uniformMatTransformObject != 1) {
-            float[] matrix = new float[16];
-            transform.getTransformation().get(matrix);
-            glUniformMatrix4fv(uniformMatTransformObject, false, matrix);
-        }
-    }
 
     public void setUniform(String name, int value) {
         int location = glGetUniformLocation(program, name);
@@ -112,6 +88,10 @@ public class Shader {
 
     public void bind() {
         glUseProgram(program);
+    }
+
+    public void unbind() {
+        glUseProgram(0);
     }
 
     private String readFile(String fileName) {

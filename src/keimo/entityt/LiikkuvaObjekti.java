@@ -3,7 +3,6 @@ package keimo.entityt;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.Ruudut.PeliRuutu;
-import keimo.Utility.Käännettävä.Suunta;
 
 import java.awt.Rectangle;
 
@@ -64,7 +63,7 @@ public abstract class LiikkuvaObjekti extends Entity {
             switch (suunta) {
                 case VASEN:
                     this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
-                    this.suuntaDiagonaali = SuuntaDiagonaali.VASEN;
+                    this.suunta = Suunta.VASEN;
                     if (hitbox.getMinX() > 0) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                             NPCSiirtyi = siirrä(Suunta.VASEN);
@@ -78,7 +77,7 @@ public abstract class LiikkuvaObjekti extends Entity {
                     break;
                 case OIKEA:
                     this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-                    this.suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
+                    this.suunta = Suunta.OIKEA;
                     if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY] == null) {
                             NPCSiirtyi = siirrä(Suunta.OIKEA);
@@ -91,7 +90,7 @@ public abstract class LiikkuvaObjekti extends Entity {
                     }
                     break;
                 case ALAS:
-                    this.suuntaDiagonaali = SuuntaDiagonaali.ALAS;
+                    this.suunta = Suunta.ALAS;
                     if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx] == null) {
                             NPCSiirtyi = siirrä(Suunta.ALAS);
@@ -104,7 +103,7 @@ public abstract class LiikkuvaObjekti extends Entity {
                     }
                     break;
                 case YLÖS:
-                    this.suuntaDiagonaali = SuuntaDiagonaali.YLÖS;
+                    this.suunta = Suunta.YLÖS;
                     if (hitbox.getMinY() > 0) {
                         if (Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx] == null) {
                             NPCSiirtyi = siirrä(Suunta.YLÖS);

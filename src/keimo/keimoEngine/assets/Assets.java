@@ -1,5 +1,6 @@
 package keimo.keimoEngine.assets;
 
+import keimo.Utility.Käännettävä.Suunta;
 import keimo.Utility.ModelLoader;
 import keimo.keimoEngine.grafiikat.objekti2d.Model;
 import keimo.keimoEngine.grafiikat.objekti3d.Model3D;
@@ -29,28 +30,40 @@ public class Assets {
     }
 
     public static Model getModel(int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
-        
         switch (kääntöAsteet) {
-            default:
+            default -> {
                 if (xPeilaus && yPeilaus) return model0XY;
                 else if (xPeilaus) return model0X;
                 else if (yPeilaus) return model0Y;
                 else return model0;
-            case 90:
+            }
+            case 90 -> {
                 if (xPeilaus && yPeilaus) return model90XY;
                 else if (xPeilaus) return model90X;
                 else if (yPeilaus) return model90Y;
                 else return model90;
-            case 180:
+            }
+            case 180 -> {
                 if (xPeilaus && yPeilaus) return model180XY;
                 else if (xPeilaus) return model180X;
                 else if (yPeilaus) return model180Y;
                 else return model180;
-            case 270:
+            }
+            case 270 -> {
                 if (xPeilaus && yPeilaus) return model270XY;
                 else if (xPeilaus) return model270X;
                 else if (yPeilaus) return model270Y;
                 else return model270;
+            }
+        }
+    }
+    public static Model getModel(Suunta suunta) {
+        switch (suunta) {
+            case VASEN: return model0;
+            case OIKEA: return model0X;
+            case ALAS: return model270;
+            case YLÖS: return model90;
+            default: return model180;
         }
     }
     

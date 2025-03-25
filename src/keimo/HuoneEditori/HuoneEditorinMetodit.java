@@ -1026,6 +1026,114 @@ public class HuoneEditorinMetodit {
         return uusiDialogiKartta;
     }
 
+    static HashMap<String, VuoropuheDialogiPätkä> luoDialogiKarttaMerkkijonostaVanha(String[] tarinaMerkkijonot) {
+        
+        HashMap<String, VuoropuheDialogiPätkä> uusiDialogiKartta = new HashMap<>();
+
+        VuoropuheDialogit.vuoropuheDialogiKartta.clear();
+        String uusiDialoginNimi = "";
+        int uusiDialoginPituus = 0;
+        Icon[] uudetDialogiPätkänKuvat = new Icon[uusiDialoginPituus];
+        String[] uudetDialogiPätkänTekstit = new String[uusiDialoginPituus];
+        String[] uudetDialogiPätkänPuhujat = new String[uusiDialoginPituus];
+        boolean valinta = false;
+        String valinnanNimi = "";
+        String valinnanOtsikko = "";
+        String[] valinnanVaihtoehdot = new String[uusiDialoginPituus];
+        String[] vaihtoehtojenKohdedialogit = new String[uusiDialoginPituus];
+        String[] valinnanTriggerit = new String[uusiDialoginPituus];
+
+        try {
+            for (String s : tarinaMerkkijonot) {
+                Scanner sc = new Scanner(s);
+                valinta = false;
+                while (sc.hasNextLine()) {
+                    String tarkastettavaRivi = "";
+                    tarkastettavaRivi = sc.nextLine();
+                    if (tarkastettavaRivi.startsWith("Dialogi")) {
+
+                    }
+                    else if (tarkastettavaRivi.contains("#nimi:")) {
+                        uusiDialoginNimi = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
+                    }
+                    else if (tarkastettavaRivi.contains("#pituus:")) {
+                        uusiDialoginPituus = Integer.parseInt(tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1));
+                    }
+                    else if (tarkastettavaRivi.contains("dialogit:")) {
+                        uudetDialogiPätkänKuvat = new Icon[uusiDialoginPituus];
+                        uudetDialogiPätkänTekstit = new String[uusiDialoginPituus];
+                        uudetDialogiPätkänPuhujat = new String[uusiDialoginPituus];
+                        for (int i = 0; i < uusiDialoginPituus*3; i++) {
+                            tarkastettavaRivi = sc.nextLine();
+                            if (tarkastettavaRivi.contains("kuva ")) {
+                                int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kuva ") +5, tarkastettavaRivi.indexOf("kuva ") +6));
+                                uudetDialogiPätkänKuvat[kuvanNumero] = new ImageIcon(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
+                            }
+                            else if (tarkastettavaRivi.contains("teksti ")) {
+                                int tekstinNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("teksti ") +7, tarkastettavaRivi.indexOf("teksti ") +8));
+                                uudetDialogiPätkänTekstit[tekstinNumero] = tarkastettavaRivi.substring(18, tarkastettavaRivi.length() -1);
+                            }
+                            else if (tarkastettavaRivi.contains("puhuja ")) {
+                                int puhujanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("puhuja ") +7, tarkastettavaRivi.indexOf("puhuja ") +8));
+                                uudetDialogiPätkänPuhujat[puhujanNumero] = tarkastettavaRivi.substring(18, tarkastettavaRivi.length() -1);
+                            }   
+                        }
+                    }
+                    else if (tarkastettavaRivi.contains("valinta:")) {
+                        valinta = true;
+                        int vaihtoehdot = 0;
+                        boolean vaihtoehdotLuotu = false;
+                        while (!tarkastettavaRivi.contains("}")) {
+                            tarkastettavaRivi = sc.nextLine();
+                            if (tarkastettavaRivi.contains("valinnan_nimi")) {
+                                valinnanNimi = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("valinnan_nimi") +15, tarkastettavaRivi.length()-1);
+                            }
+                            else if (tarkastettavaRivi.contains("valinnan_otsikko")) {
+                                valinnanOtsikko = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("valinnan_otsikko") +18, tarkastettavaRivi.length()-1);
+                            }
+                            else if (tarkastettavaRivi.contains("vaihtoehdot")) {
+                                vaihtoehdot = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("vaihtoehdot") +13, tarkastettavaRivi.length()-1));
+                            }
+                            if (vaihtoehdot > 0 && ! vaihtoehdotLuotu) {
+                                valinnanVaihtoehdot = new String[vaihtoehdot];
+                                vaihtoehtojenKohdedialogit = new String[vaihtoehdot];
+                                valinnanTriggerit = new String[vaihtoehdot];
+                                while (sc.hasNextLine() && !tarkastettavaRivi.contains("}")) {
+                                    tarkastettavaRivi = sc.nextLine();
+                                    if (tarkastettavaRivi.contains("vaihtoehto ")) {
+                                        int vaihtoehdonNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("vaihtoehto ") +11, tarkastettavaRivi.indexOf("vaihtoehto ") +12));
+                                        valinnanVaihtoehdot[vaihtoehdonNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("vaihtoehto ") +14, tarkastettavaRivi.length() -1);
+                                    }
+                                    else if (tarkastettavaRivi.contains("triggeri ")) {
+                                        int triggerinNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("triggeri ") +9, tarkastettavaRivi.indexOf("triggeri ") +10));
+                                        valinnanTriggerit[triggerinNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("triggeri ") +12, tarkastettavaRivi.length() -1);
+                                    }
+                                    else if (tarkastettavaRivi.contains("kohde ")) {
+                                        int kohteenNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kohde ") +6, tarkastettavaRivi.indexOf("kohde ") +7));
+                                        vaihtoehtojenKohdedialogit[kohteenNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kohde ") +9, tarkastettavaRivi.length() -1);
+                                    }
+                                }
+                                vaihtoehdotLuotu = true;
+                            }
+                        }
+                    }
+                }
+                if (valinta) uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvat, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, true, valinnanNimi, valinnanOtsikko, valinnanVaihtoehdot, vaihtoehtojenKohdedialogit, valinnanTriggerit));
+                else uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvat, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, false, null, null, null, null, null));
+                sc.close();
+            }
+        }
+        catch (NumberFormatException nfe) {
+            System.out.println("Virheellinen indeksi");
+            nfe.printStackTrace();
+        }
+        catch (Exception e) {
+            System.out.println("Virhe ladatessa tarinaa tiedostosta");
+            e.printStackTrace();
+        }
+        return uusiDialogiKartta;
+    }
+
     static KenttäKohde luoObjektiTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY, boolean lisäOminaisuudet, String[] ominaisuusLista) {
         return KenttäKohde.luoObjektiTiedoilla(objektinNimi, määritettySijainti, sijX, sijY, ominaisuusLista);
     }

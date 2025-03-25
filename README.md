@@ -1,6 +1,23 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (5.2.2025): 1.0 Alfa
+## Uusin versio (25.3.2025): 1.0.1 Alfa
+
+### Versio 1.0.1 Alfa
+
+ - Lisätty pelaajan vinokävelyanimaatiot
+ - Vinosuuntaan käveleminen on nyt hitaampaa (nopeus/√2)
+ - Lisätty popup-ruutu ilmaisemaan suoritettua tavoitetta
+ - Lisätty kuvaavammat vinkkitekstit tavoitteen puuttumiselle kun yrittää kulkea oviruudusta
+ - Korjattu tekstin rivinvaihto-ongelmat valikkoruuduissa
+ - Korjattu 3D-elementtien toimivuus vanhoilla Shader-versioilla
+ - Korjattu vihollisten reitinhaun aiheuttama lagi temppelihuoneessa
+ - Poistettu hyödyttömiä näppäinvinkkitekstejä (mm. portti). Pelaaja pystyy edelleen katsomaan asioita C-näppäimellä, vaikka vinkkitekstiä ei tulekaan.
+ - Lisätty Keimo3D-simulaattori minipeliksi Keimo-baariin
+ - Kaatuminen muistivuotojen johdosta pääosin korjattu
+ - Pelattavuus vanhalla pelimoottorilla korjattu.
+    - Vanha pelimoottori tullaan poistamaan versiossa 1.1
+	- Tarkoituksena on säilyttää versio 1.0.x pelattavana myös tietokoneilla, joiden näytönohjain ei tue OpenGL 3.0:a.
+	- Puuttuvia graafisia ominaisuuksia ei tulla toteuttamaan vanhassa pelimoottorissa.
 
 ### Versio 1.0 Alfa
 

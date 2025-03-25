@@ -149,8 +149,8 @@ public class ÄäniAsetusRuutu {
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matOsoitin = new Matrix4f();
             window.getView().scale(1, matOsoitin);
-            if (i == asetustenMäärä-1) matOsoitin.translate(-scaleXOsoitin - keskitysX, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
-            else matOsoitin.translate(-scaleXOsoitin - keskitysX, scaleYOtsikko*4f -i*offsetYValinta, 0);
+            if (i == asetustenMäärä-1) matOsoitin.translate(-scaleXOsoitin - keskitysX*1.5f, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
+            else matOsoitin.translate(-scaleXOsoitin - keskitysX*1.5f, scaleYOtsikko*4f -i*offsetYValinta, 0);
             matOsoitin.scale(scaleXOsoitin, scaleYOsoitin, 0);
             asetusRuutuShader.setUniform("projection", matOsoitin);
             if (valinta == i) osoitinKuvake.bind(0);
@@ -161,8 +161,8 @@ public class ÄäniAsetusRuutu {
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matValinta = new Matrix4f();
             window.getView().scale(1, matValinta);
-            if (i == asetustenMäärä-1) matValinta.translate(scaleXValinnat - keskitysX, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
-            else matValinta.translate(scaleXValinnat - keskitysX, scaleYOtsikko*4f -i*offsetYValinta, 0);
+            if (i == asetustenMäärä-1) matValinta.translate(scaleXValinnat - keskitysX*1.5f, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
+            else matValinta.translate(scaleXValinnat - keskitysX*1.5f, scaleYOtsikko*4f -i*offsetYValinta, 0);
             matValinta.scale(scaleXValinnat, scaleYValinnat, 0);
             asetusRuutuShader.setUniform("projection", matValinta);
             switch (i) {

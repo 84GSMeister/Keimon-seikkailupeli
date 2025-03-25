@@ -2,6 +2,9 @@ package keimo.HuoneEditori.TavoiteEditori;
 
 import java.util.HashMap;
 
+import keimo.Peli;
+import keimo.Säikeet.ÄänentoistamisSäie;
+import keimo.keimoEngine.gui.hud.TavoitePopup;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.esine.Esine;
 import keimo.kenttäkohteet.esine.Pesäpallomaila;
@@ -17,6 +20,11 @@ public class TavoiteLista {
     public static void suoritaTavoite(String tavoitteenTunniste) {
         if (tavoiteLista.keySet().contains(tavoitteenTunniste)) {
             tavoiteLista.put(tavoitteenTunniste, true);
+            if (!Peli.legacy) {
+                TavoitePopup.suoritettuTavoite = tavoitteenTunniste;
+                TavoitePopup.popupAjastin = 240;
+                ÄänentoistamisSäie.toistaSFX("Tavoite_suoritettu");
+            }
         }
     }
 

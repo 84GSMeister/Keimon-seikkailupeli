@@ -157,40 +157,31 @@ public class GrafiikanPäivitysSäie extends Thread {
                 switch (Pelaaja.keimonSuunta) {
                     case VASEN:
                         switch (Pelaaja.keimonTerveys) {
-                            case HYVÄ:
+                            case HYVÄ, ÜBER:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_normaali.gif"); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_erittäinlihava.gif"); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/ylensyönti.gif"), Peilaus.PEILAA_X); break;
                                 }
                             break;
                             case OK:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_normaali.gif"); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_erittäinlihava.gif"); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/ylensyönti.gif"), Peilaus.PEILAA_X); break;
                                 }
                             break;
                             case HUONO:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_normaali.gif"); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_vasen_erittäinlihava.gif"); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
-                                }
-                            break;
-                            case ÜBER:
-                                switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/idle/default.gif")); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif")); break;
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/ylensyönti.gif"), Peilaus.PEILAA_X); break;
                                 }
                             break;
                             default:
@@ -199,40 +190,31 @@ public class GrafiikanPäivitysSäie extends Thread {
                     break;
                     case OIKEA:
                         switch (Pelaaja.keimonTerveys) {
-                            case HYVÄ:
+                            case HYVÄ, ÜBER:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_normaali.gif"); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_erittäinlihava.gif"); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/ylensyönti.gif"); break;
                                 }
                             break;
                             case OK:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_normaali.gif"); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_erittäinlihava.gif"); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/ylensyönti.gif"); break;
                                 }
                             break;
                             case HUONO:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_laiha.gif"); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_normaali.gif"); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_lihava.gif"); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_oikea_erittäinlihava.gif"); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif"); break;
-                                }
-                            break;
-                            case ÜBER:
-                                switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/idle/default.gif")); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif")); break;
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_sivulle_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/ylensyönti.gif"); break;
                                 }
                             break;
                             default:
@@ -241,7 +223,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                     break;
                     case ALAS:
                         switch (Pelaaja.keimonTerveys) {
-                            case HYVÄ:
+                            case HYVÄ, ÜBER:
                                 switch (Pelaaja.keimonKylläisyys) {
                                     case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alas_laiha.gif"); break;
                                     case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alas_normaali.gif"); break;
@@ -266,15 +248,6 @@ public class GrafiikanPäivitysSäie extends Thread {
                                     case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alas_lihava.gif"); break;
                                     case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alas_erittäinlihava.gif"); break;
                                     case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
-                                }
-                            break;
-                            case ÜBER:
-                                switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/idle/default.gif")); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif")); break;
                                 }
                             break;
                             default:
@@ -283,7 +256,7 @@ public class GrafiikanPäivitysSäie extends Thread {
                     break;
                     case YLÖS:
                         switch (Pelaaja.keimonTerveys) {
-                            case HYVÄ:
+                            case HYVÄ, ÜBER:
                                 switch (Pelaaja.keimonKylläisyys) {
                                     case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_ylös_laiha.gif"); break;
                                     case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_ylös_normaali.gif"); break;
@@ -310,13 +283,136 @@ public class GrafiikanPäivitysSäie extends Thread {
                                     case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                                 }
                             break;
-                            case ÜBER:
+                            default:
+                            break;
+                            }
+                    break;
+                    case YLÄVASEN:
+                        switch (Pelaaja.keimonTerveys) {
+                            case HYVÄ, ÜBER:
                                 switch (Pelaaja.keimonKylläisyys) {
-                                    case LAIHA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/idle/default.gif")); break;
-                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/default.gif")); break;
-                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon(("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.gif")); break;
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                }
+                            break;
+                            case OK:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                }
+                            break;
+                            case HUONO:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                }
+                            break;
+                            default:
+                            break;
+                            }
+                    break;
+                    case YLÄOIKEA:
+                        switch (Pelaaja.keimonTerveys) {
+                            case HYVÄ, ÜBER:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
+                                }
+                            break;
+                            case OK:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
+                                }
+                            break;
+                            case HUONO:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_yläsivu_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
+                                }
+                            break;
+                            default:
+                            break;
+                            }
+                    break;
+                    case ALAVASEN:
+                        switch (Pelaaja.keimonTerveys) {
+                            case HYVÄ, ÜBER:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                }
+                            break;
+                            case OK:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                }
+                            break;
+                            case HUONO:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                    case NORMAALI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_normaali.gif"), Peilaus.PEILAA_X); break;
+                                    case LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_lihava.gif"), Peilaus.PEILAA_X); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_erittäinlihava.gif"), Peilaus.PEILAA_X); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new SkaalattavaKuvake(("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"), Peilaus.PEILAA_X); break;
+                                }
+                            break;
+                            default:
+                            break;
+                            }
+                    break;
+                    case ALAOIKEA:
+                        switch (Pelaaja.keimonTerveys) {
+                            case HYVÄ, ÜBER:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
+                                }
+                            break;
+                            case OK:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
+                                }
+                            break;
+                            case HUONO:
+                                switch (Pelaaja.keimonKylläisyys) {
+                                    case LAIHA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_laiha.gif"); break;
+                                    case NORMAALI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_normaali.gif"); break;
+                                    case LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_lihava.gif"); break;
+                                    case ERITTÄIN_LIHAVA: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/kävely/kävely_alasivu_erittäinlihava.gif"); break;
+                                    case YLENSYÖNTI: Pelaaja.kuvake = new ImageIcon("tiedostot/kuvat/pelaaja/pelaaja_ylensyönti.png"); break;
                                 }
                             break;
                             default:

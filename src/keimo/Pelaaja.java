@@ -4,12 +4,9 @@ import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.*;
 import keimo.Utility.Käännettävä;
 import keimo.Utility.SkaalattavaKuvake;
-import keimo.entityt.*;
 import keimo.entityt.npc.Vihollinen;
 import keimo.kenttäkohteet.*;
-import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
-import keimo.kenttäkohteet.esine.Ase;
-import keimo.kenttäkohteet.esine.Esine;
+import keimo.kenttäkohteet.esine.*;
 import keimo.Liikkuminen.*;
 
 import javax.swing.*;
@@ -96,6 +93,7 @@ public class Pelaaja implements Käännettävä {
 
     static boolean siirry(Liikkuminen liikkuminen) {
         boolean pelaajaSiirtyi = false;
+        float vinoNopeus = (float)(nopeus/Math.sqrt(2));
         if (liikkuminen instanceof LiikkuminenVasemmalle) {
             if ((int)hitbox.getMinX() > Peli.kentänAlaraja) {
                 hitbox.setLocation((int)hitbox.getMinX() - nopeus, (int)hitbox.getMinY());
@@ -120,6 +118,30 @@ public class Pelaaja implements Käännettävä {
                 pelaajaSiirtyi = true;
             }
         }
+        else if (liikkuminen instanceof LiikkuminenYläVasemmalle) {
+            if ((int)hitbox.getMinX() > Peli.kentänAlaraja && (int)hitbox.getMinY() > Peli.kentänAlaraja) {
+                hitbox.setLocation((int)(hitbox.getMinX() - vinoNopeus), (int)(hitbox.getMinY() - vinoNopeus));
+                pelaajaSiirtyi = true;
+            }
+        }
+        else if (liikkuminen instanceof LiikkuminenYläOikealle) {
+            if ((int)hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx && (int)hitbox.getMinY() > Peli.kentänAlaraja) {
+                hitbox.setLocation((int)(hitbox.getMinX() + vinoNopeus), (int)(hitbox.getMinY() - vinoNopeus));
+                pelaajaSiirtyi = true;
+            }
+        }
+        else if (liikkuminen instanceof LiikkuminenAlaVasemmalle) {
+            if ((int)hitbox.getMinX() > Peli.kentänAlaraja && (int)hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                hitbox.setLocation((int)(hitbox.getMinX() - vinoNopeus), (int)(hitbox.getMinY() + vinoNopeus));
+                pelaajaSiirtyi = true;
+            }
+        }
+        else if (liikkuminen instanceof LiikkuminenAlaOikealle) {
+            if ((int)hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx && (int)hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                hitbox.setLocation((int)(hitbox.getMinX() + vinoNopeus), (int)(hitbox.getMinY() + vinoNopeus));
+                pelaajaSiirtyi = true;
+            }
+        }
         sijX = (int)hitbox.getCenterX() / PeliRuutu.pelaajanKokoPx;
         sijY = (int)hitbox.getCenterY() / PeliRuutu.pelaajanKokoPx;
         return pelaajaSiirtyi;
@@ -138,7 +160,10 @@ public class Pelaaja implements Käännettävä {
 
      public static boolean kokeileLiikkumista(Suunta suunta, boolean känniLiike) {
         boolean pelaajaSiirtyi = false;
-        boolean pelaajaVoiLiikkua = true;
+        boolean pelaajaVoiLiikkuaVasen = true;
+        boolean pelaajaVoiLiikkuaOikea = true;
+        boolean pelaajaVoiLiikkuaYlös = true;
+        boolean pelaajaVoiLiikkuaAlas = true;
         float harhaliikkeenTodennäköisyys = känninVoimakkuusFloat/5 - 0.3f;
         int tarkistaVasen = (int)(hitbox.getMinX()-nopeus)/PeliRuutu.pelaajanKokoPx;
         int tarkistaOikea = (int)(hitbox.getMaxX())/PeliRuutu.pelaajanKokoPx;
@@ -151,13 +176,25 @@ public class Pelaaja implements Käännettävä {
                     uusiSijainti.setLocation((int)(hitbox.getMinX()-nopeus), (int)Pelaaja.hitbox.getY());
                 }
                 case OIKEA -> {
-                    uusiSijainti.setLocation((int)(hitbox.getMaxX()), (int)Pelaaja.hitbox.getY());
+                    uusiSijainti.setLocation((int)(hitbox.getCenterX()), (int)Pelaaja.hitbox.getY());
                 }
                 case ALAS -> {
-                    uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(hitbox.getMaxY()));
+                    uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(hitbox.getCenterY()));
                 }
                 case YLÖS -> {
                     uusiSijainti.setLocation((int)Pelaaja.hitbox.getX(), (int)(hitbox.getMinY()-nopeus));
+                }
+                case YLÄVASEN -> {
+                    uusiSijainti.setLocation((int)(hitbox.getMinX()-nopeus), (int)(hitbox.getMinY()-nopeus));
+                }
+                case YLÄOIKEA -> {
+                    uusiSijainti.setLocation((int)(hitbox.getCenterX()), (int)(hitbox.getMinY()-nopeus));
+                }
+                case ALAVASEN -> {
+                    uusiSijainti.setLocation((int)(hitbox.getMinX()-nopeus), (int)(hitbox.getCenterY()));
+                }
+                case ALAOIKEA -> {
+                    uusiSijainti.setLocation((int)(hitbox.getCenterX()), (int)(hitbox.getCenterY()));
                 }
             }
             if (
@@ -167,28 +204,48 @@ public class Pelaaja implements Käännettävä {
                 tarkistaAlas < Peli.annaMaastoKenttä().length
             ) {
                 if (Peli.annaMaastoKenttä()[tarkistaVasen][sijY] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][sijY].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][sijY].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
+                        pelaajaVoiLiikkuaVasen = false;
+                    }
                 }
                 if (Peli.annaMaastoKenttä()[tarkistaOikea][sijY] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][sijY].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][sijY].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
+                        pelaajaVoiLiikkuaOikea = false;
+                    }
                 }
-                if (Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
-                }
-                if (Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
-                }
-                if (Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
-                }
-                if (Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
-                }
+                // if (Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                //         pelaajaVoiLiikkuaVasen = false;
+                //         pelaajaVoiLiikkuaAlas = false;
+                //     }
+                // }
+                // if (Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                //         pelaajaVoiLiikkuaOikea = false;
+                //         pelaajaVoiLiikkuaAlas = false;
+                //     }
+                // }
+                // if (Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[tarkistaVasen][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                //         pelaajaVoiLiikkuaVasen = false;
+                //         pelaajaVoiLiikkuaYlös = false;
+                //     }
+                // }
+                // if (Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[tarkistaOikea][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                //         pelaajaVoiLiikkuaOikea = false;
+                //         pelaajaVoiLiikkuaYlös = false;
+                //     }
+                // }
                 if (Peli.annaMaastoKenttä()[sijX][tarkistaAlas] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[sijX][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[sijX][tarkistaAlas].hitbox) && Peli.annaMaastoKenttä()[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
+                        pelaajaVoiLiikkuaAlas = false;
+                    }
                 }
                 if (Peli.annaMaastoKenttä()[sijX][tarkistaYlös] != null) {
-                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[sijX][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaMaastoKenttä()[sijX][tarkistaYlös].hitbox) && Peli.annaMaastoKenttä()[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
+                        pelaajaVoiLiikkuaYlös = false;
+                    }
                 }
             }
             if (
@@ -198,99 +255,118 @@ public class Pelaaja implements Käännettävä {
                 tarkistaAlas < Peli.annaObjektiKenttä().length
             ) {
                 if (Peli.annaObjektiKenttä()[tarkistaVasen][sijY] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][sijY].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][sijY].onkoEste()) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][sijY].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][sijY].onkoEste()) {
+                        pelaajaVoiLiikkuaVasen = false;
+                    }
                 }
                 if (Peli.annaObjektiKenttä()[tarkistaOikea][sijY] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][sijY].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][sijY].onkoEste()) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][sijY].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][sijY].onkoEste()) {
+                        pelaajaVoiLiikkuaOikea = false;
+                    }
                 }
-                if (Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas].onkoEste()) pelaajaVoiLiikkua = false;
-                }
-                if (Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas].onkoEste()) pelaajaVoiLiikkua = false;
-                }
-                if (Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös].onkoEste()) pelaajaVoiLiikkua = false;
-                }
-                if (Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös].onkoEste()) pelaajaVoiLiikkua = false;
-                }
+                // if (Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaAlas].onkoEste()) {
+                //         pelaajaVoiLiikkuaVasen = false;
+                //         pelaajaVoiLiikkuaAlas = false;
+                //     }
+                // }
+                // if (Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaAlas].onkoEste()) {
+                //         pelaajaVoiLiikkuaOikea = false;
+                //         pelaajaVoiLiikkuaAlas = false;
+                //     }
+                // }
+                // if (Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[tarkistaVasen][tarkistaYlös].onkoEste()) {
+                //         pelaajaVoiLiikkuaVasen = false;
+                //         pelaajaVoiLiikkuaYlös = false;
+                //     }
+                // }
+                // if (Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös] != null) {
+                //     if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[tarkistaOikea][tarkistaYlös].onkoEste()) {
+                //         pelaajaVoiLiikkuaOikea = false;
+                //         pelaajaVoiLiikkuaYlös = false;
+                //     }
+                // }
                 if (Peli.annaObjektiKenttä()[sijX][tarkistaAlas] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[sijX][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[sijX][tarkistaAlas].onkoEste()) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[sijX][tarkistaAlas].hitbox) && Peli.annaObjektiKenttä()[sijX][tarkistaAlas].onkoEste()) {
+                        pelaajaVoiLiikkuaAlas = false;
+                    }
                 }
                 if (Peli.annaObjektiKenttä()[sijX][tarkistaYlös] != null) {
-                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[sijX][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[sijX][tarkistaYlös].onkoEste()) pelaajaVoiLiikkua = false;
+                    if (uusiSijainti.intersects(Peli.annaObjektiKenttä()[sijX][tarkistaYlös].hitbox) && Peli.annaObjektiKenttä()[sijX][tarkistaYlös].onkoEste()) {
+                        pelaajaVoiLiikkuaYlös = false;
+                    }
                 }
             }
             else {
-                switch (suunta) {
-                    case VASEN -> {
-                        pelaajaVoiLiikkua = false;
+                //switch (suunta) {
+                    //case VASEN -> {
+                        pelaajaVoiLiikkuaVasen = false;
                         if (tarkistaVasen >= 0) {
                             if (Peli.annaMaastoKenttä()[tarkistaVasen][sijY] != null) {
                                 if (!Peli.annaMaastoKenttä()[tarkistaVasen][sijY].estääköLiikkumisen(suunta)) {
-                                    pelaajaVoiLiikkua = true;
+                                    pelaajaVoiLiikkuaVasen = true;
                                 }
                             }
                         }
-                    }
-                    case OIKEA -> {
-                        pelaajaVoiLiikkua = false;
+                    //}
+                    //case OIKEA -> {
+                        pelaajaVoiLiikkuaOikea = false;
                         if (tarkistaOikea < Peli.annaMaastoKenttä().length) {
                             if (Peli.annaMaastoKenttä()[tarkistaOikea][sijY] != null) {
                                 if (!Peli.annaMaastoKenttä()[tarkistaOikea][sijY].estääköLiikkumisen(suunta)) {
-                                    pelaajaVoiLiikkua = true;
+                                    pelaajaVoiLiikkuaOikea = true;
                                 }
                             }
                         }
-                    }
-                    case ALAS -> {
-                        pelaajaVoiLiikkua = false;
+                    //}
+                    //case ALAS -> {
+                        pelaajaVoiLiikkuaAlas = false;
                         if (tarkistaAlas < Peli.annaMaastoKenttä().length) {
                             if (Peli.annaMaastoKenttä()[sijX][tarkistaAlas] != null) {
                                 if (!Peli.annaMaastoKenttä()[sijX][tarkistaAlas].estääköLiikkumisen(suunta)) {
-                                    pelaajaVoiLiikkua = true;
+                                    pelaajaVoiLiikkuaAlas = true;
                                 }
                             }
                         }
-                    }
-                    case YLÖS -> {
-                        pelaajaVoiLiikkua = false;
+                    //}
+                    //case YLÖS -> {
+                        pelaajaVoiLiikkuaYlös = false;
                         if (tarkistaYlös >= 0) {
                             if (Peli.annaMaastoKenttä()[sijX][tarkistaYlös] != null) {
                                 if (!Peli.annaMaastoKenttä()[sijX][tarkistaYlös].estääköLiikkumisen(suunta)) {
-                                    pelaajaVoiLiikkua = true;
+                                    pelaajaVoiLiikkuaYlös = true;
                                 }
                             }
                         }
-                    }
+                    //}
                 }
+            //}
+            if (Pelaaja.noclip) {
+                pelaajaVoiLiikkuaVasen = true;
+                pelaajaVoiLiikkuaOikea = true;
+                pelaajaVoiLiikkuaYlös = true;
+                pelaajaVoiLiikkuaAlas = true;
             }
-            if (Pelaaja.noclip) pelaajaVoiLiikkua = true;
-            if (pelaajaVoiLiikkua) {
-                switch (suunta) {
-                    case VASEN -> {
+
+            switch (suunta) {
+                case YLÄVASEN -> {
+                    if (pelaajaVoiLiikkuaVasen && pelaajaVoiLiikkuaYlös) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenYläVasemmalle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaVasen) {
                         pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
                         if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
                             if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
                             else kokeileLiikkumista(Suunta.ALAS, false);
                         }
                     }
-                    case OIKEA -> {
-                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
-                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
-                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
-                            else kokeileLiikkumista(Suunta.ALAS, false);
-                        }
-                    }
-                    case ALAS -> {
-                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
-                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
-                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
-                            else kokeileLiikkumista(Suunta.OIKEA, false);
-                        }
-                    }
-                    case YLÖS -> {
+                    else if (pelaajaVoiLiikkuaYlös) {
                         pelaajaSiirtyi = siirry(new LiikkuminenYlös());
                         if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
                             if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
@@ -298,7 +374,230 @@ public class Pelaaja implements Käännettävä {
                         }
                     }
                 }
+                case YLÄOIKEA -> {
+                    if (pelaajaVoiLiikkuaOikea && pelaajaVoiLiikkuaYlös) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenYläOikealle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaOikea) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaYlös) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                }
+                case ALAVASEN -> {
+                    if (pelaajaVoiLiikkuaVasen && pelaajaVoiLiikkuaAlas) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlaVasemmalle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaVasen) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaAlas) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                }
+                case ALAOIKEA -> {
+                    if (pelaajaVoiLiikkuaOikea && pelaajaVoiLiikkuaAlas) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlaOikealle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaOikea) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                    else if (pelaajaVoiLiikkuaAlas) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                }
+                case VASEN -> {
+                    if (pelaajaVoiLiikkuaVasen) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                }
+                case OIKEA -> {
+                    if (pelaajaVoiLiikkuaOikea) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+                            else kokeileLiikkumista(Suunta.ALAS, false);
+                        }
+                    }
+                }
+                case YLÖS -> {
+                    if (pelaajaVoiLiikkuaYlös) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                }
+                case ALAS -> {
+                    if (pelaajaVoiLiikkuaAlas) {
+                        pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+                        if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+                            if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+                            else kokeileLiikkumista(Suunta.OIKEA, false);
+                        }
+                    }
+                }
             }
+
+            // if (pelaajaVoiLiikkuaVasen && pelaajaVoiLiikkuaYlös && suunta == Suunta.YLÄVASEN) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenYläVasemmalle());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //         else kokeileLiikkumista(Suunta.ALAS, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaOikea && pelaajaVoiLiikkuaYlös && suunta == Suunta.YLÄOIKEA) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenYläOikealle());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //         else kokeileLiikkumista(Suunta.ALAS, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaVasen && pelaajaVoiLiikkuaAlas && suunta == Suunta.ALAVASEN) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenAlaVasemmalle());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //         else kokeileLiikkumista(Suunta.ALAS, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaOikea && pelaajaVoiLiikkuaAlas && suunta == Suunta.ALAOIKEA) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenAlaOikealle());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //         else kokeileLiikkumista(Suunta.ALAS, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaVasen && suunta == Suunta.VASEN) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //         else kokeileLiikkumista(Suunta.ALAS, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaOikea && suunta == Suunta.OIKEA) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //         else kokeileLiikkumista(Suunta.ALAS, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaYlös && suunta == Suunta.YLÖS) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+            //         else kokeileLiikkumista(Suunta.OIKEA, false);
+            //     }
+            // }
+            // else if (pelaajaVoiLiikkuaAlas && suunta == Suunta.ALAS) {
+            //     pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+            //     if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //         if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+            //         else kokeileLiikkumista(Suunta.OIKEA, false);
+            //     }
+            // }
+
+            // if (pelaajaVoiLiikkua) {
+            //     switch (suunta) {
+            //         case VASEN -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenVasemmalle());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //                 else kokeileLiikkumista(Suunta.ALAS, false);
+            //             }
+            //         }
+            //         case OIKEA -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenOikealle());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //                 else kokeileLiikkumista(Suunta.ALAS, false);
+            //             }
+            //         }
+            //         case ALAS -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenAlas());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+            //                 else kokeileLiikkumista(Suunta.OIKEA, false);
+            //             }
+            //         }
+            //         case YLÖS -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenYlös());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.VASEN, false);
+            //                 else kokeileLiikkumista(Suunta.OIKEA, false);
+            //             }
+            //         }
+            //         case YLÄVASEN -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenYläVasemmalle());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //                 else kokeileLiikkumista(Suunta.ALAS, false);
+            //             }
+            //         }
+            //         case YLÄOIKEA -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenYläOikealle());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //                 else kokeileLiikkumista(Suunta.ALAS, false);
+            //             }
+            //         }
+            //         case ALAVASEN -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenAlaVasemmalle());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //                 else kokeileLiikkumista(Suunta.ALAS, false);
+            //             }
+            //         }
+            //         case ALAOIKEA -> {
+            //             pelaajaSiirtyi = siirry(new LiikkuminenAlaOikealle());
+            //             if (harhaliikkeenTodennäköisyys > Math.random() && känniLiike) {
+            //                 if (r.nextBoolean()) kokeileLiikkumista(Suunta.YLÖS, false);
+            //                 else kokeileLiikkumista(Suunta.ALAS, false);
+            //             }
+            //         } 
+            //     }
+            // }
         }
         catch (NullPointerException npe) {
             System.out.println("Ongelma liikkeessä! Viimeisin pelaajan liike perutaan.");
@@ -688,19 +987,20 @@ public class Pelaaja implements Käännettävä {
     }
 
     public static Suunta keimonSuunta = Suunta.ALAS;
-
     public static SuuntaVasenOikea keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-    public enum SuuntaVasenOikea {
-        VASEN,
-        OIKEA;
 
-        @Override
-        public String toString() {
-            char x = this.name().charAt(0);
-            String uusiNimi = x + this.name().substring(1).toLowerCase();
-            return uusiNimi;
-        }
-    }
+    // public static SuuntaVasenOikea keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+    // public enum SuuntaVasenOikea {
+    //     VASEN,
+    //     OIKEA;
+
+    //     @Override
+    //     public String toString() {
+    //         char x = this.name().charAt(0);
+    //         String uusiNimi = x + this.name().substring(1).toLowerCase();
+    //         return uusiNimi;
+    //     }
+    // }
     /**
      * Pakottaa pelaaja pysähtymään. Hyödyllinen tapauksissa, joissa näppäimet voivat jäädä jumiin.
      */
@@ -724,20 +1024,38 @@ public class Pelaaja implements Käännettävä {
                 pelaajaLiikkuuVasen = true;
                 keimonSuunta = Suunta.VASEN;
                 keimonSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
-                break;
+            break;
             case OIKEA:
                 pelaajaLiikkuuOikea = true;
                 keimonSuunta = Suunta.OIKEA;
                 keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-                break;
+            break;
             case YLÖS:
                 pelaajaLiikkuuYlös = true;
                 keimonSuunta = Suunta.YLÖS;
-                break;
+            break;
             case ALAS:
                 pelaajaLiikkuuAlas = true;
                 keimonSuunta = Suunta.ALAS;
-                break;
+            break;
+            case YLÄVASEN:
+                pelaajaLiikkuuVasen = true; pelaajaLiikkuuYlös = true;
+                keimonSuunta = Suunta.YLÄVASEN;
+            break;
+            case YLÄOIKEA:
+                pelaajaLiikkuuOikea = true; pelaajaLiikkuuYlös = true;
+                keimonSuunta = Suunta.YLÄOIKEA;
+            break;
+            case ALAVASEN:
+                pelaajaLiikkuuVasen = true; pelaajaLiikkuuAlas = true;
+                keimonSuunta = Suunta.ALAVASEN;
+            break;
+            case ALAOIKEA:
+                pelaajaLiikkuuOikea = true; pelaajaLiikkuuAlas = true;
+                keimonSuunta = Suunta.ALAOIKEA;
+            break;
+            default:
+            break;
         }
     }
     /**
@@ -749,19 +1067,43 @@ public class Pelaaja implements Käännettävä {
     static boolean liikutaPelaajaa() {
         boolean pelaajaLiikkui = false;
         if (!GrafiikanPäivitysSäie.huoneenGrafiikanLatausKäynnissä) {
-            if (pelaajaLiikkuuVasen) {
+            if (pelaajaLiikkuuVasen && pelaajaLiikkuuYlös) {
+                keimonSuunta = Suunta.YLÄVASEN;
+                kokeileLiikkumista(Suunta.YLÄVASEN);
+                pelaajaLiikkui = true;
+            }
+            else if (pelaajaLiikkuuOikea && pelaajaLiikkuuYlös) {
+                keimonSuunta = Suunta.YLÄOIKEA;
+                kokeileLiikkumista(Suunta.YLÄOIKEA);
+                pelaajaLiikkui = true;
+            }
+            else if (pelaajaLiikkuuVasen && pelaajaLiikkuuAlas) {
+                keimonSuunta = Suunta.ALAVASEN;
+                kokeileLiikkumista(Suunta.ALAVASEN);
+                pelaajaLiikkui = true;
+            }
+            else if (pelaajaLiikkuuOikea && pelaajaLiikkuuAlas) {
+                keimonSuunta = Suunta.ALAOIKEA;
+                kokeileLiikkumista(Suunta.ALAOIKEA);
+                pelaajaLiikkui = true;
+            }
+            else if (pelaajaLiikkuuVasen) {
+                keimonSuunta = Suunta.VASEN;
                 kokeileLiikkumista(Suunta.VASEN);
                 pelaajaLiikkui = true;
             }
-            if (pelaajaLiikkuuOikea) {
+            else if (pelaajaLiikkuuOikea) {
+                keimonSuunta = Suunta.OIKEA;
                 kokeileLiikkumista(Suunta.OIKEA);
                 pelaajaLiikkui = true;
             }
-            if (pelaajaLiikkuuYlös) {
+            else if (pelaajaLiikkuuYlös) {
+                keimonSuunta = Suunta.YLÖS;
                 kokeileLiikkumista(Suunta.YLÖS);
                 pelaajaLiikkui = true;
             }
-            if (pelaajaLiikkuuAlas) {
+            else if (pelaajaLiikkuuAlas) {
+                keimonSuunta = Suunta.ALAS;
                 kokeileLiikkumista(Suunta.ALAS);
                 pelaajaLiikkui = true;
             }

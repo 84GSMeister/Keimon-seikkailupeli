@@ -1,24 +1,17 @@
 package keimo.keimoEngine.gui;
 
-import java.awt.Font;
 import java.text.DecimalFormat;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import keimo.Pelaaja;
 import keimo.Peli;
-import keimo.PääIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
-import keimo.Peli.SyötteenTila;
-import keimo.Ruudut.PeliRuutu;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.Shader;
 import keimo.keimoEngine.grafiikat.Teksti;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-import keimo.keimoEngine.grafiikat.objekti2d.Model;
-import keimo.keimoEngine.grafiikat.objekti2d.Transform;
 import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.toiminnot.Dialogit;
@@ -28,7 +21,7 @@ public class HUD {
     //private static Text text;
     //private static Model modeli = Assets.getModel();
     private static Shader peliShader = new Shader("shader");
-    private static Shader guiShader = new Shader("gui");
+    private static Shader guiShader = new Shader("staattinen");
 
     private static Tekstuuri aikaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/aika.png");
     private static Tekstuuri hpTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/hp.png");
@@ -94,7 +87,7 @@ public class HUD {
         
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
-        float scaleX = window.getWidth()/10;
+        float scaleX = window.getWidth()/6;
         float scaleY = window.getHeight()/30;
         float offsetX = sijX;
         float offsetY = sijY;
@@ -432,6 +425,7 @@ public class HUD {
         matTavoitePohja.scale(scaleXTavoitelista, scaleYTavoitelista, 0);
         guiShader.setUniform("projection", matTavoitePohja);
         guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
 
         peliShader.bind();
@@ -462,6 +456,7 @@ public class HUD {
         matOikeaYlä.scale(scaleX, scaleY, 0);
         guiShader.setUniform("projection", matOikeaYlä);
         guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
         Matrix4f matOikeaYläSisempi = new Matrix4f();
         window.getView().scale(1, matOikeaYläSisempi);
@@ -469,6 +464,7 @@ public class HUD {
         matOikeaYläSisempi.scale(scaleXSisempi, scaleYSisempi, 0);
         guiShader.setUniform("projection", matOikeaYläSisempi);
         guiShader.setUniform("color", new Vector4f(255, 255, 255, 0.6f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
 
         Matrix4f matOikeaKeski = new Matrix4f();
@@ -477,6 +473,7 @@ public class HUD {
         matOikeaKeski.scale(scaleX, scaleY, 0);
         guiShader.setUniform("projection", matOikeaKeski);
         guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
         Matrix4f matOikeaKeskiSisempi = new Matrix4f();
         window.getView().scale(1, matOikeaKeskiSisempi);
@@ -484,6 +481,7 @@ public class HUD {
         matOikeaKeskiSisempi.scale(scaleXSisempi, scaleYSisempi, 0);
         guiShader.setUniform("projection", matOikeaKeskiSisempi);
         guiShader.setUniform("color", new Vector4f(255, 255, 255, 0.6f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
 
         Matrix4f matOikeaAla = new Matrix4f();
@@ -492,6 +490,7 @@ public class HUD {
         matOikeaAla.scale(scaleX, scaleY, 0);
         guiShader.setUniform("projection", matOikeaAla);
         guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
         Matrix4f matOikeaAlaSisempi = new Matrix4f();
         window.getView().scale(1, matOikeaAlaSisempi);
@@ -499,6 +498,7 @@ public class HUD {
         matOikeaAlaSisempi.scale(scaleXSisempi, scaleYSisempi, 0);
         guiShader.setUniform("projection", matOikeaAlaSisempi);
         guiShader.setUniform("color", new Vector4f(255, 255, 255, 0.6f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
     }
 
@@ -531,6 +531,7 @@ public class HUD {
 
     public static void renderöiDialogiLaatikko(Window window) {
         guiShader.bind();
+        guiShader.setUniform("sampler", 0);
 
         float scaleXPohja = window.getWidth()/4 + window.getWidth()/12;
         float scaleYPohja = window.getHeight()/12;
@@ -541,6 +542,7 @@ public class HUD {
         matDialogiPohja.scale(scaleXPohja, scaleYPohja, 0);
         guiShader.setUniform("projection", matDialogiPohja);
         guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
+        tyhjäTekstuuri.bind(0);
         Assets.getModel().render();
 
         peliShader.bind();

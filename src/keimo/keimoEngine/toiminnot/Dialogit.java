@@ -45,17 +45,6 @@ public class Dialogit {
 
     public static String dialogiTekstiString = "";
     static String kelattuTeksti = "";
-    // private static void luoVuoropuheRuutu(Icon kuvake, String teksti, String nimi) {
-    //     kelattuTeksti = teksti;
-    //     //TekstiAjastinSäie.dialogiTeksti = teksti;
-    //     dialogiTeksti = teksti;
-    //     PeliRuutu.vuoropuheKuvake.setIcon(kuvake);
-    //     PeliRuutu.vuoropuheNimi.setText(nimi);
-    //     tekstiäJäljellä = teksti.length();
-    //     viimeisinDialogiTeksti = teksti;
-    //     viimeisinDialogiPuhuja = nimi;
-    //     viimeisinDialogiKuvake = kuvake;
-    // }
 
     public static int dialogiaJäljellä = 0;
     public static boolean useitaRuutuja = false;
@@ -121,6 +110,28 @@ public class Dialogit {
                 tekstiäJäljellä--;
             }
         }
+    }
+
+    public static void haeTavoiteVinkkiTeksti(String tavoite) {
+        String tavoiteVinkki = "";
+        switch (tavoite) {
+            case "Sytytä nuotio" -> {
+                tavoiteVinkki = "Nuotiopaikka ei ole tässä suunnassa.";
+            }
+            case "Etsi Pasi" -> {
+                tavoiteVinkki = "Pitäisiköhän kuitenkin suunnata Keimo-baaria kohti ensin?";
+            }
+            case "Avaa takahuone" -> {
+                tavoiteVinkki = "Tästä ei pääse. Osaisikohan joku metsän asukas neuvoa reitin metsän siemekseen?";
+            }
+            case "Etsi pesäpallomaila" -> {
+                tavoiteVinkki = "Ota varmuuden vuoksi ase mukaan";
+            }
+            default -> {
+                tavoiteVinkki = "Huoneeseen warppaaminen vaatii tavoitteen " + tavoite;
+            }
+        }
+        Dialogit.avaaDialogi("", tavoiteVinkki, "Huone lukittu");
     }
 
     public class PitkätDialogit {

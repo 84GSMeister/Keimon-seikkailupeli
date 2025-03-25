@@ -18,7 +18,6 @@ import keimo.Maastot.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.entityt.*;
-import keimo.entityt.Entity.SuuntaVasenOikea;
 import keimo.entityt.npc.Vartija;
 import keimo.entityt.npc.Vihollinen;
 import keimo.entityt.npc.Vihollinen.LiikeTapa;
@@ -35,6 +34,7 @@ import keimo.kenttäkohteet.warp.Warp;
 import keimo.Utility.*;
 import keimo.Utility.Downloaded.SpringUtilities;
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.Utility.Käännettävä.SuuntaVasenOikea;
 import keimo.Ikkunat.*;
 
 import java.awt.event.*;

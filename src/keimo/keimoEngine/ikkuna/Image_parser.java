@@ -15,7 +15,7 @@ public class Image_parser {
         return width;
     }
 
-    public int get_heigh() {
+    public int get_height() {
         return heigh;
     }
 

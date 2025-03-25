@@ -224,6 +224,7 @@ public class KäynnistinIkkuna {
         LatausIkkuna.päivitäLatausTeksti("Ladataan huoneita...");
         KenttäKohde.nollaaObjektiId();
         HuoneLista.luoVakioHuoneKarttaTiedostosta();
+        HuoneLista.lataaReferenssiHuonekartta();
         if (Peli.huoneKartta != null) {
             if (Peli.huoneKartta.get(0) != null) {
                 Peli.muutaKentänKokoa(Peli.huoneKartta.get(0).annaKoko());
@@ -252,9 +253,10 @@ public class KäynnistinIkkuna {
         PääIkkuna.ikkuna.addKeyListener(Peli.nk);
         PääIkkuna.vaatiiPäivityksen = true;
         PeliRuutu.luoPeliRuudunGUI();
+
+        LatausIkkuna.päivitäLatausTeksti("Ladataan ääniä...");
         ÄänentoistamisSäie.suljeMusa();
-        PääIkkuna.lataaRuutu("tarinaruutu");
-        TarinaRuutu.tarinaPaneli.requestFocus();
+        ÄänentoistamisSäie.lataaÄänet();
 
         LatausIkkuna.päivitäLatausTeksti("Käynnistetään säikeitä...");
         if (Peli.grafiikkaSäie.getState() == State.NEW || Peli.grafiikkaSäie.getState() == State.TERMINATED) {
@@ -269,6 +271,8 @@ public class KäynnistinIkkuna {
             Peli.peliSäie.setName("Pelisäie");
             Peli.peliSäie.start();
         }
+        PääIkkuna.lataaRuutu("tarinaruutu");
+        TarinaRuutu.tarinaPaneli.requestFocus();
         
         LatausIkkuna.päivitäLatausTeksti("Valmis.");
         try {

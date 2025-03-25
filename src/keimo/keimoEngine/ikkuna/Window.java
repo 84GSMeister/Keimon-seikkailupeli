@@ -16,7 +16,7 @@ public class Window {
     private long window;
     private int windowedWidth, windowedHeight;
     private int width, height;
-    private boolean fullscreen;
+    private boolean fullscreen, vsync;
     private Input input;
     private boolean hasResized;
     private GLFWWindowSizeCallback windowSizeCallback;
@@ -140,6 +140,12 @@ public class Window {
             }
     }
 
+    public void setVSync(boolean vsync) {
+        this.vsync = vsync;
+        if (vsync) glfwSwapInterval(1);
+        else glfwSwapInterval(0); 
+    }
+
     public void update() {
         input.update();
         hasResized = false;
@@ -149,6 +155,7 @@ public class Window {
     public int getWidth() {return width;}
     public int getHeight() {return height;}
     public boolean isFullscreen() {return fullscreen;}
+    public boolean isVsync() {return vsync;}
     public boolean hasResized() {return hasResized;}
     public long getWindow() {return window;}
     public Input getInput() {return input;}

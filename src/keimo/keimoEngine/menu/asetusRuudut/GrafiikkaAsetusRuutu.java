@@ -16,7 +16,7 @@ import org.joml.Matrix4f;
 
 public class GrafiikkaAsetusRuutu {
     private static int valinta = 0;
-    private static int asetustenMäärä = 5;
+    private static int asetustenMäärä = 6;
     private static Shader asetusRuutuShader = new Shader("staattinen");
     private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
     private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
@@ -26,16 +26,18 @@ public class GrafiikkaAsetusRuutu {
     private static Teksti asetusResoluutioTeksti = new Teksti("Resoluutio", Color.white, 200, 16);
     private static Teksti asetusZoomTeksti = new Teksti("Näköetäisyys", Color.white, 200, 16);
     private static Teksti asetusKirkkausTeksti = new Teksti("Kirkkaus", Color.white, 200, 16);
+    private static Teksti asetusVsyncTeksti = new Teksti("Pystysynkronointi", Color.white, 200, 16);
     private static Tekstuuri hyväksyTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/asetukset_takaisin.png");
 
     private static Teksti tilaKokonäyttöTeksti = new Teksti("Ei", Color.white, 200, 16);
     private static Teksti tilaResoluutioTeksti = new Teksti("Natiivi", Color.white, 300, 16);
     private static Teksti tilaZoomTeksti = new Teksti("1x", Color.white, 200, 16);
     private static Teksti tilaKirkkausTeksti = new Teksti("100%", Color.white, 200, 16);
+    private static Teksti tilaVsyncTeksti = new Teksti("Ei", Color.white, 200, 16);
 
     //private static String[] resoluutiot = {"1920x1080", "1366x768", "1280x720", "800x600", "640x480"};
     private static ArrayList<String> resoluutiot = Window.annaResoluutiot();
-    private static boolean kokonäyttö = false;
+    private static boolean kokonäyttö = false, vsync = false;
     private static int resoluutioValInt = resoluutiot.size()-1;
     private static String valittuResoluutio = "1920x1080";
     private static int resoluutioX, resoluutioY;
@@ -58,6 +60,10 @@ public class GrafiikkaAsetusRuutu {
     "0: Täysin pimeä\n" +
     "1: Täysin kirkas\n" +
     "Oletus: 1";
+    private static String infoTekstiVsync = "Pystysynkronointi (V-sync)\n" +
+    "Lukitsee pelin päivitysnopeuden näytön virkistystaajuuteen.\n" +
+    "Voi aiheuttaa lisäviivettä syötteeseen.\n" +
+    "Oletus: Ei";
 
     public static void painaNäppäintä(String näppäin) {
         switch (näppäin) {
@@ -119,7 +125,11 @@ public class GrafiikkaAsetusRuutu {
                     if (kirkkaus > 0.025f) kirkkaus -= 0.05f;
                 }
             break;
-            case 4: // Hyväksy
+            case 4: // Pystysynkronointi
+                vsync = KeimoEngine.window.isVsync();
+                vsync = !vsync;
+            break;
+            case 5: // Hyväksy
                 //KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
             break;
             default:
@@ -137,6 +147,7 @@ public class GrafiikkaAsetusRuutu {
                 KeimoEngine.window.setFullscreen(kokonäyttö, true);
             }
             else if (valinta == 0) KeimoEngine.window.setFullscreen(kokonäyttö, true);
+            KeimoEngine.window.setVSync(vsync);
             Kamera.zoomKerroin = zoom;
             Kamera.päivitäZoom = true;
             Maailma.fade = 1f - kirkkaus;
@@ -148,7 +159,7 @@ public class GrafiikkaAsetusRuutu {
     }
 
     static void hyväksy(int valinta) {
-        if (valinta == 4) {
+        if (valinta == 5) {
             KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
         }
     }
@@ -180,8 +191,8 @@ public class GrafiikkaAsetusRuutu {
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matOsoitin = new Matrix4f();
             window.getView().scale(1, matOsoitin);
-            if (i == asetustenMäärä-1) matOsoitin.translate(-scaleXOsoitin - keskitysX, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
-            else matOsoitin.translate(-scaleXOsoitin - keskitysX, scaleYOtsikko*4f -i*offsetYValinta, 0);
+            if (i == asetustenMäärä-1) matOsoitin.translate(-scaleXOsoitin - keskitysX*1.5f, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
+            else matOsoitin.translate(-scaleXOsoitin - keskitysX*1.5f, scaleYOtsikko*4f -i*offsetYValinta, 0);
             matOsoitin.scale(scaleXOsoitin, scaleYOsoitin, 0);
             asetusRuutuShader.setUniform("projection", matOsoitin);
             if (valinta == i) osoitinKuvake.bind(0);
@@ -192,8 +203,8 @@ public class GrafiikkaAsetusRuutu {
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matValinta = new Matrix4f();
             window.getView().scale(1, matValinta);
-            if (i == asetustenMäärä-1) matValinta.translate(scaleXValinnat - keskitysX, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
-            else matValinta.translate(scaleXValinnat - keskitysX, scaleYOtsikko*4f -i*offsetYValinta, 0);
+            if (i == asetustenMäärä-1) matValinta.translate(scaleXValinnat - keskitysX*1.5f, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
+            else matValinta.translate(scaleXValinnat - keskitysX*1.5f, scaleYOtsikko*4f -i*offsetYValinta, 0);
             matValinta.scale(scaleXValinnat, scaleYValinnat, 0);
             asetusRuutuShader.setUniform("projection", matValinta);
             switch (i) {
@@ -201,7 +212,8 @@ public class GrafiikkaAsetusRuutu {
                 case 1: asetusResoluutioTeksti.bind(0); break;
                 case 2: asetusZoomTeksti.bind(0); break;
                 case 3: asetusKirkkausTeksti.bind(0); break;
-                case 4: hyväksyTekstuuri.bind(0); break;
+                case 4: asetusVsyncTeksti.bind(0); break;
+                case 5: hyväksyTekstuuri.bind(0); break;
             }
             Assets.getModel().render();
         }
@@ -210,6 +222,7 @@ public class GrafiikkaAsetusRuutu {
         tilaResoluutioTeksti.päivitäTeksti(valittuResoluutio);
         tilaZoomTeksti.päivitäTeksti("" + kaksiDesimaalia.format(zoom));
         tilaKirkkausTeksti.päivitäTeksti("" + kaksiDesimaalia.format(kirkkaus));
+        tilaVsyncTeksti.päivitäTeksti(KeimoEngine.window.isVsync() ? "Kyllä" : "Ei");
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matStatus = new Matrix4f();
             window.getView().scale(1, matStatus);
@@ -221,7 +234,8 @@ public class GrafiikkaAsetusRuutu {
                 case 1: tilaResoluutioTeksti.bind(0); break;
                 case 2: tilaZoomTeksti.bind(0); break;
                 case 3: tilaKirkkausTeksti.bind(0); break;
-                case 4: tyhjäTekstuuri.bind(0); break;
+                case 4: tilaVsyncTeksti.bind(0); break;
+                case 5: tyhjäTekstuuri.bind(0); break;
             }
             Assets.getModel().render();
         }
@@ -236,6 +250,7 @@ public class GrafiikkaAsetusRuutu {
             case 1: infoTeksti.päivitäTeksti(infoTekstiResoluutio); break;
             case 2: infoTeksti.päivitäTeksti(infoTekstiNäköetäisyys); break;
             case 3: infoTeksti.päivitäTeksti(infoTekstiKirkkaus); break;
+            case 4: infoTeksti.päivitäTeksti(infoTekstiVsync); break;
             default: infoTeksti.päivitäTeksti(""); break;
         }
         infoTeksti.bind(0);

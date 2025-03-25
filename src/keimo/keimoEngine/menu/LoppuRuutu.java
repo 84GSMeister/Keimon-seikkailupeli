@@ -178,7 +178,7 @@ public class LoppuRuutu {
     public static void render(Window window) {
         loppuRuutuShader.bind();
         loppuRuutuShader.setUniform("sampler", 0);
-        loppuRuutuShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
+        loppuRuutuShader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
         if (kelausViive > 0) kelausViive--;
 
         float scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());

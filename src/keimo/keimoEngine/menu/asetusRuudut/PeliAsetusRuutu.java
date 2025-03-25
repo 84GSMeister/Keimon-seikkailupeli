@@ -16,7 +16,7 @@ import org.joml.Matrix4f;
 
 public class PeliAsetusRuutu {
     private static int valinta = 0;
-    private static int asetustenMäärä = 3;
+    private static int asetustenMäärä = 4;
     private static Shader asetusRuutuShader = new Shader("staattinen");
     private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
     private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
@@ -24,10 +24,12 @@ public class PeliAsetusRuutu {
 
     private static Teksti asetusVaikeusasteTeksti = new Teksti("Vaikeusaste", Color.white, 200, 16);
     private static Teksti asetusNopeusTeksti = new Teksti("Pelin nopeus", Color.white, 200, 16);
+    private static Teksti asetusDebugInfoTeksti = new Teksti("Debug-tiedot (F3)", Color.white, 200, 16);
     private static Tekstuuri hyväksyTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/asetukset_takaisin.png");
 
     private static Teksti tilaVaikeusasteTeksti = new Teksti("Normaali", Color.white, 300, 16);
     private static Teksti tilaNopeusTeksti = new Teksti("60", Color.white, 200, 16);
+    private static Teksti tilaDebugInfoTeksti = new Teksti("Ei", Color.white, 200, 16);
 
     private static String[] vaikeusasteet = {"Passiivinen", "Normaali", "Vaikea", "Järjetön"};
     private static int vaikeusasteValInt = 1;
@@ -43,6 +45,8 @@ public class PeliAsetusRuutu {
     private static String infoTekstiNopeus = "Pelin nopeus\n" +
     "Vaikuttaa pelin framerate- ja tickrate-nopeuteen.\n" +
     "Oletus: 60";
+    private static String infoTekstiDebug = "Debug-tiedot\n" +
+    "Näytä lisätietoja pelin tilasta (kehittäjiä varten).";
 
     public static void painaNäppäintä(String näppäin) {
         switch (näppäin) {
@@ -93,7 +97,7 @@ public class PeliAsetusRuutu {
                 }
             break;
             case 2: // 
-
+                PelinAsetukset.debugTiedot = !PelinAsetukset.debugTiedot;
             break;
             case 3: // 
 
@@ -112,7 +116,7 @@ public class PeliAsetusRuutu {
     }
 
     static void hyväksy(int valinta) {
-        if (valinta == 2) {
+        if (valinta == 3) {
             KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
         }
     }
@@ -144,8 +148,8 @@ public class PeliAsetusRuutu {
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matOsoitin = new Matrix4f();
             window.getView().scale(1, matOsoitin);
-            if (i == asetustenMäärä-1) matOsoitin.translate(-scaleXOsoitin - keskitysX, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
-            else matOsoitin.translate(-scaleXOsoitin - keskitysX, scaleYOtsikko*4f -i*offsetYValinta, 0);
+            if (i == asetustenMäärä-1) matOsoitin.translate(-scaleXOsoitin - keskitysX*1.5f, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
+            else matOsoitin.translate(-scaleXOsoitin - keskitysX*1.5f, scaleYOtsikko*4f -i*offsetYValinta, 0);
             matOsoitin.scale(scaleXOsoitin, scaleYOsoitin, 0);
             asetusRuutuShader.setUniform("projection", matOsoitin);
             if (valinta == i) osoitinKuvake.bind(0);
@@ -156,13 +160,14 @@ public class PeliAsetusRuutu {
         for (int i = 0; i < asetustenMäärä; i++) {
             Matrix4f matValinta = new Matrix4f();
             window.getView().scale(1, matValinta);
-            if (i == asetustenMäärä-1) matValinta.translate(scaleXValinnat - keskitysX, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
-            else matValinta.translate(scaleXValinnat - keskitysX, scaleYOtsikko*4f -i*offsetYValinta, 0);
+            if (i == asetustenMäärä-1) matValinta.translate(scaleXValinnat - keskitysX*1.5f, scaleYOtsikko*4f -1.2f*i*offsetYValinta, 0);
+            else matValinta.translate(scaleXValinnat - keskitysX*1.5f, scaleYOtsikko*4f -i*offsetYValinta, 0);
             matValinta.scale(scaleXValinnat, scaleYValinnat, 0);
             asetusRuutuShader.setUniform("projection", matValinta);
             switch (i) {
                 case 0: asetusVaikeusasteTeksti.bind(0); break;
                 case 1: asetusNopeusTeksti.bind(0); break;
+                case 2: asetusDebugInfoTeksti.bind(0); break;
                 default: hyväksyTekstuuri.bind(0); break;
             }
             Assets.getModel().render();
@@ -176,9 +181,11 @@ public class PeliAsetusRuutu {
             asetusRuutuShader.setUniform("projection", matStatus);
             tilaVaikeusasteTeksti.päivitäTeksti(valittuVaikeusaste);
             tilaNopeusTeksti.päivitäTeksti("" + pelinNopeus);
+            tilaDebugInfoTeksti.päivitäTeksti(PelinAsetukset.debugTiedot ? "Kyllä" : "Ei");
             switch (i) {
                 case 0: tilaVaikeusasteTeksti.bind(0); break;
                 case 1: tilaNopeusTeksti.bind(0); break;
+                case 2: tilaDebugInfoTeksti.bind(0); break;
                 default: tyhjäTekstuuri.bind(0); break;
             }
             Assets.getModel().render();
@@ -192,6 +199,7 @@ public class PeliAsetusRuutu {
         switch (valinta) {
             case 0: infoTeksti.päivitäTeksti(infoTekstiVaikeusaste, false, 58); break;
             case 1: infoTeksti.päivitäTeksti(infoTekstiNopeus); break;
+            case 2: infoTeksti.päivitäTeksti(infoTekstiDebug); break;
             default: infoTeksti.päivitäTeksti(""); break;
         }
         infoTeksti.bind(0);

@@ -7,16 +7,8 @@ import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.*;
-import keimo.entityt.npc.Asevihu;
-import keimo.entityt.npc.Boss;
-import keimo.entityt.npc.NPC;
-import keimo.entityt.npc.Pahavihu;
-import keimo.entityt.npc.Pikkuvihu;
-import keimo.entityt.npc.Vartija;
-import keimo.entityt.npc.Vihollinen;
-import keimo.keimoEngine.liikeSimulaatiot.BossSimulaatio;
-import keimo.keimoEngine.liikeSimulaatiot.ReitinhakuSimulaatio;
-import keimo.keimoEngine.liikeSimulaatiot.VartijaSimulaatio;
+import keimo.entityt.npc.*;
+import keimo.keimoEngine.liikeSimulaatiot.*;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
 import keimo.kenttäkohteet.esine.Kilpi;
@@ -790,8 +782,8 @@ public class PeliKenttäMetodit {
                             if (entity instanceof Ammus) {
                                 Ammus ammus = (Ammus)entity;
                                 ammus.elinAika--;
-                                if (ammus.kokeileLiikettä(ammus.suunta8)) {
-                                    ammus.liikuta8suuntaan(ammus.suunta8);
+                                if (ammus.kokeileLiikettä(ammus.suunta)) {
+                                    ammus.liikuta8suuntaan(ammus.suunta);
                                 }
                                 if (ammus.elinAika <= 0) {
                                     Peli.entityLista.remove(ammus);

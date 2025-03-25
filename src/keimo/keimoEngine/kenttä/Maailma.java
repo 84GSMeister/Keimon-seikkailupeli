@@ -5,6 +5,7 @@ import keimo.Peli;
 import keimo.Maastot.Maasto;
 import keimo.Maastot.Tile;
 import keimo.entityt.Entity;
+import keimo.entityt.npc.Boss;
 import keimo.entityt.npc.Vihollinen;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.collision.AABB;
@@ -34,8 +35,8 @@ public class Maailma {
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
     private static Shader objektiShader = new Shader("shader");
-    public static Shader objekti3dShader = new Shader("shader3dtest");
-    public static Shader esineShader = new Shader("shader3dtest");
+    public static Shader objekti3dShader = new Shader("shader");
+    public static Shader esineShader = new Shader("shader");
     private static Shader kiintopisteShader = new Shader("shader");
     private static Shader tileShader = new Shader("shader");
     private static Shader entityShader = new Shader("shader");
@@ -46,11 +47,6 @@ public class Maailma {
 	private HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
 	private Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
 	public static float fade = 0f;
-
-    static Kamera kamera3dTeksti = new Kamera(640, 480);
-    static Transform3D transform3dTeksti = new Transform3D();
-    static Kamera kamera3dObjekti = new Kamera(640, 480);
-    static Transform3D transform3dObjekti = new Transform3D();
 
     public Maailma() {
         createWorld();
@@ -116,6 +112,10 @@ public class Maailma {
 		}
     }
 
+    public void cleanup() {
+        tileTextures.values().forEach(Tekstuuri::cleanup);
+    }
+
     public void render(Kamera camera) {
         try {
             tileMäärä = 0; objektiMäärä = 0; entityMäärä = 0;
@@ -156,7 +156,7 @@ public class Maailma {
                     if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
                         KenttäKohde k = Peli.annaObjektiKenttä()[renderX][renderY];
                         if (k != null) {
-                            if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, renderX, -renderY, 1, world, camera);
+                            if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, renderX, -renderY, 0, world, camera);
                             else renderöiKenttäObjekti(k, renderX, -renderY, 0, world, camera);
                             objektiMäärä++;
                         }
@@ -260,12 +260,14 @@ public class Maailma {
             target.mul(objektinSijainti);
             
             esineShader.setUniform("sampler", 0);
-            esineShader.setUniform("projection", target);
+            
             esineShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
             objekti.liikeY += objekti.annaLiikeNopeus();
             Transform3D transform = objekti.transform;
             transform.getRotation().rotateAxis((float)Math.toRadians(objekti.annaPyörimisNopeus()), 0, 1, 0);
-            esineShader.setTransform(transform);
+            target.mul(transform.getTransformation());
+            esineShader.setUniform("projection", target);
+            //esineShader.setTransform(transform);
         }
         else if (objekti instanceof Kiintopiste || objekti instanceof NPC_KenttäKohde) {
             kiintopisteShader.bind();
@@ -332,12 +334,13 @@ public class Maailma {
         entityShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
         entityShader.setUniform("addcolor", new Vector4f(hurtEfekti, hurtEfekti, hurtEfekti, 0));
 		
-		Model model = Assets.getModel(entity.annaKääntöAsteet(), entity.annaXPeilaus(), entity.annaYPeilaus());
+        Model model;
+		if (entity instanceof Boss) model = Assets.getModel();
+        else model = Assets.getModel(entity.suunta);
 		model.render();
 	}
 
     protected void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f world, Kamera cam) {
-
         objekti3dShader.bind();
 		Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, 0));
 		objektinSijainti.scale(1, 1, 0);
@@ -345,18 +348,16 @@ public class Maailma {
         objektinSijainti = KenttäShaderEfektit.känniEfekti(objekti3dShader, objektinSijainti);
 		
 		cam.getProjection().mul(world, target);
-		target.mul(objektinSijainti);
+        target.mul(objektinSijainti);
 		
 		objekti3dShader.setUniform("sampler", 0);
-		objekti3dShader.setUniform("projection", target);
         objekti3dShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
 
         objekti.liikeY += objekti.annaLiikeNopeus();
         Transform3D transform = objekti.transform;
         transform.getRotation().rotateAxis((float)Math.toRadians(objekti.annaPyörimisNopeus()), 0, 1, 0);
-        objekti3dShader.setTransform(transform);
-        //objekti3dShader.setCamera(cam);
-        //Objekti3D.väriEfekti(objekti3dShader);
+        target.mul(transform.getTransformation());
+        objekti3dShader.setUniform("projection", target);
 
         Assets.getModel3D(objekti.anna3dMallinTunniste()).draw();
     }

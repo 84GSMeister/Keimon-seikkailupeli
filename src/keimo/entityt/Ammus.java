@@ -17,7 +17,6 @@ public class Ammus extends Entity {
     public int nopeus;
     public int damage;
     public int elinAika = 240;
-    public SuuntaDiagonaali suunta8 = SuuntaDiagonaali.VASEN;
     public Vihollinen ampuja;
 
     public int annaSijX() {
@@ -40,7 +39,7 @@ public class Ammus extends Entity {
         return kuvake;
     }
 
-    public boolean kokeileLiikettä(SuuntaDiagonaali suunta) {
+    public boolean kokeileLiikettä(Suunta suunta) {
         boolean liikeOnnistui = false;
         switch (suunta) {
             case OIKEA:
@@ -104,7 +103,7 @@ public class Ammus extends Entity {
     //     this.sijY = (int)this.hitbox.getCenterY() / PeliRuutu.pelaajanKokoPx;
     // }
 
-    public void liikuta8suuntaan(SuuntaDiagonaali suunta) {
+    public void liikuta8suuntaan(Suunta suunta) {
         switch (suunta) {
             case OIKEA:
                 this.hitbox.setLocation((int)this.hitbox.getLocation().getX() + nopeus, (int)this.hitbox.getLocation().getY());
@@ -159,14 +158,14 @@ public class Ammus extends Entity {
         this.tekstuuri = new Tekstuuri(kuvaTiedosto);
         this.ampuja = ampuja;
         if (suunta == SuuntaVasenOikea.OIKEA) {
-            this.suunta8 = SuuntaDiagonaali.OIKEA;
+            this.suunta = Suunta.OIKEA;
         }
         else {
-            this.suunta8 = SuuntaDiagonaali.VASEN;
+            this.suunta = Suunta.VASEN;
         }
     }
 
-    public Ammus(int sijX, int sijY, SuuntaDiagonaali suunta8, int vahinko, Vihollinen ampuja) {
+    public Ammus(int sijX, int sijY, Suunta suunta8, int vahinko, Vihollinen ampuja) {
         super(sijX, sijY);
         super.nimi = "Ammus";
         this.id = ammusId;
@@ -183,6 +182,6 @@ public class Ammus extends Entity {
         this.tekstuuri = new Tekstuuri(kuvaTiedosto);
         this.kuvake = new ImageIcon(kuvaTiedosto);
         this.ampuja = ampuja;
-        this.suunta8 = suunta8;
+        this.suunta = suunta8;
     }
 }

@@ -101,7 +101,7 @@ public class PeliSäie extends Thread {
         
         if (Peli.peliKäynnissä) {
             if (!Peli.pause && !Peli.pauseDialogi) {
-                Peli.pelaajanLiike();
+                Peli.pelaajanLiikeVanha();
                 Peli.pelinKulku();
                 PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
                 if (Peli.globaaliTickit % 2 == 0) {
@@ -115,6 +115,9 @@ public class PeliSäie extends Thread {
                 }
                 if (Peli.globaaliTickit % 2000 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2000Tick();
+                }
+                if (Peli.globaaliTickit % 600 == 0) {
+                    PeliKenttäMetodit.suoritaPelikenttäMetoditJoka600Tick();
                 }
                 if (Peli.globaaliTickit % 100 == 0) {
                     PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();

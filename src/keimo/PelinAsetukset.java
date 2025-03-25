@@ -20,6 +20,7 @@ public class PelinAsetukset {
     public static double ääniVolyymi = 0.5d;
     public static int pelinNopeus = 60;
     public static int resoluutioX, resoluutioY;
+    public static boolean debugTiedot = false;
 
     static List<String> musaLista = Stream.of(new File("tiedostot/musat").listFiles())
         .filter(file -> !file.isDirectory() && ((file.getName().endsWith(".mp3") || file.getName().endsWith(".wav"))))

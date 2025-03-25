@@ -15,6 +15,15 @@ public class Boss extends Vihollinen {
     private Kuva attackTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/boss/boss_aggr.gif");
     private Kuva kuollutTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/boss/boss_kuollut.png");
 
+    private ImageIcon idleKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_idle.gif");
+    private ImageIcon spinKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_spin.gif");
+    private ImageIcon attackKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_aggr.gif");
+    private ImageIcon kuollutKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_kuollut.png");
+    private ImageIcon hurtKuvake = new ImageIcon("tiedostot/kuvat/npc/boss_hurt.png");
+    private SkaalattavaKuvake idleKuvakeOikea = new SkaalattavaKuvake(("tiedostot/kuvat/npc/boss/boss_idle.gif"), SkaalattavaKuvake.Peilaus.PEILAA_X);
+    private SkaalattavaKuvake spinKuvakeOikea = new SkaalattavaKuvake(("tiedostot/kuvat/npc/boss/boss_spin.gif"), SkaalattavaKuvake.Peilaus.PEILAA_X);
+    private SkaalattavaKuvake attackKuvakeOikea = new SkaalattavaKuvake(("tiedostot/kuvat/npc/boss/boss_aggr.gif"), SkaalattavaKuvake.Peilaus.PEILAA_X);
+
     public BossState bossTila = BossState.NORMAALI;
     public enum BossState {
         NORMAALI,
@@ -44,26 +53,36 @@ public class Boss extends Vihollinen {
     @Override
     public void kukista(String kukistusTapa) {
         super.kukista(kukistusTapa);
-        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/boss_kukistettu.png");
+        this.kuvake = kuollutKuvake;
         this.tekstuuri = kuollutTekstuuri;
     }
 
     @Override
     public void valitseKuvake() {
         if (this.kukistettu) {
-            this.kuvake = new ImageIcon("tiedostot/kuvat/npc/boss_kukistettu.png");
+            this.kuvake = kuollutKuvake;
         }
         else {
             if (this.hurtAika > 0) {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/boss_hurt.png");
+                this.kuvake = hurtKuvake;
             }
             else {
                 switch (this.suuntaVasenOikea) {
                     case VASEN:
-                        this.kuvake = new ImageIcon("tiedostot/kuvat/npc/boss.png");
+                        switch (this.bossTila) {
+                            default: this.kuvake = idleKuvake; break;
+                            case PYÖRÄHDYS: this.kuvake = spinKuvake; break;
+                            case LATAUS: this.kuvake = attackKuvake; break;
+                            case HYÖKKÄYS: this.kuvake = attackKuvake; break;
+                        }
                     break;
                     case OIKEA:
-                        this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/boss.png", SkaalattavaKuvake.Peilaus.PEILAA_X);
+                        switch (this.bossTila) {
+                            default: this.kuvake = idleKuvakeOikea; break;
+                            case PYÖRÄHDYS: this.kuvake = spinKuvakeOikea; break;
+                            case LATAUS: this.kuvake = attackKuvakeOikea; break;
+                            case HYÖKKÄYS: this.kuvake = attackKuvakeOikea; break;
+                        }
                     break;
                 }
             }
@@ -105,7 +124,7 @@ public class Boss extends Vihollinen {
         super.kilpiTehoaa = false;
         super.sijX = sijX;
         super.sijY = sijY;
-        super.hitbox = new Rectangle(sijX * tilenKoko, sijY * tilenKoko, 64, 64);
+        super.hitbox = new Rectangle(sijX * tilenKoko, sijY * tilenKoko, 128, 128);
         super.nimi = "Pomo";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;

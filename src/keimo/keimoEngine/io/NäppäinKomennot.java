@@ -2,10 +2,12 @@ package keimo.keimoEngine.io;
 
 import keimo.Pelaaja;
 import keimo.Peli;
+import keimo.PelinAsetukset;
 import keimo.Pelaaja.*;
 import keimo.Peli.SyötteenTila;
 import keimo.keimoEngine.toiminnot.Dialogit;
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.Utility.Käännettävä.SuuntaVasenOikea;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.grafiikat.Teksti;
 import keimo.keimoEngine.gui.toimintoIkkunat.*;
@@ -17,7 +19,6 @@ import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.esine.Esine;
 
 import static org.lwjgl.glfw.GLFW.*;
-import org.joml.Matrix4f;
 
 public class NäppäinKomennot {
 
@@ -47,7 +48,7 @@ public class NäppäinKomennot {
             KeimoEngine.kaatoTeksti = null;
         }
         else if (window.getInput().isKeyPressed(GLFW_KEY_F3)) {
-            KeimoEngine.debugTiedot = !KeimoEngine.debugTiedot;
+            PelinAsetukset.debugTiedot = !PelinAsetukset.debugTiedot;
         }
         else if (window.getInput().isKeyPressed(GLFW_KEY_F5)) {
             Pelaaja.noclip = !Pelaaja.noclip;
@@ -79,33 +80,42 @@ public class NäppäinKomennot {
                         }
                 
                         if (window.getInput().isKeyDown(GLFW_KEY_A) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) {
-                            Pelaaja.kokeileLiikkumista(Suunta.VASEN);
+                            //Pelaaja.kokeileLiikkumista(Suunta.VASEN);
                             vasenPainettu = true;
                         }
                         else {
                             vasenPainettu = false;
                         }
                         if (window.getInput().isKeyDown(GLFW_KEY_D) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) {
-                            Pelaaja.kokeileLiikkumista(Suunta.OIKEA);
+                            //Pelaaja.kokeileLiikkumista(Suunta.OIKEA);
                             oikeaPainettu = true;
                         }
                         else {
                             oikeaPainettu = false;
                         }
                         if (window.getInput().isKeyDown(GLFW_KEY_W) || window.getInput().isKeyDown(GLFW_KEY_UP)) {
-                            Pelaaja.kokeileLiikkumista(Suunta.YLÖS);
+                            //Pelaaja.kokeileLiikkumista(Suunta.YLÖS);
                             ylösPainettu = true;
                         }
                         else {
                             ylösPainettu = false;
                         }
                         if (window.getInput().isKeyDown(GLFW_KEY_S) || window.getInput().isKeyDown(GLFW_KEY_DOWN)) {
-                            Pelaaja.kokeileLiikkumista(Suunta.ALAS);
+                            //Pelaaja.kokeileLiikkumista(Suunta.ALAS);
                             alasPainettu = true;
                         }
                         else {
                             alasPainettu = false;
                         }
+                        if (vasenPainettu && ylösPainettu) Pelaaja.kokeileLiikkumista(Suunta.YLÄVASEN);
+                        else if (vasenPainettu && alasPainettu) Pelaaja.kokeileLiikkumista(Suunta.ALAVASEN);
+                        else if (oikeaPainettu && ylösPainettu) Pelaaja.kokeileLiikkumista(Suunta.YLÄOIKEA);
+                        else if (oikeaPainettu && alasPainettu) Pelaaja.kokeileLiikkumista(Suunta.ALAOIKEA);
+                        else if (vasenPainettu) Pelaaja.kokeileLiikkumista(Suunta.VASEN);
+                        else if (oikeaPainettu) Pelaaja.kokeileLiikkumista(Suunta.OIKEA);
+                        else if (ylösPainettu) Pelaaja.kokeileLiikkumista(Suunta.YLÖS);
+                        else if (alasPainettu) Pelaaja.kokeileLiikkumista(Suunta.ALAS);
+
                         if (window.getInput().isKeyPressed(GLFW_KEY_E)) {
                             Peli.painaE(Pelaaja.sijX, Pelaaja.sijY);
                         }
@@ -172,44 +182,22 @@ public class NäppäinKomennot {
                                 }
                             }
                         }
-                
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_4)) {
-                            if (Maailma.fade > 0f) {
-                                Maailma.fade -= 0.01f;
-                            }
-                        }
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_6)) {
-                            if (Maailma.fade < 1f) {
-                                Maailma.fade += 0.01f;
-                            }
-                        }
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_7)) {
-                            rotZ -= 0.05;
-                            rotZ %= 2 * Math.PI;
-                            camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX, Kamera.zoomX, -Kamera.zoomY, Kamera.zoomY));
-                            camera.setProjection(camera.getProjection().rotateZ(rotZ));
-                            camera.setProjection(camera.getProjection().translate(Pelaaja.sijX*128, -Pelaaja.sijY*128, 0));
-                            System.out.println(rotZ);
-                        }
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_9)) {
-                            rotZ += 0.05;
-                            rotZ %= 2 * Math.PI;
-                            camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX, Kamera.zoomX, -Kamera.zoomY, Kamera.zoomY).translate(-Pelaaja.sijX, -Pelaaja.sijY, 0));
-                            camera.setProjection(camera.getProjection().rotateZ(rotZ));
-                            System.out.println(rotZ);
-                        }
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_ADD)) {
-                            if (Kamera.zoomKerroin > 0.5f) Kamera.zoomKerroin -= 0.05f;
-                            System.out.println("zoom:" + Kamera.zoomKerroin);
-                            camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX * Kamera.zoomKerroin, Kamera.zoomX * Kamera.zoomKerroin, -Kamera.zoomY * Kamera.zoomKerroin, Kamera.zoomY * Kamera.zoomKerroin));
-                            world.calculateView(window, camera);
-                        }
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_SUBTRACT)) {
-                            Kamera.zoomKerroin += 0.05f;
-                            System.out.println("zoom:" + Kamera.zoomKerroin);
-                            camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX * Kamera.zoomKerroin, Kamera.zoomX * Kamera.zoomKerroin, -Kamera.zoomY * Kamera.zoomKerroin, Kamera.zoomY * Kamera.zoomKerroin));
-                            world.calculateView(window, camera);
-                        }
+
+                        // if (window.getInput().isKeyDown(GLFW_KEY_KP_7)) {
+                        //     rotZ -= 0.05;
+                        //     rotZ %= 2 * Math.PI;
+                        //     camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX, Kamera.zoomX, -Kamera.zoomY, Kamera.zoomY));
+                        //     camera.setProjection(camera.getProjection().rotateZ(rotZ));
+                        //     camera.setProjection(camera.getProjection().translate(Pelaaja.sijX*128, -Pelaaja.sijY*128, 0));
+                        //     System.out.println(rotZ);
+                        // }
+                        // if (window.getInput().isKeyDown(GLFW_KEY_KP_9)) {
+                        //     rotZ += 0.05;
+                        //     rotZ %= 2 * Math.PI;
+                        //     camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX, Kamera.zoomX, -Kamera.zoomY, Kamera.zoomY).translate(-Pelaaja.sijX, -Pelaaja.sijY, 0));
+                        //     camera.setProjection(camera.getProjection().rotateZ(rotZ));
+                        //     System.out.println(rotZ);
+                        // }
                     }
                     case DIALOGI -> {
                         if (window.getInput().isKeyPressed(GLFW_KEY_E) || window.getInput().isKeyPressed(GLFW_KEY_X) || window.getInput().isKeyPressed(GLFW_KEY_C)) {
@@ -260,62 +248,44 @@ public class NäppäinKomennot {
                                 }
                             }
                             case MINIPELI -> {
-                                if (window.getInput().isKeyPressed(GLFW_KEY_SPACE) || window.getInput().isKeyPressed(GLFW_KEY_ENTER)) {
+                                if (window.getInput().isKeyPressed(GLFW_KEY_ESCAPE) || window.getInput().isKeyPressed(GLFW_KEY_ENTER)) {
                                     MinipeliIkkuna.suljeToimintoIkkuna();
-                                }
-                                else if (window.getInput().isKeyDown(GLFW_KEY_KP_4)) {
-                                    Maailma3D.camRotX -= 0.01;
-                                }
-                                else if (window.getInput().isKeyDown(GLFW_KEY_KP_6)) {
-                                    Maailma3D.camRotX += 0.01;
-                                }
-                                else if (window.getInput().isKeyDown(GLFW_KEY_KP_2)) {
-                                    Maailma3D.camRotY -= 0.01;
-                                }
-                                else if (window.getInput().isKeyDown(GLFW_KEY_KP_8)) {
-                                    Maailma3D.camRotY += 0.01;
-                                }
-                                else if (window.getInput().isKeyDown(GLFW_KEY_KP_7)) {
-                                    Maailma3D.camRotZ -= 0.01;
-                                }
-                                else if (window.getInput().isKeyDown(GLFW_KEY_KP_9)) {
-                                    Maailma3D.camRotZ += 0.01;
                                 }
 
                                 if (window.getInput().isKeyDown(GLFW_KEY_W)) {
-                                    TestiRuutu.liiku(TestiRuutu.Liike.ETEENPÄIN);
-                                    System.out.println("z-sij: " + TestiRuutu.zSij);
+                                    Maailma3D.liiku(Maailma3D.Liike.ETEENPÄIN);
+                                    System.out.println("z-sij: " + Maailma3D.zSij);
                                 }
                                 if (window.getInput().isKeyDown(GLFW_KEY_S)) {
-                                    TestiRuutu.liiku(TestiRuutu.Liike.TAAKSEPÄIN);
-                                    System.out.println("z-sij: " + TestiRuutu.zSij);
+                                    Maailma3D.liiku(Maailma3D.Liike.TAAKSEPÄIN);
+                                    System.out.println("z-sij: " + Maailma3D.zSij);
                                 }
                                 if (window.getInput().isKeyDown(GLFW_KEY_A)) {
-                                    TestiRuutu.liiku(TestiRuutu.Liike.VASEN);
-                                    System.out.println("x-sij: " + TestiRuutu.xSij);
+                                    Maailma3D.liiku(Maailma3D.Liike.VASEN);
+                                    System.out.println("x-sij: " + Maailma3D.xSij);
                                 }
                                 if (window.getInput().isKeyDown(GLFW_KEY_D)) {
-                                    TestiRuutu.liiku(TestiRuutu.Liike.OIKEA);
-                                    System.out.println("x-sij: " + TestiRuutu.xSij);
+                                    Maailma3D.liiku(Maailma3D.Liike.OIKEA);
+                                    System.out.println("x-sij: " + Maailma3D.xSij);
                                 }
                                 if (window.getInput().isKeyDown(GLFW_KEY_Q)) {
-                                    TestiRuutu.liiku(TestiRuutu.Liike.ALAS);
-                                    System.out.println("y-sij: " + TestiRuutu.ySij);
+                                    Maailma3D.liiku(Maailma3D.Liike.ALAS);
+                                    System.out.println("y-sij: " + Maailma3D.ySij);
                                 }
                                 if (window.getInput().isKeyDown(GLFW_KEY_E)) {
-                                    TestiRuutu.liiku(TestiRuutu.Liike.YLÖS);
-                                    System.out.println("y-sij: " + TestiRuutu.ySij);
+                                    Maailma3D.liiku(Maailma3D.Liike.YLÖS);
+                                    System.out.println("y-sij: " + Maailma3D.ySij);
                                 }
                 
                                 if (window.getInput().isKeyDown(GLFW_KEY_KP_4)) {
-                                    TestiRuutu.yaw += TestiRuutu.kääntöNopeus;
-                                    TestiRuutu.yaw %= 360;
-                                    System.out.println("yaw: " + TestiRuutu.yaw);
+                                    Maailma3D.yaw -= Maailma3D.kääntöNopeus;
+                                    Maailma3D.yaw %= 360;
+                                    System.out.println("yaw: " + Maailma3D.yaw);
                                 }
                                 if (window.getInput().isKeyDown(GLFW_KEY_KP_6)) {
-                                    TestiRuutu.yaw -= TestiRuutu.kääntöNopeus;
-                                    TestiRuutu.yaw %= 360;
-                                    System.out.println("yaw: " + TestiRuutu.yaw);
+                                    Maailma3D.yaw += Maailma3D.kääntöNopeus;
+                                    Maailma3D.yaw %= 360;
+                                    System.out.println("yaw: " + Maailma3D.yaw);
                                 }
                             }
                             case KARTTA -> {
@@ -426,6 +396,55 @@ public class NäppäinKomennot {
                     LoppuRuutu.painaNäppäintä("enter");
                 }
             break;
+            case MINIPELIRUUTU:
+                if (window.getInput().isKeyPressed(GLFW_KEY_ESCAPE) || window.getInput().isKeyPressed(GLFW_KEY_ENTER)) {
+                    MinipeliIkkuna.suljeToimintoIkkuna();
+                }
+                if (window.getInput().isKeyPressed(GLFW_KEY_F5)) {
+                    Maailma3D.moonJump = !Maailma3D.moonJump;
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_W)) {
+                    Maailma3D.liiku(Maailma3D.Liike.ETEENPÄIN);
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_S)) {
+                    Maailma3D.liiku(Maailma3D.Liike.TAAKSEPÄIN);
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_A)) {
+                    Maailma3D.liiku(Maailma3D.Liike.VASEN);
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_D)) {
+                    Maailma3D.liiku(Maailma3D.Liike.OIKEA);
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_SPACE)) {
+                    Maailma3D.liiku(Maailma3D.Liike.HYPPY);
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_KP_4) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) {
+                    Maailma3D.yaw -= Maailma3D.kääntöNopeus;
+                    if (Maailma3D.yaw < 0) Maailma3D.yaw += 360;
+                    Maailma3D.yaw %= 360;
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_KP_6) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) {
+                    Maailma3D.yaw += Maailma3D.kääntöNopeus;
+                    Maailma3D.yaw %= 360;
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_KP_2) || window.getInput().isKeyDown(GLFW_KEY_DOWN)) {
+                    Maailma3D.pitch -= Maailma3D.kääntöNopeus;
+                    if (Maailma3D.pitch < -90) Maailma3D.pitch = -90;
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_KP_8) || window.getInput().isKeyDown(GLFW_KEY_UP)) {
+                    Maailma3D.pitch += Maailma3D.kääntöNopeus;
+                    if (Maailma3D.pitch > 90) Maailma3D.pitch = 90;
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_KP_7)) {
+                    Maailma3D.roll -= Maailma3D.kääntöNopeus;
+                    if (Maailma3D.roll < 0) Maailma3D.roll += 360;
+                    Maailma3D.roll %= 360;
+                }
+                if (window.getInput().isKeyDown(GLFW_KEY_KP_9)) {
+                    Maailma3D.roll += Maailma3D.kääntöNopeus;
+                    Maailma3D.roll %= 360;
+                }
+            break;
             case VIRHERUUTU:
                 if (window.getInput().isKeyPressed(GLFW_KEY_ESCAPE)) {
                     System.exit(1);
@@ -451,18 +470,34 @@ public class NäppäinKomennot {
             }
             else Pelaaja.keimonState = KeimonState.IDLE;
 
-            if (window.getInput().isKeyDown(GLFW_KEY_A) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) {
+            if ((window.getInput().isKeyDown(GLFW_KEY_A) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) && ((window.getInput().isKeyDown(GLFW_KEY_W) || window.getInput().isKeyDown(GLFW_KEY_UP)))) {
+                Pelaaja.keimonSuunta = Suunta.YLÄVASEN;
+                Pelaaja.keimonSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
+            }
+            else if ((window.getInput().isKeyDown(GLFW_KEY_A) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) && ((window.getInput().isKeyDown(GLFW_KEY_S) || window.getInput().isKeyDown(GLFW_KEY_DOWN)))) {
+                Pelaaja.keimonSuunta = Suunta.ALAVASEN;
+                Pelaaja.keimonSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
+            }
+            else if ((window.getInput().isKeyDown(GLFW_KEY_D) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) && ((window.getInput().isKeyDown(GLFW_KEY_W) || window.getInput().isKeyDown(GLFW_KEY_UP)))) {
+                Pelaaja.keimonSuunta = Suunta.YLÄOIKEA;
+                Pelaaja.keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+            }
+            else if ((window.getInput().isKeyDown(GLFW_KEY_D) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) && ((window.getInput().isKeyDown(GLFW_KEY_S) || window.getInput().isKeyDown(GLFW_KEY_DOWN)))) {
+                Pelaaja.keimonSuunta = Suunta.ALAOIKEA;
+                Pelaaja.keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+            }
+            else if (window.getInput().isKeyDown(GLFW_KEY_A) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) {
                 Pelaaja.keimonSuunta = Suunta.VASEN;
                 Pelaaja.keimonSuuntaVasenOikea = SuuntaVasenOikea.VASEN;
             }
-            if (window.getInput().isKeyDown(GLFW_KEY_D) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) {
+            else if (window.getInput().isKeyDown(GLFW_KEY_D) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) {
                 Pelaaja.keimonSuunta = Suunta.OIKEA;
                 Pelaaja.keimonSuuntaVasenOikea = SuuntaVasenOikea.OIKEA;
             }
-            if (window.getInput().isKeyDown(GLFW_KEY_W) || window.getInput().isKeyDown(GLFW_KEY_UP)) {
+            else if (window.getInput().isKeyDown(GLFW_KEY_W) || window.getInput().isKeyDown(GLFW_KEY_UP)) {
                 Pelaaja.keimonSuunta = Suunta.YLÖS;
             }
-            if (window.getInput().isKeyDown(GLFW_KEY_S) || window.getInput().isKeyDown(GLFW_KEY_DOWN)) {
+            else if (window.getInput().isKeyDown(GLFW_KEY_S) || window.getInput().isKeyDown(GLFW_KEY_DOWN)) {
                 Pelaaja.keimonSuunta = Suunta.ALAS;
             }
         }
@@ -491,4 +526,34 @@ public class NäppäinKomennot {
             Dialogit.avaaDialogi(k.annaTekstuuri(), k.katso(), k.annaNimi());
         }
     }
+
+    // private static void tarkistaMidiSyöte(Window window) {
+    //     MidiDevice midiLaite;
+
+
+    //     try {
+    //         Sequencer sequencer = window.getInput().getMidiSequencer();
+    //         Sequence sequence = new Sequence(Sequence.PPQ, 24, 1);
+    //         Track track1 = sequence.createTrack();
+
+    //         int midiNuotti = random.nextInt(36, 84);
+    //         int voimakkuus = random.nextInt(50, 100);
+
+    //         ShortMessage noteOn = new ShortMessage();
+    //         noteOn.setMessage(ShortMessage.NOTE_ON, 0, midiNuotti, voimakkuus);
+    //         MidiEvent noteOnEvent = new MidiEvent(noteOn, 0);
+    //         ShortMessage noteOff = new ShortMessage();
+    //         noteOff.setMessage(ShortMessage.NOTE_OFF, 0, midiNuotti, 0);
+    //         MidiEvent noteOffEvent = new MidiEvent(noteOff, 24);
+
+    //         track1.add(noteOnEvent);
+    //         track1.add(noteOffEvent);
+    //         sequencer.setSequence(sequence);
+    //         sequencer.start();
+
+    //     }
+    //     catch (InvalidMidiDataException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

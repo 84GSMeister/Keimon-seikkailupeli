@@ -10,20 +10,20 @@ import keimo.keimoEngine.ikkuna.Window;
 
 public class LatausRuutu {
 
-    private static Shader peliShader = new Shader("staattinen");
+    private static Shader shader = new Shader("staattinen");
     private static Tekstuuri latausRuudunTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/lataus/latausruutu.png");
     
     public static void renderöiLatausRuutu(Window window) {
         float scaleX = window.getWidth()/2;
         float scaleY = window.getHeight()/2;
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
+        shader.bind();
+        shader.setUniform("sampler", 0);
+        shader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
 
         Matrix4f matLatausRuutu = new Matrix4f();
         window.getView().scale(1, matLatausRuutu);
         matLatausRuutu.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matLatausRuutu);
+        shader.setUniform("projection", matLatausRuutu);
         latausRuudunTekstuuri.bind(0);
         Assets.getModel().render();
     }

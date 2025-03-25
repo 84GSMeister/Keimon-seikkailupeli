@@ -94,6 +94,12 @@ public class Tekstuuri implements Kuva {
         }
     }
 
+    // @Override
+	// protected void finalize() throws Throwable {
+	// 	glDeleteTextures(id);
+	// 	super.finalize();
+	// }
+
     @Override
     public void bind(int sampler) {
         if (sampler >= 0 && sampler <= 31) {

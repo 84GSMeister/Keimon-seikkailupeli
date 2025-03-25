@@ -59,15 +59,17 @@ public class MinipeliIkkuna {
         // }
         // Assets.getModel().render();
 
-        Maailma3D.render(kamera);
+        Maailma3D.render(window);
     }
 
     public static void avaaToimintoIkkuna() {
+        Peli.aktiivinenRuutu = Peli.Ruudut.MINIPELIRUUTU;
         Peli.syötteenTila = SyötteenTila.TOIMINTO;
         Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI;
     }
 
     public static void suljeToimintoIkkuna() {
+        Peli.aktiivinenRuutu = Peli.Ruudut.PELIRUUTU;
         Peli.syötteenTila = SyötteenTila.PELI;
         Pelaaja.käyttöViive = 50;
         scaleX = 30;

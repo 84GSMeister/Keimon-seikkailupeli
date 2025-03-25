@@ -3,6 +3,7 @@ package keimo.entityt;
 import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
 import keimo.Ruudut.PeliRuutu;
+import keimo.Utility.Käännettävä;
 import keimo.entityt.npc.Asevihu;
 import keimo.entityt.npc.Boss;
 import keimo.entityt.npc.NPC;
@@ -19,7 +20,7 @@ import java.awt.Rectangle;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
-public abstract class Entity extends JLabel {
+public abstract class Entity extends JLabel implements Käännettävä {
 
     protected String nimi = "";
     public int sijX;
@@ -41,6 +42,8 @@ public abstract class Entity extends JLabel {
     protected int kääntöAsteet = 0;
     public boolean xPeilaus = false;
     public boolean yPeilaus = false;
+    public Suunta suunta = Suunta.VASEN;
+    public SuuntaVasenOikea suuntaVasenOikea = SuuntaVasenOikea.VASEN;
 
     public String annaNimi() {
         return nimi;
@@ -206,23 +209,23 @@ public abstract class Entity extends JLabel {
         return luotavaEntity;
     }
     
-    public SuuntaVasenOikea suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-    public enum SuuntaVasenOikea {
-        VASEN,
-        OIKEA;
-    }
+    // public SuuntaVasenOikea suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+    // public enum SuuntaVasenOikea {
+    //     VASEN,
+    //     OIKEA;
+    // }
 
-    public SuuntaDiagonaali suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
-    public enum SuuntaDiagonaali {
-        VASEN,
-        OIKEA,
-        ALAS,
-        YLÖS,
-        YLÄVASEN,
-        ALAVASEN,
-        YLÄOIKEA,
-        ALAOIKEA;
-    }
+    // public SuuntaDiagonaali suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
+    // public enum SuuntaDiagonaali {
+    //     VASEN,
+    //     OIKEA,
+    //     ALAS,
+    //     YLÖS,
+    //     YLÄVASEN,
+    //     ALAVASEN,
+    //     YLÄOIKEA,
+    //     ALAOIKEA;
+    // }
 
     @Override
     protected void paintComponent(Graphics g) {

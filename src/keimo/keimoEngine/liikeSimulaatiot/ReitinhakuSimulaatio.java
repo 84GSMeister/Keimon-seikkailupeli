@@ -11,6 +11,7 @@ import keimo.Maastot.Maasto;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.Entity;
 import keimo.entityt.npc.Vihollinen;
+import keimo.entityt.npc.Vihollinen.LiikeTapa;
 
 public class ReitinhakuSimulaatio {
     
@@ -45,7 +46,9 @@ public class ReitinhakuSimulaatio {
                 for (Entity npc : Peli.entityLista) {
                     if (npc instanceof Vihollinen) {
                         Vihollinen vihollinen = (Vihollinen)npc;
-                        PathFindingExample.reitinHakuPelaajaaKohti(vihollinen);
+                        if (vihollinen.liikeTapa == LiikeTapa.SEURAA_REITTIÄ) {
+                            PathFindingExample.reitinHakuPelaajaaKohti(vihollinen);
+                        }
                     }
                 }
             }

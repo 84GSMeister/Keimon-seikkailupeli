@@ -1,11 +1,18 @@
 package keimo.keimoEngine.io;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.sound.midi.*;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Input {
     private long window;
     private boolean[] keys;
     private int[] keyPresses;
+
+    private static ArrayList<MidiDevice> midiLaitteet = new ArrayList<MidiDevice>();
+    private static Sequencer sequencer;
 
     public Input(long window) {
         this.window = window;
@@ -17,6 +24,7 @@ public class Input {
         for (int i = 0; i < GLFW_KEY_LAST; i++) {
             keyPresses[i] = 0;
         }
+        avaaMidiLaitteet();
     }
 
     public boolean isKeyDown(int key) {
@@ -56,6 +64,42 @@ public class Input {
             catch (Exception e) {
                 System.out.println("invalid key " + i);
             }
+        }
+    }
+
+    public ArrayList<MidiDevice> annaMidiLaitteet() {
+        return midiLaitteet;
+    }
+
+    public Sequencer getMidiSequencer() {
+        return sequencer;
+    }
+
+    private void avaaMidiLaitteet() {
+        try{
+            sequencer = MidiSystem.getSequencer();
+            sequencer.open();
+            MidiDevice midiLaite;
+            MidiDevice.Info[] midiLaiteInfot = MidiSystem.getMidiDeviceInfo();
+            for (int i = 0; i < midiLaiteInfot.length; i++) {
+                try {
+                    midiLaite = MidiSystem.getMidiDevice(midiLaiteInfot[i]);
+                    List<Transmitter> transmitters = midiLaite.getTransmitters();
+                    for(int j = 0; j < transmitters.size(); j++) {
+                        transmitters.get(j).setReceiver(new MidiInputReceiver(midiLaite.getDeviceInfo().toString(), this));
+                    }
+
+                    Transmitter trans = midiLaite.getTransmitter();
+                    trans.setReceiver(new MidiInputReceiver(midiLaite.getDeviceInfo().toString(), this));
+                    midiLaite.open();
+                }
+                catch (MidiUnavailableException e) {
+                    //e.printStackTrace();
+                }
+            }
+        }
+        catch (MidiUnavailableException e) {
+            e.printStackTrace();
         }
     }
 }

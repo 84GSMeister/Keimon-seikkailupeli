@@ -9,22 +9,19 @@ import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
-import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.keimoEngine.ikkuna.Window;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class TarinaRuutu {
 
     private static Shader tarinaRuutuShader = new Shader("staattinen");
-    private static Shader tarinaRuutuShader3d = new Shader("shader3dtest");
-    private static Kamera kamera = new Kamera(640, 480);
     private static Transform3D transformJatkaNappi = new Transform3D();
+    private static Transform3D transformKuva = new Transform3D();
     private static Teksti tekstiTexture = new Teksti("Tarinan teksti 1", Color.WHITE, 600, 200);
     private static Teksti jatkaNappiTexture = new Teksti("Space: Jatka", Color.WHITE, 200, 30);
     public static float fade = 0.5f;
@@ -71,6 +68,7 @@ public class TarinaRuutu {
             }
         }
         ÄänentoistamisSäie.toistaSFX("Valinta");
+        Pelaaja.käyttöViive = 50;
     }
 
     public static void render(Window window) {
@@ -84,6 +82,8 @@ public class TarinaRuutu {
         window.getView().scale(1, matKuva);
         matKuva.translate(0, scaleYKuva, 0);
         matKuva.scale(scaleX, scaleYKuva, 0);
+        //transformKuva.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeus), 0.347f, 0.52f, 1);
+        matKuva.mul(transformKuva.getTransformation());
         tarinaRuutuShader.setUniform("projection", matKuva);
         tarinanKuvat.get(klikkaustenMäärä).bind(0);
         Assets.getModel().render();
@@ -97,19 +97,14 @@ public class TarinaRuutu {
         Assets.getModel().render();
         tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä));
 
-        tarinaRuutuShader3d.bind();
-        transformJatkaNappi.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeus), 0, 1, 0);
-        kamera.setPosition(new Vector3f(0, 0, 0));
-        kamera.setPerspective((float)Math.toRadians(70), 1, 0.001f, 1000f);
-        tarinaRuutuShader3d.setCamera(kamera);
-        tarinaRuutuShader3d.setTransform(transformJatkaNappi);
-
         Matrix4f matJatkaNappi = new Matrix4f();
         window.getView().scale(1, matJatkaNappi);
         matJatkaNappi.translate(0, -scaleYJatkaNappi*5, 0);
         matJatkaNappi.scale(scaleX, scaleYJatkaNappi, 0);
-        tarinaRuutuShader3d.setUniform("addcolor", new Vector4f(0, 0, 0, 1f));
-        tarinaRuutuShader3d.setUniform("projection", matJatkaNappi);
+        transformJatkaNappi.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeus), 0, 1, 0);
+        matJatkaNappi.mul(transformJatkaNappi.getTransformation());
+        tarinaRuutuShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1f));
+        tarinaRuutuShader.setUniform("projection", matJatkaNappi);
         jatkaNappiTexture.bind(0);
         Assets.getModel().render();
     }

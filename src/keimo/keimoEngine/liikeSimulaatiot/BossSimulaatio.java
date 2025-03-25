@@ -4,7 +4,6 @@ import keimo.Peli;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.Ammus;
-import keimo.entityt.Entity.SuuntaDiagonaali;
 import keimo.entityt.npc.Boss;
 import keimo.entityt.npc.Boss.BossState;
 import keimo.entityt.npc.Vihollinen;
@@ -66,7 +65,7 @@ public class BossSimulaatio {
             }
             case HYÖKKÄYS, PYÖRÄHDYS, HYPER -> {
                 boss.bossTila = BossState.NORMAALI;
-                tilanKesto = r.nextInt(30, 120);
+                tilanKesto = r.nextInt(100, 300);
             }
             default -> {
                 int seuraavaTila = r.nextInt(10);
@@ -76,11 +75,11 @@ public class BossSimulaatio {
                 }
                 else if (seuraavaTila > 4) {
                     boss.bossTila = BossState.PYÖRÄHDYS;
-                    tilanKesto = 200;
+                    tilanKesto = 100;
                 }
                 else {
                     boss.bossTila = BossState.LATAUS;
-                    tilanKesto = 100;
+                    tilanKesto = 80;
                 }
             }
         }
@@ -90,6 +89,10 @@ public class BossSimulaatio {
         arvoPyörähdysSuunta = true;
         boss.valitseTekstuuri();
         boss.valitseVahinko();
+    }
+
+    private static int valitseLiikeSuuntaRandom(Vihollinen vihollinen){
+        return r.nextInt(0, 8);
     }
 
     private static int valitseLiikeSuunta(Vihollinen vihollinen) {
@@ -191,7 +194,7 @@ public class BossSimulaatio {
 
     private static void bossLiikePerus(Vihollinen vihollinen) {
         if (arvoLiikeSuunta) {
-            bossLiikeSuunta = valitseLiikeSuunta(vihollinen);
+            bossLiikeSuunta = valitseLiikeSuuntaRandom(vihollinen);
             arvoLiikeSuunta = false;
         }
         if (bossLiikeSuunta == 0 || bossLiikeSuunta == 4 || bossLiikeSuunta == 5) {
@@ -410,14 +413,14 @@ public class BossSimulaatio {
 
     private static void bossAmmus(Boss boss) {
         if (!ampunut) {
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.VASEN, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.OIKEA, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAS, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÖS, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄVASEN, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.YLÄOIKEA, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAVASEN, boss.ammusVahinko, boss));
-            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), SuuntaDiagonaali.ALAOIKEA, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.VASEN, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.OIKEA, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.ALAS, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.YLÖS, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.YLÄVASEN, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.YLÄOIKEA, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.ALAVASEN, boss.ammusVahinko, boss));
+            Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.ALAOIKEA, boss.ammusVahinko, boss));
             Point sijainti = new Point((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY());
             ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
             ampunut = true;

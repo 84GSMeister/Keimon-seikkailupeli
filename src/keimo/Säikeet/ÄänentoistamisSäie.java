@@ -8,19 +8,25 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioFormat.Encoding;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.scene.media.AudioClip;
 
@@ -30,48 +36,103 @@ public class ÄänentoistamisSäie {
     private static Random r = new Random();
     protected static Vector<AudioClip> ääniJono = new Vector<>();
     public static List<String> musaLista;
-    protected static Clip clip;
+    protected static Clip musaClip;
+    protected static Clip ääniClip;
     protected static String nytSoi;
     private static Object äänisäikeenLukko = new Object();
+
+    private static AudioInputStream woofStream;
+    private static AudioInputStream resampledInputStream;
+    private static HashMap<String, File> musaTiedostot = new HashMap<>();
+
+    public static void lataaÄänet() {
+        try {
+            musaTiedostot.put("overworld", new File("tiedostot/musat/keimo/keimo_overworld.wav"));
+            musaTiedostot.put("puisto", new File("tiedostot/musat/keimo/keimo_puisto.wav"));
+            musaTiedostot.put("tarina", new File("tiedostot/musat/keimo/keimo_sad_tarina.wav"));
+            musaTiedostot.put("boss", new File("tiedostot/musat/keimo/keimo_taistelu_boss_v2.wav"));
+            musaTiedostot.put("valikko", new File("tiedostot/musat/keimo/keimo_valikko.wav"));
+            musaTiedostot.put("metsä", new File("tiedostot/musat/keimo/keimo_metsä.wav"));
+            musaTiedostot.put("koti", new File("tiedostot/musat/keimo/keimo_koti.wav"));
+            musaTiedostot.put("baari", new File("tiedostot/musat/keimo/keimo_baari.wav"));
+            musaTiedostot.put("kauppa", new File("tiedostot/musat/keimo/keimo_kauppa.wav"));
+            musaTiedostot.put("temppeli", new File("tiedostot/musat/keimo/keimo_temppeli.wav"));
+
+            woofStream = AudioSystem.getAudioInputStream(new File("tiedostot/äänet/woof.wav"));
+            ääniClip = AudioSystem.getClip();
+            musaClip = AudioSystem.getClip();
+        } 
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void toistaWoof(float sampleRate) {
+        try {
+            AudioInputStream sourceStream = AudioSystem.getAudioInputStream(new File("tiedostot/äänet/woof.wav"));
+            AudioFormat sourceFormat = sourceStream.getFormat();
+            AudioFormat targetFormat = getOutFormat(sourceFormat, sampleRate);
+            resampledInputStream = new AudioInputStream(sourceStream, targetFormat, AudioSystem.NOT_SPECIFIED);
+            ääniClip.close();
+            ääniClip.open(resampledInputStream);
+            ääniClip.start();
+        }
+        catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static AudioFormat getOutFormat(AudioFormat inFormat, float sampleRate) {
+        Encoding enc = inFormat.getEncoding();
+        int ch = inFormat.getChannels();
+        float rate = inFormat.getSampleRate();
+        boolean isBigEndian = inFormat.isBigEndian();
+        return new AudioFormat(enc, sampleRate, 16, ch, ch * 2, rate, isBigEndian);
+    }
+
+    public static void resampleWoof(int sampleRate) {
+        try {
+            float targetRate = sampleRate;
+            AudioInputStream sourceStream = AudioSystem.getAudioInputStream(new File("tiedostot/äänet/woof.wav"));
+            AudioFormat sourceFormat = sourceStream.getFormat();
+            AudioFormat targetFormat = new AudioFormat(
+                sourceStream.getFormat().getEncoding(),
+                targetRate,
+                sourceFormat.getSampleSizeInBits(),
+                sourceFormat.getChannels(),
+                sourceFormat.getFrameSize(),
+                targetRate,
+                sourceFormat.isBigEndian()
+            );
+            resampledInputStream = AudioSystem.getAudioInputStream(targetFormat, sourceStream);
+            ääniClip.close();
+            ääniClip.open(resampledInputStream);
+            FloatControl sampleRateControl = (FloatControl) ääniClip.getControl(FloatControl.Type.SAMPLE_RATE);
+            float targetSampleRate = targetRate;
+            sampleRateControl.setValue(targetSampleRate);
+            ääniClip.start();
+        }
+        catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static int valitsePeliMusanLoopKohta(String musa) {
         int loopKohta = 0;
         double loopKohtaMs = 0;
         double sampleRate = 48_000;
         switch (musa) {
-            case "overworld":
-                loopKohtaMs = 48_000;
-            break;
-            case "puisto":
-                loopKohtaMs = 60_000;
-            break;
-            case "tarina":
-                loopKohtaMs = 14_769;
-            break;
-            case "boss":
-                loopKohtaMs = 1_600;
-            break;
-            case "valikko":
-                loopKohtaMs = 6_400;
-            break;
-            case "metsä":
-                loopKohtaMs = 8_350;
-            break;
-            case "baari":
-                loopKohtaMs = 6_857;
-            break;
-            case "koti":
-                loopKohtaMs = 7_680;
-            break;
-            case "temppeli":
-                loopKohtaMs = 17_455;
-            break;
-            case "kauppa":
-                loopKohtaMs = 16_700;
-            break;
-            case null, default:
-                loopKohtaMs = 0;
-            break;
+            case "overworld":   loopKohtaMs = 48_000; break;
+            case "puisto":      loopKohtaMs = 60_000; break;
+            case "tarina":      loopKohtaMs = 14_769; break;
+            case "boss":        loopKohtaMs = 1_600; break;
+            case "valikko":     loopKohtaMs = 6_400; break;
+            case "metsä":       loopKohtaMs = 8_350; break;
+            case "baari":       loopKohtaMs = 6_857; break;
+            case "koti":        loopKohtaMs = 7_680; break;
+            case "temppeli":    loopKohtaMs = 17_455; break;
+            case "kauppa":      loopKohtaMs = 16_700; break;
+            case null, default: loopKohtaMs = 0; break;
         }
         loopKohta = (int)((loopKohtaMs/1000d) * sampleRate);
         return loopKohta;
@@ -87,73 +148,41 @@ public class ÄänentoistamisSäie {
             try {
                 if (nytSoi == null || !nytSoi.equals(musa)) {
                     nytSoi = musa;
-                    if (clip != null) {
-                        if (clip.getFramePosition() > 0) {
-                            clip.stop();
+                    if (musaClip != null) {
+                        if (musaClip.getFramePosition() > 0) {
+                            musaClip.stop();
                         }
                         else {
-                            clip.stop();
+                            musaClip.stop();
                         }
                     }
                     AudioInputStream audioInputStream = null;
-                    boolean toista = true;
                     String tiedostotyyppi = "";
                     String tiedostonNimi = "";
-                    switch (musa) {
-                        case "overworld":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_overworld.wav";
-                        break;
-                        case "puisto":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_puisto.wav";
-                        break;
-                        case "tarina":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_sad_tarina.wav";
-                        break;
-                        case "boss":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_taistelu_boss_v2.wav";
-                        break;
-                        case "valikko":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_valikko.wav";
-                        break;
-                        case "metsä":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_metsä.wav";
-                        break;
-                        case "koti":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_koti.wav";
-                        break;
-                        case "baari":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_baari.wav";
-                        break;
-                        case "kauppa":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_kauppa.wav";
-                        break;
-                        case "temppeli":
-                            tiedostonNimi = "tiedostot/musat/keimo/keimo_temppeli.wav";
-                        break;
-                        case null, default:
-                            toista = false;
-                        break;
-                    }
-                    if (toista && PelinAsetukset.musiikkiPäällä) {
-                        clip = AudioSystem.getClip();
-                        tiedostotyyppi = tiedostonNimi.substring(tiedostonNimi.length()-3, tiedostonNimi.length());
+                    if (PelinAsetukset.musiikkiPäällä) {
+                        File musaTiedosto = musaTiedostot.get(musa);
+                        tiedostonNimi = musaTiedosto.getName();
+                        if (tiedostonNimi.length() > 3) {
+                            tiedostotyyppi = tiedostonNimi.substring(tiedostonNimi.length()-3, tiedostonNimi.length());
+                        }
                         switch (tiedostotyyppi) {
                             case "wav":
-                                audioInputStream = AudioSystem.getAudioInputStream(new File(tiedostonNimi));    
-                                clip.open(audioInputStream);
+                                musaClip.close();    
+                                audioInputStream = AudioSystem.getAudioInputStream(musaTiedosto);
+                                musaClip.open(audioInputStream);
                             break;
                             case "mp3":
                                 decodeMP3Data(tiedostonNimi);
                             break;
                         }
-                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        FloatControl gainControl = (FloatControl) musaClip.getControl(FloatControl.Type.MASTER_GAIN);
                         float gain = (float)(Math.pow(PelinAsetukset.musaVolyymi, (1f/9f))*80 -80);
                         gainControl.setValue(gain);
                         int loopStart = valitsePeliMusanLoopKohta(musa);
-                        int loopEnd = clip.getFrameLength()-1;
-                        clip.setLoopPoints(loopStart, loopEnd);
-                        clip.loop(Clip.LOOP_CONTINUOUSLY);
-                        clip.start();
+                        int loopEnd = musaClip.getFrameLength()-1;
+                        musaClip.setLoopPoints(loopStart, loopEnd);
+                        musaClip.loop(Clip.LOOP_CONTINUOUSLY);
+                        musaClip.start();
                     }
                 }
             }
@@ -164,27 +193,27 @@ public class ÄänentoistamisSäie {
         }
     }
 
-    private static void fadeVaihdaMusa(Clip clip) {
-        //new Thread() {
-        //    public void run() {
-                //synchronized(äänisäikeenLukko) {
-                    double vol = PelinAsetukset.musaVolyymi;
-                    for (int i = 0; i < 100; i++) {
-                        try {
-                            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            float gain = (float)(Math.pow(vol, (1f/9f))*80 -80);
-                            gainControl.setValue(gain);
-                            vol -= 0.01;
-                            Thread.sleep(20);
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                //}
-        //    }
-        //}.start();
-    }
+    // private static void fadeVaihdaMusa(Clip clip) {
+    //     //new Thread() {
+    //     //    public void run() {
+    //             //synchronized(äänisäikeenLukko) {
+    //                 double vol = PelinAsetukset.musaVolyymi;
+    //                 for (int i = 0; i < 100; i++) {
+    //                     try {
+    //                         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+    //                         float gain = (float)(Math.pow(vol, (1f/9f))*80 -80);
+    //                         gainControl.setValue(gain);
+    //                         vol -= 0.01;
+    //                         Thread.sleep(20);
+    //                     }
+    //                     catch (Exception e) {
+    //                         e.printStackTrace();
+    //                     }
+    //                 }
+    //             //}
+    //     //    }
+    //     //}.start();
+    // }
 
     private static AudioInputStream decodeMP3Data(String tiedostonNimi) {
         try {
@@ -216,16 +245,16 @@ public class ÄänentoistamisSäie {
     public static void suljeMusa() {
         synchronized(äänisäikeenLukko) {
             nytSoi = null;
-            if (clip != null) {
-                clip.stop();
+            if (musaClip != null) {
+                musaClip.stop();
             }
         }
     }
 
     public static void asetaMusanVolyymi(double volyymi) {
         synchronized(äänisäikeenLukko) {
-            if (clip != null) {
-                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            if (musaClip != null) {
+                FloatControl gainControl = (FloatControl) musaClip.getControl(FloatControl.Type.MASTER_GAIN);
                 float gain = (float)(Math.pow(volyymi, (1f/9f))*80 -80);
                 gainControl.setValue(gain);
             }
@@ -357,6 +386,9 @@ public class ÄänentoistamisSäie {
             break;
             case "Kalja_kilinä":
                 ääniToistin = new AudioClip(new File("tiedostot/äänet/kalja_kilinä.mp3").toURI().toString());
+            break;
+            case "Tavoite_suoritettu":
+                ääniToistin = new AudioClip(new File("tiedostot/äänet/tavoite_suoritettu.wav").toURI().toString());
             break;
             case null, default:
             break;

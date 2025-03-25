@@ -16276,7 +16276,7 @@ Tarina 4:
     #pituus: 1;
     #sivut: {
         kuva 0: tiedostot\kuvat\tarina\baari\tarina_baari.png;
-        teksti 0: Keimo-baarissa näyttäisi olevan tyypillinen arki-illan tunnelma. Pasi on varmaan jossain siellä ryyppämässä tavalliseen tapaan.;
+        teksti 0: Keimo-baarissa näyttäisi olevan tyypillinen arki-illan tunnelma. Pasi on varmaan jossain siellä ryyppäämässä tavalliseen tapaan.;
     }
 /Tarina
 Dialogi 0:

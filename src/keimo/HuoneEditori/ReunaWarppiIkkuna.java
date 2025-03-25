@@ -146,6 +146,8 @@ public class ReunaWarppiIkkuna {
                         huoneValikko.setSelectedIndex(HuoneEditoriIkkuna.warpAlasHuoneId);
                         warppiEnabloitu.setSelected(HuoneEditoriIkkuna.warpAlas);
                     break;
+                    case null, default:
+                    break;
                 }
             }
         }

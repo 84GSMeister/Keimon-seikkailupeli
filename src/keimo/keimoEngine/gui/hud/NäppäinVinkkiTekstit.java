@@ -10,9 +10,11 @@ import keimo.keimoEngine.grafiikat.objekti2d.Transform;
 import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.VisuaalinenObjekti;
+import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
 import keimo.kenttäkohteet.esine.*;
 import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
 import keimo.kenttäkohteet.kiintopiste.*;
+import keimo.kenttäkohteet.triggeri.Nappi;
 import keimo.kenttäkohteet.triggeri.Triggeri;
 import keimo.kenttäkohteet.warp.Warp;
 
@@ -212,6 +214,15 @@ public class NäppäinVinkkiTekstit {
                 näppäinVihjeTeksti.bind(0);
                 Assets.getModel().render();
             }
+            else if (objektiKohdalla instanceof Silta) {
+                shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 3f, 0).scale(0.5f, 0.5f, 1));
+                näppäinETekstuuri.bind(0);
+                Assets.getModel().render();
+                shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateYTeksti1, 0).scale(scaleXTeksti, 1, 1));
+                näppäinVihjeTeksti.päivitäTeksti("Katso");
+                näppäinVihjeTeksti.bind(0);
+                Assets.getModel().render();
+            }
         }
         else if (objektiKohdalla instanceof NPC_KenttäKohde) {
             shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 3f, 0).scale(0.5f, 0.5f, 1));
@@ -223,13 +234,24 @@ public class NäppäinVinkkiTekstit {
             Assets.getModel().render();
         }
         else if (objektiKohdalla instanceof Triggeri) {
-            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 3f, 0).scale(0.5f, 0.5f, 1));
-            näppäinETekstuuri.bind(0);
-            Assets.getModel().render();
-            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateYTeksti1, 0).scale(scaleXTeksti, 1, 1));
-            näppäinVihjeTeksti.päivitäTeksti("Paina");
-            näppäinVihjeTeksti.bind(0);
-            Assets.getModel().render();
+            if (objektiKohdalla instanceof Nappi) {
+                shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 3f, 0).scale(0.5f, 0.5f, 1));
+                näppäinETekstuuri.bind(0);
+                Assets.getModel().render();
+                shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateYTeksti1, 0).scale(scaleXTeksti, 1, 1));
+                näppäinVihjeTeksti.päivitäTeksti("Paina");
+                näppäinVihjeTeksti.bind(0);
+                Assets.getModel().render();
+            }
+            else {
+                shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 3f, 0).scale(0.5f, 0.5f, 1));
+                näppäinETekstuuri.bind(0);
+                Assets.getModel().render();
+                shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateYTeksti1, 0).scale(scaleXTeksti, 1, 1));
+                näppäinVihjeTeksti.päivitäTeksti("Katso");
+                näppäinVihjeTeksti.bind(0);
+                Assets.getModel().render();
+            }
         }
         else if (objektiKohdalla instanceof VisuaalinenObjekti) {
             VisuaalinenObjekti vo = (VisuaalinenObjekti)objektiKohdalla;
@@ -243,6 +265,9 @@ public class NäppäinVinkkiTekstit {
                 Assets.getModel().render();
             }
         }
+        else if (objektiKohdalla instanceof AvattavaEste) {
+            
+        }
         else if (objektiKohdalla instanceof Warp) {
             Warp warp = (Warp)objektiKohdalla;
             näppäinNuoliTekstuuri.bind(0);
@@ -252,6 +277,7 @@ public class NäppäinVinkkiTekstit {
                 case OIKEA: Assets.getModel(90, false, false).render(); break;
                 case ALAS: Assets.getModel(180, false, false).render(); break;
                 case YLÖS: Assets.getModel(0, false, false).render(); break;
+                default: break;
             }
         }
         else {

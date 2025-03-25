@@ -9,13 +9,7 @@ import keimo.Utility.KeimoFontit;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.GridBagConstraints;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Color;
+import java.awt.*;
 
 public class TarinaRuutu {
     
@@ -44,7 +38,6 @@ public class TarinaRuutu {
 
         try {
             tarinanTunniste = tarina;
-            //TarinaPätkä tarinaPätkä = TarinaDialogiLista.luoTarina(tarina);
             TarinaPätkä tarinaPätkä = TarinaDialogiLista.tarinaKartta.get(tarina);
             klikkaustenMäärä = 0;
             tarinanPituusRuutuina = tarinaPätkä.annaPituus();
@@ -54,7 +47,6 @@ public class TarinaRuutu {
             Image img = tarinanKuva[0].getImage();
             img.flush();
             kuva = new JLabel(new ImageIcon(img));
-            //kuva.setBorder(BorderFactory.createLineBorder(Color.white, 1));
 
             kuvaPaneli = new JPanel();
             kuvaPaneli.setBounds(0, 0, 640, 400);
@@ -62,10 +54,8 @@ public class TarinaRuutu {
             kuvaPaneli.add(kuva);
 
 
-            teksti = new JLabel(tarinaTeksti[0]);
+            teksti = new JLabel("<html>" + tarinaTeksti[0]);
             teksti.setMinimumSize(new Dimension(640, 225));
-            //teksti.setBorder(BorderFactory.createLineBorder(Color.white));
-            //teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
             teksti.setFont(KeimoFontit.fontti_keimo_14);
             teksti.setForeground(Color.white);
             teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,7 +63,6 @@ public class TarinaRuutu {
             
 
             jatka = new JLabel("Space: Jatka");
-            //jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
             jatka.setFont(KeimoFontit.fontti_keimo_30);
             jatka.setForeground(Color.white);
             jatka.setBounds(0, 0, 640, 40);
@@ -85,7 +74,6 @@ public class TarinaRuutu {
             tekstiPaneli.setLayout(tekstiPanelinLayout);
             tekstiPaneli.setPreferredSize(new Dimension(640, 280));
             tekstiPaneli.setBackground(Color.black);
-            //tekstiPaneli.setBorder(BorderFactory.createLineBorder(Color.white, 1, false));
             gbc.ipadx = 10;
             gbc.ipady = 10;
             gbc.gridx = 0;
@@ -131,13 +119,11 @@ public class TarinaRuutu {
             teksti = new JLabel("Virhe");
             teksti.setMinimumSize(new Dimension(640, 225));
             teksti.setBorder(BorderFactory.createLineBorder(Color.white));
-            //teksti.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
             teksti.setFont(KeimoFontit.fontti_keimo_14);
             teksti.setForeground(Color.white);
             teksti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             jatka = new JLabel("Space: Jatka");
-            //jatka.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
             jatka.setFont(KeimoFontit.fontti_keimo_30);
             jatka.setForeground(Color.white);
             jatka.setPreferredSize(new Dimension(640, 40));
@@ -187,7 +173,6 @@ public class TarinaRuutu {
     public static void jatka() {
         klikkaustenMäärä++;
         tarinaPaneli = new JPanel();
-        //tarinaPaneli = luoTarinaPaneli("alku");
         if (klikkaustenMäärä >= tarinanPituusRuutuina -1 && tarinanTunniste == "alku") {
             jatka.setText("Space: Aloita peli");
         }
@@ -207,7 +192,7 @@ public class TarinaRuutu {
             }
         }
         else {
-            teksti.setText(tarinaTeksti[klikkaustenMäärä]);
+            teksti.setText("<html>" + tarinaTeksti[klikkaustenMäärä]);
             Image img = tarinanKuva[klikkaustenMäärä].getImage();
             img.flush();
             kuva.setIcon(new ImageIcon(img));

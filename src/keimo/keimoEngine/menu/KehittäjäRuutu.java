@@ -4,8 +4,8 @@ import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
+import keimo.keimoEngine.grafiikat.objekti3d.Model3D;
 import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
-import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.keimoEngine.ikkuna.Window;
 
 import java.awt.Color;
@@ -16,14 +16,13 @@ import org.joml.Vector4f;
 
 public class KehittäjäRuutu {
 
-    private static Shader staattinenShader = new Shader("staattinen");
-    private static Shader kehittäjäRuutuShader = new Shader("shader3dtest");
-    private static Shader teksti3dShader = new Shader("shader3dtest");
+    private static Shader tekstiShader = new Shader("shader");
+    private static Shader otsikkoShader = new Shader("shader");
+    private static Shader teksti3dShader = new Shader("shader");
     private static int tekstienMäärä = 10;
     private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_kehittäjät.png");
-    private static Kamera kamera = new Kamera(640, 480);
+    private static Transform3D transformOtsikko = new Transform3D();
     private static Transform3D transformTekstit = new Transform3D();
-    private static Transform3D transform3DMalli= new Transform3D();
 
     private static Teksti tieto1Teksti = new Teksti("Tuottaja: ", Color.white, 240, 16);
     private static Teksti tieto2Teksti = new Teksti("Pelisuunnittelu: ", Color.white, 240, 16);
@@ -50,7 +49,7 @@ public class KehittäjäRuutu {
     static int testX;
     static float liikeNopeus = 1;
     static float pyörimisNopeusOtsikko = 1.5f;
-    static float pyörimisNopeus3DTeksti = 1f;
+    static float pyörimisNopeus3DTeksti = 2f;
 
     public static void takaisin() {
         ÄänentoistamisSäie.toistaSFX("Valinta");
@@ -72,31 +71,32 @@ public class KehittäjäRuutu {
         float offsetX = window.getWidth()/8;
         float offsetYValinta = window.getHeight()/16;
 
-        kehittäjäRuutuShader.bind();
+        otsikkoShader.bind();
         testX += liikeNopeus;
-        transformTekstit.setPosition(new Vector3f((float)Math.sin(Math.toRadians(testX)), 0, 0));
-        transformTekstit.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeusOtsikko), 0, 1, 0);
-        kehittäjäRuutuShader.setCamera(kamera);
-        kehittäjäRuutuShader.setTransform(transformTekstit);
-        kehittäjäRuutuShader.setUniform("addcolor", new Vector4f(0, 0, 0, 0));
-        kehittäjäRuutuShader.setUniform("subcolor", new Vector4f(0, 0, 0, 0));
+        transformOtsikko.setPosition(new Vector3f((float)Math.sin(Math.toRadians(testX)), 0, 0));
+        transformOtsikko.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeusOtsikko), 0, 1, 0);
+        transformTekstit.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeusOtsikko), 1, 0, 0);
+        otsikkoShader.setUniform("addcolor", new Vector4f(0, 0, 0, 0));
+        otsikkoShader.setUniform("subcolor", new Vector4f(0, 0, 0, 0));
 
         Matrix4f matOtsikko = new Matrix4f();
         window.getView().scale(1, matOtsikko);
         matOtsikko.translate(0, scaleYOtsikko*6f -keskitysY, 0);
         matOtsikko.scale(scaleXOtsikko, scaleYOtsikko, 0);
-        kehittäjäRuutuShader.setUniform("projection", matOtsikko);
+        matOtsikko.mul(transformOtsikko.getTransformation());
+        otsikkoShader.setUniform("projection", matOtsikko);
         otsikkoTekstuuri.bind(0);
         Assets.getModel().render();
-        väriEfekti(kehittäjäRuutuShader);
+        väriEfekti(otsikkoShader);
 
-        staattinenShader.bind();
+        tekstiShader.bind();
         for (int i = 0; i < tekstienMäärä; i++) {
             Matrix4f matOsoitin = new Matrix4f();
             window.getView().scale(1, matOsoitin);
             matOsoitin.translate(-keskitysX + offsetX, scaleYOtsikko*4f -keskitysY -i*offsetYValinta, 0);
             matOsoitin.scale(scaleXTekstit, scaleYTekstit, 0);
-            staattinenShader.setUniform("projection", matOsoitin);
+            matOsoitin.mul(transformTekstit.getTransformation());
+            tekstiShader.setUniform("projection", matOsoitin);
             switch (i) {
                 case 0: tieto1Teksti.bind(0); break;
                 case 1: tieto2Teksti.bind(0); break;
@@ -117,7 +117,8 @@ public class KehittäjäRuutu {
             window.getView().scale(1, matValinta);
             matValinta.translate(keskitysX + offsetX, scaleYOtsikko*4f -keskitysY -i*offsetYValinta, 0);
             matValinta.scale(scaleXTekstit, scaleYTekstit, 0);
-            staattinenShader.setUniform("projection", matValinta);
+            matValinta.mul(transformTekstit.getTransformation());
+            tekstiShader.setUniform("projection", matValinta);
             switch (i) {
                 case 0: kehittäjä1Teksti.bind(0); break;
                 case 1: kehittäjä2Teksti.bind(0); break;
@@ -136,16 +137,15 @@ public class KehittäjäRuutu {
 
     private static void renderöi3DTeksti(Window window) {
         teksti3dShader.bind();
-        kamera.setPerspective((float)Math.toRadians(70), 1, 0.001f, 1000f);
-        teksti3dShader.setCamera(kamera);
-
-        transform3DMalli.setPosition(new Vector3f(0, -6.5f, -5));
-        transform3DMalli.getRotation().rotateAxis((float)Math.toRadians(2 * pyörimisNopeus3DTeksti), 0, 1, 0);
-        Matrix4f mat3DMalli = new Matrix4f();
-        teksti3dShader.setUniform("projection", mat3DMalli);
-        teksti3dShader.setTransform(transform3DMalli);
         väriEfekti2(teksti3dShader);
-        Assets.getModel3D("KeimoTeksti").draw();
+        Model3D keimoTekstiModel = Assets.getModel3D("KeimoTeksti");
+        Transform3D transform = keimoTekstiModel.getTransform();
+        transform.setPosition(new Vector3f(0, -6.5f, -5));
+        transform.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeus3DTeksti), 0, 0, 1);
+        Matrix4f mat3DMalli = new Matrix4f();
+        mat3DMalli.mul(transform.getTransformation());
+        teksti3dShader.setUniform("projection", mat3DMalli);
+        keimoTekstiModel.draw();
     }
 
     static float punainen = 0f, vihreä = 0.5f, sininen = 1f;

@@ -23,7 +23,7 @@ public class ValikkoRuutu {
     private static Tekstuuri valintaEditoriTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_editori.png");
     private static Tekstuuri valintaKehittäjätTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_kehittäjät.png");
     private static Tekstuuri valintaLopetaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_lopeta.png");
-    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
+    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/menu/main_osoitin.gif");
     private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
 
     public static void painaNäppäintä(String näppäin) {
@@ -89,7 +89,8 @@ public class ValikkoRuutu {
 
     public static void render(Window window) {
         try {
-            float scaleXOtsikko = window.getWidth()/ (window.getWidth()*2/window.getHeight());
+            float scaleXOtsikko = 1;
+            if (window.getWidth() > 0 && window.getHeight() > 0) scaleXOtsikko = window.getWidth()/ (window.getWidth()*2/window.getHeight());
             float scaleYOtsikko = window.getHeight()/4;
             float scaleXValinnat = window.getWidth()/4;
             float scaleYValinnat = window.getHeight()/20;

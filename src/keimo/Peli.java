@@ -15,9 +15,9 @@ import keimo.kenttäkohteet.esine.Esine;
 import keimo.kenttäkohteet.esine.Jallupullo;
 import keimo.kenttäkohteet.esine.Kuparilager;
 import keimo.kenttäkohteet.esine.Ruoka;
-import keimo.kenttäkohteet.esine.Seteli;
 import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
 import keimo.kenttäkohteet.kerättävä.Kerättävä;
+import keimo.kenttäkohteet.kerättävä.Seteli;
 import keimo.kenttäkohteet.kiintopiste.Kiintopiste;
 import keimo.kenttäkohteet.triggeri.Triggeri;
 import keimo.kenttäkohteet.warp.Oviruutu;
@@ -116,6 +116,7 @@ public class Peli {
         ASETUSRUUTU_GRAFIIKKA,
         ASETUSRUUTU_ÄÄNI,
         ASETUSRUUTU_PELI,
+        ASETUSRUUTU_ÄÄNITESTI,
         KEHITTÄJÄRUUTU,
 		LOPPURUUTU,
         MINIPELIRUUTU,
@@ -196,7 +197,7 @@ public class Peli {
     }
 
     public static void painaE(int x, int y) {
-        if (pelikenttä[x][y] instanceof Esine){
+        if (pelikenttä[x][y] instanceof Esine) {
             poimi(x, y);
         }
         else {
@@ -282,7 +283,7 @@ public class Peli {
                         PääIkkuna.avaaDialogi(ruoka.annaDialogiKuvake(), ruoka.käytä(), ruoka.annaNimi());
                         Pelaaja.syöRuoka(ruoka.annaParannusMäärä());
                     }
-                    else if (valittuEsine instanceof Seteli || valittuEsine instanceof Kuparilager || valittuEsine instanceof Jallupullo) {
+                    else if (valittuEsine instanceof Kuparilager || valittuEsine instanceof Jallupullo) {
                         PääIkkuna.avaaDialogi(valittuEsine.annaDialogiKuvake(), valittuEsine.käytä(), valittuEsine.annaNimi());
                     }
                     if (valittuEsine != null) {

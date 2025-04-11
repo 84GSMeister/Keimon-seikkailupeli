@@ -44,19 +44,14 @@ public abstract class Esine extends KenttäKohde {
      * @.post p.esineet[a] instanceof Esine && p.esineet[b] == null
      */
     public static Esine yhdistä2Esinettä(Esine esineA, Esine esineB) {
-        if (esineA instanceof Kaasupullo) {
-            if (esineB instanceof Kaasusytytin) {
-                String[] toimivuus = {"toimivuus=toimiva"};
-                return new Kaasusytytin(false, 0, 0, toimivuus);
-            }
+        if ((esineA instanceof Kaasupullo && esineB instanceof Kaasusytytin) || (esineA instanceof Kaasusytytin && esineB instanceof Kaasupullo)) {
+            String[] toimivuus = {"toimivuus=toimiva"};
+            return new Kaasusytytin(false, 0, 0, toimivuus);
         }
-        else if (esineA instanceof Kaasusytytin) {
-            if (esineB instanceof Kaasupullo) {
-                String[] toimivuus = {"toimivuus=toimiva"};
-                return new Kaasusytytin(false, 0, 0, toimivuus);
-            }
+        else if ((esineA instanceof Jallupullo && esineB instanceof Paskanmarjat) || (esineA instanceof Paskanmarjat && esineB instanceof Jallupullo)) {
+            return new Paskanmarjabooli(false, 0, 0);
         }
-        return null;
+        else return null;
     }
 
     public ArrayList<String> kelvollisetYhdistettävät = new ArrayList<String>();
@@ -95,8 +90,6 @@ public abstract class Esine extends KenttäKohde {
                 return new Paperi(false, 0, 0);
             case "Pesäpallomaila":
                 return new Pesäpallomaila(false, 0, 0);
-            case "Seteli":
-                return new Seteli(false, 0, 0);
             case "Pontikka-ainekset":
                 return new Ponuainekset(false, 0, 0);
             case "Suklaalevy":

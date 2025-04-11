@@ -676,10 +676,11 @@ public class HuoneEditoriIkkuna {
         esineValikkoKuvakkeet.put("Nappi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/nappi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Nuotio", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Olutlasi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/olutlasi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Painelaatta (pahavihu)", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta_pahavihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Painelaatta (pikkuvihu)", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta_pikkuvihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Painelaatta", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Paperi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paperi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Pasi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pasi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Paskanmarjabooli", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paskanmarjabooli.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        esineValikkoKuvakkeet.put("Paskanmarjat", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paskanmarjat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Pelikone", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pelikone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Penkki", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/puistonpenkki.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
         esineValikkoKuvakkeet.put("Pesäpallomaila", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pesäpallomaila.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));

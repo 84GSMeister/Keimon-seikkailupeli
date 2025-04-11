@@ -1423,7 +1423,6 @@ Huone 2:
         Kuparilager_15_34,
         Kuparilager_15_38,
         Oviruutu_16_12+ominaisuudet:[kohdehuone=4,kohderuutuX=24,kohderuutuY=0,suunta=Alas],
-        Koriste-esine_18_35+ominaisuudet:[kuva=kyltti_aurajoki.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_21+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_22+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_23+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -1455,7 +1454,9 @@ Huone 2:
         Koriste-esine_22_33+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_22_34+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kuparilager_23_1,
+        Koriste-esine_23_35+ominaisuudet:[kuva=kyltti_aurajoki.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kuparilager_24_10,
+        Koriste-esine_24_35+ominaisuudet:[kuva=kyltti_kalastuskielto.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kuparilager_26_17,
         Kuparilager_26_29,
         Kuparilager_26_38,
@@ -5079,7 +5080,7 @@ Huone 5:
         Kaasusytytin_4_18+ominaisuudet:[toimivuus=tyhjä],
         Kirstu_5_8+ominaisuudet:[sisältö=Pesäpallomaila,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Koriste-esine_5_16+ominaisuudet:[kuva=pöytä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Koriste-esine_6_16+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei,katsottava=kyllä,dialogi=null],
+        Koriste-esine_6_16+ominaisuudet:[kuva=tuoli.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kartta_7_12,
         Koriste-esine_8_7+ominaisuudet:[kuva=sänky2.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=kyläkauppa],
         Sänky_8_8,
@@ -14269,7 +14270,7 @@ Huone 10:
     #koko: 60;
     #nimi: Temppeli;
     #alue: Temppeli;
-    #tausta: null;
+    #tausta: tausta_temppeli.png;
     #musa: temppeli;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -14280,11 +14281,11 @@ Huone 10:
     #kenttä: {
         Nappi_1_18,
         Nappi_1_21,
-        Painelaatta (pikkuvihu)_3_13,
+        Painelaatta_3_13+ominaisuudet:[vihollinen=Pikkuvihu],
         Koriste-esine_3_21+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_pyykki2],
         Koriste-esine_3_22+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_pyykki2],
         Koriste-esine_3_23+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Painelaatta (pikkuvihu)_3_26,
+        Painelaatta_3_26+ominaisuudet:[vihollinen=Pikkuvihu],
         Koriste-esine_4_16+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_4_17+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_4_21+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_pyykki2],
@@ -14496,12 +14497,12 @@ Huone 10:
         Koriste-esine_55_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_55_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_55_21+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=0,x-peilaus=kyllä,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_roska2],
-        Painelaatta (pikkuvihu)_56_13,
+        Painelaatta_56_13+ominaisuudet:[vihollinen=Pikkuvihu],
         Koriste-esine_56_15+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_56_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_56_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_56_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=kyllä,dialogi=temppeli_tölkit1],
-        Painelaatta (pikkuvihu)_56_26,
+        Painelaatta_56_26+ominaisuudet:[vihollinen=Pikkuvihu],
         Nappi_58_18,
         Nappi_58_21;
     }

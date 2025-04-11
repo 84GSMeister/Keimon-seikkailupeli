@@ -23,18 +23,18 @@ public class Nappi extends Triggeri {
         // System.out.println("Ei mennyt ihan " + n.annaNimiSijamuodossa("illatiivi") + ".");
         // ^ Ei mennyt ihan Nappiin.
         switch (sijamuoto) {
-            case "nominatiivi": return "Nappi";
-            case "genetiivi": return "Napin";
-            case "esiivi": return "Nappina";
-            case "partitiivi": return "Nappia";
+            case "nominatiivi":  return "Nappi";
+            case "genetiivi":    return "Napin";
+            case "esiivi":       return "Nappina";
+            case "partitiivi":   return "Nappia";
             case "translatiivi": return "Napiksi";
-            case "inessiivi": return "Napissa";
-            case "elatiivi": return "Napista";
-            case "illatiivi": return "Nappiin";
-            case "adessiivi": return "Napilla";
-            case "ablatiivi": return "Napilta";
-            case "allatiivi": return "Napille";
-            default: return "Makkara";
+            case "inessiivi":    return "Napissa";
+            case "elatiivi":     return "Napista";
+            case "illatiivi":    return "Nappiin";
+            case "adessiivi":    return "Napilla";
+            case "ablatiivi":    return "Napilta";
+            case "allatiivi":    return "Napille";
+            default:             return "Makkara";
         }
     }
     

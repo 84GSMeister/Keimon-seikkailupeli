@@ -15,18 +15,18 @@ public final class Vesiämpäri extends Ase {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi": return "Vesiämpäri";
-            case "genetiivi": return "Vesiämpärin";
-            case "esiivi": return "Vesiämpärinä";
-            case "partitiivi": return "Vesiämpäriä";
+            case "nominatiivi":  return "Vesiämpäri";
+            case "genetiivi":    return "Vesiämpärin";
+            case "esiivi":       return "Vesiämpärinä";
+            case "partitiivi":   return "Vesiämpäriä";
             case "translatiivi": return "Vesiämpäriksi";
-            case "inessiivi": return "Vesiämpärissä";
-            case "elatiivi": return "Vesiämpäristä";
-            case "illatiivi": return "Vesiämpäriin";
-            case "adessiivi": return "Vesiämpärillä";
-            case "ablatiivi": return "Vesiämpäriltä";
-            case "allatiivi": return "Vesiämpärille";
-            default: return "Vesiämpäri";
+            case "inessiivi":    return "Vesiämpärissä";
+            case "elatiivi":     return "Vesiämpäristä";
+            case "illatiivi":    return "Vesiämpäriin";
+            case "adessiivi":    return "Vesiämpärillä";
+            case "ablatiivi":    return "Vesiämpäriltä";
+            case "allatiivi":    return "Vesiämpärille";
+            default:             return "Vesiämpäri";
         }
     }
 

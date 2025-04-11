@@ -16,6 +16,7 @@ public class Teksti implements Kuva {
     private int id;
     private int leveys, korkeus;
     private Color väri;
+    private String edellinenTeksti = "";
 
     BufferedImage b;
     Graphics2D g;
@@ -114,68 +115,74 @@ public class Teksti implements Kuva {
     }
 
     public void päivitäTeksti(String teksti, boolean korjaaLeveys, int rivinvaihtoLeveys, Color color) {
-        glDeleteTextures(id);
+        päivitäTeksti(teksti, korjaaLeveys, rivinvaihtoLeveys, color, 0, 0);
+    }
 
-        if (korjaaLeveys) leveys = teksti.length() * 20;
-        BufferedImage b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D g = b.createGraphics();
+    public void päivitäTeksti(String teksti, boolean korjaaLeveys, int rivinvaihtoLeveys, Color color, int offsetX, int offsetY) {
+        if (!teksti.equals(edellinenTeksti)) {
+            glDeleteTextures(id);
 
-        g.setBackground(new Color(0, 0, 0, 0));
-        g.clearRect(0, 0, leveys, korkeus);
-        //g.drawRect(0, 0, leveys, korkeus);
-        g.setColor(color);
-        g.setFont(KeimoFontit.fontti_keimo_12);
-        g.setClip(0, 0, leveys, korkeus);
-        String cutLine = "" + teksti;
-        String remainingText = "" + teksti;
-        int cutPoint = leveys/14;
-        int maxY = 0;
-        if (teksti.length() > 36) {
-            String tulostettava = "";
-            int rivit = 0;
-            for (int i = 0; i < teksti.length(); i++) {
-                tulostettava += teksti.charAt(i);
-                if ((tulostettava.length() > rivinvaihtoLeveys && teksti.charAt(i) == ' ') || tulostettava.contains("\\n") || tulostettava.contains("\n")) {
-                    if (tulostettava.contains("\\n")) tulostettava = tulostettava.substring(0, tulostettava.length()-2);
-                    g.drawString(tulostettava, 0, (int)(20 + rivit * 15));
-                    tulostettava = "";
-                    rivit++;
-                }
-                else if (i == teksti.length()-1) {
-                    g.drawString(tulostettava, 0, (int)(20 + rivit * 15));
+            if (korjaaLeveys) leveys = teksti.length() * 20;
+            BufferedImage b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
+            Graphics2D g = b.createGraphics();
+
+            g.setBackground(new Color(0, 0, 0, 0));
+            g.clearRect(0, 0, leveys, korkeus);
+            //g.drawRect(0, 0, leveys, korkeus);
+            g.setColor(color);
+            g.setFont(KeimoFontit.fontti_keimo_12);
+            g.setClip(0, 0, leveys, korkeus);
+            String cutLine = "" + teksti;
+            String remainingText = "" + teksti;
+            int cutPoint = leveys/14;
+            int maxY = 0;
+            if (teksti.length() > 36) {
+                String tulostettava = "";
+                int rivit = 0;
+                for (int i = 0; i < teksti.length(); i++) {
+                    tulostettava += teksti.charAt(i);
+                    if ((tulostettava.length() > rivinvaihtoLeveys && teksti.charAt(i) == ' ') || tulostettava.contains("\\n") || tulostettava.contains("\n")) {
+                        if (tulostettava.contains("\\n")) tulostettava = tulostettava.substring(0, tulostettava.length()-2);
+                        g.drawString(tulostettava, offsetX, (int)(10 + rivit * 15) + offsetY);
+                        tulostettava = "";
+                        rivit++;
+                    }
+                    else if (i == teksti.length()-1) {
+                        g.drawString(tulostettava, offsetX, (int)(10 + rivit * 15) + offsetY);
+                    }
                 }
             }
-        }
-        else g.drawString(teksti, 0, 10);
-        //g.drawString(teksti, 2, 10);
+            else g.drawString(teksti, offsetX, 10 + offsetY);
 
-        int[] pixels_raw = new int[leveys * korkeus * 4];
-        pixels_raw = b.getRGB(0, 0, leveys, korkeus, null, 0, leveys);
-        ByteBuffer pixels = BufferUtils.createByteBuffer(leveys * korkeus * 4);
+            int[] pixels_raw = new int[leveys * korkeus * 4];
+            pixels_raw = b.getRGB(0, 0, leveys, korkeus, null, 0, leveys);
+            ByteBuffer pixels = BufferUtils.createByteBuffer(leveys * korkeus * 4);
 
-        for (int i = 0; i < leveys; i++) {
-            for (int j = 0; j < korkeus; j++) {
-                try {
-                    int pixel = pixels_raw[i * korkeus + j];
-                    pixels.put((byte)((pixel >> 16) & 0xFF)); //RED
-                    pixels.put((byte)((pixel >> 8) & 0xFF)); //GREEN
-                    pixels.put((byte)(pixel & 0xFF)); //BLUE
-                    pixels.put((byte)((pixel >> 24) & 0xFF)); //ALPHA
+            for (int i = 0; i < leveys; i++) {
+                for (int j = 0; j < korkeus; j++) {
+                    try {
+                        int pixel = pixels_raw[i * korkeus + j];
+                        pixels.put((byte)((pixel >> 16) & 0xFF)); //RED
+                        pixels.put((byte)((pixel >> 8) & 0xFF)); //GREEN
+                        pixels.put((byte)(pixel & 0xFF)); //BLUE
+                        pixels.put((byte)((pixel >> 24) & 0xFF)); //ALPHA
+                    }
+                    catch (ArrayIndexOutOfBoundsException aioobe) {
+                        System.out.println("Texture pixel index out of bounds: " + i + " " + j);
+                        aioobe.printStackTrace();
+                    }
+                    
                 }
-                catch (ArrayIndexOutOfBoundsException aioobe) {
-                    System.out.println("Texture pixel index out of bounds: " + i + " " + j);
-                    aioobe.printStackTrace();
-                }
-                
             }
-        }
 
-        pixels.flip();
-        id = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, id);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+            pixels.flip();
+            id = glGenTextures();
+            glBindTexture(GL_TEXTURE_2D, id);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+            edellinenTeksti = teksti;
+        }
     }
 
     public void päivitäTekstiDialogi(String teksti) {

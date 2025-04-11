@@ -19,7 +19,7 @@ public class PeliAsetusRuutu {
     private static int asetustenMäärä = 4;
     private static Shader asetusRuutuShader = new Shader("staattinen");
     private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
-    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
+    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/menu/main_osoitin.gif");
     private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
 
     private static Teksti asetusVaikeusasteTeksti = new Teksti("Vaikeusaste", Color.white, 200, 16);

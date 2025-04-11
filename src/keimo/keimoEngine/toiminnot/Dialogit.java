@@ -67,7 +67,7 @@ public class Dialogit {
         else {
             tekstiäJäljellä = 1;
         }
-        ÄänentoistamisSäie.toistaSFX("Valitse");
+        ÄänentoistamisSäie.toistaSFX("Valinta");
     }
 
     private static void edistäDialogia() {

@@ -4,7 +4,6 @@ import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.grafiikat.Teksti;
-import keimo.keimoEngine.gui.HUD;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.kenttä.Maailma;
 
@@ -13,62 +12,85 @@ import java.text.DecimalFormat;
 
 public class DebugTeksti {
 
-    static Teksti näppäinInfoTeksti = new Teksti("debug", Color.green, 600, 30);
-    static Teksti debugInfoTeksti = new Teksti("debug", Color.red, 400, 30);
-    static Teksti lisäMoodiTeksti = new Teksti("moodi", Color.orange, 400, 30);
+    static Teksti versioInfoTeksti = new Teksti("debug", Color.green, 600, 30);
+    static Teksti näppäinInfoTeksti1 = new Teksti("debug", Color.green, 600, 30);
+    static Teksti näppäinInfoTeksti2 = new Teksti("debug", Color.green, 600, 30);
+
+    static Teksti debugInfoTekstiFPS = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiMaailmaMs = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiPelaajaMs = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiHudMs = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiHuone = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiSijX = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiSijY = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiTileMäärä = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiObjektiMäärä = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiEntityMäärä = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKeimonToiminto = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKeimonKylläisyys = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKeimonTerveys = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKeimonSuunta = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiReaktioaika = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKuolemattomuusaika = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKänniKuolemattomuus = new Teksti("debug", Color.red, 400, 30);
+    static Teksti debugInfoTekstiKänninVoimakkuus = new Teksti("debug", Color.red, 400, 30);
+
+    static Teksti huijauskoodiTeksti1 = new Teksti("koodi", Color.orange, 400, 30);
+    static Teksti huijauskoodiTeksti2 = new Teksti("koodi", Color.orange, 400, 30);
+
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 	static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
     
     public static void renderöiDebugTeksti(double tileAika, double pelaajaAika, double hudAika, Window window) {
         try {
             int sijx = (int)(window.getWidth()/5.5);
-            näppäinInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.0.1 Alfa");
-            HUD.renderöiTeksti(näppäinInfoTeksti, sijx, 40, window);
-            näppäinInfoTeksti.päivitäTeksti("F1: Käynistä uudelleen, F2: Kaada peli");
-            HUD.renderöiTeksti(näppäinInfoTeksti, sijx, 45, window);
-            näppäinInfoTeksti.päivitäTeksti("Huijauskoodit F5: noclip, F6: ohita tavoitteet");
-            HUD.renderöiTeksti(näppäinInfoTeksti, sijx, 60, window);
+            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.0.2 Alfa");
+            HUD.renderöiTeksti(versioInfoTeksti, sijx, 40, window);
+            näppäinInfoTeksti1.päivitäTeksti("F1: Käynistä uudelleen, F2: Kaada peli");
+            HUD.renderöiTeksti(näppäinInfoTeksti1, sijx, 65, window);
+            näppäinInfoTeksti2.päivitäTeksti("Huijauskoodit F5: noclip, F6: ohita tavoitteet");
+            HUD.renderöiTeksti(näppäinInfoTeksti2, sijx, 80, window);
 
-            if (KeimoEngine.frameTime > 0) debugInfoTeksti.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
-            else debugInfoTeksti.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 120, window);
-            debugInfoTeksti.päivitäTeksti("maailma: " + kaksiDesimaalia.format(tileAika/1_000_000d) + " ms");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 140, window);
-            debugInfoTeksti.päivitäTeksti("pelaaja: " + kaksiDesimaalia.format(pelaajaAika/1_000_000d) + " ms");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 160, window);
-            debugInfoTeksti.päivitäTeksti("hud: " + kaksiDesimaalia.format(hudAika/1_000_000d) + " ms");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 180, window);
+            if (KeimoEngine.frameTime > 0) debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
+            else debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
+            HUD.renderöiTeksti(debugInfoTekstiFPS, sijx, 120, window);
+            debugInfoTekstiMaailmaMs.päivitäTeksti("maailma: " + kaksiDesimaalia.format(tileAika/1_000_000d) + " ms");
+            HUD.renderöiTeksti(debugInfoTekstiMaailmaMs, sijx, 140, window);
+            debugInfoTekstiPelaajaMs.päivitäTeksti("pelaaja: " + kaksiDesimaalia.format(pelaajaAika/1_000_000d) + " ms");
+            HUD.renderöiTeksti(debugInfoTekstiPelaajaMs, sijx, 160, window);
+            debugInfoTekstiHudMs.päivitäTeksti("hud: " + kaksiDesimaalia.format(hudAika/1_000_000d) + " ms");
+            HUD.renderöiTeksti(debugInfoTekstiHudMs, sijx, 180, window);
 
-            debugInfoTeksti.päivitäTeksti("Huone: " + Peli.huone.annaId() + " (" + Peli.huone.annaNimi() + ")");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 220, window);
-            debugInfoTeksti.päivitäTeksti("sij X: " + Pelaaja.sijX + " (" + Pelaaja.hitbox.getCenterX() + ")");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 240, window);
-            debugInfoTeksti.päivitäTeksti("sij Y: " + Pelaaja.sijY + " (" + Pelaaja.hitbox.getCenterY() + ")");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 260, window);
+            debugInfoTekstiHuone.päivitäTeksti("Huone: " + Peli.huone.annaId() + " (" + Peli.huone.annaNimi() + ")");
+            HUD.renderöiTeksti(debugInfoTekstiHuone, sijx, 220, window);
+            debugInfoTekstiSijX.päivitäTeksti("sij X: " + Pelaaja.sijX + " (" + Pelaaja.hitbox.getCenterX() + ")");
+            HUD.renderöiTeksti(debugInfoTekstiSijX, sijx, 240, window);
+            debugInfoTekstiSijY.päivitäTeksti("sij Y: " + Pelaaja.sijY + " (" + Pelaaja.hitbox.getCenterY() + ")");
+            HUD.renderöiTeksti(debugInfoTekstiSijY, sijx, 260, window);
 
-            debugInfoTeksti.päivitäTeksti("Tilejä: " + Maailma.tileMäärä);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 300, window);
-            debugInfoTeksti.päivitäTeksti("Objekteja: " + Maailma.objektiMäärä);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 320, window);
-            debugInfoTeksti.päivitäTeksti("Entityjä: " + Maailma.entityMäärä);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 340, window);
+            debugInfoTekstiTileMäärä.päivitäTeksti("Tilejä: " + Maailma.tileMäärä);
+            HUD.renderöiTeksti(debugInfoTekstiTileMäärä, sijx, 300, window);
+            debugInfoTekstiObjektiMäärä.päivitäTeksti("Objekteja: " + Maailma.objektiMäärä);
+            HUD.renderöiTeksti(debugInfoTekstiObjektiMäärä, sijx, 320, window);
+            debugInfoTekstiEntityMäärä.päivitäTeksti("Entityjä: " + Maailma.entityMäärä);
+            HUD.renderöiTeksti(debugInfoTekstiEntityMäärä, sijx, 340, window);
 
-            debugInfoTeksti.päivitäTeksti("Keimon toiminto: " + Pelaaja.keimonState);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 380, window);
-            debugInfoTeksti.päivitäTeksti("Keimon kylläisyys: " + Pelaaja.keimonKylläisyys);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 400, window);
-            debugInfoTeksti.päivitäTeksti("Keimon terveys: " + Pelaaja.keimonTerveys);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 420, window);
-            debugInfoTeksti.päivitäTeksti("Keimon suunta: " + Pelaaja.keimonSuunta + " (" + Pelaaja.keimonSuuntaVasenOikea + ")");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 440, window);
-            debugInfoTeksti.päivitäTeksti("Reaktioaika: " + Pelaaja.reaktioAika);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 460, window);
-            debugInfoTeksti.päivitäTeksti("Kuolemattomuusaika: " + Pelaaja.kuolemattomuusAika);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 480, window);
-            debugInfoTeksti.päivitäTeksti("Kännikuolemattomuus: " + Pelaaja.känniKuolemattomuus);
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 500, window);
-            debugInfoTeksti.päivitäTeksti("Kännin voimakkuus: " + kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat) + " (" + kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat*(1.5f/4f)) + " ‰)");
-            HUD.renderöiTeksti(debugInfoTeksti, sijx, 520, window);
+            debugInfoTekstiKeimonToiminto.päivitäTeksti("Keimon toiminto: " + Pelaaja.keimonState);
+            HUD.renderöiTeksti(debugInfoTekstiKeimonToiminto, sijx, 380, window);
+            debugInfoTekstiKeimonKylläisyys.päivitäTeksti("Keimon kylläisyys: " + Pelaaja.keimonKylläisyys);
+            HUD.renderöiTeksti(debugInfoTekstiKeimonKylläisyys, sijx, 400, window);
+            debugInfoTekstiKeimonTerveys.päivitäTeksti("Keimon terveys: " + Pelaaja.keimonTerveys);
+            HUD.renderöiTeksti(debugInfoTekstiKeimonTerveys, sijx, 420, window);
+            debugInfoTekstiKeimonSuunta.päivitäTeksti("Keimon suunta: " + Pelaaja.keimonSuunta + " (" + Pelaaja.keimonSuuntaVasenOikea + ")");
+            HUD.renderöiTeksti(debugInfoTekstiKeimonSuunta, sijx, 440, window);
+            debugInfoTekstiReaktioaika.päivitäTeksti("Reaktioaika: " + Pelaaja.reaktioAika);
+            HUD.renderöiTeksti(debugInfoTekstiReaktioaika, sijx, 460, window);
+            debugInfoTekstiKuolemattomuusaika.päivitäTeksti("Kuolemattomuusaika: " + Pelaaja.kuolemattomuusAika);
+            HUD.renderöiTeksti(debugInfoTekstiKuolemattomuusaika, sijx, 480, window);
+            debugInfoTekstiKänniKuolemattomuus.päivitäTeksti("Kännikuolemattomuus: " + Pelaaja.känniKuolemattomuus);
+            HUD.renderöiTeksti(debugInfoTekstiKänniKuolemattomuus, sijx, 500, window);
+            debugInfoTekstiKänninVoimakkuus.päivitäTeksti("Kännin voimakkuus: " + kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat) + " (" + kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat*(1.5f/4f)) + " ‰)");
+            HUD.renderöiTeksti(debugInfoTekstiKänninVoimakkuus, sijx, 520, window);
         }
         catch (NullPointerException npe) {
             System.out.println("Debug-tekstin näyttämisessä virhe");
@@ -79,12 +101,12 @@ public class DebugTeksti {
     public static void renderöiLisäMoodiTekstit(Window window) {
         int sijx = (int)(window.getWidth()/5.5);
         if (Pelaaja.noclip) {
-            lisäMoodiTeksti.päivitäTeksti("Noclip");
-            HUD.renderöiTeksti(lisäMoodiTeksti, sijx, 560, window);
+            huijauskoodiTeksti1.päivitäTeksti("Noclip");
+            HUD.renderöiTeksti(huijauskoodiTeksti1, sijx, 560, window);
         }
         if (Pelaaja.ohitaTavoitteet) {
-            lisäMoodiTeksti.päivitäTeksti("Ohita tavoitteet");
-            HUD.renderöiTeksti(lisäMoodiTeksti, sijx, 580, window);
+            huijauskoodiTeksti2.päivitäTeksti("Ohita tavoitteet");
+            HUD.renderöiTeksti(huijauskoodiTeksti2, sijx, 580, window);
         }
     }
 }

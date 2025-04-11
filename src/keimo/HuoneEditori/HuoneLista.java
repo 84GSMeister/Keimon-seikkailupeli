@@ -337,7 +337,7 @@ public class HuoneLista {
             ArrayList<KenttäKohde> kenttäKohteet = new ArrayList<>();
             for (KenttäKohde[] kk : h.annaHuoneenKenttäSisältö()) {
                 for (KenttäKohde k : kk) {
-                    kenttäKohteet.add(k);
+                    if (k != null) kenttäKohteet.add(KenttäKohde.luoObjektiTiedoilla(k.annaNimi(), k.onkoMääritettySijainti(), k.annaSijX(), k.annaSijY(), k.annalisäOminaisuudet()));
                 }
             }
             ArrayList<Maasto> maastot = new ArrayList<>();
@@ -349,7 +349,7 @@ public class HuoneLista {
             ArrayList<Entity> entityt = new ArrayList<>();
             for (Entity[] ee : h.annaHuoneenNPCSisältö()) {
                 for (Entity e : ee) {
-                    entityt.add(e);
+                    if (e != null) entityt.add(Entity.luoEntityTiedoilla(e.annaNimi(), e.onkoMääritettySijainti(), e.annaSijX(), e.annaAlkuSijY(), e.annalisäOminaisuudet()));
                 }
             }
             Huone uusiHuone = new Huone(h.annaId(),

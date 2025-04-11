@@ -84,6 +84,7 @@ public class Pikkuvihu extends Vihollinen {
     public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 2;
+        super.maxHp = super.hp;
         super.vahinko = 1;
         super.nopeus = 3;
         super.tekeeVahinkoa = true;

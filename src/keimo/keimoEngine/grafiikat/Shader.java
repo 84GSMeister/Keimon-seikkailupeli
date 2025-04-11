@@ -1,8 +1,5 @@
 package keimo.keimoEngine.grafiikat;
 
-import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
-import keimo.keimoEngine.ikkuna.Kamera;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

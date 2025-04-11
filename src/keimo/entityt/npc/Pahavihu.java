@@ -83,6 +83,7 @@ public class Pahavihu extends Vihollinen {
     public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 5;
+        super.maxHp = super.hp;
         super.vahinko = 2;
         super.nopeus = 4;
         super.tekeeVahinkoa = true;

@@ -53,12 +53,18 @@ public final class JumalVelho extends NPC_KenttäKohde {
     public String haeDialogiTeksti(String teksti) {
         switch (teksti) {
             case "löydä": return "Tervetuloa kaikki mun bordello dello dello dello dello dello dello delloon";
+            case "anna_paskanmarjat": return "Näin se booli keittyy, paskanmarjat jaloviinaan peittyy.";
+            case "booli_vinkki": return "Jumal velhon booli: tarvitaan vain oikeat ainekset (pontikkaa ja jallua)";
             case null, default: return katso();
         }
     }
 
     public void löydäJumalVelho() {
         TavoiteLista.suoritaTavoite("Löydä Jumal Yoda");
+    }
+
+    public boolean löydetty() {
+        return TavoiteLista.tavoiteLista.get("Löydä Jumal Yoda");
     }
 
     public JumalVelho(boolean määritettySijainti, int sijX, int sijY) {

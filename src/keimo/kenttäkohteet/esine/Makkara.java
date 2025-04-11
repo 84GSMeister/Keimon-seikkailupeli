@@ -46,18 +46,18 @@ public final class Makkara extends Ruoka {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi": return "Makkara";
-            case "genetiivi": return "Makkaran";
-            case "esiivi": return "Makkarana";
-            case "partitiivi": return "Makkaraa";
+            case "nominatiivi":  return "Makkara";
+            case "genetiivi":    return "Makkaran";
+            case "esiivi":       return "Makkarana";
+            case "partitiivi":   return "Makkaraa";
             case "translatiivi": return "Makkaraksi";
-            case "inessiivi": return "Makkarassa";
-            case "elatiivi": return "Makkarasta";
-            case "illatiivi": return "Makkaraan";
-            case "adessiivi": return "Makkaralla";
-            case "ablatiivi": return "Makkaralta";
-            case "allatiivi": return "Makkaralle";
-            default: return "Makkara";
+            case "inessiivi":    return "Makkarassa";
+            case "elatiivi":     return "Makkarasta";
+            case "illatiivi":    return "Makkaraan";
+            case "adessiivi":    return "Makkaralla";
+            case "ablatiivi":    return "Makkaralta";
+            case "allatiivi":    return "Makkaralle";
+            default:             return "Makkara";
         }
     }
 

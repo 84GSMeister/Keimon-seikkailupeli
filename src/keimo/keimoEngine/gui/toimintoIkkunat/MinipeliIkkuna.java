@@ -17,7 +17,7 @@ import org.joml.Vector4f;
 public class MinipeliIkkuna {
     private static Shader peliShader = new Shader("shader");
 
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
+    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
     private static float scaleX = 30;
     private static float siirräY = 600;
 

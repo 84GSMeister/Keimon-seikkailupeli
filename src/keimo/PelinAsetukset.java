@@ -20,6 +20,7 @@ public class PelinAsetukset {
     public static double ääniVolyymi = 0.5d;
     public static int pelinNopeus = 60;
     public static int resoluutioX, resoluutioY;
+    public static float zoom = 1;
     public static boolean debugTiedot = false;
 
     static List<String> musaLista = Stream.of(new File("tiedostot/musat").listFiles())

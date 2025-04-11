@@ -18,7 +18,7 @@ import org.joml.Vector4f;
 public class OhjeIkkuna {
     public static boolean näytäOhjeet = true;
     private static Shader peliShader = new Shader("shader");
-    private static Tekstuuri pohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/kartta/kartta_pohja_kädet.png");
+    private static Tekstuuri pohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/ohje/kartta_pohja_kädet.png");
     private static Teksti otsikkoTeksti = new Teksti("Näppäimet", Color.black, 200, 20);
     private static Teksti ohjeTeksti = new Teksti("ohje", Color.black, 340, 20);
     private static String[] ohjeTekstit = {

@@ -17,6 +17,7 @@ public abstract class NPC extends Entity {
     
     public int nopeus;
     public int hp;
+    public int maxHp;
     public boolean onLadattuPelissä = false;
 
     public Point annaSijaintiKentällä() {
@@ -194,5 +195,6 @@ public abstract class NPC extends Entity {
         this.onLadattuPelissä = false;
         this.hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
         this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        this.maxHp = this.hp;
     }
 }

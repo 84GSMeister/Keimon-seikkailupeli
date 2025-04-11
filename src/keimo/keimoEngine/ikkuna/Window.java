@@ -56,7 +56,7 @@ public class Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 1);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
         //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         Buffer videoModeBuffer = glfwGetVideoModes(glfwGetPrimaryMonitor());
@@ -77,9 +77,7 @@ public class Window {
         }
         glfwShowWindow(window);
         glfwMakeContextCurrent(window); // Make the OpenGL context current
-		//glfwSwapInterval(1); // Enable v-sync
         setLocalCallbacks();
-        //setFullscreen(fullscreen);
         input = new Input(window);
         hasResized = false;
     }

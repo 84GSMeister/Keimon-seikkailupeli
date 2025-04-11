@@ -147,7 +147,7 @@ public class Vuorovaikutukset {
                             Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
                             Pelaaja.ostostenHintaYhteensä = 0;
                             for (Esine ostos : Pelaaja.ostosKori) {
-                                Pelaaja.annaEsine(ostos);
+                                Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(ostos.annaNimi(), true, 0, 0, null));
                             }
                             Pelaaja.tyhjennäOstoskori();
                         }
@@ -174,7 +174,7 @@ public class Vuorovaikutukset {
                         Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
                         Pelaaja.ostostenHintaYhteensä = 0;
                         for (Esine ostos : Pelaaja.ostosKori) {
-                            Pelaaja.annaEsine(ostos);
+                            Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(ostos.annaNimi(), true, 0, 0, null));
                         }
                         Pelaaja.tyhjennäOstoskori();
                     }
@@ -239,8 +239,30 @@ public class Vuorovaikutukset {
                 }
                 else if (kenttäNPC instanceof JumalVelho) {
                     JumalVelho jv = (JumalVelho)kenttäNPC;
-                    jv.löydäJumalVelho();
-                    Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("löydä"), jv.annaNimi());
+                    if (!jv.löydetty()) {
+                        jv.löydäJumalVelho();
+                        Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("löydä"), jv.annaNimi());
+                    }
+                    else {
+                        boolean ponuLöytyy = false;
+                        boolean jalluLöytyy = false;
+                        for (Esine pelaajanEsine : Pelaaja.esineet) {
+                            if (pelaajanEsine instanceof Ponuainekset) ponuLöytyy = true;
+                            else if (pelaajanEsine instanceof Jallupullo) jalluLöytyy = true; 
+                        }
+                        if (ponuLöytyy && jalluLöytyy) {
+                            for (int i = 0; i < Pelaaja.esineet.length; i++) {
+                                if (Pelaaja.esineet[i] instanceof Ponuainekset) {
+                                    Pelaaja.esineet[i] = new Paskanmarjat(false, 0, 0);
+                                    break;
+                                }
+                            }
+                            Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("anna_paskanmarjat"), jv.annaNimi());
+                        }
+                        else {
+                            Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("booli_vinkki"), jv.annaNimi());
+                        }
+                    }
                 }
                 else if (kenttäNPC instanceof JumalYoda) {
                     JumalYoda jy = (JumalYoda)kenttäNPC;
@@ -293,10 +315,10 @@ public class Vuorovaikutukset {
                         Dialogit.avaaDialogi(ruoka.annaTekstuuri(), ruoka.käytä(), ruoka.annaNimi());
                         Pelaaja.syöRuoka(ruoka.annaParannusMäärä());
                     }
-                    else if (e instanceof Seteli) {
-                        Dialogit.avaaDialogi(e.annaTekstuuri(), e.käytä(), e.annaNimi());
+                    else if (e instanceof Juoma ) {
+                        e.käytä();
                     }
-                    else if (e instanceof Kuparilager || e instanceof Olutlasi || e instanceof Jallupullo || e instanceof Kartta) {
+                    else if (e instanceof Kartta) {
                         e.käytä();
                     }
                     if (e.poistoon()){

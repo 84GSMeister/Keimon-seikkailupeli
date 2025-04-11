@@ -14,18 +14,18 @@ public final class Ponuainekset extends Esine {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
-            case "nominatiivi": return "Pontikka-ainekset";
-            case "genetiivi": return "Pontikka-ainekset";
-            case "esiivi": return "Pontikka-ainekset";
-            case "partitiivi": return "Pontikka-ainekset";
+            case "nominatiivi":  return "Pontikka-ainekset";
+            case "genetiivi":    return "Pontikka-ainekset";
+            case "esiivi":       return "Pontikka-ainekset";
+            case "partitiivi":   return "Pontikka-ainekset";
             case "translatiivi": return "Pontikka-ainekset";
-            case "inessiivi": return "Pontikka-ainekset";
-            case "elatiivi": return "Pontikka-ainekset";
-            case "illatiivi": return "Pontikka-ainekset";
-            case "adessiivi": return "Pontikka-ainekset";
-            case "ablatiivi": return "Pontikka-ainekset";
-            case "allatiivi": return "Pontikka-ainekset";
-            default: return "Pontikka-ainekset";
+            case "inessiivi":    return "Pontikka-ainekset";
+            case "elatiivi":     return "Pontikka-ainekset";
+            case "illatiivi":    return "Pontikka-ainekset";
+            case "adessiivi":    return "Pontikka-ainekset";
+            case "ablatiivi":    return "Pontikka-ainekset";
+            case "allatiivi":    return "Pontikka-ainekset";
+            default:             return "Pontikka-ainekset";
         }
     }
     

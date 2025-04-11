@@ -15,8 +15,8 @@ import org.joml.Vector4f;
 public class KarttaIkkuna {
     private static Shader peliShader = new Shader("shader");
 
-    private static Tekstuuri pohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/kartta/kartta_pohja_kädet.png");
-    private static Tekstuuri karttaTekstuuri = new Tekstuuri("tiedostot/kuvat/kartta/kartta.png");
+    private static Tekstuuri pohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/kartta/kartta_pohja_kädet.png");
+    private static Tekstuuri karttaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/kartta/kartta.png");
     private static float offsetY = 600;
     private static float scaleX = 30;
     

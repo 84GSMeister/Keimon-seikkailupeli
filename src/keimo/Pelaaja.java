@@ -23,7 +23,7 @@ public class Pelaaja implements Käännettävä {
     public static int alkuHuone;
     public static int alkuSijX;
     public static int alkuSijY;
-    public static final Rectangle hitbox = new Rectangle(0, 0, 56, 56);
+    public static final Rectangle hitbox = new Rectangle(0, 0, 64, 64);
     public static int hp;
     public static double raha;
     public static int kuparit;

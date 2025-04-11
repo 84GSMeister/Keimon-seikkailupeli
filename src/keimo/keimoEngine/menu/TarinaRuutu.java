@@ -73,7 +73,8 @@ public class TarinaRuutu {
 
     public static void render(Window window) {
         tarinaRuutuShader.bind();
-        float scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
+        float scaleX = 1;
+        if (window.getWidth() > 0 && window.getHeight() > 0) scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
         float scaleYKuva = window.getHeight()/4;
         float scaleYTeksti = window.getHeight()/6;
         float scaleYJatkaNappi = window.getHeight()/12;
@@ -95,7 +96,7 @@ public class TarinaRuutu {
         tarinaRuutuShader.setUniform("projection", matTeksti);
         tekstiTexture.bind(0);
         Assets.getModel().render();
-        tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä));
+        tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä), false, 36, Color.white, 10, 10);
 
         Matrix4f matJatkaNappi = new Matrix4f();
         window.getView().scale(1, matJatkaNappi);

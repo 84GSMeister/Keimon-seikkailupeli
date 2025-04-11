@@ -27,7 +27,7 @@ public class DialogiValintaIkkuna {
 
     private static Shader peliShader = new Shader("shader");
 
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
+    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
     private static Animaatio osoitinTekstuuri = new Animaatio(30, "tiedostot/kuvat/menu/main_osoitin.gif");
     private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
     private static Teksti vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 150, 20);
@@ -207,6 +207,7 @@ public class DialogiValintaIkkuna {
             }
         }
         ÄänentoistamisSäie.toistaSFX("Hyväksy");
+        Pelaaja.käyttöViive = 30;
     }
     public static void peruValinta() {
         switch (valintaDialoginTunniste) {

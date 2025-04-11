@@ -1,6 +1,18 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (25.3.2025): 1.0.1 Alfa
+## Uusin versio (11.4.2025): 1.0.2 Alfa
+
+### Versio 1.0.2 Alfa
+
+ - Lisätty vihollisille elämäpalkki
+ - 3D-objekteille perspektiivikamera
+ - Lisätty 3D-malli kuparilagerille
+ - Känniefekti jälleen uudistettu
+ - Esineiden ja entityjen tilan pysyminen resetoinnin jälkeen korjattu
+ - Korjattu bugi, jossa kaupasta ostetuista tuotteista muut katoaa, kun käyttää yhtä
+ - Optimoitujen gif-tiedostojen häiriöt korjattu
+ - Tekstin renderöintiä hieman parannettu
+ - Lisätty äänitesti
 
 ### Versio 1.0.1 Alfa
 

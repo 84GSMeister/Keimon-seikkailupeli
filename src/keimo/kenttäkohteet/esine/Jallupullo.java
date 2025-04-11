@@ -1,37 +1,19 @@
 package keimo.kenttäkohteet.esine;
 
 import keimo.Pelaaja;
-import keimo.TarkistettavatArvot;
-import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 
-public class Jallupullo extends Esine {
-    
-    DecimalFormat df = new DecimalFormat("##.##");
+public class Jallupullo extends Juoma {
 
     @Override
     public String käytä(){
-        super.poista = true;
+        super.käytä();
         Pelaaja.kuparit++;
-        Pelaaja.känninVoimakkuusFloat += 4;
-        Pelaaja.känniKuolemattomuus += 4000;
         ÄänentoistamisSäie.toistaSFX("pullo");
-
-        double kuolemanTodennäköisyys = 0.125 * Pelaaja.känninVoimakkuusFloat - 1;
-        if (kuolemanTodennäköisyys < 0) {
-            kuolemanTodennäköisyys = 0;
-        }
-        double d = Math.random();
-        if (kuolemanTodennäköisyys > d) {
-            TarkistettavatArvot.pelinLoppuSyy = PelinLopetukset.ALKOHOLIMYRKYTYS;
-            Pelaaja.hp = 0;
-        }
-        System.out.println("Kuoleman todennäköisyys: " + kuolemanTodennäköisyys);
-        return "Rahaa tulossa tölkeistä: " + df.format(0.15f * Pelaaja.kuparit) + "€";
+        return katso();
     }
 
     @Override
@@ -61,7 +43,11 @@ public class Jallupullo extends Esine {
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Elämän eliksiiri.";
         super.käyttö = true;
+        super.yhdistettävä = true;
+        super.kelvollisetYhdistettävät.add("Paskanmarjat");
         super.hinta = 18;
+        super.voltit = 4;
+        super.känniKuolemattomuus = 4000;
         super.asetaTiedot();
     }
 }

@@ -147,7 +147,7 @@ public class ModelLoader {
             if (käännäYZ) {
                 data[pos++] = textCoord.x() * skaala;
                 data[pos++] = textCoord.z() * skaala;
-                data[pos++] = textCoord.y() * skaala;
+                data[pos++] = -textCoord.y() * skaala;
             }
             else {
                 data[pos++] = textCoord.x() * skaala;

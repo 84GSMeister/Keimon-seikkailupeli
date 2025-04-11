@@ -12,18 +12,18 @@ public final class Pesäpallomaila extends Ase {
         //System.out.println("Haluutsä turpaan? Ja vielä " + p.annanimiSijamuodossa("adessiivi") + "!");
         // ^ Haluutsä turpaan? Ja vielä Pesäpallomailalla!
         switch (sijamuoto) {
-            case "nominatiivi": return "Pesäpallomaila";
-            case "genetiivi": return "Pesäpallomailan";
-            case "esiivi": return "Pesäpallomailana";
-            case "partitiivi": return "Pesäpallomailaa";
+            case "nominatiivi":  return "Pesäpallomaila";
+            case "genetiivi":    return "Pesäpallomailan";
+            case "esiivi":       return "Pesäpallomailana";
+            case "partitiivi":   return "Pesäpallomailaa";
             case "translatiivi": return "Pesäpallomailaksi";
-            case "inessiivi": return "Pesäpallomailassa";
-            case "elatiivi": return "Pesäpallomailasta";
-            case "illatiivi": return "Pesäpallomailaan";
-            case "adessiivi": return "Pesäpallomailalla";
-            case "ablatiivi": return "Pesäpallomailalta";
-            case "allatiivi": return "Pesäpallomailalle";
-            default: return "Pesäpallomaila";
+            case "inessiivi":    return "Pesäpallomailassa";
+            case "elatiivi":     return "Pesäpallomailasta";
+            case "illatiivi":    return "Pesäpallomailaan";
+            case "adessiivi":    return "Pesäpallomailalla";
+            case "ablatiivi":    return "Pesäpallomailalta";
+            case "allatiivi":    return "Pesäpallomailalle";
+            default:             return "Pesäpallomaila";
         }
     }
 

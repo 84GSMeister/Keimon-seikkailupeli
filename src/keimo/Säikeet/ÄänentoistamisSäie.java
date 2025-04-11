@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -43,7 +44,9 @@ public class ÄänentoistamisSäie {
 
     private static AudioInputStream woofStream;
     private static AudioInputStream resampledInputStream;
-    private static HashMap<String, File> musaTiedostot = new HashMap<>();
+    public static HashMap<String, File> musaTiedostot = new HashMap<>();
+    public static HashMap<String, File> ääniTiedostot = new HashMap<>();
+    private static List<File> tölkkiÄäniLista = new ArrayList<>();
 
     public static void lataaÄänet() {
         try {
@@ -61,21 +64,82 @@ public class ÄänentoistamisSäie {
             woofStream = AudioSystem.getAudioInputStream(new File("tiedostot/äänet/woof.wav"));
             ääniClip = AudioSystem.getClip();
             musaClip = AudioSystem.getClip();
+
+            ääniTiedostot.put("pelaaja_damage", new File("tiedostot/äänet/pelaaja_damage.mp3"));
+            ääniTiedostot.put("pikkuvihu_damage", new File("tiedostot/äänet/pikkuvihu_damage.mp3"));
+            ääniTiedostot.put("Hyökkäys", new File("tiedostot/äänet/hyökkäys.wav"));
+            ääniTiedostot.put("woof", new File("tiedostot/äänet/woof.wav"));
+            ääniTiedostot.put("oven_avaus", new File("tiedostot/äänet/risitas.wav"));
+            ääniTiedostot.put("oven_sulkeminen", new File("tiedostot/äänet/ovi_kiinni.wav"));
+            ääniTiedostot.put("ammus", new File("tiedostot/äänet/ammus.wav"));
+            ääniTiedostot.put("frans_cs", new File("tiedostot/äänet/frans_cs.mp3"));
+            ääniTiedostot.put("nappi", new File("tiedostot/äänet/nappi.wav"));
+            ääniTiedostot.put("portti", new File("tiedostot/äänet/portti.wav"));
+            ääniTiedostot.put("pullo", new File("tiedostot/äänet/pullo.mp3"));
+            ääniTiedostot.put("Vesiämpäri", new File("tiedostot/äänet/vihollinen_ämpäröinti.mp3"));
+            ääniTiedostot.put("Pesäpallomaila", new File("tiedostot/äänet/vihollinen_mukilointi.mp3"));
+            ääniTiedostot.put("Pikkuvihu_damage", new File("tiedostot/äänet/Pikkuvihu_damage.wav"));
+            ääniTiedostot.put("Pahavihu_damage", new File("tiedostot/äänet/Pahavihu_damage.wav"));
+            ääniTiedostot.put("Asevihu_damage", new File("tiedostot/äänet/Asevihu_damage.wav"));
+            ääniTiedostot.put("Pomo_damage", new File("tiedostot/äänet/Boss_damage.wav"));
+            ääniTiedostot.put("Boss_death", new File("tiedostot/äänet/Boss_death.wav"));
+            ääniTiedostot.put("Kolikko", new File("tiedostot/äänet/koin.wav"));
+            ääniTiedostot.put("Kerää", new File("tiedostot/äänet/kollekt.wav"));
+            ääniTiedostot.put("Pudota", new File("tiedostot/äänet/pudota.wav"));
+            ääniTiedostot.put("Käytä", new File("tiedostot/äänet/käytä.wav"));
+            ääniTiedostot.put("Valinta", new File("tiedostot/äänet/selekt.wav"));
+            ääniTiedostot.put("Hyväksy", new File("tiedostot/äänet/akkept.wav"));
+            ääniTiedostot.put("Kartta", new File("tiedostot/äänet/kartta.mp3"));
+            ääniTiedostot.put("Juoman_kaato", new File("tiedostot/äänet/juoman_kaato.mp3"));
+            ääniTiedostot.put("Kalja_kilinä", new File("tiedostot/äänet/kalja_kilinä.mp3"));
+            ääniTiedostot.put("Tavoite_suoritettu", new File("tiedostot/äänet/tavoite_suoritettu.wav"));
+            ääniTiedostot.put("Raha2", new File("tiedostot/äänet/raha2.wav"));
+
+            tölkkiÄäniLista = Stream.of(new File("tiedostot/äänet/tölkki").listFiles())
+                .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3")))
+                //.map(File::getName).sorted()
+                .collect(Collectors.toList());
+                
+            for (File tölkkiääni : tölkkiÄäniLista) {
+                String nimi = tölkkiääni.getName();
+                ääniTiedostot.put(nimi.substring(0, nimi.length()-4), tölkkiääni);
+            }
         } 
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
 
-    public static void toistaWoof(float sampleRate) {
+    public static void toistaResamplattavaÄäni(float sampleRate) {
+        toistaResamplattavaÄäni(sampleRate, ääniTiedostot.get("woof"));
+    }
+
+    static HashMap<Integer, Clip> woofÄänet = new HashMap<>();
+    static int seuraavaWoofIndeksi = 0;
+    public static void toistaResamplattavaÄäni(float sampleRate, File ääniTiedosto) {
         try {
-            AudioInputStream sourceStream = AudioSystem.getAudioInputStream(new File("tiedostot/äänet/woof.wav"));
+            if (woofÄänet.get(seuraavaWoofIndeksi) != null) {
+                woofÄänet.get(seuraavaWoofIndeksi).close();
+            }
+
+            System.out.println(ääniTiedosto.getName());
+            AudioInputStream sourceStream = AudioSystem.getAudioInputStream(ääniTiedosto);
             AudioFormat sourceFormat = sourceStream.getFormat();
             AudioFormat targetFormat = getOutFormat(sourceFormat, sampleRate);
             resampledInputStream = new AudioInputStream(sourceStream, targetFormat, AudioSystem.NOT_SPECIFIED);
-            ääniClip.close();
-            ääniClip.open(resampledInputStream);
-            ääniClip.start();
+
+            if (woofÄänet.get(seuraavaWoofIndeksi) == null) {
+                Clip clip = AudioSystem.getClip();
+                woofÄänet.put(seuraavaWoofIndeksi, clip);
+            }
+            woofÄänet.get(seuraavaWoofIndeksi).open(resampledInputStream);
+            FloatControl gainControl = (FloatControl) woofÄänet.get(seuraavaWoofIndeksi).getControl(FloatControl.Type.MASTER_GAIN);
+            float gain = (float)(Math.pow(PelinAsetukset.ääniVolyymi, (1f/9f))*80 -80);
+            gainControl.setValue(gain);
+            woofÄänet.get(seuraavaWoofIndeksi).start();
+
+            seuraavaWoofIndeksi++;
+            seuraavaWoofIndeksi %= 10;
         }
         catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
             e.printStackTrace();
@@ -185,6 +249,7 @@ public class ÄänentoistamisSäie {
                         musaClip.start();
                     }
                 }
+
             }
             catch (Exception e) {
                 System.out.println("Musiikkia ei voitu toistaa");
@@ -225,6 +290,7 @@ public class ÄänentoistamisSäie {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             // Read and decode the encoded sound data into the byte array output stream (blocking)
             int read = sound.decodeFullyInto(os);
+            System.out.println("bytes: " + read);
             // A sample takes 2 bytes
             int samples = read / 2;
             // Java sound API stuff ...
@@ -295,108 +361,16 @@ public class ÄänentoistamisSäie {
     }
 
     public static void toistaSFX(String ääni, double volume, double pan) {
-
-        switch (ääni) {
-
-            case "pelaaja_damage":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/pelaaja_damage.mp3").toURI().toString());
-            break;
-            case "pikkuvihu_damage":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/pikkuvihu_damage.mp3").toURI().toString());
-            break;
-            case "Hyökkäys":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/hyökkäys.wav").toURI().toString());
-            break;
-            case "woof":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/woof.wav").toURI().toString());
-            break;
-            case "oven_avaus":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/risitas.wav").toURI().toString());
-            break;
-            case "oven_sulkeminen":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/ovi_kiinni.wav").toURI().toString());
-            break;
-            case "ammus":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/ammus.wav").toURI().toString());
-            break;
-            case "frans_cs":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/frans_cs.mp3").toURI().toString());
-            break;
-            case "nappi":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/nappi.wav").toURI().toString());
-            break;
-            case "portti":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/portti.wav").toURI().toString());
-            break;
-            case "tölkki":
-                List<String> tölkkiÄäniLista = Stream.of(new File("tiedostot/äänet/tölkki").listFiles())
-                .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3")))
-                .map(File::getName).sorted()
-                .collect(Collectors.toList());
-                int valitseÄäni = r.nextInt(tölkkiÄäniLista.size());
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/tölkki/tölkki" + valitseÄäni + ".mp3").toURI().toString());
-            break;
-            case "pullo":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/pullo.mp3").toURI().toString());
-            break;
-            case "Vesiämpäri":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/vihollinen_ämpäröinti.mp3").toURI().toString());
-            break;
-            case "Pesäpallomaila":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/vihollinen_mukilointi.mp3").toURI().toString());
-            break;
-            case "Pikkuvihu_damage":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/Pikkuvihu_damage.wav").toURI().toString());
-            break;
-            case "Pahavihu_damage":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/Pahavihu_damage.wav").toURI().toString());
-            break;
-            case "Asevihu_damage":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/Asevihu_damage.wav").toURI().toString());
-            break;
-            case "Pomo_damage":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/Boss_damage.wav").toURI().toString());
-            break;
-            case "Boss_death":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/Boss_death.wav").toURI().toString());
-            break;
-            case "Kolikko":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/koin.wav").toURI().toString());
-            break;
-            case "Kerää":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/kollekt.wav").toURI().toString());
-            break;
-            case "Pudota":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/pudota.wav").toURI().toString());
-            break;
-            case "Käytä":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/käytä.wav").toURI().toString());
-            break;
-            case "Valinta":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/selekt.wav").toURI().toString());
-            break;
-            case "Hyväksy":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/akkept.wav").toURI().toString());
-            break;
-            case "Kartta":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/kartta.mp3").toURI().toString());
-            break;
-            case "Juoman_kaato":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/juoman_kaato.mp3").toURI().toString());
-            break;
-            case "Kalja_kilinä":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/kalja_kilinä.mp3").toURI().toString());
-            break;
-            case "Tavoite_suoritettu":
-                ääniToistin = new AudioClip(new File("tiedostot/äänet/tavoite_suoritettu.wav").toURI().toString());
-            break;
-            case null, default:
-            break;
-        }
-        if (ääniToistin != null) {
+        try {
+            if (ääni.startsWith("tölkki")) ääni += r.nextInt(tölkkiÄäniLista.size());
+            ääniToistin = new AudioClip(ääniTiedostot.get(ääni).toURI().toString());
             ääniToistin.setVolume(volume * PelinAsetukset.ääniVolyymi);
             ääniToistin.setBalance(pan);
             ääniToistin.play();
+        }
+        catch (NullPointerException npe) {
+            System.out.println("Äänitiedostoa \"" + ääni + "\" ei löytynyt");
+            npe.printStackTrace();
         }
     }
 }

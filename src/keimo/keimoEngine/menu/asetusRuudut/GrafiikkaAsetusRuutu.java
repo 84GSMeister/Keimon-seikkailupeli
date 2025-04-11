@@ -1,5 +1,6 @@
 package keimo.keimoEngine.menu.asetusRuudut;
 
+import keimo.PelinAsetukset;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
@@ -19,7 +20,7 @@ public class GrafiikkaAsetusRuutu {
     private static int asetustenMäärä = 6;
     private static Shader asetusRuutuShader = new Shader("staattinen");
     private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
-    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
+    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/menu/main_osoitin.gif");
     private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
 
     private static Teksti asetusKokonäyttöTeksti = new Teksti("Kokonäyttö (F11)", Color.white, 200, 16);
@@ -149,6 +150,7 @@ public class GrafiikkaAsetusRuutu {
             else if (valinta == 0) KeimoEngine.window.setFullscreen(kokonäyttö, true);
             KeimoEngine.window.setVSync(vsync);
             Kamera.zoomKerroin = zoom;
+            PelinAsetukset.zoom = zoom;
             Kamera.päivitäZoom = true;
             Maailma.fade = 1f - kirkkaus;
         }

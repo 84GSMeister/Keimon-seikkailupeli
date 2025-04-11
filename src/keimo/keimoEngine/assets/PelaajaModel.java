@@ -2,17 +2,18 @@ package keimo.keimoEngine.assets;
 
 import keimo.Pelaaja;
 import keimo.Peli;
+import keimo.PelinAsetukset;
 import keimo.Utility.Käännettävä.SuuntaVasenOikea;
 import keimo.keimoEngine.collision.AABB;
 import keimo.keimoEngine.collision.Collision;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.grafiikat.objekti2d.Transform;
 import keimo.keimoEngine.gui.hud.NäppäinVinkkiTekstit;
-import keimo.keimoEngine.gui.hud.TavoitePopup;
 import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.kenttä.Maailma;
 
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -84,47 +85,47 @@ public class PelaajaModel {
         transform.pos.set(new Vector3f((float)Pelaaja.hitbox.getCenterX()/scale -1, (float)-Pelaaja.hitbox.getCenterY()/scale +1, 0));
         boundingBox.getCenter().set(transform.pos.x, transform.pos.y);
 
-        int collisionCheckRadius = 5;
-        AABB[][] boxes = new AABB[5][5];
-        for (int y = 0; y < collisionCheckRadius; y++) {
-            for (int x = 0; x < collisionCheckRadius; x++) {
-                boxes[x][y] = world.getTileBoundingBox(
-                    (int)(((transform.pos.x / 2) + 0.5f) - (collisionCheckRadius / 2) + x),
-                    (int)(((-transform.pos.y / 2) + 0.5f) - (collisionCheckRadius / 2) + y)
-                );
-            }
-        }
-        AABB box = null;
-        for (int y = 0; y < boxes.length; y++) {
-            for (int x = 0; x < boxes.length; x++) {
-                if (boxes[x][y] != null) {
-                    if (box == null) {
-                        box = boxes[x][y];
-                    }
-                    Vector2f length1 = box.getCenter().sub(transform.pos.x, transform.pos.y, new Vector2f());
-                    Vector2f length2 = boxes[x][y].getCenter().sub(transform.pos.x, transform.pos.y, new Vector2f());
+        // int collisionCheckRadius = 5;
+        // AABB[][] boxes = new AABB[5][5];
+        // for (int y = 0; y < collisionCheckRadius; y++) {
+        //     for (int x = 0; x < collisionCheckRadius; x++) {
+        //         boxes[x][y] = world.getTileBoundingBox(
+        //             (int)(((transform.pos.x / 2) + 0.5f) - (collisionCheckRadius / 2) + x),
+        //             (int)(((-transform.pos.y / 2) + 0.5f) - (collisionCheckRadius / 2) + y)
+        //         );
+        //     }
+        // }
+        // AABB box = null;
+        // for (int y = 0; y < boxes.length; y++) {
+        //     for (int x = 0; x < boxes.length; x++) {
+        //         if (boxes[x][y] != null) {
+        //             if (box == null) {
+        //                 box = boxes[x][y];
+        //             }
+        //             Vector2f length1 = box.getCenter().sub(transform.pos.x, transform.pos.y, new Vector2f());
+        //             Vector2f length2 = boxes[x][y].getCenter().sub(transform.pos.x, transform.pos.y, new Vector2f());
 
-                    if (length1.lengthSquared() > length2.lengthSquared()) {
-                        box = boxes[x][y];
-                    }
-                }
-            }
-        }
+        //             if (length1.lengthSquared() > length2.lengthSquared()) {
+        //                 box = boxes[x][y];
+        //             }
+        //         }
+        //     }
+        // }
 
-        if (box != null) {
-            Collision data = boundingBox.getCollision(box);
-            if (data.isIntersecting) {
-                boundingBox.correctPosition(box, data);
-                transform.pos.set(boundingBox.getCenter(), 0);
-            }
-        }
+        // if (box != null) {
+        //     Collision data = boundingBox.getCollision(box);
+        //     if (data.isIntersecting) {
+        //         boundingBox.correctPosition(box, data);
+        //         transform.pos.set(boundingBox.getCenter(), 0);
+        //     }
+        // }
 
         //camera.setPosition(transform.pos.mul(-world.getScale()/2, new Vector3f()));
     }
 
     
 
-    public void render(Kamera camera, Maailma world) {
+    public void render(Kamera camera, Maailma world, Window window) {
         pelaajaShader.bind();
         pelaajaShader.setUniform("sampler", 0);
 
@@ -135,6 +136,17 @@ public class PelaajaModel {
     
         float scaleX = 64;
         float scaleY = 64;
+
+        //Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, window.getWidth()/window.getHeight(), 0.001f, 1000);
+        //perspectiveMatrix.scale(1000f/window.getWidth(), 1000f/window.getHeight(), 1);
+        //Matrix4f lookAtMatrix = new Matrix4f().setLookAt(0, 0, 32 * PelinAsetukset.zoom, 0, 0, 0, 0, 1, 0);
+        //Matrix4f cameraMatrix = perspectiveMatrix.mul(lookAtMatrix);
+
+        //Matrix4f pelaajanSijainti = new Matrix4f();
+        //pelaajanSijainti.translate(Pelaaja.sijX, Pelaaja.sijY, 0);
+        //Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
+        //resultMatrix.mul(pelaajanSijainti);
+        //pelaajaShader.setUniform("projection", resultMatrix);
 
         pelaajaShader.setUniform("projection", transform.getProjection(camera.getProjection().translate(känniHajontaX, känniHajontaY, 0)));
         valitsePelaajanKuvake();

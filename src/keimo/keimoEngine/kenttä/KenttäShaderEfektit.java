@@ -46,27 +46,39 @@ public class KenttäShaderEfektit {
         else shader.setUniform("himmennys", new Vector4f(0f, 0f, 0f, 0f));
     }
 
-    protected static Matrix4f esineenKeinumisEfekti(KenttäKohde objekti, Shader shader, Matrix4f projection) {
-        projection.translate(new Vector3f(0, 0.5f - (float)(0.5*Math.sin(Math.toRadians(objekti.annaLiikeY()))), 0));
-        return projection;
-    }
-
     static float xHeilunnanNopeus = 0f;
     static float xHeilunnanPituus = 0f;
-    protected static Matrix4f känniEfekti(Shader shader, Matrix4f projection) {
-        shader.bind();
+    static float yHeilunnanNopeus = 0f;
+    static float yHeilunnanPituus = 0f;
+    static float zHeilunnanNopeus = 0f;
+    static float zHeilunnanPituus = 0f;
+    public static float känniScaleX = 0;
+    protected static Matrix4f känniEfekti(Matrix4f projection) {
         if (Pelaaja.känninVoimakkuusFloat > 0f) {
             float känniHajontaX = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
             float känniHajontaY = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
             float känniHajontaZ = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
-            float känniScaleX = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
-            float känniScaleY = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
-            float känniScaleZ = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
+            xHeilunnanNopeus += Pelaaja.känninVoimakkuusFloat * 0.00574f;
+            xHeilunnanPituus = Pelaaja.känninVoimakkuusFloat * 0.186f;
+            yHeilunnanNopeus += Pelaaja.känninVoimakkuusFloat * 0.00361f;
+            yHeilunnanPituus = Pelaaja.känninVoimakkuusFloat * 0.227f;
+            zHeilunnanNopeus += Pelaaja.känninVoimakkuusFloat * 0.00231f;
+            zHeilunnanPituus = Pelaaja.känninVoimakkuusFloat * 0.137f;
+            projection.translate(xHeilunnanPituus * (float)Math.sin(xHeilunnanNopeus) + känniHajontaX/50f,
+                                yHeilunnanPituus * (float)Math.sin(yHeilunnanNopeus) + känniHajontaY/50f,
+                                zHeilunnanPituus * (float)Math.sin(zHeilunnanNopeus) + känniHajontaZ/50f);
+            return projection;
+        }
+        else return projection;
+    }
 
-            xHeilunnanNopeus += Pelaaja.känninVoimakkuusFloat * 0.000005f * projection.getTranslation(new Vector3f()).x;
-            xHeilunnanPituus = Pelaaja.känninVoimakkuusFloat * 0.2f;
-            projection.translate(xHeilunnanPituus * (float)Math.sin(xHeilunnanNopeus) + känniHajontaX/50f, känniHajontaY/50f, känniHajontaZ/50f);
-            projection.scale(1 + känniScaleX/50f, 1+ känniScaleY/50f, 1+ känniScaleZ/50f);
+    static float rotZ = 0f;
+    static float rotaationNopeus = 0f;
+    protected static Matrix4f känniEfektiRotaatio(Matrix4f projection) {
+        if (Pelaaja.känninVoimakkuusFloat > 6f) {
+            rotaationNopeus = (Pelaaja.känninVoimakkuusFloat * Pelaaja.känninVoimakkuusFloat)/20f - (Pelaaja.känninVoimakkuusFloat * 6f)/20f;
+            projection.rotate(rotaationNopeus * (float)Math.toRadians(rotZ), new Vector3f(0, 0, 1));
+            rotZ++;
             return projection;
         }
         else return projection;

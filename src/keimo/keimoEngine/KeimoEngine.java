@@ -61,7 +61,6 @@ public class KeimoEngine extends Thread {
 	boolean kokoNäyttö = false;
 	public static Window window;
 	public boolean glKäynnistetty = false;
-	//public static boolean debugTiedot = false;
 
 	Shader shader;
 	static Kamera camera;
@@ -73,7 +72,6 @@ public class KeimoEngine extends Thread {
 	double unprocessed = 0;
 	public static Maailma world;
 	Tausta tausta;
-	//public static Objekti3D objekti3DYokyla, objekti3DAsuntoYokyla;
 	PelaajaModel player;
 	public static boolean siirryEditoriin = false;
 
@@ -131,14 +129,11 @@ public class KeimoEngine extends Thread {
 			renderöiLatausRuutu();
 			window.swapBuffers();
 			
-			
-			//LatausIkkuna.päivitäLatausTeksti("Ladataan dialogeja...");
 			TavoiteLista.luoPääTavoiteLista();
 			TavoiteLista.luoTavoiteLista();
 			TarinaPätkä.nollaaTarinaId();
 			KeimoFontit.rekisteröiFontit();
 
-			//LatausIkkuna.päivitäLatausTeksti("Ladataan huoneita...");
 			KenttäKohde.nollaaObjektiId();
 			HuoneLista.luoVakioHuoneKarttaTiedostosta();
 			HuoneLista.lataaReferenssiHuonekartta();
@@ -148,13 +143,11 @@ public class KeimoEngine extends Thread {
 				}
 			}
 
-			//LatausIkkuna.päivitäLatausTeksti("Ladataan grafiikka...");
 			luoObjektiTekstuurit();
 
 			camera = new Kamera(window.getWidth(), window.getHeight());
 			camera.setPosition(new Vector3f(-Pelaaja.hitbox.x, Pelaaja.hitbox.y, 0));
 			camera.setOrthographic(window.getWidth(), window.getHeight());
-			//camera.setPerspective((float)Math.toRadians(70), 1, 0.000_001f, 100_000f);
 			camera.setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(30), new Vector3f(1, 0, 0))));
 
 			world = new Maailma();
@@ -174,14 +167,13 @@ public class KeimoEngine extends Thread {
 			unprocessed = 0;
 
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Set the clear color
-			//glfwSwapInterval(1);
 
 			editoriInit();
 			glKäynnistetty = true;
 			lataaTarinaRuutu("alku");
 		}
 		catch (IllegalStateException ise) {
-			JOptionPane.showMessageDialog(null, "Grafiikkaikkunan luonti epäonnistui.\n\nVarmista, että sinulla on OpenGL 3.2 -yhteensopiva näytönohjain ja ajurit ajan tasalla.\n\nNvidia: vähintään Geforce 8000 -sarja\nAMD/ATI: vähintään Radeon 3000 -sarja\nIntel: vähintään HD Graphics 2000/3000 -sarja(Sandy Bridge)\nMuut: ei varmaan toimi", "Virhe OpenGL-kirjaston luonnissa.", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Grafiikkaikkunan luonti epäonnistui.\n\nVarmista, että sinulla on OpenGL 3.2 -yhteensopiva näytönohjain ja ajurit ajan tasalla.\n\nNvidia: vähintään Geforce 8000 -sarja\nAMD/ATI: vähintään Radeon 3000 -sarja\nIntel: vähintään HD Graphics 4000 -sarja(Ivy Bridge)\nMuut: ei varmaan toimi", "Virhe OpenGL-kirjaston luonnissa.", JOptionPane.ERROR_MESSAGE);
 			ise.printStackTrace();
 		}
 	}
@@ -203,7 +195,7 @@ public class KeimoEngine extends Thread {
 					NäppäinKomennot.tarkistaSyöte(window, camera, world);
 					peliLoop();
 					if (window.hasResized()) {
-						world.calculateView(window, camera);
+						world.laskeNäköetäisyys(window);
 						camera.setOrthographic(window.getWidth(), window.getHeight());
 						camera.resetZoom(window);
 						window.setView(window.getWidth(), window.getHeight());
@@ -264,7 +256,7 @@ public class KeimoEngine extends Thread {
 				Peli.peliAloitettu = true;
 				Peli.peliKäynnissä = true;
 				Peli.pause = false;
-				world.calculateView(window, camera);
+				world.laskeNäköetäisyys(window);
 				camera.resetZoom(window);
 				if (OhjeIkkuna.näytäOhjeet) OhjeIkkuna.avaaToimintoIkkuna();
 			}
@@ -292,6 +284,9 @@ public class KeimoEngine extends Thread {
 			case "asetusruutu_peli" -> {
 				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_PELI;
 			}
+			case "asetusruutu_äänitesti" -> {
+				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI;
+			}
 			case "kehittäjäruutu" -> {
 				Peli.aktiivinenRuutu = Peli.Ruudut.KEHITTÄJÄRUUTU;
 			}
@@ -315,11 +310,11 @@ public class KeimoEngine extends Thread {
 				double alkuAika = System.nanoTime();
 				kaatoTeksti.bind(0);
 
-				world.render(camera);
+				world.render(camera, window);
 				double tileAika = System.nanoTime() - alkuAika;
 				
 				player.update((float)targetUpdate, window, camera, world);
-				player.render(camera, world);
+				player.render(camera, world, window);
 				double pelaajaAika = System.nanoTime() - alkuAika - tileAika;
 				
 				//world.correctCamera(camera, window);
@@ -348,6 +343,9 @@ public class KeimoEngine extends Thread {
 			}
 			case ASETUSRUUTU_PELI -> {
 				PeliAsetusRuutu.render(window);
+			}
+			case ASETUSRUUTU_ÄÄNITESTI -> {
+				ÄäniTestiRuutu.render(window);
 			}
 			case KEHITTÄJÄRUUTU -> {
 				KehittäjäRuutu.render(window);
@@ -430,13 +428,8 @@ public class KeimoEngine extends Thread {
 				Peli.pelaajanLiike();
 				Peli.pelinKulku();
 				Peli.valittuEsine = Pelaaja.esineet[Peli.esineValInt];
-				world.calculateView(window, camera);
 				camera.setPosition(new Vector3f(-Pelaaja.hitbox.x, Pelaaja.hitbox.y, 0));
 				if (Kamera.päivitäZoom) camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX * Kamera.zoomKerroin, Kamera.zoomX * Kamera.zoomKerroin, -Kamera.zoomY * Kamera.zoomKerroin, Kamera.zoomY * Kamera.zoomKerroin));
-				//camera.setOrthographic(-100, 100, -100, 100);
-				//camera.setProjection(camera.getProjection().rotateZ(0.0001f));
-				//camera.getRotation().rotateAxis(0.0001f, 0, 0, 1);
-				//camera.setPerspective(70, 1, 0.001f, 1000f);
 				PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
 				if (Peli.globaaliTickit % 2 == 0) {
 					PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();

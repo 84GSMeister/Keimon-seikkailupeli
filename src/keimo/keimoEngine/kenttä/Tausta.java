@@ -1,5 +1,7 @@
 package keimo.keimoEngine.kenttä;
 
+import keimo.Pelaaja;
+import keimo.PelinAsetukset;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.Shader;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
@@ -25,11 +27,14 @@ public class Tausta {
 		if (taustaTekstuurit.containsKey(taustanNimi)) taustaTekstuurit.get(taustanNimi).bind(0);
 		else virheTekstuuri.bind(0);
 
-        Matrix4f matTausta = new Matrix4f();
+		Matrix4f taustanSijainti = new Matrix4f().scale(32 * PelinAsetukset.zoom).translate(0, 0, -1);
+        Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, window.getWidth()/window.getHeight(), 0.001f, 1000);
+        Matrix4f lookAtMatrtix = new Matrix4f().setLookAt(0, 0, 32 * PelinAsetukset.zoom, 0, 0, 0, 0, 1, 0);
+        Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrtix).mul(taustanSijainti);
+		
 		taustaShader.setUniform("sampler", 0);
-		taustaShader.setUniform("projection", matTausta);
-		if (häivytäTausta) taustaShader.setUniform("subcolor", new Vector4f(Maailma.fade, Maailma.fade, Maailma.fade, 0f));
-		else taustaShader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
+		taustaShader.setUniform("projection", resultMatrix);
+        taustaShader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
 		
 		Model model = Assets.getModel();
 		model.render();

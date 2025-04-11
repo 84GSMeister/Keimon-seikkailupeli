@@ -4,6 +4,7 @@ import java.util.Random;
 import javax.sound.midi.*;
 
 import keimo.Säikeet.ÄänentoistamisSäie;
+import keimo.keimoEngine.menu.asetusRuudut.ÄäniTestiRuutu;
 
 class MidiInputReceiver implements Receiver {
 
@@ -67,7 +68,8 @@ class MidiInputReceiver implements Receiver {
             default: System.out.println("unsupported midi event: " + midiEvent); break;
         }
         if (midiEventInt == ShortMessage.NOTE_ON) {
-            ÄänentoistamisSäie.toistaWoof(haeMidiSyötteenSampleRate(midiNuotti));
+            //ÄänentoistamisSäie.toistaResamplattavaÄäni(haeMidiSyötteenSampleRate(midiNuotti));
+            ÄäniTestiRuutu.toistaValittuÄäni(haeMidiSyötteenSampleRate(midiNuotti));
         }
     }
 

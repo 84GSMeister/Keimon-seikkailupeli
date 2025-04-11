@@ -62,7 +62,8 @@ public class KehittäjäRuutu {
     }
 
     private static void renderöiTekstit(Window window) {
-        float scaleXOtsikko = window.getWidth()/ (window.getWidth()*2/window.getHeight());
+        float scaleXOtsikko = 1;
+        if (window.getWidth() > 0 && window.getHeight() > 0) scaleXOtsikko = window.getWidth()/ (window.getWidth()*2/window.getHeight());
         float scaleYOtsikko = window.getHeight()/16;
         float scaleXTekstit = window.getWidth()/4;
         float scaleYTekstit = window.getHeight()/30;

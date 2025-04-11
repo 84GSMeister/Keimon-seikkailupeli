@@ -30,7 +30,8 @@ public class VirheRuutu {
         tarinaRuutuShader.setUniform("sampler", 0);
         tarinaRuutuShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
-        float scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
+        float scaleX = 1;
+        if (window.getWidth() > 0 && window.getHeight() > 0) scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
         float scaleYKuva = window.getHeight()/12;
         float scaleYTeksti = window.getHeight()/4;
         float scaleYJatkaNappi = window.getHeight()/12;

@@ -1,0 +1,36 @@
+# Aspose.3D Wavefront OBJ Exporter
+# Copyright 2004-2025 Aspose Pty Ltd.
+# File created: 03/30/2025 20:38:46
+
+newmtl tölkki_ylä
+	Ka 0.2 0.2 0.2
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	d 1
+	Tr 0
+	map_Kd tölkki/tölkki_ylä.png
+newmtl tölkki_oranssi
+	Ka 0.2 0.2 0.2
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	d 1
+	Tr 0
+	map_Kd tölkki/tölkki_oranssi.png
+newmtl kuparilager
+	Ka 0.2 0.2 0.2
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	d 1
+	Tr 0
+	map_Kd tölkki/kuparilager2.png
+newmtl tölkki_yläreuna
+	Ka 0.2 0.2 0.2
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	d 1
+	Tr 0
+	map_Kd tölkki/tölkki_yläreuna.png

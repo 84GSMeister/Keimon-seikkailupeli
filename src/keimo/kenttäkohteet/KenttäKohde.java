@@ -312,12 +312,19 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Olutlasi(määritettySijainti, sijX, sijY);
                 break;
 
-            case "Painelaatta (pahavihu)":
-                luotavaObjekti = new PainelaattaPahavihu(määritettySijainti, sijX, sijY);
+            case "Painelaatta":
+                luotavaObjekti = new Painelaatta(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
 
             case "Painelaatta (pikkuvihu)":
-                luotavaObjekti = new PainelaattaPikkuvihu(määritettySijainti, sijX, sijY);
+                ominaisuusLista = new String[1];
+                ominaisuusLista[0] = "vihollinen=Pikkuvihu";    
+                luotavaObjekti = new Painelaatta(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+            case "Painelaatta (pahavihu)":
+                ominaisuusLista = new String[1];
+                ominaisuusLista[0] = "vihollinen=Pahavihu";    
+                luotavaObjekti = new Painelaatta(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
 
             case "Paperi":
@@ -326,6 +333,14 @@ public abstract class KenttäKohde implements Käännettävä {
 
             case "Pasi":
                 luotavaObjekti = new Pasi(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Paskanmarjabooli":
+                luotavaObjekti = new Paskanmarjabooli(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Paskanmarjat":
+                luotavaObjekti = new Paskanmarjat(määritettySijainti, sijX, sijY);
                 break;
 
             case "Pelikone":
@@ -419,6 +434,9 @@ public abstract class KenttäKohde implements Käännettävä {
             if (this instanceof Ruoka) {
                 tiedot += ", Ruoka";
             }
+            else if (this instanceof Juoma) {
+                tiedot += ", Juoma";
+            }
             else if (this instanceof Ase) {
                 tiedot += ", Ase";
             }
@@ -443,7 +461,7 @@ public abstract class KenttäKohde implements Käännettävä {
                 tiedot += "\n";
             }
         }
-        else if (this instanceof Kiintopiste){
+        else if (this instanceof Kiintopiste) {
             tiedot += "Tyyppi: Kiintopiste";
             if (this instanceof Säiliö) {
                 tiedot += ", Säiliö";
@@ -484,6 +502,13 @@ public abstract class KenttäKohde implements Käännettävä {
         }
         else if (this instanceof Triggeri) {
             tiedot += "Tyyppi: Triggeri" + "\n";
+            Triggeri trg = (Triggeri)this;
+            if (trg.annaVaadittuEsine() != null) {
+                tiedot += "Vaadittu esine: " + trg.annaVaadittuEsine().annaNimi() + "\n";
+            }
+            if (trg.annaVaadittuVihollinen() != null) {
+                tiedot += "Vaadittu vihollinen: " + trg.annaVaadittuVihollinen().annaNimi() + "\n";
+            }
         }
         else if (this instanceof Kerättävä) {
             tiedot += "Tyyppi: Kerättävä" + "\n";

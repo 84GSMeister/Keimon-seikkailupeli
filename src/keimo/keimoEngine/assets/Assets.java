@@ -1,6 +1,7 @@
 package keimo.keimoEngine.assets;
 
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.Utility.Käännettävä.SuuntaVasenOikea;
 import keimo.Utility.ModelLoader;
 import keimo.keimoEngine.grafiikat.objekti2d.Model;
 import keimo.keimoEngine.grafiikat.objekti3d.Model3D;
@@ -63,7 +64,15 @@ public class Assets {
             case OIKEA: return model0X;
             case ALAS: return model270;
             case YLÖS: return model90;
-            default: return model180;
+            case null, default: return model180;
+        }
+    }
+
+    public static Model getModel(SuuntaVasenOikea suunta) {
+        switch (suunta) {
+            case VASEN: return model0;
+            case OIKEA: return model0X;
+            case null, default: return model180;
         }
     }
     
@@ -143,5 +152,6 @@ public class Assets {
         lisää3DMalli("Coin", 3f, true);
         lisää3DMalli("Kolikko", 3f, true);
         lisää3DMalli("KeimoTeksti", 0.0125f, true);
+        lisää3DMalli("tölkki", 0.075f, true);
     }
 }

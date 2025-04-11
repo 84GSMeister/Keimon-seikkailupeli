@@ -6,6 +6,7 @@ import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
+import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -27,6 +28,7 @@ public abstract class Maasto {
     boolean xPeilaus = false;
     boolean yPeilaus = false;
     public Rectangle hitbox;
+    public Transform3D transform = new Transform3D();
 
     protected String nimi;
     protected String katsomisTeksti;

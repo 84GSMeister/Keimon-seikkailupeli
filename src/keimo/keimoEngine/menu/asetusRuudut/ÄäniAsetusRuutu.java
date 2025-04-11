@@ -17,16 +17,17 @@ import org.joml.Matrix4f;
 
 public class ÄäniAsetusRuutu {
     private static int valinta = 0;
-    private static int asetustenMäärä = 5;
+    private static int asetustenMäärä = 6;
     private static Shader asetusRuutuShader = new Shader("staattinen");
     private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
-    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
+    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/menu/main_osoitin.gif");
     private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
 
     private static Teksti asetusMusaTeksti = new Teksti("Musiikki", Color.white, 200, 16);
     private static Teksti asetusMusanVoimakkuusTeksti = new Teksti("Musiikin voim.", Color.white, 200, 16);
     private static Teksti asetusÄänetTeksti = new Teksti("Äänet (SFX)", Color.white, 200, 16);
     private static Teksti asetusÄäntenVoimakkuusTeksti = new Teksti("Äänten voim.", Color.white, 200, 16);
+    private static Teksti asetusÄänitestiTeksti = new Teksti("Äänitesti", Color.white, 200, 16);
     private static Tekstuuri hyväksyTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/asetukset_takaisin.png");
 
     private static Teksti tilaMusaTeksti = new Teksti("Päällä", Color.white, 200, 16);
@@ -99,7 +100,10 @@ public class ÄäniAsetusRuutu {
                     if (ääntenVoimakkuus > 0.005f) ääntenVoimakkuus -= 0.01f;
                 }
             break;
-            case 4: // Hyväksy
+            case 4: // Avaa Äänitesti
+                //KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+            break;
+            case 5: // Hyväksy
                 //KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
             break;
             default:
@@ -118,6 +122,11 @@ public class ÄäniAsetusRuutu {
 
     static void hyväksy(int valinta) {
         if (valinta == 4) {
+            ÄäniTestiRuutu.listaaÄänet();
+            ÄänentoistamisSäie.suljeMusa();
+            KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
+        }
+        else if (valinta == 5) {
             KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
         }
     }
@@ -170,7 +179,8 @@ public class ÄäniAsetusRuutu {
                 case 1: asetusMusanVoimakkuusTeksti.bind(0); break;
                 case 2: asetusÄänetTeksti.bind(0); break;
                 case 3: asetusÄäntenVoimakkuusTeksti.bind(0); break;
-                case 4: hyväksyTekstuuri.bind(0); break;
+                case 4: asetusÄänitestiTeksti.bind(0); break;
+                case 5: hyväksyTekstuuri.bind(0); break;
             }
             Assets.getModel().render();
         }
@@ -190,7 +200,7 @@ public class ÄäniAsetusRuutu {
                 case 1: tilaMusanVoimakkuusTeksti.bind(0); break;
                 case 2: tilaÄänetTeksti.bind(0); break;
                 case 3: tilaÄäntenVoimakkuusTeksti.bind(0); break;
-                case 4: tyhjäTekstuuri.bind(0); break;
+                default: tyhjäTekstuuri.bind(0); break;
             }
             Assets.getModel().render();
         }

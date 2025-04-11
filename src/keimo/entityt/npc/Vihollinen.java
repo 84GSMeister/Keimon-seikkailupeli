@@ -70,7 +70,6 @@ public abstract class Vihollinen extends NPC {
 
     public void vahingoita(Ase ase) {
         this.hp -= ase.annaVahinko();
-        System.out.println(this.annaNimi() + ", hp: " + this.annaHp());
         if (this.hp <= 0) {
             this.kukista(ase.annaNimi());
             ÄänentoistamisSäie.toistaSFX(ase.annaNimi());

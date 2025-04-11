@@ -24,7 +24,7 @@ public class ÄmpäriJonoIkkuna {
 
     private static Shader peliShader = new Shader("shader");
 
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
+    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
     private static Teksti ämpäriJonoTeksti = new Teksti("Palautetaan", Color.green, 300, 200);
     private static Teksti ohjeTeksti = new Teksti("Space: Poistu", Color.green, 300, 200);
     private static Tekstuuri surunaamaTekstuuri = new Tekstuuri("tiedostot/kuvat/surunaama.png");

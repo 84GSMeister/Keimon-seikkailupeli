@@ -25,7 +25,7 @@ public class LoppuRuutu {
     private static String häviönSyyTeksti = "Häviön syy";
     private static Tekstuuri valintaUusiPeliTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_uusipeli.png");
     private static Tekstuuri valintaLopetaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_lopeta.png");
-    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/animaatiot/menu/main_osoitin.gif");
+    private static Animaatio osoitinKuvake = new Animaatio(30, "tiedostot/kuvat/menu/main_osoitin.gif");
     private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
 
     static int klikkaustenMäärä;
@@ -181,8 +181,8 @@ public class LoppuRuutu {
         loppuRuutuShader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
         if (kelausViive > 0) kelausViive--;
 
-        float scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
-
+        float scaleX = 1;
+        if (window.getWidth() > 0 && window.getHeight() > 0) scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
         float scaleYOtsikko = window.getHeight()/10;
         float scaleYKuva = window.getHeight()/5;
         float scaleYTeksti = window.getHeight()/10;

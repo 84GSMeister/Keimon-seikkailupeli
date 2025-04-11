@@ -1,8 +1,8 @@
-#version 400
+#version 120
 
 in vec3 vertices;
 in vec2 textures;
-out vec2 tex_coords;
+varying vec2 tex_coords;
 
 uniform mat4 projection;
 

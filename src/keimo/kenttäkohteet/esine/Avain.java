@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Avain extends Esine {
 
     @Override
@@ -37,7 +35,6 @@ public final class Avain extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Avain";
         super.tiedostonNimi = "avain.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?";
         super.kenttäkäyttö = true;

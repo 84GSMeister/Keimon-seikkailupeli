@@ -3,8 +3,6 @@ package keimo.kenttäkohteet.esine;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Paskanmarjabooli extends Juoma {
 
     @Override
@@ -36,12 +34,9 @@ public class Paskanmarjabooli extends Juoma {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Paskanmarjabooli";
         super.tiedostonNimi = "paskanmarjabooli.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Tällä pääsee kuuhun asti (Kuu tulossa tulevaisuudessa!).";
-        super.liikeNopeus = 6f;
+        super.katsomisTeksti = "Tällä pääsee kuuhun asti!";
         super.käyttö = true;
-        super.pyörimisNopeus = 2f;
         super.voltit = 6;
         super.känniKuolemattomuus = 12000;
         super.asetaTiedot();

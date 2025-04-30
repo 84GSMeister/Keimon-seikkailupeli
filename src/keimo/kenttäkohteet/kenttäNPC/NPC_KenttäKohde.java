@@ -1,8 +1,6 @@
 package keimo.kenttäkohteet.kenttäNPC;
 
-import keimo.PääIkkuna;
 import keimo.kenttäkohteet.KenttäKohde;
-import keimo.kenttäkohteet.esine.Esine;
 
 public abstract class NPC_KenttäKohde extends KenttäKohde {
     
@@ -10,11 +8,6 @@ public abstract class NPC_KenttäKohde extends KenttäKohde {
 
     protected boolean customDialogi = false;
     protected String valittuDialogi = "";
-
-    @Override
-    public void näytäDialogi(Esine e) {
-        PääIkkuna.avaaPitkäDialogiRuutu(valittuDialogi);
-    }
 
     public boolean onkoCustomDialogi() {
         return customDialogi;

@@ -1,10 +1,7 @@
 package keimo.entityt.npc;
 
-import keimo.Ruudut.PeliRuutu;
-import keimo.Utility.SkaalattavaKuvake;
 import keimo.keimoEngine.grafiikat.*;
 
-import javax.swing.ImageIcon;
 
 public class Pikkuvihu extends Vihollinen {
 
@@ -17,11 +14,9 @@ public class Pikkuvihu extends Vihollinen {
         super.kukista(kukistusTapa);
         switch (kukistusTapa) {
             case "Ämpäri", "Vesiämpäri" -> {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png");
                 this.tekstuuri = ämpäröityTekstuuri;
             }
             case "Pesäpallomaila" -> {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png");
                 this.tekstuuri = lyötyTekstuuri;
             }
         }
@@ -64,23 +59,6 @@ public class Pikkuvihu extends Vihollinen {
         }
     }
 
-    @Override
-    public void valitseKuvake() {
-        if (this.hurtAika > 0) {
-            this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_hurt.png");
-        }
-        else {
-            switch (this.suuntaVasenOikea) {
-                case VASEN:
-                    this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.gif");
-                break;
-                case OIKEA:
-                    this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/pikkuvihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
-                break;
-            }
-        }
-    }
-
     public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 2;
@@ -89,12 +67,11 @@ public class Pikkuvihu extends Vihollinen {
         super.nopeus = 3;
         super.tekeeVahinkoa = true;
         super.kuvaTiedosto = "tiedostot/kuvat/npc/pikkuvihu.gif";
-        super.kuvake = new ImageIcon(kuvaTiedosto);
         super.tekstuuri = vakioTekstuuri;
         super.kilpiTehoaa = true;
         super.sijX = sijX;
         super.sijY = sijY;
-        super.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Pikkuvihu";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;

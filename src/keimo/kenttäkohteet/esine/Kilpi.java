@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Kilpi extends Esine {
     
     @Override
@@ -30,7 +28,6 @@ public final class Kilpi extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kilpi";
         super.tiedostonNimi = "kilpi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
         super.asetaTiedot();

@@ -1,24 +1,10 @@
 package keimo.kenttäkohteet.kiintopiste;
 
-import keimo.Pelaaja;
-import keimo.Utility.KäännettäväKuvake;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-import keimo.kenttäkohteet.esine.Esine;
 
 import java.io.File;
-import javax.swing.ImageIcon;
 
 public class KauppaHylly extends Säiliö {
-
-    @Override
-    public String vuorovaikuta(Esine e) {
-        if (this.sisältö != null) {
-            return Pelaaja.lisääOstosKoriin(luoSisältö(this.sisältö.annaNimi(), lisäOminaisuudet));
-        }
-        else {
-            return "Tyhjä hylly";
-        }
-    }
 
     public void päivitäLisäOminaisuudet() {
         super.lisäOminaisuuksia = true;
@@ -41,12 +27,10 @@ public class KauppaHylly extends Säiliö {
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
-                super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
                 super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
             }
             else {
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
-                super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
                 super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
                 
             }
@@ -63,11 +47,8 @@ public class KauppaHylly extends Säiliö {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kauppahylly";
         super.tiedostonNimi = "kauppahylly.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tyhjä hylly";
-        super.erillisDialogi = true;
-        super.ignooraaEsineValintaDialogissa = true;
 
         if (ominaisuusLista != null) {
             String esineenNimi = "";
@@ -105,11 +86,9 @@ public class KauppaHylly extends Säiliö {
             this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
-                super.kuvake = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png"), this.kääntöAsteet, this.xPeilaus, this.yPeilaus);
                 super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             }
             else {
-                super.kuvake = new KäännettäväKuvake(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png"), this.kääntöAsteet, this.xPeilaus, this.yPeilaus);
                 super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
             }
             päivitäLisäOminaisuudet();

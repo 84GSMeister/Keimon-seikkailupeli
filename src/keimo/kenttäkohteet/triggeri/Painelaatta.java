@@ -6,8 +6,6 @@ import keimo.entityt.npc.Pikkuvihu;
 import keimo.entityt.npc.Vihollinen;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Painelaatta extends Triggeri {
     
     private Tekstuuri vakioTekstuuriPikkuvihu = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta_Pikkuvihu.png");
@@ -20,11 +18,9 @@ public class Painelaatta extends Triggeri {
         super.triggeröi();
         if (vaadittuVihollinen instanceof Pikkuvihu) {
             super.tekstuuri = painettuTekstuuriPikkuvihu;
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta_Pikkuvihu_painettu.png");
         }
         else if (vaadittuVihollinen instanceof Pahavihu) {
             super.tekstuuri = painettuTekstuuriPahavihu;
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta_Pahavihu_painettu.png");
         }
     }
     @Override
@@ -63,7 +59,6 @@ public class Painelaatta extends Triggeri {
                 }
             }
             super.tiedostonNimi = "painelaatta_" + vihollinen.annaNimi() + ".png";
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
             super.vaadittuVihollinen = vihollinen;
             super.katsomisTeksti = "Tähän täytyy saada " + vihollinen.annaNimi();
             if (super.vaadittuVihollinen instanceof Pikkuvihu) {
@@ -77,7 +72,6 @@ public class Painelaatta extends Triggeri {
         else {
             this.lisäOminaisuuksia = false;
             super.tiedostonNimi = "painelaatta.png";
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
             super.katsomisTeksti = "Tähän täytyy varmaankin saada vihollinen.";
         }
 

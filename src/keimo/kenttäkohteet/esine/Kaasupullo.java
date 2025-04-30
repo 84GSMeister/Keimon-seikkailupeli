@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Kaasupullo extends Esine {
 
     @Override
@@ -28,7 +26,6 @@ public final class Kaasupullo extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kaasupullo";
         super.tiedostonNimi = "kaasupullo.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
         super.yhdistettävä = true;

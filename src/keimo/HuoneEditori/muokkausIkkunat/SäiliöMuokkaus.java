@@ -50,7 +50,7 @@ public class SäiliöMuokkaus {
                     kauppaHylly.lisäOminaisuuksia = true;
                     kauppaHylly.päivitäLisäOminaisuudet();
                     kauppaHylly.päivitäTiedot();
-                    kauppaHylly.päivitäKuvanAsento();
+                    //kauppaHylly.päivitäKuvanAsento();
                     HuoneEditoriIkkuna.objektiKenttä[sijX][sijY] = kauppaHylly;
                     muokkausIkkuna.dispose();
                 break;
@@ -191,15 +191,6 @@ public class SäiliöMuokkaus {
         muokkausIkkuna.add(paneli, BorderLayout.CENTER);
         muokkausIkkuna.revalidate();
         muokkausIkkuna.repaint();
-    }
-
-    public static void päivitäDialogiValintaLaatikko() {
-        if (sisältöValinta != null) {
-            sisältöValinta.removeAllItems();
-            for (String s : VuoropuheDialogit.vuoropuheDialogiKartta.keySet()) {
-                sisältöValinta.addItem(s);
-            }
-        }
     }
 }
 

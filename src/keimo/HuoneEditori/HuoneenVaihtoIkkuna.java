@@ -2,7 +2,6 @@ package keimo.HuoneEditori;
 
 import keimo.Pelaaja;
 import keimo.Peli;
-import keimo.PääIkkuna;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
@@ -98,7 +97,7 @@ public class HuoneenVaihtoIkkuna {
 
     static void asetaArvot(int huoneenId) {
         try {
-            Peli.lataaHuone(huoneenId, true);
+            //Peli.lataaHuone(huoneenId, true);
             ikkuna.dispose();
             if (Pelaaja.sijX >= Peli.huoneKartta.get(huoneenId).annaKoko() || Pelaaja.sijY >= Peli.huoneKartta.get(huoneenId).annaKoko()) {
                 Pelaaja.teleport(0, 0);
@@ -200,7 +199,7 @@ public class HuoneenVaihtoIkkuna {
         ikkuna.setBounds(100, 50, ikkunanLeveys, ikkunanKorkeus);
         ikkuna.setLayout(new BorderLayout());
         ikkuna.setVisible(true);
-        ikkuna.setLocationRelativeTo(PääIkkuna.ikkuna);
+        ikkuna.setLocationRelativeTo(HuoneEditoriIkkuna.ikkuna);
         ikkuna.add(paneli, BorderLayout.CENTER);
         ikkuna.revalidate();
         ikkuna.repaint();

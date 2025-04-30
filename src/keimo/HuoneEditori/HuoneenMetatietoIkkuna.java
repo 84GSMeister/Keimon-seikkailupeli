@@ -4,7 +4,6 @@ import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteEditoriIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
-import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import java.awt.BorderLayout;
@@ -31,7 +30,7 @@ public class HuoneenMetatietoIkkuna {
 
     static final int ikkunanLeveys = 500;
     static final int ikkunanKorkeus = 295;
-    static String[] musat = {"baari", "boss", "kauppa", "koti", "metsä", "overworld", "puisto", "tarina", "temppeli", "valikko"};
+    static String[] musat = {"baari", "boss", "kauppa", "koti", "kuu", "metsä", "overworld", "puisto", "tarina", "temppeli", "valikko"};
 
     static JPanel pääPaneeli, yläPaneeli, alaPaneeli, yläVasenPaneeli, yläOikeaPaneeli;
     static JLabel huoneenIdLabel, huoneenKokoLabel, huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenMusaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel, huoneenTavoiteTekstiKenttäLabel;

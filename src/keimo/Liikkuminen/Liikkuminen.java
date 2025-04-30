@@ -1,5 +1,5 @@
 package keimo.Liikkuminen;
-public class Liikkuminen {
+public abstract class Liikkuminen {
     
     /**
      * Täysin kirottua koodia.

@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Tynnyri extends Esine {
 
     @Override
@@ -28,7 +26,6 @@ public class Tynnyri extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Tynnyri";
         super.tiedostonNimi = "tynnyri.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.kolmiUlotteinen = true;
         super.obj3dMallinTunniste = "Tynnyri";

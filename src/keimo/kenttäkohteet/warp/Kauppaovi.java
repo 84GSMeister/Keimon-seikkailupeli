@@ -1,15 +1,10 @@
 package keimo.kenttäkohteet.warp;
 
 import keimo.Pelaaja;
-import keimo.Peli;
-import keimo.PääIkkuna;
-import keimo.Utility.KäännettäväKuvake;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.keimoEngine.toiminnot.Dialogit;
 import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.esine.Esine;
-
-import javax.swing.ImageIcon;
 
 public class Kauppaovi extends Warp {
     
@@ -34,27 +29,21 @@ public class Kauppaovi extends Warp {
     @Override
     public void asetaSuunta(Suunta suunta) {
         super.asetaSuunta(suunta);
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppaovi.png");
         switch (suunta) {
             case YLÖS:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
             case ALAS:
                 this.suunta = Suunta.ALAS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 180);
                 break;
             case VASEN:
                 this.suunta = Suunta.VASEN;
-                this.kuvake = new KäännettäväKuvake(kuvake, 270);
                 break;
             case OIKEA:
                 this.suunta = Suunta.OIKEA;
-                this.kuvake = new KäännettäväKuvake(kuvake, 90);
                 break;
             default:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
         }
     }
@@ -71,7 +60,6 @@ public class Kauppaovi extends Warp {
         }
         for (int i = 0; i < tyhjätPaikat; i++) {
             if (Pelaaja.ostosKori.size() > i) {
-                //Pelaaja.annaEsine(Pelaaja.ostosKori.get(i));
                 Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(Pelaaja.ostosKori.get(i).annaNimi(), true, 0, 0, null));
                 saatujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
             }
@@ -85,24 +73,20 @@ public class Kauppaovi extends Warp {
         if (saatujenTuotteidenNimet.length() > 0 && pudotettujenTuotteidenNimet.length() > 0) {
             saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
             pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-            if (Peli.legacy) PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ",<br><br> mutta sinulta putosi: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)", true, null);
-            else Dialogit.avaaDialogi("", "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ",<br><br> mutta sinulta putosi: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)");
+            Dialogit.avaaDialogi("", "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ",<br><br> mutta sinulta putosi: " + pudotettujenTuotteidenNimet + "</p></html>", "Juoksukalja (reppu täynnä!)");
         }
         else if (saatujenTuotteidenNimet.length() > 0) {
             saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
-            if (Peli.legacy) PääIkkuna.avaaDialogi(null, "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet + "</p></html>", "Juoksukalja", true, null);
-            else Dialogit.avaaDialogi("", "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet + "</p></html>", "Juoksukalja");
+            Dialogit.avaaDialogi("", "<html><p>Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet + "</p></html>", "Juoksukalja");
         }
         else if (pudotettujenTuotteidenNimet.length() > 0) {
             if (pudotettujenTuotteidenNimet.split(",").length > 2) {
                 pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-                if (Peli.legacy) PääIkkuna.avaaDialogi(null, "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta ne putosivat, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)", true, null);
-                else Dialogit.avaaDialogi("", "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta ne putosivat, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)");
+                Dialogit.avaaDialogi("", "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta ne putosivat, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)");
             }
             else {
                 pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-                if (Peli.legacy) PääIkkuna.avaaDialogi(null, "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta se putosi, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)", true, null);
-                else Dialogit.avaaDialogi("", "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta se putosi, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)");
+                Dialogit.avaaDialogi("", "<html><p>Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",<br><br>mutta se putosi, sillä reppusi on täynnä.</p></html>", "Juoksukalja (reppu täynnä!)");
             }
         }
         Pelaaja.tyhjennäOstoskori();
@@ -139,7 +123,6 @@ public class Kauppaovi extends Warp {
         }
 
         super.tiedostonNimi = "kauppaovi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;

@@ -7,6 +7,7 @@ import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogiPätkä;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.gui.toimintoIkkunat.DialogiValintaIkkuna;
+import keimo.kenttäkohteet.esine.KuuOlutlasi;
 import keimo.kenttäkohteet.esine.Olutlasi;
 
 import java.text.DecimalFormat;
@@ -282,6 +283,53 @@ public class Dialogit {
                             dialogiPuhujat[2] = "Keimo-baarin tarjoilija";
                             dialogiPuhujat[3] = "Keimo";
                             dialogiPuhujat[4] = "Keimo-baarin tarjoilija";
+                        return true;
+                        case "kuu_baari":
+                            dialoginPituus = 6;
+                            dialogiaJäljellä = dialoginPituus;
+                            dialogiKuvienTiedostoNimet = new String[dialoginPituus];
+                            dialogiTekstit = new String[dialoginPituus];
+                            dialogiPuhujat = new String[dialoginPituus];
+
+                            dialogiKuvienTiedostoNimet[0] = "tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png";
+                            dialogiKuvienTiedostoNimet[1] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
+                            dialogiKuvienTiedostoNimet[2] = "tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png";
+                            dialogiKuvienTiedostoNimet[3] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
+                            dialogiKuvienTiedostoNimet[4] = "tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png";
+                            dialogiKuvienTiedostoNimet[5] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
+
+                            dialogiTekstit[0] = "Hyvää iltaa! Mitä saisi olla?";
+                            dialogiTekstit[1] = "Hmm... Tää on mulle uus paikka. Mitä suosittelet?";
+                            dialogiTekstit[2] = "Kuuolut on klassikko. Talo tarjoaa";
+                            dialogiTekstit[3] = "Oikeasti? No jumalauta, laitetaan sellainen";
+                            dialogiTekstit[4] = "Tässä, olkaa hyvä.";
+                            dialogiTekstit[5] = "Kiitos. ";
+
+                            dialogiPuhujat[0] = "Kuu-baarin tarjoilija";
+                            dialogiPuhujat[1] = "Keimo";
+                            dialogiPuhujat[2] = "Kuu-baarin tarjoilija";
+                            dialogiPuhujat[3] = "Keimo";
+                            dialogiPuhujat[4] = "Kuu-baarin tarjoilija";
+                            dialogiPuhujat[5] = "Keimo";
+                        return true;
+                        case "kuu_baari_2":
+                            dialoginPituus = 3;
+                            dialogiaJäljellä = dialoginPituus;
+                            dialogiKuvienTiedostoNimet = new String[dialoginPituus];
+                            dialogiTekstit = new String[dialoginPituus];
+                            dialogiPuhujat = new String[dialoginPituus];
+
+                            dialogiKuvienTiedostoNimet[0] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
+                            dialogiKuvienTiedostoNimet[1] = "tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png";
+                            dialogiKuvienTiedostoNimet[2] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
+
+                            dialogiTekstit[0] = "Iltaa. Yksi kuuolut.";
+                            dialogiTekstit[1] = "Tässä, olkaa hyvä.";
+                            dialogiTekstit[2] = "Kiitos. ";
+
+                            dialogiPuhujat[0] = "Keimo";
+                            dialogiPuhujat[1] = "Kuu-baarin tarjoilija";
+                            dialogiPuhujat[2] = "Keimo";
                         return true;
                         case null, default:
                             Dialogit.avaaDialogi("", "Dialogia ei löytynyt. Objekti on määritetty avaamaan dialogi " + "\"" + vuoropuheRuudunTunniste + "\"" + ", jota ei löytynyt dialogikartasta eikä vakiodialogivalikoimasta. Onkohan kst-tiedostoa menty käpelöimään muuten kuin pelinsisäisellä editorilla? :(", "Dialogia ei löytynyt");

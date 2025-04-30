@@ -1,9 +1,6 @@
 package keimo.Maastot;
 
-import keimo.Ruudut.PeliRuutu;
-
 import java.awt.Rectangle;
-import javax.swing.ImageIcon;
 
 public class Tile extends Maasto {
 
@@ -101,9 +98,8 @@ public class Tile extends Maasto {
         this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
         this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
 
-        super.kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
-        super.hitbox = new Rectangle(PeliRuutu.esineenKokoPx, PeliRuutu.esineenKokoPx);
-        super.hitbox.setLocation(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        super.hitbox = new Rectangle(64, 64);
+        super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.asetaTiedot();
         //luoSkaalattuKuvake();
     }

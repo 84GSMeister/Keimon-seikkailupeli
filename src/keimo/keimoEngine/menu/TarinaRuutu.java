@@ -37,15 +37,36 @@ public class TarinaRuutu {
         klikkaustenMäärä = 0;
         tarinanKuvat.clear();
         tarinanTekstit.clear();
-        TarinaPätkä tp = TarinaDialogiLista.tarinaKartta.get(tarinanTunniste);
-        tarinanPituusRuutuina = tp.annaPituus();
-        for (String s : tp.annaTekstit()) {
-            tarinanTekstit.add(s);
+        if (TarinaDialogiLista.tarinaKartta.containsKey(tarinanTunniste)) {
+            TarinaPätkä tp = TarinaDialogiLista.tarinaKartta.get(tarinanTunniste);
+            tarinanPituusRuutuina = tp.annaPituus();
+            for (int i = 0; i < tp.annaPituus(); i++) {
+                try {
+                    String s = tp.annaTekstit()[i];
+                    if (s == null) throw new NullPointerException();
+                    tarinanTekstit.add(s);
+                }
+                catch (NullPointerException | IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    tarinanTekstit.add("Tarinapätkälle " + "\"" + tarinanTunniste + "\"\n" + "ei löytynyt sivua " + i + "\n\n" + "Onkohan kst-tiedosto vioittunut?");
+                }
+            }
+            for (int i = 0; i < tp.annaPituus(); i++) {
+                try {
+                    String s = tp.annaKuvatiedostot()[i];
+                    if (s.endsWith(".gif"))
+                    tarinanKuvat.add(new Animaatio(s));
+                    else tarinanKuvat.add(new Tekstuuri(s));
+                }
+                catch (NullPointerException | IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    tarinanKuvat.add(new Tekstuuri("tiedostot/kuvat/tarina/tarina_placeholder.png"));
+                }
+            }
         }
-        for (String s : tp.annaKuvatiedostot()) {
-            if (s.endsWith(".gif"))
-            tarinanKuvat.add(new Animaatio(15, s));
-            else tarinanKuvat.add(new Tekstuuri(s));
+        else {
+            tarinanTekstit.add("Ei voitu ladata tarinapätkää " + "\"" + tarinanTunniste + "\"" + "\n" + "Onkohan kst-tiedosto vioittunut?");
+            tarinanKuvat.add(new Tekstuuri("tiedostot/kuvat/tarina/tarina_placeholder.png"));
         }
     }
 

@@ -1,7 +1,6 @@
 package keimo.HuoneEditori;
 
 import keimo.*;
-import keimo.Ikkunat.CustomViestiIkkunat;
 import keimo.Utility.Downloaded.SpringUtilities;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.kenttäkohteet.*;

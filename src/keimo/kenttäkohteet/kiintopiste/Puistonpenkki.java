@@ -4,8 +4,6 @@ import keimo.Pelaaja;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.Esine;
 
-import javax.swing.ImageIcon;
-
 public final class Puistonpenkki extends Lepopaikka {
 
     @Override
@@ -39,10 +37,8 @@ public final class Puistonpenkki extends Lepopaikka {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Penkki";
         super.tiedostonNimi = "puistonpenkki.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Nukuttaako?";
-        super.ignooraaEsineValintaDialogissa = true;
         super.asetaTiedot();
     }
 }

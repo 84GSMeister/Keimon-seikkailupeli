@@ -1,50 +1,14 @@
 package keimo.kenttäkohteet.kiintopiste;
 
-import keimo.Utility.*;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.kenttäkohteet.KenttäKohde;
-import keimo.kenttäkohteet.esine.Esine;
 
-import java.io.File;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 public abstract class Kiintopiste extends KenttäKohde {
 
-    protected boolean erillisDialogi = false;
-    public boolean onkoErillisDialogi() {
-        return erillisDialogi;
-    }
-
-    protected boolean ignooraaEsineValintaDialogissa = false;
-    public boolean ignooraaEsineValinta() {
-        return ignooraaEsineValintaDialogissa;
-    }
-
-    protected boolean ohitaDialogiTesktiboksi = false;
-    public boolean ohitaDialogiTesktiboksi() {
-        return ohitaDialogiTesktiboksi;
-    }
-
-    boolean vuorovaikutus = false;
-    public boolean vuorovaikutusToimii() {
-        return vuorovaikutus;
-    }
-
     ArrayList<String> käyvätEsineet = new ArrayList<String>();
-
-    public String kokeileEsinettä(Esine e) {
-        return e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi") + ".";
-    }
-
-    public Esine suoritaMuutoksetEsineelle(Esine e) {
-        return super.suoritaMuutoksetEsineelle(e);
-    }
-
-    public String vuorovaikuta(Esine e) {
-        return "Vuorovaikutus";
-    }
 
     public String annaNimi(){
         return nimi;
@@ -78,7 +42,6 @@ public abstract class Kiintopiste extends KenttäKohde {
                 this.kääntöAsteet = kääntöAsteet % 360;
             break;
         }
-        päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
     }
 
@@ -101,30 +64,7 @@ public abstract class Kiintopiste extends KenttäKohde {
                 }
             break;
         }
-        päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
-    }
-
-    public void päivitäKuvanAsento() {
-        File kuvaTiedosto = new File("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        if (kuvaTiedosto.isFile()) {
-            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-            }
-            else {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-                this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
-            }
-        }
-        else {
-            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_kuvavirhe.png");
-            }
-            else {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly_kuvavirhe.png");
-                this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
-            }
-        }
     }
 
     public void päivitäLisäOminaisuudet() {
@@ -179,7 +119,6 @@ public abstract class Kiintopiste extends KenttäKohde {
         else {
             this.lisäOminaisuuksia = false;
         }
-        päivitäKuvanAsento();
         super.asetaTiedot();
     }
 }

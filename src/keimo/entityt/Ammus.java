@@ -1,13 +1,10 @@
 package keimo.entityt;
 
 import keimo.Peli;
-import keimo.Ruudut.PeliRuutu;
 import keimo.entityt.npc.Vihollinen;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 import java.awt.Rectangle;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public class Ammus extends Entity {
     
@@ -35,50 +32,46 @@ public class Ammus extends Entity {
         return alkuSijY;
     }
 
-    public Icon annaKuvake() {
-        return kuvake;
-    }
-
     public boolean kokeileLiikettä(Suunta suunta) {
         boolean liikeOnnistui = false;
         switch (suunta) {
             case OIKEA:
-                if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx + 64) {
+                if (hitbox.getMaxX() < Peli.kentänKoko * 64 + 64) {
                     liikeOnnistui = true;
                 }
             break;
             case VASEN:
-                if (hitbox.getMinX() > -PeliRuutu.pelaajanKokoPx) {
+                if (hitbox.getMinX() > -64) {
                     liikeOnnistui = true;
                 }
             break;
             case ALAS:
-                if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx + 64) {
+                if (hitbox.getMaxY() < Peli.kentänKoko * 64 + 64) {
                     liikeOnnistui = true;
                 }
             break;
             case YLÖS:
-                if (hitbox.getMinY() > -PeliRuutu.pelaajanKokoPx) {
+                if (hitbox.getMinY() > -64) {
                     liikeOnnistui = true;
                 }
             break;
             case ALAOIKEA:
-                if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx + 64 && hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx + 64) {
+                if (hitbox.getMaxX() < Peli.kentänKoko * 64 + 64 && hitbox.getMaxY() < Peli.kentänKoko * 64 + 64) {
                     liikeOnnistui = true;
                 }
             break;
             case ALAVASEN:
-                if (hitbox.getMinX() > -PeliRuutu.pelaajanKokoPx && hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx + 64) {
+                if (hitbox.getMinX() > -64 && hitbox.getMaxY() < Peli.kentänKoko * 64 + 64) {
                     liikeOnnistui = true;
                 }
             break;
             case YLÄOIKEA:
-                if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx + 64 && hitbox.getMinY() > -PeliRuutu.pelaajanKokoPx) {
+                if (hitbox.getMaxX() < Peli.kentänKoko * 64 + 64 && hitbox.getMinY() > -64) {
                     liikeOnnistui = true;
                 }
             break;
             case YLÄVASEN:
-                if (hitbox.getMinX() > -PeliRuutu.pelaajanKokoPx && hitbox.getMinY() > -PeliRuutu.pelaajanKokoPx) {
+                if (hitbox.getMinX() > -64 && hitbox.getMinY() > -64) {
                     liikeOnnistui = true;
                 }
             break;
@@ -87,21 +80,6 @@ public class Ammus extends Entity {
         }
         return liikeOnnistui;
     }
-
-    // public void liikuta(SuuntaVasenOikea suunta) {
-    //     switch (suunta) {
-    //         case OIKEA:
-    //             this.hitbox.setLocation((int)this.hitbox.getLocation().getX() + nopeus, (int)this.hitbox.getLocation().getY());
-    //         break;
-    //         case VASEN:
-    //             this.hitbox.setLocation((int)this.hitbox.getLocation().getX() - nopeus, (int)this.hitbox.getLocation().getY());
-    //         break;
-    //         default:
-    //         break;
-    //     }
-    //     this.sijX = (int)this.hitbox.getCenterX() / PeliRuutu.pelaajanKokoPx;
-    //     this.sijY = (int)this.hitbox.getCenterY() / PeliRuutu.pelaajanKokoPx;
-    // }
 
     public void liikuta8suuntaan(Suunta suunta) {
         switch (suunta) {
@@ -136,8 +114,8 @@ public class Ammus extends Entity {
             default:
             break;
         }
-        this.sijX = (int)this.hitbox.getCenterX() / PeliRuutu.pelaajanKokoPx;
-        this.sijY = (int)this.hitbox.getCenterY() / PeliRuutu.pelaajanKokoPx;
+        this.sijX = (int)this.hitbox.getCenterX() / 64;
+        this.sijY = (int)this.hitbox.getCenterY() / 64;
     }
 
     public Ammus(int sijX, int sijY, SuuntaVasenOikea suunta, int vahinko, Vihollinen ampuja) {
@@ -147,14 +125,13 @@ public class Ammus extends Entity {
         ammusId++;
         this.nopeus = 12;
         this.damage = vahinko;
-        this.sijX = sijX/PeliRuutu.pelaajanKokoPx;
-        this.sijY = sijY/PeliRuutu.pelaajanKokoPx;
+        this.sijX = sijX/64;
+        this.sijY = sijY/64;
         this.leveys = 16;
         this.korkeus = 16;
         this.hitbox = new Rectangle(sijX, sijX, 16, 16);
         this.hitbox.setLocation(sijX, sijY);
         this.kuvaTiedosto = "tiedostot/kuvat/entity/ammus.png";
-        this.kuvake = new ImageIcon(kuvaTiedosto);
         this.tekstuuri = new Tekstuuri(kuvaTiedosto);
         this.ampuja = ampuja;
         if (suunta == SuuntaVasenOikea.OIKEA) {
@@ -172,15 +149,14 @@ public class Ammus extends Entity {
         ammusId++;
         this.nopeus = 12;
         this.damage = vahinko;
-        this.sijX = sijX/PeliRuutu.pelaajanKokoPx;
-        this.sijY = sijY/PeliRuutu.pelaajanKokoPx;
+        this.sijX = sijX/64;
+        this.sijY = sijY/64;
         this.leveys = 16;
         this.korkeus = 16;
         this.hitbox = new Rectangle(sijX, sijX, 16, 16);
         this.hitbox.setLocation(sijX, sijY);
         this.kuvaTiedosto = "tiedostot/kuvat/entity/ammus.png";
         this.tekstuuri = new Tekstuuri(kuvaTiedosto);
-        this.kuvake = new ImageIcon(kuvaTiedosto);
         this.ampuja = ampuja;
         this.suunta = suunta8;
     }

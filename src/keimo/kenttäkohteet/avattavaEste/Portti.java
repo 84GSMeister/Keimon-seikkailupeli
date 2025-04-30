@@ -5,7 +5,6 @@ import keimo.keimoEngine.grafiikat.Animaatio;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 
 public class Portti extends AvattavaEste {
 
@@ -35,14 +34,12 @@ public class Portti extends AvattavaEste {
         super.avaa(avaus);
         if (avaus) {
             if (päivitäKuvake) {
-                super.kuvake = new ImageIcon(t.createImage("tiedostot/kuvat/kenttäkohteet/portti_auki.gif"));
                 super.tekstuuri = new Animaatio(30, "tiedostot/kuvat/kenttäkohteet/portti_auki.gif", 1);
                 ÄänentoistamisSäie.toistaSFX("portti", this.annaSijaintiKentällä());
                 päivitäKuvake = false;
             }
         }
         else {
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/portti.png");
             super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/portti.png");
             päivitäKuvake = true;
         }
@@ -52,7 +49,6 @@ public class Portti extends AvattavaEste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Portti";
         super.tiedostonNimi = "portti.png";
-        super.kuvake = new ImageIcon(t.createImage("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi));
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "portti";
         super.asetaTiedot();

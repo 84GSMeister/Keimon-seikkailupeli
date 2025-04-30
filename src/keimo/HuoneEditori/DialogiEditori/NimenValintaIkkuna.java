@@ -1,7 +1,5 @@
 package keimo.HuoneEditori.DialogiEditori;
 
-import keimo.PääIkkuna;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.*;
@@ -35,7 +33,7 @@ public class NimenValintaIkkuna {
                 JOptionPane.showMessageDialog(null, "Syöte ei voi olla tyhjä, alkaa välilyönnillä tai sisältää sulkumerkkejä.", "Virheellinen syöte", JOptionPane.ERROR_MESSAGE);
             }
             else if (DialogiEditoriIkkuna.editorinDialogiKartta.containsKey(syöteTeksti)) {
-                JOptionPane.showMessageDialog(null, "Tarinapätkä " + PääIkkuna.lainausmerkki + syöteTeksti + PääIkkuna.lainausmerkki + " on jo olemassa.", "Tarinapätkä on jo olemassa", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tarinapätkä " + "\"" + syöteTeksti + "\"" + " on jo olemassa.", "Tarinapätkä on jo olemassa", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 DialogiEditoriIkkuna.nimeäUudelleenDialogiPätkä(nimiTekstikenttä.getText());

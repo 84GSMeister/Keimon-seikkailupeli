@@ -1,8 +1,5 @@
 package keimo.HuoneEditori.TavoiteEditori;
 
-import java.util.HashMap;
-
-import keimo.Peli;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.gui.hud.TavoitePopup;
 import keimo.kenttäkohteet.*;
@@ -10,6 +7,8 @@ import keimo.kenttäkohteet.esine.Esine;
 import keimo.kenttäkohteet.esine.Pesäpallomaila;
 import keimo.kenttäkohteet.kiintopiste.Kiintopiste;
 import keimo.kenttäkohteet.kiintopiste.Nuotio;
+
+import java.util.HashMap;
 
 public class TavoiteLista {
     
@@ -20,11 +19,9 @@ public class TavoiteLista {
     public static void suoritaTavoite(String tavoitteenTunniste) {
         if (tavoiteLista.keySet().contains(tavoitteenTunniste)) {
             tavoiteLista.put(tavoitteenTunniste, true);
-            if (!Peli.legacy) {
-                TavoitePopup.suoritettuTavoite = tavoitteenTunniste;
-                TavoitePopup.popupAjastin = 240;
-                ÄänentoistamisSäie.toistaSFX("Tavoite_suoritettu");
-            }
+            TavoitePopup.suoritettuTavoite = tavoitteenTunniste;
+            TavoitePopup.popupAjastin = 240;
+            ÄänentoistamisSäie.toistaSFX("Tavoite_suoritettu");
         }
     }
 
@@ -47,8 +44,9 @@ public class TavoiteLista {
         pääTavoitteet.put(4, "Etsi Keimo-Baari");
         pääTavoitteet.put(5, "Etsi Pasi");
         pääTavoitteet.put(6, "Etsi Velhometsä");
-        pääTavoitteet.put(7, "Etsi Velhometsän bileet");
-        pääTavoitteet.put(8, "Voita pomo");
+        pääTavoitteet.put(7, "Etsi Temppeli");
+        pääTavoitteet.put(8, "Etsi pääjehu");
+        pääTavoitteet.put(9, "Voita pomo");
         nykyinenTavoite = pääTavoitteet.get(0);
     }
 
@@ -62,6 +60,7 @@ public class TavoiteLista {
         tavoiteLista.put(pääTavoitteet.get(6), false);
         tavoiteLista.put(pääTavoitteet.get(7), false);
         tavoiteLista.put(pääTavoitteet.get(8), false);
+        tavoiteLista.put(pääTavoitteet.get(9), false);
         tavoiteLista.put("Löydä Jumal Yoda", false);
         tavoiteLista.put("Avaa takahuone", false);
         tavoiteLista.put("Keitä booli", false);

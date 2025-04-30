@@ -1,42 +1,13 @@
 package keimo.kenttäkohteet.kenttäNPC;
 
 import keimo.Pelaaja;
-import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
 import keimo.Pelaaja.KeimonState;
 import keimo.keimoEngine.grafiikat.Animaatio;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.Huume;
-import keimo.kenttäkohteet.esine.Pesäpallomaila;
-import keimo.kenttäkohteet.esine.Esine;
-
-import javax.swing.ImageIcon;
 
 public final class Juhani extends NPC_KenttäKohde {
-
-    @Override
-    public String kokeileEsinettä(Esine e) {
-        if (e instanceof Pesäpallomaila) {
-            kuolemaJuhani();
-            return "...";
-        }
-        else if (Pelaaja.raha >= 20) {
-            return annaHuume();
-        }
-        else {
-            return katsomisTeksti;
-        }
-    }
-
-    @Override
-    public void näytäDialogi(Esine e) {
-        if (super.onkoCustomDialogi()) {
-            super.näytäDialogi(e);
-        }
-        else {
-            PääIkkuna.avaaDialogi(this.annaDialogiKuvake(), this.kokeileEsinettä(e), this.annaNimi());
-        }
-    }
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -69,7 +40,7 @@ public final class Juhani extends NPC_KenttäKohde {
     public String annaHuume() {
         if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
             Pelaaja.annaEsine(new Huume(true, 0, 0));
-            Pelaaja.raha -= 20;
+            if (!Pelaaja.loputonRaha) Pelaaja.raha -= 20;
             return haeDialogiTeksti("huume");
         }
         else {
@@ -87,9 +58,7 @@ public final class Juhani extends NPC_KenttäKohde {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Juhani";
         super.tiedostonNimi = "juhani.gif";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Animaatio(15, "tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png");
         super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png");
         super.katsomisTeksti = "Osta Juhanilta kahel kybäl yksi huume pois.";
         super.asetaTiedot();

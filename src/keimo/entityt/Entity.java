@@ -1,8 +1,6 @@
 package keimo.entityt;
 
-import keimo.PääIkkuna;
 import keimo.TarkistettavatArvot;
-import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.Käännettävä;
 import keimo.entityt.npc.Asevihu;
 import keimo.entityt.npc.Boss;
@@ -13,14 +11,10 @@ import keimo.entityt.npc.Vartija;
 import keimo.entityt.npc.Vihollinen;
 import keimo.keimoEngine.grafiikat.Kuva;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import javax.swing.Icon;
-import javax.swing.JLabel;
 
-public abstract class Entity extends JLabel implements Käännettävä {
+public abstract class Entity implements Käännettävä {
 
     protected String nimi = "";
     public int sijX;
@@ -28,11 +22,10 @@ public abstract class Entity extends JLabel implements Käännettävä {
     protected int alkuSijX;
     protected int alkuSijY;
     public Rectangle hitbox;
-    protected Icon kuvake;
     protected String kuvaTiedosto;
     protected Kuva tekstuuri;
     public int id = 0;
-    protected int tilenKoko = PeliRuutu.pelaajanKokoPx;
+    protected int tilenKoko = 64;
     public int leveys;
     public int korkeus;
     boolean määritettySijainti = true;
@@ -47,10 +40,6 @@ public abstract class Entity extends JLabel implements Käännettävä {
 
     public String annaNimi() {
         return nimi;
-    }
-
-    public Icon annaKuvake() {
-        return kuvake;
     }
 
     public String annaKuvanTiedostoNimi() {
@@ -173,6 +162,10 @@ public abstract class Entity extends JLabel implements Käännettävä {
                 luotavaEntity = new Asevihu(sijX, sijY, ominaisuusLista);
             break;
 
+            case "IsoKyltti":
+                luotavaEntity = new IsoKyltti(sijX, sijY);
+            break;
+
             case "IsoLaatikko":
                 luotavaEntity = new IsoLaatikko(sijX, sijY);
             break;
@@ -209,39 +202,6 @@ public abstract class Entity extends JLabel implements Käännettävä {
         return luotavaEntity;
     }
     
-    // public SuuntaVasenOikea suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-    // public enum SuuntaVasenOikea {
-    //     VASEN,
-    //     OIKEA;
-    // }
-
-    // public SuuntaDiagonaali suuntaDiagonaali = SuuntaDiagonaali.OIKEA;
-    // public enum SuuntaDiagonaali {
-    //     VASEN,
-    //     OIKEA,
-    //     ALAS,
-    //     YLÖS,
-    //     YLÄVASEN,
-    //     ALAVASEN,
-    //     YLÄOIKEA,
-    //     ALAOIKEA;
-    // }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (PääIkkuna.reunatNäkyvissä) {
-            g.drawRect(0, 0, (int)hitbox.getWidth(), (int)hitbox.getHeight());
-            g.setColor(Color.GREEN);
-            g.fillRect(0, 0, (int)hitbox.getWidth(), (int)hitbox.getHeight());
-            if (this instanceof LiikkuvaObjekti) {
-                LiikkuvaObjekti obj = (LiikkuvaObjekti)this;
-                g.drawRect(obj.sisäHitboxOffset, obj.sisäHitboxOffset, (int)obj.sisäHitbox.getWidth(), (int)obj.sisäHitbox.getHeight());
-                g.setColor(Color.RED);
-                g.fillRect(obj.sisäHitboxOffset, obj.sisäHitboxOffset, (int)obj.sisäHitbox.getWidth(), (int)obj.sisäHitbox.getHeight());
-            }
-        }
-    }
     protected Entity(int sijX, int sijY) {
         this.sijX = sijX;
         this.sijY = sijY;

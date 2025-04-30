@@ -1,22 +1,10 @@
 package keimo.kenttäkohteet.kiintopiste;
 
-import keimo.Pelaaja;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-import keimo.kenttäkohteet.esine.Esine;
-import keimo.kenttäkohteet.esine.Olutlasi;
-
-import javax.swing.ImageIcon;
 
 public class BaariRuutu extends Kiintopiste {
-    @Override
-    public String vuorovaikuta(Esine e) {
-        Olutlasi olutlasi = new Olutlasi(true, 0, 0);
-        if (Pelaaja.raha >= olutlasi.annaHinta()) {
-            Pelaaja.annaEsine(olutlasi);
-            Pelaaja.raha -= olutlasi.annaHinta();
-        }
-        return katso();
-    }
+
+    public static boolean kuubaariLöydetty = false;
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -40,14 +28,9 @@ public class BaariRuutu extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Baariruutu";
         super.tiedostonNimi = "baariruutu.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.dialogiKuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
         super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
         super.katsomisTeksti = "Tästä tilataan.";
-        super.erillisDialogi = true;
-        super.ignooraaEsineValintaDialogissa = true;
-        super.ohitaDialogiTesktiboksi = true;
         super.asetaTiedot();
     }
 }

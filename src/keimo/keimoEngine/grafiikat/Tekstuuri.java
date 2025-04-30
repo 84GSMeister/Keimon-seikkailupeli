@@ -1,13 +1,13 @@
 package keimo.keimoEngine.grafiikat;
 
-import keimo.Ikkunat.KäynnistinIkkuna;
-
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.awt.image.BufferedImage;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;
+
+import keimo.keimoEngine.KeimoEngine;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -20,22 +20,22 @@ public class Tekstuuri implements Kuva {
     private int korkeus;
 
     public Tekstuuri(String tiedostoNimi) {
-        if (KäynnistinIkkuna.glKäytössä) {
+        if (KeimoEngine.glKäynnistetty) {
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 IntBuffer w = stack.mallocInt(1);
                 IntBuffer h = stack.mallocInt(1);
                 IntBuffer channels = stack.mallocInt(1);
-    
+
                 ByteBuffer buf = stbi_load(tiedostoNimi, w, h, channels, 4);
                 if (buf == null) {
                     throw new RuntimeException("Image file [" + tiedostoNimi + "] not loaded: " + stbi_failure_reason());
                 }
-    
+
                 leveys = w.get();
                 korkeus = h.get();
-    
+
                 generateTexture(leveys, korkeus, buf);
-    
+
                 stbi_image_free(buf);
             }
             catch (Exception e) {
@@ -60,7 +60,7 @@ public class Tekstuuri implements Kuva {
     }
 
     public Tekstuuri(BufferedImage kuva) {
-        if (KäynnistinIkkuna.glKäytössä) {
+        if (KeimoEngine.glKäynnistetty) {
             leveys = kuva.getWidth();
             korkeus = kuva.getHeight();
 
@@ -86,11 +86,7 @@ public class Tekstuuri implements Kuva {
             }
 
             pixels.flip();
-            id = glGenTextures();
-            glBindTexture(GL_TEXTURE_2D, id);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+            generateTexture(leveys, korkeus, pixels);
         }
     }
 

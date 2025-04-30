@@ -4,8 +4,6 @@ import keimo.Pelaaja;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.Esine;
 
-import javax.swing.ImageIcon;
-
 public final class Sänky extends Lepopaikka {
 
     @Override
@@ -36,10 +34,8 @@ public final class Sänky extends Lepopaikka {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Sänky";
         super.tiedostonNimi = "sänky.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Nukuttaako?";
-        super.ignooraaEsineValintaDialogissa = true;
         super.asetaTiedot();
     }
 }

@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
-import keimo.Ikkunat.SelainIkkuna;
+import keimo.HuoneEditori.SelainIkkuna;
 
 public class TarinanTekstinMuokkausIkkuna {
     

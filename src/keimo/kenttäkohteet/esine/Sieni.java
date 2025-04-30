@@ -1,9 +1,5 @@
 package keimo.kenttäkohteet.esine;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public class Sieni extends Ruoka {
@@ -37,7 +33,6 @@ public class Sieni extends Ruoka {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Sieni";
         super.tiedostonNimi = "sieni.png";
-        super.kuvake = new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi).getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.käyttö = true;
         super.heal = 3;

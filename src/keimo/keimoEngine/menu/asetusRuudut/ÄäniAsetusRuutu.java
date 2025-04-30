@@ -116,8 +116,9 @@ public class ÄäniAsetusRuutu {
         PelinAsetukset.musaVolyymi = musanVoimakkuus;
         PelinAsetukset.äänetPäällä = äänetPäällä;
         PelinAsetukset.ääniVolyymi = ääntenVoimakkuus;
-        ÄänentoistamisSäie.asetaMusanVolyymi(musiikkiPäällä ? musanVoimakkuus : 0);
-        ÄänentoistamisSäie.asetaSFXVolyymi(äänetPäällä ? ääntenVoimakkuus : 0);
+        if (KeimoEngine.musa != null) KeimoEngine.musa.setVolume((float)PelinAsetukset.musaVolyymi);
+        //ÄänentoistamisSäie.asetaMusanVolyymi(musiikkiPäällä ? musanVoimakkuus : 0);
+        //ÄänentoistamisSäie.asetaSFXVolyymi(äänetPäällä ? ääntenVoimakkuus : 0);
     }
 
     static void hyväksy(int valinta) {

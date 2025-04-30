@@ -1,17 +1,14 @@
 package keimo.kenttäkohteet.esine;
 
-import keimo.Peli;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.keimoEngine.gui.toimintoIkkunat.KarttaIkkuna;
-
-import javax.swing.ImageIcon;
 
 public class Kartta extends Esine {
 
     @Override
     public String käytä() {
-        if (!Peli.legacy) KarttaIkkuna.avaaToimintoIkkuna();
+        KarttaIkkuna.avaaToimintoIkkuna();
         ÄänentoistamisSäie.toistaSFX("Kartta");
         return katso();
     }
@@ -38,7 +35,6 @@ public class Kartta extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kartta";
         super.tiedostonNimi = "kartta.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Parempi vilkaista karttaa, jos on eksynyt.";
         super.käyttö = true;

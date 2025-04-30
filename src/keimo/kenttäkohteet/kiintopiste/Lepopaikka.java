@@ -1,8 +1,6 @@
 package keimo.kenttäkohteet.kiintopiste;
 
 import keimo.Pelaaja;
-import keimo.Peli;
-import keimo.Ruudut.PeliRuutu;
 import keimo.kenttäkohteet.esine.Esine;
 
 public abstract class Lepopaikka extends Kiintopiste {
@@ -10,16 +8,12 @@ public abstract class Lepopaikka extends Kiintopiste {
     public long hpVähennys;
     public boolean vältäKuolema = false;
 
-    @Override
     public String vuorovaikuta(Esine e) {
         if (Pelaaja.känninVoimakkuusFloat <= 0) {
             return "Vielä ei nukuta. Kokeile myöhemmin (tai kun olet kännissä)!";
         }
         else {
             vältäKuolema = false;
-            if (Peli.legacy) {
-                PeliRuutu.nollaaKänniEfekti();
-            }
             Pelaaja.nollaaKylläisyys();
             System.out.println(hpVähennys);
             if (hpVähennys > 0) {

@@ -1,61 +1,11 @@
 package keimo.kenttäkohteet.kiintopiste;
 
-import keimo.PääIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-import keimo.kenttäkohteet.esine.Esine;
-import keimo.kenttäkohteet.esine.Avain;
-
-import javax.swing.ImageIcon;
 
 public class Kirstu extends Säiliö {
 
     boolean avattu;
-
-    @Override
-    public String kokeileEsinettä(Esine e) {
-        if (super.tavoiteSuoritettu) {
-            return "Kirstu on jo avattu.";
-        }
-        else {
-            if (e == null) {
-                return katso();
-            }
-            else if (e instanceof Avain) {
-                if (this.sisältö != null) {
-                    return "Kirstu avattiin. Sait uuden esineen: " + this.sisältö.annaNimi();
-                }
-                else {
-                    return "Kirstu avattiin, mutta se on tyhjä.";
-                }
-            }
-            else {
-                return "Mitään ei tapahtunut.";
-            }
-        }
-    }
-
-    @Override
-    public Esine suoritaMuutoksetEsineelle(Esine e) {
-        if (super.tavoiteSuoritettu) {
-            return e;
-        }
-        else {
-            if (e instanceof Avain) {
-                avaa();
-                return sisältö;
-            }
-            else if (e != null) {
-                if (!e.sopiiKäytettäväksi.contains(this.nimi)) {
-                    PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
-                }
-                return e;
-            }
-            else {
-                return null;
-            }
-        }
-    }
 
     @Override
     public String katso(){
@@ -102,9 +52,7 @@ public class Kirstu extends Säiliö {
     }
 
     public void avaa() {
-        super.vuorovaikutus = true;
         super.tavoiteSuoritettu = true;
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
         this.avattu = true;
         TavoiteLista.tarkistaTavoiteEsine(this.luoSisältö(this.annaSisältö(), null));
@@ -118,7 +66,6 @@ public class Kirstu extends Säiliö {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kirstu";
         super.tiedostonNimi = "kirstu.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
 

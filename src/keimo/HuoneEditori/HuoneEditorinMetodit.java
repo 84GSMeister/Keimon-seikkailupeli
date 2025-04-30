@@ -2,10 +2,8 @@ package keimo.HuoneEditori;
 
 import keimo.*;
 import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogiPätkä;
-import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogit;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
-import keimo.Ikkunat.LatausIkkuna;
 import keimo.Maastot.*;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.*;
@@ -428,7 +426,7 @@ public class HuoneEditorinMetodit {
         }
         catch (Exception e) {
             e.printStackTrace();
-            rivejäTarkastettu += 2;
+            rivejäTarkastettu += 7;
             String virheViesti = "";
             virheViesti += ("Virheellinen rivi: " + rivejäTarkastettu + "\n\n");
             virheViesti += ("huone: " + uusiHuoneenId + "\n");
@@ -446,7 +444,7 @@ public class HuoneEditorinMetodit {
             virheViesti += ("npc:n Y: " + luotavanNPCnY + "\n\n");
             virheViesti += ("^^Tyhjä, 0, 0 -> todennäköinen virhe");
             System.out.println(virheViesti);
-            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "Virhe ladatessa tiedostoa.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "Virhe ladatessa tiedostoa.", JOptionPane.ERROR_MESSAGE);
         }
         return uusiHuoneKartta;
     }
@@ -890,15 +888,21 @@ public class HuoneEditorinMetodit {
                         uudetTarinaPätkänKuvatiedostot = new String[uusiTarinanPituus];
                         uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
                         for (int i = 0; i < uusiTarinanPituus*2; i++) {
-                            tarkastettavaRivi = sc.nextLine();
-                            if (tarkastettavaRivi.contains("kuva ")) {
-                                int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kuva ") +5, tarkastettavaRivi.indexOf("kuva ") +6));
-                                uudetTarinaPätkänKuvat[kuvanNumero] = new ImageIcon(tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1));
-                                uudetTarinaPätkänKuvatiedostot[kuvanNumero] = tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1);
-                            }
-                            else if (tarkastettavaRivi.contains("teksti ")) {
-                                int tekstinNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("teksti ") +7, tarkastettavaRivi.indexOf("teksti ") +8));
-                                uudetTarinaPätkänTekstit[tekstinNumero] = tarkastettavaRivi.substring(18, tarkastettavaRivi.length() -1);
+                            if (sc.hasNextLine()) {
+                                tarkastettavaRivi = sc.nextLine();
+                                if (tarkastettavaRivi.contains("kuva ")) {
+                                    int alkuIndeksi = tarkastettavaRivi.indexOf("kuva ") +5;
+                                    int loppuIndeksi = tarkastettavaRivi.indexOf(":");
+                                    int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(alkuIndeksi, loppuIndeksi));
+                                    uudetTarinaPätkänKuvat[kuvanNumero] = new ImageIcon(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1));
+                                    uudetTarinaPätkänKuvatiedostot[kuvanNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1);
+                                }
+                                else if (tarkastettavaRivi.contains("teksti ")) {
+                                    int alkuIndeksi = tarkastettavaRivi.indexOf("teksti ") +7;
+                                    int loppuIndeksi = tarkastettavaRivi.indexOf(":");
+                                    int tekstinNumero = Integer.parseInt(tarkastettavaRivi.substring(alkuIndeksi, loppuIndeksi));
+                                    uudetTarinaPätkänTekstit[tekstinNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1);
+                                }
                             }
                         }
                     }
@@ -922,7 +926,6 @@ public class HuoneEditorinMetodit {
         
         HashMap<String, VuoropuheDialogiPätkä> uusiDialogiKartta = new HashMap<>();
 
-        VuoropuheDialogit.vuoropuheDialogiKartta.clear();
         String uusiDialoginNimi = "";
         int uusiDialoginPituus = 0;
         String[] uudetDialogiPätkänKuvatiedostot = new String[uusiDialoginPituus];
@@ -956,19 +959,27 @@ public class HuoneEditorinMetodit {
                         uudetDialogiPätkänTekstit = new String[uusiDialoginPituus];
                         uudetDialogiPätkänPuhujat = new String[uusiDialoginPituus];
                         for (int i = 0; i < uusiDialoginPituus*3; i++) {
-                            tarkastettavaRivi = sc.nextLine();
-                            if (tarkastettavaRivi.contains("kuva ")) {
-                                int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("kuva ") +5, tarkastettavaRivi.indexOf("kuva ") +6));
-                                uudetDialogiPätkänKuvatiedostot[kuvanNumero] = tarkastettavaRivi.substring(16, tarkastettavaRivi.length() -1);
+                            if (sc.hasNextLine()) {
+                                tarkastettavaRivi = sc.nextLine();
+                                if (tarkastettavaRivi.contains("kuva ")) {
+                                    int alkuIndeksi = tarkastettavaRivi.indexOf("kuva ") +5;
+                                    int loppuIndeksi = tarkastettavaRivi.indexOf(":");
+                                    int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(alkuIndeksi, loppuIndeksi));
+                                    uudetDialogiPätkänKuvatiedostot[kuvanNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1);
+                                }
+                                else if (tarkastettavaRivi.contains("teksti ")) {
+                                    int alkuIndeksi = tarkastettavaRivi.indexOf("teksti ") +7;
+                                    int loppuIndeksi = tarkastettavaRivi.indexOf(":");
+                                    int tekstinNumero = Integer.parseInt(tarkastettavaRivi.substring(alkuIndeksi, loppuIndeksi));
+                                    uudetDialogiPätkänTekstit[tekstinNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1);
+                                }
+                                else if (tarkastettavaRivi.contains("puhuja ")) {
+                                    int alkuIndeksi = tarkastettavaRivi.indexOf("puhuja ") +7;
+                                    int loppuIndeksi = tarkastettavaRivi.indexOf(":");
+                                    int puhujanNumero = Integer.parseInt(tarkastettavaRivi.substring(alkuIndeksi, loppuIndeksi));
+                                    uudetDialogiPätkänPuhujat[puhujanNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1);
+                                }
                             }
-                            else if (tarkastettavaRivi.contains("teksti ")) {
-                                int tekstinNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("teksti ") +7, tarkastettavaRivi.indexOf("teksti ") +8));
-                                uudetDialogiPätkänTekstit[tekstinNumero] = tarkastettavaRivi.substring(18, tarkastettavaRivi.length() -1);
-                            }
-                            else if (tarkastettavaRivi.contains("puhuja ")) {
-                                int puhujanNumero = Integer.parseInt(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf("puhuja ") +7, tarkastettavaRivi.indexOf("puhuja ") +8));
-                                uudetDialogiPätkänPuhujat[puhujanNumero] = tarkastettavaRivi.substring(18, tarkastettavaRivi.length() -1);
-                            }   
                         }
                     }
                     else if (tarkastettavaRivi.contains("valinta:")) {
@@ -1030,7 +1041,6 @@ public class HuoneEditorinMetodit {
         
         HashMap<String, VuoropuheDialogiPätkä> uusiDialogiKartta = new HashMap<>();
 
-        VuoropuheDialogit.vuoropuheDialogiKartta.clear();
         String uusiDialoginNimi = "";
         int uusiDialoginPituus = 0;
         Icon[] uudetDialogiPätkänKuvat = new Icon[uusiDialoginPituus];

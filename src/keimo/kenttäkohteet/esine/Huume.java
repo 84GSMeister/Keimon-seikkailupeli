@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Huume extends Ruoka {
 
     @Override
@@ -35,7 +33,6 @@ public final class Huume extends Ruoka {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Huume";
         super.tiedostonNimi = "huume.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.käyttö = true;
         super.heal = 30;

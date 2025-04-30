@@ -6,16 +6,13 @@ import keimo.PeliKenttäMetodit;
 import keimo.PelinAsetukset;
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
 import keimo.HuoneEditori.HuoneLista;
+import keimo.HuoneEditori.ObjektiKuvakkeet;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
-import keimo.Ikkunat.KäynnistinIkkuna;
-import keimo.Maastot.Maasto;
-import keimo.Säikeet.GrafiikanPäivitysSäie;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.KeimoFontit;
-import keimo.Utility.KäännettäväKuvake;
 import keimo.entityt.Entity;
 import keimo.entityt.npc.NPC;
 import keimo.keimoEngine.assets.Assets;
@@ -30,6 +27,8 @@ import keimo.keimoEngine.kenttä.*;
 import keimo.keimoEngine.menu.*;
 import keimo.keimoEngine.menu.asetusRuudut.*;
 import keimo.keimoEngine.toiminnot.Dialogit;
+import keimo.keimoEngine.äänet.Musa;
+import keimo.keimoEngine.äänet.Ääni;
 import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.kiintopiste.Pulloautomaatti;
 
@@ -48,10 +47,15 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.GL;
-
 import static org.lwjgl.glfw.GLFW.*;
+import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
+import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.openal.ALC10.*;
 
 public class KeimoEngine extends Thread {
 
@@ -60,7 +64,7 @@ public class KeimoEngine extends Thread {
     int ikkunanKorkeus = 600;
 	boolean kokoNäyttö = false;
 	public static Window window;
-	public boolean glKäynnistetty = false;
+	public static boolean glKäynnistetty = false;
 
 	Shader shader;
 	static Kamera camera;
@@ -77,6 +81,10 @@ public class KeimoEngine extends Thread {
 
 	static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 	static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
+
+	private long audioContext;
+    private long audioDevice;
+	public static Musa musa;
 	
 	@Override
 	public void run() {
@@ -91,7 +99,6 @@ public class KeimoEngine extends Thread {
 		
 	protected void init() {
 		glKäynnistetty = false;
-		KäynnistinIkkuna.glKäytössä = true;
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
 		GLFWErrorCallback.createPrint(System.err).set();
@@ -101,6 +108,18 @@ public class KeimoEngine extends Thread {
 			if (!glfwInit()) {
 				throw new IllegalStateException("Unable to initialize GLFW");
 			}
+
+			String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+			audioDevice = alcOpenDevice(defaultDeviceName);
+			int[] audioAttributes = {0};
+			audioContext = alcCreateContext(audioDevice, audioAttributes);
+			alcMakeContextCurrent(audioContext);
+			ALCCapabilities alcCapabilities = ALC.createCapabilities(audioDevice);
+			ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+			if (!alCapabilities.OpenAL10) {
+				assert false : "audio not supported";
+			}
+
 			window = new Window(ikkunaTeksti, kokoNäyttö, ikkunanLeveys, ikkunanKorkeus);
 
 			final Image_parser ikkunanKuvake = Image_parser.load_image("tiedostot/kuvat/pelaaja_og.png");
@@ -115,8 +134,10 @@ public class KeimoEngine extends Thread {
 			// creates the GLCapabilities instance and makes the OpenGL
 			// bindings available for use.
 			GL.createCapabilities();
+			glKäynnistetty = true;
 			Assets.createModels();
 			Assets.luo3DMallit();
+			Assets.luoÄänet();
 			
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -135,8 +156,8 @@ public class KeimoEngine extends Thread {
 			KeimoFontit.rekisteröiFontit();
 
 			KenttäKohde.nollaaObjektiId();
-			HuoneLista.luoVakioHuoneKarttaTiedostosta();
-			HuoneLista.lataaReferenssiHuonekartta();
+			HuoneLista.lataaPelitiedosto();
+			
 			if (Peli.huoneKartta != null) {
 				if (Peli.huoneKartta.get(0) != null) {
 					Peli.muutaKentänKokoa(Peli.huoneKartta.get(0).annaKoko());
@@ -155,7 +176,9 @@ public class KeimoEngine extends Thread {
 			tausta = new Tausta();
 			kaatoTeksti = new Teksti("null", Color.white, 1, 1);
 			ÄänentoistamisSäie.lataaÄänet();
+			
 			player = new PelaajaModel();
+			Pelaaja.teleporttaaSpawniin();
 			shader = new Shader("shader");
 			shader.bind();
 			shader.setUniform("sampler", 0);
@@ -169,7 +192,6 @@ public class KeimoEngine extends Thread {
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Set the clear color
 
 			editoriInit();
-			glKäynnistetty = true;
 			lataaTarinaRuutu("alku");
 		}
 		catch (IllegalStateException ise) {
@@ -228,9 +250,12 @@ public class KeimoEngine extends Thread {
 				VirheRuutu.siirryVirheruutuun(viesti);
 			}
 		}
+		alcDestroyContext(audioContext);
+		alcCloseDevice(audioDevice);
+		GL.destroy();
 		glfwTerminate();
 		ÄänentoistamisSäie.suljeMusa();
-		KäynnistinIkkuna.glKäytössä = false;
+		glKäynnistetty = false;
 		if (siirryEditoriin) editoriLoop();
 		//System.exit(0);
 	}
@@ -405,7 +430,7 @@ public class KeimoEngine extends Thread {
 					case MINIPELI -> {
 						//MinipeliIkkuna.renderöiKehys(window);
 						//MinipeliIkkuna.renderöiIkkuna(window, camera);
-						Maailma3D.render(window);
+						//Maailma3D.render(window);
 					}
 				}
 			}
@@ -466,6 +491,14 @@ public class KeimoEngine extends Thread {
         }
     }
 
+	/**
+     * "Siirry valittuun huoneeseen" eli
+     * Lataa pelin nykyiseksi kentäksi huonekartasta (HashMapista) valittu Huone-objekti
+     * @param huoneenId ladattavan huoneen ID huonekartassa
+	 * @param pelaajanX X-koordinaatti, johon pelaaja siirretään (Tile)
+	 * @param pelaajanY Y-koordinaatti, johon pelaaja siirretään (Tile)
+     * @param debug estä tavoitteen tarkistus ja tarinan lataus
+     */
 	public void lataaHuone(int huoneenId, int pelaajanX, int pelaajanY, boolean debug) {
         try{
             if (Peli.huoneKartta.get(huoneenId) != null) {
@@ -479,13 +512,6 @@ public class KeimoEngine extends Thread {
 					Peli.muutaKentänKokoa(Peli.huone.annaKoko());
                     Peli.pelikenttä = Peli.huone.annaHuoneenKenttäSisältö();
                     Peli.maastokenttä = Peli.huone.annaHuoneenMaastoSisältö();
-                    for (Maasto[] mm : Peli.maastokenttä) {
-                        for (Maasto m : mm) {
-                            if (m != null) {
-                                m.päivitäKuvanAsento();
-                            }
-                        }
-                    }
                     synchronized (Peli.entityLista) {
 						Peli.entityLista.clear();
 						for (Entity[] nn : Peli.huone.annaHuoneenNPCSisältö()) {
@@ -503,10 +529,6 @@ public class KeimoEngine extends Thread {
 							}
 						}
 					}
-                    if (Peli.huone.annaTausta() != null) {
-                        GrafiikanPäivitysSäie.uusiTausta = Peli.huone.annaTausta();
-                        GrafiikanPäivitysSäie.uusiTaustaSkaalattu = new KäännettäväKuvake(Peli.huone.annaTausta(), 0, false, false, 990d/660d, 1, -246, -246, false);
-                    }
                     Peli.voiWarpataVasen = false;
                     Peli.voiWarpataOikea = false;
                     Peli.voiWarpataAlas = false;
@@ -591,6 +613,7 @@ public class KeimoEngine extends Thread {
 	private static void editoriInit() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			ObjektiKuvakkeet.luoObjektiKuvakkeet();
 		}
 		catch (Exception e) {
 			e.printStackTrace();

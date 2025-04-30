@@ -2,6 +2,14 @@
 
 ## Uusin versio (11.4.2025): 1.0.2 Alfa
 
+### Versio 1.1 Alfa
+ - Uusi alue: Kuu
+   - Kuuhun pääsee juomalla Jumal Velhon boolia
+   - Kuussa pidetään Jumal Velhon bileitä
+   - Uusi soundtrack: kuu
+ - Dialogien ja tarinapätkien pituus voi olla yli 10 (korjattu indeksointiongelma parsiessa kst-tiedostoa)
+ - Poistettu vanha pelimoottori ja kaikki sen kytkökset (Editorissa voi ilmetä ongelmia johtuen riippuvuuksista vanhaan pelimoottoriin. Näitä tullaan korjaamaan tulevissa päivityksissä)
+
 ### Versio 1.0.2 Alfa
 
  - Lisätty vihollisille elämäpalkki

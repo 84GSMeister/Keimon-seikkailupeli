@@ -170,14 +170,5 @@ public class VisuaalinenObjektiMuokkaus {
         muokkausIkkuna.revalidate();
         muokkausIkkuna.repaint();
     }
-
-    public static void päivitäDialogiValintaLaatikko() {
-        if (sisältöValinta != null) {
-            sisältöValinta.removeAllItems();
-            for (String s : VuoropuheDialogit.vuoropuheDialogiKartta.keySet()) {
-                sisältöValinta.addItem(s);
-            }
-        }
-    }
 }
 

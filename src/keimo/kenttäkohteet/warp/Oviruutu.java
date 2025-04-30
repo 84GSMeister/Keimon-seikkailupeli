@@ -1,9 +1,6 @@
 package keimo.kenttäkohteet.warp;
 
-import keimo.Utility.*;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-
-import javax.swing.ImageIcon;
 
 public class Oviruutu extends Warp {
 
@@ -28,27 +25,21 @@ public class Oviruutu extends Warp {
     @Override
     public void asetaSuunta(Suunta suunta) {
         super.asetaSuunta(suunta);
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png");
         switch (suunta) {
             case YLÖS:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
             case ALAS:
                 this.suunta = Suunta.ALAS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 180);
                 break;
             case VASEN:
                 this.suunta = Suunta.VASEN;
-                this.kuvake = new KäännettäväKuvake(kuvake, 270);
                 break;
             case OIKEA:
                 this.suunta = Suunta.OIKEA;
-                this.kuvake = new KäännettäväKuvake(kuvake, 90);
                 break;
             default:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
         }
     }
@@ -84,7 +75,6 @@ public class Oviruutu extends Warp {
         }
 
         super.tiedostonNimi = "reunawarppi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);        
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;

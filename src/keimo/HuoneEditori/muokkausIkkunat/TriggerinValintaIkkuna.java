@@ -56,7 +56,7 @@ public class TriggerinValintaIkkuna {
             for (KenttäKohde k : kk) {
                 if (k instanceof Triggeri) {
                     Triggeri trg = (Triggeri)k;
-                    JButton triggeriKuvake = new JButton((trg.annaKuvake()));
+                    JButton triggeriKuvake = new JButton((new ImageIcon(trg.annaKuvanTiedostoNimi())));
                     triggeriKuvake.setText("" + trg.annaSijX() + "," + trg.annaSijY());
                     triggeriKuvake.addActionListener(e -> {
                         Point p = new Point(trg.annaSijX(), trg.annaSijY());

@@ -1,12 +1,13 @@
 package keimo.kenttäkohteet;
 
-import keimo.Utility.*;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+
+import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-
-import java.io.File;
-import javax.swing.ImageIcon;
 
 public class VisuaalinenObjekti extends KenttäKohde {
 
@@ -54,7 +55,6 @@ public class VisuaalinenObjekti extends KenttäKohde {
                 this.kääntöAsteet = kääntöAsteet % 360;
             break;
         }
-        päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
     }
 
@@ -77,25 +77,7 @@ public class VisuaalinenObjekti extends KenttäKohde {
                 }
             break;
         }
-        päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
-    }
-
-    public void päivitäKuvanAsento() {
-        File kuvaTiedosto = new File("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
-        if (kuvaTiedosto.isFile()) {
-            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
-            }
-            else {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
-                this.kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
-            }
-            this.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
-        }
-        else {
-            this.kuvake = new ImageIcon("tiedostot/kuvat/virhekuva_objekti.png");
-        }
     }
 
     public void päivitäLisäOminaisuudet() {
@@ -117,6 +99,7 @@ public class VisuaalinenObjekti extends KenttäKohde {
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("kuva=")) {
                     tiedostonNimi = ominaisuus.substring(5);
+                    this.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
                     this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
                 }
                 else if (ominaisuus.startsWith("kääntö=")) {
@@ -172,7 +155,6 @@ public class VisuaalinenObjekti extends KenttäKohde {
         else {
             this.lisäOminaisuuksia = false;
         }
-        päivitäKuvanAsento();
         super.asetaTiedot();
     }
 }

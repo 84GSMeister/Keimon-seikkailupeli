@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Ponuainekset extends Esine {
     
     @Override
@@ -33,7 +31,6 @@ public final class Ponuainekset extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Pontikka-ainekset";
         super.tiedostonNimi = "ponuainekset.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Ponua voisi käyttää boolissa.";
         super.hinta = 8 * 0.22 + 4 * 1.55 + 4.99;

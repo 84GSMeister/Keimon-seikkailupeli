@@ -1,6 +1,5 @@
 package keimo;
 
-import keimo.Ikkunat.LatausIkkuna;
 import keimo.Maastot.*;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.*;
@@ -270,7 +269,7 @@ public class Huone {
         else {
             String viesti = "Ei voi sijoittaa " + k.annaNimiSijamuodossa("partitiivi") + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenKenttäSisältö.length;
             viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
-            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), viesti, "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, viesti, "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -301,7 +300,7 @@ public class Huone {
             }
             String viesti = "Ei voi sijoittaa " + m.annaNimiSijamuodossa("partitiivi")+ " (kuva: " + kuvanNimi + ") ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenKenttäSisältö.length;
             viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
-            JOptionPane.showMessageDialog(LatausIkkuna.ikkuna(), viesti, "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, viesti, "Virheellinen sijainti.", JOptionPane.ERROR_MESSAGE);
         }
     }
 

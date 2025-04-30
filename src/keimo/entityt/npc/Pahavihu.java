@@ -1,13 +1,10 @@
 package keimo.entityt.npc;
 
-import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.*;
-import keimo.Utility.*;
 import keimo.keimoEngine.grafiikat.Animaatio;
 import keimo.keimoEngine.grafiikat.Kuva;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
 
 public class Pahavihu extends Vihollinen {
 
@@ -19,7 +16,6 @@ public class Pahavihu extends Vihollinen {
         super.kukista(kukistusTapa);
         switch (kukistusTapa) {
             case "Pesäpallomaila" -> {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu_lyöty.png");
                 this.tekstuuri = lyötyTekstuuri;
             }
         }
@@ -63,23 +59,6 @@ public class Pahavihu extends Vihollinen {
         }
     }
 
-    @Override
-    public void valitseKuvake() {
-        if (this.hurtAika > 0) {
-            this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu_hurt.png");
-        }
-        else {
-            switch (this.suuntaVasenOikea) {
-                case VASEN:
-                    this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/pahavihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
-                break;
-                case OIKEA:
-                    this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pahavihu.gif");
-                break;
-            }
-        }
-    }
-
     public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 5;
@@ -88,12 +67,11 @@ public class Pahavihu extends Vihollinen {
         super.nopeus = 4;
         super.tekeeVahinkoa = true;
         super.kuvaTiedosto = "tiedostot/kuvat/npc/pahavihu.gif";
-        super.kuvake = new ImageIcon(kuvaTiedosto);
         super.tekstuuri = vakioTekstuuri;
         super.kilpiTehoaa = true;
         super.sijX = sijX;
         super.sijY = sijY;
-        super.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Pahavihu";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;

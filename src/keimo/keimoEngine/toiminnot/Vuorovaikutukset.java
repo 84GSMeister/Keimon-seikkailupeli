@@ -4,6 +4,7 @@ import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Säikeet.ÄänentoistamisSäie;
+import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.gui.toimintoIkkunat.*;
 import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.VisuaalinenObjekti;
@@ -132,7 +133,7 @@ public class Vuorovaikutukset {
                 if (ponuAineksetOstettu) {
                     Dialogit.avaaPitkäDialogiRuutu("kyläkauppa");
 
-                    if (Pelaaja.raha > Pelaaja.ostostenHintaYhteensä) {
+                    if (Pelaaja.raha > Pelaaja.ostostenHintaYhteensä || Pelaaja.loputonRaha) {
                         int tyhjätPaikat = 0;
                         for (Esine esine : Pelaaja.esineet) {
                             if (esine == null) {
@@ -144,7 +145,7 @@ public class Vuorovaikutukset {
                         }
                         else {
                             //PääIkkuna.avaaPitkäDialogiRuutu("kauppa_normaali");
-                            Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
+                            if (!Pelaaja.loputonRaha) Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
                             Pelaaja.ostostenHintaYhteensä = 0;
                             for (Esine ostos : Pelaaja.ostosKori) {
                                 Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(ostos.annaNimi(), true, 0, 0, null));
@@ -159,7 +160,7 @@ public class Vuorovaikutukset {
                 else if (Pelaaja.ostostenHintaYhteensä <= 0) {
                     Dialogit.avaaDialogi(ruutu.annaDialogiTekstuuri(), "Meinasitko ostaa jotain?", "ASS-Market kassa");
                 }
-                else if (Pelaaja.raha >= Pelaaja.ostostenHintaYhteensä) {
+                else if (Pelaaja.raha >= Pelaaja.ostostenHintaYhteensä || Pelaaja.loputonRaha) {
                     int tyhjätPaikat = 0;
                     for (Esine esine : Pelaaja.esineet) {
                         if (esine == null) {
@@ -171,7 +172,7 @@ public class Vuorovaikutukset {
                     }
                     else {
                         Dialogit.avaaPitkäDialogiRuutu("kauppa_normaali");
-                        Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
+                        if (!Pelaaja.loputonRaha) Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
                         Pelaaja.ostostenHintaYhteensä = 0;
                         for (Esine ostos : Pelaaja.ostosKori) {
                             Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(ostos.annaNimi(), true, 0, 0, null));
@@ -185,9 +186,30 @@ public class Vuorovaikutukset {
                 }
             }
             else if (kp instanceof BaariRuutu) {
-                BaariRuutu ruutu = (BaariRuutu)kp;
-                Olutlasi olutlasi = new Olutlasi(true, 0, 0);
-                if (Pelaaja.raha >= olutlasi.annaHinta()) {
+                if (Peli.huone.annaNimi().equals("Baari")) {
+                    BaariRuutu ruutu = (BaariRuutu)kp;
+                    Olutlasi olutlasi = new Olutlasi(true, 0, 0);
+                    if (Pelaaja.raha >= olutlasi.annaHinta() || Pelaaja.loputonRaha) {
+                        int tyhjätPaikat = 0;
+                        for (Esine esine : Pelaaja.esineet) {
+                            if (esine == null) {
+                                tyhjätPaikat++;
+                            }
+                        }
+                        if (tyhjätPaikat <= 0) {
+                            Dialogit.avaaDialogi(ruutu.annaTekstuuri(), "Tavaraluettelo on täynnä. Ei voi lisätä olutta.", ruutu.annaNimi());
+                        }
+                        else {
+                            Dialogit.avaaPitkäDialogiRuutu("baari_normaali");
+                            Pelaaja.annaEsine(olutlasi);
+                            if (!Pelaaja.loputonRaha) Pelaaja.raha -= olutlasi.annaHinta();
+                        }
+                    }
+                    else Dialogit.avaaPitkäDialogiRuutu("baari_eivaraa");
+                }
+                else if (Peli.huone.annaNimi().equals("Kuu")) {
+                    BaariRuutu ruutu = (BaariRuutu)kp;
+                    KuuOlutlasi olutlasi = new KuuOlutlasi(true, 0, 0);
                     int tyhjätPaikat = 0;
                     for (Esine esine : Pelaaja.esineet) {
                         if (esine == null) {
@@ -198,12 +220,19 @@ public class Vuorovaikutukset {
                         Dialogit.avaaDialogi(ruutu.annaTekstuuri(), "Tavaraluettelo on täynnä. Ei voi lisätä olutta.", ruutu.annaNimi());
                     }
                     else {
-                        Dialogit.avaaPitkäDialogiRuutu("baari_normaali");
+                        if (BaariRuutu.kuubaariLöydetty) {
+                            Dialogit.avaaPitkäDialogiRuutu("kuu_baari_2");
+                        }
+                        else {
+                            BaariRuutu.kuubaariLöydetty = true;
+                            Dialogit.avaaPitkäDialogiRuutu("kuu_baari");
+                        }
                         Pelaaja.annaEsine(olutlasi);
-                        Pelaaja.raha -= olutlasi.annaHinta();
                     }
                 }
-                else Dialogit.avaaPitkäDialogiRuutu("baari_eivaraa");
+                else {
+                    Dialogit.avaaDialogi("", "Baariruutu toimii vain ennaltamäärätyissä huoneissa.", "Virheellinen huone");
+                }
             }
             else if (kp instanceof Ämpärikone) {
                 ÄmpäriJonoIkkuna.avaaToimintoIkkuna();
@@ -224,7 +253,7 @@ public class Vuorovaikutukset {
             else {
                 if (kenttäNPC instanceof Juhani) {
                     Juhani juhani = (Juhani)kenttäNPC;
-                    if (Pelaaja.raha >= 20) {
+                    if (Pelaaja.raha >= 20 || Pelaaja.loputonRaha) {
                         if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
                             juhani.annaHuume();
                             Dialogit.avaaDialogi(juhani.annaDialogiTekstuuri(), juhani.haeDialogiTeksti("huume"), juhani.annaNimi());
@@ -239,47 +268,66 @@ public class Vuorovaikutukset {
                 }
                 else if (kenttäNPC instanceof JumalVelho) {
                     JumalVelho jv = (JumalVelho)kenttäNPC;
-                    if (!jv.löydetty()) {
-                        jv.löydäJumalVelho();
-                        Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("löydä"), jv.annaNimi());
+                    if (Peli.huone.annaNimi().equals("Kuu")) {
+                        Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("kuu"), jv.annaNimi());
                     }
                     else {
-                        boolean ponuLöytyy = false;
-                        boolean jalluLöytyy = false;
-                        for (Esine pelaajanEsine : Pelaaja.esineet) {
-                            if (pelaajanEsine instanceof Ponuainekset) ponuLöytyy = true;
-                            else if (pelaajanEsine instanceof Jallupullo) jalluLöytyy = true; 
-                        }
-                        if (ponuLöytyy && jalluLöytyy) {
-                            for (int i = 0; i < Pelaaja.esineet.length; i++) {
-                                if (Pelaaja.esineet[i] instanceof Ponuainekset) {
-                                    Pelaaja.esineet[i] = new Paskanmarjat(false, 0, 0);
-                                    break;
-                                }
-                            }
-                            Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("anna_paskanmarjat"), jv.annaNimi());
+                        if (!jv.löydetty()) {
+                            jv.löydäJumalVelho();
+                            Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("löydä"), jv.annaNimi());
                         }
                         else {
-                            Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("booli_vinkki"), jv.annaNimi());
+                            boolean ponuLöytyy = false;
+                            boolean jalluLöytyy = false;
+                            for (Esine pelaajanEsine : Pelaaja.esineet) {
+                                if (pelaajanEsine instanceof Ponuainekset) ponuLöytyy = true;
+                                else if (pelaajanEsine instanceof Jallupullo) jalluLöytyy = true; 
+                            }
+                            if (ponuLöytyy && jalluLöytyy) {
+                                for (int i = 0; i < Pelaaja.esineet.length; i++) {
+                                    if (Pelaaja.esineet[i] instanceof Ponuainekset) {
+                                        Pelaaja.esineet[i] = new Paskanmarjat(false, 0, 0);
+                                        break;
+                                    }
+                                }
+                                Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("anna_paskanmarjat"), jv.annaNimi());
+                            }
+                            else {
+                                Dialogit.avaaDialogi(jv.annaDialogiTekstuuri(), jv.haeDialogiTeksti("booli_vinkki"), jv.annaNimi());
+                            }
                         }
                     }
                 }
                 else if (kenttäNPC instanceof JumalYoda) {
                     JumalYoda jy = (JumalYoda)kenttäNPC;
-                    if (TavoiteLista.tavoiteLista.get("Avaa takahuone")){
-                        Dialogit.avaaDialogi(jy.annaDialogiTekstuuri(), "Hrmm...", "Jumal Yoda");
+                    if (Peli.huone.annaNimi().equals("Kuu")) {
+                        Dialogit.avaaDialogi(jy.annaDialogiTekstuuri(), "Hrmm... hyvältä maistui... \n\n...\nJallu", "Jumal Yoda");
                     }
                     else {
-                        if (TavoiteLista.tavoiteLista.get("Löydä Jumal Yoda")) {
-                            jy.löydä(true);
-                            Dialogit.avaaPitkäDialogiRuutu("goblin_alku");
+                        if (TavoiteLista.tavoiteLista.get("Avaa takahuone")){
+                            Dialogit.avaaDialogi(jy.annaDialogiTekstuuri(), "Hrmm...", "Jumal Yoda");
                         }
-                        else Dialogit.avaaDialogi(jy.annaDialogiTekstuuri(), "Hrmm...", "Goblin");
+                        else {
+                            if (TavoiteLista.tavoiteLista.get("Löydä Jumal Yoda")) {
+                                jy.löydä(true);
+                                Dialogit.avaaPitkäDialogiRuutu("goblin_alku");
+                            }
+                            else Dialogit.avaaDialogi(jy.annaDialogiTekstuuri(), "Hrmm...", "Goblin");
+                        }
                     }
                 }
                 else if (kenttäNPC instanceof Pasi) {
                     if (TavoiteLista.nykyinenTavoite.startsWith("Etsi Pasi")) TavoiteLista.suoritaPääTavoite(5);
-                    Dialogit.avaaPitkäDialogiRuutu("pasi");
+                    if (Peli.huone.annaNimi().equals("Keimo-baari")) {
+                        Dialogit.avaaPitkäDialogiRuutu("pasi");
+                    }
+                    else if (Peli.huone.annaNimi().equals("Kuu")) {
+                        Dialogit.avaaPitkäDialogiRuutu("pasi_kuu");
+                    }
+                    else Dialogit.avaaDialogi("", "Objektilla on dialogi vain ennaltamäärätyssä huoneessa", "Virheellinen huone");
+                }
+                else if (kenttäNPC instanceof Kuuhahmo1 || kenttäNPC instanceof Kuuhahmo2 || kenttäNPC instanceof Kuuhahmo3) {
+                    Dialogit.avaaDialogi(kenttäNPC.annaTekstuuri(), kenttäNPC.katso(), kenttäNPC.annaNimi());
                 }
             }
         }
@@ -316,7 +364,23 @@ public class Vuorovaikutukset {
                         Pelaaja.syöRuoka(ruoka.annaParannusMäärä());
                     }
                     else if (e instanceof Juoma ) {
-                        e.käytä();
+                        if (e instanceof Paskanmarjabooli) {
+                            Pelaaja.käyttöViive = 100;
+                            if (Peli.huone.annaNimi().equals("Kuu")) {
+                                Dialogit.avaaDialogi(e.annaDialogiTekstuuri(), "Sehän toimi", e.annaNimi());
+                            }
+                            else if (
+                                Peli.huone.annaNimi().equals("Metsä") &&
+                                Pelaaja.sijX > 24 && Pelaaja.sijX < 28 &&
+                                Pelaaja.sijY > 9 && Pelaaja.sijY < 14
+                            ) {
+                                Peli.engine.lataaHuone(12, 29, 6, false);
+                            }
+                            else {
+                                Dialogit.avaaDialogi(e.annaDialogiTekstuuri(), "Pitäisiköhän vetää tämä Jumal Velhon luona...", e.annaNimi());
+                            }
+                        }
+                        else e.käytä();
                     }
                     else if (e instanceof Kartta) {
                         e.käytä();

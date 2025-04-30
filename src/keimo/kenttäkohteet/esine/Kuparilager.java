@@ -4,7 +4,6 @@ import keimo.Pelaaja;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
 import java.text.DecimalFormat;
 
 public final class Kuparilager extends Juoma {
@@ -41,7 +40,6 @@ public final class Kuparilager extends Juoma {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kuparilager";
         super.tiedostonNimi = "kuparilager.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Uskollinen kupari";
         super.käyttö = true;

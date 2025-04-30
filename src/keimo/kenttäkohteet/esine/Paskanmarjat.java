@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Paskanmarjat extends Esine {
 
     @Override
@@ -28,7 +26,6 @@ public final class Paskanmarjat extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Paskanmarjat";
         super.tiedostonNimi = "paskanmarjat.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Näyttää harvinaisen epämiellyttäviltä. Ehkä näistä kuitenkin saa hyvän boolin.";
         super.yhdistettävä = true;

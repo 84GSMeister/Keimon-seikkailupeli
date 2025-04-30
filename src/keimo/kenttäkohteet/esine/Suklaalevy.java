@@ -1,7 +1,5 @@
 package keimo.kenttäkohteet.esine;
 
-import javax.swing.ImageIcon;
-
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Suklaalevy extends Ruoka {
@@ -35,7 +33,6 @@ public final class Suklaalevy extends Ruoka {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Suklaalevy";
         super.tiedostonNimi = "suklaalevy.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Voisin syödä tämän.";
         super.heal = 2;

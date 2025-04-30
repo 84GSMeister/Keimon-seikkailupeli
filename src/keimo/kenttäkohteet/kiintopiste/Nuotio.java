@@ -1,10 +1,7 @@
 package keimo.kenttäkohteet.kiintopiste;
 
-import keimo.PääIkkuna;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.*;
-
-import javax.swing.ImageIcon;
 
 public final class Nuotio extends Kiintopiste {
     
@@ -15,10 +12,7 @@ public final class Nuotio extends Kiintopiste {
     private Tekstuuri sammunutTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
     private Tekstuuri sytytettyTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nuotio.png");
     
-    @Override
     public String kokeileEsinettä(Esine e) {
-        
-        super.vuorovaikutus = false;
         
         if (e instanceof Makkara) {
             Makkara makkara = (Makkara)e;
@@ -39,12 +33,10 @@ public final class Nuotio extends Kiintopiste {
         }
         else if (e instanceof Paperi) {
             this.sytyke = true;
-            super.vuorovaikutus = true;
             return "Nuotioon lisättiin sytyke.";
         }
         else if (e instanceof Hiili) {
             this.polttoaine = true;
-            super.vuorovaikutus = true;
             return "Nuotioon lisättiin palavaa ainetta.";
         }
         else if (tavoiteSuoritettu) {
@@ -60,7 +52,6 @@ public final class Nuotio extends Kiintopiste {
             else if (polttoaine && sytyke){
                 super.tavoiteSuoritettu = true;
                 this.sytytetty = true;
-                super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png");
                 super.tekstuuri = sytytettyTekstuuri;
                 return "Nuotio sytytettiin!";
             }
@@ -77,9 +68,7 @@ public final class Nuotio extends Kiintopiste {
         else if (e instanceof Vesiämpäri) {
             if (sytytetty) {
                 this.sytytetty = false;
-                super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
                 super.tekstuuri = sammunutTekstuuri;
-                super.vuorovaikutus = true;
                 return "Nuotio sammutettiin";
             }
             else {
@@ -90,36 +79,6 @@ public final class Nuotio extends Kiintopiste {
 
         else {
             return "Mitään ei tapahtunut.";
-        }
-    }
-
-    @Override
-    public Esine suoritaMuutoksetEsineelle(Esine e) {
-        if (e instanceof Makkara) {
-            Makkara makkara = (Makkara)e;
-            if (this.sytytetty) {
-                makkara.paista();
-                return makkara;
-            }
-            else {
-                PääIkkuna.hudTeksti.setText("Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.");
-                return makkara;
-            }
-        }
-        else if (e instanceof Paperi) {
-            return null;
-        }
-        else if (e instanceof Hiili) {
-            return null;
-        }
-        else if (e != null) {
-            if (!e.sopiiKäytettäväksi.contains(this.nimi)) {
-                PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
-            }
-            return e;
-        }
-        else {
-            return null;
         }
     }
 
@@ -201,7 +160,6 @@ public final class Nuotio extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Nuotio";
         super.tiedostonNimi = "nuotio_sammunut.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = sammunutTekstuuri;
         super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
         super.asetaTiedot();

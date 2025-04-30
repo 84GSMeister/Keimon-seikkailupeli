@@ -1,12 +1,10 @@
 package keimo.entityt.npc;
 
 import keimo.Säikeet.ÄänentoistamisSäie;
-import keimo.Utility.SkaalattavaKuvake;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.kenttäkohteet.esine.Ase;
 
 import java.awt.Rectangle;
-import javax.swing.ImageIcon;
 
 public class Boss extends Vihollinen {
 
@@ -14,15 +12,6 @@ public class Boss extends Vihollinen {
     private Kuva spinTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/boss/boss_spin.gif");
     private Kuva attackTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/boss/boss_aggr.gif");
     private Kuva kuollutTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/boss/boss_kuollut.png");
-
-    private ImageIcon idleKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_idle.gif");
-    private ImageIcon spinKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_spin.gif");
-    private ImageIcon attackKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_aggr.gif");
-    private ImageIcon kuollutKuvake = new ImageIcon("tiedostot/kuvat/npc/boss/boss_kuollut.png");
-    private ImageIcon hurtKuvake = new ImageIcon("tiedostot/kuvat/npc/boss_hurt.png");
-    private SkaalattavaKuvake idleKuvakeOikea = new SkaalattavaKuvake(("tiedostot/kuvat/npc/boss/boss_idle.gif"), SkaalattavaKuvake.Peilaus.PEILAA_X);
-    private SkaalattavaKuvake spinKuvakeOikea = new SkaalattavaKuvake(("tiedostot/kuvat/npc/boss/boss_spin.gif"), SkaalattavaKuvake.Peilaus.PEILAA_X);
-    private SkaalattavaKuvake attackKuvakeOikea = new SkaalattavaKuvake(("tiedostot/kuvat/npc/boss/boss_aggr.gif"), SkaalattavaKuvake.Peilaus.PEILAA_X);
 
     public BossState bossTila = BossState.NORMAALI;
     public enum BossState {
@@ -53,40 +42,7 @@ public class Boss extends Vihollinen {
     @Override
     public void kukista(String kukistusTapa) {
         super.kukista(kukistusTapa);
-        this.kuvake = kuollutKuvake;
         this.tekstuuri = kuollutTekstuuri;
-    }
-
-    @Override
-    public void valitseKuvake() {
-        if (this.kukistettu) {
-            this.kuvake = kuollutKuvake;
-        }
-        else {
-            if (this.hurtAika > 0) {
-                this.kuvake = hurtKuvake;
-            }
-            else {
-                switch (this.suuntaVasenOikea) {
-                    case VASEN:
-                        switch (this.bossTila) {
-                            default: this.kuvake = idleKuvake; break;
-                            case PYÖRÄHDYS: this.kuvake = spinKuvake; break;
-                            case LATAUS: this.kuvake = attackKuvake; break;
-                            case HYÖKKÄYS: this.kuvake = attackKuvake; break;
-                        }
-                    break;
-                    case OIKEA:
-                        switch (this.bossTila) {
-                            default: this.kuvake = idleKuvakeOikea; break;
-                            case PYÖRÄHDYS: this.kuvake = spinKuvakeOikea; break;
-                            case LATAUS: this.kuvake = attackKuvakeOikea; break;
-                            case HYÖKKÄYS: this.kuvake = attackKuvakeOikea; break;
-                        }
-                    break;
-                }
-            }
-        }
     }
 
     public void valitseTekstuuri() {
@@ -117,7 +73,6 @@ public class Boss extends Vihollinen {
         super.ampuu = true;
         super.ammusVahinko = 1;
         super.kuvaTiedosto = "tiedostot/kuvat/npc/boss64.png";
-        super.kuvake = new ImageIcon(kuvaTiedosto);
         super.tekstuuri = idleTekstuuri;
         super.leveys = 128;
         super.korkeus = 128;

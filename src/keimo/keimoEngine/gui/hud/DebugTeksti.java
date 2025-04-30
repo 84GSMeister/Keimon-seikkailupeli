@@ -37,6 +37,7 @@ public class DebugTeksti {
 
     static Teksti huijauskoodiTeksti1 = new Teksti("koodi", Color.orange, 400, 30);
     static Teksti huijauskoodiTeksti2 = new Teksti("koodi", Color.orange, 400, 30);
+    static Teksti huijauskoodiTeksti3 = new Teksti("koodi", Color.orange, 400, 30);
 
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 	static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
@@ -48,7 +49,7 @@ public class DebugTeksti {
             HUD.renderöiTeksti(versioInfoTeksti, sijx, 40, window);
             näppäinInfoTeksti1.päivitäTeksti("F1: Käynistä uudelleen, F2: Kaada peli");
             HUD.renderöiTeksti(näppäinInfoTeksti1, sijx, 65, window);
-            näppäinInfoTeksti2.päivitäTeksti("Huijauskoodit F5: noclip, F6: ohita tavoitteet");
+            näppäinInfoTeksti2.päivitäTeksti("Huijauskoodit F5-F7");
             HUD.renderöiTeksti(näppäinInfoTeksti2, sijx, 80, window);
 
             if (KeimoEngine.frameTime > 0) debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
@@ -107,6 +108,10 @@ public class DebugTeksti {
         if (Pelaaja.ohitaTavoitteet) {
             huijauskoodiTeksti2.päivitäTeksti("Ohita tavoitteet");
             HUD.renderöiTeksti(huijauskoodiTeksti2, sijx, 580, window);
+        }
+        if (Pelaaja.loputonRaha) {
+            huijauskoodiTeksti3.päivitäTeksti("Loputon raha");
+            HUD.renderöiTeksti(huijauskoodiTeksti3, sijx, 600, window);
         }
     }
 }

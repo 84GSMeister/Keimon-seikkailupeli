@@ -4,6 +4,7 @@ import keimo.*;
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
 import keimo.HuoneEditori.DialogiEditori.*;
 import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.keimoEngine.toiminnot.Dialogit;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
@@ -121,7 +122,7 @@ public class KenttäNPCMuokkaus {
             tekstiLabelit[1] = new JLabel(tekstit[1]);
             paneli.add(tekstiLabelit[1]);
 
-            sisältöValinta = new JComboBox<String>(VuoropuheDialogit.vuoropuheDialogiKartta.keySet().toArray(new String[VuoropuheDialogit.vuoropuheDialogiKartta.keySet().size()]));
+            sisältöValinta = new JComboBox<String>(Dialogit.PitkätDialogit.vuoropuheDialogiKartta.keySet().toArray(new String[Dialogit.PitkätDialogit.vuoropuheDialogiKartta.keySet().size()]));
             sisältöValinta.setSelectedItem(kenttäNPC.annaDialogi());
             paneli.add(sisältöValinta);
 
@@ -173,7 +174,7 @@ public class KenttäNPCMuokkaus {
     public static void päivitäDialogiValintaLaatikko() {
         if (sisältöValinta != null) {
             sisältöValinta.removeAllItems();
-            for (String s : VuoropuheDialogit.vuoropuheDialogiKartta.keySet()) {
+            for (String s : Dialogit.PitkätDialogit.vuoropuheDialogiKartta.keySet()) {
                 sisältöValinta.addItem(s);
             }
         }

@@ -80,7 +80,8 @@ public class ValikkoRuutu {
             KeimoEngine.valitseAktiivinenRuutu("peliruutu");
             Pelaaja.pakotaPelaajanPysäytys();
             if (Peli.huone != null) {
-                ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
+                //ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
+                Assets.annaMusa(Peli.huone.annaHuoneenMusa()).play();
             }
             Peli.pause = false;
         }

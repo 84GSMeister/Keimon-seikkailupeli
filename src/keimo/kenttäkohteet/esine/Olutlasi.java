@@ -3,8 +3,6 @@ package keimo.kenttäkohteet.esine;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Olutlasi extends Juoma {
 
     @Override
@@ -36,7 +34,6 @@ public class Olutlasi extends Juoma {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Olutlasi";
         super.tiedostonNimi = "olutlasi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Laadukasta Keimo-baarin hanaolutta";
         super.käyttö = true;

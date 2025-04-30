@@ -186,7 +186,7 @@ public class ReunaWarppiIkkuna {
         muokkausIkkuna = new JFrame();
         muokkausIkkuna.setTitle("Aseta reunawarppi: " + suunta.toString());
         muokkausIkkuna.setIconImage(new ImageIcon("tiedostot/kuvat/pelaaja_og.png").getImage());
-        muokkausIkkuna.setBounds(PääIkkuna.ikkuna.getBounds().x + 100, PääIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
+        muokkausIkkuna.setBounds(HuoneEditoriIkkuna.ikkuna.getBounds().x + 100, HuoneEditoriIkkuna.ikkuna.getBounds().y + 50, ikkunanLeveys, ikkunanKorkeus);
         muokkausIkkuna.setLayout(new BorderLayout());
         muokkausIkkuna.setVisible(true);
         muokkausIkkuna.setLocationRelativeTo(null);

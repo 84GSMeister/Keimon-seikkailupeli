@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 public class Animaatio implements Kuva {
     private int pointer;
     private ArrayList<Tekstuuri> frames = new ArrayList<>();
-    private ArrayList<BufferedImage> images = new ArrayList<>();
+    private ArrayList<ImageFrame> images = new ArrayList<>();
 
     private double elapsedTime;
     private double currentTime;
@@ -42,13 +42,22 @@ public class Animaatio implements Kuva {
         this.fps = 1.0/(double)fps;
 
         images = loadGif(tiedostonNimi);
-        for (BufferedImage image : images) {
-            frames.add(new Tekstuuri(image));
+        for (ImageFrame image : images) {
+            frames.add(new Tekstuuri(image.getImage()));
         }
     }
 
     public Animaatio(int fps, String tiedostonNimi) {
         this(fps, tiedostonNimi, 0);
+    }
+
+    public Animaatio(String tiedostonNimi) {
+        this(15, tiedostonNimi, 0);
+        images = loadGif(tiedostonNimi);
+        for (ImageFrame image : images) {
+            frames.add(new Tekstuuri(image.getImage()));
+            this.fps = image.getDelay()/100d;
+        }
     }
 
     public void bind() {
@@ -94,20 +103,21 @@ public class Animaatio implements Kuva {
         }
     }
 
-    private ArrayList<BufferedImage> loadGif(String tiedostonNimi) {
+    private ArrayList<ImageFrame> loadGif(String tiedostonNimi) {
         try {
             File kuvaTiedosto = new File(tiedostonNimi);
             InputStream stream = new FileInputStream(kuvaTiedosto);
             ImageReader reader = (ImageReader) ImageIO.getImageReadersByFormatName("gif").next();
             reader.setInput(ImageIO.createImageInputStream(stream));
             
-            ArrayList<BufferedImage> kuvat = new ArrayList<>();
+            ArrayList<ImageFrame> kuvat = new ArrayList<>();
             for (ImageFrame frame : readGIF(reader)) {
-                kuvat.add(frame.getImage());
+                kuvat.add(frame);
             }
             if (tiedostonNimi.endsWith(".gif")) {
                 tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
             }
+            // Uncommenttaa jos haluat gif-framet png-tiedostoina
             //extractFrames(kuvat, tiedostonNimi);
             return kuvat;
         }

@@ -17,7 +17,8 @@ public class KenttäShaderEfektit {
     
     static float punainen = 0f, vihreä = 0.5f, sininen = 1f;
     static boolean lisääPun = true, lisääVihr = true, lisääSin = false;
-    static float lisäysAskelVäri = 0.002f;
+    static float lisäysAskelVäriBaari = 0.002f;
+    static float lisäysAskelVäriKuu = 0.008f;
     protected static void kenttäVäriEfekti(Shader shader) {
         shader.bind();
         if (Peli.huone.annaNimi().equals("Metsä") || Peli.huone.annaNimi().equals("Metsä_kalja")) {
@@ -27,12 +28,29 @@ public class KenttäShaderEfektit {
             shader.setUniform("himmennys", new Vector4f(0.7f, 0.7f, 0.7f, 0f));
         }
         else if (Peli.huone.annaNimi().equals("Keimo-baari")) {
-            if (lisääPun) punainen += lisäysAskelVäri;
-            else punainen -= lisäysAskelVäri;
-            if (lisääVihr) vihreä += lisäysAskelVäri;
-            else vihreä -= lisäysAskelVäri;
-            if (lisääSin) sininen += lisäysAskelVäri;
-            else sininen -= lisäysAskelVäri;
+            if (lisääPun) punainen += lisäysAskelVäriBaari;
+            else punainen -= lisäysAskelVäriBaari;
+            if (lisääVihr) vihreä += lisäysAskelVäriBaari;
+            else vihreä -= lisäysAskelVäriBaari;
+            if (lisääSin) sininen += lisäysAskelVäriBaari;
+            else sininen -= lisäysAskelVäriBaari;
+            
+            if (punainen >= 1f) lisääPun = false;
+            else if (punainen <= 0f) lisääPun = true;
+            if (vihreä >= 1f) lisääVihr = false;
+            else if (vihreä <= 0f) lisääVihr = true;
+            if (sininen >= 1f) lisääSin = false;
+            else if (sininen <= 0f) lisääSin = true;
+            
+            shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
+        }
+        else if (Peli.huone.annaNimi().equals("Kuu")) {
+            if (lisääPun) punainen += lisäysAskelVäriKuu;
+            else punainen -= lisäysAskelVäriKuu*0.816;
+            if (lisääVihr) vihreä += lisäysAskelVäriKuu;
+            else vihreä -= lisäysAskelVäriKuu*0.739;
+            if (lisääSin) sininen += lisäysAskelVäriKuu;
+            else sininen -= lisäysAskelVäriKuu;
             
             if (punainen >= 1f) lisääPun = false;
             else if (punainen <= 0f) lisääPun = true;

@@ -1,5 +1,11 @@
 package keimo.HuoneEditori.DialogiEditori;
 
+import keimo.HuoneEditori.HuoneEditoriIkkuna;
+import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
+import keimo.HuoneEditori.CustomViestiIkkunat;
+import keimo.Utility.Downloaded.SpringUtilities;
+import keimo.keimoEngine.toiminnot.Dialogit;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -32,12 +38,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
-import keimo.Ikkunat.CustomViestiIkkunat;
-import keimo.Utility.Downloaded.SpringUtilities;
-import keimo.keimoEngine.toiminnot.Dialogit;
-
 public class DialogiEditoriIkkuna {
 
     static JFrame ikkuna;
@@ -66,6 +66,7 @@ public class DialogiEditoriIkkuna {
         for (VuoropuheDialogiPätkä vdp : editorinVdpt) {
             String[] kopioidutTekstit = Arrays.copyOf(vdp.annaTekstit(), vdp.annaTekstit().length);
             String[] kopioidutPuhujat = Arrays.copyOf(vdp.annaPuhujat(), vdp.annaPuhujat().length);
+            String[] kopioidutKuvatiedostot = Arrays.copyOf(vdp.annaKuvienTiedostoNimet(), vdp.annaKuvienTiedostoNimet().length);
             String[] kopioidutValinnanVaihtoehdot = null;
             String[] kopioidutValinnanVaihtoehtojenKohdedialogit = null;
             String[] kopioidutTriggerit = null;
@@ -74,7 +75,7 @@ public class DialogiEditoriIkkuna {
                 kopioidutValinnanVaihtoehtojenKohdedialogit = Arrays.copyOf(vdp.annaValinnanVaihtoehtojenKohdeDialogit(), vdp.annaValinnanVaihtoehtojenKohdeDialogit().length);
                 kopioidutTriggerit = Arrays.copyOf(vdp.annaTriggerit(), vdp.annaTriggerit().length);
             }
-            editorinDialogiKartta.put(vdp.annaTunniste(), new VuoropuheDialogiPätkä(vdp.annaTunniste(), vdp.annaPituus(), vdp.annaKuvat(), kopioidutTekstit, kopioidutPuhujat, vdp.onkoValinta(), vdp.annaValinnanNimi(), vdp.annaValinnanOtsikko(), kopioidutValinnanVaihtoehdot, kopioidutValinnanVaihtoehtojenKohdedialogit, kopioidutTriggerit));
+            editorinDialogiKartta.put(vdp.annaTunniste(), new VuoropuheDialogiPätkä(vdp.annaTunniste(), vdp.annaPituus(), kopioidutKuvatiedostot, kopioidutTekstit, kopioidutPuhujat, vdp.onkoValinta(), vdp.annaValinnanNimi(), vdp.annaValinnanOtsikko(), kopioidutValinnanVaihtoehdot, kopioidutValinnanVaihtoehtojenKohdedialogit, kopioidutTriggerit));
         }
     }
     
@@ -171,6 +172,7 @@ public class DialogiEditoriIkkuna {
                             if (vdp.annaPituus() > dialogiIndeksi) {
                                 tekstiMuokkausKenttä.setText(vdp.annaTekstit()[dialogiIndeksi]);
                                 puhujanNimiTekstikenttä.setText(vdp.annaPuhujat()[dialogiIndeksi]);
+                                if (vdp.annaKuvienTiedostoNimet() != null) puhujanKuvaNappi.setIcon(new ImageIcon(vdp.annaKuvienTiedostoNimet()[dialogiIndeksi]));
                                 if (vdp.annaKuvat() != null) puhujanKuvaNappi.setIcon(vdp.annaKuvat()[dialogiIndeksi]);
                                 esikatseluPuhujanKuvaLabel.setIcon(puhujanKuvaNappi.getIcon());
                                 dialogiMuokkausPaneeli.setVisible(true);
@@ -1278,7 +1280,6 @@ public class DialogiEditoriIkkuna {
         JButton okNappi = new JButton("OK");
         okNappi.setBounds(0, 0, 20, 20);
         okNappi.addActionListener(e -> {
-            VuoropuheDialogit.vuoropuheDialogiKartta = editorinDialogiKartta;
             Dialogit.PitkätDialogit.vuoropuheDialogiKartta = editorinDialogiKartta;
             editorinDialogiKartta = new HashMap<>();
             ikkuna.dispose();

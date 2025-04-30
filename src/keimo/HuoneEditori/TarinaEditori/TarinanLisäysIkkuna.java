@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.*;
 
-import keimo.PääIkkuna;
-
 public class TarinanLisäysIkkuna {
     
     static JFrame ikkuna;
@@ -35,7 +33,7 @@ public class TarinanLisäysIkkuna {
                 JOptionPane.showMessageDialog(null, "Syöte ei voi olla tyhjä, alkaa välilyönnillä tai sisältää sulkumerkkejä.", "Virheellinen syöte", JOptionPane.ERROR_MESSAGE);
             }
             else if (TarinaEditoriIkkuna.editorinTarinaKartta.containsKey(syöteTeksti)) {
-                JOptionPane.showMessageDialog(null, "Tarinapätkä " + PääIkkuna.lainausmerkki + syöteTeksti + PääIkkuna.lainausmerkki + " on jo olemassa.", "Tarinapätkä on jo olemassa", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tarinapätkä " + "\"" + syöteTeksti + "\"" + " on jo olemassa.", "Tarinapätkä on jo olemassa", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 TarinaEditoriIkkuna.editorinTarinaKartta.put(syöteTeksti, new TarinaPätkä(syöteTeksti, 0, null, null, null));

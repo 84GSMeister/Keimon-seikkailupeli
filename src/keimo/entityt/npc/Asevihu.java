@@ -1,10 +1,6 @@
 package keimo.entityt.npc;
 
-import keimo.Ruudut.PeliRuutu;
-import keimo.Utility.SkaalattavaKuvake;
 import keimo.keimoEngine.grafiikat.*;
-
-import javax.swing.ImageIcon;
 
 public class Asevihu extends Vihollinen {
 
@@ -17,11 +13,9 @@ public class Asevihu extends Vihollinen {
         super.kukista(kukistusTapa);
         switch (kukistusTapa) {
             case "Ämpäri", "Vesiämpäri" -> {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/asevihu_ämpäröity.png");
                 this.tekstuuri = ämpäröityTekstuuri;
             }
             case "Pesäpallomaila" -> {
-                this.kuvake = new ImageIcon("tiedostot/kuvat/npc/asevihu_lyöty.png");
                 this.tekstuuri = lyötyTekstuuri;
             }
         }
@@ -64,23 +58,6 @@ public class Asevihu extends Vihollinen {
         }
     }
 
-    @Override
-    public void valitseKuvake() {
-        if (this.hurtAika > 0) {
-            this.kuvake = new ImageIcon("tiedostot/kuvat/npc/asevihu_hurt.png");
-        }
-        else {
-            switch (this.suuntaVasenOikea) {
-                case VASEN:
-                    this.kuvake = new ImageIcon("tiedostot/kuvat/npc/asevihu.gif");
-                break;
-                case OIKEA:
-                    this.kuvake = new SkaalattavaKuvake("tiedostot/kuvat/npc/asevihu.gif", SkaalattavaKuvake.Peilaus.PEILAA_X);
-                break;
-            }
-        }
-    }
-
     public Asevihu(int sijX, int sijY, String[] ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 2;
@@ -90,12 +67,11 @@ public class Asevihu extends Vihollinen {
         super.ampuu = true;
         super.ammusVahinko = 2;
         super.kuvaTiedosto = "tiedostot/kuvat/npc/asevihu.gif";
-        super.kuvake = new ImageIcon(kuvaTiedosto);
         super.tekstuuri = vakioTekstuuri;
         super.kilpiTehoaa = true;
         super.sijX = sijX;
         super.sijY = sijY;
-        super.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Asevihu";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;

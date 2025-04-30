@@ -4,8 +4,6 @@ import keimo.Pelaaja;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Jallupullo extends Juoma {
 
     @Override
@@ -39,7 +37,6 @@ public class Jallupullo extends Juoma {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Jallupullo";
         super.tiedostonNimi = "jallupullo.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Elämän eliksiiri.";
         super.käyttö = true;

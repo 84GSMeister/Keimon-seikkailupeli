@@ -1,7 +1,5 @@
 package keimo.kenttäkohteet.esine;
 
-import javax.swing.ImageIcon;
-
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Vesiämpäri extends Ase {
@@ -34,7 +32,6 @@ public final class Vesiämpäri extends Ase {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Vesiämpäri";
         super.tiedostonNimi = "vesiämpäri.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
         super.kenttäkäyttö = true;

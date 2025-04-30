@@ -3,7 +3,6 @@ package keimo.entityt.npc;
 import keimo.Peli;
 import keimo.TarkistettavatArvot;
 import keimo.Maastot.Maasto;
-import keimo.Ruudut.PeliRuutu;
 import keimo.entityt.Entity;
 import keimo.entityt.LiikkuvaObjekti;
 import keimo.kenttäkohteet.KenttäKohde;
@@ -21,7 +20,7 @@ public abstract class NPC extends Entity {
     public boolean onLadattuPelissä = false;
 
     public Point annaSijaintiKentällä() {
-        Point sijainti = new Point(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        Point sijainti = new Point(sijX * 64, sijY * 64);
         return sijainti;
     }
 
@@ -35,7 +34,7 @@ public abstract class NPC extends Entity {
                 }
                 break;
             case OIKEA:
-                if (this.hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                if (this.hitbox.getMaxX() < Peli.kentänKoko * 64) {
                     this.hitbox.setLocation((int)this.hitbox.getMinX() + this.nopeus, (int)this.hitbox.getMinY());
                     NPCSiirtyi = true;
                 }
@@ -47,7 +46,7 @@ public abstract class NPC extends Entity {
                 }
                 break;
             case ALAS:
-                if (this.hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
+                if (this.hitbox.getMaxY() < Peli.kentänKoko * 64) {
                     this.hitbox.setLocation((int)this.hitbox.getMinX(), (int)this.hitbox.getMinY() + this.nopeus);
                     NPCSiirtyi = true;
                 }
@@ -55,8 +54,8 @@ public abstract class NPC extends Entity {
             default:
                 return false;
         }
-        this.sijX = (int)this.hitbox.getCenterX() / PeliRuutu.pelaajanKokoPx;
-        this.sijY = (int)this.hitbox.getCenterY() / PeliRuutu.pelaajanKokoPx;
+        this.sijX = (int)this.hitbox.getCenterX() / 64;
+        this.sijY = (int)this.hitbox.getCenterY() / 64;
         return NPCSiirtyi;
     }
 
@@ -85,8 +84,8 @@ public abstract class NPC extends Entity {
                         this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
                         this.suunta = Suunta.VASEN;
                         if (hitbox.getMinX() > 0) {
-                            Maasto m = Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY];
-                            KenttäKohde k = Peli.annaObjektiKenttä()[(int)hitbox.getMinX()/PeliRuutu.pelaajanKokoPx][sijY];
+                            Maasto m = Peli.annaMaastoKenttä()[(int)hitbox.getMinX()/64][sijY];
+                            KenttäKohde k = Peli.annaObjektiKenttä()[(int)hitbox.getMinX()/64][sijY];
                             if (tarkistaLiikeMaasto(m, suunta) && tarkistaLiikeObjekti(k, suunta)) {
                                 npcSiirtyi = siirrä(suunta);
                             }
@@ -95,9 +94,9 @@ public abstract class NPC extends Entity {
                     case OIKEA:
                         this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
                         this.suunta = Suunta.OIKEA;
-                        if (hitbox.getMaxX() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                            Maasto m = Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY];
-                            KenttäKohde k = Peli.annaObjektiKenttä()[(int)hitbox.getMaxX()/PeliRuutu.pelaajanKokoPx][sijY];
+                        if (hitbox.getMaxX() < Peli.kentänKoko * 64) {
+                            Maasto m = Peli.annaMaastoKenttä()[(int)hitbox.getMaxX()/64][sijY];
+                            KenttäKohde k = Peli.annaObjektiKenttä()[(int)hitbox.getMaxX()/64][sijY];
                             if (tarkistaLiikeMaasto(m, suunta) && tarkistaLiikeObjekti(k, suunta)) {
                                 npcSiirtyi = siirrä(suunta);
                             }
@@ -105,9 +104,9 @@ public abstract class NPC extends Entity {
                         break;
                     case ALAS:
                         this.suunta = Suunta.ALAS;
-                        if (hitbox.getMaxY() < Peli.kentänKoko * PeliRuutu.pelaajanKokoPx) {
-                            Maasto m = Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx];
-                            KenttäKohde k = Peli.annaObjektiKenttä()[sijX][(int)hitbox.getMaxY()/PeliRuutu.pelaajanKokoPx];
+                        if (hitbox.getMaxY() < Peli.kentänKoko * 64) {
+                            Maasto m = Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMaxY()/64];
+                            KenttäKohde k = Peli.annaObjektiKenttä()[sijX][(int)hitbox.getMaxY()/64];
                             if (tarkistaLiikeMaasto(m, suunta) && tarkistaLiikeObjekti(k, suunta)) {
                                 npcSiirtyi = siirrä(suunta);
                             }
@@ -116,8 +115,8 @@ public abstract class NPC extends Entity {
                     case YLÖS:
                         this.suunta = Suunta.YLÖS;
                         if (hitbox.getMinY() > 0) {
-                            Maasto m = Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx];
-                            KenttäKohde k = Peli.annaObjektiKenttä()[sijX][(int)hitbox.getMinY()/PeliRuutu.pelaajanKokoPx];
+                            Maasto m = Peli.annaMaastoKenttä()[sijX][(int)hitbox.getMinY()/64];
+                            KenttäKohde k = Peli.annaObjektiKenttä()[sijX][(int)hitbox.getMinY()/64];
                             if (tarkistaLiikeMaasto(m, suunta) && tarkistaLiikeObjekti(k, suunta)) {
                                 npcSiirtyi = siirrä(suunta);
                             }
@@ -162,7 +161,7 @@ public abstract class NPC extends Entity {
     public void teleport(int kohdeX, int kohdeY) {
         sijX = kohdeX;
         sijY = kohdeY;
-        this.hitbox.setLocation(kohdeX * PeliRuutu.pelaajanKokoPx, kohdeY * PeliRuutu.pelaajanKokoPx);
+        this.hitbox.setLocation(kohdeX * 64, kohdeY * 64);
     }
 
 
@@ -193,8 +192,8 @@ public abstract class NPC extends Entity {
         this.id = TarkistettavatArvot.npcId;
         TarkistettavatArvot.npcId++;
         this.onLadattuPelissä = false;
-        this.hitbox = new Rectangle(0, 0, PeliRuutu.pelaajanKokoPx, PeliRuutu.pelaajanKokoPx);
-        this.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        this.hitbox = new Rectangle(0, 0, 64, 64);
+        this.hitbox.setLocation(sijX * 64, sijY * 64);
         this.maxHp = this.hp;
     }
 }

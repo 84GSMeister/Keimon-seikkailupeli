@@ -1,7 +1,5 @@
 package keimo.kenttäkohteet.warp;
 
-import javax.swing.ImageIcon;
-
 import keimo.Pelaaja;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.keimoEngine.toiminnot.Dialogit;
@@ -72,7 +70,6 @@ public class Baariovi extends Warp {
         }
 
         super.tiedostonNimi = "baariovi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;

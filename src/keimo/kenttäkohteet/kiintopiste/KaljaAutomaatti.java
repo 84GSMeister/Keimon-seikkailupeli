@@ -1,16 +1,8 @@
 package keimo.kenttäkohteet.kiintopiste;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-import keimo.kenttäkohteet.esine.Esine;
-
-import javax.swing.ImageIcon;
 
 public final class KaljaAutomaatti extends Kiintopiste {
-
-    @Override
-    public String vuorovaikuta(Esine e) {
-        return katsomisTeksti;
-    }
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -35,12 +27,8 @@ public final class KaljaAutomaatti extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Kalja-automaatti";
         super.tiedostonNimi = "kalja-automaatti.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tähän spawnaa kaljaa";
-        super.erillisDialogi = true;
-        super.ignooraaEsineValintaDialogissa = true;
-        super.ohitaDialogiTesktiboksi = true;
         super.asetaTiedot();
     }
 }

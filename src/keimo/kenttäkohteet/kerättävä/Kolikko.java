@@ -4,8 +4,6 @@ import keimo.Pelaaja;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Kolikko extends Kerättävä {
     
     @Override
@@ -36,7 +34,6 @@ public final class Kolikko extends Kerättävä {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Kolikko";
         super.tiedostonNimi = "kolikko.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.kolmiUlotteinen = true;
         super.obj3dMallinTunniste = "Kolikko";

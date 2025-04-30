@@ -1,7 +1,7 @@
 package keimo.HuoneEditori.Keimo3D;
 
 import keimo.HuoneEditori.TavoiteEditori.TavoitteenMuokkausIkkuna;
-import keimo.Ikkunat.LatausIkkuna;
+import keimo.HuoneEditori.LatausIkkuna;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;

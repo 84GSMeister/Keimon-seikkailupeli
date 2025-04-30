@@ -1,9 +1,8 @@
 package keimo.entityt;
 
-import java.awt.Rectangle;
-import javax.swing.ImageIcon;
-
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+
+import java.awt.Rectangle;
 
 public class IsoLaatikko extends LiikkuvaObjekti {
     
@@ -18,7 +17,6 @@ public class IsoLaatikko extends LiikkuvaObjekti {
         super.ulkoHitboxOffset = 8;
         super.ulkoHitbox = new Rectangle(sijX * tilenKoko - ulkoHitboxOffset, sijY * tilenKoko - ulkoHitboxOffset, leveys + 2*ulkoHitboxOffset, korkeus +2*ulkoHitboxOffset);
         super.kuvaTiedosto = "tiedostot/kuvat/entity/iso_laatikko.png";
-        super.kuvake = new ImageIcon(kuvaTiedosto);
         super.tekstuuri = new Tekstuuri(kuvaTiedosto);
         super.voiTyöntää = true;
         super.asetaTiedot();

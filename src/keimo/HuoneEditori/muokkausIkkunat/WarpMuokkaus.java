@@ -1,9 +1,8 @@
 package keimo.HuoneEditori.muokkausIkkunat;
 
 import keimo.*;
+import keimo.HuoneEditori.CustomViestiIkkunat;
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.HuoneEditori.DialogiEditori.*;
-import keimo.Ikkunat.*;
 import keimo.Maastot.Maasto;
 import keimo.Utility.Downloaded.SpringUtilities;
 import keimo.Utility.Käännettävä.Suunta;
@@ -356,15 +355,6 @@ public class WarpMuokkaus {
         muokkausIkkuna.add(paneli, BorderLayout.CENTER);
         muokkausIkkuna.revalidate();
         muokkausIkkuna.repaint();
-    }
-
-    public static void päivitäDialogiValintaLaatikko() {
-        if (sisältöValinta != null) {
-            sisältöValinta.removeAllItems();
-            for (String s : VuoropuheDialogit.vuoropuheDialogiKartta.keySet()) {
-                sisältöValinta.addItem(s);
-            }
-        }
     }
 }
 

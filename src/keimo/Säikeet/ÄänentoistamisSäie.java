@@ -2,6 +2,13 @@ package keimo.Säikeet;
 
 import keimo.*;
 import keimo.Utility.Downloaded.JavaMP3.Sound;
+import keimo.keimoEngine.assets.Assets;
+
+import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
+import static org.lwjgl.system.MemoryStack.stackMallocInt;
+import static org.lwjgl.system.MemoryStack.stackPop;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 import java.awt.Point;
 import java.io.BufferedInputStream;
@@ -9,6 +16,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +41,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javafx.scene.media.AudioClip;
 
 public class ÄänentoistamisSäie {
+
+    /**
+     * Legacy äänisäie
+     * Tavoitteena korvata myöhemmin OpenAL-pohjaisella toteutuksella
+     */
     
     public static AudioClip ääniToistin;
     private static Random r = new Random();
@@ -60,6 +74,8 @@ public class ÄänentoistamisSäie {
             musaTiedostot.put("baari", new File("tiedostot/musat/keimo/keimo_baari.wav"));
             musaTiedostot.put("kauppa", new File("tiedostot/musat/keimo/keimo_kauppa.wav"));
             musaTiedostot.put("temppeli", new File("tiedostot/musat/keimo/keimo_temppeli.wav"));
+            musaTiedostot.put("kuu", new File("tiedostot/musat/keimo/keimo_kuu.wav"));
+            //musaTiedostot.put("valikko", new File("tiedostot/musat/keimo_valikko.ogg"));
 
             woofStream = AudioSystem.getAudioInputStream(new File("tiedostot/äänet/woof.wav"));
             ääniClip = AudioSystem.getClip();
@@ -196,6 +212,7 @@ public class ÄänentoistamisSäie {
             case "koti":        loopKohtaMs = 7_680; break;
             case "temppeli":    loopKohtaMs = 17_455; break;
             case "kauppa":      loopKohtaMs = 16_700; break;
+            case "kuu":         loopKohtaMs = 27_429; break;
             case null, default: loopKohtaMs = 0; break;
         }
         loopKohta = (int)((loopKohtaMs/1000d) * sampleRate);
@@ -237,6 +254,9 @@ public class ÄänentoistamisSäie {
                             break;
                             case "mp3":
                                 decodeMP3Data(tiedostonNimi);
+                            break;
+                            case "ogg":
+                                decodeOgg(tiedostonNimi);
                             break;
                         }
                         FloatControl gainControl = (FloatControl) musaClip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -308,6 +328,44 @@ public class ÄänentoistamisSäie {
         }
     }
 
+    private static AudioInputStream decodeOgg(String tiedostonNimi) {
+        stackPush();
+        IntBuffer channelsBuffer = stackMallocInt(1);
+        stackPush();
+        IntBuffer sampleRateBuffer = stackMallocInt(1);
+
+        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename("tiedostot/musat/" + tiedostonNimi, channelsBuffer, sampleRateBuffer);
+        if (rawAudioBuffer == null) {
+            System.out.println("ongelma ladatessa ääntä: " + tiedostonNimi);
+            stackPop();
+            stackPop();
+            return null;
+        }
+
+        int channels = channelsBuffer.get();
+        int sampleRate = sampleRateBuffer.get();
+
+        stackPop();
+        stackPop();
+
+        int bufferId = alGenBuffers();
+        alBufferData(bufferId, AL_FORMAT_STEREO16, rawAudioBuffer, sampleRate);
+
+        int sourceId = alGenSources();
+        alSourcei(sourceId, AL_BUFFER, bufferId);
+        alSourcei(sourceId, AL_LOOPING, 1);
+        alSourcef(sourceId, AL_GAIN, 0.5f);
+        alSourcePlay(sourceId);
+
+        short[] samples = rawAudioBuffer.array();
+        byte[] sampleBytes = new byte[samples.length];
+        for (int i = 0; i < samples.length; i++) {
+            sampleBytes[i] = (byte)samples[i];
+        }
+        AudioInputStream stream = new AudioInputStream(new ByteArrayInputStream(sampleBytes), new AudioFormat(Encoding.ALAW, sampleRate, 16, 2, 2 * 2, 44100, false), samples.length);
+        return stream;
+    }
+
     public static void suljeMusa() {
         synchronized(äänisäikeenLukko) {
             nytSoi = null;
@@ -372,5 +430,7 @@ public class ÄänentoistamisSäie {
             System.out.println("Äänitiedostoa \"" + ääni + "\" ei löytynyt");
             npe.printStackTrace();
         }
+
+        //Assets.annaÄäni(ääni).play();
     }
 }

@@ -2,7 +2,6 @@ package keimo;
 
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Maastot.*;
-import keimo.Ruudut.PeliRuutu;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.Käännettävä.Suunta;
@@ -149,7 +148,7 @@ public class PeliKenttäMetodit {
     }
 
     static void tarkistaVihollistenLiikerata() {
-        Vihollinen.liikkeenPituus = PeliRuutu.esineenKokoPx;
+        Vihollinen.liikkeenPituus = 64;
     }
 
     static boolean liikutaVihollisia() {
@@ -568,11 +567,11 @@ public class PeliKenttäMetodit {
                     for (Entity entity : Peli.entityLista) {
                         if (entity instanceof LiikkuvaObjekti) {
                             LiikkuvaObjekti obj = (LiikkuvaObjekti)entity;
-                            int tarkistaVasen = (int)(Pelaaja.hitbox.getMinX()-Pelaaja.nopeus)/PeliRuutu.pelaajanKokoPx;
-                            int tarkistaOikea = (int)(Pelaaja.hitbox.getMaxX())/PeliRuutu.pelaajanKokoPx;
-                            int tarkistaAlas = (int)(Pelaaja.hitbox.getMaxY())/PeliRuutu.pelaajanKokoPx;
-                            int tarkistaYlös = (int)(Pelaaja.hitbox.getMinY()-Pelaaja.nopeus)/PeliRuutu.pelaajanKokoPx;
-                            Rectangle uusiSijainti = new Rectangle(PeliRuutu.esineenKokoPx, PeliRuutu.esineenKokoPx);
+                            int tarkistaVasen = (int)(Pelaaja.hitbox.getMinX()-Pelaaja.nopeus)/Pelaaja.pelaajanKokoPx;
+                            int tarkistaOikea = (int)(Pelaaja.hitbox.getMaxX())/Pelaaja.pelaajanKokoPx;
+                            int tarkistaAlas = (int)(Pelaaja.hitbox.getMaxY())/Pelaaja.pelaajanKokoPx;
+                            int tarkistaYlös = (int)(Pelaaja.hitbox.getMinY()-Pelaaja.nopeus)/Pelaaja.pelaajanKokoPx;
+                            Rectangle uusiSijainti = new Rectangle(Pelaaja.pelaajanKokoPx, Pelaaja.pelaajanKokoPx);
                             switch (Pelaaja.keimonSuunta) {
                                 case VASEN -> {
                                     uusiSijainti.setLocation((int)(Pelaaja.hitbox.getMinX()-Pelaaja.nopeus), (int)Pelaaja.hitbox.getY());
@@ -740,13 +739,11 @@ public class PeliKenttäMetodit {
                         }
                     }
                 }
-                PääIkkuna.uudelleenpiirräObjektit = true;
                 //System.out.println(Peli.ammusLista.size());
             }
             catch (ConcurrentModificationException cme) {
                 //System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");
                 //cme.printStackTrace();
-                PääIkkuna.uudelleenpiirräObjektit = true;
             }
         }
     }
@@ -810,14 +807,13 @@ public class PeliKenttäMetodit {
                             Boss boss = (Boss)entity;
                             if (boss.onkoKukistettu()){
                                 if (boss.annaHurtAika() <= 0) {
-                                    TavoiteLista.suoritaPääTavoite(8);
+                                    TavoiteLista.suoritaPääTavoite(9);
                                     Peli.peliLäpäisty = true;
                                 }
                             }
                         }
                     }
                 }
-                PääIkkuna.uudelleenpiirräObjektit = true;
             }
             catch (ConcurrentModificationException cme) {
                 System.out.println("Viimeisin pomon tilan tarkistus peruttiin (konkurrenssi-issue)");
@@ -847,7 +843,6 @@ public class PeliKenttäMetodit {
                     System.out.println("entity: " + entity.annaNimi() + ", " + entity.sijX + ", " + entity.sijY);
                 }
             }
-            PääIkkuna.uudelleenpiirräObjektit = true;
         }
         catch (ConcurrentModificationException cme) {
             System.out.println("Viimeisin ammusten luontioperaatio peruttiin (konkurrenssi-issue)");

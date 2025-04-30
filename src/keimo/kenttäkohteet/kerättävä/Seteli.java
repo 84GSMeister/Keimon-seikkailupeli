@@ -4,8 +4,6 @@ import keimo.Pelaaja;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Seteli extends Kerättävä {
 
     @Override
@@ -36,7 +34,6 @@ public final class Seteli extends Kerättävä {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Seteli";
         super.tiedostonNimi = "seteli.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.asetaTiedot();
     }

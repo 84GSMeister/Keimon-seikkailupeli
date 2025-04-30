@@ -56,6 +56,9 @@ public class NäppäinKomennot {
         else if (window.getInput().isKeyPressed(GLFW_KEY_F6)) {
             Pelaaja.ohitaTavoitteet = !Pelaaja.ohitaTavoitteet;
         }
+        else if (window.getInput().isKeyPressed(GLFW_KEY_F7)) {
+            Pelaaja.loputonRaha = !Pelaaja.loputonRaha;
+        }
         else if (window.getInput().isKeyDown(GLFW_KEY_LEFT_ALT) && window.getInput().isKeyPressed(GLFW_KEY_F4)) {
             glfwSetWindowShouldClose(window.getWindow(), true);
         }

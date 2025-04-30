@@ -33,7 +33,6 @@ public class Maailma {
     private int viewX;
 	private int viewY;
     public static ArrayList<Tile> tilet = new ArrayList<>();
-    public static ArrayList<KenttäKohde> kenttäObjektit = new ArrayList<>();
     public static ArrayList<Entity> entityt = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
@@ -79,7 +78,6 @@ public class Maailma {
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             String objektinNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
                             String[] ominaisuusLista = huone.annaHuoneenKenttäSisältö()[x][y].annalisäOminaisuudet();
-                            kenttäObjektit.add(KenttäKohde.luoObjektiTiedoilla(objektinNimi, true, x, y, ominaisuusLista));
                         }
                     }
                     if (huone.annaHuoneenNPCSisältö()[x][y] != null) {
@@ -339,6 +337,7 @@ public class Maailma {
     protected void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
         if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else if (objekti instanceof VisuaalinenObjekti) ErikoisTileMuutokset.annaSpesiaaliTekstuuri(objekti.annaTekstuuri(), objekti.annaKuvanTiedostoNimi()).bind(0);
+        //else if (objekti instanceof VisuaalinenObjekti) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
         
         Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));

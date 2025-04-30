@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Pesäpallomaila extends Ase {
 
     @Override
@@ -31,7 +29,6 @@ public final class Pesäpallomaila extends Ase {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Pesäpallomaila";
         super.tiedostonNimi = "pesäpallomaila.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
         super.käyttöTeksti = "Löit vihollista turpaan";

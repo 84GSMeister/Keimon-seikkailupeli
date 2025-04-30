@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Hiili extends Esine {
 
     @Override
@@ -37,7 +35,6 @@ public final class Hiili extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Hiili";
         super.tiedostonNimi = "hiili.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
         super.kenttäkäyttö = true;

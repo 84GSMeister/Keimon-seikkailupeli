@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.kiintopiste;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Pelikone extends Kiintopiste {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -28,12 +26,8 @@ public class Pelikone extends Kiintopiste {
         super(määritettySijainti, sijX, sijY, ominaisuusLista);
         super.nimi = "Pelikone";
         super.tiedostonNimi = "pelikone.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Mitenkäs tätä pelataan?";
-        super.erillisDialogi = true;
-        super.ignooraaEsineValintaDialogissa = true;
-        super.ohitaDialogiTesktiboksi = true;
         super.asetaTiedot();
     }
 }

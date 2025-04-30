@@ -1,7 +1,6 @@
 package keimo.Maastot;
 
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
@@ -14,8 +13,6 @@ import java.io.File;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public abstract class Maasto {
     
@@ -32,8 +29,6 @@ public abstract class Maasto {
 
     protected String nimi;
     protected String katsomisTeksti;
-    protected Icon kuvake;
-    protected Icon skaalattuKuvake;
     protected String tiedostonNimi;
     protected String tekstuuri;
     protected boolean estääLiikkumisen = false;
@@ -68,15 +63,6 @@ public abstract class Maasto {
      */
     public int annaSijY() {
         return sijY;
-    }
-    /**
-     * Maaston sijainti pelikentällä pikseleinä.
-     * Ei maaston sijainti näytöllä vaan scrollattavalla pelikentällä.
-     * @return Maaston sijaintia vastaava piste (java.awt.Point)
-     */
-    public Point annaSijaintiKentällä() {
-        Point sijainti = new Point(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
-        return sijainti;
     }
 
     public boolean onkolisäOminaisuuksia() {
@@ -121,21 +107,8 @@ public abstract class Maasto {
         return katsomisTeksti;
     }
 
-    public Icon annaKuvake() {
-        return kuvake;
-    }
-
     public String annaTekstuuri() {
         return tekstuuri;
-    }
-
-    public Icon annaSkaalattuKuvake() {
-        if (skaalattuKuvake == null) {
-            return kuvake;
-        }
-        else {
-            return skaalattuKuvake;
-        }
     }
 
     public String annaKuvanTiedostoNimi() {
@@ -169,7 +142,6 @@ public abstract class Maasto {
         //     YksisuuntainenTile yTile = (YksisuuntainenTile)this;
         //     yTile.päivitäEsteenSuunta();
         // }
-        päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
     }
 
@@ -196,25 +168,7 @@ public abstract class Maasto {
         //     YksisuuntainenTile yTile = (YksisuuntainenTile)this;
         //     yTile.päivitäEsteenSuunta();
         // }
-        päivitäKuvanAsento();
         päivitäLisäOminaisuudet();
-    }
-
-    public void päivitäKuvanAsento() {
-        File kuvaTiedosto = new File("tiedostot/kuvat/maasto/" + tiedostonNimi);
-        if (kuvaTiedosto.isFile()) {
-            if (kääntöAsteet == 0 && !xPeilaus && !yPeilaus) {
-                kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
-            }
-            else {
-                kuvake = new ImageIcon("tiedostot/kuvat/maasto/" + tiedostonNimi);
-                kuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus);
-            }
-        }
-        else {
-            kuvake = new ImageIcon("tiedostot/kuvat/virhekuva_maasto.png");
-        }
-        skaalattuKuvake = new KäännettäväKuvake(kuvake, kääntöAsteet, xPeilaus, yPeilaus, 96);
     }
 
     public static Maasto luoMaastoTiedoilla(String maastonNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {

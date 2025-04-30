@@ -1,11 +1,8 @@
 package keimo.entityt.npc;
 
-import keimo.Ruudut.PeliRuutu;
-import keimo.Utility.*;
 import keimo.keimoEngine.grafiikat.Animaatio;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Vartija extends Vihollinen {
@@ -18,11 +15,6 @@ public class Vartija extends Vihollinen {
     @Override
     public void kukista(String kukistusTapa) {
         super.kukista(kukistusTapa);
-        switch (kukistusTapa) {
-            case "Ämpäri": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
-            case "Pesäpallomaila": this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_lyöty.png"); break;
-            default: this.kuvake = new ImageIcon("tiedostot/kuvat/npc/pikkuvihu_suutari.png"); break;
-        }
         JOptionPane.showMessageDialog(null, "Huijaatko?", "", JOptionPane.QUESTION_MESSAGE);
     }
 
@@ -72,11 +64,9 @@ public class Vartija extends Vihollinen {
             switch (this.suuntaVasenOikea) {
                 case VASEN:
                     this.kuvaTiedosto = "tiedostot/kuvat/npc/vartija_on.gif";
-                    this.kuvake = new SkaalattavaKuvake(kuvaTiedosto, SkaalattavaKuvake.Peilaus.PEILAA_X);
                 break;
                 case OIKEA:
                     this.kuvaTiedosto = "tiedostot/kuvat/npc/vartija_on.gif";    
-                    this.kuvake = new ImageIcon(kuvaTiedosto);
                 break;
             }
         }
@@ -85,11 +75,9 @@ public class Vartija extends Vihollinen {
             switch (this.suuntaVasenOikea) {
                 case VASEN:
                     this.kuvaTiedosto = "tiedostot/kuvat/npc/vartija_off.png";
-                    this.kuvake = new SkaalattavaKuvake(kuvaTiedosto, SkaalattavaKuvake.Peilaus.PEILAA_X);
                 break;
                 case OIKEA:
                     this.kuvaTiedosto = "tiedostot/kuvat/npc/vartija_off.png";
-                    this.kuvake = new ImageIcon(kuvaTiedosto);
                 break;
             }
         }
@@ -102,12 +90,11 @@ public class Vartija extends Vihollinen {
         super.nopeus = 9;
         super.tekeeVahinkoa = false;
         super.kuvaTiedosto = "tiedostot/kuvat/npc/vartija_off.png";
-        super.kuvake = new ImageIcon(kuvaTiedosto);
         super.tekstuuri = new Tekstuuri(kuvaTiedosto);
         super.kilpiTehoaa = false;
         super.sijX = sijX;
         super.sijY = sijY;
-        super.hitbox.setLocation(sijX * PeliRuutu.pelaajanKokoPx, sijY * PeliRuutu.pelaajanKokoPx);
+        super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Vartija";
         super.lisäOminaisuuksia = true;
         super.lisäOminaisuudet = ominaisuusLista;

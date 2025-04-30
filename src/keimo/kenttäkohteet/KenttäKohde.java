@@ -1,7 +1,5 @@
 package keimo.kenttäkohteet;
 
-import keimo.PääIkkuna;
-import keimo.Ruudut.PeliRuutu;
 import keimo.Utility.Käännettävä;
 import keimo.keimoEngine.grafiikat.Kuva;
 import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
@@ -17,7 +15,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.*;
 import java.util.Random;
-import javax.swing.Icon;
 
 public abstract class KenttäKohde implements Käännettävä {
     
@@ -73,7 +70,7 @@ public abstract class KenttäKohde implements Käännettävä {
      * @return Objektin sijaintia vastaava piste (java.awt.Point)
      */
     public Point annaSijaintiKentällä() {
-        Point sijainti = new Point(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        Point sijainti = new Point(sijX * 64, sijY * 64);
         return sijainti;
     }
 
@@ -122,8 +119,6 @@ public abstract class KenttäKohde implements Käännettävä {
     BufferedImage käännettäväKuvake;
     
     protected String nimi;
-    protected Icon kuvake;
-    protected Icon dialogiKuvake;
     public boolean tavoiteSuoritettu = false;
 
     boolean vaatiiPäivityksen = true;
@@ -133,16 +128,9 @@ public abstract class KenttäKohde implements Käännettävä {
         return katsomisTeksti;
     }
 
-    public String kokeileEsinettä(Esine e) {
-        return "Mitään ei tapahtunut!";
-    }
-
-    public Esine suoritaMuutoksetEsineelle(Esine e) {
-        if (e != null) {
-            PääIkkuna.hudTeksti.setText(e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + this.annaNimiSijamuodossa("illatiivi"));
-        }
-        return e;
-    }
+    // public String kokeileEsinettä(Esine e) {
+    //     return "Mitään ei tapahtunut!";
+    // }
 
     public String annaNimi() {
         return nimi;
@@ -154,19 +142,10 @@ public abstract class KenttäKohde implements Käännettävä {
         return katso();
     }
 
-    public Icon annaKuvake() {
-        return kuvake;
-    }
-
     public String tiedostonNimi;
     public String annaKuvanTiedostoNimi() {
         return tiedostonNimi;
     }
-
-    // protected String tekstuurinNimi;
-    // public String annaTekstuurinNimi() {
-    //     return tekstuurinNimi;
-    // }
 
     protected Kuva tekstuuri;
     public Kuva annaTekstuuri() {
@@ -177,15 +156,6 @@ public abstract class KenttäKohde implements Käännettävä {
     public Kuva annaDialogiTekstuuri() {
         if (dialogiTekstuuri == null) return tekstuuri;
         else return dialogiTekstuuri;
-    }
-
-    public Icon annaDialogiKuvake() {
-        if (dialogiKuvake == null) return kuvake;
-        else return dialogiKuvake;
-    }
-
-    public void näytäDialogi(Esine e) {
-        PääIkkuna.avaaDialogi(kuvake, katsomisTeksti, nimi);
     }
 
     public float liikeY = 0;
@@ -296,6 +266,22 @@ public abstract class KenttäKohde implements Käännettävä {
                 luotavaObjekti = new Kuparilager(määritettySijainti, sijX, sijY);
                 break;
 
+            case "Kuuhahmo1":
+                luotavaObjekti = new Kuuhahmo1(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Kuuhahmo2":
+                luotavaObjekti = new Kuuhahmo2(määritettySijainti, sijX, sijY);
+                break;
+
+            case "Kuuhahmo3":
+                luotavaObjekti = new Kuuhahmo3(määritettySijainti, sijX, sijY);
+                break;
+
+            case "KuuOlutlasi":
+                luotavaObjekti = new KuuOlutlasi(määritettySijainti, sijX, sijY);
+                break;
+
             case "Makkara":
                 luotavaObjekti = new Makkara(määritettySijainti, sijX, sijY);
                 break;
@@ -345,6 +331,10 @@ public abstract class KenttäKohde implements Käännettävä {
 
             case "Pelikone":
                 luotavaObjekti = new Pelikone(määritettySijainti, sijX, sijY, ominaisuusLista);
+                break;
+
+            case "Pelikone2":
+                luotavaObjekti = new Pelikone2(määritettySijainti, sijX, sijY, ominaisuusLista);
                 break;
 
             case "Penkki":
@@ -525,8 +515,8 @@ public abstract class KenttäKohde implements Käännettävä {
         this.sijY = sijY;
         this.objektinId = seuraavaObjektinId;
         seuraavaObjektinId++;
-        this.hitbox = new Rectangle(PeliRuutu.esineenKokoPx, PeliRuutu.esineenKokoPx);
-        this.hitbox.setLocation(sijX * PeliRuutu.esineenKokoPx, sijY * PeliRuutu.esineenKokoPx);
+        this.hitbox = new Rectangle(64, 64);
+        this.hitbox.setLocation(sijX * 64, sijY * 64);
         asetaTiedot();
     }
 }

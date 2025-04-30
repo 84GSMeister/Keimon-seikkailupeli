@@ -4,8 +4,6 @@ import keimo.TarkistettavatArvot;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Makkara extends Ruoka {
     
     public boolean paistettu = false;
@@ -68,14 +66,12 @@ public final class Makkara extends Ruoka {
         else if (this.paistettu) {
             this.käristetty = true;
             super.nimi = "Käristetty makkara";
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
             super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
             return "Paistoit liikaa! Nyt makkara on pikimusta.";
         }
         else {
             this.paistettu = true;
             super.nimi = "Paistettu makkara";
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
             super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
             return "Mmm.. onpas hyvän näköistä kyrsää.";
         }
@@ -85,7 +81,6 @@ public final class Makkara extends Ruoka {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Makkara";
         super.tiedostonNimi = "makkarat.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.heal = 1;
         super.hinta = 2.79;

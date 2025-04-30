@@ -133,7 +133,7 @@ public class JFXTiedostoIkkuna {
                     HuoneEditoriIkkuna.warpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
                     for (Maasto[] mm : HuoneEditoriIkkuna.maastoKenttä) {
                         for (Maasto m : mm) {
-                            m.päivitäKuvanAsento();
+                            //m.päivitäKuvanAsento();
                         }
                     }
                     read.close();
@@ -187,7 +187,7 @@ public class JFXTiedostoIkkuna {
                     HuoneEditoriIkkuna.warpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
                     for (Maasto[] mm : HuoneEditoriIkkuna.maastoKenttä) {
                         for (Maasto m : mm) {
-                            m.päivitäKuvanAsento();
+                            //m.päivitäKuvanAsento();
                         }
                     }
                     read.close();

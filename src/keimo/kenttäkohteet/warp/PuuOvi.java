@@ -2,10 +2,7 @@ package keimo.kenttäkohteet.warp;
 
 import keimo.Peli;
 import keimo.Säikeet.ÄänentoistamisSäie;
-import keimo.Utility.KäännettäväKuvake;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
-
-import javax.swing.ImageIcon;
 
 public final class PuuOvi extends Warp {
 
@@ -33,27 +30,21 @@ public final class PuuOvi extends Warp {
     @Override
     public void asetaSuunta(Suunta suunta) {
         super.asetaSuunta(suunta);
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
         switch (suunta) {
             case YLÖS:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
             case ALAS:
                 this.suunta = Suunta.ALAS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 180);
                 break;
             case VASEN:
                 this.suunta = Suunta.VASEN;
-                this.kuvake = new KäännettäväKuvake(kuvake, 270);
                 break;
             case OIKEA:
                 this.suunta = Suunta.OIKEA;
-                this.kuvake = new KäännettäväKuvake(kuvake, 90);
                 break;
             default:
                 this.suunta = Suunta.YLÖS;
-                this.kuvake = new KäännettäväKuvake(kuvake, 0);
                 break;
         }
     }
@@ -61,24 +52,12 @@ public final class PuuOvi extends Warp {
     @Override
     public void ennenWarppia() {
         ÄänentoistamisSäie.toistaSFX("oven_avaus");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi_avattu.png");
         this.tekstuuri = avattuTekstuuri;
-        try {
-            if (Peli.legacy) Thread.sleep(1700);
-        }
-        catch (InterruptedException ie) {
-            System.out.println("Kuka kehtaa keskeyttää nukkumiseni? T. Vihainen Pelisäie");
-            ie.printStackTrace();
-        }
-        finally {
-           this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
-        }
     }
 
     @Override
     public void warpinJälkeen() {
         ÄänentoistamisSäie.toistaSFX("oven_sulkeminen");
-        this.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png");
         this.tekstuuri = suljettuTekstuuri;
     }
 
@@ -113,7 +92,6 @@ public final class PuuOvi extends Warp {
         }
 
         super.tiedostonNimi = "puuovi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = suljettuTekstuuri;
         asetaSuunta(suunta);
         this.lisäOminaisuuksia = true;

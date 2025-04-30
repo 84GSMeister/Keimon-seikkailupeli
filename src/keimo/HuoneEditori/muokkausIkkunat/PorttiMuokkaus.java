@@ -2,7 +2,6 @@ package keimo.HuoneEditori.muokkausIkkunat;
 
 import keimo.*;
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.HuoneEditori.DialogiEditori.*;
 import keimo.Utility.Downloaded.SpringUtilities;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.kenttäkohteet.*;
@@ -183,15 +182,6 @@ public class PorttiMuokkaus {
         muokkausIkkuna.add(paneli, BorderLayout.CENTER);
         muokkausIkkuna.revalidate();
         muokkausIkkuna.repaint();
-    }
-
-    public static void päivitäDialogiValintaLaatikko() {
-        if (sisältöValinta != null) {
-            sisältöValinta.removeAllItems();
-            for (String s : VuoropuheDialogit.vuoropuheDialogiKartta.keySet()) {
-                sisältöValinta.addItem(s);
-            }
-        }
     }
 }
 

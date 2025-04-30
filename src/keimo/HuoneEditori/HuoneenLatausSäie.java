@@ -626,7 +626,8 @@ public class HuoneenLatausSäie { //implements Runnable {
                                         HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setBorder(null);
                                     }
                                     else if (HuoneEditoriIkkuna.objektiKenttä[j][i] instanceof KenttäKohde) {
-                                        HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
+                                        //HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
+                                        HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(Peli.annaObjektiKenttä()[j][i].annaKuvanTiedostoNimi()));
                                         if (HuoneEditoriIkkuna.objektiKenttä[j][i] instanceof Kiintopiste) {
                                             HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
                                         }
@@ -650,13 +651,17 @@ public class HuoneenLatausSäie { //implements Runnable {
                                 HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setBorder(null);
                             }
                             if (HuoneEditoriIkkuna.objektiKenttä[j][i] instanceof KenttäKohde) {
-                                HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setIcon(HuoneEditoriIkkuna.objektiKenttä[j][i].annaKuvake());
+                                //HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setIcon(HuoneEditoriIkkuna.objektiKenttä[j][i].annaKuvake());
+                                HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(HuoneEditoriIkkuna.objektiKenttä[j][i].annaKuvanTiedostoNimi()));
                             }
                             if (HuoneEditoriIkkuna.maastoKenttä[j][i] instanceof Maasto) {
                                 Maasto m = HuoneEditoriIkkuna.maastoKenttä[j][i];
-                                HuoneEditoriIkkuna.maastoKohteenKuvake[j][i].setIcon(HuoneEditoriIkkuna.maastoKenttä[j][i].annaKuvake());
-                                HuoneEditoriIkkuna.maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                                HuoneEditoriIkkuna.maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                                //HuoneEditoriIkkuna.maastoKohteenKuvake[j][i].setIcon(HuoneEditoriIkkuna.maastoKenttä[j][i].annaKuvake());
+                                HuoneEditoriIkkuna.maastoKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(HuoneEditoriIkkuna.maastoKenttä[j][i].annaKuvanTiedostoNimi()));
+                                //HuoneEditoriIkkuna.maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                                HuoneEditoriIkkuna.maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(HuoneEditoriIkkuna.maastoKenttä[j][i].annaKuvanTiedostoNimi()));
+                                //HuoneEditoriIkkuna.maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
+                                HuoneEditoriIkkuna.maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(HuoneEditoriIkkuna.maastoKenttä[j][i].annaKuvanTiedostoNimi()));
                             }
                         
                             HuoneEditoriIkkuna.kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);

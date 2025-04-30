@@ -3,15 +3,12 @@ package keimo.kenttäkohteet.triggeri;
 import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public class Nappi extends Triggeri {
 
     @Override
     public void triggeröi() {
         if (!super.onkoTriggeröity()) {
             super.triggeröi();
-            super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/nappi_painettu.png");
             super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nappi_painettu.png");
             ÄänentoistamisSäie.toistaSFX("nappi");
         }
@@ -42,7 +39,6 @@ public class Nappi extends Triggeri {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Nappi";
         super.tiedostonNimi = "nappi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Mitähän tästä tapahtuu?";
         super.vaadittuEsine = null;

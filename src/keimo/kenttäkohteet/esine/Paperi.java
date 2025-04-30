@@ -2,8 +2,6 @@ package keimo.kenttäkohteet.esine;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-import javax.swing.ImageIcon;
-
 public final class Paperi extends Esine {
 
     @Override
@@ -34,7 +32,6 @@ public final class Paperi extends Esine {
         super(määritettySijainti, sijX, sijY);
         super.nimi = "Paperi";
         super.tiedostonNimi = "paperi.png";
-        super.kuvake = new ImageIcon("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tämä sopisi hyvin nuotion sytykkeeksi.";
         super.kenttäkäyttö = true;

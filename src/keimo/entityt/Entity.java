@@ -12,6 +12,7 @@ import keimo.entityt.npc.Vihollinen;
 import keimo.keimoEngine.grafiikat.Kuva;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 
 public abstract class Entity implements Käännettävä {
@@ -30,7 +31,7 @@ public abstract class Entity implements Käännettävä {
     public int korkeus;
     boolean määritettySijainti = true;
     protected boolean lisäOminaisuuksia = false;
-    protected String[] lisäOminaisuudet;
+    protected ArrayList<String> lisäOminaisuudet;
 
     protected int kääntöAsteet = 0;
     public boolean xPeilaus = false;
@@ -125,7 +126,7 @@ public abstract class Entity implements Käännettävä {
         return lisäOminaisuuksia;
     }
 
-    public String[] annalisäOminaisuudet() {
+    public ArrayList<String> annalisäOminaisuudet() {
         return lisäOminaisuudet;
     }
 
@@ -152,7 +153,7 @@ public abstract class Entity implements Käännettävä {
         return mjono;
     }
 
-    public static Entity luoEntityTiedoilla(String entitynNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+    public static Entity luoEntityTiedoilla(String entitynNimi, int sijX, int sijY, ArrayList<String> ominaisuusLista) {
 
         Entity luotavaEntity;
 
@@ -209,9 +210,5 @@ public abstract class Entity implements Käännettävä {
         this.alkuSijY = sijY;
         this.id = TarkistettavatArvot.luoNpcId();
         asetaTiedot();
-    }
-    Entity(int sijX, int sijY, String[] ominaisuusLista) {
-        this(sijX, sijY);
-        this.lisäOminaisuudet = ominaisuusLista;
     }
 }

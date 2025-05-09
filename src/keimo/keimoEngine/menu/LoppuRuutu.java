@@ -1,12 +1,12 @@
 package keimo.keimoEngine.menu;
 
 import keimo.Peli;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.ikkuna.Window;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 
@@ -51,7 +51,7 @@ public class LoppuRuutu {
                     hyväksy(valinta);
                 }
             }
-            ÄänentoistamisSäie.toistaSFX("Valinta");
+            Äänet.toistaSFX("Valinta");
         }
     }
 
@@ -170,7 +170,7 @@ public class LoppuRuutu {
     }
 
     public static void jatka() {
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
         Peli.nollaaPeli();
         KeimoEngine.lataaTarinaRuutu("alku");
     }

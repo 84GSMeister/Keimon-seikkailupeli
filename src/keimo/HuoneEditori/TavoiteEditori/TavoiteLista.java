@@ -1,7 +1,7 @@
 package keimo.HuoneEditori.TavoiteEditori;
 
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.gui.hud.TavoitePopup;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.esine.Esine;
 import keimo.kenttäkohteet.esine.Pesäpallomaila;
@@ -21,7 +21,7 @@ public class TavoiteLista {
             tavoiteLista.put(tavoitteenTunniste, true);
             TavoitePopup.suoritettuTavoite = tavoitteenTunniste;
             TavoitePopup.popupAjastin = 240;
-            ÄänentoistamisSäie.toistaSFX("Tavoite_suoritettu");
+            Äänet.toistaSFX("Tavoite_suoritettu");
         }
     }
 

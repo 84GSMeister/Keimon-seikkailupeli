@@ -33,7 +33,7 @@ public class Maailma {
     private int viewX;
 	private int viewY;
     public static ArrayList<Tile> tilet = new ArrayList<>();
-    public static ArrayList<Entity> entityt = new ArrayList<>();
+    //public static ArrayList<Entity> entityt = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
     private static Shader objektiShader = new Shader("shader");
@@ -67,28 +67,29 @@ public class Maailma {
                     if (huone.annaHuoneenMaastoSisältö()[x][y] != null) {
                         String tiedostonNimi = huone.annaHuoneenMaastoSisältö()[x][y].annaKuvanTiedostoNimi();
                         if (tiedostonNimi != null) {
-                            String[] ominaisuusLista = {"kuva=" + tiedostonNimi};
+                            ArrayList<String> ominaisuusLista = new ArrayList<>();
+                            ominaisuusLista.add("kuva=" + tiedostonNimi);
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             tilet.add(new Tile(x, y, ominaisuusLista));
                         }
                     }
-                    if (huone.annaHuoneenKenttäSisältö()[x][y] != null) {
-                        String tiedostonNimi = huone.annaHuoneenKenttäSisältö()[x][y].annaKuvanTiedostoNimi();
-                        if (tiedostonNimi != null) {
-                            tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-                            String objektinNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
-                            String[] ominaisuusLista = huone.annaHuoneenKenttäSisältö()[x][y].annalisäOminaisuudet();
-                        }
-                    }
-                    if (huone.annaHuoneenNPCSisältö()[x][y] != null) {
-                        String tiedostonNimi = huone.annaHuoneenNPCSisältö()[x][y].annaKuvanTiedostoNimi();
-                        if (tiedostonNimi != null) {
-                            tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-                            String entityNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
-                            String[] ominaisuusLista = huone.annaHuoneenNPCSisältö()[x][y].annalisäOminaisuudet();
-                            entityt.add(Entity.luoEntityTiedoilla(entityNimi, true, x, y, ominaisuusLista));
-                        }
-                    }
+                    // if (huone.annaHuoneenKenttäSisältö()[x][y] != null) {
+                    //     String tiedostonNimi = huone.annaHuoneenKenttäSisältö()[x][y].annaKuvanTiedostoNimi();
+                    //     if (tiedostonNimi != null) {
+                    //         tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
+                    //         //String objektinNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
+                    //         //ArrayList<String> ominaisuusLista = huone.annaHuoneenKenttäSisältö()[x][y].annalisäOminaisuudet();
+                    //     }
+                    // }
+                    // if (huone.annaHuoneenNPCSisältö()[x][y] != null) {
+                    //     String tiedostonNimi = huone.annaHuoneenNPCSisältö()[x][y].annaKuvanTiedostoNimi();
+                    //     if (tiedostonNimi != null) {
+                    //         tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
+                    //         //String entityNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
+                    //         //String[] ominaisuusLista = huone.annaHuoneenNPCSisältö()[x][y].annalisäOminaisuudet();
+                    //         //entityt.add(Entity.luoEntityTiedoilla(entityNimi, true, x, y, ominaisuusLista));
+                    //     }
+                    // }
                 }
             }
             if (huone.annaTaustanPolku() != null && huone.annaTaustanPolku() != "") {
@@ -222,9 +223,6 @@ public class Maailma {
 		Matrix4f tilenSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(tilenSijainti);
-
-        //tile.transform.getRotation().rotateAxis((float)Math.toRadians(1), 0, 1, 0);
-        //resultMatrix.mul(tile.transform.getTransformation());
         
         tileShader.bind();
 		tileShader.setUniform("sampler", 0);
@@ -305,7 +303,6 @@ public class Maailma {
         else virheTekstuuri.bind(0);
         
         Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
-        //objektinSijainti.translate(KenttäShaderEfektit.känniOffsetX, KenttäShaderEfektit.känniOffsetY, KenttäShaderEfektit.känniOffsetZ);
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(objektinSijainti);
 
@@ -337,7 +334,6 @@ public class Maailma {
     protected void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
         if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else if (objekti instanceof VisuaalinenObjekti) ErikoisTileMuutokset.annaSpesiaaliTekstuuri(objekti.annaTekstuuri(), objekti.annaKuvanTiedostoNimi()).bind(0);
-        //else if (objekti instanceof VisuaalinenObjekti) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
         
         Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));

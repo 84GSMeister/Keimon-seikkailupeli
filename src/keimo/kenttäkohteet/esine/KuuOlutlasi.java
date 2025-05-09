@@ -1,14 +1,27 @@
 package keimo.kenttäkohteet.esine;
 
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
 public class KuuOlutlasi extends Juoma {
+
+    public KuuOlutlasi(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "KuuOlutlasi";
+        super.tiedostonNimi = "olutlasi_kuu.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Uskaltaakohan tätä juoda?";
+        super.käyttö = true;
+        super.hinta = 4.95;
+        super.voltit = 0.6f;
+        super.känniKuolemattomuus = 600;
+        super.asetaTiedot();
+    }
 
     @Override
     public String käytä(){
         super.käytä();
-        ÄänentoistamisSäie.toistaSFX("Juoman_kaato");
+        Äänet.toistaSFX("Juoman_kaato");
         return katso();
     }
 
@@ -28,18 +41,5 @@ public class KuuOlutlasi extends Juoma {
             case "allatiivi":    return "Olutlasille";
             default:             return "Olutlasi";
         }
-    }
-
-    public KuuOlutlasi(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "KuuOlutlasi";
-        super.tiedostonNimi = "olutlasi_kuu.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Uskaltaakohan tätä juoda?";
-        super.käyttö = true;
-        super.hinta = 4.95;
-        super.voltit = 0.6f;
-        super.känniKuolemattomuus = 600;
-        super.asetaTiedot();
     }
 }

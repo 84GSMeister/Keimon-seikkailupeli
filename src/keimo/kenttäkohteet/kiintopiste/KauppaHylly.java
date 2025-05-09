@@ -3,54 +3,19 @@ package keimo.kenttäkohteet.kiintopiste;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 import java.io.File;
+import java.util.ArrayList;
 
-public class KauppaHylly extends Säiliö {
+public final class KauppaHylly extends Säiliö {
 
-    public void päivitäLisäOminaisuudet() {
-        super.lisäOminaisuuksia = true;
-        super.lisäOminaisuudet = new String[4];
-        super.lisäOminaisuudet[0] = "sisältö=" + this.annaSisältö();
-        super.lisäOminaisuudet[1] = "kääntö=" + kääntöAsteet;
-        super.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
-        super.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
-        super.asetaTiedot();
-    }
-
-    public void päivitäTiedot() {
-        if (this.lisäOminaisuudet != null) {
-            String esineenNimi = "";
-            for (String ominaisuus : this.lisäOminaisuudet) {
-                if (ominaisuus.startsWith("sisältö=")) {
-                    esineenNimi = ominaisuus.substring(8);
-                }
-            }
-            File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
-            if (file.isFile()) {
-                super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-            }
-            else {
-                super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
-                
-            }
-            if (luoSisältö(esineenNimi, null) != null) {
-                super.katsomisTeksti = "Hyllystä saa " + luoSisältö(esineenNimi, null).annaNimiSijamuodossa("partitiivi");
-            }
-            else {
-                super.katsomisTeksti = "tyhjä hylly";
-            }
-        }
-    }
-
-    public KauppaHylly(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
+    public KauppaHylly(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kauppahylly";
         super.tiedostonNimi = "kauppahylly.png";
         super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
         super.katsomisTeksti = "Tyhjä hylly";
 
         if (ominaisuusLista != null) {
+            this.lisäOminaisuudet = new ArrayList<>();
             String esineenNimi = "";
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("sisältö=")) {
@@ -101,5 +66,45 @@ public class KauppaHylly extends Säiliö {
         }
         
         super.asetaTiedot();
+    }
+
+    public void päivitäLisäOminaisuudet() {
+        super.lisäOminaisuuksia = true;
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("sisältö="));
+        this.lisäOminaisuudet.add("sisältö="+ this.annaSisältö());
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+        this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+        this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+        this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
+        super.asetaTiedot();
+    }
+
+    public void päivitäTiedot() {
+        if (this.lisäOminaisuudet != null) {
+            String esineenNimi = "";
+            for (String ominaisuus : this.lisäOminaisuudet) {
+                if (ominaisuus.startsWith("sisältö=")) {
+                    esineenNimi = ominaisuus.substring(8);
+                }
+            }
+            File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
+            if (file.isFile()) {
+                super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
+                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+            }
+            else {
+                super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
+                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
+                
+            }
+            if (luoSisältö(esineenNimi, null) != null) {
+                super.katsomisTeksti = "Hyllystä saa " + luoSisältö(esineenNimi, null).annaNimiSijamuodossa("partitiivi");
+            }
+            else {
+                super.katsomisTeksti = "tyhjä hylly";
+            }
+        }
     }
 }

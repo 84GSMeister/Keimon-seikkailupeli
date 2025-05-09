@@ -4,6 +4,19 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Hiili extends Esine {
 
+    public Hiili(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Hiili";
+        super.tiedostonNimi = "hiili.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.liikeNopeus = 6f;
+        super.pyörimisNopeus = 2f;
+        super.asetaTiedot();
+    }
+
     @Override
     public String käytä() {
         super.poista = true;
@@ -29,18 +42,5 @@ public final class Hiili extends Esine {
             case "allatiivi":    return "Hiilelle";
             default:             return "Hiili";
         }
-    }
-
-    public Hiili(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Hiili";
-        super.tiedostonNimi = "hiili.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Nuotio");
-        super.liikeNopeus = 6f;
-        super.pyörimisNopeus = 2f;
-        super.asetaTiedot();
     }
 }

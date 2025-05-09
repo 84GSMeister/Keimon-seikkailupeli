@@ -2,12 +2,13 @@ package keimo;
 
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.Maastot.*;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.*;
 import keimo.entityt.npc.*;
 import keimo.keimoEngine.liikeSimulaatiot.*;
+import keimo.keimoEngine.äänet.Musat;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.avattavaEste.AvattavaEste;
 import keimo.kenttäkohteet.esine.Kilpi;
@@ -68,7 +69,7 @@ public class PeliKenttäMetodit {
 
     private static void tarkistaPeliMusa() {
         if (Peli.huone != null) {
-            ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
+            Musat.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
         }
     }
 
@@ -734,7 +735,7 @@ public class PeliKenttäMetodit {
                             if (!av.onkoKukistettu()) {
                                 Peli.entityLista.add(new Ammus((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY(), av.suuntaVasenOikea, av.ammusVahinko, av));
                                 Point sijainti = new Point((int)av.hitbox.getCenterX(), (int)av.hitbox.getCenterY());
-                                ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
+                                Äänet.toistaSFX("ammus", sijainti);
                             }
                         }
                     }
@@ -827,7 +828,7 @@ public class PeliKenttäMetodit {
                 if (Peli.pelikenttä[x][y] instanceof KaljaAutomaatti) {
                     if (x > 0) {
                         if (Peli.pelikenttä[x-1][y] == null) {
-                            Peli.pelikenttä[x-1][y] = new Kuparilager(true, 0, 0);
+                            Peli.pelikenttä[x-1][y] = new Kuparilager(0, 0);
                         }
                     }
                 }

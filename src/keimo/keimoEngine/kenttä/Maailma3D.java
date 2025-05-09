@@ -28,25 +28,19 @@ import org.joml.Vector4f;
 
 public class Maailma3D {
 
-    private static int viewX;
-    private static int viewY;
     public static ArrayList<Tile> tilet = new ArrayList<>();
     public static ArrayList<KenttäKohde> kenttäObjektit = new ArrayList<>();
     public static ArrayList<Entity> entityt = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
-    //public static ArrayList<Model3D> objektit3d = new ArrayList<>();
     private static Shader shader = new Shader("shader");
-    private static Tekstuuri testiTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/84gs.jpg");
     static Matrix4f world;
     static int scale = 32;
-    //static String kenttä = "Yo-kylä";
     private static Huone3D ladattuHuone;
     private static HashMap<Integer, Huone3D> huone3dKartta = new HashMap<>();
     private static int huoneenId = 0;
 
     private static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
     private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
-    //private static Model3D modelYokyläAsunto, modelYokylä, modelSieni;
 
     public static void createWorld() {
         world = new Matrix4f().setTranslation(new Vector3f(0));
@@ -57,7 +51,8 @@ public class Maailma3D {
                     if (huone.annaHuoneenMaastoSisältö()[x][y] != null) {
                         String tiedostonNimi = huone.annaHuoneenMaastoSisältö()[x][y].annaKuvanTiedostoNimi();
                         if (tiedostonNimi != null) {
-                            String[] ominaisuusLista = {"kuva=" + tiedostonNimi};
+                            ArrayList<String> ominaisuusLista = new ArrayList<>();
+                            ominaisuusLista.add("kuva=" + tiedostonNimi);
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             tilet.add(new Tile(x, y, ominaisuusLista));
                         }
@@ -67,8 +62,8 @@ public class Maailma3D {
                         if (tiedostonNimi != null) {
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             String objektinNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
-                            String[] ominaisuusLista = huone.annaHuoneenKenttäSisältö()[x][y].annalisäOminaisuudet();
-                            kenttäObjektit.add(KenttäKohde.luoObjektiTiedoilla(objektinNimi, true, x, y, ominaisuusLista));
+                            ArrayList<String> ominaisuusLista = huone.annaHuoneenKenttäSisältö()[x][y].annalisäOminaisuudet();
+                            kenttäObjektit.add(KenttäKohde.luoObjektiTiedoilla(objektinNimi, x, y, ominaisuusLista));
                         }
                     }
                     if (huone.annaHuoneenNPCSisältö()[x][y] != null) {
@@ -76,8 +71,8 @@ public class Maailma3D {
                         if (tiedostonNimi != null) {
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             String entityNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
-                            String[] ominaisuusLista = huone.annaHuoneenNPCSisältö()[x][y].annalisäOminaisuudet();
-                            entityt.add(Entity.luoEntityTiedoilla(entityNimi, true, x, y, ominaisuusLista));
+                            ArrayList<String> ominaisuusLista = huone.annaHuoneenNPCSisältö()[x][y].annalisäOminaisuudet();
+                            entityt.add(Entity.luoEntityTiedoilla(entityNimi, x, y, ominaisuusLista));
                         }
                     }
                 }

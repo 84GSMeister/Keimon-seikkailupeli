@@ -1,10 +1,11 @@
 package keimo.entityt.npc;
 
-import keimo.Säikeet.*;
 import keimo.keimoEngine.grafiikat.Animaatio;
 import keimo.keimoEngine.grafiikat.Kuva;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
+import java.util.ArrayList;
 
 public class Pahavihu extends Vihollinen {
 
@@ -24,7 +25,7 @@ public class Pahavihu extends Vihollinen {
     @Override
     public void vahingoita(int määrä) {
         super.vahingoita(määrä);
-        ÄänentoistamisSäie.toistaSFX("pikkuvihu_damage");
+        Äänet.toistaSFX("pikkuvihu_damage");
     }
 
     public String katso() {
@@ -36,11 +37,13 @@ public class Pahavihu extends Vihollinen {
         }
     }
 
-    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[1];
-        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
-    }
+    // public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
+    //     this.lisäOminaisuuksia = true;
+    //     //this.lisäOminaisuudet = new String[1];
+    //     //this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+    //     this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
+    //     this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
+    // }
 
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
@@ -59,7 +62,7 @@ public class Pahavihu extends Vihollinen {
         }
     }
 
-    public Pahavihu(int sijX, int sijY, String[] ominaisuusLista) {
+    public Pahavihu(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 5;
         super.maxHp = super.hp;
@@ -73,8 +76,6 @@ public class Pahavihu extends Vihollinen {
         super.sijY = sijY;
         super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Pahavihu";
-        super.lisäOminaisuuksia = true;
-        super.lisäOminaisuudet = ominaisuusLista;
         super.tehoavatAseet.add("Pesäpallomaila");
         super.asetaTiedot();
     }

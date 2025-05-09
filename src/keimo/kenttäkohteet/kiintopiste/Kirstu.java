@@ -3,9 +3,36 @@ package keimo.kenttäkohteet.kiintopiste;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
-public class Kirstu extends Säiliö {
+import java.util.ArrayList;
+
+public final class Kirstu extends Säiliö {
 
     boolean avattu;
+
+    public Kirstu(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        super.nimi = "Kirstu";
+        super.tiedostonNimi = "kirstu.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
+
+        if (ominaisuusLista != null) {
+            this.lisäOminaisuudet = new ArrayList<>();
+            String esineenNimi = "";
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("sisältö=")) {
+                    esineenNimi = ominaisuus.substring(8);
+                }
+            }
+            this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
+            päivitäLisäOminaisuudet();
+        }
+        else {
+            this.lisäOminaisuuksia = false;
+        }
+        
+        super.asetaTiedot();
+    }
 
     @Override
     public String katso(){
@@ -22,7 +49,7 @@ public class Kirstu extends Säiliö {
         switch (sijamuoto) {
             case "nominatiivi":  return "Kirstu";
             case "genetiivi":    return "Kirstun";
-            case "esiivi":       return "Kirstuna";
+            case "essiivi":      return "Kirstuna";
             case "partitiivi":   return "Kirstua";
             case "translatiivi": return "Kirstuksi";
             case "inessiivi":    return "Kirstussa";
@@ -46,8 +73,8 @@ public class Kirstu extends Säiliö {
     @Override
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
-        this.lisäOminaisuudet[0] = "sisältö=" + this.annaSisältö();
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("sisältö="));
+        this.lisäOminaisuudet.add("sisältö=" + this.annaSisältö());
         super.päivitäLisäOminaisuudet();
     }
 
@@ -60,29 +87,5 @@ public class Kirstu extends Säiliö {
 
     public boolean onkoAvattu() {
         return avattu;
-    }
-
-    public Kirstu(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
-        super.nimi = "Kirstu";
-        super.tiedostonNimi = "kirstu.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
-
-        if (ominaisuusLista != null) {
-            String esineenNimi = "";
-            for (String ominaisuus : ominaisuusLista) {
-                if (ominaisuus.startsWith("sisältö=")) {
-                    esineenNimi = ominaisuus.substring(8);
-                }
-            }
-            this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
-            päivitäLisäOminaisuudet();
-        }
-        else {
-            this.lisäOminaisuuksia = false;
-        }
-        
-        super.asetaTiedot();
     }
 }

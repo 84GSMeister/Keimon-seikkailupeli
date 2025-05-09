@@ -1,7 +1,5 @@
 package keimo.HuoneEditori;
 
-import keimo.Pelaaja;
-import keimo.Peli;
 import keimo.Utility.Downloaded.SpringUtilities;
 
 import javax.swing.*;
@@ -22,10 +20,7 @@ public class HuoneenVaihtoIkkuna {
     static String[] huoneidenNimet;
     static JComboBox<String> huoneValikko;
     static int valintojenMäärä = tekstit.length;
-    //static int warppiTapa = 0;
     static JTextField kohdeHuoneTekstikenttä;
-    //static JRadioButton warppaaIdllä, warppaaListalla;
-	//static ButtonGroup warppiTapaValinta = new ButtonGroup();
     static ArrayList<Integer> toimivatHuoneIndeksit = new ArrayList<Integer>();
 
     public static void luoHuoneenNimiLista() {
@@ -58,51 +53,26 @@ public class HuoneenVaihtoIkkuna {
     }
     
     static void tarkistaArvot() {
-        //switch (valinta) {
-            // default:
-            //     try {
-            //         int huoneenId = Integer.parseInt(kohdeHuoneTekstikenttä.getText());
-            //         if (Peli.huoneKartta.containsKey(huoneenId)) {
-            //             asetaArvot(huoneenId);
-            //         }
-            //         else {
-            //             JOptionPane.showMessageDialog(null, "Huonetta ID:llä " + huoneenId + " ei löytynyt.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
-            //         }
-            //     }
-            //     catch (NumberFormatException e) {
-            //         JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
-            //     }
-            // break;
-            //default:
-                try {
-                    //int huoneenId = toimivatHuoneIndeksit.get(huoneValikko.getSelectedIndex());
-                    //huoneenId = Integer.parseInt("" + huoneidenNimet[huoneValikko.getSelectedIndex()].charAt(huoneidenNimet[huoneValikko.getSelectedIndex()].indexOf("(")));
-                    String huoneString = huoneidenNimet[huoneValikko.getSelectedIndex()].substring(huoneidenNimet[huoneValikko.getSelectedIndex()].indexOf("("));
-                    String huoneStringPelkkäNumero = huoneString.substring(1, huoneString.length()-1);
-                    int huoneenId = Integer.parseInt(huoneStringPelkkäNumero);
-                    System.out.println(huoneStringPelkkäNumero);
-                    if (HuoneEditoriIkkuna.huoneKartta.containsKey(huoneenId)) {
-                        asetaArvot(huoneenId);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Huonetta ID:llä " + huoneenId + " ei löytynyt.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
-                }
-            //break;
-        //}
+        try {
+            String huoneString = huoneidenNimet[huoneValikko.getSelectedIndex()].substring(huoneidenNimet[huoneValikko.getSelectedIndex()].indexOf("("));
+            String huoneStringPelkkäNumero = huoneString.substring(1, huoneString.length()-1);
+            int huoneenId = Integer.parseInt(huoneStringPelkkäNumero);
+            System.out.println(huoneStringPelkkäNumero);
+            if (HuoneEditoriIkkuna.huoneKartta.containsKey(huoneenId)) {
+                asetaArvot(huoneenId);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Huonetta ID:llä " + huoneenId + " ei löytynyt.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Virheellinen syöte!", "Virheellinen syöte!", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     static void asetaArvot(int huoneenId) {
         try {
-            //Peli.lataaHuone(huoneenId, true);
             ikkuna.dispose();
-            if (Pelaaja.sijX >= Peli.huoneKartta.get(huoneenId).annaKoko() || Pelaaja.sijY >= Peli.huoneKartta.get(huoneenId).annaKoko()) {
-                Pelaaja.teleport(0, 0);
-            }
-            Pelaaja.teleporttaaLähimpäänTurvalliseenKohtaan(Pelaaja.sijX, Pelaaja.sijY);
         }
         catch (NullPointerException npe) {
             System.out.println("Ongelma ladatessa huonetta pelin huonekartasta.");
@@ -125,37 +95,11 @@ public class HuoneenVaihtoIkkuna {
 
     public static void luoHuoneenVaihtoikkunaJatko() {
         
-        //luoHuoneenNimiLista();
-        
-
         JPanel paneli = new JPanel(new SpringLayout());
 
-        // warppaaIdllä = new JRadioButton("");
-        // warppaaIdllä.addActionListener(new ActionListener() {
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		warppiTapa = 0;
-		// 	}
-		// });
-        // kohdeHuoneTekstikenttä = new JTextField();
-        // JLabel teksti0 = new JLabel(tekstit[0], JLabel.TRAILING);
-        // teksti0.setLabelFor(kohdeHuoneTekstikenttä);
-        // warppiTapaValinta.add(warppaaIdllä);
-        // paneli.add(warppaaIdllä);
-        // paneli.add(teksti0);
-        // paneli.add(kohdeHuoneTekstikenttä);
-
-        //warppaaListalla = new JRadioButton("");
-        //warppaaListalla.setSelected(true);
-        // warppaaListalla.addActionListener(new ActionListener() {
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		warppiTapa = 1;
-		// 	}
-		// });
         huoneValikko = new JComboBox<String>(huoneidenNimet);
         JLabel teksti1 = new JLabel(tekstit[1], JLabel.TRAILING);
         teksti1.setLabelFor(huoneValikko);
-        //warppiTapaValinta.add(warppaaListalla);
-        //paneli.add(warppaaListalla);
         paneli.add(teksti1);
         paneli.add(huoneValikko);
 
@@ -178,17 +122,6 @@ public class HuoneenVaihtoIkkuna {
             }
         });
 
-        // JButton kolmasNappi = new JButton("");
-        // kolmasNappi.setVisible(false);
-        // kolmasNappi.addMouseListener(new MouseAdapter() {
-        //     public void mousePressed (MouseEvent e) {
-        //         if (!SwingUtilities.isRightMouseButton(e)) {
-        //             ikkuna.dispose();
-        //         }
-        //     }
-        // });
-
-        //paneli.add(kolmasNappi);
         paneli.add(okNappi);
         paneli.add(cancelNappi);
 

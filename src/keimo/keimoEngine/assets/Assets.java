@@ -6,12 +6,14 @@ import keimo.Utility.ModelLoader;
 import keimo.keimoEngine.grafiikat.objekti2d.Model;
 import keimo.keimoEngine.grafiikat.objekti3d.Model3D;
 import keimo.keimoEngine.grafiikat.objekti3d.TextureCache;
-import keimo.keimoEngine.äänet.Musa;
-import keimo.keimoEngine.äänet.Ääni;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Assets {
 
@@ -24,8 +26,10 @@ public class Assets {
     public static Model getModel() {return model0;}
 
     private static HashMap<String, Model3D> models3d = new HashMap<>();
-    public static HashMap<String, Ääni> äänet = new HashMap<>();
-    private static HashMap<String, Musa> musat = new HashMap<>();
+    private static HashMap<String, File> ääniTiedostot = new HashMap<>();
+    private static List<File> tölkkiÄäniLista = new ArrayList<>();
+    private static HashMap<String, File> musaTiedostot = new HashMap<>();
+    private static Random random = new Random();
 
     public static Model3D getModel3D(String objNimi) {
         return models3d.get(objNimi);
@@ -81,53 +85,28 @@ public class Assets {
         }
     }
 
-    public static Ääni annaÄäni(String ääniTiedosto) {
-        if (äänet.containsKey(ääniTiedosto)) {
-            return äänet.get(ääniTiedosto);
+    public static File annaÄäni(String ääniTiedosto) {
+        if (ääniTiedosto.startsWith("tölkki")) {
+            return tölkkiÄäniLista.get(random.nextInt(tölkkiÄäniLista.size()));
         }
         else {
-            assert false : "Ääntä ei löytynyt" + ääniTiedosto;
-            return äänet.get("default");
-        }
-    }
-
-    public static Ääni lisääÄäni(String ääniTiedosto, String tiedostoPolku, boolean loop) {
-        if (äänet.containsKey(ääniTiedosto)) {
-            return äänet.get(ääniTiedosto);
-        }
-        else {
-            Ääni ääni = new Ääni(tiedostoPolku, loop);
-            äänet.put(ääniTiedosto, ääni);
-            return ääni;
-        }
-    }
-
-    public static Musa annaMusa(String musaTiedosto) {
-        if (musat.containsKey(musaTiedosto)) {
-            return musat.get(musaTiedosto);
-        }
-        else {
-            assert false : "Ääntä ei löytynyt" + musaTiedosto;
-            return null;
-        }
-    }
-
-    public static Musa lisääMusa(String musaTiedosto, String tiedostoPolku, boolean loop, int loopKohta) {
-        if (musat.containsKey(musaTiedosto)) {
-            return musat.get(musaTiedosto);
-        }
-        else {
-            Musa musa = new Musa(tiedostoPolku, loop, loopKohta);
-            musat.put(musaTiedosto, musa);
-            return musa;
-        }
-    }
-
-    public static void suljeMusa() {
-        for (Musa musa : musat.values()) {
-            if (musa.isPlaying()) {
-                musa.stop();
+            if (ääniTiedostot.containsKey(ääniTiedosto)) {
+                return ääniTiedostot.get(ääniTiedosto);
             }
+            else {
+                assert false : "Ääntä ei löytynyt" + ääniTiedosto;
+                return ääniTiedostot.get("default");
+            }
+        }
+    }
+
+    public static File annaMusa(String musaTiedosto) {
+        if (musaTiedostot.containsKey(musaTiedosto)) {
+            return musaTiedostot.get(musaTiedosto);
+        }
+        else {
+            assert false : "Musaa ei löytynyt" + musaTiedosto;
+            return null;
         }
     }
 
@@ -151,9 +130,9 @@ public class Assets {
 
         texture = new float[]{0, 1, 0, 0, 1, 0, 1, 1,};
         model90 = new Model(vertices, texture, indices);
-        texture = new float[]{0, 0, 0, 1, 1, 1, 1, 0,};
-        model90X = new Model(vertices, texture, indices);
         texture = new float[]{1, 1, 1, 0, 0, 0, 0, 1,};
+        model90X = new Model(vertices, texture, indices);
+        texture = new float[]{0, 0, 0, 1, 1, 1, 1, 0,};
         model90Y = new Model(vertices, texture, indices);
         texture = new float[]{1, 0, 1, 1, 0, 1, 0, 0,};
         model90XY = new Model(vertices, texture, indices);
@@ -169,9 +148,9 @@ public class Assets {
 
         texture = new float[]{1, 0, 1, 1, 0, 1, 0, 0,};
         model270 = new Model(vertices, texture, indices);
-        texture = new float[]{1, 1, 1, 0, 0, 0, 0, 1,};
-        model270X = new Model(vertices, texture, indices);
         texture = new float[]{0, 0, 0, 1, 1, 1, 1, 0,};
+        model270X = new Model(vertices, texture, indices);
+        texture = new float[]{1, 1, 1, 0, 0, 0, 0, 1,};
         model270Y = new Model(vertices, texture, indices);
         texture = new float[]{0, 1, 0, 0, 1, 0, 1, 1,};
         model270XY = new Model(vertices, texture, indices);
@@ -197,61 +176,67 @@ public class Assets {
     }
 
     public static void luo3DMallit() {
-        lisää3DMalli("cube",            1f,      false);
         lisää3DMalli("Tynnyri",         1.5f,    true);
         lisää3DMalli("asunto_yokyla",   0.125f,  false);
         lisää3DMalli("Sieni",           4f,      true);
         lisää3DMalli("yokyla_40-54",    0.005f,  true);
-        lisää3DMalli("Wooden_Crate_2",  1f,      true);
-        lisää3DMalli("Testikuutio",     1f,      true);
-        lisää3DMalli("Coin",            3f,      true);
         lisää3DMalli("Kolikko",         3f,      true);
         lisää3DMalli("KeimoTeksti",     0.0125f, true);
         lisää3DMalli("tölkki",          0.075f,  true);
     }
 
-    public static void luoÄänet() {
-        lisääÄäni("default",            "tiedostot/äänet/default.ogg",              false);
-        lisääÄäni("Koin",               "tiedostot/äänet/koin.ogg",                 false);
-        lisääÄäni("pelaaja_damage",     "tiedostot/äänet/pelaaja_damage.mp3",       false);
-        lisääÄäni("pikkuvihu_damage",   "tiedostot/äänet/pikkuvihu_damage.mp3",     false);
-        lisääÄäni("Hyökkäys",           "tiedostot/äänet/hyökkäys.wav",             false);
-        lisääÄäni("woof",               "tiedostot/äänet/woof.wav",                 false);
-        lisääÄäni("oven_avaus",         "tiedostot/äänet/risitas.wav",              false);
-        lisääÄäni("oven_sulkeminen",    "tiedostot/äänet/ovi_kiinni.wav",           false);
-        lisääÄäni("ammus",              "tiedostot/äänet/ammus.wav",                false);
-        lisääÄäni("frans_cs",           "tiedostot/äänet/frans_cs.mp3",             false);
-        lisääÄäni("nappi",              "tiedostot/äänet/nappi.wav",                false);
-        lisääÄäni("portti",             "tiedostot/äänet/portti.wav",               false);
-        lisääÄäni("pullo",              "tiedostot/äänet/pullo.mp3",                false);
-        lisääÄäni("Vesiämpäri",         "tiedostot/äänet/vihollinen_ämpäröinti.mp3",false);
-        lisääÄäni("Pesäpallomaila",     "tiedostot/äänet/vihollinen_mukilointi.mp3",false);
-        lisääÄäni("Pikkuvihu_damage",   "tiedostot/äänet/Pikkuvihu_damage.wav",     false);
-        lisääÄäni("Pahavihu_damage",    "tiedostot/äänet/Pahavihu_damage.wav",      false);
-        lisääÄäni("Asevihu_damage",     "tiedostot/äänet/Asevihu_damage.wav",       false);
-        lisääÄäni("Pomo_damage",        "tiedostot/äänet/Boss_damage.wav",          false);
-        lisääÄäni("Boss_death",         "tiedostot/äänet/Boss_death.wav",           false);
-        lisääÄäni("Kolikko",            "tiedostot/äänet/koin.wav",                 false);
-        lisääÄäni("Kerää",              "tiedostot/äänet/kollekt.wav",              false);
-        lisääÄäni("Pudota",             "tiedostot/äänet/pudota.wav",               false);
-        lisääÄäni("Käytä",              "tiedostot/äänet/käytä.wav",                false);
-        lisääÄäni("Valinta",            "tiedostot/äänet/selekt.wav",               false);
-        lisääÄäni("Hyväksy",            "tiedostot/äänet/akkept.wav",               false);
-        lisääÄäni("Kartta",             "tiedostot/äänet/kartta.mp3",               false);
-        lisääÄäni("Juoman_kaato",       "tiedostot/äänet/juoman_kaato.mp3",         false);
-        lisääÄäni("Kalja_kilinä",       "tiedostot/äänet/kalja_kilinä.mp3",         false);
-        lisääÄäni("Tavoite_suoritettu", "tiedostot/äänet/tavoite_suoritettu.wav",   false);
-        lisääÄäni("Raha2",              "tiedostot/äänet/raha2.wav",                false);
+    public static void lataaÄänet() {
+        ääniTiedostot.put("pelaaja_damage", new File("tiedostot/äänet/pelaaja_damage.mp3"));
+        ääniTiedostot.put("pikkuvihu_damage", new File("tiedostot/äänet/pikkuvihu_damage.mp3"));
+        ääniTiedostot.put("Hyökkäys", new File("tiedostot/äänet/hyökkäys.wav"));
+        ääniTiedostot.put("woof", new File("tiedostot/äänet/woof.wav"));
+        ääniTiedostot.put("oven_avaus", new File("tiedostot/äänet/risitas.wav"));
+        ääniTiedostot.put("oven_sulkeminen", new File("tiedostot/äänet/ovi_kiinni.wav"));
+        ääniTiedostot.put("ammus", new File("tiedostot/äänet/ammus.wav"));
+        ääniTiedostot.put("frans_cs", new File("tiedostot/äänet/frans_cs.mp3"));
+        ääniTiedostot.put("nappi", new File("tiedostot/äänet/nappi.wav"));
+        ääniTiedostot.put("portti", new File("tiedostot/äänet/portti.wav"));
+        ääniTiedostot.put("pullo", new File("tiedostot/äänet/pullo.mp3"));
+        ääniTiedostot.put("Vesiämpäri", new File("tiedostot/äänet/vihollinen_ämpäröinti.mp3"));
+        ääniTiedostot.put("Pesäpallomaila", new File("tiedostot/äänet/vihollinen_mukilointi.mp3"));
+        ääniTiedostot.put("Pikkuvihu_damage", new File("tiedostot/äänet/Pikkuvihu_damage.wav"));
+        ääniTiedostot.put("Pahavihu_damage", new File("tiedostot/äänet/Pahavihu_damage.wav"));
+        ääniTiedostot.put("Asevihu_damage", new File("tiedostot/äänet/Asevihu_damage.wav"));
+        ääniTiedostot.put("Pomo_damage", new File("tiedostot/äänet/Boss_damage.wav"));
+        ääniTiedostot.put("Boss_death", new File("tiedostot/äänet/Boss_death.wav"));
+        ääniTiedostot.put("Kolikko", new File("tiedostot/äänet/koin.wav"));
+        ääniTiedostot.put("Kerää", new File("tiedostot/äänet/kollekt.wav"));
+        ääniTiedostot.put("Pudota", new File("tiedostot/äänet/pudota.wav"));
+        ääniTiedostot.put("Käytä", new File("tiedostot/äänet/käytä.wav"));
+        ääniTiedostot.put("Valinta", new File("tiedostot/äänet/selekt.wav"));
+        ääniTiedostot.put("Hyväksy", new File("tiedostot/äänet/akkept.wav"));
+        ääniTiedostot.put("Kartta", new File("tiedostot/äänet/kartta.mp3"));
+        ääniTiedostot.put("Juoman_kaato", new File("tiedostot/äänet/juoman_kaato.mp3"));
+        ääniTiedostot.put("Kalja_kilinä", new File("tiedostot/äänet/kalja_kilinä.mp3"));
+        ääniTiedostot.put("Tavoite_suoritettu", new File("tiedostot/äänet/tavoite_suoritettu.wav"));
+        ääniTiedostot.put("Raha2", new File("tiedostot/äänet/raha2.wav"));
 
-        lisääMusa("overworld","tiedostot/musat/keimo_overworld.ogg",                true, 48_000);
-        lisääMusa("puisto",   "tiedostot/musat/keimo_puisto.ogg",                   true, 60_000);
-        lisääMusa("tarina",   "tiedostot/musat/keimo_sad_tarina.ogg",               true, 14_769);
-        lisääMusa("boss",     "tiedostot/musat/keimo_taistelu_boss_v2.ogg",         true, 1_600);
-        lisääMusa("valikko",  "tiedostot/musat/keimo_valikko.ogg",                  true, 6_400);
-        lisääMusa("metsä",    "tiedostot/musat/keimo_metsä.ogg",                    true, 8_350);
-        lisääMusa("koti",     "tiedostot/musat/keimo_koti.ogg",                     true, 7_680);
-        lisääMusa("baari",    "tiedostot/musat/keimo_baari.ogg",                    true, 6_857);
-        lisääMusa("kauppa",   "tiedostot/musat/keimo_kauppa.ogg",                   true, 16_700);
-        lisääMusa("temppeli", "tiedostot/musat/keimo_temppeli.ogg",                 true, 17_455);
+        tölkkiÄäniLista = Stream.of(new File("tiedostot/äänet/tölkki").listFiles())
+            .filter(file -> !file.isDirectory() && (file.getName().endsWith(".mp3")))
+            .collect(Collectors.toList());
+            
+        for (File tölkkiääni : tölkkiÄäniLista) {
+            String nimi = tölkkiääni.getName();
+            ääniTiedostot.put(nimi.substring(0, nimi.length()-4), tölkkiääni);
+        }
+    }
+
+    public static void lataaMusat() {
+        musaTiedostot.put("overworld", new File("tiedostot/musat/keimo_overworld.ogg"));
+        musaTiedostot.put("puisto", new File("tiedostot/musat/keimo_puisto.ogg"));
+        musaTiedostot.put("tarina", new File("tiedostot/musat/keimo_sad_tarina.ogg"));
+        musaTiedostot.put("boss", new File("tiedostot/musat/keimo_taistelu_boss_v2.ogg"));
+        musaTiedostot.put("valikko", new File("tiedostot/musat/keimo_valikko.mp3"));
+        musaTiedostot.put("metsä", new File("tiedostot/musat/keimo_metsä.ogg"));
+        musaTiedostot.put("koti", new File("tiedostot/musat/keimo_koti.ogg"));
+        musaTiedostot.put("baari", new File("tiedostot/musat/keimo_baari.ogg"));
+        musaTiedostot.put("kauppa", new File("tiedostot/musat/keimo_kauppa.ogg"));
+        musaTiedostot.put("temppeli", new File("tiedostot/musat/keimo_temppeli.ogg"));
+        musaTiedostot.put("kuu", new File("tiedostot/musat/keimo_kuu.ogg"));
     }
 }

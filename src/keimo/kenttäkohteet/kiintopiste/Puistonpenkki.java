@@ -4,7 +4,18 @@ import keimo.Pelaaja;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.Esine;
 
+import java.util.ArrayList;
+
 public final class Puistonpenkki extends Lepopaikka {
+
+    public Puistonpenkki (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        super.nimi = "Penkki";
+        super.tiedostonNimi = "puistonpenkki.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Nukuttaako?";
+        super.asetaTiedot();
+    }
 
     @Override
     public String vuorovaikuta(Esine e) {
@@ -20,7 +31,7 @@ public final class Puistonpenkki extends Lepopaikka {
         switch (sijamuoto) {
             case "nominatiivi":  return "Penkki";
             case "genetiivi":    return "Penkin";
-            case "esiivi":       return "Penkkinä";
+            case "essiivi":      return "Penkkinä";
             case "partitiivi":   return "Penkkiä";
             case "translatiivi": return "Penkiksi";
             case "inessiivi":    return "Penkissä";
@@ -31,14 +42,5 @@ public final class Puistonpenkki extends Lepopaikka {
             case "allatiivi":    return "Penkille";
             default:             return "Penkki";
         }
-    }
-    
-    public Puistonpenkki (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
-        super.nimi = "Penkki";
-        super.tiedostonNimi = "puistonpenkki.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Nukuttaako?";
-        super.asetaTiedot();
     }
 }

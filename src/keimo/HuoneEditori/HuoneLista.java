@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -78,64 +79,64 @@ public class HuoneLista {
                 default:
                     kenttäkohteet.removeAll(kenttäkohteet);
                     String[] ominaisuudet = {"kohdehuone=1", "kohderuutuX=3", "kohderuutuY=9", "suunta=Ylös"};
-                    kenttäkohteet.add(new Oviruutu(3, 0, ominaisuudet));
+                    kenttäkohteet.add(new Oviruutu(3, 0, new ArrayList<String>(List.of(ominaisuudet))));
                     String[] ominaisuudet2 = {"kohdehuone=2", "kohderuutuX=5", "kohderuutuY=0", "suunta=Alas"};
-                    kenttäkohteet.add(new Oviruutu(5, 9, ominaisuudet2));
+                    kenttäkohteet.add(new Oviruutu(5, 9, new ArrayList<String>(List.of(ominaisuudet2))));
                     String[] ominaisuudet3 = {"kohdehuone=3", "kohderuutuX=0", "kohderuutuY=3", "suunta=Oikea"};
-                    kenttäkohteet.add(new Oviruutu(9, 3, ominaisuudet3));
+                    kenttäkohteet.add(new Oviruutu(9, 3, new ArrayList<String>(List.of(ominaisuudet3))));
                     String[] ominaisuudet4 = {"kohdehuone=4", "kohderuutuX=9", "kohderuutuY=7", "suunta=Vasen"};
-                    kenttäkohteet.add(new Oviruutu(0, 7, ominaisuudet4));
-                    kenttäkohteet.add(new Suklaalevy(false, 0, 0));
-                    kenttäkohteet.add(new Vesiämpäri(false, 0, 0));
+                    kenttäkohteet.add(new Oviruutu(0, 7, new ArrayList<String>(List.of(ominaisuudet4))));
+                    kenttäkohteet.add(new Suklaalevy(0, 0));
+                    kenttäkohteet.add(new Vesiämpäri(0, 0));
                     break;
                 case 1:
                     kenttäkohteet.removeAll(kenttäkohteet);
                     String[] ominaisuudet5 = {"kohdehuone=0", "kohderuutuX=3", "kohderuutuY=0", "suunta=Alas"};
-                    kenttäkohteet.add(new Oviruutu(3, 9, ominaisuudet5));
-                    kenttäkohteet.add(new Hiili(false, 0, 0));
-                    kenttäkohteet.add(new Kaasusytytin(false, 0, 0, new String[]{"toimivuus=tyhjä"}));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
-                    kenttäkohteet.add(new Suklaalevy(false, 0, 0));
-                    kenttäkohteet.add(new Kilpi(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
+                    kenttäkohteet.add(new Oviruutu(3, 9, new ArrayList<String>(List.of(ominaisuudet5))));
+                    kenttäkohteet.add(new Hiili(0, 0));
+                    kenttäkohteet.add(new Kaasusytytin(0, 0, new ArrayList<String>(List.of(new String[]{"toimivuus=tyhjä"}))));
+                    kenttäkohteet.add(new Makkara(0, 0));
+                    kenttäkohteet.add(new Suklaalevy(0, 0));
+                    kenttäkohteet.add(new Kilpi(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
                     break;
                 case 2:
                     kenttäkohteet.removeAll(kenttäkohteet);
                     String[] ominaisuudet6 = {"kohdehuone=0", "kohderuutuX=5", "kohderuutuY=9", "suunta=Ylös"};
-                    kenttäkohteet.add(new Oviruutu(5, 0, ominaisuudet6));
-                    kenttäkohteet.add(new Suklaalevy(false, 0, 0));
-                    kenttäkohteet.add(new Kaasupullo(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
+                    kenttäkohteet.add(new Oviruutu(5, 0, new ArrayList<String>(List.of(ominaisuudet6))));
+                    kenttäkohteet.add(new Suklaalevy(0, 0));
+                    kenttäkohteet.add(new Kaasupullo(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
                     break;
                 case 3:
                     kenttäkohteet.removeAll(kenttäkohteet);
                     String[] ominaisuudet7 = {"kohdehuone=0", "kohderuutuX=9", "kohderuutuY=3", "suunta=Vasen"};
-                    kenttäkohteet.add(new Oviruutu(0, 3, ominaisuudet7));
-                    kenttäkohteet.add(new Vesiämpäri(false, 0, 0));
-                    kenttäkohteet.add(new Avain(false, 0, 0));
-                    kenttäkohteet.add(new Paperi(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
-                    kenttäkohteet.add(new Makkara(false, 0, 0));
+                    kenttäkohteet.add(new Oviruutu(0, 3, new ArrayList<String>(List.of(ominaisuudet7))));
+                    kenttäkohteet.add(new Vesiämpäri(0, 0));
+                    kenttäkohteet.add(new Avain(0, 0));
+                    kenttäkohteet.add(new Paperi(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
+                    kenttäkohteet.add(new Makkara(0, 0));
                     break;
                 case 4:
                     kenttäkohteet.removeAll(kenttäkohteet);
                     String[] ominaisuudet8 = {"kohdehuone=0", "kohderuutuX=0", "kohderuutuY=7", "suunta=Oikea"};
-                    kenttäkohteet.add(new Oviruutu(9, 7, ominaisuudet8));
+                    kenttäkohteet.add(new Oviruutu(9, 7, new ArrayList<String>(List.of(ominaisuudet8))));
                     String[] ominaisuudet9 = {"kohdehuone=5", "kohderuutuX=9", "kohderuutuY=2", "suunta=Vasen"};
-                    kenttäkohteet.add(new Oviruutu(0, 2, ominaisuudet9));
-                    kenttäkohteet.add(new Vesiämpäri(false, 0, 0));
+                    kenttäkohteet.add(new Oviruutu(0, 2, new ArrayList<String>(List.of(ominaisuudet9))));
+                    kenttäkohteet.add(new Vesiämpäri(0, 0));
                     break;
                 case 5:
                     kenttäkohteet.removeAll(kenttäkohteet);
                     String[] ominaisuudet10 = {"kohdehuone=4", "kohderuutuX=0", "kohderuutuY=2", "suunta=Oikea"};
-                    kenttäkohteet.add(new Oviruutu(9, 2, ominaisuudet10));
-                    kenttäkohteet.add(new Nuotio(true, 2, 2, null));
-                    kenttäkohteet.add(new Kirstu(true, 4, 2, null));
-                    kenttäkohteet.add(new Ämpärikone(false, 0, 0, null));
+                    kenttäkohteet.add(new Oviruutu(9, 2, new ArrayList<String>(List.of(ominaisuudet10))));
+                    kenttäkohteet.add(new Nuotio(2, 2, null));
+                    kenttäkohteet.add(new Kirstu(4, 2, null));
+                    kenttäkohteet.add(new Ämpärikone(0, 0, null));
                     break;
             }
             return kenttäkohteet;
@@ -148,48 +149,48 @@ public class HuoneLista {
             switch (huoneenId) {
                 default:
                     maastot.removeAll(maastot);
-                    maastot.add(new Tile(1, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(8, 8, new String[]{"kuva=kauppa_seinä_e.png"}));
-                    maastot.add(new Tile(8, 9, new String[]{"kuva=kauppa_seinä_e.png"}));
-                    maastot.add(new Tile(9, 8, new String[]{"kuva=kauppa_seinä_e.png"}));
-                    maastot.add(new Tile(9, 9, new String[]{"kuva=kauppa_seinä_e.png"}));
-                    maastot.add(new Tile(9, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 4, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 5, new String[]{"kuva=hiekka.png"}));
+                    maastot.add(new Tile(1, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(8, 8, new ArrayList<String>(List.of(new String[]{"kuva=kauppa_seinä_e.png"}))));
+                    maastot.add(new Tile(8, 9, new ArrayList<String>(List.of(new String[]{"kuva=kauppa_seinä_e.png"}))));
+                    maastot.add(new Tile(9, 8, new ArrayList<String>(List.of(new String[]{"kuva=kauppa_seinä_e.png"}))));
+                    maastot.add(new Tile(9, 9, new ArrayList<String>(List.of(new String[]{"kuva=kauppa_seinä_e.png"}))));
+                    maastot.add(new Tile(9, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 4, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 5, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
                     break;
                 case 1:
                     maastot.removeAll(maastot);
-                    maastot.add(new Tile(2, 1, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(1, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 4, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 5, new String[]{"kuva=hiekka.png"}));
+                    maastot.add(new Tile(2, 1, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(1, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 4, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 5, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
                     break;
                 case 2:
                     maastot.removeAll(maastot);
-                    maastot.add(new Tile(1, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(2, 1, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(9, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 4, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 5, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(8, 3, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 4, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 5, new String[]{"kuva=vesi_e.png"}));
+                    maastot.add(new Tile(1, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(2, 1, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(9, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 4, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 5, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(8, 3, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 4, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 5, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
                     break;
                 case 3:
                     maastot.removeAll(maastot);
-                    maastot.add(new Tile(7, 1, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(7, 2, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(7, 3, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(7, 4, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 1, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 2, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 3, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 4, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(8, 5, new String[]{"kuva=vesi_e.png"}));
-                    maastot.add(new Tile(9, 3, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 4, new String[]{"kuva=hiekka.png"}));
-                    maastot.add(new Tile(9, 5, new String[]{"kuva=hiekka.png"}));
+                    maastot.add(new Tile(7, 1, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(7, 2, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(7, 3, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(7, 4, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 1, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 2, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 3, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 4, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(8, 5, new ArrayList<String>(List.of(new String[]{"kuva=vesi_e.png"}))));
+                    maastot.add(new Tile(9, 3, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 4, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
+                    maastot.add(new Tile(9, 5, new ArrayList<String>(List.of(new String[]{"kuva=hiekka.png"}))));
                     break;
             }
             return maastot;
@@ -200,18 +201,18 @@ public class HuoneLista {
             npcLista.clear();
             switch (huoneenId) {
                 default:
-                    npcLista.add(new Pikkuvihu(5, 6, new String[]{"liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN"}));
-                    npcLista.add(new Pikkuvihu(2, 2, new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}));
+                    npcLista.add(new Pikkuvihu(5, 6, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN"}))));
+                    npcLista.add(new Pikkuvihu(2, 2, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}))));
                     break;
                 case 1:
-                    npcLista.add(new Pikkuvihu(3, 3, new String[]{"liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN"}));
-                    npcLista.add(new Pikkuvihu(4, 2, new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}));
-                    npcLista.add(new Pikkuvihu(1, 4, new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}));
+                    npcLista.add(new Pikkuvihu(3, 3, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN"}))));
+                    npcLista.add(new Pikkuvihu(4, 2, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}))));
+                    npcLista.add(new Pikkuvihu(1, 4, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}))));
                     break;
                 case 2:
-                    npcLista.add(new Pikkuvihu(1, 5, new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}));
-                    npcLista.add(new Pikkuvihu(5, 3, new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}));
-                    npcLista.add(new Pikkuvihu(2, 4, new String[]{"liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN"}));
+                    npcLista.add(new Pikkuvihu(1, 5, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}))));
+                    npcLista.add(new Pikkuvihu(5, 3, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_MYÖTÄPÄIVÄÄN"}))));
+                    npcLista.add(new Pikkuvihu(2, 4, new ArrayList<String>(List.of(new String[]{"liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN"}))));
                     break;
             }
             return npcLista;
@@ -322,6 +323,9 @@ public class HuoneLista {
             //huoneKarttaReferenssi = lataaHuonelistaLegacy();
             TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitMerkkijonoina);
             Dialogit.PitkätDialogit.vuoropuheDialogiKartta = HuoneEditorinMetodit.luoDialogiKarttaMerkkijonosta(vuoropuheDialogitMerkkijonoina);
+            huoneetMerkkijonoina = null;
+            tarinaDialogitMerkkijonoina = null;
+            vuoropuheDialogitMerkkijonoina = null;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -366,7 +370,7 @@ public class HuoneLista {
             ArrayList<KenttäKohde> kenttäKohteet = new ArrayList<>();
             for (KenttäKohde[] kk : h.annaHuoneenKenttäSisältö()) {
                 for (KenttäKohde k : kk) {
-                    if (k != null) kenttäKohteet.add(KenttäKohde.luoObjektiTiedoilla(k.annaNimi(), k.onkoMääritettySijainti(), k.annaSijX(), k.annaSijY(), k.annalisäOminaisuudet()));
+                    if (k != null) kenttäKohteet.add(KenttäKohde.luoObjektiTiedoilla(k.annaNimi(), k.annaSijX(), k.annaSijY(), k.annalisäOminaisuudet()));
                 }
             }
             ArrayList<Maasto> maastot = new ArrayList<>();
@@ -378,7 +382,7 @@ public class HuoneLista {
             ArrayList<Entity> entityt = new ArrayList<>();
             for (Entity[] ee : h.annaHuoneenNPCSisältö()) {
                 for (Entity e : ee) {
-                    if (e != null) entityt.add(Entity.luoEntityTiedoilla(e.annaNimi(), e.onkoMääritettySijainti(), e.annaSijX(), e.annaAlkuSijY(), e.annalisäOminaisuudet()));
+                    if (e != null) entityt.add(Entity.luoEntityTiedoilla(e.annaNimi(), e.annaSijX(), e.annaAlkuSijY(), e.annalisäOminaisuudet()));
                 }
             }
             Huone uusiHuone = new Huone(h.annaId(),

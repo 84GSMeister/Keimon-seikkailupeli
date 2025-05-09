@@ -1,6 +1,13 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (11.4.2025): 1.0.2 Alfa
+## Uusin versio (11.4.2025): 1.1.1 Alfa
+
+### Versio 1.1.1 Alfa
+ - Korjattu joidenkin kääntö- ja peilausyhdistelmien näkyminen väärin
+ - Korjattu baariruudun ja joidenkin npc:iden huoneisiin sidottu toiminnallisuus. Toiminnon/dialogin voi nyt asettaa objektin ominaisuuksissa.
+ - Vaihdettu pelimusiikit ogg-formaattiin (tilan säästämisen vuoksi)
+ - Korjattu editorin bugi, jossa jotkut tile- ja objektikuvakkeet ei lataudu
+ - Koodia siivottu, ylimääräisiä kirjastoja poistettu
 
 ### Versio 1.1 Alfa
  - Uusi alue: Kuu

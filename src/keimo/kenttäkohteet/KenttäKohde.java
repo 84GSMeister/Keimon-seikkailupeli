@@ -14,15 +14,15 @@ import keimo.kenttäkohteet.kerättävä.*;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class KenttäKohde implements Käännettävä {
     
-    boolean määritettySijainti = false;
     int sijX;
     int sijY;
     public boolean lisäOminaisuuksia = false;
-    protected String[] lisäOminaisuudet;
+    protected ArrayList<String> lisäOminaisuudet;
     public Rectangle hitbox;
 
     public static String[] kenttäkohdeLista = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
@@ -44,10 +44,6 @@ public abstract class KenttäKohde implements Käännettävä {
 
     public static void nollaaObjektiId() {
         seuraavaObjektinId = 0;
-    }
-
-    public boolean onkoMääritettySijainti() {
-        return määritettySijainti;
     }
 
     /**
@@ -78,7 +74,7 @@ public abstract class KenttäKohde implements Käännettävä {
         return lisäOminaisuuksia;
     }
 
-    public String[] annalisäOminaisuudet() {
+    public ArrayList<String> annalisäOminaisuudet() {
         return lisäOminaisuudet;
     }
 
@@ -173,17 +169,17 @@ public abstract class KenttäKohde implements Käännettävä {
         return pyörimisNopeus;
     }
 
-    public static KenttäKohde luoObjektiTiedoilla(String objektinNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+    public static KenttäKohde luoObjektiTiedoilla(String objektinNimi, int sijX, int sijY, ArrayList<String> ominaisuusLista) {
 
         KenttäKohde luotavaObjekti;
 
         switch (objektinNimi) {
             case "Avain":
-                luotavaObjekti = new Avain(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Avain(sijX, sijY);
                 break;
 
             case "Baariruutu":
-                luotavaObjekti = new BaariRuutu(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new BaariRuutu(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Baariovi":
@@ -191,47 +187,47 @@ public abstract class KenttäKohde implements Käännettävä {
                 break;
 
             case "Hiili":
-                luotavaObjekti = new Hiili(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Hiili(sijX, sijY);
                 break;
 
             case "Huume":
-                luotavaObjekti = new Huume(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Huume(sijX, sijY);
                 break;
 
             case "Jallupullo":
-                luotavaObjekti = new Jallupullo(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Jallupullo(sijX, sijY);
                 break;
 
             case "Juhani":
-                luotavaObjekti = new Juhani(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Juhani(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Jumal Velho":
-                luotavaObjekti = new JumalVelho(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new JumalVelho(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Jumal Yoda":
-                luotavaObjekti = new JumalYoda(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new JumalYoda(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kaasupullo":
-                luotavaObjekti = new Kaasupullo(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kaasupullo(sijX, sijY);
                 break;
 
             case "Kaasusytytin":
-                luotavaObjekti = new Kaasusytytin(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Kaasusytytin(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kalja-automaatti":
-                luotavaObjekti = new KaljaAutomaatti(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new KaljaAutomaatti(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kartta":
-                luotavaObjekti = new Kartta(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kartta(sijX, sijY);
                 break;
 
             case "Kauppahylly":
-                luotavaObjekti = new KauppaHylly(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new KauppaHylly(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kauppaovi":
@@ -239,122 +235,111 @@ public abstract class KenttäKohde implements Käännettävä {
                 break;
 
             case "Kaupparuutu":
-                luotavaObjekti = new KauppaRuutu(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new KauppaRuutu(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kauppias":
-                luotavaObjekti = new Kauppias(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kauppias(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kilpi":
-                luotavaObjekti = new Kilpi(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kilpi(sijX, sijY);
                 break;
 
             case "Kirstu":
-                luotavaObjekti = new Kirstu(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Kirstu(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kolikko":
-                luotavaObjekti = new Kolikko(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kolikko(sijX, sijY);
                 break;
 
             case "Koriste-esine":
-                luotavaObjekti = new VisuaalinenObjekti(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new VisuaalinenObjekti(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kuparilager":
-                luotavaObjekti = new Kuparilager(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kuparilager(sijX, sijY);
                 break;
 
             case "Kuuhahmo1":
-                luotavaObjekti = new Kuuhahmo1(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kuuhahmo1(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kuuhahmo2":
-                luotavaObjekti = new Kuuhahmo2(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kuuhahmo2(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Kuuhahmo3":
-                luotavaObjekti = new Kuuhahmo3(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Kuuhahmo3(sijX, sijY, ominaisuusLista);
                 break;
 
             case "KuuOlutlasi":
-                luotavaObjekti = new KuuOlutlasi(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new KuuOlutlasi(sijX, sijY);
                 break;
 
             case "Makkara":
-                luotavaObjekti = new Makkara(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Makkara(sijX, sijY);
                 break;
 
             case "Nappi":
-                luotavaObjekti = new Nappi(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Nappi(sijX, sijY);
                 break;
 
             case "Nuotio":
-                luotavaObjekti = new Nuotio(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Nuotio(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Olutlasi":
-                luotavaObjekti = new Olutlasi(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Olutlasi(sijX, sijY);
                 break;
 
             case "Painelaatta":
-                luotavaObjekti = new Painelaatta(määritettySijainti, sijX, sijY, ominaisuusLista);
-                break;
-
-            case "Painelaatta (pikkuvihu)":
-                ominaisuusLista = new String[1];
-                ominaisuusLista[0] = "vihollinen=Pikkuvihu";    
-                luotavaObjekti = new Painelaatta(määritettySijainti, sijX, sijY, ominaisuusLista);
-                break;
-            case "Painelaatta (pahavihu)":
-                ominaisuusLista = new String[1];
-                ominaisuusLista[0] = "vihollinen=Pahavihu";    
-                luotavaObjekti = new Painelaatta(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Painelaatta(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Paperi":
-                luotavaObjekti = new Paperi(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Paperi(sijX, sijY);
                 break;
 
             case "Pasi":
-                luotavaObjekti = new Pasi(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Pasi(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Paskanmarjabooli":
-                luotavaObjekti = new Paskanmarjabooli(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Paskanmarjabooli(sijX, sijY);
                 break;
 
             case "Paskanmarjat":
-                luotavaObjekti = new Paskanmarjat(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Paskanmarjat(sijX, sijY);
                 break;
 
             case "Pelikone":
-                luotavaObjekti = new Pelikone(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Pelikone(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Pelikone2":
-                luotavaObjekti = new Pelikone2(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Pelikone2(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Penkki":
-                luotavaObjekti = new Puistonpenkki(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Puistonpenkki(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Pesäpallomaila":
-                luotavaObjekti = new Pesäpallomaila(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Pesäpallomaila(sijX, sijY);
                 break;
 
             case "Pontikka-ainekset":
-                luotavaObjekti = new Ponuainekset(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Ponuainekset(sijX, sijY);
                 break;
 
             case "Portti":
-                luotavaObjekti = new Portti(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Portti(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Pulloautomaatti":
-                luotavaObjekti = new Pulloautomaatti(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Pulloautomaatti(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Puuovi":
@@ -366,35 +351,35 @@ public abstract class KenttäKohde implements Käännettävä {
                 break;
 
             case "Seteli":
-                luotavaObjekti = new Seteli(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Seteli(sijX, sijY);
                 break;
 
             case "Sieni":
-                luotavaObjekti = new Sieni(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Sieni(sijX, sijY);
                 break;
 
             case "Silta":
-                luotavaObjekti = new Silta(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Silta(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Suklaalevy":
-                luotavaObjekti = new Suklaalevy(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Suklaalevy(sijX, sijY);
                 break;
 
             case "Sänky":
-                luotavaObjekti = new Sänky(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Sänky(sijX, sijY, ominaisuusLista);
                 break;
 
             case "Tynnyri":
-                luotavaObjekti = new Tynnyri(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Tynnyri(sijX, sijY);
                 break;
 
             case "Vesiämpäri":
-                luotavaObjekti = new Vesiämpäri(määritettySijainti, sijX, sijY);
+                luotavaObjekti = new Vesiämpäri(sijX, sijY);
                 break;
 
             case "Ämpärikone":
-                luotavaObjekti = new Ämpärikone(määritettySijainti, sijX, sijY, ominaisuusLista);
+                luotavaObjekti = new Ämpärikone(sijX, sijY, ominaisuusLista);
                 break;
 
             default:
@@ -406,7 +391,7 @@ public abstract class KenttäKohde implements Käännettävä {
 
     public static KenttäKohde luoRandomKenttäKohde(int sijX, int sijY) {
         Random r = new Random();
-        return luoObjektiTiedoilla(kenttäkohdeLista[r.nextInt(kenttäkohdeLista.length)], true, sijX, sijY, null);
+        return luoObjektiTiedoilla(kenttäkohdeLista[r.nextInt(kenttäkohdeLista.length)], sijX, sijY, null);
     }
 
     String tiedot = "";
@@ -414,10 +399,6 @@ public abstract class KenttäKohde implements Käännettävä {
         tiedot = "";
         tiedot += "Objektin ID: " + this.objektinId + "\n";
         tiedot += "Nimi: " + this.annaNimi() + "\n";
-        //tiedot += "Satunnainen sijainti: " + (!this.määritettySijainti ? "Kyllä" : "Ei") + "\n";
-        if (this.tiedostonNimi != null && this.tiedostonNimi.length() > 4) {
-            //this.tekstuurinNimi = this.tiedostonNimi.substring(0, this.tiedostonNimi.length()-4);
-        }
 
         if (this instanceof Esine) {
             tiedot += "Tyyppi: Esine";
@@ -509,8 +490,7 @@ public abstract class KenttäKohde implements Käännettävä {
         return tiedot;
     }
 
-    public KenttäKohde(boolean määritettySijainti, int sijX, int sijY) {
-        this.määritettySijainti = määritettySijainti;
+    public KenttäKohde(int sijX, int sijY) {
         this.sijX = sijX;
         this.sijY = sijY;
         this.objektinId = seuraavaObjektinId;

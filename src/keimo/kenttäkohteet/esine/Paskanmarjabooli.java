@@ -1,14 +1,26 @@
 package keimo.kenttäkohteet.esine;
 
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
 public class Paskanmarjabooli extends Juoma {
+
+    public Paskanmarjabooli(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Paskanmarjabooli";
+        super.tiedostonNimi = "paskanmarjabooli.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Tällä pääsee kuuhun asti!";
+        super.käyttö = true;
+        super.voltit = 6;
+        super.känniKuolemattomuus = 12000;
+        super.asetaTiedot();
+    }
 
     @Override
     public String käytä(){
         super.käytä();
-        ÄänentoistamisSäie.toistaSFX("Käytä");
+        Äänet.toistaSFX("Käytä");
         return katso();
     }
     
@@ -28,17 +40,5 @@ public class Paskanmarjabooli extends Juoma {
             case "allatiivi":    return "Paskanmarjaboolille";
             default:             return "Paskanmarjabooli";
         }
-    }
-
-    public Paskanmarjabooli(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Paskanmarjabooli";
-        super.tiedostonNimi = "paskanmarjabooli.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Tällä pääsee kuuhun asti!";
-        super.käyttö = true;
-        super.voltit = 6;
-        super.känniKuolemattomuus = 12000;
-        super.asetaTiedot();
     }
 }

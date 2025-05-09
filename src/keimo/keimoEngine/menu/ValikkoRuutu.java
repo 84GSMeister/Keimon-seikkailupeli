@@ -2,12 +2,12 @@ package keimo.keimoEngine.menu;
 
 import keimo.Pelaaja;
 import keimo.Peli;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.menu.asetusRuudut.AsetusRuutu;
+import keimo.keimoEngine.äänet.Äänet;
 
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -44,7 +44,7 @@ public class ValikkoRuutu {
                 hyväksy(valinta);
             }
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     static void hyväksy(int valinta) {
@@ -81,11 +81,11 @@ public class ValikkoRuutu {
             Pelaaja.pakotaPelaajanPysäytys();
             if (Peli.huone != null) {
                 //ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
-                Assets.annaMusa(Peli.huone.annaHuoneenMusa()).play();
+                //Assets.annaMusa(Peli.huone.annaHuoneenMusa()).play();
             }
             Peli.pause = false;
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     public static void render(Window window) {

@@ -1,26 +1,22 @@
 package keimo.Maastot;
 
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.Utility.KäännettäväKuvake;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.Utility.KäännettäväKuvake.KääntöValinta;
 import keimo.Utility.KäännettäväKuvake.PeilausValinta;
 import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
 
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.io.File;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 
 public abstract class Maasto {
     
-    boolean määritettySijainti = false;
     int sijX;
     int sijY;
     boolean lisäOminaisuuksia = false;
-    String[] lisäOminaisuudet;
+    ArrayList<String> lisäOminaisuudet;
     int kääntöAsteet = 0;
     boolean xPeilaus = false;
     boolean yPeilaus = false;
@@ -39,15 +35,14 @@ public abstract class Maasto {
 
     public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
-        this.lisäOminaisuudet[0] = "kuva=" + tiedostonNimi;
-        this.lisäOminaisuudet[1] = "kääntö=" + kääntöAsteet;
-        this.lisäOminaisuudet[2] = "x-peilaus=" + (xPeilaus ? "kyllä" : "ei");
-        this.lisäOminaisuudet[3] = "y-peilaus=" + (yPeilaus ? "kyllä" : "ei");
-    }
-
-    public boolean onkoMääritettySijainti() {
-        return määritettySijainti;
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kuva="));
+        this.lisäOminaisuudet.add("kuva="+ tiedostonNimi);
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+        this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+        this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+        this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
     }
 
      /**
@@ -69,7 +64,7 @@ public abstract class Maasto {
         return lisäOminaisuuksia;
     }
 
-    public String[] annaLisäOminaisuudet() {
+    public ArrayList<String> annaLisäOminaisuudet() {
         return lisäOminaisuudet;
     }
 
@@ -138,10 +133,6 @@ public abstract class Maasto {
                 this.kääntöAsteet = kääntöAsteet % 360;
             break;
         }
-        // if (this instanceof YksisuuntainenTile) {
-        //     YksisuuntainenTile yTile = (YksisuuntainenTile)this;
-        //     yTile.päivitäEsteenSuunta();
-        // }
         päivitäLisäOminaisuudet();
     }
 
@@ -164,14 +155,10 @@ public abstract class Maasto {
                 }
             break;
         }
-        // if (this instanceof YksisuuntainenTile) {
-        //     YksisuuntainenTile yTile = (YksisuuntainenTile)this;
-        //     yTile.päivitäEsteenSuunta();
-        // }
         päivitäLisäOminaisuudet();
     }
 
-    public static Maasto luoMaastoTiedoilla(String maastonNimi, boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
+    public static Maasto luoMaastoTiedoilla(String maastonNimi, int sijX, int sijY, ArrayList<String> ominaisuusLista) {
 
         Maasto luotavaMaasto;
 
@@ -201,8 +188,12 @@ public abstract class Maasto {
         Random r = new Random();
         Object[] lista = HuoneEditoriIkkuna.listaaKuvat("tiedostot/kuvat/maasto").toArray();
         Object kuvaTiedosto = lista[r.nextInt(lista.length)];
-        String[] ominaisuusLista = {"kuva=" + kuvaTiedosto,"kääntö=0","x-peilaus=ei","y-peilaus=ei"};
-        return luoMaastoTiedoilla("Tile", true, sijX, sijY, ominaisuusLista);
+        String[] ominaisuusListaArray = {"kuva=" + kuvaTiedosto,"kääntö=0","x-peilaus=ei","y-peilaus=ei"};
+        ArrayList<String> ominaisuusLista = new ArrayList<>();
+        for (String s : ominaisuusListaArray) {
+            ominaisuusLista.add(s);
+        }
+        return luoMaastoTiedoilla("Tile", sijX, sijY, ominaisuusLista);
     }
 
     String tiedot = "";

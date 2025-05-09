@@ -1,16 +1,26 @@
 package keimo.kenttäkohteet.triggeri;
 
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
 public class Nappi extends Triggeri {
+
+    public Nappi(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Nappi";
+        super.tiedostonNimi = "nappi.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Mitähän tästä tapahtuu?";
+        super.vaadittuEsine = null;
+        super.asetaTiedot();
+    }
 
     @Override
     public void triggeröi() {
         if (!super.onkoTriggeröity()) {
             super.triggeröi();
             super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nappi_painettu.png");
-            ÄänentoistamisSäie.toistaSFX("nappi");
+            Äänet.toistaSFX("nappi");
         }
     }
 
@@ -22,7 +32,7 @@ public class Nappi extends Triggeri {
         switch (sijamuoto) {
             case "nominatiivi":  return "Nappi";
             case "genetiivi":    return "Napin";
-            case "esiivi":       return "Nappina";
+            case "essiivi":      return "Nappina";
             case "partitiivi":   return "Nappia";
             case "translatiivi": return "Napiksi";
             case "inessiivi":    return "Napissa";
@@ -33,15 +43,5 @@ public class Nappi extends Triggeri {
             case "allatiivi":    return "Napille";
             default:             return "Makkara";
         }
-    }
-    
-    public Nappi(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Nappi";
-        super.tiedostonNimi = "nappi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Mitähän tästä tapahtuu?";
-        super.vaadittuEsine = null;
-        super.asetaTiedot();
     }
 }

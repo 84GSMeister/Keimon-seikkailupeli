@@ -1,7 +1,5 @@
 package keimo.HuoneEditori.TavoiteEditori;
 
-import keimo.HuoneEditori.Keimo3D.Keimo3D;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -80,7 +78,8 @@ public class TavoitteenMuokkausIkkuna {
 
         taikaNappi = new JButton("?");
         taikaNappi.addActionListener(e -> {
-            Keimo3D.käynnistäKeimo3D();
+            //Keimo3D.käynnistäKeimo3D();
+            JOptionPane.showMessageDialog(null, "Poistettu ominaisuus", null, JOptionPane.INFORMATION_MESSAGE);
         });
         nappiPaneliOikea = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         nappiPaneliOikea.add(taikaNappi);

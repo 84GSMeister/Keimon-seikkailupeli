@@ -6,6 +6,8 @@ import keimo.entityt.*;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.toiminnot.Dialogit;
 import keimo.keimoEngine.toiminnot.Vuorovaikutukset;
+import keimo.keimoEngine.äänet.Musat;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.esine.Esine;
 import keimo.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
@@ -13,7 +15,6 @@ import keimo.kenttäkohteet.kerättävä.Kerättävä;
 import keimo.kenttäkohteet.warp.Oviruutu;
 import keimo.kenttäkohteet.warp.Warp;
 import keimo.Pelaaja.*;
-import keimo.Säikeet.*;
 import keimo.HuoneEditori.*;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
 
@@ -116,8 +117,6 @@ public class Peli {
     }
     public static ToimintoIkkunanTyyppi toimintoIkkuna;
 
-    public static ÄänentoistamisSäie ääniSäie = new ÄänentoistamisSäie();
-
     /**
      * Poimii esineen kentältä tavaraluetteloon.
      * Lisää kentältä valitun esineen tavaraluetteloon ensimmäiseen vapaaseen paikkaan.
@@ -135,7 +134,7 @@ public class Peli {
             for (int i = 0; i < Pelaaja.esineet.length; i++) {
                 if (Pelaaja.esineet[i] == null) {
                     Pelaaja.esineet[i] = (Esine)pelikenttä[x][y];
-                    ÄänentoistamisSäie.toistaSFX("Kerää");
+                    Äänet.toistaSFX("Kerää");
                     break;
                 }
             }
@@ -163,8 +162,12 @@ public class Peli {
                 pelikenttä[x][y] = Pelaaja.esineet[esineVal];
                 Pelaaja.esineet[esineVal] = null;
                 valittuEsine = null;
-                ÄänentoistamisSäie.toistaSFX("Pudota");
+                Äänet.toistaSFX("Pudota");
             }
+        }
+        if (yhdistäminenKäynnissä) {
+            yhdistäminenKäynnissä = false;
+            yhdistettäväTavarapaikka = -1;
         }
     }
 
@@ -250,6 +253,15 @@ public class Peli {
 
     static void vuorovaikutus(KenttäKohde k, int esine) {
         Vuorovaikutukset.vuorovaikuta(pelikenttä[Pelaaja.sijX][Pelaaja.sijY], valittuEsine);
+    }
+
+    public static void katsoEsinettä() {
+        Vuorovaikutukset.katsoEsinettä(valittuEsine);
+    }
+
+    public static void katsoKenttää() {
+        KenttäKohde k = pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
+        Vuorovaikutukset.katsoKenttää(k);
     }
 
     static void suoritaReunanTarkistus() {
@@ -388,7 +400,7 @@ public class Peli {
         for (int i = 0; i < Pelaaja.esineet.length; i++) {
             Pelaaja.esineet[i] = null;
         }
-        ÄänentoistamisSäie.suljeMusa();
+        Musat.suljeMusa();
         globaaliTickit = 0;
         if (guit) {
             System.exit(0);
@@ -617,27 +629,27 @@ public class Peli {
     static boolean uusiKäynnistysYritys = false;
 
     public static void uusiPeli() {
-        Peli.kentänKoko = TarkistettavatArvot.uusiKentänKoko;
-        Peli.kentänYläraja = Peli.kentänAlaraja + Peli.kentänKoko - 1;
-        Peli.pause = true;
-        Peli.peliKäynnissä = false;
+        kentänKoko = TarkistettavatArvot.uusiKentänKoko;
+        kentänYläraja = kentänAlaraja + kentänKoko - 1;
+        pause = true;
+        peliKäynnissä = false;
         TarkistettavatArvot.nollaa();
         luoPeli();
     }
 
     public static void luoPeli() {
-        Peli.latausValmis = false;
-        Peli.aikaReferenssi = System.nanoTime();
-        Peli.peliAloitettu = false;
-        Peli.peliLäpäisty = false;
-        Peli.pauseDialogi = false;
-        Peli.valintaDialogi = false;
-        Peli.ajastinPysäytetty = false;
-        Peli.uusiHuone = 0;
-        Peli.huoneVaihdettava = true;
+        latausValmis = false;
+        aikaReferenssi = System.nanoTime();
+        peliAloitettu = false;
+        peliLäpäisty = false;
+        pauseDialogi = false;
+        valintaDialogi = false;
+        ajastinPysäytetty = false;
+        uusiHuone = 0;
+        huoneVaihdettava = true;
 
-        Peli.engine = new KeimoEngine();
-        Peli.engine.start();
+        engine = new KeimoEngine();
+        engine.start();
         while (!KeimoEngine.glKäynnistetty) {
             try {
                 Thread.sleep(100);
@@ -646,8 +658,8 @@ public class Peli {
                 e.printStackTrace();
             }
         }
-        Peli.esineValInt = 0;
-        Peli.valittuEsine = null;
+        esineValInt = 0;
+        valittuEsine = null;
         p = new Pelaaja();
         //Pelaaja.teleporttaaSpawniin();
         //if (Pelaaja.sijX < Peli.kentänKoko && Pelaaja.sijY < Peli.kentänKoko) {
@@ -680,6 +692,6 @@ public class Peli {
         TarkistettavatArvot.pelinLoppuSyy = null;
         TarkistettavatArvot.nollaa();
         TavoiteLista.nollaaTavoiteLista();
-        ÄänentoistamisSäie.suljeMusa();
+        Musat.suljeMusa();
     }
 }

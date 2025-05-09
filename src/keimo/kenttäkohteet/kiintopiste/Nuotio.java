@@ -3,6 +3,8 @@ package keimo.kenttäkohteet.kiintopiste;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.*;
 
+import java.util.ArrayList;
+
 public final class Nuotio extends Kiintopiste {
     
     private boolean sytyke = false;
@@ -11,6 +13,15 @@ public final class Nuotio extends Kiintopiste {
 
     private Tekstuuri sammunutTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
     private Tekstuuri sytytettyTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nuotio.png");
+
+    public Nuotio(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        super.nimi = "Nuotio";
+        super.tiedostonNimi = "nuotio_sammunut.png";
+        super.tekstuuri = sammunutTekstuuri;
+        super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
+        super.asetaTiedot();
+    }
     
     public String kokeileEsinettä(Esine e) {
         
@@ -108,7 +119,7 @@ public final class Nuotio extends Kiintopiste {
         switch (sijamuoto) {
             case "nominatiivi":  return "Nuotio";
             case "genetiivi":    return "Nuotion";
-            case "esiivi":       return "Nuotiona";
+            case "essiivi":      return "Nuotiona";
             case "partitiivi":   return "Nuotiota";
             case "translatiivi": return "Nuotioksi";
             case "inessiivi":    return "Nuotiossa";
@@ -154,14 +165,5 @@ public final class Nuotio extends Kiintopiste {
         else {
             super.tekstuuri = sammunutTekstuuri;
         }
-    }
-
-    public Nuotio(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
-        super.nimi = "Nuotio";
-        super.tiedostonNimi = "nuotio_sammunut.png";
-        super.tekstuuri = sammunutTekstuuri;
-        super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
-        super.asetaTiedot();
     }
 }

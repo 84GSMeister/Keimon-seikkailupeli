@@ -6,14 +6,24 @@ import keimo.keimoEngine.toiminnot.Dialogit;
 import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.esine.Esine;
 
+import java.util.ArrayList;
+
 public class Kauppaovi extends Warp {
+
+    public Kauppaovi(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        this.nimi = "Kauppaovi";
+        super.tiedostonNimi = "kauppaovi.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.asetaTiedot();
+    }
     
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi":  return "Kauppaovi";
             case "genetiivi":    return "Kauppaoven";
-            case "esiivi":       return "Kauppaovena";
+            case "essiivi":      return "Kauppaovena";
             case "partitiivi":   return "Kauppaovea";
             case "translatiivi": return "Kauppaoveksi";
             case "inessiivi":    return "Kauppaovessa";
@@ -60,7 +70,7 @@ public class Kauppaovi extends Warp {
         }
         for (int i = 0; i < tyhjätPaikat; i++) {
             if (Pelaaja.ostosKori.size() > i) {
-                Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(Pelaaja.ostosKori.get(i).annaNimi(), true, 0, 0, null));
+                Pelaaja.annaEsine((Esine)KenttäKohde.luoObjektiTiedoilla(Pelaaja.ostosKori.get(i).annaNimi(), 0, 0, null));
                 saatujenTuotteidenNimet += Pelaaja.ostosKori.get(i).annaNimi() + ", ";
             }
             else {
@@ -90,47 +100,5 @@ public class Kauppaovi extends Warp {
             }
         }
         Pelaaja.tyhjennäOstoskori();
-    }
-
-    public Kauppaovi(int sijX, int sijY, String[] ominaisuusLista) {
-        super(true, sijX, sijY);
-        this.nimi = "Kauppaovi";
-
-        this.suunta = Suunta.VASEN;
-
-        if (ominaisuusLista != null) {
-            for (String ominaisuus : ominaisuusLista) {
-                if (ominaisuus.startsWith("kohdehuone=")) {
-                    this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
-                }
-                else if (ominaisuus.startsWith("kohderuutuX=")) {
-                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
-                }
-                else if (ominaisuus.startsWith("kohderuutuY=")) {
-                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
-                }
-                else if (ominaisuus.startsWith("suunta=")) {
-                    String suuntaString = ominaisuus.substring(7);
-                    switch (suuntaString) {
-                        case "vasen", "VASEN", "Vasen": this.suunta = Suunta.VASEN; break;
-                        case "oikea", "OIKEA", "Oikea": this.suunta = Suunta.OIKEA; break;
-                        case "ylös", "YLÖS", "Ylös": this.suunta = Suunta.YLÖS; break;
-                        case "alas", "ALAS", "Alas": this.suunta = Suunta.ALAS; break;
-                        default: this.suunta = Suunta.YLÖS; break;
-                    }
-                }
-            }
-        }
-
-        super.tiedostonNimi = "kauppaovi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        asetaSuunta(suunta);
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
-        this.lisäOminaisuudet[0] = "kohdehuone=" + kohdeHuone;
-        this.lisäOminaisuudet[1] = "kohderuutuX=" + kohdeRuutuX;
-        this.lisäOminaisuudet[2] = "kohderuutuY=" + kohdeRuutuY;
-        this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
-        super.asetaTiedot();
     }
 }

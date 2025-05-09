@@ -2,15 +2,21 @@ package keimo.kenttäkohteet.kiintopiste;
 
 import keimo.kenttäkohteet.esine.Esine;
 
-public class Säiliö extends Kiintopiste {
+import java.util.ArrayList;
+
+public abstract class Säiliö extends Kiintopiste {
 
     protected Esine sisältö;
 
-    protected Esine luoSisältö(String esineenNimi, String[] ominaisuusLista) {
+    public Säiliö(int sijX, int sijY, ArrayList<String> lisäOminaisuudet) {
+        super(sijX, sijY, lisäOminaisuudet);
+    }
+
+    protected Esine luoSisältö(String esineenNimi, ArrayList<String> ominaisuusLista) {
         return Esine.luoEsine(esineenNimi, ominaisuusLista);
     }
 
-    public void asetaSisältö(String esineenNimi, String[] ominaisuusLista) {
+    public void asetaSisältö(String esineenNimi, ArrayList<String> ominaisuusLista) {
         this.sisältö = luoSisältö(esineenNimi, null);
     }
 
@@ -27,7 +33,5 @@ public class Säiliö extends Kiintopiste {
         return sisältö;
     }
     
-    public Säiliö(boolean määritettySijainti, int sijX, int sijY, String[] lisäOminaisuudet) {
-        super(määritettySijainti, sijX, sijY, lisäOminaisuudet);
-    }
+    
 }

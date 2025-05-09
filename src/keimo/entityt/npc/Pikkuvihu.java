@@ -1,5 +1,7 @@
 package keimo.entityt.npc;
 
+import java.util.ArrayList;
+
 import keimo.keimoEngine.grafiikat.*;
 
 
@@ -36,12 +38,15 @@ public class Pikkuvihu extends Vihollinen {
         }
     }
 
-    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[1];
-        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
-    }
+    // public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
+    //     this.lisäOminaisuuksia = true;
+    //     //this.lisäOminaisuudet = new String[1];
+    //     //this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+    //     this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
+    //     this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
+    // }
 
+    @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
             case "nominatiivi": return "Pikkuvihu";
@@ -59,7 +64,17 @@ public class Pikkuvihu extends Vihollinen {
         }
     }
 
-    public Pikkuvihu(int sijX, int sijY, String[] ominaisuusLista) {
+    public void päivitäLisäOminaisuudet() {
+        if (this.lisäOminaisuudet != null) {
+            this.lisäOminaisuuksia = true;
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
+            this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("suunta="));
+            this.lisäOminaisuudet.add("suunta=" + suunta);
+        }
+    }
+
+    public Pikkuvihu(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 2;
         super.maxHp = super.hp;
@@ -73,8 +88,6 @@ public class Pikkuvihu extends Vihollinen {
         super.sijY = sijY;
         super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Pikkuvihu";
-        super.lisäOminaisuuksia = true;
-        super.lisäOminaisuudet = ominaisuusLista;
         super.tehoavatAseet.add("Vesiämpäri");
         super.tehoavatAseet.add("Pesäpallomaila");
         super.asetaTiedot();

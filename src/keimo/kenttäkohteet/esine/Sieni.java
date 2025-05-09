@@ -4,6 +4,19 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public class Sieni extends Ruoka {
 
+    public Sieni(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Sieni";
+        super.tiedostonNimi = "sieni.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.käyttö = true;
+        super.heal = 3;
+        super.kolmiUlotteinen = true;
+        super.obj3dMallinTunniste = "Sieni";
+        super.katsomisTeksti = "Kärpässienelläkin voi kuulemma saada aikaan jonkinmoisen efektin, vaikka se ei oikeaa taikasientä vastaakaan.";
+        super.asetaTiedot();
+    }
+
     @Override
     public String käytä() {
         super.käytä();
@@ -27,18 +40,5 @@ public class Sieni extends Ruoka {
             case "allatiivi":    return "Sienelle";
             default:             return "Sieni";
         }
-    }
-
-    public Sieni(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Sieni";
-        super.tiedostonNimi = "sieni.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.käyttö = true;
-        super.heal = 3;
-        super.kolmiUlotteinen = true;
-        super.obj3dMallinTunniste = "Sieni";
-        super.katsomisTeksti = "Kärpässienelläkin voi kuulemma saada aikaan jonkinmoisen efektin, vaikka se ei oikeaa taikasientä vastaakaan.";
-        super.asetaTiedot();
     }
 }

@@ -4,6 +4,18 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Suklaalevy extends Ruoka {
 
+    public Suklaalevy(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Suklaalevy";
+        super.tiedostonNimi = "suklaalevy.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Voisin syödä tämän.";
+        super.heal = 2;
+        super.hinta = 2.49;
+        super.käyttö = true;
+        super.asetaTiedot();
+    }
+
     @Override
     public String käytä() {
         super.käytä();
@@ -27,17 +39,5 @@ public final class Suklaalevy extends Ruoka {
             case "allatiivi":    return "Suklaalevylle";
             default:             return "Suklaalevy";
         }
-    }
-
-    public Suklaalevy(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Suklaalevy";
-        super.tiedostonNimi = "suklaalevy.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Voisin syödä tämän.";
-        super.heal = 2;
-        super.hinta = 2.49;
-        super.käyttö = true;
-        super.asetaTiedot();
     }
 }

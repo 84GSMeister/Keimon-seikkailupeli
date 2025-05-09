@@ -1,15 +1,23 @@
 package keimo.kenttäkohteet.kerättävä;
 
 import keimo.Pelaaja;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
 public final class Seteli extends Kerättävä {
+
+    public Seteli(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Seteli";
+        super.tiedostonNimi = "seteli.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.asetaTiedot();
+    }
 
     @Override
     public void kerää() {
         Pelaaja.raha += 20;
-        ÄänentoistamisSäie.toistaSFX("Raha2");
+        Äänet.toistaSFX("Raha2");
     }
 
     @Override
@@ -17,7 +25,7 @@ public final class Seteli extends Kerättävä {
         switch (sijamuoto) {
             case "nominatiivi":  return "Seteli";
             case "genetiivi":    return "Setelin";
-            case "esiivi":       return "Setelinä";
+            case "essiivi":      return "Setelinä";
             case "partitiivi":   return "Seteliä";
             case "translatiivi": return "Seteliksi";
             case "inessiivi":    return "Setelissä";
@@ -28,13 +36,5 @@ public final class Seteli extends Kerättävä {
             case "allatiivi":    return "Setelille";
             default:             return "Seteli";
         }
-    }
-
-    public Seteli(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Seteli";
-        super.tiedostonNimi = "seteli.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.asetaTiedot();
     }
 }

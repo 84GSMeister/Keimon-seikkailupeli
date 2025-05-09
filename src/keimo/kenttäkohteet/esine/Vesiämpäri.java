@@ -4,6 +4,20 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Vesiämpäri extends Ase {
 
+    public Vesiämpäri(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Vesiämpäri";
+        super.tiedostonNimi = "vesiämpäri.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        super.vahinko = 2;
+        super.hyökkäysAika = 10;
+        super.hyökkäysViive = 30;
+        super.asetaTiedot();
+    }
+
     @Override
     public String käytä() {
         super.poista = true;
@@ -26,19 +40,5 @@ public final class Vesiämpäri extends Ase {
             case "allatiivi":    return "Vesiämpärille";
             default:             return "Vesiämpäri";
         }
-    }
-
-    public Vesiämpäri(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Vesiämpäri";
-        super.tiedostonNimi = "vesiämpäri.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Nuotio");
-        super.vahinko = 2;
-        super.hyökkäysAika = 10;
-        super.hyökkäysViive = 30;
-        super.asetaTiedot();
     }
 }

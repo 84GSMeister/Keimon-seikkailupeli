@@ -160,7 +160,7 @@ public class NäppäinVinkkiTekstit {
                     Assets.getModel().render();
                 }
             }
-            else if (objektiKohdalla instanceof Sänky) {
+            else if (objektiKohdalla instanceof Lepopaikka) {
                 shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 3f, 0).scale(0.5f, 0.5f, 1));
                 näppäinETekstuuri.bind(0);
                 Assets.getModel().render();
@@ -230,6 +230,13 @@ public class NäppäinVinkkiTekstit {
             Assets.getModel().render();
             shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateYTeksti1, 0).scale(scaleXTeksti, 1, 1));
             näppäinVihjeTeksti.päivitäTeksti("Juttele");
+            näppäinVihjeTeksti.bind(0);
+            Assets.getModel().render();
+            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, 2f, 0).scale(0.5f, 0.5f, 1));
+            näppäinCTekstuuri.bind(0);
+            Assets.getModel().render();
+            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateYTeksti2, 0).scale(scaleXTeksti, 1, 1));
+            näppäinVihjeTeksti.päivitäTeksti("Katso");
             näppäinVihjeTeksti.bind(0);
             Assets.getModel().render();
         }

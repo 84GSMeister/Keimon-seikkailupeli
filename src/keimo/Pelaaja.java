@@ -1,10 +1,10 @@
 package keimo;
 
-import keimo.Säikeet.*;
 import keimo.Utility.Käännettävä;
 import keimo.Utility.SkaalattavaKuvake;
 import keimo.entityt.npc.Vihollinen;
 import keimo.keimoEngine.toiminnot.Dialogit;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.kenttäkohteet.*;
 import keimo.kenttäkohteet.esine.*;
 import keimo.Liikkuminen.*;
@@ -1217,7 +1217,7 @@ public class Pelaaja implements Käännettävä {
     static void vahingoita(int määrä) {
         hp -= määrä;
         kuolemattomuusAika = 120;
-        ÄänentoistamisSäie.toistaSFX("pelaaja_damage");
+        Äänet.toistaSFX("pelaaja_damage");
         päivitäTerveys();
     }
         

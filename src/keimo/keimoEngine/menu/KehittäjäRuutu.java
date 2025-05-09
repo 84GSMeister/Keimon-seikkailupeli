@@ -1,12 +1,12 @@
 package keimo.keimoEngine.menu;
 
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.grafiikat.objekti3d.Model3D;
 import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
 import keimo.keimoEngine.ikkuna.Window;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 
@@ -52,7 +52,7 @@ public class KehittäjäRuutu {
     static float pyörimisNopeus3DTeksti = 2f;
 
     public static void takaisin() {
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
         KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
     }
 

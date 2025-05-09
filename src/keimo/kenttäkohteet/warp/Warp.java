@@ -2,12 +2,45 @@ package keimo.kenttäkohteet.warp;
 
 import keimo.kenttäkohteet.KenttäKohde;
 
+import java.util.ArrayList;
+
 public abstract class Warp extends KenttäKohde {
-    
+
     protected int kohdeHuone;
     protected int kohdeRuutuX;
     protected int kohdeRuutuY;
     protected Suunta suunta;
+
+    public Warp(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY);
+        super.katsomisTeksti = "Paina nuolen suuntaista nuolinäppäintä tai wasd-näppäintä kulkeaksesi oviruudusta!";
+        if (ominaisuusLista != null) {
+            this.lisäOminaisuudet = new ArrayList<>();
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("kohdehuone=")) {
+                    this.kohdeHuone = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("kohderuutuX=")) {
+                    this.kohdeRuutuX = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("kohderuutuY=")) {
+                    this.kohdeRuutuY = Integer.parseInt("" + ominaisuus.substring(ominaisuus.indexOf("=") +1));
+                }
+                else if (ominaisuus.startsWith("suunta=")) {
+                    String suuntaString = ominaisuus.substring(7);
+                    switch (suuntaString) {
+                        case "vasen", "VASEN", "Vasen": this.suunta = Suunta.VASEN; break;
+                        case "oikea", "OIKEA", "Oikea": this.suunta = Suunta.OIKEA; break;
+                        case "ylös", "YLÖS", "Ylös": this.suunta = Suunta.YLÖS; break;
+                        case "alas", "ALAS", "Alas": this.suunta = Suunta.ALAS; break;
+                        default: this.suunta = Suunta.YLÖS; break;
+                    }
+                }
+            }
+            asetaSuunta(suunta);
+            päivitäLisäOminaisuudet();
+        }
+    }
 
     public int annaKohdeHuone() {
         return kohdeHuone;
@@ -30,16 +63,27 @@ public abstract class Warp extends KenttäKohde {
         this.kohdeRuutuY = y;
     }
     public void asetaSuunta(Suunta suunta) {
-        this.suunta = suunta;
+        switch (suunta) {
+            case YLÖS: this.suunta = Suunta.YLÖS; break;
+            case ALAS: this.suunta = Suunta.ALAS; break;
+            case VASEN: this.suunta = Suunta.VASEN; break;
+            case OIKEA: this.suunta = Suunta.OIKEA; break;
+            case null, default: this.suunta = Suunta.YLÖS; break;
+        }
     }
 
     public void päivitäLisäOminaisuudet() {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[4];
-        this.lisäOminaisuudet[0] = "kohdehuone=" + kohdeHuone;
-        this.lisäOminaisuudet[1] = "kohderuutuX=" + kohdeRuutuX;
-        this.lisäOminaisuudet[2] = "kohderuutuY=" + kohdeRuutuY;
-        this.lisäOminaisuudet[3] = "suunta=" + annaSuunta();
+        if (this.lisäOminaisuudet != null) {
+            this.lisäOminaisuuksia = true;
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kohdehuone="));
+            this.lisäOminaisuudet.add("kohdehuone=" + kohdeHuone);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kohderuutuX="));
+            this.lisäOminaisuudet.add("kohderuutuX=" + kohdeRuutuX);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kohderuutuY="));
+            this.lisäOminaisuudet.add("kohderuutuY=" + kohdeRuutuY);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("suunta="));
+            this.lisäOminaisuudet.add("suunta=" + annaSuunta());
+        }
     }
 
     public void ennenWarppia() {
@@ -59,10 +103,5 @@ public abstract class Warp extends KenttäKohde {
             case VASEN: return 270;
             default: return 0;
         }
-    }
-
-    public Warp(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.katsomisTeksti = "Paina nuolen suuntaista nuolinäppäintä tai wasd-näppäintä kulkeaksesi oviruudusta!";
     }
 }

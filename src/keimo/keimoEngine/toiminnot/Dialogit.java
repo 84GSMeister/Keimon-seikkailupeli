@@ -4,10 +4,9 @@ import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.Peli.SyötteenTila;
 import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogiPätkä;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.gui.toimintoIkkunat.DialogiValintaIkkuna;
-import keimo.kenttäkohteet.esine.KuuOlutlasi;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.kenttäkohteet.esine.Olutlasi;
 
 import java.text.DecimalFormat;
@@ -68,7 +67,7 @@ public class Dialogit {
         else {
             tekstiäJäljellä = 1;
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     private static void edistäDialogia() {
@@ -233,7 +232,7 @@ public class Dialogit {
                             dialogiPuhujat[3] = "ASS-Market kassa";
                         return true;
                         case "baari_normaali":
-                            Olutlasi olutlasi = new Olutlasi(true, 0, 0);
+                            Olutlasi olutlasi = new Olutlasi(0, 0);
                             dialoginPituus = 5;
                             dialogiaJäljellä = dialoginPituus;
                             dialogiKuvienTiedostoNimet = new String[dialoginPituus];
@@ -259,7 +258,7 @@ public class Dialogit {
                             dialogiPuhujat[4] = "Keimo";
                         return true;
                         case "baari_eivaraa":
-                            olutlasi = new Olutlasi(true, 0, 0);
+                            olutlasi = new Olutlasi(0, 0);
                             dialoginPituus = 5;
                             dialogiaJäljellä = dialoginPituus;
                             dialogiKuvienTiedostoNimet = new String[dialoginPituus];

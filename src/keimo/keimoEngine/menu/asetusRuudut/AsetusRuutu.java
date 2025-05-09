@@ -2,7 +2,6 @@ package keimo.keimoEngine.menu.asetusRuudut;
 
 import keimo.Peli;
 import keimo.Peli.SyötteenTila;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.Animaatio;
@@ -10,6 +9,7 @@ import keimo.keimoEngine.grafiikat.Shader;
 import keimo.keimoEngine.grafiikat.Teksti;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.keimoEngine.ikkuna.Window;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 
@@ -48,7 +48,7 @@ public class AsetusRuutu {
                 valitse(valinta);
             }
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     static void valitse(int valinta) {

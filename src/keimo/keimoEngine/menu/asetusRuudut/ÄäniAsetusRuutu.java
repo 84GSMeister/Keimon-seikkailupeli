@@ -1,7 +1,6 @@
 package keimo.keimoEngine.menu.asetusRuudut;
 
 import keimo.PelinAsetukset;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.Animaatio;
@@ -9,6 +8,8 @@ import keimo.keimoEngine.grafiikat.Shader;
 import keimo.keimoEngine.grafiikat.Teksti;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.keimoEngine.ikkuna.Window;
+import keimo.keimoEngine.äänet.Musat;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
@@ -73,7 +74,7 @@ public class ÄäniAsetusRuutu {
                 hyväksy(valinta);
             }
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     static void säädäAsetusta(int valinta, boolean kasvata) {
@@ -101,11 +102,11 @@ public class ÄäniAsetusRuutu {
                 }
             break;
             case 4: // Avaa Äänitesti
-                //KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+                
             break;
             case 5: // Hyväksy
-                //KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
             break;
+                
             default:
             break;
         }
@@ -116,15 +117,14 @@ public class ÄäniAsetusRuutu {
         PelinAsetukset.musaVolyymi = musanVoimakkuus;
         PelinAsetukset.äänetPäällä = äänetPäällä;
         PelinAsetukset.ääniVolyymi = ääntenVoimakkuus;
-        if (KeimoEngine.musa != null) KeimoEngine.musa.setVolume((float)PelinAsetukset.musaVolyymi);
-        //ÄänentoistamisSäie.asetaMusanVolyymi(musiikkiPäällä ? musanVoimakkuus : 0);
-        //ÄänentoistamisSäie.asetaSFXVolyymi(äänetPäällä ? ääntenVoimakkuus : 0);
+        Musat.asetaMusanVolyymi(musiikkiPäällä ? musanVoimakkuus : 0);
+        Äänet.asetaSFXVolyymi(äänetPäällä ? ääntenVoimakkuus : 0);
     }
 
     static void hyväksy(int valinta) {
         if (valinta == 4) {
             ÄäniTestiRuutu.listaaÄänet();
-            ÄänentoistamisSäie.suljeMusa();
+            Musat.suljeMusa();
             KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
         }
         else if (valinta == 5) {

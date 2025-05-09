@@ -4,6 +4,21 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Pesäpallomaila extends Ase {
 
+    public Pesäpallomaila(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Pesäpallomaila";
+        super.tiedostonNimi = "pesäpallomaila.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
+        super.käyttöTeksti = "Löit vihollista turpaan";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Pikkuvihu");
+        super.vahinko = 1;
+        super.hyökkäysAika = 5;
+        super.hyökkäysViive = 20;
+        super.asetaTiedot();
+    }
+
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         //Pesäpallomaila p = new Pesäpallomaila(false, 0, 0);
@@ -23,20 +38,5 @@ public final class Pesäpallomaila extends Ase {
             case "allatiivi":    return "Pesäpallomailalle";
             default:             return "Pesäpallomaila";
         }
-    }
-
-    public Pesäpallomaila(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Pesäpallomaila";
-        super.tiedostonNimi = "pesäpallomaila.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
-        super.käyttöTeksti = "Löit vihollista turpaan";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Pikkuvihu");
-        super.vahinko = 1;
-        super.hyökkäysAika = 5;
-        super.hyökkäysViive = 20;
-        super.asetaTiedot();
     }
 }

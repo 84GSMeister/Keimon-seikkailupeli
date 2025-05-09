@@ -3,6 +3,15 @@ package keimo.kenttäkohteet.esine;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Kilpi extends Esine {
+
+    public Kilpi(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Kilpi";
+        super.tiedostonNimi = "kilpi.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
+        super.asetaTiedot();
+    }
     
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -22,14 +31,5 @@ public final class Kilpi extends Esine {
             case "allatiivi":    return "Kilvelle";
             default:             return "Kilpi";
         }
-    }
-
-    public Kilpi(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Kilpi";
-        super.tiedostonNimi = "kilpi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
-        super.asetaTiedot();
     }
 }

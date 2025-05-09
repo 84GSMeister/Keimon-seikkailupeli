@@ -9,13 +9,13 @@ import keimo.TarkistettavatArvot;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.HuoneEditori.DialogiEditori.VuoropuheDialogiPätkä;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteLista;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.menu.asetusRuudut.AsetusRuutu;
 import keimo.keimoEngine.toiminnot.Dialogit;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -153,12 +153,12 @@ public class DialogiValintaIkkuna {
     public static void pienennäValintaa() {
         if (valintaInt <= 0) valintaInt = valintojenMäärä-1;
         else valintaInt--;
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
     public static void kasvataValintaa() {
         if (valintaInt >= valintojenMäärä-1) valintaInt = 0;
         else valintaInt++;
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     private static VuoropuheDialogiPätkä vdp;
@@ -206,7 +206,7 @@ public class DialogiValintaIkkuna {
                 Dialogit.avaaPitkäDialogiRuutu(vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt]);
             }
         }
-        ÄänentoistamisSäie.toistaSFX("Hyväksy");
+        Äänet.toistaSFX("Hyväksy");
         Pelaaja.käyttöViive = 30;
     }
     public static void peruValinta() {

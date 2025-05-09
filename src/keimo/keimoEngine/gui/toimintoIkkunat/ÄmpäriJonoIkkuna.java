@@ -147,7 +147,7 @@ public class ÄmpäriJonoIkkuna {
                 Dialogit.avaaDialogi(keimoTekstuuri, "Ei kiinosta  virhe", "Keimo");
             }
             else if (Pelaaja.annaEsineidenMäärä() < 6) {
-                Vesiämpäri ämpäri = new Vesiämpäri(true, 0, 0);
+                Vesiämpäri ämpäri = new Vesiämpäri(0, 0);
                 Pelaaja.annaEsine(ämpäri);
                 Dialogit.avaaDialogi(ämpäri.annaDialogiTekstuuri(), "Sait uuden " + ämpäri.annaNimiSijamuodossa("genetiivi"), "Ämpärijono");
             }

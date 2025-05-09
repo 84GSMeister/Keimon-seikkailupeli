@@ -1,7 +1,6 @@
 package keimo.HuoneEditori;
 
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
-import keimo.Maastot.Maasto;
 import keimo.Utility.Käännettävä.Suunta;
 
 import java.io.*;
@@ -36,18 +35,13 @@ public class JFXTiedostoIkkuna {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                initFXAvaa(fxPanel);
+                fxPanel.setScene(luoTiedostonAvausIkkuna());
             }
        });
     }
 
-    private static void initFXAvaa(JFXPanel fxPanel) {
-        // This method is invoked on the JavaFX thread
-        Scene scene = luoTiedostonAvausIkkuna();
-        fxPanel.setScene(scene);
-    }
-
     private static Scene luoTiedostonAvausIkkuna() {
+        // This method is invoked on the JavaFX thread
         Group root = new Group();
         Scene scene = new Scene(root, 640, 360, javafx.scene.paint.Color.ALICEBLUE);
         Text text = new Text();
@@ -60,83 +54,80 @@ public class JFXTiedostoIkkuna {
                     ExtensionFilter tiedostoPäätteet = new ExtensionFilter("Keimon seikkailupelin tiedosto", "*.kst");
                     fileChooser.getExtensionFilters().add(tiedostoPäätteet);
                     HuoneEditoriIkkuna.jfxAvattuTiedosto = fileChooser.showOpenDialog(null);
-                    String[] huoneetMerkkijonoina;
-                    int huoneidenMääräTiedostossa = 0;
-                    String[] tarinaDialogitTiedostossa;
-                    int tarinaDialogienMääräTiedostossa = 0;
-                    Path path = FileSystems.getDefault().getPath(HuoneEditoriIkkuna.jfxAvattuTiedosto.getPath());
-                    Charset charset = Charset.forName("UTF-8");
-                    BufferedReader read = Files.newBufferedReader(path, charset);
-                    String tarkastettavaRivi = null;
-                    if ((tarkastettavaRivi = read.readLine()) != null) {
-                        if (!tarkastettavaRivi.startsWith("<KEIMO>")) {
-                            System.out.println(tarkastettavaRivi);
-                            throw new FileNotFoundException();
+                    if (HuoneEditoriIkkuna.jfxAvattuTiedosto != null) {
+                        String[] huoneetMerkkijonoina;
+                        int huoneidenMääräTiedostossa = 0;
+                        String[] tarinaDialogitTiedostossa;
+                        int tarinaDialogienMääräTiedostossa = 0;
+                        Path path = FileSystems.getDefault().getPath(HuoneEditoriIkkuna.jfxAvattuTiedosto.getPath());
+                        Charset charset = Charset.forName("UTF-8");
+                        BufferedReader read = Files.newBufferedReader(path, charset);
+                        String tarkastettavaRivi = null;
+                        if ((tarkastettavaRivi = read.readLine()) != null) {
+                            if (!tarkastettavaRivi.startsWith("<KEIMO>")) {
+                                System.out.println(tarkastettavaRivi);
+                                throw new FileNotFoundException();
+                            }
                         }
-                    }
-                    while ((tarkastettavaRivi = read.readLine()) != null) {
-                        if (tarkastettavaRivi.startsWith("Huone ")) {
-                            huoneidenMääräTiedostossa++;
+                        while ((tarkastettavaRivi = read.readLine()) != null) {
+                            if (tarkastettavaRivi.startsWith("Huone ")) {
+                                huoneidenMääräTiedostossa++;
+                            }
+                            else if (tarkastettavaRivi.startsWith("Tarina ")) {
+                                tarinaDialogienMääräTiedostossa++;
+                            }
                         }
-                        else if (tarkastettavaRivi.startsWith("Tarina ")) {
-                            tarinaDialogienMääräTiedostossa++;
-                        }
-                    }
-                    huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
-                    huoneidenMääräTiedostossa = 0;
-                    tarinaDialogitTiedostossa = new String[tarinaDialogienMääräTiedostossa];
-                    tarinaDialogienMääräTiedostossa = 0;
-                    read.close();
-                    read = Files.newBufferedReader(path, charset);
-                    tarkastettavaRivi = read.readLine();
-                    while ((tarkastettavaRivi != null)) {
-                        if (tarkastettavaRivi.startsWith("Huone ")) {
-                            huoneidenMääräTiedostossa++;
-                            huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] = "";
-                            while (tarkastettavaRivi != null) {
-                                huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] += tarkastettavaRivi + "\n";
-                                if (tarkastettavaRivi.startsWith("/Huone")) {
-                                    break;
+                        huoneetMerkkijonoina = new String[huoneidenMääräTiedostossa];
+                        huoneidenMääräTiedostossa = 0;
+                        tarinaDialogitTiedostossa = new String[tarinaDialogienMääräTiedostossa];
+                        tarinaDialogienMääräTiedostossa = 0;
+                        read.close();
+                        read = Files.newBufferedReader(path, charset);
+                        tarkastettavaRivi = read.readLine();
+                        while ((tarkastettavaRivi != null)) {
+                            if (tarkastettavaRivi.startsWith("Huone ")) {
+                                huoneidenMääräTiedostossa++;
+                                huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] = "";
+                                while (tarkastettavaRivi != null) {
+                                    huoneetMerkkijonoina[huoneidenMääräTiedostossa-1] += tarkastettavaRivi + "\n";
+                                    if (tarkastettavaRivi.startsWith("/Huone")) {
+                                        break;
+                                    }
+                                    tarkastettavaRivi = read.readLine();
                                 }
+                            }
+                            else if (tarkastettavaRivi.startsWith("Tarina ")) {
+                                tarinaDialogienMääräTiedostossa++;
+                                tarinaDialogitTiedostossa[tarinaDialogienMääräTiedostossa-1] = "";
+                                while (tarkastettavaRivi != null) {
+                                    tarinaDialogitTiedostossa[tarinaDialogienMääräTiedostossa-1] += tarkastettavaRivi + "\n";
+                                    if (tarkastettavaRivi.startsWith("/Tarina")) {
+                                        break;
+                                    }
+                                    tarkastettavaRivi = read.readLine();
+                                }
+                            }
+                            else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
+                                break;
+                            }
+                            else {
                                 tarkastettavaRivi = read.readLine();
                             }
                         }
-                        else if (tarkastettavaRivi.startsWith("Tarina ")) {
-                            tarinaDialogienMääräTiedostossa++;
-                            tarinaDialogitTiedostossa[tarinaDialogienMääräTiedostossa-1] = "";
-                            while (tarkastettavaRivi != null) {
-                                tarinaDialogitTiedostossa[tarinaDialogienMääräTiedostossa-1] += tarkastettavaRivi + "\n";
-                                if (tarkastettavaRivi.startsWith("/Tarina")) {
-                                    break;
-                                }
-                                tarkastettavaRivi = read.readLine();
-                            }
-                        }
-                        else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
-                            break;
-                        }
-                        else {
-                            tarkastettavaRivi = read.readLine();
-                        }
+                        HuoneEditoriIkkuna.huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
+                        TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitTiedostossa);
+                        HuoneEditoriIkkuna.muokattavaHuone = 0;
+                        HuoneEditoriIkkuna.lataaHuoneKartasta(HuoneEditoriIkkuna.muokattavaHuone, false);
+                        HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
+                        HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);
+                        HuoneEditoriIkkuna.warpAlas = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.ALAS);
+                        HuoneEditoriIkkuna.warpYlös = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.YLÖS);
+                        HuoneEditoriIkkuna.warpVasenHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
+                        HuoneEditoriIkkuna.warpOikeaHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
+                        HuoneEditoriIkkuna.warpAlasHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
+                        HuoneEditoriIkkuna.warpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
+                        read.close();
                     }
-                    HuoneEditoriIkkuna.huoneKartta = HuoneEditorinMetodit.luoHuoneKarttaMerkkijonosta(huoneetMerkkijonoina);
-                    TarinaDialogiLista.tarinaKartta = HuoneEditorinMetodit.luoTarinaKarttaMerkkijonosta(tarinaDialogitTiedostossa);
-                    HuoneEditoriIkkuna.muokattavaHuone = 0;
-                    HuoneEditoriIkkuna.lataaHuoneKartasta(HuoneEditoriIkkuna.muokattavaHuone, false);
-                    HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
-                    HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);
-                    HuoneEditoriIkkuna.warpAlas = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.ALAS);
-                    HuoneEditoriIkkuna.warpYlös = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.YLÖS);
-                    HuoneEditoriIkkuna.warpVasenHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
-                    HuoneEditoriIkkuna.warpOikeaHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
-                    HuoneEditoriIkkuna.warpAlasHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
-                    HuoneEditoriIkkuna.warpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
-                    for (Maasto[] mm : HuoneEditoriIkkuna.maastoKenttä) {
-                        for (Maasto m : mm) {
-                            //m.päivitäKuvanAsento();
-                        }
-                    }
-                    read.close();
                 }
                 catch (IOException ioe) {
                     ioe.printStackTrace();
@@ -151,46 +142,43 @@ public class JFXTiedostoIkkuna {
                     ExtensionFilter tiedostoPäätteet = new ExtensionFilter("Keimon seikkailupelin huone", "*.ksh");
                     fileChooser.getExtensionFilters().add(tiedostoPäätteet);
                     HuoneEditoriIkkuna.jfxAvattuTiedosto = fileChooser.showOpenDialog(null);
-                    String huoneMerkkijonoina = "";
-                    Path path = FileSystems.getDefault().getPath(HuoneEditoriIkkuna.jfxAvattuTiedosto.getPath());
-                    Charset charset = Charset.forName("UTF-8");
-                    BufferedReader read = Files.newBufferedReader(path, charset);
-                    String tarkastettavaRivi = null;
-                    tarkastettavaRivi = read.readLine();
-                    while ((tarkastettavaRivi != null)) {
-                        if (tarkastettavaRivi.startsWith("Huone ")) {
-                            huoneMerkkijonoina = "";
-                            while (tarkastettavaRivi != null) {
-                                huoneMerkkijonoina += tarkastettavaRivi + "\n";
-                                if (tarkastettavaRivi.startsWith("/Huone")) {
-                                    break;
+                    if (HuoneEditoriIkkuna.jfxAvattuTiedosto != null) {
+                        String huoneMerkkijonoina = "";
+                        Path path = FileSystems.getDefault().getPath(HuoneEditoriIkkuna.jfxAvattuTiedosto.getPath());
+                        Charset charset = Charset.forName("UTF-8");
+                        BufferedReader read = Files.newBufferedReader(path, charset);
+                        String tarkastettavaRivi = null;
+                        tarkastettavaRivi = read.readLine();
+                        while ((tarkastettavaRivi != null)) {
+                            if (tarkastettavaRivi.startsWith("Huone ")) {
+                                huoneMerkkijonoina = "";
+                                while (tarkastettavaRivi != null) {
+                                    huoneMerkkijonoina += tarkastettavaRivi + "\n";
+                                    if (tarkastettavaRivi.startsWith("/Huone")) {
+                                        break;
+                                    }
+                                    tarkastettavaRivi = read.readLine();
                                 }
+                            }
+                            else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
+                                break;
+                            }
+                            else {
                                 tarkastettavaRivi = read.readLine();
                             }
                         }
-                        else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
-                            break;
-                        }
-                        else {
-                            tarkastettavaRivi = read.readLine();
-                        }
+                        HuoneEditoriIkkuna.huoneKartta.put(HuoneEditoriIkkuna.muokattavaHuone, HuoneEditorinMetodit.luoHuoneMerkkijonosta(huoneMerkkijonoina, HuoneEditoriIkkuna.muokattavaHuone));
+                        HuoneEditoriIkkuna.lataaHuoneKartasta(HuoneEditoriIkkuna.muokattavaHuone, false);
+                        HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
+                        HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);
+                        HuoneEditoriIkkuna.warpAlas = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.ALAS);
+                        HuoneEditoriIkkuna.warpYlös = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.YLÖS);
+                        HuoneEditoriIkkuna.warpVasenHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
+                        HuoneEditoriIkkuna.warpOikeaHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
+                        HuoneEditoriIkkuna.warpAlasHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
+                        HuoneEditoriIkkuna.warpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
+                        read.close();
                     }
-                    HuoneEditoriIkkuna.huoneKartta.put(HuoneEditoriIkkuna.muokattavaHuone, HuoneEditorinMetodit.luoHuoneMerkkijonosta(huoneMerkkijonoina, HuoneEditoriIkkuna.muokattavaHuone));
-                    HuoneEditoriIkkuna.lataaHuoneKartasta(HuoneEditoriIkkuna.muokattavaHuone, false);
-                    HuoneEditoriIkkuna.warpVasen = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.VASEN);
-                    HuoneEditoriIkkuna.warpOikea = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.OIKEA);
-                    HuoneEditoriIkkuna.warpAlas = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.ALAS);
-                    HuoneEditoriIkkuna.warpYlös = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarppiTiedot(Suunta.YLÖS);
-                    HuoneEditoriIkkuna.warpVasenHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.VASEN);
-                    HuoneEditoriIkkuna.warpOikeaHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
-                    HuoneEditoriIkkuna.warpAlasHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
-                    HuoneEditoriIkkuna.warpYlösHuoneId = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
-                    for (Maasto[] mm : HuoneEditoriIkkuna.maastoKenttä) {
-                        for (Maasto m : mm) {
-                            //m.päivitäKuvanAsento();
-                        }
-                    }
-                    read.close();
                 }
                 catch (IOException ioe) {
                     ioe.printStackTrace();
@@ -211,18 +199,13 @@ public class JFXTiedostoIkkuna {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                initFXTallenna(fxPanel);
+                fxPanel.setScene(luoTiedostonTallennusIkkuna());
             }
        });
     }
 
-    private static void initFXTallenna(JFXPanel fxPanel) {
-        // This method is invoked on the JavaFX thread
-        Scene scene = luoTiedostonTallennusIkkuna();
-        fxPanel.setScene(scene);
-    }
-
     private static Scene luoTiedostonTallennusIkkuna() {
+        // This method is invoked on the JavaFX thread
         Group root = new Group();
         Scene scene = new Scene(root, 640, 360, javafx.scene.paint.Color.ALICEBLUE);
         Text text = new Text();

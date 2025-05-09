@@ -4,6 +4,19 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Paskanmarjat extends Esine {
 
+    public Paskanmarjat(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Paskanmarjat";
+        super.tiedostonNimi = "paskanmarjat.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Näyttää harvinaisen epämiellyttäviltä. Ehkä näistä kuitenkin saa hyvän boolin.";
+        super.yhdistettävä = true;
+        super.kelvollisetYhdistettävät.add("Jallupullo");
+        super.liikeNopeus = 6f;
+        super.pyörimisNopeus = 2f;
+        super.asetaTiedot();
+    }
+
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
@@ -20,18 +33,5 @@ public final class Paskanmarjat extends Esine {
             case "allatiivi":    return "Paskanmarjoille";
             default:             return "Paskanmarjat";
         }
-    }
-
-    public Paskanmarjat(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Paskanmarjat";
-        super.tiedostonNimi = "paskanmarjat.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Näyttää harvinaisen epämiellyttäviltä. Ehkä näistä kuitenkin saa hyvän boolin.";
-        super.yhdistettävä = true;
-        super.kelvollisetYhdistettävät.add("Jallupullo");
-        super.liikeNopeus = 6f;
-        super.pyörimisNopeus = 2f;
-        super.asetaTiedot();
     }
 }

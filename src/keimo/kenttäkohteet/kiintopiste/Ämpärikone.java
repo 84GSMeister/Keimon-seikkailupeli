@@ -2,7 +2,18 @@ package keimo.kenttäkohteet.kiintopiste;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
+import java.util.ArrayList;
+
 public final class Ämpärikone extends Kiintopiste {
+
+    public Ämpärikone(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        super.nimi = "Ämpärikone";
+        super.tiedostonNimi = "ämpärikone.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
+        super.asetaTiedot();
+    }
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -10,7 +21,7 @@ public final class Ämpärikone extends Kiintopiste {
         switch (sijamuoto) {
             case "nominatiivi":  return "Ämpärikone";
             case "genetiivi":    return "Ämpärikoneen";
-            case "esiivi":       return "Ämpärikoneena";
+            case "essiivi":      return "Ämpärikoneena";
             case "partitiivi":   return "Ämpärikonetta";
             case "translatiivi": return "Ämpärikoneeksi";
             case "inessiivi":    return "Ämpärikoneessa";
@@ -21,14 +32,5 @@ public final class Ämpärikone extends Kiintopiste {
             case "allatiivi":    return "Ämpärikoneelle";
             default:             return "Ämpärikone";
         }
-    }
-
-    public Ämpärikone(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
-        super.nimi = "Ämpärikone";
-        super.tiedostonNimi = "ämpärikone.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
-        super.asetaTiedot();
     }
 }

@@ -4,7 +4,18 @@ import keimo.Pelaaja;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 import keimo.kenttäkohteet.esine.Esine;
 
+import java.util.ArrayList;
+
 public final class Sänky extends Lepopaikka {
+
+    public Sänky (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        super.nimi = "Sänky";
+        super.tiedostonNimi = "sänky.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Nukuttaako?";
+        super.asetaTiedot();
+    }
 
     @Override
     public String vuorovaikuta(Esine e) {
@@ -17,7 +28,7 @@ public final class Sänky extends Lepopaikka {
         switch (sijamuoto) {
             case "nominatiivi":  return "Sänky";
             case "genetiivi":    return "Sängyn";
-            case "esiivi":       return "Sänkynä";
+            case "essiivi":      return "Sänkynä";
             case "partitiivi":   return "Sänkyä";
             case "translatiivi": return "Sängyksi";
             case "inessiivi":    return "Sängyssä";
@@ -28,14 +39,5 @@ public final class Sänky extends Lepopaikka {
             case "allatiivi":    return "Sängylle";
             default:             return "Sänky";
         }
-    }
-    
-    public Sänky (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
-        super.nimi = "Sänky";
-        super.tiedostonNimi = "sänky.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Nukuttaako?";
-        super.asetaTiedot();
     }
 }

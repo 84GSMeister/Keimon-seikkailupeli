@@ -1,6 +1,5 @@
 package keimo.keimoEngine.kenttä;
 
-import keimo.Pelaaja;
 import keimo.PelinAsetukset;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.Shader;

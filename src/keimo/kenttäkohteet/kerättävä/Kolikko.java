@@ -1,15 +1,27 @@
 package keimo.kenttäkohteet.kerättävä;
 
 import keimo.Pelaaja;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
 public final class Kolikko extends Kerättävä {
+
+    public Kolikko(int sijX, int sijY) {
+        super(sijX, sijY);
+        super.nimi = "Kolikko";
+        super.tiedostonNimi = "kolikko.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.kolmiUlotteinen = true;
+        super.obj3dMallinTunniste = "Kolikko";
+        super.liikeNopeus = 0f;
+        super.pyörimisNopeus = 8f;
+        super.asetaTiedot();
+    }
     
     @Override
     public void kerää() {
         Pelaaja.raha += 1;
-        ÄänentoistamisSäie.toistaSFX(super.nimi);
+        Äänet.toistaSFX(super.nimi);
     }
 
     @Override
@@ -17,7 +29,7 @@ public final class Kolikko extends Kerättävä {
         switch (sijamuoto) {
             case "nominatiivi":  return "Kolikko";
             case "genetiivi":    return "Kolikon";
-            case "esiivi":       return "Kolikkona";
+            case "essiivi":      return "Kolikkona";
             case "partitiivi":   return "Kolikkoa";
             case "translatiivi": return "Kolikoksi";
             case "inessiivi":    return "Kolikossa";
@@ -28,17 +40,5 @@ public final class Kolikko extends Kerättävä {
             case "allatiivi":    return "Kolikolle";
             default:             return "Kolikko";
         }
-    }
-
-    public Kolikko(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Kolikko";
-        super.tiedostonNimi = "kolikko.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.kolmiUlotteinen = true;
-        super.obj3dMallinTunniste = "Kolikko";
-        super.liikeNopeus = 0f;
-        super.pyörimisNopeus = 8f;
-        super.asetaTiedot();
     }
 }

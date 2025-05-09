@@ -945,10 +945,10 @@ Huone 0:
         Tile_29_29+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_2_14+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=OIKEA],
+        Pikkuvihu_2_14+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Vasen],
         Laatikko_6_15,
-        Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA],
-        Pikkuvihu_14_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=OIKEA],
+        Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Vasen],
+        Pikkuvihu_14_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=Vasen],
         Laatikko_26_16;
     }
 /Huone
@@ -986,7 +986,7 @@ Huone 1:
         Kuparilager_14_10,
         Puuovi_17_1+ominaisuudet:[kohdehuone=5,kohderuutuX=2,kohderuutuY=19,suunta=Ylös],
         Kuparilager_17_19,
-        Juhani_19_8;
+        Juhani_19_8+ominaisuudet:[dialogi=vakio];
     }
     #maasto: {
         Tile_0_0+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -1391,9 +1391,9 @@ Huone 1:
         Tile_19_19+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_7_8+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI,suunta=OIKEA],
-        Pikkuvihu_11_19+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI,suunta=OIKEA],
-        Pikkuvihu_13_6+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA];
+        Pikkuvihu_7_8+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI,suunta=Vasen],
+        Pikkuvihu_11_19+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI,suunta=Vasen],
+        Pikkuvihu_13_6+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Vasen];
     }
 /Huone
 Huone 2:
@@ -2963,7 +2963,7 @@ Huone 2:
     }
     #npc: {
         Laatikko_8_16,
-        Pikkuvihu_13_33+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=OIKEA],
+        Pikkuvihu_13_33+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Vasen],
         Laatikko_31_8;
     }
 /Huone
@@ -2990,7 +2990,7 @@ Huone 3:
         Makkara_12_15,
         Makkara_12_28,
         Kuparilager_13_1,
-        Jumal Yoda_13_20,
+        Jumal Yoda_13_20+ominaisuudet:[dialogi=metsä],
         Portti_14_8+ominaisuudet:[triggerit=18_2;],
         Portti_14_11+ominaisuudet:[triggerit=28_1;],
         Nappi_15_1,
@@ -3004,7 +3004,7 @@ Huone 3:
         Kolikko_23_3,
         Kolikko_24_26,
         Jallupullo_25_18,
-        Jumal Velho_26_11,
+        Jumal Velho_26_11+ominaisuudet:[dialogi=metsä],
         Nappi_28_1,
         Kolikko_28_15;
     }
@@ -3911,7 +3911,7 @@ Huone 3:
         Tile_29_29+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Asevihu_19_24+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=VASEN];
+        Asevihu_19_24+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Vasen];
     }
 /Huone
 Huone 4:
@@ -3950,7 +3950,7 @@ Huone 4:
         Koriste-esine_2_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_2_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_3_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Kauppias_3_7,
+        Kauppias_3_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_3_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_3_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_4_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -3984,7 +3984,7 @@ Huone 4:
         Koriste-esine_6_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_6_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_7_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Kauppias_7_7,
+        Kauppias_7_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_7_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_7_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_8_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -4018,7 +4018,7 @@ Huone 4:
         Koriste-esine_10_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_10_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_11_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Kauppias_11_7,
+        Kauppias_11_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_11_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_11_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_12_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -4044,7 +4044,7 @@ Huone 4:
         Koriste-esine_14_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_14_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_15_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Kauppias_15_7,
+        Kauppias_15_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_15_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_15_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_15_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -4070,7 +4070,7 @@ Huone 4:
         Koriste-esine_18_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_18_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Kauppias_19_7,
+        Kauppias_19_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_19_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kauppahylly_19_14+ominaisuudet:[sisältö=Suklaalevy,kääntö=90,x-peilaus=ei,y-peilaus=ei],
         Kauppahylly_19_15+ominaisuudet:[sisältö=Suklaalevy,kääntö=90,x-peilaus=ei,y-peilaus=ei],
@@ -4104,7 +4104,7 @@ Huone 4:
         Koriste-esine_22_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_22_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_23_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Kauppias_23_7,
+        Kauppias_23_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_23_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_23_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kauppaovi_24_0+ominaisuudet:[kohdehuone=2,kohderuutuX=16,kohderuutuY=12,suunta=Ylös],
@@ -5053,7 +5053,7 @@ Huone 4:
         Tile_29_29+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Vartija_21_3+ominaisuudet:[liiketapa=VARTIJA_LIIKE,suunta=OIKEA];
+        Vartija_21_3+ominaisuudet:[liiketapa=VARTIJA_LIIKE,suunta=Vasen];
     }
 /Huone
 Huone 5:
@@ -13267,7 +13267,7 @@ Huone 9:
         Koriste-esine_1_21+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_1_23+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_1_26+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
-        Pasi_2_8,
+        Pasi_2_8+ominaisuudet:[dialogi=baari],
         Koriste-esine_3_3+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_3_6+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_3_8+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
@@ -13301,8 +13301,8 @@ Huone 9:
         Koriste-esine_11_1+ominaisuudet:[kuva=wc_pönttö.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_11_2+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Puuovi_11_6+ominaisuudet:[kohdehuone=9,kohderuutuX=11,kohderuutuY=5,suunta=Ylös],
-        Kauppias_11_16,
-        Baariruutu_11_18,
+        Kauppias_11_16+ominaisuudet:[dialogi=vakio],
+        Baariruutu_11_18+ominaisuudet:[tyyppi=normaali],
         Koriste-esine_13_1+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_13_2+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_13_5+ominaisuudet:[kuva=wc_lavuaari.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -13318,8 +13318,8 @@ Huone 9:
         Koriste-esine_18_3+ominaisuudet:[kuva=wc_suihku.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_18_4+ominaisuudet:[kuva=wc_suihku.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_18_5+ominaisuudet:[kuva=wc_suihku.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kauppias_18_16,
-        Baariruutu_18_18,
+        Kauppias_18_16+ominaisuudet:[dialogi=vakio],
+        Baariruutu_18_18+ominaisuudet:[tyyppi=normaali],
         Pelikone_22_3,
         Koriste-esine_22_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_22_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
@@ -15947,10 +15947,10 @@ Huone 10:
         Tile_59_29+ominaisuudet:[kuva=temppeli_tiili_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_5_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=OIKEA],
-        Pikkuvihu_5_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=OIKEA],
-        Pikkuvihu_54_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=OIKEA],
-        Pikkuvihu_54_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=OIKEA];
+        Pikkuvihu_5_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen],
+        Pikkuvihu_5_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen],
+        Pikkuvihu_54_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen],
+        Pikkuvihu_54_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen];
     }
 /Huone
 Huone 11:
@@ -16233,7 +16233,7 @@ Huone 11:
         Tile_15_15+ominaisuudet:[kuva=temppeli_tiili_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pomo_7_7+ominaisuudet:[liiketapa=BOSS_LIIKE,suunta=OIKEA];
+        Pomo_7_7+ominaisuudet:[liiketapa=BOSS_LIIKE,suunta=Vasen];
     }
 /Huone
 Huone 12:
@@ -16253,41 +16253,41 @@ Huone 12:
         Koriste-esine_2_2+ominaisuudet:[kuva=kuu_exit_kyltti.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_3_9+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_3_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo2_3_27,
-        Kuuhahmo2_4_5,
-        Baariruutu_4_7,
+        Kuuhahmo2_3_27+ominaisuudet:[dialogi=vakio],
+        Kuuhahmo2_4_5+ominaisuudet:[dialogi=vakio],
+        Baariruutu_4_7+ominaisuudet:[tyyppi=kuu],
         Koriste-esine_4_9+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_4_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_5_9+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_5_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_6_9+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_6_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo2_7_5,
-        Baariruutu_7_7,
+        Kuuhahmo2_7_5+ominaisuudet:[dialogi=vakio],
+        Baariruutu_7_7+ominaisuudet:[tyyppi=kuu],
         Koriste-esine_7_9+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_7_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_8_9+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_8_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo3_10_48,
-        Jumal Yoda_12_42,
-        Kuuhahmo2_16_26,
-        Kuuhahmo3_19_1,
+        Kuuhahmo3_10_48+ominaisuudet:[dialogi=vakio],
+        Jumal Yoda_12_42+ominaisuudet:[dialogi=kuu],
+        Kuuhahmo2_16_26+ominaisuudet:[dialogi=vakio],
+        Kuuhahmo3_19_1+ominaisuudet:[dialogi=vakio],
         Koriste-esine_19_14+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_15+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_16+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_17+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_19_18+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo1_20_9,
-        Kuuhahmo3_24_4,
+        Kuuhahmo1_20_9+ominaisuudet:[dialogi=vakio],
+        Kuuhahmo3_24_4+ominaisuudet:[dialogi=vakio],
         Koriste-esine_25_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_25_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_26_30+ominaisuudet:[kuva=numero_1.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_26_34+ominaisuudet:[kuva=numero_1.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Jumal Velho_27_16,
+        Jumal Velho_27_16+ominaisuudet:[dialogi=kuu],
         Koriste-esine_27_34+ominaisuudet:[kuva=numero_2.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_29_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_29_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo1_30_7,
+        Kuuhahmo1_30_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_30_14+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_30_15+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_30_16+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -16296,34 +16296,34 @@ Huone 12:
         Koriste-esine_30_30+ominaisuudet:[kuva=numero_2.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_30_34+ominaisuudet:[kuva=numero_1.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_31_34+ominaisuudet:[kuva=numero_1.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo1_32_13,
-        Kuuhahmo1_32_19,
+        Kuuhahmo1_32_13+ominaisuudet:[dialogi=vakio],
+        Kuuhahmo1_32_19+ominaisuudet:[dialogi=vakio],
         Koriste-esine_33_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_33_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_34_30+ominaisuudet:[kuva=numero_3.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_34_34+ominaisuudet:[kuva=numero_1.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo1_35_3,
+        Kuuhahmo1_35_3+ominaisuudet:[dialogi=vakio],
         Koriste-esine_35_34+ominaisuudet:[kuva=numero_0.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo2_36_23,
-        Kuuhahmo3_37_1,
+        Kuuhahmo2_36_23+ominaisuudet:[dialogi=vakio],
+        Kuuhahmo3_37_1+ominaisuudet:[dialogi=vakio],
         Koriste-esine_37_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_37_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Juhani_38_12,
+        Juhani_38_12+ominaisuudet:[dialogi=vakio],
         Koriste-esine_38_30+ominaisuudet:[kuva=numero_4.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_38_34+ominaisuudet:[kuva=numero_9.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Pelikone2_41_5,
         Koriste-esine_41_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_41_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo3_41_41,
+        Kuuhahmo3_41_41+ominaisuudet:[dialogi=vakio],
         Koriste-esine_42_30+ominaisuudet:[kuva=numero_5.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_42_34+ominaisuudet:[kuva=numero_8.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Kuuhahmo1_44_23,
+        Kuuhahmo1_44_23+ominaisuudet:[dialogi=vakio],
         Pelikone2_45_5,
-        Pasi_45_13,
+        Pasi_45_13+ominaisuudet:[dialogi=kuu],
         Koriste-esine_45_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_45_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Pelikone2_46_10+ominaisuudet:[kuva=null,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
-        Pelikone2_46_13+ominaisuudet:[kuva=null,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Pelikone2_46_10+ominaisuudet:[kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Pelikone2_46_13+ominaisuudet:[kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
         Koriste-esine_46_30+ominaisuudet:[kuva=numero_6.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_46_34+ominaisuudet:[kuva=numero_7.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null];
     }
@@ -18861,7 +18861,7 @@ Tarina 2:
         teksti 2: Puisto on autioitunut tavallisista ihmisistä. Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä. Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria. Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme. Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut? Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin!;
     }
 /Tarina
-Tarina 5:
+Tarina 3:
     #nimi: kuu;
     #pituus: 1;
     #sivut: {
@@ -18869,7 +18869,7 @@ Tarina 5:
         teksti 0: Mitä nyt tapahtuu? Tuntuu kuin irtoaisit kehostasi.;
     }
 /Tarina
-Tarina 6:
+Tarina 4:
     #nimi: temppeli;
     #pituus: 1;
     #sivut: {
@@ -18877,7 +18877,7 @@ Tarina 6:
         teksti 0: Mikäs paikka tämä on?;
     }
 /Tarina
-Tarina 3:
+Tarina 5:
     #nimi: koti;
     #pituus: 1;
     #sivut: {
@@ -18885,7 +18885,7 @@ Tarina 3:
         teksti 0: Keimo saapuu kotiin ja huomaa kaikkien tavaroiden olevan levällään. Koti on täydellisessä kaaoksessa. Näyttää siltä kuin joku olisi murtautunut Keimon kotiin ja penkonut tavaroita. Kuka täällä on käynyt ja mitä hän haluaa? Parasta napata jotain kättä pidempää ja lähteä selvittämään asiaa.;
     }
 /Tarina
-Tarina 4:
+Tarina 6:
     #nimi: baari;
     #pituus: 1;
     #sivut: {
@@ -18893,39 +18893,6 @@ Tarina 4:
         teksti 0: Keimo-baarissa näyttäisi olevan tyypillinen arki-illan tunnelma. Pasi on varmaan jossain siellä ryyppäämässä tavalliseen tapaan.;
     }
 /Tarina
-Dialogi 0:
-    #nimi: kyläkauppa;
-    #pituus: 9;
-    #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 0: Vihko auki!;
-        puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 1: 8 hiivaa...;
-        puhuja 1: ASS-Market kassa;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 2: ...4 kiloa taloussokeria;
-        puhuja 2: ASS-Market kassa;
-        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 3: ...ja Mennen;
-        puhuja 3: ASS-Market kassa;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 4: ...;
-        puhuja 4: ASS-Market kassa;
-        kuva 5: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 5: Meinasit ruveta ponua keittelemään?;
-        puhuja 5: ASS-Market kassa;
-        kuva 6: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 6: Hiljaa saatana;
-        puhuja 6: Keimo;
-        kuva 7: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 7: Ei noilla vielä kuuhun mennä.;
-        puhuja 7: ASS-Market kassa;
-        kuva 8: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 8: Haista sinä mursu paska;
-        puhuja 8: Keimo;
-    }
-/Dialogi
 Dialogi 0:
     #nimi: pasi_kuu;
     #pituus: 5;
@@ -18945,36 +18912,6 @@ Dialogi 0:
         kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
         teksti 4: Mää jään ootteleen et ne saa tän pelin toimiin;
         puhuja 4: Pasi;
-    }
-/Dialogi
-Dialogi 0:
-    #nimi: pasi;
-    #pituus: 8;
-    #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 0: No katos, säkin täällä!;
-        puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 1: No mutta sehän on itse Keimo!;
-        puhuja 1: Pasi;
-        kuva 2: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 2: Pasi, sulla on kengät isonneet.;
-        puhuja 2: Keimo;
-        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 3: ?;
-        puhuja 3: Pasi;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 4: Ootko muuten kuullu velhometsästä? Siellä on kuulemma aika kovat menot.;
-        puhuja 4: Pasi;
-        kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 5: Jahas, ekaa kertaa kuulen, missäs se on?;
-        puhuja 5: Keimo;
-        kuva 6: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 6: Yo-kylästä pohjoseen, ASS-marketin jälkeen itään. Nähdään siellä illemmalla.;
-        puhuja 6: Pasi;
-        kuva 7: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 7: Noni, siellä siis.;
-        puhuja 7: Keimo;
     }
 /Dialogi
 Dialogi 0:
@@ -19019,12 +18956,114 @@ Dialogi 0:
     }
 /Dialogi
 Dialogi 0:
+    #nimi: temppeli_pyykki2;
+    #pituus: 1;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_pyykki2.png;
+        teksti 0: Tätä likapyykkiä ei ole pesty ainakaan kuukauteen.;
+        puhuja 0: ???;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: goblin_kyllä;
+    #pituus: 2;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Kiinnostunut.;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
+        teksti 1: Siinä tapauksessa reitin pimeälle puolelle sinulle avaan.;
+        puhuja 1: Jumal Yoda;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: kyläkauppa;
+    #pituus: 9;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Vihko auki!;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 1: 8 hiivaa...;
+        puhuja 1: ASS-Market kassa;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 2: ...4 kiloa taloussokeria;
+        puhuja 2: ASS-Market kassa;
+        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 3: ...ja Mennen;
+        puhuja 3: ASS-Market kassa;
+        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 4: ...;
+        puhuja 4: ASS-Market kassa;
+        kuva 5: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 5: Meinasit ruveta ponua keittelemään?;
+        puhuja 5: ASS-Market kassa;
+        kuva 6: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 6: Hiljaa saatana;
+        puhuja 6: Keimo;
+        kuva 7: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 7: Ei noilla vielä kuuhun mennä.;
+        puhuja 7: ASS-Market kassa;
+        kuva 8: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 8: Haista sinä mursu paska;
+        puhuja 8: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: pasi;
+    #pituus: 8;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: No katos, säkin täällä!;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 1: No mutta sehän on itse Keimo!;
+        puhuja 1: Pasi;
+        kuva 2: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 2: Pasi, sulla on kengät isonneet.;
+        puhuja 2: Keimo;
+        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 3: ?;
+        puhuja 3: Pasi;
+        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 4: Ootko muuten kuullu velhometsästä? Siellä on kuulemma aika kovat menot.;
+        puhuja 4: Pasi;
+        kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 5: Jahas, ekaa kertaa kuulen, missäs se on?;
+        puhuja 5: Keimo;
+        kuva 6: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 6: Yo-kylästä pohjoseen, ASS-marketin jälkeen itään. Nähdään siellä illemmalla.;
+        puhuja 6: Pasi;
+        kuva 7: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 7: Noni, siellä siis.;
+        puhuja 7: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: velho_kuu;
+    #pituus: 1;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png;
+        teksti 0: Jumal Velhon boolilla pääsee kuuhun!;
+        puhuja 0: Jumal Velho;
+    }
+/Dialogi
+Dialogi 0:
     #nimi: temppeli_pyykki1;
     #pituus: 1;
     #dialogit: {
         kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_pyykki1.png;
         teksti 0: Näitä lakanoita ei ole vaihdettu\nvarmaankaan ikinä.;
         puhuja 0: ???;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: yoda_kuu;
+    #pituus: 1;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
+        teksti 0: Hrmm... hyvältä maistui... \n\n...\nJallu;
+        puhuja 0: Jumal Yoda;
     }
 /Dialogi
 Dialogi 0:
@@ -19054,27 +19093,6 @@ Dialogi 0:
         puhuja 0: Keimo;
         kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
         teksti 1: ...;
-        puhuja 1: Jumal Yoda;
-    }
-/Dialogi
-Dialogi 0:
-    #nimi: temppeli_pyykki2;
-    #pituus: 1;
-    #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_pyykki2.png;
-        teksti 0: Tätä likapyykkiä ei ole pesty ainakaan kuukauteen.;
-        puhuja 0: ???;
-    }
-/Dialogi
-Dialogi 0:
-    #nimi: goblin_kyllä;
-    #pituus: 2;
-    #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 0: Kiinnostunut.;
-        puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
-        teksti 1: Siinä tapauksessa reitin pimeälle puolelle sinulle avaan.;
         puhuja 1: Jumal Yoda;
     }
 /Dialogi

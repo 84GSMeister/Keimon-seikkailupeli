@@ -9,6 +9,10 @@ public abstract class Juoma extends Esine {
     float voltit;
     int känniKuolemattomuus;
 
+    public Juoma(int sijX, int sijY) {
+        super(sijX, sijY);
+    }
+
     public float annaVoltit() {
         return voltit;
     }
@@ -34,9 +38,5 @@ public abstract class Juoma extends Esine {
         }
         System.out.println("Kuoleman todennäköisyys: " + kuolemanTodennäköisyys);
         return "Juoma käytetty";
-    }
-    
-    public Juoma(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
     }
 }

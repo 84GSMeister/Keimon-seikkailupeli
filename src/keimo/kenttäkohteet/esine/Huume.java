@@ -4,6 +4,17 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Huume extends Ruoka {
 
+    public Huume(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Huume";
+        super.tiedostonNimi = "huume.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.käyttö = true;
+        super.heal = 30;
+        super.katsomisTeksti = "Tää menee ykkösel alas";
+        super.asetaTiedot();
+    }
+
     @Override
     public String käytä() {
         super.käytä();
@@ -27,16 +38,5 @@ public final class Huume extends Ruoka {
             case "allatiivi":    return "Huumeelle";
             default:             return "Huume";
         }
-    }
-    
-    public Huume(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Huume";
-        super.tiedostonNimi = "huume.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.käyttö = true;
-        super.heal = 30;
-        super.katsomisTeksti = "Tää menee ykkösel alas";
-        super.asetaTiedot();
     }
 }

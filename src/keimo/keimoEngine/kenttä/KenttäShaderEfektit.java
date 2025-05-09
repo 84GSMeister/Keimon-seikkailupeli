@@ -3,7 +3,6 @@ package keimo.keimoEngine.kenttä;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.keimoEngine.grafiikat.Shader;
-import keimo.kenttäkohteet.KenttäKohde;
 
 import java.util.Random;
 

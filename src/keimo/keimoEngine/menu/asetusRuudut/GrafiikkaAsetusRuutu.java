@@ -1,13 +1,13 @@
 package keimo.keimoEngine.menu.asetusRuudut;
 
 import keimo.PelinAsetukset;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.kenttä.Maailma;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
@@ -92,7 +92,7 @@ public class GrafiikkaAsetusRuutu {
                 hyväksy(valinta);
             }
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
     }
 
     static void säädäAsetusta(int valinta, boolean kasvata) {
@@ -131,7 +131,7 @@ public class GrafiikkaAsetusRuutu {
                 vsync = !vsync;
             break;
             case 5: // Hyväksy
-                //KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+                
             break;
             default:
             break;

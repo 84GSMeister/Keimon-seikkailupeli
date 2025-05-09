@@ -3,7 +3,6 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.HuoneEditori.DialogiEditori.DialogiEditoriIkkuna;
 import keimo.HuoneEditori.JFXTiedostoIkkuna.TiedostoTyyppi;
-import keimo.HuoneEditori.Keimo3D.Keimo3D;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaEditoriIkkuna;
 import keimo.HuoneEditori.TavoiteEditori.TavoiteEditoriIkkuna;
@@ -44,7 +43,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -54,25 +52,18 @@ import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.*;
 import java.nio.file.*;
-import static java.awt.GraphicsDevice.WindowTranslucency.*;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class HuoneEditoriIkkuna {
@@ -82,14 +73,9 @@ public class HuoneEditoriIkkuna {
     static int ikkunanLeveys;
     static int ikkunanKorkeus;
     public static JFrame ikkuna;
-    //static JPanel yläPaneeli, yläPaneelinYläosa, YläPaneelinAlaosa, yläVasenPaneeli, yläOikeaPaneeli;
-    //static JButton hyväksyNappi;
-    //static JLabel huoneenNimiTekstiKenttäLabel, huoneenAlueTekstiKenttäLabel, huoneenKuvaTekstiKenttäLabel, huoneenDialogiTekstiKenttäLabel;
-    //static JTextField huoneenNimiTekstiKenttä, huoneenAlueTekstiKenttä, huoneenDialogiValintaTekstiKenttä;
-    //static JButton huoneenNimiTekstiKenttäNappi, huoneenAlueTekstiKenttäNappi, huoneenKuvaTekstiKenttäNappi, huoneenDialogiTekstiKenttäNappi;
     static JButton huoneenKuvaValintaNappi;
     static boolean ctrlPainettu = false;
-    static String[] kopioituOminaisuusLista;
+    static ArrayList<String> kopioituOminaisuusLista;
     static String kopioituObjektinNimi;
 
     static JPanel työkaluPaneli, työkaluValintaPaneli;
@@ -101,8 +87,8 @@ public class HuoneEditoriIkkuna {
     static JButton huoneenNimiLabel;
     static JButton huoneenVaihtoNappiVasen, huoneenVaihtoNappiOikea;
     static JButton huoneInfoLabel;
-    static String[] kenttäkohdeLista;// = {"Avain", "Hiili", "Huume", "Juhani", "Jumal Velho", "Jumal Yoda", "Kaasupullo", "Kaasusytytin", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Koriste-esine", "Kuparilager", "Makkara", "Nappi", "Nuotio", "Painelaatta (pahavihu)", "Painelaatta (pikkuvihu)", "Paperi", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Oviruutu", "Seteli", "Silta", "Suklaalevy", "Sänky", "Vesiämpäri", "Ämpärikone"};
-    static String[] entityLista;// = {"Asevihu", "Pikkuvihu", "Pahavihu", "Pomo", "Vartija"};
+    static String[] kenttäkohdeLista;
+    static String[] entityLista;
     static Map<Object, Icon> esineValikkoKuvakkeet = new TreeMap<Object, Icon>();
     static Map<Object, Icon> maastoValikkoKuvakkeet = new TreeMap<Object, Icon>();
     static Map<Object, Icon> entityValikkoKuvakkeet = new TreeMap<Object, Icon>();
@@ -152,8 +138,7 @@ public class HuoneEditoriIkkuna {
     static JPanel hud;
     static CardLayout crd;
     static JPanel kortit;
-    static boolean reunatNäkyvissä = true;
-    public static boolean vaatiiPäivityksen = true, vaatiiKentänPäivityksen = false;
+    public static boolean vaatiiPäivityksen = true;
     static boolean näytäTallennusVaroitus = true;
     static ArrayList<String> editorinMuutosHistoria = new ArrayList<String>();
 
@@ -175,7 +160,7 @@ public class HuoneEditoriIkkuna {
 
         @SuppressWarnings("rawtypes")
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index,boolean isSelected, boolean cellHasFocus) { 
+        public Component getListCellRendererComponent(JList list, Object value, int index,boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             Icon icon = icons.get(value);
             label.setIcon(icon); 
@@ -348,11 +333,6 @@ public class HuoneEditoriIkkuna {
                                     warpOikeaHuoneId = huoneKartta.get(muokattavaHuone).annaReunaWarpinKohdeId(Suunta.OIKEA);
                                     warpAlasHuoneId = huoneKartta.get(muokattavaHuone).annaReunaWarpinKohdeId(Suunta.ALAS);
                                     warpYlösHuoneId = huoneKartta.get(muokattavaHuone).annaReunaWarpinKohdeId(Suunta.YLÖS);
-                                    for (Maasto[] mm : maastoKenttä) {
-                                        for (Maasto m : mm) {
-                                            //m.päivitäKuvanAsento();
-                                        }
-                                    }
                                     read.close();
                                 }
                             }
@@ -371,12 +351,11 @@ public class HuoneEditoriIkkuna {
         JMenuItem tallenna = new JMenuItem("Tallenna", new ImageIcon("tiedostot/kuvat/menu/gui/korppu.png"));
         tallenna.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(huoneKartta, TarinaDialogiLista.tarinaKartta, Dialogit.PitkätDialogit.vuoropuheDialogiKartta);
                 try {
                     JFXTiedostoIkkuna.launchTallennaTiedosto(TiedostoTyyppi.KOKO_TIEDOSTO);
                 }
                 catch (Exception ex) {
-                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -389,7 +368,7 @@ public class HuoneEditoriIkkuna {
                     JFXTiedostoIkkuna.launchAvaaTiedosto(TiedostoTyyppi.VAIN_HUONE);
                 }
                 catch (Exception ex) {
-                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -397,12 +376,11 @@ public class HuoneEditoriIkkuna {
         JMenuItem vieHuone = new JMenuItem("Vie huone", new ImageIcon("tiedostot/kuvat/menu/gui/vie_huone.png"));
         vieHuone.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonoHuoneesta(huoneKartta, HuoneEditoriIkkuna.muokattavaHuone);
                 try {
                     JFXTiedostoIkkuna.launchTallennaTiedosto(TiedostoTyyppi.VAIN_HUONE);
                 }
                 catch (Exception ex) {
-                    tallennaTiedostoonVanha(jfxKokoTiedostoMerkkijonona);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -464,7 +442,8 @@ public class HuoneEditoriIkkuna {
         });
 
         JMenuItem keimo3D = new JMenuItem("Keimo3D", new ImageIcon("tiedostot/kuvat/menu/gui/keimo3d.png"));
-        keimo3D.addActionListener(e -> Keimo3D.käynnistäKeimo3D());
+        //keimo3D.addActionListener(e -> Keimo3D.käynnistäKeimo3D());
+        keimo3D.addActionListener(e -> JOptionPane.showMessageDialog(ikkuna, "Poistettu ominaisuus", huoneenAlkuDialoginTunniste, JOptionPane.INFORMATION_MESSAGE));
 
         JMenu peli = new JMenu("Peli");
         peli.add(muokkaaSpawnia);
@@ -613,11 +592,6 @@ public class HuoneEditoriIkkuna {
         huoneenVaihtoPaneli.setPreferredSize(new Dimension(180, 60));
         SpringUtilities.makeCompactGrid(huoneenVaihtoPaneli, 1, 3, 0, 0, 6, 2);
 
-        //JPanel esineValikkoPaneli = new JPanel(new BorderLayout());
-        //esineValikkoPaneli.setPreferredSize(new Dimension(180, 60));
-        //esineValikkoPaneli.add(esineValikko, BorderLayout.CENTER);
-        //esineValikkoPaneli.add(koristeEsineenKuvaValikko, BorderLayout.SOUTH);
-
         työkaluOtsikko = new JLabel("Työkalut");
         työkaluOtsikko.setHorizontalAlignment(JLabel.CENTER);
         maalausTyökalu = new JButton(new ImageIcon("tiedostot/kuvat/menu/gui/maalaustyökalu.png"));
@@ -633,7 +607,6 @@ public class HuoneEditoriIkkuna {
         valintaTyökalu.setToolTipText("Valintatyökalu");
         työkaluValintaPaneli = new JPanel(new FlowLayout(FlowLayout.LEFT));
         työkaluValintaPaneli.add(maalausTyökalu);
-        //työkaluValintaPaneli.add(valintaTyökalu);
 
         työkaluPaneli = new JPanel(new BorderLayout());
         työkaluPaneli.setPreferredSize(new Dimension(180, 60));
@@ -648,59 +621,10 @@ public class HuoneEditoriIkkuna {
         huoneInfoPaneli.add(huoneenNimiPaneli, BorderLayout.CENTER);
         huoneInfoPaneli.add(huoneenVaihtoPaneli, BorderLayout.EAST);
 
-        
-        esineValikkoKuvakkeet.put("Avain", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/avain.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Baariovi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/baariovi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Baariruutu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/baariruutu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Hiili", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/hiili.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Huume", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/huume.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Jallupullo", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/jallupullo.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Juhani", KäännettäväKuvake.luoSkaalattuGif(new ImageIcon("tiedostot/kuvat/kenttäkohteet/juhani.gif"), 32));
-        esineValikkoKuvakkeet.put("Jumal Velho", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/velho.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Jumal Yoda", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/yoda.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kaasupullo", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaasupullo.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kaasusytytin", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kalja-automaatti", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kalja-automaatti.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kartta", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kartta.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kauppahylly", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppahylly.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kauppaovi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppaovi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kaupparuutu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kaupparuutu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kauppias", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kauppias.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kilpi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kilpi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kirstu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kirstu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kolikko", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kolikko.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Koriste-esine", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/koriste-esine_eikuvaa.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kuparilager", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuparilager.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kuuhahmo1", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuuhahmo_1.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kuuhahmo2", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Kuuhahmo3", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/kuuhahmo_3.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("KuuOlutlasi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/olutlasi_kuu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Makkara", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/makkarat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Nappi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/nappi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Nuotio", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/nuotio.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Olutlasi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/olutlasi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Painelaatta", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/painelaatta.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Paperi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paperi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Pasi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pasi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Paskanmarjabooli", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paskanmarjabooli.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Paskanmarjat", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/paskanmarjat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Pelikone", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pelikone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Pelikone2", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pelikone2.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Penkki", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/puistonpenkki.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Pesäpallomaila", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pesäpallomaila.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Pontikka-ainekset", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/ponuainekset.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Portti", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/portti.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Pulloautomaatti", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/pullonpalautus_idle.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Puuovi", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/puuovi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Oviruutu", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/reunawarppi.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Seteli", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/seteli.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Sieni", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/sieni.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Silta", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/asfaltti_silta.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Suklaalevy", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/suklaalevy.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Sänky", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/sänky.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Tynnyri", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/tynnyri.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Vesiämpäri", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/vesiämpäri.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        esineValikkoKuvakkeet.put("Ämpärikone", new ImageIcon(new ImageIcon("tiedostot/kuvat/kenttäkohteet/ämpärikone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        for (String s : ObjektiKuvakkeet.objektiKuvakkeet.keySet()) {
+            ImageIcon ii = new ImageIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(s).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+            esineValikkoKuvakkeet.put(s, ii);
+        }
 
         int kenttäkohdeListanKoko = esineValikkoKuvakkeet.keySet().size();
         TreeSet<Object> kenttäkohdeTreeSet = new TreeSet<>(esineValikkoKuvakkeet.keySet());
@@ -724,7 +648,6 @@ public class HuoneEditoriIkkuna {
                 }
                 else {
                     koristeEsineenKuvaValikko.setVisible(false);
-                    //koristeEsineenKuvaValikko.setToolTipText("Käytössä vain koriste-esineille.");
                 }
             }
         });
@@ -751,15 +674,10 @@ public class HuoneEditoriIkkuna {
         });
         maastoValikkoPaneli.add(maastoValikko);
 
-        entityValikkoKuvakkeet.put("Asevihu", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/asevihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("IsoKyltti", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/kyltti_kuubileet.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("IsoLaatikko", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/iso_laatikko.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("Laatikko", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/työnnettävä_laatikko.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("Pahavihu", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/pahavihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("Pikkuvihu", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/pikkuvihu.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("Pomo", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/boss.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("TestiEntity", new ImageIcon(new ImageIcon("tiedostot/kuvat/entity/apu_pesukone.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
-        entityValikkoKuvakkeet.put("Vartija", new ImageIcon(new ImageIcon("tiedostot/kuvat/npc/vartija_off.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT)));
+        for (String s : ObjektiKuvakkeet.entityKuvakkeet.keySet()) {
+            ImageIcon ii = new ImageIcon(ObjektiKuvakkeet.entityKuvakkeet.get(s).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+            entityValikkoKuvakkeet.put(s, ii);
+        }
 
         int entityListanKoko = entityValikkoKuvakkeet.keySet().size();
         TreeSet<Object> entityTreeSet = new TreeSet<>(entityValikkoKuvakkeet.keySet());
@@ -834,8 +752,6 @@ public class HuoneEditoriIkkuna {
         });
         JPanel scrollattavanObjektiKentänReunaPaneli = new JPanel();
         scrollattavanObjektiKentänReunaPaneli.setPreferredSize(new Dimension(640, 640));
-        //scrollattavanObjektiKentänReunaPaneli.setBounds(60, 10, 600, 600);
-        //scrollattavanObjektiKentänReunaPaneli.add(scrollattavaObjektiKenttäPaneli);
 
         objektiEditointiKenttäPaneliUlompi = new JPanel(null);
         objektiEditointiKenttäPaneliUlompi.setPreferredSize(new Dimension(640, 640));
@@ -919,51 +835,6 @@ public class HuoneEditoriIkkuna {
         välilehdet.add("Objektit", objektiEditointiKenttäPaneliUlompi);
         välilehdet.add("Maasto", maastoEditointiKenttäPaneliUlompi);
         välilehdet.add("Entityt", npcEditointiKenttäPaneliUlompi);
-        välilehdet.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                // try {
-                //     if (esineValikkoPaneli.isAncestorOf(esineValikko)) {
-                //         esineValikkoPaneli.remove(esineValikko);
-                //     }
-                //     if (esineValikkoPaneli.isAncestorOf(maastoValikko)) {
-                //         esineValikkoPaneli.remove(maastoValikko);
-                //     }
-                //     if (esineValikkoPaneli.isAncestorOf(npcValikko)) {
-                //         esineValikkoPaneli.remove(npcValikko);
-                //     }
-
-                //     switch (välilehdet.getTitleAt(välilehdet.getSelectedIndex())) {
-                        
-                //         case "Objektit":
-                //             esineValikkoPaneli.add(esineValikko, BorderLayout.WEST);
-                //             if (esineValikko.getSelectedItem() == "Koriste-esine") {
-                //                 koristeEsineenKuvaValikko.setEnabled(true);
-                //             }
-                //             break;
-                //         case "Maasto":
-                //             esineValikkoPaneli.add(maastoValikko, BorderLayout.WEST);
-                //             koristeEsineenKuvaValikko.setEnabled(false);
-                //             break;
-                //         case "Entityt":
-                //             esineValikkoPaneli.add(npcValikko, BorderLayout.WEST);
-                //             koristeEsineenKuvaValikko.setEnabled(false);
-                //             break;
-                //         default: break;
-                //     }
-                //     huoneInfoPaneli.revalidate();
-                //     huoneInfoPaneli.repaint();
-                //     huoneInfoPaneli.repaint();
-                //     huoneInfoPaneli.repaint();
-                //     huoneInfoPaneli.repaint();
-                //     huoneInfoPaneli.repaint();
-                //     ikkuna.revalidate();
-                //     ikkuna.repaint();
-                // }
-                // catch (NullPointerException npe) {
-                //     npe.printStackTrace();
-                // }
-            }
-        });
 
         hiirenSijaintiLabel = new JLabel("Hiiren sijainti");
         alapalkki = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -1146,9 +1017,6 @@ public class HuoneEditoriIkkuna {
             huoneenAlue = "";
             huoneenAlkuDialoginTunniste = "";
             huoneenVaaditunTavoitteenTunniste = "";
-            //huoneenNimiTekstiKenttä.setText(huoneenNimi);
-            //huoneenAlueTekstiKenttä.setText(huoneenAlue);
-            //huoneenDialogiValintaTekstiKenttä.setText(huoneenAlkuDialoginTunniste);
             huoneenNimiLabel.setText(huoneenNimi + " (" + huoneenAlue + ")");
         }
     }
@@ -1175,41 +1043,6 @@ public class HuoneEditoriIkkuna {
         }
         else {
             JOptionPane.showMessageDialog(null, "Huonekartta on tyhjä. Kokeile luoda uusi huonekartta.", "Huonekartta null", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    static void tallennaTiedostoonVanha(String kokoTiedostoMerkkijonona) {
-        JFileChooser tiedostoSelain = new JFileChooser(".\\");
-        tiedostoSelain.setDialogTitle("Tallenna tiedostoon");
-        tiedostoSelain.setLocale(new Locale("fi", "FI"));
-        FileNameExtensionFilter tiedostoSuodatin = new FileNameExtensionFilter("Keimon Seikkailupelin Tiedosto (.kst)", "kst");
-        tiedostoSelain.setFileFilter(tiedostoSuodatin);
-        int valinta = tiedostoSelain.showOpenDialog(ikkuna);
-        if (valinta == JFileChooser.APPROVE_OPTION) {
-            try {
-                File tiedosto = tiedostoSelain.getSelectedFile();
-                if (tiedosto.isFile()) {
-                    int korvaaTiedosto = CustomViestiIkkunat.TiedostonKorvaus.näytäDialogi("Tiedosto " + tiedosto.getName() + " on jo olemassa. Haluatko korvata sen?", "Tiedosto on jo olemassa.");
-                    if (korvaaTiedosto == JOptionPane.YES_OPTION) {
-                        Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedosto.getName()), StandardCharsets.UTF_8);
-                        fstream.write(kokoTiedostoMerkkijonona);
-                        fstream.close();
-                    }
-                }
-                else {
-                    String tiedostonNimi = tiedosto.getName();
-                    if (!tiedostonNimi.endsWith(".kst")) {
-                        tiedostonNimi += ".kst";
-                    }
-                    Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedostonNimi), StandardCharsets.UTF_8);
-                    fstream.write(kokoTiedostoMerkkijonona);
-                    fstream.close();
-                }
-                muutoksiaTehty = false;
-            }
-            catch (IOException e) {
-    
-            } 
         }
     }
 
@@ -1243,8 +1076,11 @@ public class HuoneEditoriIkkuna {
                         String objektinNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("aseta_")+6, peruttavaMuutos.indexOf("x=")-1);
                         System.out.println("palautetaan: " + objektiKenttä[peruttavanKohteenX][peruttavanKohteenY] + " tilalle " + objektinNimi);
                         String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        String[] ominaisuudetArray = ominaisuudet.split(",");
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        for (String s : ominaisuudetArray) ominaisuusLista.add(s);
                         if (ominaisuudet != "") {
-                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, ominaisuudet.split(","));
+                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, ominaisuusLista);
                         }
                         else {
                             asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, null);
@@ -1253,8 +1089,11 @@ public class HuoneEditoriIkkuna {
                     else if (peruttavaMuutos.contains("poista")) {
                         String objektinNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("poista_")+7, peruttavaMuutos.indexOf("x=")-1);
                         String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
+                        String[] ominaisuudetArray = ominaisuudet.split(",");
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        for (String s : ominaisuudetArray) ominaisuusLista.add(s);
                         if (ominaisuudet != "") {
-                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, ominaisuudet.split(","));
+                            asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, ominaisuusLista);
                         }
                         else {
                             asetaEsineRuutuun(peruttavanKohteenX, peruttavanKohteenY, objektinNimi, null);
@@ -1266,12 +1105,18 @@ public class HuoneEditoriIkkuna {
                         String maastonNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("aseta_")+6, peruttavaMuutos.indexOf("x=")-1);
                         System.out.println("palautetaan: " + maastoKenttä[peruttavanKohteenX][peruttavanKohteenY] + " tilalle " + maastonNimi);
                         String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
-                        asetaMaastoRuutuun(peruttavanKohteenX, peruttavanKohteenY, maastonNimi, ominaisuudet.split(","));
+                        String[] ominaisuudetArray = ominaisuudet.split(",");
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        for (String s : ominaisuudetArray) ominaisuusLista.add(s);
+                        asetaMaastoRuutuun(peruttavanKohteenX, peruttavanKohteenY, maastonNimi, ominaisuusLista);
                     }
                     else if (peruttavaMuutos.contains("poista")) {
                         String maastonNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("poista_")+7, peruttavaMuutos.indexOf("x=")-1);
                         String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
-                        asetaMaastoRuutuun(peruttavanKohteenX, peruttavanKohteenY, maastonNimi, ominaisuudet.split(","));
+                        String[] ominaisuudetArray = ominaisuudet.split(",");
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        for (String s : ominaisuudetArray) ominaisuusLista.add(s);
+                        asetaMaastoRuutuun(peruttavanKohteenX, peruttavanKohteenY, maastonNimi, ominaisuusLista);
                     }
                 }
                 else if (peruttavaMuutos.contains("npc")) {
@@ -1279,12 +1124,18 @@ public class HuoneEditoriIkkuna {
                         String npcnNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("aseta_")+6, peruttavaMuutos.indexOf("x=")-1);
                         System.out.println("palautetaan: " + npcKenttä[peruttavanKohteenX][peruttavanKohteenY] + " tilalle " + npcnNimi);
                         String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
-                        asetaNPCRuutuun(peruttavanKohteenX, peruttavanKohteenY, npcnNimi, ominaisuudet.split(","));
+                        String[] ominaisuudetArray = ominaisuudet.split(",");
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        for (String s : ominaisuudetArray) ominaisuusLista.add(s);
+                        asetaNPCRuutuun(peruttavanKohteenX, peruttavanKohteenY, npcnNimi, ominaisuusLista);
                     }
                     else if (peruttavaMuutos.contains("poista")) {
                         String npcnNimi = peruttavaMuutos.substring(peruttavaMuutos.indexOf("poista_")+7, peruttavaMuutos.indexOf("x=")-1);
                         String ominaisuudet = peruttavaMuutos.substring(peruttavaMuutos.indexOf("+ominaisuudet")+15, peruttavaMuutos.length()-1);
-                        asetaNPCRuutuun(peruttavanKohteenX, peruttavanKohteenY, npcnNimi, ominaisuudet.split(","));
+                        String[] ominaisuudetArray = ominaisuudet.split(",");
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        for (String s : ominaisuudetArray) ominaisuusLista.add(s);
+                        asetaNPCRuutuun(peruttavanKohteenX, peruttavanKohteenY, npcnNimi, ominaisuusLista);
                     }
                 }
                 editorinMuutosHistoria.remove(editorinMuutosHistoria.size()-1);
@@ -1321,8 +1172,8 @@ public class HuoneEditoriIkkuna {
                 }
                 else {
                     if (kenttäkohdeLista[esineValikko.getSelectedIndex()] == "Koriste-esine") {
-                        String[] koristeEsineenOminaisuusLista = new String[1];
-                        koristeEsineenOminaisuusLista[0] = "kuva=" + koristeEsineenKuvaValikko.getSelectedItem();
+                        ArrayList<String> koristeEsineenOminaisuusLista = new ArrayList<>();
+                        koristeEsineenOminaisuusLista.add("kuva=" + koristeEsineenKuvaValikko.getSelectedItem());
                         if (objektiKenttä[x][y] != null) {
                             tallennaMuutos("objekti_aseta_" + objektiKenttä[x][y].annaNimi() + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + objektiKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                             asetaEsineRuutuun(x, y, kenttäkohdeLista[esineValikko.getSelectedIndex()], koristeEsineenOminaisuusLista);
@@ -1368,7 +1219,7 @@ public class HuoneEditoriIkkuna {
                 käytäKopioitujaOminaisuuksia = true;
             }
             else if (SwingUtilities.isLeftMouseButton(e)) {
-                String[] ominaisuusLista = new String[1];
+                ArrayList<String> ominaisuusLista = new ArrayList<>();
                 if (maastoKenttä[x][y] == null) {
                     tallennaMuutos("maasto_aseta_" + "Tile" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + "]");
                 }
@@ -1379,13 +1230,12 @@ public class HuoneEditoriIkkuna {
                     ominaisuusLista = kopioituOminaisuusLista;
                 }
                 else {
-                    ominaisuusLista = new String[1];
-                    ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
+                    ominaisuusLista.add("kuva=" + maastoValikko.getSelectedItem());
                 }
-                if (ominaisuusLista[0].endsWith("_e.png")) {
+                if (ominaisuusLista.get(0).endsWith("_e.png")) {
                     asetaMaastoRuutuun(x, y, "EsteTile", ominaisuusLista);
                 }
-                else if (ominaisuusLista[0].endsWith("_y.png")) {
+                else if (ominaisuusLista.get(0).endsWith("_y.png")) {
                     asetaMaastoRuutuun(x, y, "Yksisuuntainen Tile", ominaisuusLista);
                 }
                 else{
@@ -1400,8 +1250,8 @@ public class HuoneEditoriIkkuna {
                 ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
             }
             else if (SwingUtilities.isMiddleMouseButton(e)) {
-                String[] ominaisuusLista = new String[1];
-                ominaisuusLista[0] = "kuva=" + maastoValikko.getSelectedItem();
+                ArrayList<String> ominaisuusLista = new ArrayList<>();
+                ominaisuusLista.add("kuva=" + maastoValikko.getSelectedItem());
                 tallennaMuutos("maasto_poista_" + "Tile" + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + maastoKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                 asetaMaastoRuutuun(x, y, "", ominaisuusLista);
             }
@@ -1419,8 +1269,8 @@ public class HuoneEditoriIkkuna {
         try {
             muutoksiaTehty = true;
             if (SwingUtilities.isLeftMouseButton(e)) {
-                String[] ominaisuusLista = new String[1];
-                ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
+                ArrayList<String> ominaisuusLista = new ArrayList<>();
+                ominaisuusLista.add("liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN);
                 asetaNPCRuutuun(x, y, entityLista[entityValikko.getSelectedIndex()], ominaisuusLista);
                 tallennaMuutos("npc_aseta_" + entityLista[entityValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
             }
@@ -1432,8 +1282,8 @@ public class HuoneEditoriIkkuna {
                 ominaisuusMenu.show(e.getComponent(), e.getX(), e.getY());
             }
             else if (SwingUtilities.isMiddleMouseButton(e)) {
-                String[] ominaisuusLista = new String[1];
-                ominaisuusLista[0] = "liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
+                ArrayList<String> ominaisuusLista = new ArrayList<>();
+                ominaisuusLista.add("liiketapa=" + LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN);
                 tallennaMuutos("npc_poista_" + entityLista[entityValikko.getSelectedIndex()] + "_x=" + x + "_y=" + y + "+ominaisuudet:[" + npcKenttä[x][y].annaLisäOminaisuudetYhtenäMjonona() + "]");
                 asetaNPCRuutuun(x, y, "", ominaisuusLista);
             }
@@ -1454,16 +1304,16 @@ public class HuoneEditoriIkkuna {
      * @param esineenNimi esine, joka asetetaan valittuun ruutuun
      * @param ominaisuusLista joillakin objekteilla on lisäominaisuuksia, oletuksena tyhjä (null)
      */
-    static void asetaEsineRuutuun(int sijX, int sijY, String esineenNimi, String[] ominaisuusLista) {
-        objektiKenttä[sijX][sijY] = KenttäKohde.luoObjektiTiedoilla(esineenNimi, true, sijX, sijY, ominaisuusLista);
+    static void asetaEsineRuutuun(int sijX, int sijY, String esineenNimi, ArrayList<String> ominaisuusLista) {
+        objektiKenttä[sijX][sijY] = KenttäKohde.luoObjektiTiedoilla(esineenNimi, sijX, sijY, ominaisuusLista);
     }
 
-    static void asetaMaastoRuutuun(int sijX, int sijY, String maastonNimi, String[] ominaisuusLista) {
-        maastoKenttä[sijX][sijY] = Maasto.luoMaastoTiedoilla(maastonNimi, true, sijX, sijY, ominaisuusLista);
+    static void asetaMaastoRuutuun(int sijX, int sijY, String maastonNimi, ArrayList<String> ominaisuusLista) {
+        maastoKenttä[sijX][sijY] = Maasto.luoMaastoTiedoilla(maastonNimi, sijX, sijY, ominaisuusLista);
     }
 
-    static void asetaNPCRuutuun(int sijX, int sijY, String npcnNimi, String[] ominaisuusLista) {
-        npcKenttä[sijX][sijY] = Entity.luoEntityTiedoilla(npcnNimi, true, sijX, sijY, ominaisuusLista);
+    static void asetaNPCRuutuun(int sijX, int sijY, String npcnNimi, ArrayList<String> ominaisuusLista) {
+        npcKenttä[sijX][sijY] = Entity.luoEntityTiedoilla(npcnNimi, sijX, sijY, ominaisuusLista);
     }
 
     /**
@@ -1714,7 +1564,7 @@ public class HuoneEditoriIkkuna {
                     liikeTapaValinta.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             v.liikeTapa = Vihollinen.LiikeTapa.valueOf(lt.name());
-                            v.päivitäLisäOminaisuudet(lt, v.suuntaVasenOikea);
+                            v.päivitäLisäOminaisuudet();
                         }
                     });
                     if (v.liikeTapa == Vihollinen.LiikeTapa.valueOf(lt.name())) {
@@ -1734,7 +1584,7 @@ public class HuoneEditoriIkkuna {
                     suuntaValinta.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             v.suuntaVasenOikea = Vihollinen.SuuntaVasenOikea.valueOf(suuntaVasenOikea.name());
-                            v.päivitäLisäOminaisuudet(v.liikeTapa, suuntaVasenOikea);
+                            v.päivitäLisäOminaisuudet();
                         }
                     });
                     if (v.suuntaVasenOikea == Vihollinen.SuuntaVasenOikea.valueOf(suuntaVasenOikea.name())) {
@@ -1997,46 +1847,35 @@ public class HuoneEditoriIkkuna {
                 for (int j = 0; j < Peli.kentänKoko; j++) {
                     if (kenttäKohteenKuvake[j][i] != null) {
                         if (Peli.annaObjektiKenttä().length > i && Peli.annaObjektiKenttä().length > j) {
-                            if (reunatNäkyvissä) {
-                                if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
-                                    if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
-                                        kenttäKohteenKuvake[j][i].setBorder(null);
-                                    }
-                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
-                                        //kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
-                                        kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(Peli.annaObjektiKenttä()[j][i].annaKuvanTiedostoNimi()));
-                                        if (Peli.annaObjektiKenttä()[j][i] instanceof Kiintopiste) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
-                                        }
-                                        else if (Peli.annaObjektiKenttä()[j][i] instanceof Esine) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
-                                        }
-                                        else if (Peli.annaObjektiKenttä()[j][i] instanceof NPC_KenttäKohde) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
-                                            
-                                        }
-                                        else if (Peli.annaObjektiKenttä()[j][i] instanceof Warp) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
-                                        }
-                                    }
+                            if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
+                                if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
+                                    kenttäKohteenKuvake[j][i].setBorder(null);
                                 }
-                                else if (Peli.annaObjektiKenttä()[j][i] == null) {
-                                    kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                                else if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
+                                    kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(Peli.annaObjektiKenttä()[j][i].annaNimi()));
+                                    if (Peli.annaObjektiKenttä()[j][i] instanceof Kiintopiste) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
+                                    }
+                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof Esine) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
+                                    }
+                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof NPC_KenttäKohde) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
+                                        
+                                    }
+                                    else if (Peli.annaObjektiKenttä()[j][i] instanceof Warp) {
+                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
+                                    }
                                 }
                             }
-                            else {
-                                kenttäKohteenKuvake[j][i].setBorder(null);
+                            else if (Peli.annaObjektiKenttä()[j][i] == null) {
+                                kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
                             }
                             if (Peli.annaObjektiKenttä()[j][i] instanceof KenttäKohde) {
-                                //kenttäKohteenKuvake[j][i].setIcon(Peli.annaObjektiKenttä()[j][i].annaKuvake());
-                                kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(Peli.annaObjektiKenttä()[j][i].annaKuvanTiedostoNimi()));
+                                kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(Peli.annaObjektiKenttä()[j][i].annaNimi()));
                             }
                             if (Peli.annaMaastoKenttä()[j][i] instanceof Maasto) {
-                                Maasto m = Peli.annaMaastoKenttä()[j][i];
-                                //maastoKohteenKuvake[j][i].setIcon(Peli.annaMaastoKenttä()[j][i].annaKuvake());
                                 maastoKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(Peli.annaMaastoKenttä()[j][i].annaKuvanTiedostoNimi()));
-                                //maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                                //maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
                             }
                         
                             kenttäKohteenKuvake[j][i].setBounds(kohteenSijX, kohteensijY, esineenKokoPx, esineenKokoPx);
@@ -2081,9 +1920,6 @@ public class HuoneEditoriIkkuna {
             objektiEditointiKenttäPaneliUlompi.add(warpAlasNappi[0]);
             maastoEditointiKenttäPaneliUlompi.add(warpAlasNappi[1]);
             npcEditointiKenttäPaneliUlompi.add(warpAlasNappi[2]);
-            
-            //objektiEditointiKenttäPaneli.setComponentZOrder(pelaajaLabel, 0);
-            //peliKenttä.setComponentZOrder(taustaLabel, 2);
         }
         catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -2147,9 +1983,6 @@ public class HuoneEditoriIkkuna {
                     System.out.println("Kuka kehtaa herättää minut uniltani!? T. Vihainen grafiikkasäie");
                 }
             }
-            // if (huoneInfoLabel != null) {
-            //     huoneInfoLabel.setText("Huone " + muokattavaHuone);
-            // }
         }
     }
 
@@ -2239,73 +2072,23 @@ public class HuoneEditoriIkkuna {
             try {
                 for (int i = 0; i < objektiKenttä.length; i++) {
                     for (int j = 0; j < objektiKenttä.length; j++) {
-                        if (true) {
-                            if (objektiKenttä[j][i] instanceof KenttäKohde && kenttäKohteenKuvake[j][i] != null) {
-                                //kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
-                                kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(objektiKenttä[j][i].annaKuvanTiedostoNimi()));
+                        if (objektiKenttä[j][i] instanceof KenttäKohde && kenttäKohteenKuvake[j][i] != null) {
+                            if (objektiKenttä[j][i] instanceof VisuaalinenObjekti) {
+                                VisuaalinenObjekti vo = (VisuaalinenObjekti)objektiKenttä[j][i];
+                                ImageIcon ii = ObjektiKuvakkeet.visuaalisetObjektiKuvakkeet.get(vo.annaKuvanTiedostoNimi());
+                                kenttäKohteenKuvake[j][i].setIcon(new KäännettäväKuvake(ii, vo.annaKääntöAsteet(), vo.annaXPeilaus(), vo.annaYPeilaus()));
                             }
-                            else if (kenttäKohteenKuvake[j][i] != null) {
-                                kenttäKohteenKuvake[j][i].setIcon(null);
+                            else {
+                                kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(objektiKenttä[j][i].annaNimi()));
                             }
-                            if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
-                                Maasto m = (Maasto)maastoKenttä[j][i];
-                                //maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                                maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi()));
-                            }
-                            else if (maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
-                                maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(null);
-                            }
-
-                            if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
-                                Maasto m = (Maasto)maastoKenttä[j][i];
-                                //maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(m.annaKuvake(), 0, false, false, 64, 0.5f));
-                                maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi()));
-                            }
-                            else if (maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
-                                maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(null);
-                            }
-
-                            if (vaatiiKentänPäivityksen) {
-                                if (reunatNäkyvissä) {
-                                    if (Pelaaja.sijX == j && Pelaaja.sijY == i) {
-                                        kenttäKohteenKuvake[j][i].setBorder(null);
-                                    }
-                                    else if (objektiKenttä[j][i] instanceof KenttäKohde) {
-                                        //kenttäKohteenKuvake[j][i].setIcon(objektiKenttä[j][i].annaKuvake());
-                                        kenttäKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.objektiKuvakkeet.get(objektiKenttä[j][i].annaKuvanTiedostoNimi()));
-                                        if (objektiKenttä[j][i] instanceof Kiintopiste) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,255,0), 1, true));
-                                        }
-                                        else if (objektiKenttä[j][i] instanceof Esine) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(0,0,255), 1, true));
-                                        }
-                                        else if (objektiKenttä[j][i] instanceof NPC_KenttäKohde) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(200,200,0), 1, true));
-                                            
-                                        }
-                                        else if (objektiKenttä[j][i] instanceof Warp) {
-                                            kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(new Color(80,200,0), 1, true));
-                                        }
-                                    }
-                                    else if (objektiKenttä[j][i] == null) {
-                                        kenttäKohteenKuvake[j][i].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-                                    }
-                                }
-                                else {
-                                    kenttäKohteenKuvake[j][i].setBorder(null);
-                                }
-                            }
+                        }
+                        else if (kenttäKohteenKuvake[j][i] != null) {
+                            kenttäKohteenKuvake[j][i].setIcon(null);
                         }
                     }
                 }
-
-                if (vaatiiKentänPäivityksen) {
-                    pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
-                }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                //JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
-                //GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
                 System.out.println("Ohitetaan objektikentän grafiikan päivitysyritys");
                 e.printStackTrace();
             }
@@ -2334,8 +2117,6 @@ public class HuoneEditoriIkkuna {
 
             objektiEditointiKenttäPaneli.revalidate();
             objektiEditointiKenttäPaneli.repaint();
-            //vaatiiPäivityksen = false;
-            vaatiiKentänPäivityksen = false;
         }
         return objektiEditointiKenttäPaneli;
     }
@@ -2346,36 +2127,45 @@ public class HuoneEditoriIkkuna {
             try {
                 for (int i = 0; i < maastoKenttä.length; i++) {
                     for (int j = 0; j < maastoKenttä.length; j++) {
-                        if (true) {
-                            if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
-                                if (zoom == 64) {
-                                    //maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
-                                    maastoKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi()));
-                                    //maastoKenttä[j][i].päivitäKuvanAsento();
+                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvake[j][i] != null) {
+                            Maasto m = maastoKenttä[j][i];
+                            if (zoom == 64) {
+                                ImageIcon ii = ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi());
+                                maastoKohteenKuvake[j][i].setIcon(new KäännettäväKuvake(ii, m.annaKuvanKääntö(), m.annaKuvanPeilausX(), m.annaKuvanPeilausY()));
+                            }
+                            else {
+                                if (maastoKenttä[j][i].annaKuvanTiedostoNimi() != null) {
+                                    ImageIcon ii = ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi());
+                                    maastoKohteenKuvake[j][i].setIcon(new KäännettäväKuvake(ii, m.annaKuvanKääntö(), m.annaKuvanPeilausX(), m.annaKuvanPeilausY()));
                                 }
                                 else {
-                                    if (maastoKenttä[j][i].annaKuvanTiedostoNimi() != null) {
-                                        //maastoKohteenKuvake[j][i].setIcon(new ImageIcon(((ImageIcon)maastoKohteenKuvake[j][i].getIcon()).getImage().getScaledInstance(zoom, zoom, Image.SCALE_DEFAULT)));
-                                        //maastoKohteenKuvake[j][i].setIcon(new ImageIcon((new ImageIcon(maastoKenttä[j][i].annaKuvanTiedostoNimi())).getImage().getScaledInstance(zoom, zoom, Image.SCALE_DEFAULT)));
-                                        //maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
-                                        maastoKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi()));
-                                    }
-                                    else {
-                                        //maastoKohteenKuvake[j][i].setIcon(maastoKenttä[j][i].annaKuvake());
-                                        maastoKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi()));
-                                        //maastoKenttä[j][i].päivitäKuvanAsento();
-                                    }
+                                    ImageIcon ii = ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi());
+                                    maastoKohteenKuvake[j][i].setIcon(new KäännettäväKuvake(ii, m.annaKuvanKääntö(), m.annaKuvanPeilausX(), m.annaKuvanPeilausY()));
                                 }
                             }
-                            else if (maastoKohteenKuvake[j][i] != null) {
-                                maastoKohteenKuvake[j][i].setIcon(null);
-                            }
+                        }
+                        else if (maastoKohteenKuvake[j][i] != null) {
+                            maastoKohteenKuvake[j][i].setIcon(null);
+                        }
+
+                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
+                            Maasto m = (Maasto)maastoKenttä[j][i];
+                            ImageIcon ii = ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi());
+                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(new KäännettäväKuvake(ii, m.annaKuvanKääntö(), m.annaKuvanPeilausX(), m.annaKuvanPeilausY(), 64, 0.5f));
+                        }
+                        else if (maastoKohteenKuvakeObjektiPanelissa[j][i] != null) {
+                            maastoKohteenKuvakeObjektiPanelissa[j][i].setIcon(null);
+                        }
+
+                        if (maastoKenttä[j][i] instanceof Maasto && maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
+                            Maasto m = (Maasto)maastoKenttä[j][i];
+                            ImageIcon ii = ObjektiKuvakkeet.tileKuvakkeet.get(maastoKenttä[j][i].annaKuvanTiedostoNimi());
+                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(new KäännettäväKuvake(ii, m.annaKuvanKääntö(), m.annaKuvanPeilausX(), m.annaKuvanPeilausY(), 64, 0.5f));
+                        }
+                        else if (maastoKohteenKuvakeNpcPanelissa[j][i] != null) {
+                            maastoKohteenKuvakeNpcPanelissa[j][i].setIcon(null);
                         }
                     }
-                }
-
-                if (vaatiiKentänPäivityksen) {
-                    pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
                 }
             }
             catch (ArrayIndexOutOfBoundsException e) {
@@ -2419,8 +2209,7 @@ public class HuoneEditoriIkkuna {
                     for (int j = 0; j < npcKenttä.length; j++) {
                         if (true) {
                             if (npcKenttä[j][i] instanceof Entity && npcKohteenKuvake[j][i] != null) {
-                                //npcKohteenKuvake[j][i].setIcon(npcKenttä[j][i].annaKuvake());
-                                npcKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.entityKuvakkeet.get(npcKenttä[j][i].annaKuvanTiedostoNimi()));
+                                npcKohteenKuvake[j][i].setIcon(ObjektiKuvakkeet.entityKuvakkeet.get(npcKenttä[j][i].annaNimi()));
                             }
                             else if (npcKohteenKuvake[j][i] != null) {
                                 npcKohteenKuvake[j][i].setIcon(null);
@@ -2428,14 +2217,8 @@ public class HuoneEditoriIkkuna {
                         }
                     }
                 }
-
-                if (vaatiiKentänPäivityksen) {
-                    pelaajaLabel.setBounds(Pelaaja.sijX * pelaajanKokoPx + 10, Pelaaja.sijY * pelaajanKokoPx + 10, pelaajanKokoPx, pelaajanKokoPx);
-                }
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                //JOptionPane.showMessageDialog(null, "Jokin meni pieleen.", "Array index out of Bounds", JOptionPane.ERROR_MESSAGE);
-                //GrafiikanPäivitysSäie.ongelmaGrafiikassa = true;
                 System.out.println("Ohitetaan npc-kentän grafiikan päivitysyritys");
                 e.printStackTrace();
             }
@@ -2490,24 +2273,8 @@ public class HuoneEditoriIkkuna {
 
     static class ZoomPanel2 extends JScrollPane {
 
-        private static final long serialVersionUID = 1L;
-        private double zoomFactor = 1.0;
-        private static final double ZOOM_MULTIPLIER = 1.1;
-        private static final double MIN_ZOOM = 0.1; // Minimum zoom level
-        private static final double MAX_ZOOM = 4.0; // Maximum zoom level
-
-        private Point zoomCenter;
-        private AffineTransform currentTransform;
-        private Point lastMousePosition;
-        private Rectangle2D.Double square;
-        private Point dragOffset;
-        private Rectangle2D.Double redRectangle;
-
         public ZoomPanel2(JPanel panel) {
             super(panel);
-            currentTransform = new AffineTransform();
-            square = new Rectangle2D.Double(100, 100, 200, 200);
-            redRectangle = new Rectangle2D.Double(0, 0, 1000, 1000);
 
             addMouseWheelListener(new MouseAdapter() {
                 @Override
@@ -2545,35 +2312,7 @@ public class HuoneEditoriIkkuna {
                     objektiEditointiKenttäPaneli.repaint();
                 }
             });
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-
-            // Graphics2D g2d = (Graphics2D) g;
-            // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            // // Apply zoom factor
-            // if (zoomCenter != null) {
-            //     g2d.transform(currentTransform);
-            // }
-
-            // // Draw red rectangle
-            // g2d.setColor(Color.red);
-            // g2d.fill(redRectangle);
-
-            // // Draw blue square
-            // g2d.setColor(Color.BLUE);
-            // g2d.fill(square);
-        }
-
-        private void updatePreferredSize() {
-            int width = (int) (redRectangle.width * zoomFactor);
-            int height = (int) (redRectangle.height * zoomFactor);
-            setPreferredSize(new Dimension(width, height));
-            revalidate();
-        }    
+        }  
     }
     
     static class EditorinNäppäinkomennot implements KeyListener {

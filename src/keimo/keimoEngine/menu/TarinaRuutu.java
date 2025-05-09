@@ -4,12 +4,13 @@ import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.HuoneEditori.TarinaEditori.TarinaPätkä;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.KeimoEngine;
 import keimo.keimoEngine.assets.Assets;
 import keimo.keimoEngine.grafiikat.*;
 import keimo.keimoEngine.grafiikat.objekti3d.Transform3D;
 import keimo.keimoEngine.ikkuna.Window;
+import keimo.keimoEngine.äänet.Musat;
+import keimo.keimoEngine.äänet.Äänet;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -83,12 +84,12 @@ public class TarinaRuutu {
                 KeimoEngine.valitseAktiivinenRuutu("peliruutu");
                 Pelaaja.pakotaPelaajanPysäytys();
                 if (Peli.huone != null) {
-                    ÄänentoistamisSäie.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
+                    Musat.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
                 }
                 Peli.pause = false;
             }
         }
-        ÄänentoistamisSäie.toistaSFX("Valinta");
+        Äänet.toistaSFX("Valinta");
         Pelaaja.käyttöViive = 50;
     }
 

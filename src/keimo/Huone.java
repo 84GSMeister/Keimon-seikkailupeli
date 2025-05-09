@@ -205,39 +205,39 @@ public class Huone {
         }
     }
 
-    void sijoitaSatunnaiseenRuutuun(Maasto m){
-        int randX = r.nextInt(Peli.kentänKoko);
-        int randY = r.nextInt(Peli.kentänKoko);
-        if (huoneenMaastoSisältö[randX][randY] == null) {
-            huoneenMaastoSisältö[randX][randY] = m;
-            maastoaKentällä++;
-        }
-        else {
-            if (esineitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
-                sijoitaSatunnaiseenRuutuun(m);
-            }
-            else {
-                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }
+    // void sijoitaSatunnaiseenRuutuun(Maasto m){
+    //     int randX = r.nextInt(Peli.kentänKoko);
+    //     int randY = r.nextInt(Peli.kentänKoko);
+    //     if (huoneenMaastoSisältö[randX][randY] == null) {
+    //         huoneenMaastoSisältö[randX][randY] = m;
+    //         maastoaKentällä++;
+    //     }
+    //     else {
+    //         if (esineitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
+    //             sijoitaSatunnaiseenRuutuun(m);
+    //         }
+    //         else {
+    //             //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+    //         }
+    //     }
+    // }
 
-    void sijoitaSatunnaiseenRuutuun(Entity n){
-        int randX = r.nextInt(Peli.kentänKoko);
-        int randY = r.nextInt(Peli.kentänKoko);
-        if (huoneenNPCSisältö[randX][randY] == null) {
-            huoneenNPCSisältö[randX][randY] = n;
-            npcitäKentällä++;
-        }
-        else {
-            if (npcitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
-                sijoitaSatunnaiseenRuutuun(n);
-            }
-            else {
-                //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }
+    // void sijoitaSatunnaiseenRuutuun(Entity n){
+    //     int randX = r.nextInt(Peli.kentänKoko);
+    //     int randY = r.nextInt(Peli.kentänKoko);
+    //     if (huoneenNPCSisältö[randX][randY] == null) {
+    //         huoneenNPCSisältö[randX][randY] = n;
+    //         npcitäKentällä++;
+    //     }
+    //     else {
+    //         if (npcitäKentällä < Peli.kentänKoko * Peli.kentänKoko) {
+    //             sijoitaSatunnaiseenRuutuun(n);
+    //         }
+    //         else {
+    //             //JOptionPane.showMessageDialog(null, "Esineiden määrä yli kentän koon.\n\nViimeisimpänä spawnattu esine hylätään.", "Kenttä täynnä esineitä", JOptionPane.WARNING_MESSAGE);
+    //         }
+    //     }
+    // }
 
     /**
      * Asettaa objektin pelikentälle x- ja y-koordinaatteihin.
@@ -346,32 +346,32 @@ public class Huone {
                     }
                     for (KenttäKohde k : luontiKenttäSisältö) {
                         if (k != null) {
-                            if (k.onkoMääritettySijainti()) {
+                            //if (k.onkoMääritettySijainti()) {
                                 sijoitaMäärättyynRuutuun(k.annaSijX(), k.annaSijY(), k);
-                            }
-                            else {
-                                sijoitaSatunnaiseenRuutuun(k);
-                            }
+                            //}
+                            //else {
+                            //    sijoitaSatunnaiseenRuutuun(k);
+                            //}
                         }
                     }
                     for (Maasto m : luontiMaastoSisältö) {
                         if (m != null) {
-                            if (m.onkoMääritettySijainti()) {
+                            //if (m.onkoMääritettySijainti()) {
                                 sijoitaMäärättyynRuutuun(m.annaSijX(), m.annaSijY(), m);
-                            }
-                            else {
-                                sijoitaSatunnaiseenRuutuun(m);
-                            }
+                            //}
+                            //else {
+                            //   sijoitaSatunnaiseenRuutuun(m);
+                            //}
                         }
                     }
                     for (Entity n : luontiNPCSisältö) {
                         if (n != null) {
-                            if (n.onkoMääritettySijainti()) {
+                            //if (n.onkoMääritettySijainti()) {
                                 sijoitaMäärättyynRuutuun(n.annaAlkuSijX(), n.annaAlkuSijY(), n);
-                            }
-                            else {
-                                sijoitaSatunnaiseenRuutuun(n);
-                            }
+                            //}
+                            //else {
+                            //    sijoitaSatunnaiseenRuutuun(n);
+                            //}
                         }
                     }
                 }

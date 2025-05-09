@@ -2,7 +2,7 @@ package keimo.entityt.npc;
 
 import keimo.TarkistettavatArvot;
 import keimo.keimoEngine.liikeSimulaatiot.ReitinhakuSimulaatio.PathFindingExample.Point;
-import keimo.Säikeet.ÄänentoistamisSäie;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.kenttäkohteet.esine.Ase;
 
 import java.util.ArrayList;
@@ -72,11 +72,11 @@ public abstract class Vihollinen extends NPC {
         this.hp -= ase.annaVahinko();
         if (this.hp <= 0) {
             this.kukista(ase.annaNimi());
-            ÄänentoistamisSäie.toistaSFX(ase.annaNimi());
+            Äänet.toistaSFX(ase.annaNimi());
         }
         else {
             this.hurtAika = 10;
-            ÄänentoistamisSäie.toistaSFX(this.annaNimi() + "_damage");
+            Äänet.toistaSFX(this.annaNimi() + "_damage");
         }
     }
 
@@ -90,34 +90,39 @@ public abstract class Vihollinen extends NPC {
         return this.hurtAika;
     }
 
-    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa, SuuntaVasenOikea suunta) {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[2];
-        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
-        this.lisäOminaisuudet[1] = "suunta=" + suunta;
+    public void päivitäLisäOminaisuudet() {
+        if (this.lisäOminaisuudet != null) {
+            this.lisäOminaisuuksia = true;
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
+            this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("suunta="));
+            this.lisäOminaisuudet.add("suunta=" + suunta);
+        }
     }
 
     public void valitseKuvake() {
         
     }
 
-    Vihollinen(int sijX, int sijY, String[] ominaisuusLista) {
+    static int npcId = 0;
+    Vihollinen(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY);
         if (ominaisuusLista != null) {
+            this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("liiketapa=")) {
                     this.liikeTapa = LiikeTapa.valueOf(ominaisuus.substring(10));
                 }
                 else if (ominaisuus.startsWith("suunta=")) {
-                    this.suuntaVasenOikea = SuuntaVasenOikea.valueOf(ominaisuus.substring(7));
+                    String suuntaString = ominaisuus.substring(7);
+                    switch (suuntaString) {
+                        case "vasen", "VASEN", "Vasen": this.suuntaVasenOikea = SuuntaVasenOikea.VASEN; break;
+                        case "oikea", "OIKEA", "Oikea": this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA; break;
+                        default: this.suuntaVasenOikea = SuuntaVasenOikea.VASEN; break;
+                    }
                 }
             }
+            päivitäLisäOminaisuudet();
         }
-        else {
-            this.liikeTapa = LiikeTapa.LOOP_NELIÖ_MYÖTÄPÄIVÄÄN;
-        }
-        this.lisäOminaisuudet = new String[2];
-        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
-        this.lisäOminaisuudet[1] = "suunta=" + suuntaVasenOikea;
     }
 }

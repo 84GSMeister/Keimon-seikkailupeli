@@ -10,6 +10,11 @@ public abstract class Triggeri extends KenttäKohde {
     protected Esine vaadittuEsine;
     protected Vihollinen vaadittuVihollinen;
 
+    public Triggeri(int sijX, int sijY) {
+        super(sijX, sijY);
+        this.triggeröity = false;
+    }
+
     public boolean onkoTriggeröity() {
         return triggeröity;
     }
@@ -24,10 +29,5 @@ public abstract class Triggeri extends KenttäKohde {
 
     public Vihollinen annaVaadittuVihollinen() {
         return vaadittuVihollinen;
-    }
-
-    public Triggeri(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
-        this.triggeröity = false;
     }
 }

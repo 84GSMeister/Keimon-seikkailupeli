@@ -1,16 +1,31 @@
 package keimo.kenttäkohteet.esine;
 
 import keimo.Pelaaja;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+import keimo.keimoEngine.äänet.Äänet;
 
 public class Jallupullo extends Juoma {
+
+    public Jallupullo(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Jallupullo";
+        super.tiedostonNimi = "jallupullo.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Elämän eliksiiri.";
+        super.käyttö = true;
+        super.yhdistettävä = true;
+        super.kelvollisetYhdistettävät.add("Paskanmarjat");
+        super.hinta = 18;
+        super.voltit = 4;
+        super.känniKuolemattomuus = 4000;
+        super.asetaTiedot();
+    }
 
     @Override
     public String käytä(){
         super.käytä();
         Pelaaja.kuparit++;
-        ÄänentoistamisSäie.toistaSFX("pullo");
+        Äänet.toistaSFX("pullo");
         return katso();
     }
 
@@ -31,20 +46,5 @@ public class Jallupullo extends Juoma {
             case "allatiivi":    return "Jallupullolle";
             default:             return "Jallupullo";
         }
-    }
-
-    public Jallupullo(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Jallupullo";
-        super.tiedostonNimi = "jallupullo.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Elämän eliksiiri.";
-        super.käyttö = true;
-        super.yhdistettävä = true;
-        super.kelvollisetYhdistettävät.add("Paskanmarjat");
-        super.hinta = 18;
-        super.voltit = 4;
-        super.känniKuolemattomuus = 4000;
-        super.asetaTiedot();
     }
 }

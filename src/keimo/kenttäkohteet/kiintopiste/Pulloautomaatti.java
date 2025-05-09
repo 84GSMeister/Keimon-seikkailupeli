@@ -2,9 +2,20 @@ package keimo.kenttäkohteet.kiintopiste;
 
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
+import java.util.ArrayList;
+
 public final class Pulloautomaatti extends Kiintopiste {
 
     private static Tekstuuri idleTekstuuri, aktiivinenTekstuuri, virheTekstuuri;
+
+    public Pulloautomaatti (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        super.nimi = "Pulloautomaatti";
+        super.tiedostonNimi = "pullonpalautus_idle.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Tänne voi palauttaa tölkit";
+        super.asetaTiedot();
+    }
 
     public static void luoTekstuurit() {
         idleTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/pullonpalautus_idle.png");
@@ -33,14 +44,5 @@ public final class Pulloautomaatti extends Kiintopiste {
                 super.tekstuuri = virheTekstuuri;
             break;
         }
-    }
-    
-    public Pulloautomaatti (boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
-        super.nimi = "Pulloautomaatti";
-        super.tiedostonNimi = "pullonpalautus_idle.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Tänne voi palauttaa tölkit";
-        super.asetaTiedot();
     }
 }

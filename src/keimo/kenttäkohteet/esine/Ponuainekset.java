@@ -3,6 +3,16 @@ package keimo.kenttäkohteet.esine;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Ponuainekset extends Esine {
+
+    public Ponuainekset(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Pontikka-ainekset";
+        super.tiedostonNimi = "ponuainekset.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Ponua voisi käyttää boolissa.";
+        super.hinta = 8 * 0.22 + 4 * 1.55 + 4.99;
+        super.asetaTiedot();
+    }
     
     @Override
     public String käytä(){
@@ -25,15 +35,5 @@ public final class Ponuainekset extends Esine {
             case "allatiivi":    return "Pontikka-ainekset";
             default:             return "Pontikka-ainekset";
         }
-    }
-    
-    public Ponuainekset(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Pontikka-ainekset";
-        super.tiedostonNimi = "ponuainekset.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Ponua voisi käyttää boolissa.";
-        super.hinta = 8 * 0.22 + 4 * 1.55 + 4.99;
-        super.asetaTiedot();
     }
 }

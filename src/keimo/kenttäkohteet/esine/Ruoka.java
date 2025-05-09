@@ -1,10 +1,14 @@
 package keimo.kenttäkohteet.esine;
 
-import keimo.Säikeet.ÄänentoistamisSäie;
+import keimo.keimoEngine.äänet.Äänet;
 
 public abstract class Ruoka extends Esine {
     
     int heal;
+
+    public Ruoka(int sijX, int sijY) {
+        super(sijX, sijY);
+    }
 
     public int annaParannusMäärä() {
         return heal;
@@ -12,11 +16,7 @@ public abstract class Ruoka extends Esine {
 
     @Override
     public String käytä() {
-        ÄänentoistamisSäie.toistaSFX("Käytä");
+        Äänet.toistaSFX("Käytä");
         return super.käytä();
-    }
-    
-    public Ruoka(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
     }
 }

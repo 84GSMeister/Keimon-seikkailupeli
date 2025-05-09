@@ -9,6 +9,10 @@ public abstract class Esine extends KenttäKohde {
 
     Random r = new Random();
 
+    public Esine(int sijX, int sijY) {
+        super(sijX, sijY);
+    }
+
     protected boolean poista = false;
     public boolean poistoon(){
         return poista;
@@ -45,11 +49,12 @@ public abstract class Esine extends KenttäKohde {
      */
     public static Esine yhdistä2Esinettä(Esine esineA, Esine esineB) {
         if ((esineA instanceof Kaasupullo && esineB instanceof Kaasusytytin) || (esineA instanceof Kaasusytytin && esineB instanceof Kaasupullo)) {
-            String[] toimivuus = {"toimivuus=toimiva"};
-            return new Kaasusytytin(false, 0, 0, toimivuus);
+            ArrayList<String> toimivuus = new ArrayList<>();
+            toimivuus.add("toimivuus=toimiva");
+            return new Kaasusytytin(0, 0, toimivuus);
         }
         else if ((esineA instanceof Jallupullo && esineB instanceof Paskanmarjat) || (esineA instanceof Paskanmarjat && esineB instanceof Jallupullo)) {
-            return new Paskanmarjabooli(false, 0, 0);
+            return new Paskanmarjabooli( 0, 0);
         }
         else return null;
     }
@@ -66,42 +71,38 @@ public abstract class Esine extends KenttäKohde {
         return nimi;
     }
 
-    public static Esine luoEsine(String esineenNimi, String[] ominaisuusLista) {
+    public static Esine luoEsine(String esineenNimi, ArrayList<String> ominaisuusLista) {
         switch (esineenNimi) {
             case "Avain":
-                return new Avain(false, 0, 0);
+                return new Avain(0, 0);
             case "Hiili":
-                return new Hiili(false, 0, 0);
+                return new Hiili(0, 0);
             case "Huume":
-                return new Huume(false, 0, 0);
+                return new Huume(0, 0);
             case "Jallupullo":
-                return new Jallupullo(false, 0, 0);
+                return new Jallupullo(0, 0);
             case "Kaasupullo":
-                return new Kaasupullo(false, 0, 0);
+                return new Kaasupullo(0, 0);
             case "Kaasusytytin":
-                return new Kaasusytytin(false, 0, 0, ominaisuusLista);
+                return new Kaasusytytin( 0, 0, ominaisuusLista);
             case "Kilpi":
-                return new Kilpi(false, 0, 0);
+                return new Kilpi(0, 0);
             case "Kuparilager":
-                return new Kuparilager(false, 0, 0);
+                return new Kuparilager(0, 0);
             case "Makkara":
-                return new Makkara(false, 0, 0);
+                return new Makkara(0, 0);
             case "Paperi":
-                return new Paperi(false, 0, 0);
+                return new Paperi(0, 0);
             case "Pesäpallomaila":
-                return new Pesäpallomaila(false, 0, 0);
+                return new Pesäpallomaila(0, 0);
             case "Pontikka-ainekset":
-                return new Ponuainekset(false, 0, 0);
+                return new Ponuainekset(0, 0);
             case "Suklaalevy":
-                return new Suklaalevy(false, 0, 0);
+                return new Suklaalevy(0, 0);
             case "Vesiämpäri":
-                return new Vesiämpäri(false, 0, 0);
+                return new Vesiämpäri(0, 0);
             case null, default:
                 return null;
         }
-    }
-
-    public Esine(boolean määritettySijainti, int sijX, int sijY) {
-        super(määritettySijainti, sijX, sijY);
     }
 }

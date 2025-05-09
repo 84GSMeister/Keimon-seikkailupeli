@@ -3,6 +3,8 @@ package keimo.entityt.npc;
 import keimo.keimoEngine.grafiikat.Animaatio;
 import keimo.keimoEngine.grafiikat.Tekstuuri;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class Vartija extends Vihollinen {
@@ -34,10 +36,16 @@ public class Vartija extends Vihollinen {
 
     public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
         this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[3];
-        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
-        this.lisäOminaisuudet[1] = "näköalue1=" + x1 + "_" + y1;
-        this.lisäOminaisuudet[2] = "näköalue2=" + x2 + "_" + y2; 
+        //this.lisäOminaisuudet = new String[3];
+        //this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+        //this.lisäOminaisuudet[1] = "näköalue1=" + x1 + "_" + y1;
+        //this.lisäOminaisuudet[2] = "näköalue2=" + x2 + "_" + y2;
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
+        this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("näköalue1="));
+        this.lisäOminaisuudet.add("näköalue1=" + x1 + "_" + y1);
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("näköalue2="));
+        this.lisäOminaisuudet.add("näköalue2=" + x2 + "_" + y2);
     }
 
     public String annaNimiSijamuodossa(String sijamuoto) {
@@ -83,7 +91,7 @@ public class Vartija extends Vihollinen {
         }
     }
 
-    public Vartija(int sijX, int sijY, String[] ominaisuusLista) {
+    public Vartija(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = Integer.MAX_VALUE;
         super.vahinko = 666;
@@ -96,8 +104,6 @@ public class Vartija extends Vihollinen {
         super.sijY = sijY;
         super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Vartija";
-        super.lisäOminaisuuksia = true;
-        super.lisäOminaisuudet = ominaisuusLista;
         this.x1 = 0;
         this.x2 = 29;
         this.y1 = 0;

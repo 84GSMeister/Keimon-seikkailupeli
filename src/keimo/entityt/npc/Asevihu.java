@@ -1,5 +1,7 @@
 package keimo.entityt.npc;
 
+import java.util.ArrayList;
+
 import keimo.keimoEngine.grafiikat.*;
 
 public class Asevihu extends Vihollinen {
@@ -35,11 +37,13 @@ public class Asevihu extends Vihollinen {
         }
     }
 
-    public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet = new String[1];
-        this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
-    }
+    // public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
+    //     this.lisäOminaisuuksia = true;
+    //     //this.lisäOminaisuudet = new String[1];
+    //     //this.lisäOminaisuudet[0] = "liiketapa=" + liikeTapa;
+    //     this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
+    //     this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
+    // }
 
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
@@ -58,7 +62,7 @@ public class Asevihu extends Vihollinen {
         }
     }
 
-    public Asevihu(int sijX, int sijY, String[] ominaisuusLista) {
+    public Asevihu(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.hp = 2;
         super.vahinko = 1;
@@ -73,8 +77,6 @@ public class Asevihu extends Vihollinen {
         super.sijY = sijY;
         super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.nimi = "Asevihu";
-        super.lisäOminaisuuksia = true;
-        super.lisäOminaisuudet = ominaisuusLista;
         super.tehoavatAseet.add("Vesiämpäri");
         super.tehoavatAseet.add("Pesäpallomaila");
         super.asetaTiedot();

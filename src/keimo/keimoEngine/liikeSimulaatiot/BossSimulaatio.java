@@ -1,11 +1,11 @@
 package keimo.keimoEngine.liikeSimulaatiot;
 
 import keimo.Peli;
-import keimo.Säikeet.ÄänentoistamisSäie;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.entityt.Ammus;
 import keimo.entityt.npc.Boss;
 import keimo.entityt.npc.Boss.BossState;
+import keimo.keimoEngine.äänet.Äänet;
 import keimo.entityt.npc.Vihollinen;
 
 import java.awt.Point;
@@ -422,14 +422,14 @@ public class BossSimulaatio {
             Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.ALAVASEN, boss.ammusVahinko, boss));
             Peli.entityLista.add(new Ammus((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY(), Suunta.ALAOIKEA, boss.ammusVahinko, boss));
             Point sijainti = new Point((int)boss.hitbox.getCenterX(), (int)boss.hitbox.getCenterY());
-            ÄänentoistamisSäie.toistaSFX("ammus", sijainti);
+            Äänet.toistaSFX("ammus", sijainti);
             ampunut = true;
         }
     }
 
     private static void bossHuuto(Vihollinen vihollinen) {
         if (!huutanut) {
-            ÄänentoistamisSäie.toistaSFX(vihollinen.ominaisHuuto);
+            Äänet.toistaSFX(vihollinen.ominaisHuuto);
             huutanut = true;
         }
     }

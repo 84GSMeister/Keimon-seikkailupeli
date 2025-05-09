@@ -4,6 +4,19 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Kaasupullo extends Esine {
 
+    public Kaasupullo(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Kaasupullo";
+        super.tiedostonNimi = "kaasupullo.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
+        super.yhdistettävä = true;
+        super.kelvollisetYhdistettävät.add("Kaasusytytin");
+        super.liikeNopeus = 6f;
+        super.pyörimisNopeus = 2f;
+        super.asetaTiedot();
+    }
+
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         switch (sijamuoto) {
@@ -20,18 +33,5 @@ public final class Kaasupullo extends Esine {
             case "allatiivi":    return "Kaasupullolle";
             default:             return "Kaasupullo";
         }
-    }
-
-    public Kaasupullo(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Kaasupullo";
-        super.tiedostonNimi = "kaasupullo.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
-        super.yhdistettävä = true;
-        super.kelvollisetYhdistettävät.add("Kaasusytytin");
-        super.liikeNopeus = 6f;
-        super.pyörimisNopeus = 2f;
-        super.asetaTiedot();
     }
 }

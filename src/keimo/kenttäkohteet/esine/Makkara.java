@@ -9,6 +9,21 @@ public final class Makkara extends Ruoka {
     public boolean paistettu = false;
     public boolean käristetty = false;
 
+    public Makkara(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Makkara";
+        super.tiedostonNimi = "makkarat.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.heal = 1;
+        super.hinta = 2.79;
+        super.käyttö = true;
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Nuotio");
+        this.paistettu = false;
+        this.käristetty = false;
+        super.asetaTiedot();
+    }
+
     @Override
     public String katso() {
         if (this.käristetty) {
@@ -75,20 +90,5 @@ public final class Makkara extends Ruoka {
             super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
             return "Mmm.. onpas hyvän näköistä kyrsää.";
         }
-    }
-
-    public Makkara(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Makkara";
-        super.tiedostonNimi = "makkarat.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.heal = 1;
-        super.hinta = 2.79;
-        super.käyttö = true;
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Nuotio");
-        this.paistettu = false;
-        this.käristetty = false;
-        super.asetaTiedot();
     }
 }

@@ -2,7 +2,6 @@ package keimo.HuoneEditori.muokkausIkkunat;
 
 import keimo.*;
 import keimo.HuoneEditori.HuoneEditoriIkkuna;
-import keimo.HuoneEditori.DialogiEditori.*;
 import keimo.Utility.Downloaded.SpringUtilities;
 import keimo.Utility.Käännettävä.Suunta;
 import keimo.kenttäkohteet.*;
@@ -41,7 +40,8 @@ public class SäiliöMuokkaus {
                 case "Kauppahylly":
                     KauppaHylly kauppaHylly = (KauppaHylly)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
                     if (sisältöValinta.getSelectedItem().toString().startsWith("Kaasusytytin")) {
-                        String[] ominaisuusLista = {"toimivuus=toimiva"};
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        ominaisuusLista.add("toimivuus=toimiva");
                         kauppaHylly.asetaSisältö(sisältöValinta.getSelectedItem().toString(), ominaisuusLista);
                     }
                     else {
@@ -58,7 +58,8 @@ public class SäiliöMuokkaus {
                 case "Kirstu":
                     Kirstu kirstu = (Kirstu)HuoneEditoriIkkuna.objektiKenttä[sijX][sijY];
                     if (sisältöValinta.getSelectedItem().toString().startsWith("Kaasusytytin")) {
-                        String[] ominaisuusLista = {"toimivuus=toimiva"};
+                        ArrayList<String> ominaisuusLista = new ArrayList<>();
+                        ominaisuusLista.add("toimivuus=toimiva");
                         kirstu.asetaSisältö(sisältöValinta.getSelectedItem().toString(), ominaisuusLista);
                     }
                     else {

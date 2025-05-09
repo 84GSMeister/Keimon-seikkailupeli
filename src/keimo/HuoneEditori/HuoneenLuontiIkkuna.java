@@ -3,13 +3,7 @@ package keimo.HuoneEditori;
 import keimo.*;
 import keimo.Utility.Downloaded.SpringUtilities;
 import keimo.Utility.Käännettävä.Suunta;
-import keimo.kenttäkohteet.*;
-import keimo.kenttäkohteet.esine.Avain;
-import keimo.kenttäkohteet.esine.Hiili;
-import keimo.kenttäkohteet.esine.Kaasupullo;
-import keimo.kenttäkohteet.esine.Kaasusytytin;
-import keimo.kenttäkohteet.esine.Paperi;
-import keimo.kenttäkohteet.esine.Vesiämpäri;
+//import keimo.kenttäkohteet.*;
 
 import javax.swing.*;
 
@@ -30,19 +24,15 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 public class HuoneenLuontiIkkuna {
 
     static final int ikkunanLeveys = 260;
-    static final int ikkunanKorkeus = 210;
+    static final int ikkunanKorkeus = 190;
     static JFrame ikkuna;
-    static String[] tekstit = {"Huoneen ID", "Huoneen nimi", "Kentän koko", "Tehtäväitemit", "Tuo huonetiedosto"};
+    static String[] tekstit = {"Huoneen ID", "Huoneen nimi", "Kentän koko", "Tuo huonetiedosto"};
     static int valintojenMäärä = tekstit.length;
     static JTextField[] tekstiKentät = new JTextField[valintojenMäärä];
-    static KenttäKohde[][] huoneenSisältö = new KenttäKohde[Peli.kentänKoko][Peli.kentänKoko];
-    static ArrayList<KenttäKohde> huoneenSisältöLista = new ArrayList<KenttäKohde>();
-    static JCheckBox tehtäväItemitCheckbox;
     static JButton huoneTiedostoValintaNappi;
     static Huone huoneKSH;
 
@@ -62,7 +52,6 @@ public class HuoneenLuontiIkkuna {
             huoneenId = Integer.parseInt(tekstiKentät[0].getText());
             String huoneenNimi = tekstiKentät[1].getText();
             int kentänKoko = Integer.parseInt(tekstiKentät[2].getText());
-            boolean tehtäväItemit = tehtäväItemitCheckbox.isSelected();
             if (huoneenId < 0) {
                 JOptionPane.showMessageDialog(ikkuna, "Negatiivinen ID ei kelpaa.", "Virheellinen ID!", JOptionPane.ERROR_MESSAGE);
                 return false;
@@ -81,7 +70,7 @@ public class HuoneenLuontiIkkuna {
                 return false;
             }
             else {
-                asetaArvot(huoneenId, huoneenNimi, kentänKoko, tehtäväItemit);
+                asetaArvot(huoneenId, huoneenNimi, kentänKoko);
                 return true;
             }
         }
@@ -91,32 +80,16 @@ public class HuoneenLuontiIkkuna {
         }
     }
 
-    static void asetaArvot(int huoneenId, String huoneenNimi, int asetettuKentänKoko, boolean tehtäväItemit) {
+    static void asetaArvot(int huoneenId, String huoneenNimi, int asetettuKentänKoko) {
         TarkistettavatArvot.uusiKentänKoko = asetettuKentänKoko;
 
         if (huoneKSH == null) {
-            if (tehtäväItemit) {
-                huoneenSisältöLista.add(new Avain(false, 0, 0));
-                huoneenSisältöLista.add(new Kaasupullo(false, 0, 0));
-                huoneenSisältöLista.add(new Kaasusytytin(false, 0, 0, null));
-                huoneenSisältöLista.add(new Hiili(false, 0, 0));
-                huoneenSisältöLista.add(new Paperi(false, 0, 0));
-                huoneenSisältöLista.add(new Vesiämpäri(false, 0, 0));
-            }
-            String huoneenSisältöString = "";
-            for (KenttäKohde k : huoneenSisältöLista) {
-                huoneenSisältöString += k.annaNimi() + ", ";
-            }
-            System.out.println("Huoneeseen " + huoneenId + " asetetaan " + huoneenSisältöString);
             HuoneEditoriIkkuna.vaihdaHuonetta(HuoneEditoriIkkuna.muokattavaHuone, huoneenId, false);
-            Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", huoneenSisältöLista, null, null, null, null, null);
+            Peli.luoHuone(huoneenId, asetettuKentänKoko, huoneenNimi, null, "Oma alue", null, null, null, null, null, null);
         }
         else {
             HuoneEditoriIkkuna.huoneKartta.put(huoneenId, huoneKSH);
-            //HuoneEditoriIkkuna.vaihdaHuonetta(HuoneEditoriIkkuna.muokattavaHuone, huoneenId, false);
-            //HuoneEditoriIkkuna.lataaHuoneKartasta(huoneenId, false);
         }
-        huoneenSisältöLista.removeAll(huoneenSisältöLista);
         ikkuna.dispose();
     }
 
@@ -125,7 +98,7 @@ public class HuoneenLuontiIkkuna {
         huoneKSH = null;
         Huone h = HuoneEditoriIkkuna.huoneKartta.get(HuoneEditoriIkkuna.muokattavaHuone);
         JPanel paneli = new JPanel(new SpringLayout());
-        for (int i = 0; i < valintojenMäärä-2; i++) {
+        for (int i = 0; i < valintojenMäärä-1; i++) {
             JLabel teksti = new JLabel(tekstit[i], JLabel.TRAILING);
             paneli.add(teksti);
             tekstiKentät[i] = new JTextField("" + Peli.kentänKoko,10);
@@ -145,10 +118,6 @@ public class HuoneenLuontiIkkuna {
         tekstiKentät[2].setText("" + h.annaKoko());
         tekstiKentät[2].setToolTipText("Huoneen leveys ja korkeus tileinä: esim. 10 tarkoittaa 10x10-huonetta.");
         paneli.add(new JLabel(tekstit[3]));
-        tehtäväItemitCheckbox = new JCheckBox();
-        paneli.add(tehtäväItemitCheckbox);
-        tehtäväItemitCheckbox.setToolTipText("Avain, Hiili, Paperi, Kaasusytytin, Kaasupullo");
-        paneli.add(new JLabel(tekstit[4]));
         huoneTiedostoValintaNappi = new JButton("Valitse huonetiedosto");
         huoneTiedostoValintaNappi.addActionListener(e -> {
             TiedostoSelain.launchAvaaTiedosto();
@@ -207,69 +176,64 @@ public class HuoneenLuontiIkkuna {
     private class TiedostoSelain {
 
         public static void launchAvaaTiedosto() {
-        // This method is invoked on the EDT thread
+            // This method is invoked on the EDT thread
             JFXPanel fxPanel = new JFXPanel();
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    initFXAvaa(fxPanel);
+                    fxPanel.setScene(luoTiedostonAvausIkkuna());
                 }
-        });
-    }
-
-    private static void initFXAvaa(JFXPanel fxPanel) {
-        // This method is invoked on the JavaFX thread
-        Scene scene = luoTiedostonAvausIkkuna();
-        fxPanel.setScene(scene);
-    }
-
-    private static Scene luoTiedostonAvausIkkuna() {
-        Group root = new Group();
-        Scene scene = new Scene(root, 640, 360, javafx.scene.paint.Color.ALICEBLUE);
-        Text text = new Text();
-        try {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialDirectory(new File("tiedostot/pelitiedostot/huoneet"));
-            ExtensionFilter tiedostoPäätteet = new ExtensionFilter("Keimon seikkailupelin huone", "*.ksh");
-            fileChooser.getExtensionFilters().add(tiedostoPäätteet);
-            File avattuTiedosto = fileChooser.showOpenDialog(null);
-            String huoneMerkkijonoina = "";
-            Path path = FileSystems.getDefault().getPath(avattuTiedosto.getPath());
-            Charset charset = Charset.forName("UTF-8");
-            BufferedReader read = Files.newBufferedReader(path, charset);
-            String tarkastettavaRivi = null;
-            tarkastettavaRivi = read.readLine();
-            while ((tarkastettavaRivi != null)) {
-                if (tarkastettavaRivi.startsWith("Huone ")) {
-                    huoneMerkkijonoina = "";
-                    while (tarkastettavaRivi != null) {
-                        huoneMerkkijonoina += tarkastettavaRivi + "\n";
-                        if (tarkastettavaRivi.startsWith("/Huone")) {
-                            break;
+            });
+        }
+    
+        private static Scene luoTiedostonAvausIkkuna() {
+            // This method is invoked on the JavaFX thread
+            Group root = new Group();
+            Scene scene = new Scene(root, 640, 360, javafx.scene.paint.Color.ALICEBLUE);
+            Text text = new Text();
+            try {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setInitialDirectory(new File("tiedostot/pelitiedostot/huoneet"));
+                ExtensionFilter tiedostoPäätteet = new ExtensionFilter("Keimon seikkailupelin huone", "*.ksh");
+                fileChooser.getExtensionFilters().add(tiedostoPäätteet);
+                File avattuTiedosto = fileChooser.showOpenDialog(null);
+                String huoneMerkkijonoina = "";
+                Path path = FileSystems.getDefault().getPath(avattuTiedosto.getPath());
+                Charset charset = Charset.forName("UTF-8");
+                BufferedReader read = Files.newBufferedReader(path, charset);
+                String tarkastettavaRivi = null;
+                tarkastettavaRivi = read.readLine();
+                while ((tarkastettavaRivi != null)) {
+                    if (tarkastettavaRivi.startsWith("Huone ")) {
+                        huoneMerkkijonoina = "";
+                        while (tarkastettavaRivi != null) {
+                            huoneMerkkijonoina += tarkastettavaRivi + "\n";
+                            if (tarkastettavaRivi.startsWith("/Huone")) {
+                                break;
+                            }
+                            tarkastettavaRivi = read.readLine();
                         }
+                    }
+                    else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
+                        break;
+                    }
+                    else {
                         tarkastettavaRivi = read.readLine();
                     }
                 }
-                else if (tarkastettavaRivi.startsWith("</KEIMO>")) {
-                    break;
-                }
-                else {
-                    tarkastettavaRivi = read.readLine();
-                }
+                huoneKSH = HuoneEditorinMetodit.luoHuoneMerkkijonosta(huoneMerkkijonoina, huoneenId);
+                huoneTiedostoValintaNappi.setText(avattuTiedosto.getName());
+                tekstiKentät[1].setText(huoneKSH.annaNimi());
+                tekstiKentät[2].setText("" + huoneKSH.annaKoko());
+                read.close();
             }
-            huoneKSH = HuoneEditorinMetodit.luoHuoneMerkkijonosta(huoneMerkkijonoina, huoneenId);
-            huoneTiedostoValintaNappi.setText(avattuTiedosto.getName());
-            tekstiKentät[1].setText(huoneKSH.annaNimi());
-            tekstiKentät[2].setText("" + huoneKSH.annaKoko());
-            read.close();
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+    
+            root.getChildren().add(text);
+    
+            return scene;
         }
-        catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-        root.getChildren().add(text);
-
-        return (scene);
-    }
     }
 }

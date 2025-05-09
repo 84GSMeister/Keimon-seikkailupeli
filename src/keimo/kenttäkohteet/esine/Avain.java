@@ -4,6 +4,19 @@ import keimo.keimoEngine.grafiikat.Tekstuuri;
 
 public final class Avain extends Esine {
 
+    public Avain(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Avain";
+        super.tiedostonNimi = "avain.png";
+        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?";
+        super.kenttäkäyttö = true;
+        super.sopiiKäytettäväksi.add("Kirstu");
+        super.liikeNopeus = 6f;
+        super.pyörimisNopeus = 2f;
+        super.asetaTiedot();
+    }
+
     @Override
     public String käytä(){
         super.poista = true;
@@ -29,18 +42,5 @@ public final class Avain extends Esine {
             case "allatiivi":    return "Avaimelle";
             default:             return "Avain";
         }
-    }
-    
-    public Avain(boolean määritettySijainti, int sijX, int sijY){
-        super(määritettySijainti, sijX, sijY);
-        super.nimi = "Avain";
-        super.tiedostonNimi = "avain.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?";
-        super.kenttäkäyttö = true;
-        super.sopiiKäytettäväksi.add("Kirstu");
-        super.liikeNopeus = 6f;
-        super.pyörimisNopeus = 2f;
-        super.asetaTiedot();
     }
 }

@@ -1,5 +1,7 @@
 package keimo.kenttäkohteet.kiintopiste;
 
+import java.util.ArrayList;
+
 import keimo.Pelaaja;
 import keimo.kenttäkohteet.esine.Esine;
 
@@ -7,6 +9,10 @@ public abstract class Lepopaikka extends Kiintopiste {
 
     public long hpVähennys;
     public boolean vältäKuolema = false;
+
+    public Lepopaikka(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+    }
 
     public String vuorovaikuta(Esine e) {
         if (Pelaaja.känninVoimakkuusFloat <= 0) {
@@ -57,9 +63,5 @@ public abstract class Lepopaikka extends Kiintopiste {
             case "selvä": return "Vielä ei nukuta. Kokeile myöhemmin (tai kun olet kännissä)!";
             case null, default: return katso();
         }
-    }
-    
-    public Lepopaikka(boolean määritettySijainti, int sijX, int sijY, String[] ominaisuusLista) {
-        super(määritettySijainti, sijX, sijY, ominaisuusLista);
     }
 }

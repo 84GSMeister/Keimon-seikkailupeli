@@ -15,7 +15,6 @@ import keimo.keimoEngine.ikkuna.*;
 import keimo.keimoEngine.kenttä.*;
 import keimo.keimoEngine.menu.*;
 import keimo.keimoEngine.menu.asetusRuudut.*;
-import keimo.kenttäkohteet.KenttäKohde;
 import keimo.kenttäkohteet.esine.Esine;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -83,28 +82,24 @@ public class NäppäinKomennot {
                         }
                 
                         if (window.getInput().isKeyDown(GLFW_KEY_A) || window.getInput().isKeyDown(GLFW_KEY_LEFT)) {
-                            //Pelaaja.kokeileLiikkumista(Suunta.VASEN);
                             vasenPainettu = true;
                         }
                         else {
                             vasenPainettu = false;
                         }
                         if (window.getInput().isKeyDown(GLFW_KEY_D) || window.getInput().isKeyDown(GLFW_KEY_RIGHT)) {
-                            //Pelaaja.kokeileLiikkumista(Suunta.OIKEA);
                             oikeaPainettu = true;
                         }
                         else {
                             oikeaPainettu = false;
                         }
                         if (window.getInput().isKeyDown(GLFW_KEY_W) || window.getInput().isKeyDown(GLFW_KEY_UP)) {
-                            //Pelaaja.kokeileLiikkumista(Suunta.YLÖS);
                             ylösPainettu = true;
                         }
                         else {
                             ylösPainettu = false;
                         }
                         if (window.getInput().isKeyDown(GLFW_KEY_S) || window.getInput().isKeyDown(GLFW_KEY_DOWN)) {
-                            //Pelaaja.kokeileLiikkumista(Suunta.ALAS);
                             alasPainettu = true;
                         }
                         else {
@@ -124,12 +119,7 @@ public class NäppäinKomennot {
                         }
                         if (window.getInput().isKeyPressed(GLFW_KEY_Q)) {
                             Peli.pudota(Pelaaja.sijX, Pelaaja.sijY, Peli.esineValInt);
-                            if (Peli.yhdistäminenKäynnissä) {
-                                Peli.yhdistäminenKäynnissä = false;
-                                Peli.yhdistettäväTavarapaikka = -1;
-                            }
                         }
-
                         if (window.getInput().isKeyPressed(GLFW_KEY_1)) {
                             tavarapaikanVaihto(0);
                         }
@@ -152,10 +142,10 @@ public class NäppäinKomennot {
                             Peli.käyttö(Peli.esineValInt);
                         }
                         if (window.getInput().isKeyPressed(GLFW_KEY_X)) {
-                            tulostaEsineenKatsomisDialogi();
+                            Peli.katsoEsinettä();
                         }
                         if (window.getInput().isKeyPressed(GLFW_KEY_C)) {
-                            tulostaKentänKatsomisDialogi();
+                            Peli.katsoKenttää();
                         }
                         if (window.getInput().isKeyPressed(GLFW_KEY_Z)) {
                             if (Peli.yhdistäminenKäynnissä) {
@@ -184,15 +174,6 @@ public class NäppäinKomennot {
                                     Dialogit.avaaDialogi(Pelaaja.esineet[Peli.esineValInt].annaDialogiTekstuuri(), Pelaaja.esineet[Peli.esineValInt].annaNimiSijamuodossa("partitiivi") + " ei voi yhdistää.", "Yhdistäminen");
                                 }
                             }
-                        }
-
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_7)) {
-                            Maailma.rotZ -= 1;
-                            Maailma.rotZ %= 360;
-                        }
-                        if (window.getInput().isKeyDown(GLFW_KEY_KP_9)) {
-                            Maailma.rotZ += 1;
-                            Maailma.rotZ %= 360;
                         }
                     }
                     case DIALOGI -> {
@@ -535,18 +516,5 @@ public class NäppäinKomennot {
     private static void tavarapaikanVaihto(int tavarapaikka) {
         Peli.esineValInt = tavarapaikka;
         Peli.valittuEsine = Pelaaja.esineet[Peli.esineValInt];
-    }
-
-    private static void tulostaEsineenKatsomisDialogi() {
-        if (Peli.valittuEsine != null) {
-            Esine e = Peli.valittuEsine;
-            Dialogit.avaaDialogi(e.annaTekstuuri(), e.katso(), e.annaNimi());
-        }
-    }
-    private static void tulostaKentänKatsomisDialogi() {
-        if (Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY] != null) {
-            KenttäKohde k = Peli.pelikenttä[Pelaaja.sijX][Pelaaja.sijY];
-            Dialogit.avaaDialogi(k.annaTekstuuri(), k.katso(), k.annaNimi());
-        }
     }
 }

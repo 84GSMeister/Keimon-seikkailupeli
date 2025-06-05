@@ -52,7 +52,7 @@ public class Kuuhahmo3 extends NPC_KenttäKohde{
     @Override
     public String haeDialogiTeksti(String teksti) {
         switch (teksti) {
-            case "vakio": return "Yee!";
+            case "yee": return "Yee!";
             case null, default: return katso();
         }
     }

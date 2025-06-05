@@ -1,14 +1,13 @@
 package keimo.keimoEngine.grafiikat;
 
+import keimo.keimoEngine.KeimoEngine;
+
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.awt.image.BufferedImage;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;
-
-import keimo.keimoEngine.KeimoEngine;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL30.*;

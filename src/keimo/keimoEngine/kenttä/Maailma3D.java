@@ -2,6 +2,7 @@ package keimo.keimoEngine.kenttä;
 
 import keimo.Huone;
 import keimo.Peli;
+import keimo.Maastot.IsoLaatta;
 import keimo.Maastot.Maasto;
 import keimo.Maastot.Tile;
 import keimo.entityt.Entity;
@@ -28,7 +29,7 @@ import org.joml.Vector4f;
 
 public class Maailma3D {
 
-    public static ArrayList<Tile> tilet = new ArrayList<>();
+    public static ArrayList<Maasto> tilet = new ArrayList<>();
     public static ArrayList<KenttäKohde> kenttäObjektit = new ArrayList<>();
     public static ArrayList<Entity> entityt = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
@@ -49,12 +50,14 @@ public class Maailma3D {
             for (int y = 0; y < huone.annaKoko(); y++) {
                 for (int x = 0; x < huone.annaKoko(); x++) {
                     if (huone.annaHuoneenMaastoSisältö()[x][y] != null) {
+                        Maasto m = huone.annaHuoneenMaastoSisältö()[x][y];
                         String tiedostonNimi = huone.annaHuoneenMaastoSisältö()[x][y].annaKuvanTiedostoNimi();
                         if (tiedostonNimi != null) {
                             ArrayList<String> ominaisuusLista = new ArrayList<>();
                             ominaisuusLista.add("kuva=" + tiedostonNimi);
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-                            tilet.add(new Tile(x, y, ominaisuusLista));
+                            if (m instanceof Tile) tilet.add(Maasto.luoMaastoTiedoilla("Tile", x, y, ominaisuusLista));
+                            else if (m instanceof IsoLaatta) tilet.add(Maasto.luoMaastoTiedoilla("IsoLaatta", x, y, ominaisuusLista));
                         }
                     }
                     if (huone.annaHuoneenKenttäSisältö()[x][y] != null) {

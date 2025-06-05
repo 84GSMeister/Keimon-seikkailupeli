@@ -32,7 +32,6 @@ public class HUD {
     private static Tekstuuri taustaTavaraluetteloTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/paneeli_tausta_tavaraluettelo.png");
     private static Tekstuuri taustaTavoitelistaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/seuraavatavoite.png");
 
-    private static Teksti tavoiteInfoTeksti = new Teksti("Seuraava tavoite:", 300, 30);
     private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", 300, 30);
 
     private static Teksti aikaTeksti = new Teksti("aika", 120, 40);
@@ -112,11 +111,14 @@ public class HUD {
 
     public static void renderöiHUD(Window window) {
         renderöiHUDPohjaVasen(window);
+        renderöiHUDPohjaOikea(window);
         renderöiInfoHUDKuvakkeet(window);
         renderöiInfoHUDNumerot(window);
         renderöiTavaraluetteloKuvakkeet(window);
         renderöiTavaraluetteloTekstit(window);
         renderöiTavoiteLaatikko(window);
+        HUD_HP.render(peliShader, window);
+        HUD_Kartta.render(peliShader, window);
     }
 
     private static void renderöiInfoHUDKuvakkeet(Window window) {
@@ -164,15 +166,15 @@ public class HUD {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-        float scaleX = window.getWidth()/30;
+        float scaleX = window.getWidth()/24;
         float scaleY = window.getHeight()/30;
         float keskitysX = window.getWidth()/18;
-        float offsetX = window.getHeight()/24;
+        float offsetX = window.getHeight()/20;
         float offsetY = window.getHeight()/24;
 
         Matrix4f matAika = new Matrix4f();
         window.getView().scale(1, matAika);
-        matAika.translate(-window.getWidth()/2+scaleX + keskitysX + offsetX, window.getHeight()/40 + 2*offsetY - 10, 0);
+        matAika.translate(-window.getWidth()/2+scaleX + keskitysX/1.5f + offsetX, window.getHeight()/40 + 2*offsetY - 10, 0);
         matAika.scale(scaleX, scaleY, 0);
         Matrix4f matHP = new Matrix4f();
         window.getView().scale(1, matHP);
@@ -380,8 +382,6 @@ public class HUD {
     private static void renderöiHUDPohjaVasen(Window window) {
         float scaleX = window.getWidth()/12;
         float scaleY = window.getHeight()/6;
-        float scaleXSisempi = scaleX *(14f/15f);
-        float scaleYSisempi = scaleY *(14f/15f);
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -411,11 +411,9 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    private static void renderöiHudPohjaOikea(Window window) {
+    private static void renderöiHUDPohjaOikea(Window window) {
         float scaleX = window.getWidth()/12;
         float scaleY = window.getHeight()/6;
-        float scaleXSisempi = scaleX *(14f/15f);
-        float scaleYSisempi = scaleY *(14f/15f);
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -424,51 +422,24 @@ public class HUD {
         window.getView().scale(1, matOikeaYlä);
         matOikeaYlä.translate(window.getWidth()/2-scaleX, window.getHeight()/2-scaleY, 0);
         matOikeaYlä.scale(scaleX, scaleY, 0);
-        guiShader.setUniform("projection", matOikeaYlä);
-        guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
-        tyhjäTekstuuri.bind(0);
-        Assets.getModel().render();
-        Matrix4f matOikeaYläSisempi = new Matrix4f();
-        window.getView().scale(1, matOikeaYläSisempi);
-        matOikeaYläSisempi.translate(window.getWidth()/2-scaleX, window.getHeight()/2-scaleY, 0);
-        matOikeaYläSisempi.scale(scaleXSisempi, scaleYSisempi, 0);
-        guiShader.setUniform("projection", matOikeaYläSisempi);
-        guiShader.setUniform("color", new Vector4f(255, 255, 255, 0.6f));
-        tyhjäTekstuuri.bind(0);
+        peliShader.setUniform("projection", matOikeaYlä);
+        taustaOhjeTekstuuri.bind(0);
         Assets.getModel().render();
 
         Matrix4f matOikeaKeski = new Matrix4f();
         window.getView().scale(1, matOikeaKeski);
         matOikeaKeski.translate(window.getWidth()/2-scaleX, 0, 0);
         matOikeaKeski.scale(scaleX, scaleY, 0);
-        guiShader.setUniform("projection", matOikeaKeski);
-        guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
-        tyhjäTekstuuri.bind(0);
-        Assets.getModel().render();
-        Matrix4f matOikeaKeskiSisempi = new Matrix4f();
-        window.getView().scale(1, matOikeaKeskiSisempi);
-        matOikeaKeskiSisempi.translate(window.getWidth()/2-scaleX, 0, 0);
-        matOikeaKeskiSisempi.scale(scaleXSisempi, scaleYSisempi, 0);
-        guiShader.setUniform("projection", matOikeaKeskiSisempi);
-        guiShader.setUniform("color", new Vector4f(255, 255, 255, 0.6f));
-        tyhjäTekstuuri.bind(0);
+        peliShader.setUniform("projection", matOikeaKeski);
+        taustaOhjeTekstuuri.bind(0);
         Assets.getModel().render();
 
         Matrix4f matOikeaAla = new Matrix4f();
         window.getView().scale(1, matOikeaAla);
         matOikeaAla.translate(window.getWidth()/2-scaleX, -window.getHeight()/2+scaleY, 0);
         matOikeaAla.scale(scaleX, scaleY, 0);
-        guiShader.setUniform("projection", matOikeaAla);
-        guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
-        tyhjäTekstuuri.bind(0);
-        Assets.getModel().render();
-        Matrix4f matOikeaAlaSisempi = new Matrix4f();
-        window.getView().scale(1, matOikeaAlaSisempi);
-        matOikeaAlaSisempi.translate(window.getWidth()/2-scaleX, -window.getHeight()/2+scaleY, 0);
-        matOikeaAlaSisempi.scale(scaleXSisempi, scaleYSisempi, 0);
-        guiShader.setUniform("projection", matOikeaAlaSisempi);
-        guiShader.setUniform("color", new Vector4f(255, 255, 255, 0.6f));
-        tyhjäTekstuuri.bind(0);
+        peliShader.setUniform("projection", matOikeaAla);
+        taustaOhjeTekstuuri.bind(0);
         Assets.getModel().render();
     }
 

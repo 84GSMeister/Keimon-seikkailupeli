@@ -13,44 +13,42 @@ import javax.sound.sampled.AudioFormat.Encoding;
 import javax.sound.sampled.AudioInputStream;
 
 import javazoom.jl.decoder.*;
+
 import static org.lwjgl.stb.STBVorbis.*;
-import static org.lwjgl.system.MemoryStack.*;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.libc.LibCStdlib;
 
 public class Dekoodaus {
     
-    protected static AudioInputStream decodeOgg(String tiedostonNimi) {
-        stackPush();
-        IntBuffer channelsBuffer = stackMallocInt(1);
-        stackPush();
-        IntBuffer sampleRateBuffer = stackMallocInt(1);
+    public static AudioInputStream decodeOgg(String tiedostonNimi) {
+        int channels = 0;
+        int sampleRate = 0;
+        int sampleCount = 0;
+        AudioInputStream stream;
+        ShortBuffer rawAudioBuffer;
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer channelsBuffer = stack.mallocInt(1);
+            IntBuffer sampleRateBuffer = stack.mallocInt(1);
+            rawAudioBuffer = stb_vorbis_decode_filename(tiedostonNimi, channelsBuffer, sampleRateBuffer);
+            sampleCount = rawAudioBuffer.capacity();
+            channels = channelsBuffer.get();
+            sampleRate = sampleRateBuffer.get();
 
-        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(tiedostonNimi, channelsBuffer, sampleRateBuffer);
-        if (rawAudioBuffer == null) {
-            System.out.println("ongelma ladatessa ääntä: " + tiedostonNimi);
-            stackPop();
-            stackPop();
-            return null;
+            short[] samples = new short[sampleCount];
+            for (int i = 0; i < sampleCount; i++) {
+                samples[i] = rawAudioBuffer.get(i);
+            }
+            byte[] sampleBytes = new byte[samples.length * 2];
+            for (int i = 0; i < samples.length; i++) {
+                sampleBytes[i*2] = (byte)(samples[i] & 0x00FF);
+                sampleBytes[i*2+1] = (byte)((samples[i] >> 8) & 0x00FF);
+            }
+
+            AudioFormat format = new AudioFormat(Encoding.PCM_SIGNED, sampleRate, 16, channels, channels * 2, sampleRate, false);
+            ByteArrayInputStream byteStream = new ByteArrayInputStream(sampleBytes);
+            stream = new AudioInputStream(byteStream, format, samples.length);
+            LibCStdlib.free(rawAudioBuffer);
         }
-
-        int channels = channelsBuffer.get();
-        int sampleRate = sampleRateBuffer.get();
-
-        stackPop();
-        stackPop();
-
-        short[] samples = new short[rawAudioBuffer.capacity()];
-        for (int i = 0; i < rawAudioBuffer.capacity(); i++) {
-            samples[i] = rawAudioBuffer.get(i);
-        }
-        byte[] sampleBytes = new byte[samples.length * 2];
-        for (int i = 0; i < samples.length; i++) {
-            sampleBytes[i*2] = (byte)(samples[i] & 0x00FF);
-            sampleBytes[i*2+1] = (byte)((samples[i] >> 8) & 0x00FF);
-        }
-
-        AudioFormat format = new AudioFormat(Encoding.PCM_SIGNED, sampleRate, 16, channels, channels * 2, sampleRate, false);
-        ByteArrayInputStream byteStream = new ByteArrayInputStream(sampleBytes);
-        AudioInputStream stream = new AudioInputStream(byteStream, format, samples.length);
         return stream;
     }
 

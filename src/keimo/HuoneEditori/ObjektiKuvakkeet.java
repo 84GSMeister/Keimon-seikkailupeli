@@ -1,9 +1,5 @@
 package keimo.HuoneEditori;
 
-import keimo.Huone;
-import keimo.Peli;
-import keimo.Utility.KäännettäväKuvake;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +12,7 @@ public class ObjektiKuvakkeet {
 
     public static HashMap<String, ObjektiKuvake> objektiKuvakkeet = new HashMap<>();
     public static HashMap<String, ObjektiKuvake> visuaalisetObjektiKuvakkeet;
-    public static HashMap<String, ObjektiKuvake> tileKuvakkeet;// = new HashMap<>();
+    public static HashMap<String, ObjektiKuvake> tileKuvakkeet;
     public static HashMap<String, ObjektiKuvake> entityKuvakkeet = new HashMap<>();
 
     public static void luoKuvakkeet() {
@@ -96,20 +92,6 @@ public class ObjektiKuvakkeet {
     }
 
     private static void luoEntityKuvakkeet() {
-        // for (Huone huone : Peli.huoneKartta.values()) {
-        //     for (int y = 0; y < huone.annaKoko(); y++) {
-        //         for (int x = 0; x < huone.annaKoko(); x++) {
-        //             if (huone.annaHuoneenNPCSisältö()[x][y] != null) {
-        //                 String tiedostonNimi = huone.annaHuoneenNPCSisältö()[x][y].annaKuvanTiedostoNimi();
-        //                 if (tiedostonNimi != null) {
-        //                     if (!entityKuvakkeet.containsKey(tiedostonNimi)) {
-        //                         entityKuvakkeet.put(tiedostonNimi, new ObjektiKuvake("tiedostot/kuvat/entity/" + tiedostonNimi));
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
         entityKuvakkeet.put("Asevihu", new ObjektiKuvake("tiedostot/kuvat/npc/asevihu.png"));
         entityKuvakkeet.put("IsoKyltti", new ObjektiKuvake("tiedostot/kuvat/entity/kyltti_kuubileet.png"));
         entityKuvakkeet.put("IsoLaatikko", new ObjektiKuvake("tiedostot/kuvat/entity/iso_laatikko.png"));

@@ -1,11 +1,10 @@
 package keimo.keimoEngine.grafiikat.objekti3d;
 
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.system.*;
-
 import java.nio.*;
 import java.util.*;
 
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.system.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Mesh3D {

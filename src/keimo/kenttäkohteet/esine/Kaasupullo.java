@@ -19,6 +19,7 @@ public final class Kaasupullo extends Esine {
 
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
+        // Koskaan ei tiedä. Mitä jos näitäkin tarvii?
         switch (sijamuoto) {
             case "nominatiivi":  return "Kaasupullo";
             case "genetiivi":    return "Kaasupullon";

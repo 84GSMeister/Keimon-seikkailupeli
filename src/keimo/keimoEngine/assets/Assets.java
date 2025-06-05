@@ -189,7 +189,7 @@ public class Assets {
         ääniTiedostot.put("pelaaja_damage", new File("tiedostot/äänet/pelaaja_damage.mp3"));
         ääniTiedostot.put("pikkuvihu_damage", new File("tiedostot/äänet/pikkuvihu_damage.mp3"));
         ääniTiedostot.put("Hyökkäys", new File("tiedostot/äänet/hyökkäys.wav"));
-        ääniTiedostot.put("woof", new File("tiedostot/äänet/woof.wav"));
+        ääniTiedostot.put("woof", new File("tiedostot/äänet/woof/woof.wav"));
         ääniTiedostot.put("oven_avaus", new File("tiedostot/äänet/risitas.wav"));
         ääniTiedostot.put("oven_sulkeminen", new File("tiedostot/äänet/ovi_kiinni.wav"));
         ääniTiedostot.put("ammus", new File("tiedostot/äänet/ammus.wav"));
@@ -210,9 +210,9 @@ public class Assets {
         ääniTiedostot.put("Käytä", new File("tiedostot/äänet/käytä.wav"));
         ääniTiedostot.put("Valinta", new File("tiedostot/äänet/selekt.wav"));
         ääniTiedostot.put("Hyväksy", new File("tiedostot/äänet/akkept.wav"));
-        ääniTiedostot.put("Kartta", new File("tiedostot/äänet/kartta.mp3"));
-        ääniTiedostot.put("Juoman_kaato", new File("tiedostot/äänet/juoman_kaato.mp3"));
-        ääniTiedostot.put("Kalja_kilinä", new File("tiedostot/äänet/kalja_kilinä.mp3"));
+        ääniTiedostot.put("Kartta", new File("tiedostot/äänet/kartta.ogg"));
+        ääniTiedostot.put("Juoman_kaato", new File("tiedostot/äänet/juoman_kaato.ogg"));
+        ääniTiedostot.put("Kalja_kilinä", new File("tiedostot/äänet/kalja_kilinä.ogg"));
         ääniTiedostot.put("Tavoite_suoritettu", new File("tiedostot/äänet/tavoite_suoritettu.wav"));
         ääniTiedostot.put("Raha2", new File("tiedostot/äänet/raha2.wav"));
 

@@ -1,5 +1,7 @@
 package keimo.keimoEngine.io;
 
+import keimo.Peli;
+import keimo.Peli.Ruudut;
 import keimo.keimoEngine.menu.asetusRuudut.ÄäniTestiRuutu;
 
 import java.util.Random;
@@ -23,8 +25,12 @@ class MidiInputReceiver implements Receiver {
             int midiEvent = msgBytes[0];
             int midiNuotti = msgBytes[1];
             int voimakkuus = msgBytes[2];
-            //toistaMidi(midiEvent, midiNuotti, voimakkuus);
-            toistaMuunnettuÄäni(midiEvent, midiNuotti, voimakkuus);
+            if (Peli.aktiivinenRuutu == Ruudut.ASETUSRUUTU_ÄÄNITESTI) {
+                toistaMuunnettuÄäni(midiEvent, midiNuotti, voimakkuus);
+            }
+            else {
+                toistaMidi(midiEvent, midiNuotti, voimakkuus);
+            }
         }
     }
 

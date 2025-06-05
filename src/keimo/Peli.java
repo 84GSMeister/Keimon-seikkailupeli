@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.swing.JOptionPane;
 
 public class Peli {
@@ -436,7 +435,6 @@ public class Peli {
                             if (vo.onkoEste()) {
                                 if (näytäHuomautus) {
                                     Pelaaja.pakotaPelaajanPysäytys();
-                                    JOptionPane.showMessageDialog(null, "Warpin kohteessa on este tai kohde on kentän ulkopuolella.\n\nWarppaamisen epäturvallisiin kohteisiin voi sallia editorissa.", "Warppaaminen epäonnistui", JOptionPane.INFORMATION_MESSAGE);
                                 }
                             }
                             else {
@@ -629,15 +627,21 @@ public class Peli {
     static boolean uusiKäynnistysYritys = false;
 
     public static void uusiPeli() {
-        kentänKoko = TarkistettavatArvot.uusiKentänKoko;
-        kentänYläraja = kentänAlaraja + kentänKoko - 1;
-        pause = true;
-        peliKäynnissä = false;
-        TarkistettavatArvot.nollaa();
-        luoPeli();
+        try {
+            kentänKoko = TarkistettavatArvot.uusiKentänKoko;
+            kentänYläraja = kentänAlaraja + kentänKoko - 1;
+            pause = true;
+            peliKäynnissä = false;
+            TarkistettavatArvot.nollaa();
+            luoPeli();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Aloitusikkunaa ei voitu ladata. Peli on todennäköisesti yritetty käynnistää väärillä java-argumenteilla.\nTämä virhe voi tulla, jos peli on yritetty käynnistää jar-tiedostosta suoraan.\n\nVersio 0.8.2:sta eteenpäin mukana tulee exe-tiedosto, joka käynnistää pelin automaattisesti oikeilla argumenteilla.", "Virhe ladatessa peliä", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    public static void luoPeli() {
+    private static void luoPeli() {
         latausValmis = false;
         aikaReferenssi = System.nanoTime();
         peliAloitettu = false;
@@ -661,13 +665,6 @@ public class Peli {
         esineValInt = 0;
         valittuEsine = null;
         p = new Pelaaja();
-        //Pelaaja.teleporttaaSpawniin();
-        //if (Pelaaja.sijX < Peli.kentänKoko && Pelaaja.sijY < Peli.kentänKoko) {
-        //    Pelaaja.teleport(Pelaaja.sijX, Pelaaja.sijY);
-        //}
-        //else {
-        //    Pelaaja.teleport(0, 0);
-        //}
         TarkistettavatArvot.pelinLoppuSyy = null;
     }
 
@@ -684,9 +681,6 @@ public class Peli {
         valittuEsine = null;
         syötteenTila = SyötteenTila.PELI;
         p = new Pelaaja();
-        //KeimoEngine.world.cleanup();
-        //Assets.textureCache.cleanup();
-        //HuoneLista.luoVakioHuoneKarttaTiedostosta();
         HuoneLista.lataaReferenssiHuonekartta();
         Pelaaja.teleporttaaSpawniin();
         TarkistettavatArvot.pelinLoppuSyy = null;

@@ -1,8 +1,8 @@
 package keimo.keimoEngine.grafiikat.objekti3d;
 
-import org.joml.Vector4f;
-
 import java.util.*;
+
+import org.joml.Vector4f;
 
 public class Material {
 

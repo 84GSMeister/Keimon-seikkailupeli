@@ -1,8 +1,8 @@
 package keimo.keimoEngine.grafiikat.objekti3d;
 
-import java.util.*;
-
 import keimo.keimoEngine.grafiikat.Tekstuuri;
+
+import java.util.*;
 
 public class TextureCache {
 

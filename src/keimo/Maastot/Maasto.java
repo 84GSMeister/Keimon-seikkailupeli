@@ -168,6 +168,10 @@ public abstract class Maasto {
                 luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
                 break;
 
+            case "IsoLaatta":
+                luotavaMaasto = new IsoLaatta(sijX, sijY, ominaisuusLista);
+                break;
+
             case "EsteTile":
                 luotavaMaasto = new Tile(sijX, sijY, ominaisuusLista);
                 break;

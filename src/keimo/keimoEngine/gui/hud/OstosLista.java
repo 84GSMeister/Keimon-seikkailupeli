@@ -22,7 +22,7 @@ public class OstosLista {
         shader.bind();
         shader.setUniform("sampler", 0);
 
-        float scaleXOtsikko = window.getWidth()/12;
+        float scaleXOtsikko = window.getWidth()/14;
         float scaleYOtsikko = window.getHeight()/24;
         float scaleXKuvake = window.getWidth()/60;
         float scaleXTeksti = window.getWidth()/30;

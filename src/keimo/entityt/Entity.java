@@ -163,10 +163,6 @@ public abstract class Entity implements Käännettävä {
                 luotavaEntity = new Asevihu(sijX, sijY, ominaisuusLista);
             break;
 
-            case "IsoKyltti":
-                luotavaEntity = new IsoKyltti(sijX, sijY);
-            break;
-
             case "IsoLaatikko":
                 luotavaEntity = new IsoLaatikko(sijX, sijY);
             break;

@@ -11,13 +11,13 @@ import keimo.keimoEngine.ikkuna.Kamera;
 import keimo.keimoEngine.ikkuna.Window;
 import keimo.keimoEngine.kenttä.Maailma;
 
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-
 import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Random;
+
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class PelaajaModel {
     

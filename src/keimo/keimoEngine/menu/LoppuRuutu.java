@@ -77,12 +77,12 @@ public class LoppuRuutu {
             case ALKOHOLIMYRKYTYS -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
                 kuvaTekstuuri = new Animaatio(20, "tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
-                häviönSyyTeksti = "Joit liikaa ja sinulle tuli alkoholimyrkytys.";
+                häviönSyyTeksti = "Joit liikaa ja sinulle\ntuli alkoholimyrkytys.";
             }
             case HIILTYNYT_MAKKARA -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
                 kuvaTekstuuri = new Animaatio(20, "tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
-                häviönSyyTeksti = "Söit liikaa hiiltynyttä makkaraa ja sait ruokamyrkytyksen.";
+                häviönSyyTeksti = "Sait ruokamyrkytyksen\npilaantuneesta makkarasta.";
             }
             case KUOLEMA_JUHANI -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -159,7 +159,7 @@ public class LoppuRuutu {
             case YLENSYÖNTI -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
                 kuvaTekstuuri = new Animaatio(20, "tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
-                häviönSyyTeksti = "Söit liikaa ja sinulle tuli paha olo.";
+                häviönSyyTeksti = "Söit liikaa ja sinulle\ntuli paha olo.";
             }
             case null, default -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/vakio_otsikko.png");

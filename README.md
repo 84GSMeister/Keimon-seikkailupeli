@@ -1,6 +1,12 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (11.4.2025): 1.1.1 Alfa
+## Uusin versio (13.5.2025): 1.1.2 Alfa
+
+### Versio 1.1.2 Alfa
+ - Lisätty isot laatat (useamman tilen kokoiset maasto-objektit)
+ - Korjattu kaatuminen ladatessa joitakin peliääniä
+ - Korjattu ogg-tiedostojen lataamisen aiheuttama muistivuoto
+ - Korjattu editorin bugi, jossa se saattaa tyhjentää koko kst-tiedoston tallentaessa
 
 ### Versio 1.1.1 Alfa
  - Korjattu joidenkin kääntö- ja peilausyhdistelmien näkyminen väärin
@@ -18,7 +24,6 @@
  - Poistettu vanha pelimoottori ja kaikki sen kytkökset (Editorissa voi ilmetä ongelmia johtuen riippuvuuksista vanhaan pelimoottoriin. Näitä tullaan korjaamaan tulevissa päivityksissä)
 
 ### Versio 1.0.2 Alfa
-
  - Lisätty vihollisille elämäpalkki
  - 3D-objekteille perspektiivikamera
  - Lisätty 3D-malli kuparilagerille
@@ -30,7 +35,6 @@
  - Lisätty äänitesti
 
 ### Versio 1.0.1 Alfa
-
  - Lisätty pelaajan vinokävelyanimaatiot
  - Vinosuuntaan käveleminen on nyt hitaampaa (nopeus/√2)
  - Lisätty popup-ruutu ilmaisemaan suoritettua tavoitetta
@@ -47,7 +51,6 @@
 	- Puuttuvia graafisia ominaisuuksia ei tulla toteuttamaan vanhassa pelimoottorissa.
 
 ### Versio 1.0 Alfa
-
  - Uusi grafiikkamoottori (OpenGL- ja Shader-pohjainen). Ominaisuuksia mm:
 	- Huomattavasti parempi suorituskyky ja rajaton huoneen koko (muistin määrän puitteissa)
 	- Kokonäyttö (F11) ja ikkunan koon vapaa muuttaminen
@@ -77,7 +80,6 @@
  - Lisää tölkkiääniä
  
 ### Versio 0.9.2
-
  - Lisätty Pomohuone Velhometsään
  - Hyökkäysmekaniikat uudistettu: Nyt pelaaja voi lyödä ilmaa aseella, ja jos lyönnin aikana osuu viholliseen, vihollinen ottaa vahinkoa
  - Editorissa voi lisätä entityjä (NPC:t ja muut entityt nyt samassa valikossa). Valikkoon lisätty myös kuvakkeet.
@@ -93,7 +95,6 @@
  - Lisää tölkkiääniä
 
 ### Versio 0.9.1: Keimon nimipäiväpäivitys
-
  - Lisätty Enityt: Työnnettävät laatikot
  - NPC:t, ammukset ym. kuuluu nyt entityjen alaluokkiin
  - Entityjä voi spawnata F6-näppäimellä. TODO: Entityt editoriin
@@ -105,7 +106,6 @@
  - Kokeellinen: Lisätty Keimo3D Demo
 
 ### Versio 0.9
-
  - Mukautettava huoneen koko: Automaattinen scrollaus ja yli 10-kokoiset huoneet
  - Tasot suunniteltu uudelleen hyödyntäen em. ominaisuutta: Jokainen entinen alue on nyt 1 iso huone
  - Automaattisesti generoidut minimapit
@@ -128,7 +128,6 @@
  - Lisää tölkkiääniä
 
 ### Versio 0.8.6
-
  - Dialogieditori
  - Kenttä-NPC:ille voi määrittää Custom-dialogin
  - Editorissa voi nyt tallentaa yksittäisiä huoneita .ksh-tiedostoon. Huoneen voi tuoda minkä tahansa olemassaolevan huoneen päälle. ksh-tiedoston formaatti on sama kuin kst-tiedoston yksittäisessä huoneessa, mutta id jätetään huomioimatta.
@@ -136,7 +135,6 @@
  - Korjattu editorin virhe NPC:n poistamisessa
 
 ### Versio 0.8.5
-
  - Asevihut
  - Pomo
  - Vihollisilla on elämäpisteet ja aseilla vahinkopisteet (ei enää niin, että ase tappaa vihollisen ensimmäisellä lyönnillä)
@@ -148,20 +146,17 @@
  - Latausikkuna
 
 ### Versio 0.8.4
-
  - Tarinaedinaeditori: Editorissa voi itse luoda omia tarinapätkiä, määritellä niille sivumäärän, ja asettaa jokaiselle sivulle kuvan ja tekstin. Tarinapätkät tallentuvat kst-tiedostoon huoneiden jälkeen.
  - Editorin karttatoimintoa parannettu: nyt sitä voi vetää hiirellä ja zoomata
  - Lisätty Puuovi (kuin tavallinen oviruutu, mutta pitää äänen ja voi vaihtaa kuvaketta avatessa)
 
 ### Versio 0.8.3: Keimon nimipäiväpäivitys
-
  - Minimap (ei toimi vielä kaikkialla, mm. sisätiloissa)
  - Uusia Udo haukkuu -remixejä
  - Huoneen metatietojen muokkausta editorissa tehty selkeämmäksi
  - Velhometsää muutettu hieman sokkelomaisemmaksi
 
 ### Versio 0.8.2
-
  - Goblin, Jumal Yoda ja Jumal Velho
  - Velhometsän ensimmäiset ruudut
  - Goblin "paljastuu" Jumal Yodaksi kun juttelee ensimmäisen kerran Jumal Velholle
@@ -169,7 +164,6 @@
  - Peli ei vaadi enää Javan asennusta
 
 ### Versio 0.8.1
-
  - GUI skaalautuu kokonäytölle (erittäin buginen vielä)
  - Vuoropuhedialogissa voi tulla valintoja
  - Sillalta voi hypätä
@@ -181,7 +175,6 @@
  - Poistettu maastogeneraattori
 
 ### Versio 0.8
-
  - Uusi alue: Kauppa
  - Kaupasta voi ostaa sekä yrittää varastaa tavaroita (juoksukalja)
  - Uusi NPC: Vartija - Käy kimppuun jos yrität varastaa tavaroita kaupasta
@@ -198,7 +191,6 @@
  - Suorituskykyasetus framerate- ja tickrate-tarkkuudelle. Nopea asetus huonontaa tarkkuutta, mutta pienentää CPU-käyttöä.
 
 ### Versio 0.7.3
-
  - Känniefekti
  - Kännin voi nukkua pois (krapula vähentää elämäpisteitä). Nukkuminen nollaa myös lihavuuden.
  - Monivaiheiset dialogit (kauppa)
@@ -212,7 +204,6 @@
  - Uusi kuvake hiilelle
 
 ### Versio 0.7.2
-
  - Uudet häviöanimaatiot pahavihulle
  - Uudelleenkäynnistäminen ei enää avaa uutta ikkunaa
  - Asetusvalikkoa parannettu: rajat numeerisille arvoille
@@ -221,7 +212,6 @@
  - Korjattu editorin bugi, jossa reunawarpit eivät toimi huoneille, joiden ID on yli huonelistan koon (ts. tyhjiä indeksejä välissä).
 
 ### Versio 0.7.1
-
  - Keimon kämppä, paljon uusia tilejä
  - Pahavihulle uusi sprite
  - Vihollisten kuvakkeet peilautuvat automaattisesti liikesuunnan mukaan
@@ -233,7 +223,6 @@
  - Korjattu editorin bugi, jossa objektien peilaus ei lataudu + bugi, jossa objekteja ei voi kopioida tyhjien ruutujen päälle
 
 ### Versio 0.7
-
  - Uusi GUI
  - Paljon uusia tilejä asuinalueen seudulle
  - Dialogipaneelit esineitä katsoessa ja NPC:ille jutellessa
@@ -242,21 +231,18 @@
  - Editorissa voi perua viimeisimmän muutoksen (CTRL + Z), kopioida esineen (CTRL + hiiren vasen) sekä kääntää ja peilata maasto-tilejen kuvan
 
 ### Versio 0.6.5
-
  - Vihollisille voi asettaa eri liikemalleja, mm. Seuraa pelaajaa (nykyisellään ei osaa vielä väistää esteitä)
  - Pahavihu korjattu editorissa
  - Editorissa voi asettaa reunawarpin huoneisiin (Reunawarp ei ole objekti vaan koko huoneen reuna warppaa asetettuun huoneeseen)
  - Editorin navigointia tehty helpommaksi: Jokaisessa suunnassa nuolet, joita klikkaamalla pääsee reunawarpin suuntaiseen huoneeseen. Myös uusien huoneiden luonti tehty selkeämmäksi.
 
 ### Versio 0.6.4
-
  - Uudet häviöanimaatiot (kuolemat viholliselle, ylensyönti ja Juhani)
  - Pelikentän koko reuna voi warpata huoneeseen (warppi tallentuu .kst-tiedostoon, mutta editorista puuttuu vielä toiminto, jolla sen voisi asettaa)
  - Pelikenttää (default.kst) jatkettu uusilla maisemilla (suunnitelma)
  - Rainbow lager -tölkit, joita keräämällä voi ansaita rahaa -> rahan voi antaa Juhanille
 
 ### Versio 0.6.3
-
  - Animoitu pelaajan liikkumiskuvake
  - Tarinan alkua hieman uusittu
  - Asetettu näkyvät nimet ja katsomistekstit setelille ja huumeelle
@@ -265,14 +251,12 @@
  - Korjattu bugi alkuvalikosta, jossa visuaalinen osoitin jää väärään kohtaan asetusten hyväksymisen jälkeen
 
 ### Versio 0.6.2
-
  - Uudet animoidut kuvakkeet pelaajalle ja joillekin objekteille
  - Eri loppuruudut erilaisille kuolemille
  - Juhanin lyöminen pesäpallomailalla johtaa välittömään kuolemaan
  - Kommentointia hieman parannettu (vielä erittäin puutteellinen)
 
 ### Versio 0.6.1
-
  - Loppuruudut
  - Arkuista voi saada esineitä (editorissa voi laittaa arkkuun esineen)
  - Editorissa voi tallentaa taustan
@@ -281,7 +265,6 @@
  - Pelikentän GUI skaalautuu keskelle kokoruudulla
 
 ### Versio 0.6
-
  - Uudet tilet
  - Animoitu pelaajan kuvake
  - Pelaaja liikkuu lineaarisesti (ei enää ruutujen mukaan)
@@ -291,43 +274,35 @@
  - Pari uutta ääniefektiä
 
 ### Versio 0.5.4
-
  - Juhani, huume ja kahen kybän seteli
  - pesäpallomaila
  - vihuja voi lyödä pesäpallomailalla
  - editori vaihdettu tallentamaan tiedostoja UTF-8-formaatissa. vanhat .kst-tiedostot eivät välttämättä enää lataudu.
  
 ### Versio 0.5.3
-
  - editoriin lisätty maaston muokkaus ja kuvien haku kansiosta
  
 ### Versio 0.5.2
-
  - editorin bugeja korjattu
  - editori tallentaa nyt myös ominaisuudet objekteille
 
 ### Versio 0.5.1
-
  - koodia hieman refaktoroitu ja buildi korjattu
 
 ### Versio 0.5
-
  - huone-editori
  - guita hieman muutettu skaalautuvammaksi pienille näytöille
 
 ### Versio 0.4.2
-
   - uusi alkuvalikko
   - ensimmäiset kenttäruudut suunnitelman perusteella
   - teemat (puisto)
   - tarinaa muokattu
   
  ### Versio 0.4.1
- 
   - kenttäkohde- ja maastogeneraattori (perustuu kuvatiedoston väriarvoihin)
 
 ### Versio 0.4
-
   - alkuvalikko
   - liikkuvat viholliset
   - maastotyypit

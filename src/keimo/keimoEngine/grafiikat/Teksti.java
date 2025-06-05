@@ -3,6 +3,7 @@ package keimo.keimoEngine.grafiikat;
 import keimo.Utility.KeimoFontit;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
@@ -16,6 +17,7 @@ public class Teksti implements Kuva {
     private int id;
     private int leveys, korkeus;
     private Color väri;
+    private Font fontti;
     private String edellinenTeksti = "";
 
     BufferedImage b;
@@ -25,36 +27,26 @@ public class Teksti implements Kuva {
         this(teksti, Color.BLACK, leveys, korkeus);
     }
 
-    public Teksti(String teksti, Color white, int leveys, int korkeus) {
+    public Teksti(String teksti, Color väri, int leveys, int korkeus) {
+        this(teksti, väri, leveys, korkeus, KeimoFontit.fontti_keimo_12);
+    }
+
+    public Teksti(String teksti, Color väri, int leveys, int korkeus, Font fontti) {
         try {
             this.leveys = leveys;
             this.korkeus = korkeus;
-            this.väri = white;
+            this.väri = väri;
+            this.fontti = fontti;
             if (leveys > 0 && korkeus > 0) {
                 this.b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
                 this.g = this.b.createGraphics();
                 
                 g.setBackground(new Color(0, 0, 0, 0));
                 g.clearRect(0, 0, leveys, korkeus);
-                //g.drawRect(0, 0, leveys, korkeus);
                 g.setColor(this.väri);
-                g.setFont(KeimoFontit.fontti_keimo_12);
+                g.setFont(fontti);
                 g.setClip(0, 0, leveys, korkeus);
-                String cutLine = "" + teksti;
-                String remainingText = "" + teksti;
-                int cutPoint = leveys/14;
-                int maxY = 0;
                 if (teksti.length() > 40) {
-                    // for (int i = 0; i < teksti.length()/cutPoint; i++) {
-                    //     cutLine = cutLine.substring(0, cutPoint);
-                    //     remainingText = remainingText.substring(cutPoint);
-                    //     g.drawString(cutLine, 0, (int)(20 + i * 15));
-                    //     //System.out.println(cutLine + " " + i*20);
-                    //     //g.drawString(cutLine, 0, 50);
-                    //     cutLine = "" + remainingText;
-                    //     maxY = (int)(35 + i * 15);
-                    // }
-                    // g.drawString(remainingText, 0, maxY);
                     String tulostettava = "";
                     for (int i = 0; i < teksti.length(); i++) {
                         tulostettava += teksti.charAt(i);
@@ -128,14 +120,10 @@ public class Teksti implements Kuva {
 
             g.setBackground(new Color(0, 0, 0, 0));
             g.clearRect(0, 0, leveys, korkeus);
-            //g.drawRect(0, 0, leveys, korkeus);
             g.setColor(color);
-            g.setFont(KeimoFontit.fontti_keimo_12);
+            g.setFont(this.fontti);
+            g.setFont(fontti);
             g.setClip(0, 0, leveys, korkeus);
-            String cutLine = "" + teksti;
-            String remainingText = "" + teksti;
-            int cutPoint = leveys/14;
-            int maxY = 0;
             if (teksti.length() > 36) {
                 String tulostettava = "";
                 int rivit = 0;
@@ -197,14 +185,9 @@ public class Teksti implements Kuva {
 
         g.setBackground(new Color(0, 0, 0, 0));
         g.clearRect(0, 0, leveys, korkeus);
-        //g.drawRect(0, 0, leveys, korkeus);
         g.setColor(this.väri);
         g.setFont(KeimoFontit.fontti_keimo_12);
         g.setClip(0, 0, leveys, korkeus);
-        String cutLine = "" + teksti;
-        String remainingText = "" + teksti;
-        int cutPoint = leveys/14;
-        int maxY = 0;
         if (teksti.length() > 36) {
             String tulostettava = "";
             int rivit = 0;
@@ -221,7 +204,6 @@ public class Teksti implements Kuva {
             }
         }
         else g.drawString(teksti, 0, 10);
-        //g.drawString(teksti, 2, 10);
 
         int[] pixels_raw = new int[leveys * korkeus * 4];
         pixels_raw = b.getRGB(0, 0, leveys, korkeus, null, 0, leveys);

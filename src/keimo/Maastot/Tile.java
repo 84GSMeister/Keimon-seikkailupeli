@@ -5,52 +5,6 @@ import java.util.ArrayList;
 
 public class Tile extends Maasto {
 
-    public void päivitäLisäOminaisuudet() {
-        if (this.lisäOminaisuudet != null) {
-            super.lisäOminaisuuksia = true;
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kuva="));
-            this.lisäOminaisuudet.add("kuva="+ tiedostonNimi);
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
-            this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
-            this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
-            this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
-        }
-    }
-
-    public void päivitäEsteenSuunta() {
-        switch (kääntöAsteet) {
-            case 0:
-                super.estääLiikkumisenVasen = true;
-                super.estääLiikkumisenOikea = true;
-                super.estääLiikkumisenAlas = true;
-                super.estääLiikkumisenYlös = false;
-            break;
-            case 90:
-                super.estääLiikkumisenVasen = true;
-                super.estääLiikkumisenOikea = false;
-                super.estääLiikkumisenAlas = true;
-                super.estääLiikkumisenYlös = true;
-            break;
-            case 180:
-                super.estääLiikkumisenVasen = true;
-                super.estääLiikkumisenOikea = true;
-                super.estääLiikkumisenAlas = false;
-                super.estääLiikkumisenYlös = true;
-            break;
-            case 270:
-                super.estääLiikkumisenVasen = false;
-                super.estääLiikkumisenOikea = true;
-                super.estääLiikkumisenAlas = true;
-                super.estääLiikkumisenYlös = true;
-            break;
-            default:
-            break;
-        }
-        super.asetaTiedot();
-    }
-
     public Tile(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super.nimi = "Tile";
         super.estääLiikkumisen = false;
@@ -108,6 +62,52 @@ public class Tile extends Maasto {
 
         super.hitbox = new Rectangle(64, 64);
         super.hitbox.setLocation(sijX * 64, sijY * 64);
+        super.asetaTiedot();
+    }
+
+    public void päivitäLisäOminaisuudet() {
+        if (this.lisäOminaisuudet != null) {
+            super.lisäOminaisuuksia = true;
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kuva="));
+            this.lisäOminaisuudet.add("kuva="+ tiedostonNimi);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+            this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+            this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+            this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
+        }
+    }
+
+    public void päivitäEsteenSuunta() {
+        switch (kääntöAsteet) {
+            case 0:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = false;
+            break;
+            case 90:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = false;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = true;
+            break;
+            case 180:
+                super.estääLiikkumisenVasen = true;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = false;
+                super.estääLiikkumisenYlös = true;
+            break;
+            case 270:
+                super.estääLiikkumisenVasen = false;
+                super.estääLiikkumisenOikea = true;
+                super.estääLiikkumisenAlas = true;
+                super.estääLiikkumisenYlös = true;
+            break;
+            default:
+            break;
+        }
         super.asetaTiedot();
     }
 }

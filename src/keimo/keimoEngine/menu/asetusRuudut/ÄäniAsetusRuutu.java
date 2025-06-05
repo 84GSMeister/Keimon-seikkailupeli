@@ -123,8 +123,7 @@ public class ÄäniAsetusRuutu {
 
     static void hyväksy(int valinta) {
         if (valinta == 4) {
-            ÄäniTestiRuutu.listaaÄänet();
-            Musat.suljeMusa();
+            ÄäniTestiRuutu.alusta();
             KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
         }
         else if (valinta == 5) {

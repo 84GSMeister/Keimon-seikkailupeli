@@ -4,6 +4,7 @@ import keimo.Huone;
 import keimo.Pelaaja;
 import keimo.Peli;
 import keimo.PelinAsetukset;
+import keimo.Maastot.IsoLaatta;
 import keimo.Maastot.Maasto;
 import keimo.Maastot.Tile;
 import keimo.entityt.Entity;
@@ -32,8 +33,7 @@ import org.joml.Vector4f;
 public class Maailma {
     private int viewX;
 	private int viewY;
-    public static ArrayList<Tile> tilet = new ArrayList<>();
-    //public static ArrayList<Entity> entityt = new ArrayList<>();
+    public static ArrayList<Maasto> tilet = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
     private static Shader objektiShader = new Shader("shader");
@@ -42,7 +42,6 @@ public class Maailma {
     private static Shader kiintopisteShader = new Shader("shader");
     private static Shader tileShader = new Shader("shader");
     private static Shader entityShader = new Shader("shader");
-    private Matrix4f world;
     private int scale = 32;
     public static int tileMäärä, objektiMäärä, entityMäärä;
     public static float rotZ = 0;
@@ -55,8 +54,6 @@ public class Maailma {
 
     public Maailma() {
         createWorld();
-        world = new Matrix4f().setTranslation(new Vector3f(0));
-        world.scale(scale);
     }
 
     public void createWorld() {
@@ -65,31 +62,16 @@ public class Maailma {
             for (int y = 0; y < huone.annaKoko(); y++) {
                 for (int x = 0; x < huone.annaKoko(); x++) {
                     if (huone.annaHuoneenMaastoSisältö()[x][y] != null) {
-                        String tiedostonNimi = huone.annaHuoneenMaastoSisältö()[x][y].annaKuvanTiedostoNimi();
+                        Maasto m = huone.annaHuoneenMaastoSisältö()[x][y];
+                        String tiedostonNimi = m.annaKuvanTiedostoNimi();
                         if (tiedostonNimi != null) {
                             ArrayList<String> ominaisuusLista = new ArrayList<>();
                             ominaisuusLista.add("kuva=" + tiedostonNimi);
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-                            tilet.add(new Tile(x, y, ominaisuusLista));
+                            if (m instanceof Tile) tilet.add(Maasto.luoMaastoTiedoilla("Tile", x, y, ominaisuusLista));
+                            else if (m instanceof IsoLaatta) tilet.add(Maasto.luoMaastoTiedoilla("IsoLaatta", x, y, ominaisuusLista));
                         }
                     }
-                    // if (huone.annaHuoneenKenttäSisältö()[x][y] != null) {
-                    //     String tiedostonNimi = huone.annaHuoneenKenttäSisältö()[x][y].annaKuvanTiedostoNimi();
-                    //     if (tiedostonNimi != null) {
-                    //         tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-                    //         //String objektinNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
-                    //         //ArrayList<String> ominaisuusLista = huone.annaHuoneenKenttäSisältö()[x][y].annalisäOminaisuudet();
-                    //     }
-                    // }
-                    // if (huone.annaHuoneenNPCSisältö()[x][y] != null) {
-                    //     String tiedostonNimi = huone.annaHuoneenNPCSisältö()[x][y].annaKuvanTiedostoNimi();
-                    //     if (tiedostonNimi != null) {
-                    //         tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-                    //         //String entityNimi =  ("" + tiedostonNimi.charAt(0)).toUpperCase() + tiedostonNimi.substring(1);
-                    //         //String[] ominaisuusLista = huone.annaHuoneenNPCSisältö()[x][y].annalisäOminaisuudet();
-                    //         //entityt.add(Entity.luoEntityTiedoilla(entityNimi, true, x, y, ominaisuusLista));
-                    //     }
-                    // }
                 }
             }
             if (huone.annaTaustanPolku() != null && huone.annaTaustanPolku() != "") {
@@ -99,9 +81,11 @@ public class Maailma {
 
         for (int i = 0; i < Maailma.tilet.size(); i++) {
 			if (Maailma.tilet.get(i) != null) {
-				if (!tileTextures.containsKey(Maailma.tilet.get(i).annaTekstuuri())) {
+				Maasto m = Maailma.tilet.get(i);
+                if (!tileTextures.containsKey(m.annaTekstuuri())) {
 					String tex = Maailma.tilet.get(i).annaTekstuuri();
-					tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/" + tex + ".png"));
+					if (m instanceof Tile) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/" + tex + ".png"));
+                    else if (m instanceof IsoLaatta) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/isot_laatat/" + tex + ".png"));
 				}
 			}
 		}
@@ -131,10 +115,31 @@ public class Maailma {
             Matrix4f lookAtMatrix = new Matrix4f().setLookAt(0, 0, 32 * PelinAsetukset.zoom, 0, 0, 0, 0, 1, 0);
             lookAtMatrix = KenttäShaderEfektit.känniEfektiRotaatio(lookAtMatrix);
             //lookAtMatrtix.rotate((float)Math.toRadians(rotZ), new Vector3f(0, 0, 1));
-            lookAtMatrix.translate((float)(-2*Pelaaja.hitbox.getMinX()/64d), (float)(2*Pelaaja.hitbox.getMinY()/64d), 0);
+            //lookAtMatrix = asetaKameranSijainti(lookAtMatrix, window);
+            lookAtMatrix = asetaKameranSijaintiVanha(lookAtMatrix, window);
             Matrix4f cameraMatrix = perspectiveMatrix.mul(lookAtMatrix);
             cameraMatrix = KenttäShaderEfektit.känniEfekti(cameraMatrix);
+            asetaKameranSijainti(cameraMatrix, window);
 
+            int etäisyys = laskeIsonLaatanNäköetäisyys();
+            for (int y = 0; y < etäisyys; y++) {
+                for (int x = 0; x < etäisyys; x++) {
+                    int renderX = x-posX-etäisyys/2 +1;
+                    int renderY = y+posY-etäisyys/2 +1;
+                    int maxX = Peli.maastokenttä.length;
+                    int maxY = Peli.maastokenttä.length;
+                    if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
+                        Maasto m = Peli.annaMaastoKenttä()[renderX][renderY];
+                        if (m instanceof IsoLaatta) {
+                            IsoLaatta l = (IsoLaatta)m;
+                            if (l != null) {
+                                renderöiIsoLaatta(l, renderX, -renderY, 0, cameraMatrix);
+                                tileMäärä++;
+                            }
+                        }
+                    }
+                }
+            }
             for (int y = 0; y < viewY; y++) {
                 for (int x = 0; x < viewX; x++) {
                     int renderX = x-posX-viewX/2 +1;
@@ -192,28 +197,47 @@ public class Maailma {
     }
 
     public void laskeNäköetäisyys(Window window) {
-        viewX = (int)(window.getWidth()/64f * PelinAsetukset.zoom) +2;
-		viewY = (int)(window.getHeight()/64f * PelinAsetukset.zoom) +4;
+        viewX = (int)(window.getWidth()/64f * PelinAsetukset.zoom) +4;
+		viewY = (int)(window.getHeight()/64f * PelinAsetukset.zoom) +6;
 	}
 
-    public void correctCamera(Kamera camera, Window window) {
-        if (Peli.huone != null) {
-            Vector3f pos = camera.getPosition();
-            int w = Peli.huone.annaKoko() * scale * 2;
-            int h = Peli.huone.annaKoko() * scale * 2;
-            if (pos.x < -(window.getWidth()/2)-scale*Peli.huone.annaKoko()) {
-                pos.x = -(window.getWidth()/2)-scale*Peli.huone.annaKoko();
-            }
-            if (pos.x > -(window.getWidth()/2)+scale + 64) {
-                pos.x = -(window.getWidth()/2)+scale + 64;
-            }
-            if (pos.y < (window.getHeight()/2)+scale + 64) {
-                pos.y = (window.getHeight()/2)+scale + 64;
-            }
-            if (pos.y > (window.getHeight()/2)+scale*Peli.huone.annaKoko()) {
-                pos.y = (window.getHeight()/2)+scale*Peli.huone.annaKoko();
-            }
+    private int laskeIsonLaatanNäköetäisyys() {
+        return Peli.annaMaastoKenttä().length;
+    }
+
+    private Matrix4f asetaKameranSijainti(Matrix4f cameraMatrix, Window window) {
+        Matrix4f kameranSijainti = new Matrix4f(cameraMatrix);
+        int offsetX = window.getWidth()/2 - (int)Pelaaja.hitbox.getWidth();
+        int offsetY = window.getHeight()/2 - (int)Pelaaja.hitbox.getHeight();
+        int kameranSijaintiX = 0;
+        int kameranSijaintiY = 0;
+        if (Pelaaja.hitbox.getMinX() < offsetX) {
+            kameranSijaintiX = offsetX;
         }
+        else if (Peli.huone.annaKoko() * 64 - Pelaaja.hitbox.getMaxX() < offsetX) {
+            kameranSijaintiX = Peli.huone.annaKoko() * 64 - offsetX - 64;
+        }
+        else {
+            kameranSijaintiX = (int)Pelaaja.hitbox.getMinX();
+        }
+        if (Pelaaja.hitbox.getMinY() < offsetY) {
+            kameranSijaintiY = offsetY;
+        }
+        else if (Peli.huone.annaKoko() * 64 - Pelaaja.hitbox.getMaxY() < offsetY) {
+            kameranSijaintiY = Peli.huone.annaKoko() * 64 - offsetY - 64;
+        }
+        else {
+            kameranSijaintiY = (int)Pelaaja.hitbox.getMinY();
+        }
+        
+        kameranSijainti.translate((float)(-2*kameranSijaintiX/64d), (float)(2*kameranSijaintiY/64d), 0);
+        return kameranSijainti;
+    }
+
+    private Matrix4f asetaKameranSijaintiVanha(Matrix4f cameraMatrix, Window window) {
+        Matrix4f kameranSijainti = new Matrix4f(cameraMatrix);
+        kameranSijainti.translate((float)(-2*Pelaaja.hitbox.getMinX()/64d), (float)(2*Pelaaja.hitbox.getMinY()/64d), 0);
+        return kameranSijainti;
     }
 
     protected void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix) {
@@ -230,6 +254,24 @@ public class Maailma {
         tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel(tile.annaKuvanKääntö(), tile.annaKuvanPeilausX(), tile.annaKuvanPeilausY());
+		model.render();
+	}
+
+    protected void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix) {
+        if (tileTextures.containsKey(laatta.annaTekstuuri())) tileTextures.get(laatta.annaTekstuuri()).bind(0);
+		else virheTekstuuri.bind(0);
+
+        int l = laatta.annaLeveys(), k = laatta.annaKorkeus();
+        Matrix4f tilenSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z)).scale(l, k, 1).translate(1f - 1f/l, -1f + 1f/k, 0);
+        Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
+        resultMatrix.mul(tilenSijainti);
+        
+        tileShader.bind();
+		tileShader.setUniform("sampler", 0);
+		tileShader.setUniform("projection", resultMatrix);
+        tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
+		
+		Model model = Assets.getModel(laatta.annaKuvanKääntö(), laatta.annaKuvanPeilausX(), laatta.annaKuvanPeilausY());
 		model.render();
 	}
 

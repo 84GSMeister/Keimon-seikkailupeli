@@ -373,6 +373,9 @@ public class NäppäinKomennot {
                 if (window.getInput().isKeyPressed(GLFW_KEY_SPACE) || window.getInput().isKeyPressed(GLFW_KEY_ENTER)) {
                     ÄäniTestiRuutu.painaNäppäintä("enter");
                 }
+                if (window.getInput().isKeyPressed(GLFW_KEY_ESCAPE)) {
+                    ÄäniTestiRuutu.painaNäppäintä("esc");
+                }
             break;
             case KEHITTÄJÄRUUTU:
                 if (window.getInput().isKeyPressed(GLFW_KEY_SPACE) || window.getInput().isKeyPressed(GLFW_KEY_ENTER)) {

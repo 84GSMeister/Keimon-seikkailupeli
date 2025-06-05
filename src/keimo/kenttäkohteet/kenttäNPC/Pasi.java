@@ -23,6 +23,8 @@ public final class Pasi extends NPC_KenttäKohde {
     @Override
     public String annaNimiSijamuodossa(String sijamuoto) {
         // Tässähän jopa tarvittiin uutta muotoa oikeassa lauseessa pitkästä aikaa!
+        // System.out.println(annaNimiSijamuodossa("adessiivi") + " on kengät isonneet.");
+        // ^Pasilla on kengät isonneet.
         switch (sijamuoto) {
             case "nominatiivi":  return "Pasi";
             case "genetiivi":    return "Pasin";

@@ -2,6 +2,7 @@ package keimo.HuoneEditori;
 
 import keimo.HuoneEditori.TarinaEditori.TarinaDialogiLista;
 import keimo.Utility.Käännettävä.Suunta;
+import keimo.keimoEngine.toiminnot.Dialogit;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -220,6 +221,7 @@ public class JFXTiedostoIkkuna {
                     File tiedosto = fileChooser.showSaveDialog(null);
                     if (tiedosto.isFile()) {
                         Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedosto.getPath()), StandardCharsets.UTF_8);
+                        HuoneEditoriIkkuna.jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(HuoneEditoriIkkuna.huoneKartta, TarinaDialogiLista.tarinaKartta, Dialogit.PitkätDialogit.vuoropuheDialogiKartta);
                         fstream.write(HuoneEditoriIkkuna.jfxKokoTiedostoMerkkijonona);
                         fstream.close();
                     }
@@ -230,6 +232,7 @@ public class JFXTiedostoIkkuna {
                             tiedostonNimi += ".kst";
                         }
                         Writer fstream = new OutputStreamWriter(new FileOutputStream(tiedostonPolku), StandardCharsets.UTF_8);
+                        HuoneEditoriIkkuna.jfxKokoTiedostoMerkkijonona = HuoneEditorinMetodit.luoMerkkijonotHuonekartasta(HuoneEditoriIkkuna.huoneKartta, TarinaDialogiLista.tarinaKartta, Dialogit.PitkätDialogit.vuoropuheDialogiKartta);
                         fstream.write(HuoneEditoriIkkuna.jfxKokoTiedostoMerkkijonona);
                         fstream.close();
                     }

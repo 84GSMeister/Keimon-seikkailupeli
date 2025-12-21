@@ -39,7 +39,6 @@ Huone 0:
         Kuparilager_21_17,
         Avain_22_18,
         Kuparilager_24_15,
-        Nuotio_24_17,
         Oviruutu_29_14+ominaisuudet:[kohdehuone=8,kohderuutuX=0,kohderuutuY=18,suunta=Oikea];
     }
     #maasto: {
@@ -945,10 +944,10 @@ Huone 0:
         Tile_29_29+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_2_14+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Vasen],
+        Pikkuvihu_2_14+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Ylös],
         Laatikko_6_15,
-        Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Vasen],
-        Pikkuvihu_14_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=Vasen],
+        Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Ylös],
+        Pikkuvihu_14_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=Ylös],
         Laatikko_26_16;
     }
 /Huone
@@ -1391,9 +1390,9 @@ Huone 1:
         Tile_19_19+ominaisuudet:[kuva=ruoho.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_7_8+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI,suunta=Vasen],
-        Pikkuvihu_11_19+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI,suunta=Vasen],
-        Pikkuvihu_13_6+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Vasen];
+        Pikkuvihu_7_8+ominaisuudet:[liiketapa=NELIÖ_MYÖTÄPÄIVÄÄN_ESTEESEEN_ASTI,suunta=Ylös],
+        Pikkuvihu_11_19+ominaisuudet:[liiketapa=NELIÖ_VASTAPÄIVÄÄN_ESTEESEEN_ASTI,suunta=Ylös],
+        Pikkuvihu_13_6+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Ylös];
     }
 /Huone
 Huone 2:
@@ -1407,7 +1406,7 @@ Huone 2:
     #warp_alas: 1;
     #warp_ylös: ;
     #tarina: ;
-    #tavoite: Sytytä nuotio;
+    #tavoite: Etsi Pasi;
     #kenttä: {
         Pontikka-ainekset_0_0,
         Kuparilager_1_27,
@@ -2963,7 +2962,7 @@ Huone 2:
     }
     #npc: {
         Laatikko_8_16,
-        Pikkuvihu_13_33+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Vasen],
+        Pikkuvihu_13_33+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Ylös],
         Laatikko_31_8;
     }
 /Huone
@@ -3911,7 +3910,7 @@ Huone 3:
         Tile_29_29+ominaisuudet:[kuva=pensas_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Asevihu_19_24+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Vasen];
+        Asevihu_19_24+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Ylös];
     }
 /Huone
 Huone 4:
@@ -5053,7 +5052,7 @@ Huone 4:
         Tile_29_29+ominaisuudet:[kuva=seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Vartija_21_3+ominaisuudet:[liiketapa=VARTIJA_LIIKE,suunta=Vasen];
+        Vartija_21_3+ominaisuudet:[liiketapa=VARTIJA_LIIKE,suunta=Ylös];
     }
 /Huone
 Huone 5:
@@ -5945,6 +5944,7 @@ Huone 8:
         Koriste-esine_50_43+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_51_35+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_52_40+ominaisuudet:[kuva=auto_harmaa_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
+        Koristeovi_64_23,
         Koriste-esine_90_35+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_91_38+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_91_40+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
@@ -10214,7 +10214,7 @@ Huone 8:
         Tile_64_20+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_64_21+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_64_22+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_64_23+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_64_23+ominaisuudet:[kuva=polku.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_64_24+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_64_25+ominaisuudet:[kuva=yotalo_katto2_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_64_26+ominaisuudet:[kuva=yotalo_seinä_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -13268,6 +13268,7 @@ Huone 9:
         Koriste-esine_7_21+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_7_23+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_7_26+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Salaovi_8_0+ominaisuudet:[kohdehuone=13,kohderuutuX=15,kohderuutuY=29,suunta=Ylös],
         Koriste-esine_11_1+ominaisuudet:[kuva=wc_pönttö.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
         Koriste-esine_11_2+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Puuovi_11_6+ominaisuudet:[kohdehuone=9,kohderuutuX=11,kohderuutuY=5,suunta=Ylös],
@@ -13572,7 +13573,7 @@ Huone 9:
         Tile_7_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_7_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
-        Tile_8_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_0+ominaisuudet:[kuva=keittiötaso.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Tile_8_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
@@ -14234,6 +14235,7 @@ Huone 9:
         Tile_29_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
+        Vartija_8_1+ominaisuudet:[liiketapa=VARTIJA_LIIKE,suunta=Ylös];
     }
 /Huone
 Huone 10:
@@ -15917,10 +15919,10 @@ Huone 10:
         Tile_59_29+ominaisuudet:[kuva=temppeli_tiili_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pikkuvihu_5_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen],
-        Pikkuvihu_5_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen],
-        Pikkuvihu_54_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen],
-        Pikkuvihu_54_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Vasen];
+        Pikkuvihu_5_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Ylös],
+        Pikkuvihu_5_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Ylös],
+        Pikkuvihu_54_13+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Ylös],
+        Pikkuvihu_54_26+ominaisuudet:[liiketapa=SEURAA_PELAAJAA,suunta=Ylös];
     }
 /Huone
 Huone 11:
@@ -16203,7 +16205,7 @@ Huone 11:
         Tile_15_15+ominaisuudet:[kuva=temppeli_tiili_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
     }
     #npc: {
-        Pomo_7_7+ominaisuudet:[liiketapa=BOSS_LIIKE,suunta=Vasen];
+        Pomo_7_7+ominaisuudet:[liiketapa=BOSS_LIIKE,suunta=Ylös];
     }
 /Huone
 Huone 12:
@@ -16281,19 +16283,19 @@ Huone 12:
         Juhani_38_12+ominaisuudet:[dialogi=vakio],
         Koriste-esine_38_30+ominaisuudet:[kuva=numero_4.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_38_34+ominaisuudet:[kuva=numero_9.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Pelikone2_41_5,
+        Pelikone_41_5+ominaisuudet:[tyyppi=0,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Koriste-esine_41_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_41_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kuuhahmo3_41_41+ominaisuudet:[dialogi=vakio],
         Koriste-esine_42_30+ominaisuudet:[kuva=numero_5.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_42_34+ominaisuudet:[kuva=numero_8.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Kuuhahmo1_44_23+ominaisuudet:[dialogi=vakio],
-        Pelikone2_45_5,
+        Pelikone_45_5+ominaisuudet:[tyyppi=1,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Pasi_45_13+ominaisuudet:[dialogi=kuu],
         Koriste-esine_45_30+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_45_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
-        Pelikone2_46_10+ominaisuudet:[kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
-        Pelikone2_46_13+ominaisuudet:[kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Pelikone_46_10+ominaisuudet:[tyyppi=2,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
+        Pelikone_46_13+ominaisuudet:[tyyppi=3,kääntö=0,x-peilaus=kyllä,y-peilaus=ei],
         Koriste-esine_46_30+ominaisuudet:[kuva=numero_6.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null],
         Koriste-esine_46_34+ominaisuudet:[kuva=numero_7.png,kääntö=0,x-peilaus=ei,y-peilaus=ei,katsottava=ei,dialogi=null];
     }
@@ -18767,12 +18769,980 @@ Huone 12:
     #npc: {
     }
 /Huone
+Huone 13:
+    #koko: 30;
+    #nimi: Baari_salahuone;
+    #alue: Baari;
+    #tausta: tausta_baari.png;
+    #musa: baari_sala;
+    #warp_vasen: ;
+    #warp_oikea: ;
+    #warp_alas: ;
+    #warp_ylös: ;
+    #tarina: baari_salahuone;
+    #tavoite: Löydä salahuone;
+    #kenttä: {
+        Pelikone_1_7+ominaisuudet:[tyyppi=2,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Pelikone_1_9+ominaisuudet:[tyyppi=3,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Pelikone_1_11+ominaisuudet:[tyyppi=1,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Pasi_2_7+ominaisuudet:[dialogi=baari_salahuone],
+        Kauppias_9_15+ominaisuudet:[dialogi=vakio],
+        Kauppias_9_19+ominaisuudet:[dialogi=vakio],
+        Baariruutu_11_15+ominaisuudet:[tyyppi=normaali],
+        Baariruutu_11_19+ominaisuudet:[tyyppi=normaali],
+        Oviruutu_15_29+ominaisuudet:[kohdehuone=9,kohderuutuX=8,kohderuutuY=0,suunta=Alas],
+        Koriste-esine_22_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_22_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_24_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_26_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä,katsottava=ei,dialogi=null],
+        Koriste-esine_28_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=ei,y-peilaus=kyllä,katsottava=ei,dialogi=null];
+    }
+    #maasto: {
+        Tile_0_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_1+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_2+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_3+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_4+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_5+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_6+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_7+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_8+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_9+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_10+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_11+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_12+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_13+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_14+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_15+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_16+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_17+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_18+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_19+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_20+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_21+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_22+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_23+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_24+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_25+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_26+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_27+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_28+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_0_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_1_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_2_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_3_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_4_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_5_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_6_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_7_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_8_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_9_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_12+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_13+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_14+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_15+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_16+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_17+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_18+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_19+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_20+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_21+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_22+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_10_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_11_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_12_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_13_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_14_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_24+ominaisuudet:[kuva=temppeli_portaat.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_25+ominaisuudet:[kuva=temppeli_portaat.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_26+ominaisuudet:[kuva=temppeli_portaat.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_27+ominaisuudet:[kuva=temppeli_portaat.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_28+ominaisuudet:[kuva=temppeli_portaat.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_15_29+ominaisuudet:[kuva=temppeli_portaat.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_16_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_17_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_18_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_1+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_2+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_3+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_4+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_5+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_6+ominaisuudet:[kuva=puu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_19_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_20_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_4+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_5+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_9+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_10+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_14+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_15+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_19+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_20+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_24+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_25+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_21_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_4+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_5+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_9+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_10+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_14+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_15+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_19+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_20+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_24+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_25+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=270,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_22_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_23_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_23_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_23_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_23_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_23_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_23_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_24_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_24_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_24_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_24_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_24_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_24_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_25_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_25_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_25_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_25_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_25_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_25_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_26_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_26_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_26_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_26_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_26_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_26_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_27_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_27_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_27_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_27_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=0,x-peilaus=ei,y-peilaus=kyllä],
+        Tile_27_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_27_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_1+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_2+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_3+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_4+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_5+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_6+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_7+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_8+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_9+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_10+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_11+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_12+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_13+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_14+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_15+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_16+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_17+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_18+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_19+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_20+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_21+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_22+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_23+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_24+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=90,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_25+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png,kääntö=180,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_26+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_27+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_28+ominaisuudet:[kuva=lattia.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_28_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_0+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_1+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_2+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_3+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_4+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_5+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_6+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_7+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_8+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_9+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_10+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_11+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_12+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_13+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_14+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_15+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_16+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_17+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_18+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_19+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_20+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_21+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_22+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_23+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_24+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_25+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_26+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_27+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_28+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei],
+        Tile_29_29+ominaisuudet:[kuva=keittiötaso_e.png,kääntö=0,x-peilaus=ei,y-peilaus=ei];
+    }
+    #npc: {
+    }
+/Huone
 Tarina 0:
     #nimi: metsä;
     #pituus: 1;
     #sivut: {
         kuva 0: tiedostot\kuvat\tarina\metsä\tarina_metsä.png;
-        teksti 0: Ennen kuin huomaatkaan, saavut velhometsän suulle. Tästä eteenpäin kannattaa olla varuillaan: Sokkeloisessa metsässä on helppo eksyä, eikä koskaan tiedä, millaisia hyypiöitä tulee vastaan.;
+        teksti 0: Ennen kuin huomaatkaan, saavut velhometsän suulle. Omituiset otukset vaikuttaisivat tulevan sieltäpäin. Tästä eteenpäin kannattaa olla varuillaan: Sokkeloisessa metsässä on helppo eksyä, eikä koskaan tiedä, millaisia hyypiöitä tulee vastaan.;
     }
 /Tarina
 Tarina 1:
@@ -18792,7 +19762,7 @@ Tarina 2:
         kuva 1: tiedostot/kuvat/tarina/alku/tarina_alku_2.gif;
         teksti 1: Valonsäteet jatkoivat Keimon kiusaamista myös sen jälkeen, kun hän oli saanut silmänsä auki. Säteet eivät tuoneet hänen verkkokalvoilleen kuvia, joita hän olisi tunnistanut. Sen sijaan Keimon verkkokalvot täyttyivät kuvista, jotka olisivat tuhonneet heikomman mielen.;
         kuva 2: tiedostot/kuvat/tarina/alku/tarina_alku_3.png;
-        teksti 2: Puisto on autioitunut tavallisista ihmisistä. Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä. Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria. Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme. Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut? Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin!;
+        teksti 2: Puisto on autioitunut tavallisista ihmisistä. Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä. Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria. Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme. -Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut? Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin! pohtii Keimo hätääntyneenä.;
     }
 /Tarina
 Tarina 3:
@@ -18813,10 +19783,12 @@ Tarina 4:
 /Tarina
 Tarina 5:
     #nimi: koti;
-    #pituus: 1;
+    #pituus: 2;
     #sivut: {
         kuva 0: tiedostot/kuvat/tarina/koti/tarina_koti.png;
-        teksti 0: Keimo saapuu kotiin ja huomaa kaikkien tavaroiden olevan levällään. Koti on täydellisessä kaaoksessa. Näyttää siltä kuin joku olisi murtautunut Keimon kotiin ja penkonut tavaroita. Kuka täällä on käynyt ja mitä hän haluaa? Parasta napata jotain kättä pidempää ja lähteä selvittämään asiaa.;
+        teksti 0: Keimo saapuu kotiin ja huomaa kaikkien tavaroiden olevan sekaisin pitkin lattioita. Koti on täydellisessä kaaoksessa. Löydettyään levällään olevien tavaroiden seasta kaasusytyttimen Keimo muistaakin, että hänen oli tarkoitus mennä nuotiolle Pasin kanssa tänään.;
+        kuva 1: tiedostot/kuvat/tarina/koti/tarina_koti_2.png;
+        teksti 1: -Ulos ei tosin uskalla mennä varustautumatta. Mitä jos vaikka kohtaan nuo hämärät olennot uudestaan? Keimo pohtii. -Parempi siis napata jotain kättä pidempää ihan varmuuden vuoksi.;
     }
 /Tarina
 Tarina 6:
@@ -18827,6 +19799,22 @@ Tarina 6:
         teksti 0: Keimo-baarissa näyttäisi olevan tyypillinen arki-illan tunnelma. Pasi on varmaan jossain siellä ryyppäämässä tavalliseen tapaan.;
     }
 /Tarina
+Tarina 7:
+    #nimi: baari_salahuone;
+    #pituus: 1;
+    #sivut: {
+        kuva 0: tiedostot\kuvat\tarina\baari\tarina_baari.png;
+        teksti 0: Löysit reitin Keimo-baarin salaiseen kellariin!;
+    }
+/Tarina
+Tarina 8:
+    #nimi: pelto;
+    #pituus: 1;
+    #sivut: {
+        kuva 0: tiedostot\kuvat\tarina\pelto\tarina_pelto.png;
+        teksti 0: Otukset vaikuttaisivat tulevan pohjoisen suunnalta sieltä, missä metsäkin on. Pitäisiköhän seurata niitä sinne?;
+    }
+/Tarina
 Dialogi 0:
     #nimi: pasi_kuu;
     #pituus: 5;
@@ -18835,7 +19823,7 @@ Dialogi 0:
         teksti 0: Hei, kato, sääkin löysit tänne!;
         puhuja 0: Pasi;
         kuva 1: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 1: Olit oikeessa, täällä on paremmat bileet;
+        teksti 1: Olit oikeessa, täällä on paremmat bileet.;
         puhuja 1: Keimo;
         kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
         teksti 2: Kyllähän se näin on. Missä bileet, siellä mää. Kannattaa kuulua parempiin piireihin - saa juomatkin ilmaseks. Ootko muuten testannu kuuolutta?;
@@ -18844,7 +19832,7 @@ Dialogi 0:
         teksti 3: Jahas. Sitä seuraavaks.;
         puhuja 3: Keimo;
         kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 4: Mää jään ootteleen et ne saa tän pelin toimiin;
+        teksti 4: Mää jään vartoon et ne saa tän pelin toimiin.;
         puhuja 4: Pasi;
     }
 /Dialogi
@@ -18911,6 +19899,30 @@ Dialogi 0:
     }
 /Dialogi
 Dialogi 0:
+    #nimi: pasi_salahuone;
+    #pituus: 4;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 0: Kato, sääkin pääsit pelin läpi!;
+        puhuja 0: Pasi;
+        kuva 1: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 1: Sehän oli helppo peli.;
+        puhuja 1: Keimo;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 2: Täälä alakerrassa on aina vähä rajumpi meno. Ei sovi herkimmille.;
+        puhuja 2: Pasi;
+        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 3: Tätähän voi kutsua jo menoksi.;
+        puhuja 3: Keimo;
+        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 4: On muuten perkuleen kovat minipelit kans.;
+        puhuja 4: Pasi;
+        kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 5: Täytyypä kokeilla.;
+        puhuja 5: Keimo;
+    }
+/Dialogi
+Dialogi 0:
     #nimi: kyläkauppa;
     #pituus: 9;
     #dialogit: {
@@ -18933,22 +19945,55 @@ Dialogi 0:
         teksti 5: Meinasit ruveta ponua keittelemään?;
         puhuja 5: ASS-Market kassa;
         kuva 6: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 6: Hiljaa saatana;
+        teksti 6: Hiljaa saatana!;
         puhuja 6: Keimo;
         kuva 7: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
         teksti 7: Ei noilla vielä kuuhun mennä.;
         puhuja 7: ASS-Market kassa;
         kuva 8: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 8: Haista sinä mursu paska;
+        teksti 8: Haista sinä mursu paska!;
+        puhuja 8: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: kyläkauppa2;
+    #pituus: 9;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Vihko auki!;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 1: Jallu...;
+        puhuja 1: ASS-Market kassa;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 2: ...iso Nivea...;
+        puhuja 2: ASS-Market kassa;
+        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 3: ...ja rotanloukku;
+        puhuja 3: ASS-Market kassa;
+        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 4: ...;
+        puhuja 4: ASS-Market kassa;
+        kuva 5: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 5: Taitaa olla poikamiesilta?;
+        puhuja 5: ASS-Market kassa;
+        kuva 6: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 6: Hiljaa munapää!;
+        puhuja 6: Keimo;
+        kuva 7: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 7: Noillahan pääsee kuuhun asti.;
+        puhuja 7: ASS-Market kassa;
+        kuva 8: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 8: Haista sinä paska!;
         puhuja 8: Keimo;
     }
 /Dialogi
 Dialogi 0:
     #nimi: pasi;
-    #pituus: 8;
+    #pituus: 10;
     #dialogit: {
         kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 0: No katos, säkin täällä!;
+        teksti 0: No katos, täällähän sitä ollaan!;
         puhuja 0: Keimo;
         kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
         teksti 1: No mutta sehän on itse Keimo!;
@@ -18960,26 +20005,35 @@ Dialogi 0:
         teksti 3: ?;
         puhuja 3: Pasi;
         kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 4: Ootko muuten kuullu velhometsästä? Siellä on kuulemma aika kovat menot.;
+        teksti 4: Ootko muuten kuullu velhomettästä? Sielä on kuulemma hemmetin kovat menot.;
         puhuja 4: Pasi;
         kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
         teksti 5: Jahas, ekaa kertaa kuulen, missäs se on?;
         puhuja 5: Keimo;
         kuva 6: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
-        teksti 6: Yo-kylästä pohjoseen, ASS-marketin jälkeen itään. Nähdään siellä illemmalla.;
+        teksti 6: Yo-kylästä pohjoseen, ASS-marketin jälkeen itään. Nähään sielä illemmalla.;
         puhuja 6: Pasi;
         kuva 7: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
-        teksti 7: Noni, siellä siis.;
+        teksti 7: Mitähän muuten nää omituiset otukset on joita täällä kylillä pyörii?;
         puhuja 7: Keimo;
+        kuva 8: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        teksti 8: Niitä kutsutaan ihmisiksi. Koskettasit sääkin ruohoo välillä. Ha ha! Enivei, velhomettässä illalla.;
+        puhuja 8: Pasi;
+        kuva 9: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 9: Noni, siellä siis.;
+        puhuja 9: Keimo;
     }
 /Dialogi
 Dialogi 0:
     #nimi: velho_kuu;
-    #pituus: 1;
+    #pituus: 2;
     #dialogit: {
         kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png;
         teksti 0: Jumal Velhon boolilla pääsee kuuhun!;
         puhuja 0: Jumal Velho;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png;
+        teksti 1: Jumal Velhon bileissä voit:\n -Juoda vitun hyvää kaljaa\n -Pelata uhkapelejä\n -Tunkea rahaa huoran perseeseen\n -Reivata kuussa;
+        puhuja 1: Jumal Velho;
     }
 /Dialogi
 Dialogi 0:
@@ -19028,6 +20082,154 @@ Dialogi 0:
         kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
         teksti 1: ...;
         puhuja 1: Jumal Yoda;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: baari_normaali;
+    #pituus: 1;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 0: Iltaa! Mitä saisi olla?;
+        puhuja 0: Keimo-baarin tarjoilija;
+    }
+    #valinta: {
+        valinnan_nimi: baari_valinta;
+        valinnan_otsikko: Mitä saisi olla?;
+        vaihtoehdot: 4;
+        vaihtoehto 0: Hanaolut 4,95€;
+        triggeri 0: baari_juoma1;
+        kohde 0: baari_juoma1;
+        vaihtoehto 1: Hanalonkero 6,95€;
+        triggeri 1: baari_juoma2;
+        kohde 1: baari_juoma2;
+        vaihtoehto 2: Hanasiideri 5,95€;
+        triggeri 2: baari_juoma3;
+        kohde 2: baari_juoma3;
+        vaihtoehto 3: Peruuta;
+        triggeri 3: ;
+        kohde 3: ;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: baari_juoma1;
+    #pituus: 4;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Iltaa. Yksi hanaolut.;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 1: Se tekisi 4.95 euroa.;
+        puhuja 1: Keimo-baarin tarjoilija;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 2: Tässä, olkaa hyvä.;
+        puhuja 2: Keimo-baarin tarjoilija;
+        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 3: Kiitos.;
+        puhuja 3: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: baari_juoma2;
+    #pituus: 4;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Iltaa. Yksi hanalonkero.;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 1: Se tekisi 6.95 euroa.;
+        puhuja 1: Keimo-baarin tarjoilija;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 2: Tässä, olkaa hyvä.;
+        puhuja 2: Keimo-baarin tarjoilija;
+        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 3: Kiitos.;
+        puhuja 3: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: baari_juoma3;
+    #pituus: 4;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Iltaa. Yksi hanasiideri.;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 1: Se tekisi 5.95 euroa.;
+        puhuja 1: Keimo-baarin tarjoilija;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        teksti 2: Tässä, olkaa hyvä.;
+        puhuja 2: Keimo-baarin tarjoilija;
+        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 3: Kiitos.;
+        puhuja 3: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: kuu_baari;
+    #pituus: 6;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        teksti 0: Hyvää iltaa! Mitä saisi olla?;
+        puhuja 0: Kuu-baarin tarjoilija;
+        kuva 1: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 1: Hmm... Tää on mulle uus paikka. Mitä suosittelet?;
+        puhuja 1: Keimo;
+        kuva 2: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        teksti 2: Kuuolut on klassikko. Talo tarjoaa.;
+        puhuja 2: Kuu-baarin tarjoilija;
+        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 3: Oikeasti? No jumalauta, laitetaan sellainen.;
+        puhuja 3: Keimo;
+        kuva 4: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        teksti 4: Tässä, olkaa hyvä.;
+        puhuja 4: Kuu-baarin tarjoilija;
+        kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 5: Kiitos.;
+        puhuja 5: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: kuu_baari_2;
+    #pituus: 3;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 0: Iltaa. Yksi kuuolut.;
+        puhuja 0: Keimo;
+        kuva 1: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        teksti 1: Tässä, olkaa hyvä.;
+        puhuja 1: Kuu-baarin tarjoilija;
+        kuva 2: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        teksti 2: Kiitos.;
+        puhuja 2: Keimo;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: silta;
+    #pituus: 1;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/silta_dialogi.png;
+        teksti 0: Onpas kiva näkymä;
+        puhuja 0: Silta;
+    }
+    #valinta: {
+        valinnan_nimi: silta_hyppää;
+        valinnan_otsikko: Hyppää?;
+        vaihtoehdot: 2;
+        vaihtoehto 0: Ei;
+        triggeri 0: ;
+        kohde 0: ;
+        vaihtoehto 1: Kyllä;
+        triggeri 1: silta_hyppää;
+        kohde 1: ;
+    }
+/Dialogi
+Dialogi 0:
+    #nimi: pasi_eikotona;
+    #pituus: 1;
+    #dialogit: {
+        kuva 0: tiedostot/kuvat/kenttäkohteet/koristeovi.png;
+        teksti 0: Pasi ei ole kotona. Se on erittäin todennäköisesti Keimo-baarissa. Parasta lähteä siis sinnepäin;
+        puhuja 0: ...;
     }
 /Dialogi
 

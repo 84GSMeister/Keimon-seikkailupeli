@@ -1,7 +1,7 @@
 #version 120
 
-in vec3 vertices;
-in vec2 textures;
+attribute vec3 vertices;
+attribute vec2 textures;
 varying vec2 tex_coords;
 
 uniform mat4 projection;

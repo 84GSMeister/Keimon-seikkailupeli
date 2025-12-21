@@ -1,0 +1,35 @@
+package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
+
+public final class Kaasupullo extends Esine {
+
+    public Kaasupullo(int sijX, int sijY){
+        super(sijX, sijY);
+        super.nimi = "Kaasupullo";
+        super.tiedostonNimi = "kaasupullo.png";
+        super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
+        super.yhdistettävä = true;
+        super.kelvollisetYhdistettävät.add("Kaasusytytin");
+        super.liikeNopeus = 6f;
+        super.pyörimisNopeus = 2f;
+        super.asetaTiedot();
+    }
+
+    @Override
+    public String annaNimiSijamuodossa(String sijamuoto) {
+        // Koskaan ei tiedä. Mitä jos näitäkin tarvii?
+        switch (sijamuoto) {
+            case "nominatiivi":  return "Kaasupullo";
+            case "genetiivi":    return "Kaasupullon";
+            case "esiivi":       return "Kaasupullona";
+            case "partitiivi":   return "Kaasupulloa";
+            case "translatiivi": return "Kaasupulloksi";
+            case "inessiivi":    return "Kaasupullossa";
+            case "elatiivi":     return "Kaasupullosta";
+            case "illatiivi":    return "Kaasupulloon";
+            case "adessiivi":    return "Kaasupullolla";
+            case "ablatiivi":    return "Kaasupullolta";
+            case "allatiivi":    return "Kaasupullolle";
+            default:             return "Kaasupullo";
+        }
+    }
+}

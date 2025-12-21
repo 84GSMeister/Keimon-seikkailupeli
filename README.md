@@ -1,6 +1,37 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (13.5.2025): 1.1.2 Alfa
+## Uusin versio (21.12.2025): 1.2 Alfa
+
+### Versio 1.2 Alfa
+ - Lisätty Keimo-baarin salahuone (myös uusi shader-efekti) Salahuoneeseen pääsee ***SPOILER ALERT*** Läpäisemällä baarin minipelin.
+ - Lisätty minipelit (Pelikoneita voi olla useantyyppisiä). Pelikoita löytyy kuusta sekä baarin salahuoneesta.
+ - Lisätty Salaovi-objekti. Salaovi tarvii jonkin tehtävän suorituksen (nykyisellään vain hardkoodattu tehtävälista) avautuakseen.
+ - Lisätty uuden editorin ensimmäinen versio (suurin osa ominaisuuksista puuttuu vielä). Vanha editori löytyy nykyään erillisenä sovelluksena pelin tiedostoista. Editorin mukana lisätty myös alkeellinen versio enginen sisäisestä UI-frameworkista.
+ - Lisätty uusia juomia Keimo-baariin. Juominen ei enää kuluta koko lasia vaan jäljelle jää tyhjä lasi.
+ - Uudet kuvakkeet toimintoruuduille (pullonpalautus, ämpärijono) sekä siirtymiä paranneltu.
+ - Muutettu alkupään tarinaa hieman johdonmukaisemmaksi.
+ - Joitain dialogeja muokattu menemään paremmin linjassa tarinan kanssa sekä antamaan parempia vinkkejä pelaajalle.
+ - Lisätty minimap.
+ - Lisätty ohjeikkuna pause-valikkoon.
+ - Lisätty huijauskoodivalikko (F5).
+ - Lisätty välitarinaruutuihin oma soundtrack (uusi variaatio tarina-soundtrackista).
+ - Lisätty toinen kyläkauppa-dialogipätkä kun pelaaja ostaa Jallua.
+ - Lisätty syötyjen ruokien indikaattori HUD:iin.
+ - Lisätty pientä taajuusvaihtelua joihinkin ääniefekteihin niiden elävöittämiseksi.
+ - Fontin renderöintiä korjattu paremmaksi sekä fonttia paranneltu. Tekstin rivinvaihto-ongelmat korjattu.
+ - Ostoskorista voi poistaa esineitä kaupassa.
+ - Häivytysefekti lisätty myös taustaan huonetta vaihtaessa.
+ - Työnnettävät laatikot liikkuvat tile kerrallaan.
+ - Lisätty tappolaskuri loppuruutuun.
+ - Lisätty edistymispalkki latausruutuun.
+ - Musiikkitiedostojen dekoodaus omassa säikeessä -> välttää lagipiikit musiikin vaihtuessa
+ - Korjattu bugi, jossa peliajan minuuttilaskuri ei nollaudu tunnin tullessa täyteen sekä kellon katoaminen pausella.
+ - Korjattu bugi, jossa pomo valitsee pyörimissuunnan välillä väärin.
+ - Korjattu bugi, jossa kauppias ei avaa vihkoa asioidessa.
+ - Korjattu bugi, jossa dialogiteksti näkyy joskus kokonaan 1 framen ajan ennen scrollaamista.
+ - Korjattu joidenkin lisäominaisuuksia vaativien objektien toimimattomuus ilman argumentteja.
+ - Koodia refaktoroitu merkittävästi ja jäsennelty paremmin (pelin ja pelimoottorin koodit pyritty erottelemaan toisistaan mahdollisimman selkeästi) sekä ylimääräisiä kirjastoja poistettu.
+ - Lisää tölkkiääniä
 
 ### Versio 1.1.2 Alfa
  - Lisätty isot laatat (useamman tilen kokoiset maasto-objektit)

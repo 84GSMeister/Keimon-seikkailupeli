@@ -1,5 +1,7 @@
 package keimo.seikkailupeli.objektit.entityt;
 
+import java.util.ArrayList;
+
 import keimo.keimoengine.collision.Neliö;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.seikkailupeli.Peli;
@@ -59,7 +61,7 @@ public class Ammus extends Entity {
     }
 
     @Override
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
         // Tähän ei tarvita mitään, mutta metodin pitää olla olemassa.
     }
 

@@ -1,10 +1,10 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class Esine extends KenttäKohde {
 

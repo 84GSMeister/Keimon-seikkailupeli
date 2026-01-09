@@ -1,10 +1,24 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (21.12.2025): 1.2 Alfa
+## Uusin versio (9.1.2026): 1.2.1 Alfa
+
+### Versio 1.2.1 Alfa
+ - Lisätty tuki ohjaimille (vaatii XInput-yhteensopivan ohjaimen).
+ - Lisätty vinkkitekstit esineen käyttövaihtoehdoille poimiessa ja tavarapaikkaa vaihtaessa.
+ - Korjattu laatikoiden ulos työntämisen aiheuttama kaatuminen.
+ - Korjattu äänitiedostojen toiston aiheuttamat lagipiikit.
+ - Korjattu äänentoiston hajoaminen korkeilla taajuuksilla.
+ - Korjattu Jallun juomisen aiheuttama salamannopea rynnäkkökänni (Jallupullo tyhjenee normaalisti).
+ - Lisätty varmistusruutu kun ostaa Juhanilta huumeen.
+ - Korjattu virheet taustan renderöinnissä pienellä/isolla zoomauksella.
+ - Korjattu joitain puuttuvia tekstin rivinvaihtoja.
+ - Editorin käyttöliittymää ryhmitetty siten, että siihen mahtuu paljon enemmän työkaluja
+ - Asetuksia laajennettu: Näytön valinta sekä ohjainkuvakkeiden valinta.
+ - Äänitestiä laajennettu.
 
 ### Versio 1.2 Alfa
  - Lisätty Keimo-baarin salahuone (myös uusi shader-efekti) Salahuoneeseen pääsee ***SPOILER ALERT*** Läpäisemällä baarin minipelin.
- - Lisätty minipelit (Pelikoneita voi olla useantyyppisiä). Pelikoita löytyy kuusta sekä baarin salahuoneesta.
+ - Lisätty minipelit (Pelikoneita voi olla useantyyppisiä). Pelikoneita löytyy kuusta sekä baarin salahuoneesta.
  - Lisätty Salaovi-objekti. Salaovi tarvii jonkin tehtävän suorituksen (nykyisellään vain hardkoodattu tehtävälista) avautuakseen.
  - Lisätty uuden editorin ensimmäinen versio (suurin osa ominaisuuksista puuttuu vielä). Vanha editori löytyy nykyään erillisenä sovelluksena pelin tiedostoista. Editorin mukana lisätty myös alkeellinen versio enginen sisäisestä UI-frameworkista.
  - Lisätty uusia juomia Keimo-baariin. Juominen ei enää kuluta koko lasia vaan jäljelle jää tyhjä lasi.

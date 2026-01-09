@@ -4,8 +4,8 @@ import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
-import keimo.keimoengine.äänet.MidiToistin;
+import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.keimoengine.äänet.PeliääniToistin;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -52,7 +52,7 @@ public class MinipeliIkkunaPong {
     private static int pelaajanPisteet = 0;
     private static int vihollisenPisteet = 0;
 
-    public static void renderöiKehys(Window window) {
+    public static void renderöiKehys(Ikkuna window) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         float scaleX = ruudunLeveys/3f;
@@ -72,7 +72,7 @@ public class MinipeliIkkunaPong {
         Assets.getModel().render();
     }
     
-    public static void renderöiIkkuna(Window window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
@@ -177,7 +177,7 @@ public class MinipeliIkkunaPong {
             }
             // Vihollinen torjuu
             else if (pallonSijX >= mailaXVihollinen && (vihollisenYlä > pallonSijY && vihollisenAla < pallonSijY)) {
-                if (pallonSuuntaOikea) Äänet.toistaSFX("Pong");
+                if (pallonSuuntaOikea) Äänet.toistaSFXMuunnetullaTaajuudella("Ping", -4);
                 pallonSuuntaOikea = false;
             }
 
@@ -209,6 +209,14 @@ public class MinipeliIkkunaPong {
         vihollisenPisteet = 0;
     }
 
+    public static void liikutaYlös() {
+        if (pelaajanSijY < maxY) pelaajanSijY++;
+    }
+
+    public static void liikutaAlas() {
+        if (pelaajanSijY > minY) pelaajanSijY--;
+    }
+
     public static void ohitaValikko() {
         valikko = false;
     }
@@ -217,7 +225,7 @@ public class MinipeliIkkunaPong {
         valikko = true;
         nollaa();
         Peli.syötteenTila = SyötteenTila.TOIMINTO;
-        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI_1;
+        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI_PONG;
         Musat.suljeMusa();
         Musat.toistaPeliMusa("minipeli_pong");
     }
@@ -226,6 +234,6 @@ public class MinipeliIkkunaPong {
         Peli.syötteenTila = SyötteenTila.PELI;
         Pelaaja.käyttöViive = 50;
         siirtymä = 0;
-        MidiToistin.suljeMusat();
+        PeliääniToistin.suljeÄänet();
     }
 }

@@ -1,14 +1,14 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Huume extends Ruoka {
 
-    public Huume(int sijX, int sijY){
+    public Huume(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Huume";
         super.tiedostonNimi = "huume.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("huume");
         super.käyttö = true;
         super.heal = 30;
         super.katsomisTeksti = "Tää menee ykkösel alas";

@@ -7,7 +7,7 @@ import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 
 public class Latauspalkki {
 
@@ -35,12 +35,12 @@ public class Latauspalkki {
         this.latausProsentti = prosentti;
     }
 
-    public void renderöi(Shader shader, Window window) {
+    public void renderöi(Shader shader, Ikkuna window) {
         renderöiKomponentti(shader, palkkiPunainenTekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
         renderöiKomponentti(shader, palkkiVihreäTekstuuri, window, scaleX * (latausProsentti/100f), scaleY, 1, scaleX * latausProsentti/100f - scaleX + offsetX, offsetY, 0);
     }
 
-    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Window window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
+    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);

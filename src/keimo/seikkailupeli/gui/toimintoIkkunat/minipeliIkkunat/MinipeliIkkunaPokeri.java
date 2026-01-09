@@ -3,10 +3,8 @@ package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
-import keimo.keimoengine.äänet.MidiToistin;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -113,7 +111,7 @@ public class MinipeliIkkunaPokeri {
     }
     private static LiikkeenTila liikkeenTila = LiikkeenTila.ALKU;
 
-    public static void renderöiKehys(Window window) {
+    public static void renderöiKehys(Ikkuna window) {
         ruudunLeveys = window.getWidth();
         ruudunKorkeus = window.getHeight();
         float scaleX = ruudunLeveys/3f;
@@ -133,7 +131,7 @@ public class MinipeliIkkunaPokeri {
         Assets.getModel().render();
     }
     
-    public static void renderöiIkkuna(Window window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
         ruudunLeveys = window.getWidth();
         ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
@@ -515,8 +513,7 @@ public class MinipeliIkkunaPokeri {
     }
 
     public static void pelaaValitut() {
-        if (valikko) valikko = false;
-        else {
+        if (!valikko) {
             switch (liikkeenTila) {
                 default: pelaajaSiirtänyt = true; break;
                 case VALMIS: uusiPeli(); break;
@@ -772,10 +769,14 @@ public class MinipeliIkkunaPokeri {
         vihollisenVoitot = 0;
     }
 
+    public static void ohitaValikko() {
+        if (valikko) valikko = false;
+    }
+
     public static void avaaToimintoIkkuna() {
         valikko = true;
         Peli.syötteenTila = SyötteenTila.TOIMINTO;
-        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI_2;
+        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI_POKERI;
         nollaaVoitot();
         uusiPeli();
         Musat.suljeMusa();

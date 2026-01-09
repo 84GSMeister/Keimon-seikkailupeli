@@ -5,7 +5,7 @@ import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
@@ -23,14 +23,14 @@ public class LoppuRuutu {
     private static Shader loppuRuutuShader = new Shader("staattinen");
     private static Renderöitävä otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/vakio_otsikko.png");
     private static Renderöitävä kuvaTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/voitto_normaali.jpg");
-    private static Teksti tekstiTexture = new Teksti("Tarinan teksti 1", Color.WHITE, 2200, 400, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti tilastotTeksti = new Teksti("Tilastot:", Color.WHITE, 4400, 400, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti tappolaskuriTeksti = new Teksti("Vihollisia tapettu: 0", Color.WHITE, 4400, 400, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti tekstiTexture = new Teksti("Tarinan teksti 1", Color.WHITE, 800, 150, KeimoFontit.fontti_keimo_36, false);
+    private static Teksti tilastotTeksti = new Teksti("Tilastot:", Color.WHITE, 1600, 150, KeimoFontit.fontti_keimo_36, false);
+    private static Teksti tappolaskuriTeksti = new Teksti("Vihollisia tapettu: 0", Color.WHITE, 1600, 150, KeimoFontit.fontti_keimo_36, false);
     private static String häviönSyyTeksti = "Häviön syy";
-    private static Tekstuuri valintaUusiPeliTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_uusipeli.png");
-    private static Tekstuuri valintaLopetaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_lopeta.png");
-    private static Animaatio osoitinKuvake = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+    private static Renderöitävä valintaUusiPeliTekstuuri = Assets.annaTekstuuri("menu_loppu_uusipeli");
+    private static Renderöitävä valintaLopetaTekstuuri = Assets.annaTekstuuri("menu_main_lopeta");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
 
     public static void painaNäppäintä(String näppäin) {
         if (kelausViive <= 0) {
@@ -77,12 +77,12 @@ public class LoppuRuutu {
             case ALKOHOLIMYRKYTYS -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
                 kuvaTekstuuri = new Animaatio(20, "tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
-                häviönSyyTeksti = "Joit liikaa ja sinulle\ntuli alkoholimyrkytys.";
+                häviönSyyTeksti = "Joit liikaa ja sinulle tuli alkoholimyrkytys.";
             }
             case HIILTYNYT_MAKKARA -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
                 kuvaTekstuuri = new Animaatio(20, "tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
-                häviönSyyTeksti = "Sait ruokamyrkytyksen\npilaantuneesta makkarasta.";
+                häviönSyyTeksti = "Sait ruokamyrkytyksen pilaantuneesta makkarasta.";
             }
             case KUOLEMA_JUHANI -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
@@ -159,7 +159,7 @@ public class LoppuRuutu {
             case YLENSYÖNTI -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/häviö_otsikko.png");
                 kuvaTekstuuri = new Animaatio(20, "tiedostot/kuvat/tarina/loppu/häviö_ylensyönti.gif");
-                häviönSyyTeksti = "Söit liikaa ja sinulle\ntuli paha olo.";
+                häviönSyyTeksti = "Söit liikaa ja sinulle tuli paha olo.";
             }
             case null, default -> {
                 otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/vakio_otsikko.png");
@@ -175,7 +175,7 @@ public class LoppuRuutu {
         KeimoEngine.lataaTarinaRuutu("alku");
     }
 
-    public static void render(Window window) {
+    public static void render(Ikkuna window) {
         loppuRuutuShader.bind();
         loppuRuutuShader.setUniform("sampler", 0);
         loppuRuutuShader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
@@ -215,7 +215,7 @@ public class LoppuRuutu {
         matTeksti.translate(0, -scaleYTeksti*2f, 0);
         matTeksti.scale(scaleX, scaleYTeksti, 0);
         loppuRuutuShader.setUniform("projection", matTeksti);
-        tekstiTexture.päivitäTeksti(häviönSyyTeksti);
+        tekstiTexture.päivitäTeksti(häviönSyyTeksti, 2);
         tekstiTexture.bind(0);
         Assets.getModel().render();
 

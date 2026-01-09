@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public class Sieni extends Ruoka {
 
@@ -8,7 +8,7 @@ public class Sieni extends Ruoka {
         super(sijX, sijY);
         super.nimi = "Sieni";
         super.tiedostonNimi = "sieni.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("sieni");
         super.käyttö = true;
         super.heal = 3;
         super.kolmiUlotteinen = true;

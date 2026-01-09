@@ -1,14 +1,14 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Hiili extends Esine {
 
-    public Hiili(int sijX, int sijY){
+    public Hiili(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Hiili";
         super.tiedostonNimi = "hiili.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("hiili");
         super.katsomisTeksti = "Tämä sopisi hyvin nuotiossa poltettavaksi.";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");

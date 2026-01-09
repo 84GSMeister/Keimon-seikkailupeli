@@ -5,7 +5,7 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
 import keimo.seikkailupeli.objektit.Käännettävä;
 import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
@@ -132,7 +132,7 @@ public class WarpMuokkausIkkuna {
             warp.asetaKohdeHuone(luontiKohdeHuone);
             warp.asetaKohdeRuudut(luontiKohdeX, luontiKohdeY);
             warp.asetaSuunta(suunta);
-            warp.päivitäLisäOminaisuudet();
+            warp.päivitäLisäOminaisuudet(warp.annaLisäOminaisuudet());
             if (ikkuna != null) ikkuna.dispose();
         }
         catch (NumberFormatException e) {
@@ -156,7 +156,7 @@ public class WarpMuokkausIkkuna {
         }
     }
 
-    public static void renderöi(Shader shader, Window window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         otsikkoTeksti.päivitäTeksti("Muokkaa");
         tiedotTeksti.päivitäTeksti("Tulossa myöhemmin");
         pohja.renderöi(shader, window);

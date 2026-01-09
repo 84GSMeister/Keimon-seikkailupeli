@@ -36,7 +36,6 @@ public class Teksti implements Renderöitävä {
     private Font fontti;
     private int fonttiKoko;
     private String edellinenTeksti = "";
-    private boolean keskitäY;
 
     private BufferedImage b;
     private Graphics2D g;
@@ -61,7 +60,6 @@ public class Teksti implements Renderöitävä {
             this.väri = väri;
             this.fontti = fontti;
             this.fonttiKoko = fontti.getSize();
-            this.keskitäY = keskitäY;
             if (leveys > 0 && korkeus > 0) {
                 this.b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
                 this.g = this.b.createGraphics();
@@ -137,22 +135,6 @@ public class Teksti implements Renderöitävä {
         return edellinenTeksti;
     }
 
-    // public void päivitäTeksti(String teksti) {
-    //     päivitäTeksti(teksti, false);
-    // }
-
-    // public void päivitäTeksti(String teksti, boolean korjaaLeveys) {
-    //     päivitäTeksti(teksti, korjaaLeveys, leveys/this.fonttiKoko +1);
-    // }
-
-    // public void päivitäTeksti(String teksti, boolean korjaaLeveys, int minimiLeveys) {
-    //     päivitäTeksti(teksti, korjaaLeveys, minimiLeveys, this.väri);
-    // }
-
-    // public void päivitäTeksti(String teksti, boolean korjaaLeveys, int minimiLeveys, Color color) {
-    //     päivitäTeksti(teksti, korjaaLeveys, minimiLeveys, color, 0, 0);
-    // }
-
     public void päivitäTeksti(String teksti) {
         päivitäTeksti(teksti, 0);
     }
@@ -164,7 +146,7 @@ public class Teksti implements Renderöitävä {
      */
 
     public void päivitäTeksti(String teksti, int tekstiTyyppi) {
-        päivitäTeksti(teksti, tekstiTyyppi, leveys/this.fonttiKoko +1);
+        if (this.fonttiKoko > 0) päivitäTeksti(teksti, tekstiTyyppi, leveys/this.fonttiKoko +1);
     }
 
     /**
@@ -189,107 +171,6 @@ public class Teksti implements Renderöitävä {
     public void päivitäTeksti(String teksti, int tekstiTyyppi, int minimiLeveys, Color color) {
         päivitäTeksti(teksti, tekstiTyyppi, minimiLeveys, color, 0, 0);
     }
-
-    // public void päivitäTeksti(String teksti, int tekstiTyyppi, int minimiLeveys, Color color, int offsetX, int offsetY) {
-    //     if (teksti != null && !teksti.equals(edellinenTeksti) && fontti != null) {
-    //         glDeleteTextures(id);
-
-    //         if (tekstiTyyppi == VENYTÄ && teksti.length() > minimiLeveys) {
-    //             leveys = (int)(teksti.length() * (fonttiKoko*1f));
-    //         }
-    //         BufferedImage b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
-    //         Graphics2D g = b.createGraphics();
-
-    //         g.setBackground(new Color(0, 0, 0, 0));
-    //         g.clearRect(0, 0, leveys, korkeus);
-    //         g.setColor(color);
-    //         g.setFont(this.fontti);
-    //         g.setFont(fontti);
-    //         g.setClip(0, 0, leveys, korkeus);
-    //         if (teksti.length() > minimiLeveys) {
-    //             String tulostettava = "";
-    //             int merkkejäVälinJälkeen = 0;
-    //             String merkitVälinJälkeen = "";
-    //             int rivit = 0;
-    //             for (int i = 0; i < teksti.length(); i++) {
-    //                 tulostettava += teksti.charAt(i);
-    //                 if (teksti.charAt(i) == ' ') {
-    //                     merkkejäVälinJälkeen = 0;
-    //                     merkitVälinJälkeen = "";
-    //                 }
-    //                 else {
-    //                     merkkejäVälinJälkeen++;
-    //                     merkitVälinJälkeen += teksti.charAt(i);
-    //                 }
-
-    //                 if (tulostettava.contains("\n"))  {
-    //                     tulostettava = tulostettava.substring(0, tulostettava.length()-1);
-    //                     g.drawString(tulostettava, offsetX, (int)((rivit+1) * fonttiKoko) + offsetY);
-    //                     tulostettava = "";
-    //                     rivit++;
-    //                 }
-    //                 else if (tulostettava.contains("\\n"))  {
-    //                     tulostettava = tulostettava.substring(0, tulostettava.length()-2);
-    //                     g.drawString(tulostettava, offsetX, (int)((rivit+1) * fonttiKoko) + offsetY);
-    //                     tulostettava = "";
-    //                     rivit++;
-    //                 }
-    //                 else if ((tulostettava.length() > minimiLeveys) && tekstiTyyppi == RIVITÄ) {
-    //                     if (merkkejäVälinJälkeen > minimiLeveys) {
-    //                         g.drawString(tulostettava.substring(0, minimiLeveys), offsetX, (int)((rivit+1) * fonttiKoko) + offsetY);
-    //                     }
-    //                     else {
-    //                         g.drawString(tulostettava.substring(0, minimiLeveys - merkkejäVälinJälkeen), offsetX, (int)((rivit+1) * fonttiKoko) + offsetY);
-    //                     }
-    //                     tulostettava = merkitVälinJälkeen;
-    //                     merkitVälinJälkeen = "";
-    //                     rivit++;
-    //                     if (i == teksti.length()-1) {
-    //                         g.drawString(tulostettava, offsetX, (int)((rivit+1) * fonttiKoko) + offsetY);
-    //                     }
-    //                 }
-    //                 else if (i == teksti.length()-1) {
-    //                     g.drawString(tulostettava, offsetX, (int)((rivit+1) * fonttiKoko) + offsetY);
-    //                 }
-    //             }
-    //         }
-    //         else {
-    //             if (keskitäY) {
-    //                 g.drawString(teksti, 0, fonttiKoko + (korkeus-(fonttiKoko*1.25f))/2);
-    //             }
-    //             else g.drawString(teksti, 0, fonttiKoko);
-    //         }
-
-    //         int[] pixels_raw = new int[leveys * korkeus * 4];
-    //         pixels_raw = b.getRGB(0, 0, leveys, korkeus, null, 0, leveys);
-    //         ByteBuffer pixels = BufferUtils.createByteBuffer(leveys * korkeus * 4);
-
-    //         for (int i = 0; i < leveys; i++) {
-    //             for (int j = 0; j < korkeus; j++) {
-    //                 try {
-    //                     int pixel = pixels_raw[i * korkeus + j];
-    //                     pixels.put((byte)((pixel >> 16) & 0xFF)); //RED
-    //                     pixels.put((byte)((pixel >> 8) & 0xFF)); //GREEN
-    //                     pixels.put((byte)((pixel >> 0) & 0xFF)); //BLUE
-    //                     pixels.put((byte)((pixel >> 24) & 0xFF)); //ALPHA
-    //                 }
-    //                 catch (ArrayIndexOutOfBoundsException aioobe) {
-    //                     System.out.println("Texture pixel index out of bounds: " + i + " " + j);
-    //                     aioobe.printStackTrace();
-    //                 }
-                    
-    //             }
-    //         }
-
-    //         pixels.flip();
-    //         id = glGenTextures();
-    //         glBindTexture(GL_TEXTURE_2D, id);
-    //         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-    //         edellinenTeksti = teksti;
-    //     }
-    // }
 
     /**
      * Tekstin tyypillä määritetään, mitä tehdään, kun tekstin pituus ylittää sille määritellyn alueen.
@@ -448,67 +329,6 @@ public class Teksti implements Renderöitävä {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
             edellinenTeksti = teksti;
         }
-    }
-
-    public void päivitäTekstiDialogi(String teksti) {
-        glDeleteTextures(id);
-
-        
-        leveys = teksti.length() * 20;
-        if (leveys < 450) leveys = 450;
-        else if (leveys > 540) leveys = 540;
-        BufferedImage b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D g = b.createGraphics();
-
-        g.setBackground(new Color(0, 0, 0, 0));
-        g.clearRect(0, 0, leveys, korkeus);
-        g.setColor(this.väri);
-        g.setFont(KeimoFontit.fontti_keimo_12);
-        g.setClip(0, 0, leveys, korkeus);
-        if (teksti.length() > 36) {
-            String tulostettava = "";
-            int rivit = 0;
-            for (int i = 0; i < teksti.length(); i++) {
-                tulostettava += teksti.charAt(i);
-                if ((tulostettava.length() > 36 && teksti.charAt(i) == ' ') || tulostettava.contains("\n")) {
-                    g.drawString(tulostettava, 0, (int)(20 + rivit * 15));
-                    tulostettava = "";
-                    rivit++;
-                }
-                else if (i == teksti.length()-1) {
-                    g.drawString(tulostettava, 0, (int)(20 + rivit * 15));
-                }
-            }
-        }
-        else g.drawString(teksti, 0, 10);
-
-        int[] pixels_raw = new int[leveys * korkeus * 4];
-        pixels_raw = b.getRGB(0, 0, leveys, korkeus, null, 0, leveys);
-        ByteBuffer pixels = BufferUtils.createByteBuffer(leveys * korkeus * 4);
-
-        for (int i = 0; i < leveys; i++) {
-            for (int j = 0; j < korkeus; j++) {
-                try {
-                    int pixel = pixels_raw[i * korkeus + j];
-                    pixels.put((byte)((pixel >> 16) & 0xFF)); //RED
-                    pixels.put((byte)((pixel >> 8) & 0xFF)); //GREEN
-                    pixels.put((byte)(pixel & 0xFF)); //BLUE
-                    pixels.put((byte)((pixel >> 24) & 0xFF)); //ALPHA
-                }
-                catch (ArrayIndexOutOfBoundsException aioobe) {
-                    System.out.println("Texture pixel index out of bounds: " + i + " " + j);
-                    aioobe.printStackTrace();
-                }
-                
-            }
-        }
-
-        pixels.flip();
-        id = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, id);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     }
 
     private void luoVakioTekstuuri() {

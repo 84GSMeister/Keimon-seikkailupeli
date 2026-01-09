@@ -6,7 +6,7 @@ import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -25,9 +25,8 @@ public class LatausRuutu {
         latauspalkki.päivitäLatausProsentti(latausProsentti);
     }
     
-    public static void renderöiLatausRuutu(Window window, int latausProsentti) {
+    public static void renderöiLatausRuutu(Ikkuna window, int latausProsentti) {
         shader.bind();
-
         taustakuvaLabel.renderöi(shader, window);
         latausTekstiLabel.renderöi(shader, window);
         latauspalkki.renderöi(shader, window);

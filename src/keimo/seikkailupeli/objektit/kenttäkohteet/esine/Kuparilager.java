@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -14,7 +14,7 @@ public final class Kuparilager extends Juoma {
         super(sijX, sijY);
         super.nimi = "Kuparilager";
         super.tiedostonNimi = "kuparilager.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kuparilager");
         super.katsomisTeksti = "Uskollinen kupari";
         super.käyttö = true;
         super.kolmiUlotteinen = true;

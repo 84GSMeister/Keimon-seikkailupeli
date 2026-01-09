@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
-
 import java.io.File;
 import java.util.ArrayList;
+
+import keimo.seikkailupeli.assets.Assets;
 
 public final class KauppaHylly extends Säiliö {
 
@@ -11,7 +11,7 @@ public final class KauppaHylly extends Säiliö {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kauppahylly";
         super.tiedostonNimi = "kauppahylly.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kauppahylly");
         super.katsomisTeksti = "Tyhjä hylly";
 
         if (ominaisuusLista != null) {
@@ -51,10 +51,10 @@ public final class KauppaHylly extends Säiliö {
             this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
+                super.tekstuuri = Assets.annaTekstuuri("kauppahylly_" + esineenNimi);
             }
             else {
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
+                super.tekstuuri = Assets.annaTekstuuri("kauppahylly_kuvavirhe");
             }
             päivitäLisäOminaisuudet();
             if (luoSisältö(esineenNimi, ominaisuusLista) != null) {
@@ -92,11 +92,11 @@ public final class KauppaHylly extends Säiliö {
             File file = new File("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + esineenNimi + ".png");
             if (file.isFile()) {
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                super.tekstuuri = Assets.annaTekstuuri("kauppahylly_" + esineenNimi);
             }
             else {
                 super.tiedostonNimi = "kauppahylly_" + esineenNimi + ".png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppahylly_" + "kuvavirhe" + ".png");
+                super.tekstuuri = Assets.annaTekstuuri("kauppahylly_kuvavirhe");
                 
             }
             if (luoSisältö(esineenNimi, null) != null) {

@@ -4,7 +4,7 @@ import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
@@ -20,7 +20,7 @@ public class HUD_HP {
     private static Teksti juomatTeksti = new Teksti("Juomat", Color.black, 200, 48, KeimoFontit.fontti_keimo_36, true);
     private static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
-    public static void render(Shader shader, Window window) {
+    public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         shader.setUniform("sampler", 0);
 

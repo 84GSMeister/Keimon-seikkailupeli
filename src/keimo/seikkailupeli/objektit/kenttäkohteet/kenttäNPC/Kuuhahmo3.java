@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class Kuuhahmo3 extends NPC_KenttäKohde{
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kuuhahmo3";
         super.tiedostonNimi = "kuuhahmo_3.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kuuhahmo3");
         super.katsomisTeksti = "Mikähän tuokin tyyppi lienee? No, ainakin se näyttäisi nauttivan menosta.";
         super.dialogit.add("vakio");
         if (ominaisuusLista == null) super.valitseVakioDialogi();

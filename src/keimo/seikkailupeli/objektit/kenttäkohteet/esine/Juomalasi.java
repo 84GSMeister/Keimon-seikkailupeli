@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.util.ArrayList;
@@ -64,13 +64,13 @@ public class Juomalasi extends Juoma {
                 super.käyttö = false;
                 super.katsomisTeksti = "Lasi on tyhjä. Pitäisiköhän tilata lisää?";
                 super.tiedostonNimi = "juomalasi.png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                super.tekstuuri = Assets.annaTekstuuri("juomalasi");
             }
             case "OLUT" -> {
                 super.käyttö = true;
                 super.katsomisTeksti = "Laadukasta Keimo-baarin hanaolutta";
                 super.tiedostonNimi = "juomalasi_olut.png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                super.tekstuuri =  Assets.annaTekstuuri("juomalasi_olut");
                 super.hinta = 4.95;
                 super.voltit = 0.6f;
                 super.känniKuolemattomuus = 600;
@@ -79,7 +79,7 @@ public class Juomalasi extends Juoma {
                 super.käyttö = true;
                 super.katsomisTeksti = "Laadukasta Keimo-baarin lonkeroa";
                 super.tiedostonNimi = "juomalasi_lonkero.png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                super.tekstuuri =  Assets.annaTekstuuri("juomalasi_lonkero");
                 super.hinta = 6.95;
                 super.voltit = 0.6f;
                 super.känniKuolemattomuus = 600;
@@ -88,7 +88,7 @@ public class Juomalasi extends Juoma {
                 super.käyttö = true;
                 super.katsomisTeksti = "Laadukasta Keimo-baarin siideriä";
                 super.tiedostonNimi = "juomalasi_siideri.png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                super.tekstuuri =  Assets.annaTekstuuri("juomalasi_siideri");
                 super.hinta = 5.95;
                 super.voltit = 0.6f;
                 super.känniKuolemattomuus = 600;
@@ -97,7 +97,7 @@ public class Juomalasi extends Juoma {
                 super.käyttö = true;
                 super.katsomisTeksti = "Uskaltaakohan tätä juoda?";
                 super.tiedostonNimi = "juomalasi_kuuolut.png";
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+                super.tekstuuri =  Assets.annaTekstuuri("juomalasi_kuuolut");
                 super.hinta = 0;
                 super.voltit = 0.6f;
                 super.känniKuolemattomuus = 600;

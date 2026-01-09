@@ -11,13 +11,18 @@ import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class Shader {
     private int vs, fs, program;
 
     public Shader(String fileName) {
         vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs, readFile(fileName + ".vs"));
+        String vertexShaderCode = readFile(fileName + ".vs");
+        if (vertexShaderCode == null || vertexShaderCode.equals("")){
+            vertexShaderCode = vakioVertexShaderKoodi;
+        };
+        glShaderSource(vs, vertexShaderCode);
         glCompileShader(vs);
         if (glGetShaderi(vs, GL_COMPILE_STATUS) != GL_TRUE) {
             System.err.println(glGetShaderInfoLog(vs));
@@ -25,7 +30,11 @@ public class Shader {
         }
 
         fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs, readFile(fileName + ".fs"));
+        String fragmentShaderCode = readFile(fileName + ".fs");
+        if (fragmentShaderCode == null || fragmentShaderCode.equals("")){
+            fragmentShaderCode = vakioFragmentShaderKoodi;
+        };
+        glShaderSource(fs, fragmentShaderCode);
         glCompileShader(fs);
         if (glGetShaderi(fs, GL_COMPILE_STATUS) != GL_TRUE) {
             System.err.println(glGetShaderInfoLog(fs));
@@ -97,12 +106,29 @@ public class Shader {
         glUseProgram(0);
     }
 
+    String vakioVertexShaderKoodi =
+        "uniform mat4 projection;" +
+        "attribute vec3 vertices;" +
+        "attribute vec2 textures;" +
+        "varying vec2 tex_coords;" +
+        "void main() {" +
+        "    tex_coords = textures;" +
+        "    gl_Position = projection * vec4(vertices, 1);" +
+        "}";
+    String vakioFragmentShaderKoodi =
+        "uniform sampler2D sampler;" +
+        "uniform vec4 color;" +
+        "varying vec2 tex_coords;" +
+        "void main() {" +
+        "    gl_FragColor = texture2D(sampler, tex_coords) + color;" +
+        "}";
     private String readFile(String fileName) {
         StringBuilder string = new StringBuilder();
         BufferedReader reader;
+        String tiedostopolku = "tiedostot/shaders/" + fileName;
 
         try {
-            File f = new File("tiedostot/shaders/" + fileName);
+            File f = new File(tiedostopolku);
             FileReader fr = new FileReader(f);
             reader = new BufferedReader(fr);
             String line;
@@ -114,6 +140,7 @@ public class Shader {
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
+            tinyfd_messageBox("Virhe ladatessa shader-tiedostoa", "Ei voitu ladata tiedostoa " + tiedostopolku + "\n\nKäytetään vakiovarjostinohjelmaa.\nKaikki visuaalit eivät välttämättä toimi.", "ok", "error", false);
         }
         return string.toString();
     }

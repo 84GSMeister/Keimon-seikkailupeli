@@ -1,26 +1,24 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
 public final class Pulloautomaatti extends Kiintopiste {
 
-    private static Tekstuuri idleTekstuuri, aktiivinenTekstuuri, virheTekstuuri;
+    private Renderöitävä idleTekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
+    private Renderöitävä aktiivinenTekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
+    private Renderöitävä virheTekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
 
     public Pulloautomaatti (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Pulloautomaatti";
         super.tiedostonNimi = "pullonpalautus_idle.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
         super.katsomisTeksti = "Tänne voi palauttaa tölkit";
         super.asetaTiedot();
-    }
-
-    public static void luoTekstuurit() {
-        idleTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/pullonpalautus_idle.png");
-        aktiivinenTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/pullonpalautus_active.png");
-        virheTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/pullonpalautus_virhe.png");
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     public PulloautomaatinKuvake tila = PulloautomaatinKuvake.IDLE;

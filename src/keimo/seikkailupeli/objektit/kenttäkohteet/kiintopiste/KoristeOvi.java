@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,10 @@ public class KoristeOvi extends Kiintopiste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Koristeovi";
         super.tiedostonNimi = "koristeovi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("koristeovi");
         super.katsomisTeksti = "Tästä ei pääse";
         super.asetaTiedot();
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

@@ -5,7 +5,7 @@ import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti3d.Model3D;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -57,12 +57,12 @@ public class KehittäjäRuutu {
         KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
     }
 
-    public static void render(Window window) {
+    public static void render(Ikkuna window) {
         renderöiTekstit(window);
         renderöi3DTeksti(window);
     }
 
-    private static void renderöiTekstit(Window window) {
+    private static void renderöiTekstit(Ikkuna window) {
         float scaleXOtsikko = 1;
         if (window.getWidth() > 0 && window.getHeight() > 0) scaleXOtsikko = window.getWidth()/ (window.getWidth()*2/window.getHeight());
         float scaleYOtsikko = window.getHeight()/16;
@@ -136,7 +136,7 @@ public class KehittäjäRuutu {
         }
     }
 
-    private static void renderöi3DTeksti(Window window) {
+    private static void renderöi3DTeksti(Ikkuna window) {
         teksti3dShader.bind();
         väriEfekti2(teksti3dShader);
         Model3D keimoTekstiModel = Assets.getModel3D("KeimoTeksti");

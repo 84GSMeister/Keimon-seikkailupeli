@@ -1,15 +1,14 @@
 package keimo.seikkailupeli.menu.asetusRuudut;
 
 import keimo.keimoengine.KeimoEngine;
-import keimo.keimoengine.grafiikat.Animaatio;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.PelinAsetukset;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -17,9 +16,10 @@ import java.awt.Color;
 public class PeliAsetusRuutu {
     private static int valinta = 0;
     private static int asetustenMäärä = 4;
-    private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
-    private static Animaatio osoitinKuvake = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+    private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
+    private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
     private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
@@ -27,7 +27,6 @@ public class PeliAsetusRuutu {
     private static Teksti asetusVaikeusasteTeksti = new Teksti("Vaikeusaste", Color.white, 600, 48);
     private static Teksti asetusNopeusTeksti = new Teksti("Pelin nopeus", Color.white, 600, 48);
     private static Teksti asetusDebugInfoTeksti = new Teksti("Debug-tiedot (F3)", Color.white, 600, 48);
-    private static Tekstuuri hyväksyTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/asetukset_takaisin.png");
 
     private static Teksti tilaVaikeusasteTeksti = new Teksti("Normaali", Color.white, 800, 48);
     private static Teksti tilaNopeusTeksti = new Teksti("60", Color.white, 600, 48);
@@ -73,6 +72,9 @@ public class PeliAsetusRuutu {
             }
             case "enter" -> {
                 hyväksy(valinta);
+            }
+            case "esc" -> {
+                peruuta();
             }
         }
         Äänet.toistaSFX("Valinta");
@@ -122,7 +124,11 @@ public class PeliAsetusRuutu {
         }
     }
 
-    public static void render(Shader shader, Window window) {
+    static void peruuta() {
+        KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+    }
+
+    public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         
         tilaVaikeusasteTeksti.päivitäTeksti(valittuVaikeusaste);

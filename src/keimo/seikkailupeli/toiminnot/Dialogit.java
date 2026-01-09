@@ -7,10 +7,11 @@ import keimo.keimoengine.grafiikat.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.assets.TavoiteLista;
-import keimo.seikkailupeli.assets.VuoropuheDialogiPätkä;
+import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
 import keimo.seikkailupeli.gui.toimintoIkkunat.DialogiValintaIkkuna;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Juomalasi;
+import keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC.Juhani;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -26,6 +27,13 @@ public class Dialogit {
 
     public static Tekstuuri vakiokuva = new Tekstuuri("tiedostot/kuvat/pelaaja_og.png");
 
+    /**
+     * Avaa ruudun alareunassa näkyvä dialogilaatikko. Kaikki pelin varsinainen tekstisisältö näytetään tässä.
+     * @param tekstuuri Puhuvan NPC:n / objektin kuva
+     * @param teksti dialogiteksti
+     * @param nimi puhujan nimi / otsikko
+     */
+
     public static void avaaDialogi(Renderöitävä tekstuuri, String teksti, String nimi) {
         Peli.syötteenTila = SyötteenTila.DIALOGI;
         Peli.dialoginAvausViive = 5;
@@ -35,6 +43,14 @@ public class Dialogit {
         dialogiTeksti.päivitäTeksti("");
         dialogiNimi.päivitäTeksti(nimi);
     }
+
+    /**
+     * Avaa ruudun alareunassa näkyvä dialogilaatikko. Kaikki pelin varsinainen tekstisisältö näytetään tässä.
+     * Jos tekstuuria ei ole saatavilla, käyetään vakiona pelaaja_og-kuvaketta.
+     * @param tekstuuri Puhuvan NPC:n / objektin kuva
+     * @param teksti dialogiteksti
+     * @param nimi puhujan nimi / otsikko
+     */
 
     public static void avaaDialogi(String tekstuurinPolku, String teksti, String nimi) {
         if (tekstuurinPolku == null || tekstuurinPolku == "") {
@@ -68,7 +84,7 @@ public class Dialogit {
 
     /**
      * Kelatessa pelaaja voi aina ensimmäisellä painalluksella scrollata dialogin loppuun, jos scrollaus on kesken.
-     * Jos scrollaus on valmis, painalluksenlla siirrytään seuraavaan ruutuun / suljetaan dialogi.
+     * Jos scrollaus on valmis, painalluksella siirrytään seuraavaan ruutuun / suljetaan dialogi.
      */
 
     public static void kelaaDialogi() {
@@ -83,7 +99,7 @@ public class Dialogit {
 
     /**
      * Tällä ohjataan dialogiruudun etenemistä.
-     * Jos dialogiaruutuja on useita, siirry seuraavaan ruutuun.
+     * Jos dialogiruutuja on useita, siirry seuraavaan ruutuun.
      * Jos dialogi on määritetty siirtymään valintaikkunaan ja viimeinen ruutu on auki, avaa valintaikkuna.
      * Jos dialogia on vain 1 ruutu tai viimeinen ruutu on auki eikä valintaa ole asetettu, sulje dialogi.
      */
@@ -194,6 +210,7 @@ public class Dialogit {
             if (vuoropuheRuudunTunniste != null) {
                 useitaRuutuja = true;
                 vuoropuheTunniste = vuoropuheRuudunTunniste;
+                // Hae dialogia dialogikartasta (kst-tiedostossa)
                 if (vuoropuheDialogiKartta.containsKey(vuoropuheRuudunTunniste)) {
                     VuoropuheDialogiPätkä dp = vuoropuheDialogiKartta.get(vuoropuheRuudunTunniste);
                     if (dp != null) {
@@ -271,6 +288,12 @@ public class Dialogit {
     }
 
     public class DialogiTriggerit {
+
+        /**
+         * Määritetään, mitä tapahtuu dialogin mukana määritetystä triggeristä. Näitä käytetään valintaikkunoiden yhteydessä.
+         * Triggerit löytyy kst-tiedostosta dialogin valinta-kohdasta
+         * @param triggeri triggerin nimi
+         */
         public static void suoritaDialogiTriggeri(String triggeri) {
             switch (triggeri) {
                 case "Avaa takahuone" -> {
@@ -300,6 +323,9 @@ public class Dialogit {
                     Juomalasi juomalasi = new Juomalasi(0, 0, ominaisuusLista);
                     if (!Pelaaja.loputonRaha) Pelaaja.raha -= juomalasi.annaHinta();
                     Pelaaja.annaEsine(juomalasi);
+                }
+                case "juhani_huumeostettu" -> {
+                    Juhani.annaHuume();
                 }
             }
         }

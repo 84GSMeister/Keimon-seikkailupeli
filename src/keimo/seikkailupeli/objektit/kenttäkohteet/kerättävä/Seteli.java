@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kerättävä;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -10,7 +10,7 @@ public final class Seteli extends Kerättävä {
         super(sijX, sijY);
         super.nimi = "Seteli";
         super.tiedostonNimi = "seteli.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("seteli");
         super.asetaTiedot();
     }
 

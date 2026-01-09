@@ -3,7 +3,6 @@ package keimo.seikkailupeli.kenttä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
-import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
 
 import java.util.HashMap;
@@ -27,7 +26,8 @@ public class Tausta {
 		if (taustaTekstuurit.containsKey(taustanNimi)) taustaTekstuurit.get(taustanNimi).bind(0);
 		else virheTekstuuri.bind(0);
 
-		Matrix4f taustanSijainti = new Matrix4f().scale(1 * PelinAsetukset.zoom).translate(x, y, z);
+		Matrix4f taustanSijainti = new Matrix4f();
+		taustanSijainti.translate(x, y, z);
         Matrix4f resultMatrix = cameraMatrix.mul(taustanSijainti);
 		
 		taustaShader.setUniform("sampler", 0);

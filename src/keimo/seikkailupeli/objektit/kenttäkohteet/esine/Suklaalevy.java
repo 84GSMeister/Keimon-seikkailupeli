@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Suklaalevy extends Ruoka {
 
@@ -8,7 +8,7 @@ public final class Suklaalevy extends Ruoka {
         super(sijX, sijY);
         super.nimi = "Suklaalevy";
         super.tiedostonNimi = "suklaalevy.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("suklaalevy");
         super.katsomisTeksti = "Voisin syödä tämän.";
         super.heal = 2;
         super.hinta = 2.49;

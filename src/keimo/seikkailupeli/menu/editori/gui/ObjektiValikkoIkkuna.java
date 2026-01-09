@@ -7,9 +7,10 @@ import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.ObjektiListaNappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
+import keimo.seikkailupeli.menu.editori.gui.yläpalkki.Yläpalkki;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 import keimo.seikkailupeli.objektit.maastot.Maasto;
@@ -50,7 +51,6 @@ public class ObjektiValikkoIkkuna {
     private static Nappi välilehtiMaastoNappi = new Nappi(0.25f, 0.1f, 0.025f, 0.6f, välilehtiMaastoTeksti);
     private static Nappi välilehtiEntitytNappi = new Nappi(0.25f, 0.1f, 0.525f, 0.6f, välilehtiEntitytTeksti);
 
-    private static Teksti objektinNimiTeksti = new Teksti("objekti", Color.white, 800, 48);
     private static HashMap<Integer, ObjektiListaNappi> esineValikko = new HashMap<>();
     private static HashMap<Integer, ObjektiListaNappi> maastoValikko = new HashMap<>();
     private static HashMap<Integer, ObjektiListaNappi> entityValikko = new HashMap<>();
@@ -193,7 +193,7 @@ public class ObjektiValikkoIkkuna {
         EditoriRuutu.estäVahinkoPainallukset = true;
     }
 
-    public static void renderöi(Shader shader, Window window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         // Pohja
         Matrix4f objektiValikonSijainti = new Matrix4f();
         objektiValikonSijainti.scale(scaleX, scaleYPohja, 1);

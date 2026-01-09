@@ -5,10 +5,9 @@ import keimo.keimoengine.collision.AABB;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Transform;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.gui.hud.NäppäinVinkkiTekstit;
-import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.Käännettävä.SuuntaVasenOikea;
 
@@ -31,6 +30,7 @@ public class PelaajaModel {
     private Renderöitävä hitboxKehysTekstuuri = new Tekstuuri("tiedostot/kuvat/entity/hitbox_kehys.png");
     private Shader pelaajaShader = new Shader("shader");
     private Shader pelaajaShaderStaattinen = new Shader("staattinen");
+    private Shader käyttöVinkkiTekstiShader = new Shader("shader");
     private boolean peilaaX = false;
     private boolean peilaaY = false;
     private int scale = 32;
@@ -80,12 +80,12 @@ public class PelaajaModel {
         this.boundingBox = new AABB(new Vector2f(transform.pos.x, transform.pos.y), new Vector2f(1, 1));
     }
 
-    public void update(float delta, Window window, Kamera camera, Maailma world) {
+    public void update(float delta, Ikkuna window, Kamera camera) {
         transform.pos.set(new Vector3f((float)Pelaaja.hitbox.getCenterX()/scale -1, (float)-Pelaaja.hitbox.getCenterY()/scale +1, 0));
         boundingBox.getCenter().set(transform.pos.x, transform.pos.y);
     }
 
-    public void render(Kamera camera, Maailma world, Window window) {
+    public void render(Kamera camera, Ikkuna window) {
         pelaajaShader.bind();
         pelaajaShader.setUniform("sampler", 0);
 
@@ -121,9 +121,10 @@ public class PelaajaModel {
         }
         if (Pelaaja.sijX < Peli.annaObjektiKenttä().length && Pelaaja.sijY < Peli.annaObjektiKenttä().length) {
             if (Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY] != null) {
-                NäppäinVinkkiTekstit.renderöiNäppäinVinkki(pelaajaShaderStaattinen, camera, transform);
+                NäppäinVinkkiTekstit.renderöiNäppäinVinkki(Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY], pelaajaShaderStaattinen, camera, transform);
             }
         }
+        NäppäinVinkkiTekstit.renderöiKäyttöesineenVinkki(Peli.valittuEsine, käyttöVinkkiTekstiShader, camera, transform);
     }
 
     private void valitsePelaajanKuvake() {

@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ public final class Pelikone extends Kiintopiste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Pelikone";
         super.tiedostonNimi = "pelikone.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("pelikone");
         super.katsomisTeksti = "Mitenkäs tätä pelataan?";
 
         if (ominaisuusLista != null) {
@@ -29,7 +29,7 @@ public final class Pelikone extends Kiintopiste {
                     }
                 }
             }
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
             this.lisäOminaisuuksia = false;
@@ -58,11 +58,11 @@ public final class Pelikone extends Kiintopiste {
     }
 
     @Override
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("tyyppi="));
         this.lisäOminaisuudet.add("tyyppi=" + this.annaTyyppi());
-        super.päivitäLisäOminaisuudet();
     }
 
     public int annaTyyppi() {

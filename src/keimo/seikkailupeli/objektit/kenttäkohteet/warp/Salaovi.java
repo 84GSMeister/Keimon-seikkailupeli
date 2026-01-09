@@ -1,13 +1,14 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.warp;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
 public class Salaovi extends Warp {
 
-    private Tekstuuri suljettuTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/salaovi.png");
-    private Tekstuuri avattuTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/reunawarppi.png");
+    private Renderöitävä suljettuTekstuuri = Assets.annaTekstuuri("salaovi");
+    private Renderöitävä avattuTekstuuri = Assets.annaTekstuuri("oviruutu");
 
     public Salaovi(int x, int y, ArrayList<String> ominaisuusLista) {
         super(x, y, ominaisuusLista);

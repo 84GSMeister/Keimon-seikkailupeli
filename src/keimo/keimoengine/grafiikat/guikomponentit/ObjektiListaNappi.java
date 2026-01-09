@@ -7,8 +7,7 @@ import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 
 public class ObjektiListaNappi extends Nappi {
 
@@ -41,12 +40,12 @@ public class ObjektiListaNappi extends Nappi {
     }
 
     @Override
-    public void renderöi(Shader shader, Window window) {
+    public void renderöi(Shader shader, Ikkuna window) {
         this.window = window;
         this.renderöiKomponentti(shader, teksti, kuvake, window, scaleX, scaleY, 1, offsetX, offsetY, 0, 0, false, false);
     }
 
-    private void renderöiKomponentti(Shader shader, Teksti teksti, Renderöitävä kuvake, Window window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+    private void renderöiKomponentti(Shader shader, Teksti teksti, Renderöitävä kuvake, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX + 0.06f, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);

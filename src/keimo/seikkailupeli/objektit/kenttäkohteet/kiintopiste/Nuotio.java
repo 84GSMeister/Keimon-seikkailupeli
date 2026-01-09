@@ -1,6 +1,7 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.*;
 
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ public final class Nuotio extends Kiintopiste {
     private boolean polttoaine = false;
     private boolean sytytetty = false;
 
-    private Tekstuuri sammunutTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nuotio_sammunut.png");
-    private Tekstuuri sytytettyTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nuotio.png");
+    private Renderöitävä sammunutTekstuuri = Assets.annaTekstuuri("nuotio_sammunut");
+    private Renderöitävä sytytettyTekstuuri = Assets.annaTekstuuri("nuotio");
 
     public Nuotio(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
@@ -21,6 +22,7 @@ public final class Nuotio extends Kiintopiste {
         super.tekstuuri = sammunutTekstuuri;
         super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
         super.asetaTiedot();
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
     
     public String kokeileEsinettä(Esine e) {

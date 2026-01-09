@@ -1,10 +1,14 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet;
 
 import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VisuaalinenObjekti extends KenttäKohde {
+
+    private static HashMap<String, Renderöitävä> objektiTekstuurit = new HashMap<>();
 
     public VisuaalinenObjekti(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY);
@@ -14,7 +18,13 @@ public class VisuaalinenObjekti extends KenttäKohde {
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("kuva=")) {
                     tiedostonNimi = ominaisuus.substring(5);
-                    this.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi);
+                    if (objektiTekstuurit.containsKey(tiedostonNimi)) {
+                        this.tekstuuri = objektiTekstuurit.get(tiedostonNimi);
+                    }
+                    else {
+                        objektiTekstuurit.put(tiedostonNimi, new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/" + tiedostonNimi));
+                        this.tekstuuri = objektiTekstuurit.get(tiedostonNimi);
+                    }
                     this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
                 }
                 else if (ominaisuus.startsWith("kääntö=")) {
@@ -53,9 +63,6 @@ public class VisuaalinenObjekti extends KenttäKohde {
                 }
                 else if (ominaisuus.startsWith("dialogi=")) {
                     this.katsomisDialogi = ominaisuus.substring(8);
-                }
-                else if (ominaisuus.startsWith("tavoite=")) {
-                    this.tavoite = ominaisuus.substring(8);
                 }
             }
             if (tiedostonNimi.endsWith("_e.png")) {
@@ -102,28 +109,22 @@ public class VisuaalinenObjekti extends KenttäKohde {
         päivitäLisäOminaisuudet();
     }
 
-    private String tavoite = "";
-    public String annaTavoite() {
-        return tavoite;
-    }
-
     public void päivitäLisäOminaisuudet() {
         if (this.lisäOminaisuudet != null) {
             this.lisäOminaisuuksia = true;
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kuva="));
             this.lisäOminaisuudet.add("kuva="+ tiedostonNimi);
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
-            this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+            if (kääntöAsteet != 0) this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
-            this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
+            if (xPeilaus) this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
-            this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
+            if (yPeilaus) this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("katsottava="));
-            this.lisäOminaisuudet.add("katsottava=" + (katsottava ? "kyllä" : "ei"));
+            if (katsottava) this.lisäOminaisuudet.add("katsottava=" + (katsottava ? "kyllä" : "ei"));
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("dialogi="));
-            this.lisäOminaisuudet.add("dialogi=" + katsomisDialogi);
+            if (katsottava) this.lisäOminaisuudet.add("dialogi=" + katsomisDialogi);
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("tavoite="));
-            this.lisäOminaisuudet.add("tavoite=" + tavoite);
             super.asetaTiedot();
         }
     }

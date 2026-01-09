@@ -1,5 +1,7 @@
 package keimo.seikkailupeli.objektit.entityt;
 
+import java.util.ArrayList;
+
 import keimo.keimoengine.collision.Neliö;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -17,7 +19,7 @@ public abstract class LiikkuvaObjekti extends Entity {
     }
 
     @Override
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
         // Tähän ei tarvita mitään, mutta metodin pitää olla olemassa.
     }
 
@@ -133,70 +135,76 @@ public abstract class LiikkuvaObjekti extends Entity {
     }
 
     public void kokeileLiikkumistaTile(Suunta suunta) {
-        switch (suunta) {
-            case VASEN, YLÄVASEN, ALAVASEN -> {
-                this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
-                this.suunta = Suunta.VASEN;
-                if (sijX > 0) {
-                    if (Peli.annaMaastoKenttä()[sijX-1][sijY] == null) {
-                        sijX--;
-                        hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
-                    }
-                    else {
-                        if (!Peli.annaMaastoKenttä()[sijX-1][sijY].estääköLiikkumisen(suunta)) {
+        try {
+            switch (suunta) {
+                case VASEN, YLÄVASEN, ALAVASEN -> {
+                    this.suuntaVasenOikea = SuuntaVasenOikea.VASEN;
+                    this.suunta = Suunta.VASEN;
+                    if (sijX > 0) {
+                        if (Peli.annaMaastoKenttä()[sijX-1][sijY] == null) {
                             sijX--;
                             hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
                         }
+                        else {
+                            if (!Peli.annaMaastoKenttä()[sijX-1][sijY].estääköLiikkumisen(suunta)) {
+                                sijX--;
+                                hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
+                            }
+                        }
                     }
                 }
-            }
-            case OIKEA, YLÄOIKEA, ALAOIKEA -> {
-                this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
-                this.suunta = Suunta.OIKEA;
-                if (sijX < Peli.kentänKoko) {
-                    if (Peli.annaMaastoKenttä()[sijX+1][sijY] == null) {
-                        sijX++;
-                        hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
-                    }
-                    else {
-                        if (!Peli.annaMaastoKenttä()[sijX+1][sijY].estääköLiikkumisen(suunta)) {
+                case OIKEA, YLÄOIKEA, ALAOIKEA -> {
+                    this.suuntaVasenOikea = SuuntaVasenOikea.OIKEA;
+                    this.suunta = Suunta.OIKEA;
+                    if (sijX < Peli.kentänKoko-1) {
+                        if (Peli.annaMaastoKenttä()[sijX+1][sijY] == null) {
                             sijX++;
                             hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
                         }
+                        else {
+                            if (!Peli.annaMaastoKenttä()[sijX+1][sijY].estääköLiikkumisen(suunta)) {
+                                sijX++;
+                                hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
+                            }
+                        }
                     }
                 }
-            }
-            case ALAS -> {
-                this.suunta = Suunta.ALAS;
-                if (sijY < Peli.kentänKoko) {
-                    if (Peli.annaMaastoKenttä()[sijX][sijY+1] == null) {
-                        sijY++;
-                        hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
-                    }
-                    else {
-                        if (!Peli.annaMaastoKenttä()[sijX][sijY+1].estääköLiikkumisen(suunta)) {
+                case ALAS -> {
+                    this.suunta = Suunta.ALAS;
+                    if (sijY < Peli.kentänKoko-1) {
+                        if (Peli.annaMaastoKenttä()[sijX][sijY+1] == null) {
                             sijY++;
                             hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
                         }
-                    }
-                }
-            }
-            case YLÖS -> {
-                this.suunta = Suunta.YLÖS;
-                if (sijY > 0) {
-                    if (Peli.annaMaastoKenttä()[sijX][sijY-1] == null) {
-                        sijY--;
-                        hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
-                    }
-                    else {
-                        if (!Peli.annaMaastoKenttä()[sijX][sijY-1].estääköLiikkumisen(suunta)) {
-                            sijY--;
-                            hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
+                        else {
+                            if (!Peli.annaMaastoKenttä()[sijX][sijY+1].estääköLiikkumisen(suunta)) {
+                                sijY++;
+                                hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
+                            }
                         }
                     }
                 }
+                case YLÖS -> {
+                    this.suunta = Suunta.YLÖS;
+                    if (sijY > 0) {
+                        if (Peli.annaMaastoKenttä()[sijX][sijY-1] == null) {
+                            sijY--;
+                            hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
+                        }
+                        else {
+                            if (!Peli.annaMaastoKenttä()[sijX][sijY-1].estääköLiikkumisen(suunta)) {
+                                sijY--;
+                                hitbox.setLocation(sijX * tilenKoko, sijY * tilenKoko);
+                            }
+                        }
+                    }
+                }
+                case null, default -> {}
             }
-            case null, default -> {}
+        }
+        catch (Exception e) {
+            System.out.println("Objektin liikuttaminen epäonnistui.");
+            e.printStackTrace();
         }
     }
 }

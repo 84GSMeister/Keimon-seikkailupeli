@@ -60,8 +60,8 @@ public abstract class KenttäKohde extends PeliObjekti {
     }
 
     @Override
-    public void päivitäLisäOminaisuudet() {
-        // Tähän ei tarvita mitään, mutta metodin pitää olla olemassa.
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     public static KenttäKohde luoObjektiTiedoilla(String objektinNimi, int sijX, int sijY, ArrayList<String> ominaisuusLista) {
@@ -131,7 +131,6 @@ public abstract class KenttäKohde extends PeliObjekti {
     protected void asetaTiedot() {
         tiedot = "";
         tiedot += "Objektin ID: " + this.objektinId + "\n";
-        tiedot += "Nimi: " + this.annaNimi() + "\n";
 
         if (this instanceof Esine) {
             tiedot += "Tyyppi: Esine";
@@ -193,9 +192,6 @@ public abstract class KenttäKohde extends PeliObjekti {
             VisuaalinenObjekti vo = (VisuaalinenObjekti)this;
             tiedot += "Estää liikkumisen: " + (vo.onkoEste() ? "kyllä" : "ei") + "\n";
             tiedot += "Kuva: " + vo.annaKuvanTiedostoNimi() + "\n";
-            tiedot += "Kääntö: " + vo.annaKääntöAsteet() + "\n";
-            tiedot += "X-peilaus: " + (vo.annaXPeilaus() ? "kyllä" : "ei") + "\n";
-            tiedot += "Y-peilaus: " + (vo.annaYPeilaus() ? "kyllä" : "ei") + "\n";
         }
         else if (this instanceof AvattavaEste) {
             tiedot += "Tyyppi: Avattava este" + "\n";
@@ -221,6 +217,10 @@ public abstract class KenttäKohde extends PeliObjekti {
         else if (this instanceof Kerättävä) {
             tiedot += "Tyyppi: Kerättävä" + "\n";
         }
+
+        tiedot += "Kääntö: " + this.annaKääntöAsteet() + "\n";
+        tiedot += "X-peilaus: " + (this.annaXPeilaus() ? "kyllä" : "ei") + "\n";
+        tiedot += "Y-peilaus: " + (this.annaYPeilaus() ? "kyllä" : "ei") + "\n";
     }
     
     public String annaTiedot() {

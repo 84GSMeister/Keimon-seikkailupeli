@@ -4,12 +4,12 @@ import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.TooltipTeksti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 
 import java.awt.Color;
 
 public class TileTooltip extends TooltipTeksti {
-    private Window window1;
+    private Ikkuna window1;
     private String teksti = "X, Y";
 
     public TileTooltip(String teksti) {
@@ -34,7 +34,7 @@ public class TileTooltip extends TooltipTeksti {
     }
     
     @Override
-    public void renderöi(Shader shader, Window window) {
+    public void renderöi(Shader shader, Ikkuna window) {
         window1 = window;
         this.tooltipTeksti.päivitäTeksti(teksti);
         this.tooltipTekstiLabel.renderöi(shader, window);

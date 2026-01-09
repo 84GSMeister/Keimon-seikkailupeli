@@ -4,12 +4,13 @@ import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.Ruudut;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
-import keimo.seikkailupeli.assets.VuoropuheDialogiPätkä;
+import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
 import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.toiminnot.Dialogit;
@@ -24,9 +25,9 @@ public class DialogiValintaIkkuna {
 
     private static Shader peliShader = new Shader("shader");
 
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
-    private static Animaatio osoitinTekstuuri = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Teksti vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
     private static String otsikkoTeksti = "";
     private static ArrayList<String> valintaTekstit = new ArrayList<>();
@@ -38,7 +39,7 @@ public class DialogiValintaIkkuna {
     private static String valintaDialoginTunniste = "";
     private static float siirräY;
 
-    public static void renderöi(Shader shader, Window window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -53,7 +54,7 @@ public class DialogiValintaIkkuna {
         
         for (int i = 0; i < valintojenMäärä; i++) {
             Renderöitävä osoitin;
-            if (i == valintaInt) osoitin = osoitinTekstuuri;
+            if (i == valintaInt) osoitin = osoitinKuvake;
             else osoitin = tyhjäTekstuuri;
             float scaleY;
             if (valintojenMäärä >= 4) scaleY = 1f / (3.25f*valintojenMäärä);

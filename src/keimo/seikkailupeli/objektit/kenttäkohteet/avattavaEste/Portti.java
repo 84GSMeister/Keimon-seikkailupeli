@@ -1,7 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.avattavaEste;
 
-import keimo.keimoengine.grafiikat.Animaatio;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public final class Portti extends AvattavaEste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Portti";
         super.tiedostonNimi = "portti.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("portti");
         super.katsomisTeksti = "portti";
         super.asetaTiedot();
     }
@@ -42,13 +41,13 @@ public final class Portti extends AvattavaEste {
         super.avaa(avaus);
         if (avaus) {
             if (päivitäKuvake) {
-                super.tekstuuri = new Animaatio(30, "tiedostot/kuvat/kenttäkohteet/portti_auki.gif", 1);
+                super.tekstuuri = Assets.annaTekstuuri("portti_auki");
                 Äänet.toistaSFX("portti", this.annaSijaintiKentällä());
                 päivitäKuvake = false;
             }
         }
         else {
-            super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/portti.png");
+            super.tekstuuri = Assets.annaTekstuuri("portti");
             päivitäKuvake = true;
         }
     }

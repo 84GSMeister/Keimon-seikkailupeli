@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.warp;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Juomalasi;
 import keimo.seikkailupeli.toiminnot.Dialogit;
@@ -15,7 +15,7 @@ public class Baariovi extends Warp {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Baariovi";
         super.tiedostonNimi = "baariovi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("baariovi");
         super.asetaTiedot();
     }
 

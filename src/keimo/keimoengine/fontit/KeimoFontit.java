@@ -1,10 +1,10 @@
 package keimo.keimoengine.fontit;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
-
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+
+import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class KeimoFontit {
 

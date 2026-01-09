@@ -1,40 +1,41 @@
 package keimo.seikkailupeli.äänet;
 
 import keimo.keimoengine.collision.Piste;
-import keimo.keimoengine.äänet.Dekoodaus;
+import keimo.keimoengine.äänet.PeliääniToistin;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
+import java.lang.Thread.State;
 import java.util.Random;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFormat.Encoding;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 public class Äänet {
-    protected static HashMap<Integer, Clip> ääniClipit = new HashMap<>();
-    private static int seuraavaÄäniIndeksi = 0;
-    private static int maxÄäntenMäärä = 20;
     private static double defaultVolume = 1;
     private static double defaultPan = 0;
-    private static AudioInputStream resampledInputStream;
     private static Random random = new Random();
+
+    private static Object äänisäikeenLukko = new Object();
+    private static Thread äänisäie;
+    private static String äänisäieÄäni = "";
+    private static double äänisäieVolyymi = 0;
+    private static double äänisäiePan = 0;
+    private static float äänisäieSampleRate = 44100;
+    private static boolean äänisäieLoop = false;
+    private static boolean äänisäieKäytäTiedostoa = false;
+    private static File äänisäieTiedosto;
+    private static boolean ääniSäieTakaperin = false;
 
     public static void toistaSFX(String ääni) {
         toistaSFX(ääni, defaultVolume, defaultPan);
     }
 
-    public static void toistaSFX(String ääni, boolean randomTaajuus) {
-        toistaSFX(ääni, defaultVolume, defaultPan, randomTaajuus);
+    public static void toistaSFX(String ääni, boolean muuttuvaTaajuus) {
+        toistaSFX(ääni, defaultVolume, defaultPan, muuttuvaTaajuus);
+    }
+
+    public static void toistaSFX(String ääni, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel ) {
+        toistaSFX(ääni, defaultVolume, defaultPan, muuttuvaTaajuus, minimiMuutosPuoliaskel, maksimiMuutosPuoliaskel);
     }
 
     public static void toistaSFX(String ääni, Piste sijaintiKentällä) {
@@ -54,17 +55,29 @@ public class Äänet {
         toistaSFX(ääni, volume, pan, false);
     }
 
-    public static void toistaSFX(String ääni, double volume, double pan, boolean randomTaajuus) {
+    public static void toistaSFX(String ääni, double volume, double pan, boolean muuttuvaTaajuus) {
+        toistaSFX(ääni, volume, pan, muuttuvaTaajuus, -1, 1);
+    }
+    
+    /**
+     * Toista valittu ääni
+     * @param ääni äänitiedoston nimi
+     * @param volume voimakkuus (0 - 1)
+     * @param pan stereo-panorointi: -1 = Täysin vasemmalla; 0 = Keskellä; 1 = Täysin oikealla
+     * @param randomTaajuus Aseta äänelle taajuusvaihtelua
+     * @param minimiMuutosPuoliaskel Montako puoliaskelta matalammalta ääni voidaan toistaa (Oletus = -1)
+     * @param maksimiMuutosPuoliaskel Montako puoliaskelta korkeammalta ääni voidaan toistaa (Oletus = 1)
+     */
+    public static void toistaSFX(String ääni, double volume, double pan, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel) {
         try {
-            if (randomTaajuus) {
-                //int puoliaskelMuutos = random.nextInt(-12, 13);
-                //float sampleRate = (float)(44100 * Math.pow(2d, (((double)puoliaskelMuutos)/12d)));
-                float minTaajuus = (float)(44100 * Math.pow(2d, ((-1/12d))));
-                float maxTaajuus = (float)(44100 * Math.pow(2d, ((1/12d))));
+            double sfxVolyymi = volume * PelinAsetukset.ääniVolyymi;
+            if (muuttuvaTaajuus) {
+                float minTaajuus = (float)(44100 * Math.pow(2d, ((minimiMuutosPuoliaskel/12d))));
+                float maxTaajuus = (float)(44100 * Math.pow(2d, ((maksimiMuutosPuoliaskel/12d))));
                 float sampleRate = random.nextFloat(minTaajuus, maxTaajuus);
-                toistaResamplattavaÄäni(sampleRate, ääni, false, false);
+                toistaÄäni(ääni, sfxVolyymi, pan, sampleRate, false, false);
             }
-            else toistaÄäni(ääni, volume, pan);
+            else toistaÄäni(ääni, sfxVolyymi, pan, 44100, false, false);
         }
         catch (Exception e) {
             System.out.println("Äänitiedostoa \"" + ääni + "\" ei löytynyt");
@@ -72,167 +85,91 @@ public class Äänet {
         }
     }
 
-    public static void toistaÄäni(String ääni, double volume, double pan) {
+    public static void toistaSFXMuunnetullaTaajuudella(String ääni, float muutosPuoliaskel) {
+        toistaSFXMuunnetullaTaajuudella(ääni, defaultVolume, defaultPan, muutosPuoliaskel);
+    }
+
+    public static void toistaSFXMuunnetullaTaajuudella(String ääni, double volume, double pan, float muutosPuoliaskel) {
         try {
-            for (int i = 0; i < ääniClipit.size(); i++) {
-                if (!ääniClipit.get(i).isActive()) {
-                    if (ääniClipit.get(i).isOpen()) {
-                        ääniClipit.get(i).close();
-                    }
-                }
-            }
-            boolean kasvataÄäniIndeksiä = false;
+            double sfxVolyymi = volume * PelinAsetukset.ääniVolyymi;
+            float sampleRate = (float)(44100 * Math.pow(2d, ((muutosPuoliaskel/12d))));
+            toistaÄäni(ääni, sfxVolyymi, pan, sampleRate, false, false);
+        }
+        catch (Exception e) {
+            System.out.println("Äänitiedostoa \"" + ääni + "\" ei löytynyt");
+            e.printStackTrace();
+        }
+    }
 
-            if (PelinAsetukset.äänetPäällä) {
-                AudioInputStream audioInputStream = null;
-                String tiedostotyyppi = "";
-                String tiedostonNimi = "";
-                String tiedostonPolku = "";
-            
-                File ääniTiedosto = Assets.annaÄäni(ääni);
-                tiedostonNimi = ääniTiedosto.getName();
-                tiedostonPolku = ääniTiedosto.getPath();
-                if (tiedostonNimi.length() > 3) {
-                    tiedostotyyppi = tiedostonNimi.substring(tiedostonNimi.length()-3, tiedostonNimi.length());
-                }
-                switch (tiedostotyyppi) {
-                    case "wav" -> {
-                        audioInputStream = AudioSystem.getAudioInputStream(ääniTiedosto);
-                    }
-                    case "mp3" -> {
-                        audioInputStream = Dekoodaus.decodeMP3(tiedostonPolku);
-                    }
-                    case "ogg" -> {
-                        audioInputStream = Dekoodaus.decodeOgg(tiedostonPolku);
-                    }
-                    case null, default -> {
-                        System.out.println("Ei-tuettu tiedostotyyppi: " + tiedostonNimi);
-                        throw new UnsupportedAudioFileException();
-                    }
-                }
-
-                if (ääniClipit.get(seuraavaÄäniIndeksi) == null) {
-                    Clip clip = AudioSystem.getClip();
-                    ääniClipit.put(seuraavaÄäniIndeksi, clip);
-                    kasvataÄäniIndeksiä = true;
-                }
-                ääniClipit.get(seuraavaÄäniIndeksi).open(audioInputStream);
-                
-                FloatControl gainControl = (FloatControl)ääniClipit.get(seuraavaÄäniIndeksi).getControl(FloatControl.Type.MASTER_GAIN);
-                float gainFloat = (float)(Math.pow(PelinAsetukset.ääniVolyymi * volume, (1f/9f))*80 -80);
-                gainControl.setValue(gainFloat);
-                try {
-                    FloatControl panControl = (FloatControl)ääniClipit.get(seuraavaÄäniIndeksi).getControl(FloatControl.Type.PAN);
-                    float panFloat = (float)pan;
-                    panControl.setValue(panFloat);
-                }
-                catch (IllegalArgumentException e) {
-                    System.out.println("Panoroinnin säätö ei onnistunut. Tiedosto saattaa olla monoääni.");
-                    e.printStackTrace();
-                }
-                finally {
-                    ääniClipit.get(seuraavaÄäniIndeksi).start();
-                    if (kasvataÄäniIndeksiä) {
-                        seuraavaÄäniIndeksi++;
-                        seuraavaÄäniIndeksi %= maxÄäntenMäärä;
-                    }
-                    else {
-                        for (int i = 0; i < ääniClipit.size(); i++) {
-                            if (!ääniClipit.get(i).isOpen()) {
-                                seuraavaÄäniIndeksi = i;
-                                break;
+    public static Thread luoÄänisäie() {
+        äänisäie = new Thread() {
+            @Override
+            public void run() {
+                synchronized(äänisäikeenLukko) {
+                    try {
+                        if (PelinAsetukset.äänetPäällä) {
+                            double toistoVolyymi = äänisäieVolyymi;
+                            if (äänisäieKäytäTiedostoa) {
+                                PeliääniToistin.toistaResamplattavaÄäni(äänisäieSampleRate, äänisäieTiedosto, toistoVolyymi, äänisäiePan, äänisäieLoop, ääniSäieTakaperin);
                             }
-                            else if (i == maxÄäntenMäärä-1) {
-                                ääniClipit.get(i).close();
+                            else {
+                                File ääniTiedosto = Assets.annaÄäni(äänisäieÄäni);
+                                PeliääniToistin.toistaResamplattavaÄäni(äänisäieSampleRate, ääniTiedosto, toistoVolyymi, äänisäiePan, äänisäieLoop, ääniSäieTakaperin);
                             }
                         }
                     }
+                    catch (Exception e) {
+                        System.out.println("Ääntä ei voitu toistaa");
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        return äänisäie;
+    }
+
+    private static void asetaArvotSäikeelle(String ääni, double volume, double pan, float sampleRate, boolean loop, boolean käytäTiedostoa, File tiedosto, boolean takaperin) {
+        äänisäieÄäni = ääni;
+        äänisäieVolyymi = volume;
+        äänisäiePan = pan;
+        äänisäieSampleRate = sampleRate;
+        äänisäieLoop = loop;
+        äänisäieKäytäTiedostoa = käytäTiedostoa;
+        äänisäieTiedosto = tiedosto;
+        ääniSäieTakaperin = takaperin;
+    }
+
+    public static void toistaÄäni(File ääniTiedosto, double volume, double pan, boolean muutaTaajuutta, float sampleRate, boolean loop, boolean takaperin) {
+        try {
+            if (äänisäie == null || äänisäie.getState() == State.TERMINATED) {
+                äänisäie = luoÄänisäie();
+            }
+            if (äänisäie != null) {
+                if (äänisäie.getState() != State.TERMINATED && äänisäie.getState() != State.RUNNABLE) {
+                    System.out.println();
+                    asetaArvotSäikeelle("", volume, pan, sampleRate, loop, true, ääniTiedosto, takaperin);
+                    äänisäie.start();
                 }
             }
         }
         catch (Exception e) {
-            System.out.println("Ääntä ei voitu toistaa");
+            System.out.println("Thread state: " + äänisäie.getState());
             e.printStackTrace();
         }
     }
 
-    public static void toistaResamplattavaÄäni(float sampleRate, String ääni, boolean musa, boolean toistaWoof) {
+    public static void toistaÄäni(String ääni, double volume, double pan, float sampleRate, boolean loop, boolean takaperin) {
         try {
-            if (ääniClipit.get(seuraavaÄäniIndeksi) != null) {
-                ääniClipit.get(seuraavaÄäniIndeksi).close();
+            if (äänisäie == null || äänisäie.getState() == State.TERMINATED) {
+                äänisäie = luoÄänisäie();
             }
-
-            File ääniTiedosto = Assets.annaÄäni(ääni);
-            // String tiedostonNimi = ääniTiedosto.getName();
-            // String tiedostonPolku = ääniTiedosto.getPath();
-            // if (tiedostonNimi.length() > 3) {
-            //     tiedostotyyppi = tiedostonNimi.substring(tiedostonNimi.length()-3, tiedostonNimi.length());
-            // }
-            AudioInputStream sourceStream;
-            if (ääniTiedosto.getName().endsWith(".wav")) {
-                sourceStream = AudioSystem.getAudioInputStream(ääniTiedosto);
+            if (äänisäie != null) {
+                asetaArvotSäikeelle(ääni, volume, pan, sampleRate, loop, false, null, takaperin);
+                äänisäie.start();
             }
-            else if (ääniTiedosto.getName().endsWith(".ogg")) {
-                sourceStream = Dekoodaus.decodeOgg(ääniTiedosto.getPath());
-            }
-            else if (ääniTiedosto.getName().endsWith(".mp3")) {
-                sourceStream = Dekoodaus.decodeMP3(ääniTiedosto.getPath());
-            }
-            else {
-                throw new UnsupportedAudioFileException();
-            }
-            AudioFormat sourceFormat = sourceStream.getFormat();
-            AudioFormat targetFormat = getOutFormat(sourceFormat, sampleRate);
-            resampledInputStream = new AudioInputStream(sourceStream, targetFormat, AudioSystem.NOT_SPECIFIED);
-
-            if (ääniClipit.get(seuraavaÄäniIndeksi) == null) {
-                Clip clip = AudioSystem.getClip();
-                ääniClipit.put(seuraavaÄäniIndeksi, clip);
-            }
-            ääniClipit.get(seuraavaÄäniIndeksi).open(resampledInputStream);
-            // if (musa) {
-            //     int loopStart = valitsePeliMusanLoopKohta(ääniTiedosto.getName(), 44100);
-            //     int loopEnd = ääniClipit.get(seuraavaÄäniIndeksi).getFrameLength()-1;
-            //     ääniClipit.get(seuraavaÄäniIndeksi).setLoopPoints(loopStart, loopEnd);
-            //     ääniClipit.get(seuraavaÄäniIndeksi).loop(Clip.LOOP_CONTINUOUSLY);
-            // }
-            FloatControl gainControl = (FloatControl) ääniClipit.get(seuraavaÄäniIndeksi).getControl(FloatControl.Type.MASTER_GAIN);
-            float gain = 0;
-            if (musa) gain = (float)(Math.pow(PelinAsetukset.musaVolyymi, (1f/9f))*80 -80);
-            else gain = (float)(Math.pow(PelinAsetukset.ääniVolyymi, (1f/9f))*80 -80);
-            gainControl.setValue(gain);
-            ääniClipit.get(seuraavaÄäniIndeksi).start();
-
-            seuraavaÄäniIndeksi++;
-            seuraavaÄäniIndeksi %= maxÄäntenMäärä;
         }
-        catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static AudioFormat getOutFormat(AudioFormat inFormat, float sampleRate) {
-        Encoding enc = inFormat.getEncoding();
-        int ch = inFormat.getChannels();
-        float rate = inFormat.getSampleRate();
-        boolean isBigEndian = inFormat.isBigEndian();
-        return new AudioFormat(enc, sampleRate, 16, ch, ch * 2, rate, isBigEndian);
-    }
-
-    public static void suljeToistetutÄänet() {
-        for (Clip clip : ääniClipit.values()) {
-            if (!clip.isActive() && clip.isOpen()) {
-                clip.close();
-            }
-        }
-    }
-
-    public static void asetaSFXVolyymi(double volyymi) {
-        if (ääniClipit.get(seuraavaÄäniIndeksi) != null) {
-            FloatControl gainControl = (FloatControl) ääniClipit.get(seuraavaÄäniIndeksi).getControl(FloatControl.Type.MASTER_GAIN);
-            float gain = (float)(Math.pow(volyymi, (1f/9f))*80 -80);
-            gainControl.setValue(gain);
-        }
-        PelinAsetukset.ääniVolyymi = volyymi;
     }
 }

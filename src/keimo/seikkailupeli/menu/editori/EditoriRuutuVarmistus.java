@@ -2,14 +2,13 @@ package keimo.seikkailupeli.menu.editori;
 
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
-import keimo.keimoengine.grafiikat.Animaatio;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -18,9 +17,9 @@ public class EditoriRuutuVarmistus {
     private static Teksti otsikkoTeksti = new Teksti("Siirry editoriin?", Color.white, 720, 100, KeimoFontit.fontti_keimo_36, true);
     private static Teksti tekstiTexture = new Teksti("Varmistusteksti", Color.white, 3000, 900);
     private static Teksti jatkaNappiTexture = new Teksti("Jatka", Color.white, 430, 48);
-    private static Tekstuuri takaisinNappiTexture = new Tekstuuri("tiedostot/kuvat/menu/asetukset_takaisin.png");
-    private static Animaatio osoitinKuvake = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäKuvake = new Tekstuuri("tiedostot/kuvat/menu/main_tyhjä.png");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
+    private static Renderöitävä takaisinTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static MenuKomponentti ostikkoLabel = new MenuKomponentti(1, 1f/6f, 0, 5f/6f, otsikkoTeksti);
     private static MenuKomponentti tekstiLabel = new MenuKomponentti(1, 0.5f, 0, 0, tekstiTexture);
 
@@ -77,7 +76,7 @@ public class EditoriRuutuVarmistus {
         KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
     }
 
-    public static void render(Shader shader, Window window) {
+    public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         shader.nollaaShaderEfektit();
 
@@ -100,13 +99,13 @@ public class EditoriRuutuVarmistus {
     private static Renderöitävä annaValikkoTeksti(int valikkoElementti) {
         switch (valikkoElementti) {
             case 0: return jatkaNappiTexture;
-            case 1: return takaisinNappiTexture;
+            case 1: return takaisinTekstuuri;
             default: return jatkaNappiTexture;
         }
     }
 
     private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
         if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäKuvake;
+        else return tyhjäTekstuuri;
     }
 }

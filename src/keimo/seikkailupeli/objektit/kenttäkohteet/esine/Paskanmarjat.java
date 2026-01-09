@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Paskanmarjat extends Esine {
 
@@ -8,7 +8,7 @@ public final class Paskanmarjat extends Esine {
         super(sijX, sijY);
         super.nimi = "Paskanmarjat";
         super.tiedostonNimi = "paskanmarjat.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("paskanmarjat");
         super.katsomisTeksti = "Näyttää harvinaisen epämiellyttäviltä. Ehkä näistä kuitenkin saa hyvän boolin.";
         super.yhdistettävä = true;
         super.kelvollisetYhdistettävät.add("Jallupullo");

@@ -1,10 +1,10 @@
 package keimo.utility;
 
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.assets.TarinaDialogiLista;
-import keimo.seikkailupeli.assets.TarinaPätkä;
-import keimo.seikkailupeli.assets.VuoropuheDialogiPätkä;
-import keimo.seikkailupeli.kenttä.Huone;
+import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
+import keimo.seikkailupeli.assets.huone.Huone;
+import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
+import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
 import keimo.seikkailupeli.objektit.entityt.*;

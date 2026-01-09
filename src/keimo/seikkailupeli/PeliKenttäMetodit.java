@@ -4,7 +4,6 @@ import keimo.TarkistettavatArvot;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoengine.collision.Neliö;
 import keimo.keimoengine.collision.Piste;
-import keimo.keimoengine.äänet.MidiToistin;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.liikesimulaatiot.*;
@@ -73,7 +72,6 @@ public class PeliKenttäMetodit {
 
     private static void tarkistaPeliMusa() {
         if (Peli.huone != null && Peli.syötteenTila == SyötteenTila.PELI) {
-            MidiToistin.suljeMusat();
             Musat.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
         }
     }

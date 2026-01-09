@@ -1,14 +1,14 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Avain extends Esine {
 
-    public Avain(int sijX, int sijY){
+    public Avain(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Avain";
         super.tiedostonNimi = "avain.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("avain");
         super.katsomisTeksti = "Onkohan kentällä jotain lukittua, johon tätä voisi käyttää?";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Kirstu");

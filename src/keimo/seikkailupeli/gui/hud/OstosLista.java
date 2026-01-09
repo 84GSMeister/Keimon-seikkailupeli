@@ -1,7 +1,7 @@
 package keimo.seikkailupeli.gui.hud;
 
 import keimo.keimoengine.grafiikat.*;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
@@ -20,7 +20,7 @@ public class OstosLista {
     private static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
     private static Shader shader1 = new Shader("shader");
 
-    public static void render(Shader shader, Window window) {
+    public static void render(Shader shader, Ikkuna window) {
         shader1.bind();
         shader1.nollaaShaderEfektit();
         shader1.setUniform("sampler", 0);

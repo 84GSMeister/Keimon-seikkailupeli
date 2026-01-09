@@ -5,7 +5,7 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 
@@ -36,7 +36,7 @@ public class TietoIkkuna {
         }
     }
 
-    public static void renderöi(Shader shader, Window window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         if (EditoriRuutu.tarkistettavaEsine != null) {
             if (EditoriRuutu.tarkistettavaEsine instanceof KenttäKohde) {
                 KenttäKohde k = (KenttäKohde)EditoriRuutu.tarkistettavaEsine;

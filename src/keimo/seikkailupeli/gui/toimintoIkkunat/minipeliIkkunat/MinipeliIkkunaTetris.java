@@ -4,7 +4,7 @@ import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -143,7 +143,7 @@ public class MinipeliIkkunaTetris {
         seuraavaPalikka = new Palikka(-1);
     }
 
-    public static void renderöiKehys(Window window) {
+    public static void renderöiKehys(Ikkuna window) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         float scaleX = ruudunLeveys/3f;
@@ -164,7 +164,7 @@ public class MinipeliIkkunaTetris {
         Assets.getModel().render();
     }
     
-    public static void renderöiIkkuna(Window window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
@@ -275,7 +275,7 @@ public class MinipeliIkkunaTetris {
         }
     }
 
-    private static void renderöiPalikka(Palikka palikka, Window window) {
+    private static void renderöiPalikka(Palikka palikka, Ikkuna window) {
         
         switch (kääntö) {
             default -> {
@@ -317,7 +317,7 @@ public class MinipeliIkkunaTetris {
         }
     }
 
-    private static void renderöiPalikanOsa(Palikka palikka, float x, float y, Window window, boolean staattinen) {
+    private static void renderöiPalikanOsa(Palikka palikka, float x, float y, Ikkuna window, boolean staattinen) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         float offsetX = ruudunLeveys/4f;
@@ -353,7 +353,7 @@ public class MinipeliIkkunaTetris {
         Assets.getModel().render();
     }
 
-    private static void renderöiSeuraavaPalikka(Palikka palikka, Window window) {
+    private static void renderöiSeuraavaPalikka(Palikka palikka, Ikkuna window) {
         switch (palikka.tyyppi) {
             case NELIÖ -> {
                 for (int y = 0; y < 2; y++) {
@@ -873,7 +873,7 @@ public class MinipeliIkkunaTetris {
         valikko = true;
         nollaa();
         Peli.syötteenTila = SyötteenTila.TOIMINTO;
-        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI_3;
+        Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.MINIPELI_TETRIS;
         Musat.suljeMusa();
         Musat.toistaPeliMusa("minipeli_tetris");
     }

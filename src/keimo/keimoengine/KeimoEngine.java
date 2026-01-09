@@ -8,29 +8,26 @@ import keimo.keimoengine.ikkuna.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PeliKenttäMetodit;
 import keimo.seikkailupeli.PelinAsetukset;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
-import keimo.seikkailupeli.assets.HuoneLista;
 import keimo.seikkailupeli.assets.PelaajaModel;
-import keimo.seikkailupeli.assets.TarinaDialogiLista;
-import keimo.seikkailupeli.assets.TarinaPätkä;
 import keimo.seikkailupeli.assets.TavoiteLista;
+import keimo.seikkailupeli.assets.huone.HuoneLista;
+import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
+import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.gui.*;
-import keimo.seikkailupeli.gui.hud.*;
 import keimo.seikkailupeli.gui.toimintoIkkunat.*;
-import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.*;
+import keimo.seikkailupeli.io.NäppäinKomennot;
+import keimo.seikkailupeli.io.OhjainKomennot;
 import keimo.seikkailupeli.kenttä.*;
 import keimo.seikkailupeli.menu.*;
-import keimo.seikkailupeli.menu.asetusRuudut.*;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
-import keimo.seikkailupeli.menu.editori.EditoriRuutuVarmistus;
 import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.entityt.npc.NPC;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
-import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Pulloautomaatti;
 import keimo.seikkailupeli.toiminnot.Dialogit;
-import keimo.seikkailupeli.toiminnot.NäppäinKomennot;
 import keimo.seikkailupeli.äänet.Musat;
 
 import java.awt.Color;
@@ -45,7 +42,6 @@ import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.lwjgl.glfw.*;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -59,18 +55,16 @@ public class KeimoEngine extends Thread {
     int ikkunanLeveys = 800;
     int ikkunanKorkeus = 600;
 	boolean kokoNäyttö = false;
-	public static Window window;
+	public static Ikkuna window;
 	public static boolean glKäynnistetty = false;
 
-	Shader valikkoShader;
 	static Kamera camera;
 	public static Teksti kaatoTeksti;
 	double startTime, passedTime, endTime;
-	double targetUpdate = 1f/6e0f;
+	public static double targetUpdate = 1f/6e0f;
 	public static double frameTime;
 	public static int frames;
 	double unprocessed = 0;
-	public static Maailma world;
 	
 	PelaajaModel player;
 	public static boolean siirryEditoriin = false;
@@ -94,13 +88,12 @@ public class KeimoEngine extends Thread {
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
 		GLFWErrorCallback.createPrint(System.err).set();
-		GLFW_Window.setCallbacks();
+		GLFW_Ikkuna.setCallbacks();
 		try {
 			//throw new IllegalStateException();
 			initGLFW();
 		}
 		catch (IllegalStateException ise) {
-			//JOptionPane.showMessageDialog(null, "Grafiikkaikkunan luonti epäonnistui.\n\nVarmista, että sinulla on OpenGL 3.2 -yhteensopiva näytönohjain ja ajurit ajan tasalla.\n\nNvidia: vähintään Geforce 8000 -sarja\nAMD/ATI: vähintään Radeon 3000 -sarja\nIntel: vähintään HD Graphics 4000 -sarja(Ivy Bridge)\nMuut: ei varmaan toimi", "Virhe OpenGL-kirjaston luonnissa.", JOptionPane.ERROR_MESSAGE);
 			ise.printStackTrace();
 
 			String viesti = "Grafiikkaikkunan luonti epäonnistui.\n\n" + //
@@ -120,8 +113,7 @@ public class KeimoEngine extends Thread {
 			switch (JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[1])) {
 				case JOptionPane.OK_OPTION -> {
 					try {
-						System.out.println("käynnisteään legacy-tilassa");
-						initLegacy();
+						JOptionPane.showMessageDialog(null, "Legacy-tilaa ei enää tueta.", "Ei tuettu", JOptionPane.ERROR_MESSAGE);
 					}
 					catch (Exception e) {
 						viesti = "Käsittämätön poikkeus sovelluksessa. \n\nSanokaa sille jontulle että vetää käteen ja korjaa paskan softansa.";
@@ -143,7 +135,7 @@ public class KeimoEngine extends Thread {
 		if (!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW");
 		}
-		window = new GLFW_Window(ikkunaTeksti, kokoNäyttö, ikkunanLeveys, ikkunanKorkeus);
+		window = new GLFW_Ikkuna(ikkunaTeksti, kokoNäyttö, ikkunanLeveys, ikkunanKorkeus);
 		final Image_parser ikkunanKuvake = Image_parser.load_image("tiedostot/kuvat/pelaaja_og.png");
 		GLFWImage image = GLFWImage.malloc(); GLFWImage.Buffer imagebf = GLFWImage.malloc(1);
 		if (ikkunanKuvake.get_image() != null) {
@@ -159,7 +151,6 @@ public class KeimoEngine extends Thread {
 		// creates the GLCapabilities instance and makes the OpenGL
 		// bindings available for use.
 		GL.createCapabilities();
-		//((GLFW_Window)(window)).createNuklearContext();
 		glKäynnistetty = true;
 		EngineAssets.createModels();
 
@@ -171,30 +162,24 @@ public class KeimoEngine extends Thread {
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		valikkoShader = new Shader("staattinen");
-		valikkoShader.bind();
-		valikkoShader.setUniform("sampler", 0);
-		valikkoShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-		valikkoShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
-		valikkoShader.setUniform("addcolor", new Vector4f(0f, 0f, 0f, 0f));
+		Renderöinti.luoShaderit();
 		
 		renderöiLatausRuutu("Ladataan grafiikkaa", 20);
 		Assets.lataa3DMallit();
-		luoObjektiTekstuurit();
+		Assets.lataaTekstuurit();
 		KeimoFontit.rekisteröiFontit();
 		player = new PelaajaModel();
 
-		renderöiLatausRuutu("Ladataan ääniä", 25);
+		renderöiLatausRuutu("Ladataan ääniä", 30);
 		Assets.lataaÄänet();
 		Assets.lataaMusat();
 
-		renderöiLatausRuutu("Ladataan asetuksia", 30);
+		renderöiLatausRuutu("Ladataan asetuksia", 35);
 		TavoiteLista.luoPääTavoiteLista();
 		TavoiteLista.luoTavoiteLista();
 		TarinaPätkä.nollaaTarinaId();
 		KenttäKohde.nollaaObjektiId();
 
-		//renderöiLatausRuutu("Ladataan kenttiä", 40);
 		HuoneLista.lataaPelitiedosto();
 		
 		renderöiLatausRuutu("Mukautetaan kenttiä", 70);
@@ -211,7 +196,7 @@ public class KeimoEngine extends Thread {
 		camera.setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(30), new Vector3f(1, 0, 0))));
 
 		renderöiLatausRuutu("Luodaan maailmaa", 80);
-		world = new Maailma();
+		Maailma.createWorld();
 		Maailma3D.createWorld();
 
 		renderöiLatausRuutu("Ladataan", 90);
@@ -223,13 +208,6 @@ public class KeimoEngine extends Thread {
 		renderöiLatausRuutu("Käynnistetään peliä", 95);
 		lataaTarinaRuutu("alku");
 		renderöiLatausRuutu("Valmis", 100);
-	}
-
-	private void initLegacy() {
-		ikkunanLeveys = 400;
-		ikkunanKorkeus = 150;
-		ikkunaTeksti = "Testi";
-		window = new Legacy_Window(ikkunaTeksti, kokoNäyttö, ikkunanLeveys, ikkunanKorkeus);
 	}
 
 	protected void loop() {
@@ -247,9 +225,10 @@ public class KeimoEngine extends Thread {
 					unprocessed -= targetUpdate;
 					canRender = true;
 					window.getInput().tarkistaSyöte();
+					OhjainKomennot.tarkistaSyöte();
 					peliLoop();
 					if (window.hasResized()) {
-						world.laskeNäköetäisyys(window);
+						Maailma.laskeNäköetäisyys(window);
 						camera.setOrthographic(window.getWidth(), window.getHeight());
 						camera.resetZoom(window);
 						window.setView(window.getWidth(), window.getHeight());
@@ -262,7 +241,7 @@ public class KeimoEngine extends Thread {
 					}
 				}
 				if (canRender) {
-					renderöiRuutu();
+					renderLoop();
 				}
 				else {
 					LockSupport.parkNanos(1_000_000);
@@ -289,10 +268,6 @@ public class KeimoEngine extends Thread {
 		System.exit(0);
 	}
 
-	private static void luoObjektiTekstuurit() {
-		Pulloautomaatti.luoTekstuurit();
-	}
-
 	public static void lataaTarinaRuutu(String tarina) {
 		valitseAktiivinenRuutu("tarinaruutu");
 		TarinaRuutu.lataaTarinaPätkä(tarina);
@@ -312,7 +287,7 @@ public class KeimoEngine extends Thread {
 				Peli.peliAloitettu = true;
 				Peli.peliKäynnissä = true;
 				Peli.pause = false;
-				world.laskeNäköetäisyys(window);
+				Maailma.laskeNäköetäisyys(window);
 				camera.resetZoom(window);
 				if (OhjeIkkuna.näytäOhjeet) OhjeIkkuna.avaaToimintoIkkuna();
 			}
@@ -339,8 +314,20 @@ public class KeimoEngine extends Thread {
 			case "asetusruutu_peli" -> {
 				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_PELI;
 			}
+			case "asetusruutu_ohjaimet" -> {
+				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_OHJAIMET;
+			}
 			case "asetusruutu_äänitesti" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI;
+				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_VALIKKO;
+			}
+			case "asetusruutu_äänitesti_peliäänet" -> {
+				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_PELIÄÄNET;
+			}
+			case "asetusruutu_äänitesti_midi" -> {
+				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_MIDI;
+			}
+			case "asetusruutu_äänitesti_woof" -> {
+				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_WOOF;
 			}
 			case "kehittäjäruutu" -> {
 				Peli.aktiivinenRuutu = Peli.Ruudut.KEHITTÄJÄRUUTU;
@@ -354,7 +341,7 @@ public class KeimoEngine extends Thread {
 				try {
 					Peli.aktiivinenRuutu = Peli.Ruudut.EDITORIRUUTU;
 					Peli.pause = true;
-					EditoriRuutu.luoEditoriRuutu((GLFW_Window)window);
+					EditoriRuutu.luoEditoriRuutu((GLFW_Ikkuna)window);
 					EditoriRuutu.lataaHuone(0);
 					EditorinValikko.suljeValikko();
 				}
@@ -371,150 +358,13 @@ public class KeimoEngine extends Thread {
 			}
 		}
 	}
-	double hudAika = 0;
-	private void renderöiRuutu() {
+	private void renderLoop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-		switch (Peli.aktiivinenRuutu) {
-			case PELIRUUTU -> {
-				double alkuAika = System.nanoTime();
-				kaatoTeksti.bind(0);
-
-				world.render(camera, window);
-				double tileAika = System.nanoTime() - alkuAika;
-				
-				player.update((float)targetUpdate, window, camera, world);
-				player.render(camera, world, window);
-				double pelaajaAika = System.nanoTime() - alkuAika - tileAika;
-				
-				//world.correctCamera(camera, window);
-				renderöiHUD();
-				
-				if (PelinAsetukset.debugTiedot) {
-					DebugTeksti.renderöiDebugTeksti(tileAika, pelaajaAika, hudAika, window);
-				}
-				DebugTeksti.renderöiLisäMoodiTekstit(window);
-				hudAika = System.nanoTime() - alkuAika - tileAika - pelaajaAika;
-			}
-			case TARINARUUTU -> {
-				TarinaRuutu.render(valikkoShader, window);
-			}
-			case VALIKKORUUTU -> {
-				ValikkoRuutu.render(valikkoShader, window);
-			}
-			case ASETUSRUUTU -> {
-				AsetusRuutu.render(valikkoShader, window);
-			}
-			case ASETUSRUUTU_GRAFIIKKA -> {
-				GrafiikkaAsetusRuutu.render(valikkoShader, window);
-			}
-			case ASETUSRUUTU_ÄÄNI -> {
-				ÄäniAsetusRuutu.render(valikkoShader, window);
-			}
-			case ASETUSRUUTU_PELI -> {
-				PeliAsetusRuutu.render(valikkoShader, window);
-			}
-			case ASETUSRUUTU_ÄÄNITESTI -> {
-				ÄäniTestiRuutu.render(window);
-			}
-			case KEHITTÄJÄRUUTU -> {
-				KehittäjäRuutu.render(window);
-			}
-			case LOPPURUUTU -> {
-				LoppuRuutu.render(window);
-			}
-			case VIRHERUUTU -> {
-				VirheRuutu.render(valikkoShader, window);
-			}
-			case MINIPELIRUUTU -> {
-				Maailma3D.render(window);
-			}
-			case EDITORIRUUTU -> {
-				EditoriRuutu.render(camera, window);
-				switch (Peli.syötteenTila) { 
-					case TOIMINTO -> {
-						EditorinValikko.renderöi(valikkoShader, window);
-					}
-					default -> {}
-				}
-			}
-			case EDITORIRUUTU_VARMISTUS -> {
-				EditoriRuutuVarmistus.render(valikkoShader, window);
-			}
-			case null, default -> {
-
-			}
-		}
+		Renderöinti.renderöiRuutu(window, camera, player);
 		window.swapBuffers();
 		frames++;
     }
 	
-	private void renderöiHUD() {
-		HUD.renderöiHUD(window);
-		TavoitePopup.renderöiTavoitePopup(window);
-		
-		switch (Peli.syötteenTila) {
-			case PELI -> {}
-			case DIALOGI -> {
-				HUD.renderöiDialogiLaatikko(window);
-			}
-			case TOIMINTO -> {
-				switch (Peli.toimintoIkkuna) {
-					case PULLONPALAUTUS -> {
-						PullonPalautusIkkuna.simuloiPullonpalautus();
-						PullonPalautusIkkuna.tarkistaTila();
-						PullonPalautusIkkuna.renderöiIkkuna(window);
-					}
-					case VALINTADIALOGI -> {
-						DialogiValintaIkkuna.renderöi(valikkoShader, window);
-					}
-					case ÄMPÄRIJONO -> {
-						ÄmpäriJonoIkkuna.simuloiÄmpärijono();
-						ÄmpäriJonoIkkuna.tarkistaTila();
-						ÄmpäriJonoIkkuna.renderöiIkkuna(window);
-					}
-					case KARTTA -> {
-						KarttaIkkuna.renderöiIkkuna(window);
-					}
-					case OHJEET -> {
-						OhjeIkkuna.renderöiIkkuna(window);
-					}
-					case HUIJAUSKOODIT -> {
-						HuijauskoodiValikko.renderöi(valikkoShader, window);
-					}
-					case MINIPELI_0 -> {
-
-					}
-					case MINIPELI_1 -> {
-						MinipeliIkkunaPong.pelaa();
-						MinipeliIkkunaPong.renderöiKehys(window);
-						MinipeliIkkunaPong.renderöiIkkuna(window, camera);
-					}
-					case MINIPELI_2 -> {
-						MinipeliIkkunaPokeri.pelaa();
-						MinipeliIkkunaPokeri.renderöiKehys(window);
-						MinipeliIkkunaPokeri.renderöiIkkuna(window, camera);
-					}
-					case MINIPELI_3 -> {
-						MinipeliIkkunaTetris.pelaa();
-						MinipeliIkkunaTetris.renderöiKehys(window);
-						MinipeliIkkunaTetris.renderöiIkkuna(window, camera);
-					}
-					case MINIPELI_4 -> {
-						MinipeliIkkunaOverflow.pelaa();
-						MinipeliIkkunaOverflow.renderöiKehys(window);
-						MinipeliIkkunaOverflow.renderöiIkkuna(window, camera);
-					}
-				}
-			}
-		}
-
-		if (Peli.huone != null) {
-			if (Peli.huone.annaNimi().startsWith("Kauppa")) {
-				OstosLista.render(valikkoShader, window);
-			}
-		}
-	}
-
 	private void renderöiLatausRuutu(String latausTeksti, int latausProsentti) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		LatausRuutu.päivitäLatausTeksti(latausTeksti, latausProsentti);
@@ -581,7 +431,7 @@ public class KeimoEngine extends Thread {
                     if (Peli.huone != null) {
 						if (!Peli.huone.annaTaustanPolku().equals(Peli.huoneKartta.get(huoneenId).annaTaustanPolku())) Tausta.häivytäTausta = true;
 						else Tausta.häivytäTausta = false;
-						häivytäPeliRuutuUlos();
+						Renderöinti.häivytäPeliRuutuUlos(window, camera, player);
 					}
 					Peli.huone = Peli.huoneKartta.get(huoneenId);
 					Peli.muutaKentänKokoa(Peli.huone.annaKoko());
@@ -627,7 +477,7 @@ public class KeimoEngine extends Thread {
                     else {
                         //Musat.toistaPeliMusa(null);
                     }
-					häivytäPeliRuutuSisään();
+					Renderöinti.häivytäPeliRuutuSisään(window, camera, player);
                 }
                 else {
 					Dialogit.haeTavoiteVinkkiTeksti(Peli.huoneKartta.get(huoneenId).annaVaaditunTavoitteenTunniste());
@@ -651,33 +501,6 @@ public class KeimoEngine extends Thread {
 			Peli.voiWarpataYlös = false;
         }
     }
-
-	public void häivytäPeliRuutuUlos() {
-		while (Maailma.fade < 1f) {
-			Maailma.fade += 0.02f;
-			try {
-				renderöiRuutu();
-				Thread.sleep(10);
-			}
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void häivytäPeliRuutuSisään() {
-		camera.setPosition(new Vector3f(-Pelaaja.hitbox.x, Pelaaja.hitbox.y, 0));
-		while (Maailma.fade > 0f) {
-			Maailma.fade -= 0.02f;
-			try {
-				renderöiRuutu();
-				Thread.sleep(10);
-			}
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	public static void suljePeliIkkuna() {
 		glfwSetWindowShouldClose(window.getWindow(), true);

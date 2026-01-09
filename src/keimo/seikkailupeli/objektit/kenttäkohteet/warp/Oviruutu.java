@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.warp;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class Oviruutu extends Warp {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Oviruutu";
         super.tiedostonNimi = "reunawarppi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);        
+        super.tekstuuri = Assets.annaTekstuuri("oviruutu"); 
         super.asetaTiedot();
     }
 

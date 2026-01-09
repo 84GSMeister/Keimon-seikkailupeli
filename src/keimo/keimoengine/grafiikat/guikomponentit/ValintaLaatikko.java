@@ -2,7 +2,7 @@ package keimo.keimoengine.grafiikat.guikomponentit;
 
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.assets.EngineAssets;
 
 import org.joml.Matrix4f;
@@ -33,12 +33,12 @@ public class ValintaLaatikko extends Nappi {
     }
 
     @Override
-    public void renderöi(Shader shader, Window window) {
+    public void renderöi(Shader shader, Ikkuna window) {
         super.window = window;
         renderöiKomponentti(shader, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
     }
 
-    private void renderöiKomponentti(Shader shader, Window window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
+    private void renderöiKomponentti(Shader shader, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);

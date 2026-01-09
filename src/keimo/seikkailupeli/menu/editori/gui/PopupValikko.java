@@ -5,7 +5,7 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
 import keimo.seikkailupeli.menu.editori.muokkausikkunat.WarpMuokkausIkkuna;
 import keimo.seikkailupeli.objektit.PeliObjekti;
@@ -20,7 +20,7 @@ public class PopupValikko {
     public static int popupKameraY = 0;
     public static int popupHiiriX = 0;
     public static int popupHiiriY = 0;
-    private static Window window1;
+    private static Ikkuna window1;
 
     private static Tekstuuri popupValikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/editori/popup_valinta_pohja.png");
 
@@ -70,7 +70,7 @@ public class PopupValikko {
         }
     }
     
-    public static void renderöi(Shader shader, Window window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         window1 = window;
         popupPohjaLabel.renderöi(shader, window);
         popupTiedotNappi.renderöi(shader, window);

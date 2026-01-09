@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +12,7 @@ public class Tynnyri extends Esine {
         super(sijX, sijY);
         super.nimi = "Tynnyri";
         super.tiedostonNimi = "tynnyri.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("tynnyri");
         super.kolmiUlotteinen = true;
         super.obj3dMallinTunniste = "Tynnyri";
         super.katsomisTeksti = lueKoodiTiedosto();

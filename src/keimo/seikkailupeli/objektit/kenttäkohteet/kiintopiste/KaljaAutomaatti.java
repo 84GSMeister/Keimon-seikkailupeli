@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,10 @@ public final class KaljaAutomaatti extends Kiintopiste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kalja-automaatti";
         super.tiedostonNimi = "kalja-automaatti.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kalja-automaatti");
         super.katsomisTeksti = "Tähän spawnaa kaljaa";
         super.asetaTiedot();
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

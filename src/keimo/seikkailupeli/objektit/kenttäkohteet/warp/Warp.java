@@ -38,14 +38,14 @@ public abstract class Warp extends KenttäKohde {
                 }
             }
             asetaSuunta(suunta);
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
             lisäOminaisuudet = new ArrayList<>();
             asetaKohdeHuone(0);
             asetaKohdeRuudut(0, 0);
             asetaSuunta(Suunta.YLÖS);
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
     }
 
@@ -79,7 +79,8 @@ public abstract class Warp extends KenttäKohde {
         }
     }
 
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kohdehuone="));
         this.lisäOminaisuudet.add("kohdehuone=" + kohdeHuone);

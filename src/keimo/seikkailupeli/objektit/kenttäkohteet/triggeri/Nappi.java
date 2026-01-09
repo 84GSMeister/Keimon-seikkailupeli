@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.triggeri;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 public class Nappi extends Triggeri {
@@ -9,7 +9,7 @@ public class Nappi extends Triggeri {
         super(sijX, sijY);
         super.nimi = "Nappi";
         super.tiedostonNimi = "nappi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("nappi");
         super.katsomisTeksti = "Mitähän tästä tapahtuu?";
         super.vaadittuEsine = null;
         super.asetaTiedot();
@@ -19,7 +19,7 @@ public class Nappi extends Triggeri {
     public void triggeröi() {
         if (!super.onkoTriggeröity()) {
             super.triggeröi();
-            super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/nappi_painettu.png");
+            super.tekstuuri = Assets.annaTekstuuri("nappi_painettu");
             Äänet.toistaSFX("nappi");
         }
     }

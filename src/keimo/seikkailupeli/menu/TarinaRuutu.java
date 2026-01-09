@@ -5,10 +5,11 @@ import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.assets.TarinaDialogiLista;
-import keimo.seikkailupeli.assets.TarinaPätkä;
+import keimo.seikkailupeli.Peli.SyöteLaitteet;
+import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
+import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
@@ -20,7 +21,7 @@ public class TarinaRuutu {
 
     private static Tekstuuri kuvaTexture;
     private static Teksti tekstiTexture = new Teksti("Tarinan teksti 1", Color.WHITE, 1800, 500);
-    private static Teksti jatkaNappiTexture = new Teksti("Space: Jatka", Color.WHITE, 1600, 300, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti jatkaNappiTexture = new Teksti("Jatka", Color.WHITE, 1600, 300, KeimoFontit.fontti_keimo_100, false);
     private static ArrayList<Renderöitävä> tarinanKuvat = new ArrayList<>();
     private static ArrayList<String> tarinanTekstit = new ArrayList<>();
     private static MenuKomponentti kuvaLabel = new MenuKomponentti(1, 0.5f, 0, 0.5f, kuvaTexture);
@@ -84,7 +85,7 @@ public class TarinaRuutu {
         Pelaaja.käyttöViive = 50;
     }
 
-    public static void render(Shader shader, Window window) {
+    public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         shader.nollaaShaderEfektit();
 
@@ -94,6 +95,12 @@ public class TarinaRuutu {
         tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä), 2);
         tekstiLabel.renderöi(shader, window);
 
+        if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
+            jatkaNappiTexture.päivitäTeksti("Space: Jatka");
+        }
+        else if (Peli.viimeisinSyöteLaite == SyöteLaitteet.PELIOHJAIN) {
+            jatkaNappiTexture.päivitäTeksti("A: Jatka");
+        }
         Komponentti.renderöiKomponenttiRotaatio(shader, jatkaNappiTexture, window, 1, 1f/6f, 1, 0, -5f/6f, 0, 0, 1, 0);
     }
 }

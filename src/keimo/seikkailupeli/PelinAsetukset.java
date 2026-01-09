@@ -10,6 +10,7 @@ public class PelinAsetukset {
     public static int tavoiteFPS = 0;
     public static int tavoiteTickrate = 60;
     public static AjoitusMuoto ajoitus = AjoitusMuoto.TARKKA;
+    public static OhjainKuvakkeet ohjainKuvakkeet = OhjainKuvakkeet.XBOX;
     public static double musaVolyymi = 0.5d;
     public static double ääniVolyymi = 0.5d;
     public static int pelinNopeus = 60;
@@ -31,5 +32,11 @@ public class PelinAsetukset {
         TARKKA,
         NOPEA,
         ERITTÄIN_NOPEA;
+    }
+
+    public static enum OhjainKuvakkeet {
+        XBOX,
+        NINTENDO,
+        PLAYSTATION;
     }
 }

@@ -12,7 +12,7 @@ import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
@@ -41,7 +41,7 @@ public class HUD {
     private static Tekstuuri taustaTavaraluetteloTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/paneeli_tausta_tavaraluettelo.png");
     private static Tekstuuri taustaTavoitelistaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/seuraavatavoite.png");
 
-    private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", Color.black, 2500, 125, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", Color.black, 1000, 48);
 
     private static Teksti aikaTeksti = new Teksti("aika", Color.black, 500, 100, KeimoFontit.fontti_keimo_36, true);
     private static Teksti hpTeksti = new Teksti("" + Pelaaja.hp, Color.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
@@ -67,7 +67,7 @@ public class HUD {
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
     static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
 
-    public static void renderöiTeksti(String teksti, int sijX, int sijY, int leveys, int korkeus, Kamera camera, Window window) {
+    public static void renderöiTeksti(String teksti, int sijX, int sijY, int leveys, int korkeus, Kamera camera, Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -84,7 +84,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    public static void renderöiTeksti(Teksti teksti, int sijX, int sijY, Window window) {
+    public static void renderöiTeksti(Teksti teksti, int sijX, int sijY, Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -106,7 +106,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    public static void renderöiHUD(Window window) {
+    public static void renderöiHUD(Ikkuna window) {
         renderöiHUDPohjaVasen(window);
         renderöiHUDPohjaOikea(window);
         renderöiInfoHUDKuvakkeet(window);
@@ -118,7 +118,7 @@ public class HUD {
         HUD_Kartta.render(peliShader, window);
     }
 
-    private static void renderöiInfoHUDKuvakkeet(Window window) {
+    private static void renderöiInfoHUDKuvakkeet(Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -171,7 +171,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    private static void renderöiInfoHUDNumerot(Window window) {
+    private static void renderöiInfoHUDNumerot(Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -215,7 +215,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    private static void renderöiTavaraluetteloKuvakkeet(Window window) {
+    private static void renderöiTavaraluetteloKuvakkeet(Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -351,7 +351,7 @@ public class HUD {
         }
     }
 
-    private static void renderöiTavaraluetteloTekstit(Window window) {
+    private static void renderöiTavaraluetteloTekstit(Ikkuna window) {
         peliShader.bind();
         peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
@@ -385,7 +385,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    private static void renderöiHUDPohjaVasen(Window window) {
+    private static void renderöiHUDPohjaVasen(Ikkuna window) {
         float scaleX = window.getWidth()/12;
         float scaleY = window.getHeight()/6;
         peliShader.bind();
@@ -417,7 +417,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    private static void renderöiHUDPohjaOikea(Window window) {
+    private static void renderöiHUDPohjaOikea(Ikkuna window) {
         float scaleX = window.getWidth()/12;
         float scaleY = window.getHeight()/6;
         peliShader.bind();
@@ -449,7 +449,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    private static void renderöiTavoiteLaatikko(Window window) {
+    private static void renderöiTavoiteLaatikko(Ikkuna window) {
         float scaleXTavoitelista = window.getWidth()/4 + window.getWidth()/12;
         float scaleYTavoitelista = window.getHeight()/24;
         float scaleXTavoitelistaTeksti = scaleXTavoitelista*(31f/32f);
@@ -478,7 +478,7 @@ public class HUD {
         Assets.getModel().render();
     }
 
-    public static void renderöiDialogiLaatikko(Window window) {
+    public static void renderöiDialogiLaatikko(Ikkuna window) {
         guiShader.bind();
         guiShader.setUniform("sampler", 0);
 

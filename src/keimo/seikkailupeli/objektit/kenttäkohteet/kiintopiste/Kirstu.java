@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public final class Kirstu extends Säiliö {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kirstu";
         super.tiedostonNimi = "kirstu.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kirstu");
         super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
 
         if (ominaisuusLista != null) {
@@ -25,7 +25,7 @@ public final class Kirstu extends Säiliö {
                 }
             }
             this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
             this.lisäOminaisuuksia = false;
@@ -71,16 +71,16 @@ public final class Kirstu extends Säiliö {
     }
     
     @Override
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("sisältö="));
         this.lisäOminaisuudet.add("sisältö=" + this.annaSisältö());
-        super.päivitäLisäOminaisuudet();
     }
 
     public void avaa() {
         super.tavoiteSuoritettu = true;
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png");
+        super.tekstuuri = Assets.annaTekstuuri("kirstu_avattu");
         this.avattu = true;
         TavoiteLista.tarkistaTavoiteEsine(this.luoSisältö(this.annaSisältö(), null));
     }

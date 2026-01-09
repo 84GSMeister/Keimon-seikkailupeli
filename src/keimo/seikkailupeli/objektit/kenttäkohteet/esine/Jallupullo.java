@@ -1,16 +1,16 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Äänet;
 
 public class Jallupullo extends Juoma {
 
-    public Jallupullo(int sijX, int sijY){
+    public Jallupullo(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Jallupullo";
         super.tiedostonNimi = "jallupullo.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("jallupullo");
         super.katsomisTeksti = "Elämän eliksiiri.";
         super.käyttö = true;
         super.yhdistettävä = true;
@@ -22,7 +22,8 @@ public class Jallupullo extends Juoma {
     }
 
     @Override
-    public String käytä(){
+    public String käytä() {
+        super.poista = true;
         super.käytä();
         Pelaaja.kuparit++;
         Äänet.toistaSFX("pullo");

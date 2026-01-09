@@ -1,18 +1,17 @@
 package keimo.seikkailupeli.menu.editori.gui;
 
 import keimo.keimoengine.KeimoEngine;
-import keimo.keimoengine.grafiikat.Animaatio;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
-import keimo.seikkailupeli.assets.HuoneLista;
+import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.assets.huone.HuoneLista;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -22,11 +21,9 @@ import java.util.ArrayList;
 import org.joml.Vector4f;
 
 public class EditorinValikko {
-    private static Shader peliShader = new Shader("shader");
-
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
-    private static Animaatio osoitinTekstuuri = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Teksti vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
     private static String otsikkoTeksti = "";
     private static ArrayList<String> valintaTekstit = new ArrayList<>();
@@ -37,29 +34,28 @@ public class EditorinValikko {
     private static int valintojenMäärä = 0;
     private static float siirräY;
 
-    public static void renderöi(Shader shader, Window window) {
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
+    public static void renderöi(Shader shader, Ikkuna window) {
+        shader.bind();
+        shader.setUniform("sampler", 0);
 
         if (siirräY > 0) siirräY -= 0.05f;
         kehysKomponentti.muutaOffsetY(siirräY);
-        kehysKomponentti.renderöi(peliShader, window);
+        kehysKomponentti.renderöi(shader, window);
 
         vaihtoehtoTeksti.päivitäTeksti(otsikkoTeksti, 1);
         valintaOtsikkoKomponentti.muutaOffsetY(0.25f + 1f/16f + siirräY);
-        valintaOtsikkoKomponentti.renderöi(peliShader, window);
+        valintaOtsikkoKomponentti.renderöi(shader, window);
         
         for (int i = 0; i < valintojenMäärä; i++) {
             Renderöitävä osoitin;
-            if (i == valintaInt) osoitin = osoitinTekstuuri;
+            if (i == valintaInt) osoitin = osoitinKuvake;
             else osoitin = tyhjäTekstuuri;
             float offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(peliShader, osoitin, window, 1f/18f, 1f/15f, 1, -1/8f -1/6f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponentti(shader, osoitin, window, 1f/18f, 1f/15f, 1, -1/8f -1/6f, offsetY + siirräY, 0);
 
             vaihtoehtoTeksti.päivitäTeksti(valintaTekstit.get(i), 1);
             offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(peliShader, vaihtoehtoTeksti, window, 0.25f, 1f/15f, 1, -1/8f +1/6f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponentti(shader, vaihtoehtoTeksti, window, 0.25f, 1f/15f, 1, -1/8f +1/6f, offsetY + siirräY, 0);
         }
     }
 

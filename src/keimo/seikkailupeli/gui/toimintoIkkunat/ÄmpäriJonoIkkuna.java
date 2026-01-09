@@ -5,8 +5,9 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -24,7 +25,7 @@ public class ÄmpäriJonoIkkuna {
     private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
     private static Tekstuuri taustaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/ämpärijono.png");
     private static Teksti ämpäriJonoTeksti = new Teksti("Jonossa", Color.black, 900, 48);
-    private static Teksti ohjeTeksti = new Teksti("Space: Poistu", Color.black, 500, 48);
+    private static Teksti ohjeTeksti = new Teksti("Poistu", Color.black, 500, 48);
     private static Tekstuuri surunaamaTekstuuri = new Tekstuuri("tiedostot/kuvat/surunaama.png");
     private static Tekstuuri keimoTekstuuri = new Tekstuuri("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
     private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
@@ -43,7 +44,7 @@ public class ÄmpäriJonoIkkuna {
     private static float siirräY;
     private static float venytäX;
     
-    public static void renderöiIkkuna(Window window) {
+    public static void renderöiIkkuna(Ikkuna window) {
         if (siirräY > 0) siirräY -= 0.05f;
         if (venytäX < 1) venytäX += 0.05f;
 
@@ -53,6 +54,7 @@ public class ÄmpäriJonoIkkuna {
         taustaLabel.renderöi(peliShader, window);
 
         if (venytäX >= 1) {
+            ohjeTeksti.päivitäTeksti((Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Space: " : "A: ") + "Poistu");
             OhjeLabel.renderöi(peliShader, window);
             edistymispalkki.päivitäLatausProsentti(100f * ((float)(ämpäriJononPituusAlussa-ämpäriJononPituus) / (float)ämpäriJononPituusAlussa));
             edistymispalkki.renderöi(peliShader, window);

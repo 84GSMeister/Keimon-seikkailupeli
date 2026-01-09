@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Esine;
@@ -17,8 +17,8 @@ public final class JumalVelho extends NPC_KenttäKohde {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Jumal Velho";
         super.tiedostonNimi = "velho.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png");
+        super.tekstuuri = Assets.annaTekstuuri("jumalvelho");
+        super.dialogiTekstuuri = Assets.annaTekstuuri("jumalvelho_dialogi");
         super.katsomisTeksti = "No se on se Jumal Velho!";
         super.dialogit.add("metsä");
         super.dialogit.add("kuu");

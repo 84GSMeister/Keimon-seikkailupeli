@@ -2,7 +2,7 @@ package keimo.keimoengine.grafiikat.guikomponentit;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.assets.EngineAssets;
 
 import org.joml.Matrix4f;
@@ -20,7 +20,7 @@ public class Nappi {
     protected float offsetX, offsetY;
     protected Renderöitävä tekstuuri;
     protected boolean hover;
-    protected Window window;
+    protected Ikkuna window;
     protected TooltipTeksti tooltipTeksti;
 
     public Nappi(float scaleX, float scaleY, float offsetX, float offsetY) {
@@ -90,25 +90,33 @@ public class Nappi {
         this.offsetY = offsetY;
     }
 
+    public void muutaOffsetX(float offsetX) {
+        this.offsetX = offsetX;
+    }
+
+    public void muutaOffsetY(float offsetY) {
+        this.offsetY = offsetY;
+    }
+
     public void muutaSisältöä(Renderöitävä tekstuuri) {
         this.tekstuuri = tekstuuri;
     }
 
-    public void renderöi(Shader shader, Window window) {
+    public void renderöi(Shader shader, Ikkuna window) {
         this.window = window;
         renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, 0, false, false);
     }
 
-    public void renderöiRotaatio(Shader shader, Window window, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+    public void renderöiRotaatio(Shader shader, Ikkuna window, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
         this.window = window;
         renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, kääntöAsteet, xPeilaus, yPeilaus);
     }
 
-    public void renderöiTooltip(Shader shader, Window window) {
+    public void renderöiTooltip(Shader shader, Ikkuna window) {
         if (hover && tooltipTeksti != null) tooltipTeksti.renderöi(shader, window);
     }
 
-    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Window window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);

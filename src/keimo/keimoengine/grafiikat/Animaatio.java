@@ -2,8 +2,6 @@ package keimo.keimoengine.grafiikat;
 
 import keimo.keimoengine.Kello;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -21,6 +19,7 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class Animaatio implements Renderöitävä {
     private int pointer;

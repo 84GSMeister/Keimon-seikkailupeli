@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 public class Paskanmarjabooli extends Juoma {
@@ -9,7 +9,7 @@ public class Paskanmarjabooli extends Juoma {
         super(sijX, sijY);
         super.nimi = "Paskanmarjabooli";
         super.tiedostonNimi = "paskanmarjabooli.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("paskanmarjabooli");
         super.katsomisTeksti = "Tällä pääsee kuuhun asti!";
         super.käyttö = true;
         super.voltit = 6;

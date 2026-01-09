@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Pesäpallomaila extends Ase {
 
@@ -8,7 +8,7 @@ public final class Pesäpallomaila extends Ase {
         super(sijX, sijY);
         super.nimi = "Pesäpallomaila";
         super.tiedostonNimi = "pesäpallomaila.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("pesäpallomaila");
         super.katsomisTeksti = "Tulkaapas tänne viholliset jos uskallatte!";
         super.käyttöTeksti = "Löit vihollista turpaan";
         super.kenttäkäyttö = true;

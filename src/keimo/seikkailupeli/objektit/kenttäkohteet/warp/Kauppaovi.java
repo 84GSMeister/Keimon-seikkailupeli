@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.warp;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Esine;
@@ -14,7 +14,7 @@ public class Kauppaovi extends Warp {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kauppaovi";
         super.tiedostonNimi = "kauppaovi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kauppaovi");
         super.asetaTiedot();
     }
     

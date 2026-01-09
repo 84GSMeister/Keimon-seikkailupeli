@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Kaasupullo extends Esine {
 
@@ -8,7 +8,7 @@ public final class Kaasupullo extends Esine {
         super(sijX, sijY);
         super.nimi = "Kaasupullo";
         super.tiedostonNimi = "kaasupullo.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kaasupullo");
         super.katsomisTeksti = "Tätä tarvitaan varmaankin kaasusytyttimen kanssa.";
         super.yhdistettävä = true;
         super.kelvollisetYhdistettävät.add("Kaasusytytin");

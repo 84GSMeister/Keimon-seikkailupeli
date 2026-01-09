@@ -7,6 +7,7 @@ import keimo.keimoengine.ikkuna.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.entityt.npc.Boss;
@@ -30,8 +31,8 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class Maailma {
-    private int viewX;
-	private int viewY;
+    private static int viewX;
+	private static int viewY;
     public static ArrayList<Maasto> tilet = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
@@ -42,22 +43,18 @@ public class Maailma {
     private static Shader tileShader = new Shader("shader");
     private static Shader entityShader = new Shader("shader");
     private static Shader erikoisEfektiShader = new Shader("shader");
-    Tausta tausta;
-    private int scale = 32;
+    static Tausta tausta;
+    private static int scale = 32;
     public static int tileMäärä, objektiMäärä, entityMäärä;
     public static float rotZ = 0;
 
-	private HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
-	private Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
-    private Tekstuuri entityHpPalkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
-    private Tekstuuri entityHpPalkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
+	private static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
+	private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
+    private static Tekstuuri entityHpPalkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
+    private static Tekstuuri entityHpPalkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
 	public static float fade = 0f;
 
-    public Maailma() {
-        createWorld();
-    }
-
-    public void createWorld() {
+    public static void createWorld() {
         for (Huone huone : Peli.huoneKartta.values()) {
             boundingBoxes = new AABB[huone.annaKoko()][huone.annaKoko()];
             for (int y = 0; y < huone.annaKoko(); y++) {
@@ -107,7 +104,7 @@ public class Maailma {
         tileTextures.values().forEach(Tekstuuri::cleanup);
     }
 
-    public void render(Kamera camera, Window window) {
+    public static void render(Kamera camera, Ikkuna window) {
         try {
             tileMäärä = 0; objektiMäärä = 0; entityMäärä = 0;
             int posX = ((int)camera.getPosition().x / (scale * 2));
@@ -216,16 +213,16 @@ public class Maailma {
         }
     }
 
-    public void laskeNäköetäisyys(Window window) {
+    public static void laskeNäköetäisyys(Ikkuna window) {
         viewX = (int)(window.getWidth()/64f * PelinAsetukset.zoom) +4;
 		viewY = (int)(window.getHeight()/64f * PelinAsetukset.zoom) +6;
 	}
 
-    private int laskeIsonLaatanNäköetäisyys() {
+    private static int laskeIsonLaatanNäköetäisyys() {
         return Peli.annaMaastoKenttä().length;
     }
 
-    private Matrix4f asetaKameranSijainti(Matrix4f cameraMatrix, Window window) {
+    private static Matrix4f asetaKameranSijainti(Matrix4f cameraMatrix, Ikkuna window) {
         Matrix4f kameranSijainti = new Matrix4f(cameraMatrix);
         int offsetX = window.getWidth()/2 - (int)Pelaaja.hitbox.getWidth();
         int offsetY = window.getHeight()/2 - (int)Pelaaja.hitbox.getHeight();
@@ -254,19 +251,19 @@ public class Maailma {
         return kameranSijainti;
     }
 
-    private Matrix4f asetaKameranSijaintiVanha(Matrix4f cameraMatrix, Window window) {
+    private static Matrix4f asetaKameranSijaintiVanha(Matrix4f cameraMatrix, Ikkuna window) {
         Matrix4f kameranSijainti = new Matrix4f(cameraMatrix);
         kameranSijainti.translate((float)(-2*Pelaaja.hitbox.getMinX()/64d), (float)(2*Pelaaja.hitbox.getMinY()/64d), 0);
         return kameranSijainti;
     }
 
-    private void renderöiTausta(int x, int y, int z, Matrix4f cameraMatrix, float fade) {
+    private static void renderöiTausta(int x, int y, int z, Matrix4f cameraMatrix, float fade) {
 		if (Peli.huone != null && Peli.huone.annaTaustanPolku() != null) {
             tausta.render(Peli.huone.annaTaustanPolku(), x, y, z, cameraMatrix, fade);
 		}
 	}
 
-    protected void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix) {
+    protected static void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix) {
 		if (tileTextures.containsKey(tile.annaTekstuurinNimi())) tileTextures.get(tile.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -283,7 +280,7 @@ public class Maailma {
 		model.render();
 	}
 
-    protected void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix) {
+    protected static void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix) {
         if (tileTextures.containsKey(laatta.annaTekstuurinNimi())) tileTextures.get(laatta.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -301,7 +298,7 @@ public class Maailma {
 		model.render();
 	}
 
-    protected void renderöiEntity(Entity entity, int x, int y, int z, Matrix4f cameraMatrix) {
+    protected static void renderöiEntity(Entity entity, int x, int y, int z, Matrix4f cameraMatrix) {
 		if (entity.annaTekstuuri() != null) entity.annaTekstuuri().bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -347,7 +344,7 @@ public class Maailma {
         }
 	}
 
-	protected void renderöiKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+	protected static void renderöiKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
 		if (objekti.onkoKolmiUlotteinen()) {
             renderöi3dKenttäObjekti(objekti, x, y, z, cameraMatrix);
         }
@@ -366,7 +363,7 @@ public class Maailma {
         }
 	}
 
-    protected void renderöiEsinePyörivä(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöiEsinePyörivä(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
         if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
         
@@ -385,7 +382,7 @@ public class Maailma {
         esineShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
-    protected void renderöiKiintopisteKiiluva(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöiKiintopisteKiiluva(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
         if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
         
@@ -399,7 +396,7 @@ public class Maailma {
         kiintopisteShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
-    protected void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
         if (objekti instanceof VisuaalinenObjekti) ErikoisTileMuutokset.annaSpesiaaliTekstuuri(objekti.annaTekstuuri(), objekti.annaKuvanTiedostoNimi(), (int)x, (int)y).bind(0);
         else if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
@@ -414,7 +411,7 @@ public class Maailma {
         objektiShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
-    protected void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
         Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(objektinSijainti);

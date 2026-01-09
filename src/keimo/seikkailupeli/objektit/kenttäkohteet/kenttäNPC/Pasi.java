@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
@@ -12,7 +12,7 @@ public final class Pasi extends NPC_KenttäKohde {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Pasi";
         super.tiedostonNimi = "pasi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("pasi");
         super.katsomisTeksti = annaNimiSijamuodossa("adessiivi") + " on kengät isonneet.";
         super.dialogit.add("baari");
         super.dialogit.add("baari_salahuone");

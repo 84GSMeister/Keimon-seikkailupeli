@@ -2,7 +2,7 @@ package keimo.seikkailupeli.gui.toimintoIkkunat;
 
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -20,7 +20,7 @@ public class KarttaIkkuna {
     private static float offsetY = 600;
     private static float scaleX = 30;
     
-    public static void renderöiIkkuna(Window window) {
+    public static void renderöiIkkuna(Ikkuna window) {
         float scaleY = window.getHeight()/2;
         if (offsetY > 0) offsetY -= 10;
         if (offsetY <= 0 && scaleX < window.getWidth()/4) scaleX += window.getWidth()/100f;

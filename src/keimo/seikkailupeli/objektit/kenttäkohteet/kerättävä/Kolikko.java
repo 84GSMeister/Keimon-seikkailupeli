@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kerättävä;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -10,7 +10,7 @@ public final class Kolikko extends Kerättävä {
         super(sijX, sijY);
         super.nimi = "Kolikko";
         super.tiedostonNimi = "kolikko.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kolikko");
         super.kolmiUlotteinen = true;
         super.obj3dMallinTunniste = "Kolikko";
         super.liikeNopeus = 0f;

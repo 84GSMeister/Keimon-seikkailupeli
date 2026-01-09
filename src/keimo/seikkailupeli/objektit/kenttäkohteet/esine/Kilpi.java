@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Kilpi extends Esine {
 
@@ -8,7 +8,7 @@ public final class Kilpi extends Esine {
         super(sijX, sijY);
         super.nimi = "Kilpi";
         super.tiedostonNimi = "kilpi.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kilpi");
         super.katsomisTeksti = "Pidä kilpeä kädessä kun menet vihollisen luo!";
         super.asetaTiedot();
     }

@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Vesiämpäri extends Ase {
 
@@ -8,7 +8,7 @@ public final class Vesiämpäri extends Ase {
         super(sijX, sijY);
         super.nimi = "Vesiämpäri";
         super.tiedostonNimi = "vesiämpäri.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("vesiämpäri");
         super.katsomisTeksti = "Näyttää juuri oikean kokoiselta vihollisen päähän.";
         super.kenttäkäyttö = true;
         super.sopiiKäytettäväksi.add("Nuotio");

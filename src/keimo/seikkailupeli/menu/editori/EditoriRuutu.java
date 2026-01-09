@@ -1,15 +1,13 @@
 package keimo.seikkailupeli.menu.editori;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.collision.AABB;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.ikkuna.*;
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.gui.hud.HUD;
-import keimo.seikkailupeli.kenttä.Huone;
 import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.menu.editori.gui.HuoneenLuontiIkkuna;
@@ -18,7 +16,8 @@ import keimo.seikkailupeli.menu.editori.gui.ObjektiValikkoIkkuna;
 import keimo.seikkailupeli.menu.editori.gui.PopupValikko;
 import keimo.seikkailupeli.menu.editori.gui.TietoIkkuna;
 import keimo.seikkailupeli.menu.editori.gui.TileTooltip;
-import keimo.seikkailupeli.menu.editori.gui.Yläpalkki;
+import keimo.seikkailupeli.menu.editori.gui.yläpalkki.Yläpalkki;
+import keimo.seikkailupeli.menu.editori.gui.yläpalkki.Yläpalkki.Välilehdet;
 import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
 import keimo.seikkailupeli.objektit.PeliObjekti;
 import keimo.seikkailupeli.objektit.entityt.Entity;
@@ -105,7 +104,7 @@ public class EditoriRuutu {
     public static boolean tietoIkkunaAuki = false;
     public static boolean muokkausIkkunaAuki = false;
     public static boolean huoneenLuontiIkkunaAuki = false;
-    private static Tekstuuri hoverTileTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_tyhjä.png");
+    private static Renderöitävä hoverTileTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     public static PeliObjekti tarkistettavaEsine;
     public static boolean kopiointi = false;
     public static boolean käytäKopioitujaOminaisuuksia = false;
@@ -124,7 +123,7 @@ public class EditoriRuutu {
     }
     public static EditorinTilat aktiivinenKomponentti = EditorinTilat.MAAILMA;
 
-    public static void luoEditoriRuutu(GLFW_Window window) {
+    public static void luoEditoriRuutu(GLFW_Ikkuna window) {
         kopioiHuonekarttaEditoriin();
         createWorld();
         ObjektiValikkoIkkuna.luoObjektiValikko();
@@ -315,7 +314,7 @@ public class EditoriRuutu {
         }
     }
 
-    public static void render(Kamera camera, Window window) {
+    public static void render(Kamera camera, Ikkuna window) {
         try {
             tileMäärä = 0; objektiMäärä = 0; entityMäärä = 0;
             int posX = kameranSijX / 2;// / (scale * 2);
@@ -437,7 +436,7 @@ public class EditoriRuutu {
         }
     }
 
-    public static void laskeNäköetäisyys(Window window) {
+    public static void laskeNäköetäisyys(Ikkuna window) {
         viewX = (int)(window.getWidth()/64f * zoom) +4;
 		viewY = (int)(window.getHeight()/64f * zoom) +6;
 	}
@@ -446,7 +445,7 @@ public class EditoriRuutu {
         return ladattuHuone.annaHuoneenMaastoSisältö().length;
     }
 
-    private static Matrix4f asetaKameranSijaintiVanha(Matrix4f cameraMatrix, Window window) {
+    private static Matrix4f asetaKameranSijaintiVanha(Matrix4f cameraMatrix, Ikkuna window) {
         Matrix4f kameranSijainti = new Matrix4f(cameraMatrix);
         kameranSijainti.translate(kameranSijX, kameranSijY, 0);
         return kameranSijainti;
@@ -763,6 +762,9 @@ public class EditoriRuutu {
                     if (valitunEsineenNimi.equals("Random")) asetaRandomObjekti();
                     else asetaValittuObjekti();
                 }
+                default -> {
+
+                }
             }
         }
     }
@@ -776,6 +778,9 @@ public class EditoriRuutu {
             case MAAILMA -> {
                 poistaObjekti();
             }
+            default -> {
+
+            }
         }
     }
 
@@ -784,10 +789,14 @@ public class EditoriRuutu {
             case MAAILMA -> {
                 estäVahinkoPainallukset = false;
             }
+            default -> {
+                
+            }
         }
     }
 
     private static void asetaRandomObjekti() {
+        Yläpalkki.nykyinenVälilehti = Välilehdet.KENTTÄ;
         if (tileX >= 0 && tileY >= 0) {
             if (tileX < ladattuHuone.annaKoko() && tileY < ladattuHuone.annaKoko()) {
                 ladattuHuone.annaHuoneenKenttäSisältö()[tileX][tileY] = KenttäKohde.luoRandomKenttäKohde(tileX, tileY);
@@ -797,25 +806,37 @@ public class EditoriRuutu {
 
     private static void asetaValittuObjekti() {
         try {
+            Yläpalkki.nykyinenVälilehti = Välilehdet.KENTTÄ;
             if (tileX >= 0 && tileY >= 0) {
                 if (tileX < ladattuHuone.annaKoko() && tileY < ladattuHuone.annaKoko()) {
                     if (valittuEsine instanceof KenttäKohde) {
+                        if (kopioidunEsineenOminaisuudet == null) {
+                            kopioidunEsineenOminaisuudet = new ArrayList<>();
+                            kopioidunEsineenOminaisuudet.add("kääntö=" + kääntöAsteet);
+                            kopioidunEsineenOminaisuudet.add("x-peilaus=" + (peilausX ? "kyllä" : "ei"));
+                            kopioidunEsineenOminaisuudet.add("y-peilaus=" + (peilausY ? "kyllä" : "ei"));
+                        }
+                        else {
+                            kopioidunEsineenOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+                            if (kääntöAsteet != 0) kopioidunEsineenOminaisuudet.add("kääntö=" + kääntöAsteet);
+                            kopioidunEsineenOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+                            if (peilausX) kopioidunEsineenOminaisuudet.add("x-peilaus=" + (peilausX ? "kyllä" : "ei"));
+                            kopioidunEsineenOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+                            if (peilausY) kopioidunEsineenOminaisuudet.add("y-peilaus=" + (peilausY ? "kyllä" : "ei"));
+                        }
                         ladattuHuone.annaHuoneenKenttäSisältö()[tileX][tileY] = KenttäKohde.luoObjektiTiedoilla(valitunEsineenNimi, tileX, tileY, kopioidunEsineenOminaisuudet);
                     }
                     else if (valittuEsine instanceof Maasto) {
                         if (valittuEsine instanceof Tile) {
-                            // String[] ominaisuudet = {"kuva=" + valitunMaastonKuva, "kääntö=" + kääntöAsteet, "x-peilaus=" + peilausX, "y-peilaus=" + peilausY};
-                            // List<String> ominaisuusLista1 = List.of(ominaisuudet);
-                            // ArrayList<String> ominaisuusLista = new ArrayList<>(ominaisuusLista1);
                             kopioidunEsineenOminaisuudet.add("kuva=" + valitunMaastonKuva);
                             kopioidunEsineenOminaisuudet.add("kääntö=" + kääntöAsteet);
-                            kopioidunEsineenOminaisuudet.add("x-peilaus=" + peilausX);
-                            kopioidunEsineenOminaisuudet.add("y-peilaus=" + peilausY);
+                            kopioidunEsineenOminaisuudet.add("x-peilaus=" + (peilausX ? "kyllä" : "ei"));
+                            kopioidunEsineenOminaisuudet.add("y-peilaus=" + (peilausY ? "kyllä" : "ei"));
                             ladattuHuone.annaHuoneenMaastoSisältö()[tileX][tileY] = Maasto.luoMaastoTiedoilla(valitunEsineenNimi, tileX, tileY, kopioidunEsineenOminaisuudet);
                         }
                         else if (valittuEsine instanceof Laatta) {
                             Laatta isoLaatta = (Laatta)valittuEsine;
-                            String[] ominaisuudet = {"kuva=" + valitunMaastonKuva, "leveys=" + isoLaatta.annaLeveys(), "korkeus=" + isoLaatta.annaKorkeus(), "kääntö=" + kääntöAsteet, "x-peilaus=" + peilausX, "y-peilaus=" + peilausY};
+                            String[] ominaisuudet = {"kuva=" + valitunMaastonKuva, "leveys=" + isoLaatta.annaLeveys(), "korkeus=" + isoLaatta.annaKorkeus(), "kääntö=" + kääntöAsteet, "x-peilaus=" + (peilausX ? "kyllä" : "ei"), "y-peilaus=" + (peilausY ? "kyllä" : "ei")};
                             List<String> ominaisuudetLista1 = List.of(ominaisuudet);
                             ArrayList<String> ominaisuusLista = new ArrayList<>(ominaisuudetLista1);
                             ladattuHuone.annaHuoneenMaastoSisältö()[tileX][tileY] = Maasto.luoMaastoTiedoilla(valitunEsineenNimi, tileX, tileY, ominaisuusLista);
@@ -833,6 +854,7 @@ public class EditoriRuutu {
     }
 
     public static void poistaObjekti() {
+        Yläpalkki.nykyinenVälilehti = Välilehdet.KENTTÄ;
         if (tileX >= 0 && tileY >= 0) {
             if (tileX < ladattuHuone.annaKoko() && tileY < ladattuHuone.annaKoko()) {
                 if (valittuEsine instanceof KenttäKohde) {
@@ -954,7 +976,7 @@ public class EditoriRuutu {
         }
     }
 
-    private static void päivitäHoverTile(float hiiriX, float hiiriY, Matrix4f cameraMatrix, int kameranSijX, int kameranSijY, Window window) {
+    private static void päivitäHoverTile(float hiiriX, float hiiriY, Matrix4f cameraMatrix, int kameranSijX, int kameranSijY, Ikkuna window) {
         int sijX = Math.round((window.getWidth()/2-hiiriX) / (-64f/zoom) - kameranSijX/2f);
         int sijY = Math.round((window.getHeight()/2-hiiriY) / (64f/zoom) - kameranSijY/2f);
         tileX = sijX;
@@ -971,7 +993,7 @@ public class EditoriRuutu {
         Assets.getModel().render();
     }
 
-    private static void päivitäTileTooltip(Shader shader, Window window) {
+    private static void päivitäTileTooltip(Shader shader, Ikkuna window) {
         tileTooltip.päivitäSijainti(hoverX, hoverY);
         tileTooltip.päivitäTeksti("" + tileX + ", " + tileY);
         if (tileX < 0 || tileY < 0 || tileX >= ladattuHuone.annaKoko() || tileY >= ladattuHuone.annaKoko()) {
@@ -981,7 +1003,7 @@ public class EditoriRuutu {
         tileTooltip.renderöi(shader, window);
     }
 
-    private static void renderöiGUI(float x, float y, Matrix4f cameraMatrix, int kameranSijX, int kameranSijY, Shader shader, Window window) {
+    private static void renderöiGUI(float x, float y, Matrix4f cameraMatrix, int kameranSijX, int kameranSijY, Shader shader, Ikkuna window) {
         switch (aktiivinenKomponentti) {
             case MAAILMA -> {
                 päivitäHoverTile(x, y, cameraMatrix, kameranSijX, kameranSijY, window);
@@ -1022,7 +1044,7 @@ public class EditoriRuutu {
             }
         }
 
-        public static void renderöiDebugTeksti(Window window) {
+        public static void renderöiDebugTeksti(Ikkuna window) {
             if (debugTiedotNäkyvissä) {
                 try {
                     int sijx = (int)(window.getWidth()/64);

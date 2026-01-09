@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -12,8 +12,8 @@ public final class BaariRuutu extends Kiintopiste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Baariruutu";
         super.tiedostonNimi = "baariruutu.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+        super.tekstuuri = Assets.annaTekstuuri("baariruutu");
+        super.dialogiTekstuuri = Assets.annaTekstuuri("kauppias_dialogi");
         super.katsomisTeksti = "Tästä tilataan.";
         if (ominaisuusLista != null) {
             this.lisäOminaisuudet = new ArrayList<>();
@@ -23,7 +23,7 @@ public final class BaariRuutu extends Kiintopiste {
                 }
             }
         }
-        päivitäLisäOminaisuudet();
+        päivitäLisäOminaisuudet(ominaisuusLista);
         super.asetaTiedot();
     }
 
@@ -46,7 +46,8 @@ public final class BaariRuutu extends Kiintopiste {
     }
 
     @Override
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
         if (this.lisäOminaisuudet != null) {
             this.lisäOminaisuuksia = true;
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("tyyppi="));

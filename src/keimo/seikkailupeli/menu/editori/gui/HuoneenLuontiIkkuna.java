@@ -5,8 +5,8 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
-import keimo.seikkailupeli.kenttä.Huone;
+import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
 
 import java.awt.BorderLayout;
@@ -179,7 +179,7 @@ public class HuoneenLuontiIkkuna {
         }
     }
 
-    public static void renderöi(Shader shader, Window window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         otsikkoTeksti.päivitäTeksti("Luo huone");
         tiedotTeksti.päivitäTeksti("Huoneen luonti ja poistaminen\ntulossa myöhemmin.\nKäytä vanhaa editoria\ntoistaiseksi.");
         pohja.renderöi(shader, window);

@@ -3,8 +3,9 @@ package keimo.seikkailupeli.menu;
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Äänet;
@@ -14,13 +15,13 @@ public class ValikkoRuutu {
     private static int valinta = 0;
     private static int vaihtoehtojenMäärä = 5;
     private static Tekstuuri otsikkoKuva = new Tekstuuri("tiedostot/kuvat/menu/KEIMON_logo.png");
-    private static Tekstuuri valintaAloitaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_aloita.png");
-    private static Tekstuuri valintaAsetuksetTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
-    private static Tekstuuri valintaEditoriTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_editori.png");
-    private static Tekstuuri valintaKehittäjätTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_kehittäjät.png");
-    private static Tekstuuri valintaLopetaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_lopeta.png");
-    private static Animaatio osoitinKuvake = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+    private static Renderöitävä valintaAloitaTekstuuri = Assets.annaTekstuuri("menu_main_aloita");
+    private static Renderöitävä valintaAsetuksetTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
+    private static Renderöitävä valintaEditoriTekstuuri = Assets.annaTekstuuri("menu_main_editori");
+    private static Renderöitävä valintaKehittäjätTekstuuri = Assets.annaTekstuuri("menu_main_kehittäjät");
+    private static Renderöitävä valintaLopetaTekstuuri = Assets.annaTekstuuri("menu_main_lopeta");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static MenuKomponentti logo = new MenuKomponentti(1, 0.5f, 0, 0.5f, otsikkoKuva);
     private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -1f/10f -1f/2f, 0);
     private static MenuKomponentti valintaLabel = new MenuKomponentti(1f/2f, 1f/10f, 0, 0);
@@ -82,7 +83,7 @@ public class ValikkoRuutu {
         Äänet.toistaSFX("Valinta");
     }
 
-    public static void render(Shader shader, Window window) {
+    public static void render(Shader shader, Ikkuna window) {
         try {
             shader.bind();
             shader.nollaaShaderEfektit();
@@ -106,7 +107,7 @@ public class ValikkoRuutu {
         }
     }
 
-    private static Tekstuuri annaValikkoTeksti(int valikkoElementti) {
+    private static Renderöitävä annaValikkoTeksti(int valikkoElementti) {
         switch (valikkoElementti) {
             case 0: return valintaAloitaTekstuuri;
             case 1: return valintaAsetuksetTekstuuri;

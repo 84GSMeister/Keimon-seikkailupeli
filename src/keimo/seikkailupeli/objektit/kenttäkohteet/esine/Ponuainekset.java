@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Ponuainekset extends Esine {
 
@@ -8,7 +8,7 @@ public final class Ponuainekset extends Esine {
         super(sijX, sijY);
         super.nimi = "Pontikka-ainekset";
         super.tiedostonNimi = "ponuainekset.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("ponuainekset");
         super.katsomisTeksti = "Ponua voisi käyttää boolissa.";
         super.hinta = 8 * 0.22 + 4 * 1.55 + 4.99;
         super.asetaTiedot();

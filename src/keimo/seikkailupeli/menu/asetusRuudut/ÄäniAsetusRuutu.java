@@ -1,15 +1,14 @@
 package keimo.seikkailupeli.menu.asetusRuudut;
 
 import keimo.keimoengine.KeimoEngine;
-import keimo.keimoengine.grafiikat.Animaatio;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.PelinAsetukset;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -18,9 +17,10 @@ import java.awt.Color;
 public class ÄäniAsetusRuutu {
     private static int valinta = 0;
     private static int asetustenMäärä = 6;
-    private static Tekstuuri otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png");
-    private static Animaatio osoitinKuvake = new Animaatio("tiedostot/kuvat/menu/main_osoitin.gif");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+    private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
+    private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
     private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
@@ -30,7 +30,6 @@ public class ÄäniAsetusRuutu {
     private static Teksti asetusÄänetTeksti = new Teksti("Äänet (SFX)", Color.white, 600, 48);
     private static Teksti asetusÄäntenVoimakkuusTeksti = new Teksti("Äänten voim.", Color.white, 600, 48);
     private static Teksti asetusÄänitestiTeksti = new Teksti("Äänitesti", Color.white, 600, 48);
-    private static Tekstuuri hyväksyTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/asetukset_takaisin.png");
 
     private static Teksti tilaMusaTeksti = new Teksti("Päällä", Color.white, 600, 48);
     private static Teksti tilaMusanVoimakkuusTeksti = new Teksti("50", Color.white, 600, 48);
@@ -73,6 +72,9 @@ public class ÄäniAsetusRuutu {
             }
             case "enter" -> {
                 hyväksy(valinta);
+            }
+            case "esc" -> {
+                peruuta();
             }
         }
         Äänet.toistaSFX("Valinta");
@@ -119,12 +121,10 @@ public class ÄäniAsetusRuutu {
         PelinAsetukset.äänetPäällä = äänetPäällä;
         PelinAsetukset.ääniVolyymi = ääntenVoimakkuus;
         Musat.asetaMusanVolyymi(musiikkiPäällä ? musanVoimakkuus : 0);
-        Äänet.asetaSFXVolyymi(äänetPäällä ? ääntenVoimakkuus : 0);
     }
 
     static void hyväksy(int valinta) {
         if (valinta == 4) {
-            ÄäniTestiRuutu.alusta();
             KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
         }
         else if (valinta == 5) {
@@ -132,7 +132,11 @@ public class ÄäniAsetusRuutu {
         }
     }
 
-    public static void render(Shader shader, Window window) {
+    static void peruuta() {
+        KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+    }
+
+    public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         
         tilaMusaTeksti.päivitäTeksti(musiikkiPäällä ? "Päällä" : "Pois");

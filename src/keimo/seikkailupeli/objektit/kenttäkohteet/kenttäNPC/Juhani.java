@@ -1,8 +1,7 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC;
 
 import keimo.TarkistettavatArvot;
-import keimo.keimoengine.grafiikat.Animaatio;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.Pelaaja.KeimonState;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Huume;
@@ -16,8 +15,8 @@ public final class Juhani extends NPC_KenttäKohde {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Juhani";
         super.tiedostonNimi = "juhani.gif";
-        super.tekstuuri = new Animaatio(15, "tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png");
+        super.tekstuuri = Assets.annaTekstuuri("juhani");
+        super.dialogiTekstuuri = Assets.annaTekstuuri("juhani_dialogi");
         super.katsomisTeksti = "Hämärän näköinen tyyppi. Mitähän se aikoo?";
         super.dialogit.add("vakio");
         if (ominaisuusLista == null) super.valitseVakioDialogi();
@@ -49,8 +48,9 @@ public final class Juhani extends NPC_KenttäKohde {
             case "vakio" -> {
                 if (Pelaaja.raha >= 20 || Pelaaja.loputonRaha) {
                     if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
-                        this.annaHuume();
-                        Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("huume_ostettu"), this.annaNimi());
+                        // this.annaHuume();
+                        // Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("huume_ostettu"), this.annaNimi());
+                        Dialogit.avaaPitkäDialogiRuutu("juhani_huume");
                     }
                     else Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("invatäynnä"), this.annaNimi());
                 }
@@ -72,7 +72,7 @@ public final class Juhani extends NPC_KenttäKohde {
         }
     }
 
-    public void annaHuume() {
+    public static void annaHuume() {
         Pelaaja.annaEsine(new Huume(0, 0));
         if (!Pelaaja.loputonRaha) Pelaaja.raha -= 20;
     }

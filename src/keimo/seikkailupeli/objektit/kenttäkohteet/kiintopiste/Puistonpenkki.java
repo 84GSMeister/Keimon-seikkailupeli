@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Esine;
 
@@ -12,9 +12,10 @@ public final class Puistonpenkki extends Lepopaikka {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Penkki";
         super.tiedostonNimi = "puistonpenkki.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("puistonpenkki");
         super.katsomisTeksti = "Nukuttaako?";
         super.asetaTiedot();
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

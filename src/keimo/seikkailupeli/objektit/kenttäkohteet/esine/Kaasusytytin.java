@@ -1,8 +1,8 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import java.util.ArrayList;
+import keimo.seikkailupeli.assets.Assets;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import java.util.ArrayList;
 
 public final class Kaasusytytin extends Esine {
     
@@ -77,7 +77,7 @@ public final class Kaasusytytin extends Esine {
                 this.kenttäkäyttö = false;
                 this.yhdistettävä = true;
                 this.kelvollisetYhdistettävät.add("Kaasupullo");
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/tyhjäkaasusytytin.png");
+                super.tekstuuri = Assets.annaTekstuuri("kaasusytytin_tyhjä");
                 this.katsomisTeksti = "Tästä puuttuu kaasupullo. Löytyisiköhän sellainen kentältä?";
                 this.käyttöTeksti = "Kaasusytytin ei toimi ilman kaasupulloa.";
                 this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("toimivuus"));
@@ -88,7 +88,7 @@ public final class Kaasusytytin extends Esine {
                 this.kenttäkäyttö = true;
                 this.yhdistettävä = false;
                 this.sopiiKäytettäväksi.add("Nuotio");
-                super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kaasusytytin.png");
+                super.tekstuuri = Assets.annaTekstuuri("kaasusytytin");
                 this.katsomisTeksti = "Tätä voisi käyttää nuotion sytyttämiseen.";
                 this.käyttöTeksti = "Leimahti!";
                 this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("toimivuus"));

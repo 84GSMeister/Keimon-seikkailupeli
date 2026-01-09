@@ -1,17 +1,18 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.triggeri;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.entityt.npc.*;
 
 import java.util.ArrayList;
 
 public class Painelaatta extends Triggeri {
     
-    private Tekstuuri eiVihuaTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta.png");
-    private Tekstuuri vakioTekstuuriPikkuvihu = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta_Pikkuvihu.png");
-    private Tekstuuri painettuTekstuuriPikkuvihu = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta_Pikkuvihu_painettu.png");
-    private Tekstuuri vakioTekstuuriPahavihu = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta_Pahavihu.png");
-    private Tekstuuri painettuTekstuuriPahavihu = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta_Pahavihu_painettu.png");
+    private Renderöitävä eiVihuaTekstuuri = Assets.annaTekstuuri("painelaatta");
+    private Renderöitävä vakioTekstuuriPikkuvihu = Assets.annaTekstuuri("painelaatta_pikkuvihu");
+    private Renderöitävä painettuTekstuuriPikkuvihu = Assets.annaTekstuuri("painelaatta_pikkuvihu_painettu");
+    private Renderöitävä vakioTekstuuriPahavihu = Assets.annaTekstuuri("painelaatta_pahavihu");
+    private Renderöitävä painettuTekstuuriPahavihu = Assets.annaTekstuuri("painelaatta_pahavihu_painettu");
 
     public Painelaatta(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY);

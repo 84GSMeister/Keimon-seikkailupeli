@@ -1,7 +1,5 @@
 package keimo.keimoengine.grafiikat;
 
-import keimo.keimoengine.KeimoEngine;
-
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.awt.image.BufferedImage;
@@ -26,7 +24,6 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.stb.STBImage.*;
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 /**
  * Tekstuuri-luokka hoitaa tekstuurien lataamisen ja käsittelyn OpenGL:lle.
@@ -39,33 +36,30 @@ public class Tekstuuri implements Renderöitävä {
     private int korkeus;
 
     public Tekstuuri(String tiedostoNimi) {
-        if (KeimoEngine.glKäynnistetty) {
-            try (MemoryStack stack = MemoryStack.stackPush()) {
-                IntBuffer w = stack.mallocInt(1);
-                IntBuffer h = stack.mallocInt(1);
-                IntBuffer channels = stack.mallocInt(1);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer w = stack.mallocInt(1);
+            IntBuffer h = stack.mallocInt(1);
+            IntBuffer channels = stack.mallocInt(1);
 
-                ByteBuffer buf = stbi_load(tiedostoNimi, w, h, channels, 4);
-                if (buf == null) {
-                    throw new RuntimeException("Image file [" + tiedostoNimi + "] not loaded: " + stbi_failure_reason());
-                }
-
-                leveys = w.get();
-                korkeus = h.get();
-
-                generateTexture(leveys, korkeus, buf);
-
-                stbi_image_free(buf);
+            ByteBuffer buf = stbi_load(tiedostoNimi, w, h, channels, 4);
+            if (buf == null) {
+                throw new RuntimeException("Image file [" + tiedostoNimi + "] not loaded: " + stbi_failure_reason());
             }
-            catch (Exception e) {
-                e.printStackTrace();
-                //tinyfd_messageBox("Virhe ladatessa kuvatiedostoa", "Tiedostoa " + tiedostoNimi + " ei voitu ladata", "ok", "error", false);
-                luoVakioTekstuuri();
-            }
+
+            leveys = w.get();
+            korkeus = h.get();
+
+            generateTexture(leveys, korkeus, buf, tiedostoNimi);
+
+            stbi_image_free(buf);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            luoVakioTekstuuri();
         }
     }
 
-    private void generateTexture(int width, int height, ByteBuffer buf) {
+    private void generateTexture(int width, int height, ByteBuffer buf, String nimi) {
         id = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, id);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -80,34 +74,32 @@ public class Tekstuuri implements Renderöitävä {
     }
 
     public Tekstuuri(BufferedImage kuva) {
-        if (KeimoEngine.glKäynnistetty) {
-            leveys = kuva.getWidth();
-            korkeus = kuva.getHeight();
+        leveys = kuva.getWidth();
+        korkeus = kuva.getHeight();
 
-            int[] pixels_raw = new int[leveys * korkeus * 4];
-            pixels_raw = kuva.getRGB(0, 0, leveys, korkeus, null, 0, leveys);
-            ByteBuffer pixels = BufferUtils.createByteBuffer(leveys * korkeus * 4);
+        int[] pixels_raw = new int[leveys * korkeus * 4];
+        pixels_raw = kuva.getRGB(0, 0, leveys, korkeus, null, 0, leveys);
+        ByteBuffer pixels = BufferUtils.createByteBuffer(leveys * korkeus * 4);
 
-            for (int i = 0; i < leveys; i++) {
-                for (int j = 0; j < korkeus; j++) {
-                    try {
-                        int pixel = pixels_raw[i * korkeus + j];
-                        pixels.put((byte)((pixel >> 16) & 0xFF)); //RED
-                        pixels.put((byte)((pixel >> 8) & 0xFF)); //GREEN
-                        pixels.put((byte)((pixel >> 0) & 0xFF)); //BLUE
-                        pixels.put((byte)((pixel >> 24) & 0xFF)); //ALPHA
-                    }
-                    catch (ArrayIndexOutOfBoundsException aioobe) {
-                        System.out.println("Texture pixel index out of bounds: " + i + " " + j);
-                        aioobe.printStackTrace();
-                    }
-                    
+        for (int i = 0; i < leveys; i++) {
+            for (int j = 0; j < korkeus; j++) {
+                try {
+                    int pixel = pixels_raw[i * korkeus + j];
+                    pixels.put((byte)((pixel >> 16) & 0xFF)); //RED
+                    pixels.put((byte)((pixel >> 8) & 0xFF)); //GREEN
+                    pixels.put((byte)((pixel >> 0) & 0xFF)); //BLUE
+                    pixels.put((byte)((pixel >> 24) & 0xFF)); //ALPHA
                 }
+                catch (ArrayIndexOutOfBoundsException aioobe) {
+                    System.out.println("Texture pixel index out of bounds: " + i + " " + j);
+                    aioobe.printStackTrace();
+                }
+                
             }
-
-            pixels.flip();
-            generateTexture(leveys, korkeus, pixels);
         }
+
+        pixels.flip();
+        generateTexture(leveys, korkeus, pixels, "");
     }
 
     private void luoVakioTekstuuri() {
@@ -139,7 +131,7 @@ public class Tekstuuri implements Renderöitävä {
         }
 
         pixels.flip();
-        generateTexture(leveys, korkeus, pixels);
+        generateTexture(leveys, korkeus, pixels, "vakio");
     }
 
     // @Override

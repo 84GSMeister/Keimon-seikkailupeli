@@ -5,8 +5,9 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -45,7 +46,7 @@ public class PullonPalautusIkkuna {
     private static int toistot = 0;
     private static int virhe;
     
-    public static void renderöiIkkuna(Window window) {
+    public static void renderöiIkkuna(Ikkuna window) {
         if (siirräY > 0) siirräY -= 0.05f;
         if (venytäX < 1) venytäX += 0.05f;
 
@@ -111,28 +112,28 @@ public class PullonPalautusIkkuna {
                 case 0:
                     pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
                     virheenTyyppi = VirheenTyyppi.PAKKAUS;
-                    statusTeksti2 = "Poista pakkaus ja yritä uudelleen tai hävitä se muuten.\n(Paina Space)";
+                    statusTeksti2 = "Poista pakkaus ja yritä uudelleen tai hävitä se muuten.\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Space)" : "A)");
                     if (!jatkoSyöteAnnettu) return;
                     else virhe = r.nextInt(0, 10);
                 break;
                 case 1:
                     pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
                     virheenTyyppi = VirheenTyyppi.MUOTO;
-                    statusTeksti2 = "Palauta pakkaus alkuperäiseen muotoon ja yritä uudelleen.\n(Paina X)";
+                    statusTeksti2 = "Palauta pakkaus alkuperäiseen muotoon ja yritä uudelleen.\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "X)" : "Y)");
                     if (!jatkoSyöteAnnettu) return;
                     else virhe = r.nextInt(0, 10);
                 break;
                 case 2:
                     pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
                     virheenTyyppi = VirheenTyyppi.KÄSI;
-                    statusTeksti2 = "Älä työnnä kättä automaattiin!\n(Paina C)";
+                    statusTeksti2 = "Älä työnnä kättä automaattiin!\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "C)" : "X)");
                     if (!jatkoSyöteAnnettu) return;
                     else virhe = r.nextInt(0, 10);
                 break;
                 case 3:
                     pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
                     virheenTyyppi = VirheenTyyppi.MERKKI;
-                    statusTeksti2 = "Kauppa ei hyväksy tätä merkkiä!\n(Paina Z)";
+                    statusTeksti2 = "Kauppa ei hyväksy tätä merkkiä!\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Z)" : "B)");
                     if (!jatkoSyöteAnnettu) return;
                     else virhe = r.nextInt(0, 10);
                 break;

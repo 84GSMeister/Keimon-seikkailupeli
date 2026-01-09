@@ -94,20 +94,13 @@ public class IsoLaatta extends Maasto {
     }
 
     public void päivitäLisäOminaisuudet() {
+        super.päivitäLisäOminaisuudet();
         if (this.lisäOminaisuudet != null) {
             super.lisäOminaisuuksia = true;
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kuva="));
-            this.lisäOminaisuudet.add("kuva="+ tiedostonNimi);
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("leveys="));
             this.lisäOminaisuudet.add("leveys=" + leveys);
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("korkeus="));
             this.lisäOminaisuudet.add("korkeus=" + korkeus);
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
-            this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
-            this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
-            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
-            this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
         }
     }
 

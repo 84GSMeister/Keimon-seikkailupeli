@@ -329,9 +329,6 @@ public class Vuorovaikutukset {
         }
         else if (k instanceof VisuaalinenObjekti) {
             VisuaalinenObjekti vo = (VisuaalinenObjekti)k;
-            if (vo.annaTavoite() != null && !vo.annaTavoite().equals("")) {
-                TavoiteLista.suoritaTavoite(vo.annaTavoite());
-            }
             if (vo.onkoKatsottava()) {
                 Dialogit.avaaPitkäDialogiRuutu(vo.annaKatsomisDialogi());
             }

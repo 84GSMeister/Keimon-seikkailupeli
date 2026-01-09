@@ -13,11 +13,7 @@ public abstract class Kiintopiste extends KenttäKohde {
         if (ominaisuusLista != null) {
             for (String ominaisuus : ominaisuusLista) {
                 if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
-                if (ominaisuus.startsWith("kuva=")) {
-                    tiedostonNimi = ominaisuus.substring(5);
-                    this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
-                }
-                else if (ominaisuus.startsWith("kääntö=")) {
+                if (ominaisuus.startsWith("kääntö=")) {
                     try {
                         kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
                     }
@@ -36,7 +32,7 @@ public abstract class Kiintopiste extends KenttäKohde {
                     else yPeilaus = false;
                 }
             }
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
             this.lisäOminaisuuksia = false;
@@ -62,14 +58,7 @@ public abstract class Kiintopiste extends KenttäKohde {
         }
     }
 
-    public void päivitäLisäOminaisuudet() {
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
-        this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
-        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
-        this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
-        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
-        this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
-        super.asetaTiedot();
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 }

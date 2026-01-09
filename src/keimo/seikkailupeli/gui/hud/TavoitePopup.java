@@ -1,7 +1,7 @@
 package keimo.seikkailupeli.gui.hud;
 
 import keimo.keimoengine.grafiikat.*;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 
 import java.awt.Color;
@@ -17,7 +17,7 @@ public class TavoitePopup {
     public static String suoritettuTavoite = "";
     public static int popupAjastin = 0;
 
-    public static void renderöiTavoitePopup(Window window) {
+    public static void renderöiTavoitePopup(Ikkuna window) {
         if (popupAjastin > 0) {
             float scaleXPohja = window.getWidth()/4;
             float scaleYPohja = window.getHeight()/16;

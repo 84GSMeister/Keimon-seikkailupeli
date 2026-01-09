@@ -3,7 +3,7 @@ package keimo.keimoengine.grafiikat.guikomponentit;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 
 import java.awt.Color;
 
@@ -12,7 +12,7 @@ public class TooltipTeksti {
     protected float scaleY;
     protected float offsetX;
     protected float offsetY;
-    private static Window window1;
+    private static Ikkuna window1;
     private String teksti;
 
     protected Tekstuuri tooltipValikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/popup_teksti_pohja.png");
@@ -56,7 +56,7 @@ public class TooltipTeksti {
         }
     }
     
-    public void renderöi(Shader shader, Window window) {
+    public void renderöi(Shader shader, Ikkuna window) {
         window1 = window;
         tooltipPohjaLabel.renderöi(shader, window);
         tooltipTeksti.päivitäTeksti(teksti);

@@ -3,7 +3,7 @@ package keimo.seikkailupeli.gui.hud;
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.Kello;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -44,7 +44,7 @@ public class DebugTeksti {
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 	static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
     
-    public static void renderöiDebugTeksti(double tileAika, double pelaajaAika, double hudAika, Window window) {
+    public static void renderöiDebugTeksti(double tileAika, double pelaajaAika, double hudAika, Ikkuna window) {
         try {
             int sijx = (int)(window.getWidth()/5.5);
             int sijy = (int)(window.getHeight()/8f);
@@ -105,7 +105,7 @@ public class DebugTeksti {
         }
     }
 
-    public static void renderöiLisäMoodiTekstit(Window window) {
+    public static void renderöiLisäMoodiTekstit(Ikkuna window) {
         int sijx = (int)(window.getWidth()/1.6);
         int sijy = (int)(window.getHeight()/8f);
         int sijyOffset = (int)(window.getHeight()/54f);

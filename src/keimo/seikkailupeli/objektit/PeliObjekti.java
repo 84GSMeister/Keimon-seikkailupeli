@@ -70,6 +70,30 @@ public abstract class PeliObjekti implements Käännettävä {
         return mjono;
     }
 
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        if (ominaisuusLista != null) {
+            if (this.annaNimi() != null && this.annaNimi() != "") {
+                for (int i = 0; i < ominaisuusLista.size(); i++) {
+                    this.lisäOminaisuudet.add(ominaisuusLista.get(i));
+                }
+            }
+            if (this.lisäOminaisuudet != null) {
+                if (this.lisäOminaisuudet.size() == 0) {
+                    this.lisäOminaisuuksia = false;
+                }
+                else {
+                    this.lisäOminaisuuksia = true;
+                    this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+                    if (kääntöAsteet != 0) this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+                    this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+                    if (xPeilaus) this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
+                    this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+                    if (yPeilaus)this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
+                }
+            }
+        }
+    }
+
     public int annaKääntöAsteet() {
         return kääntöAsteet;
     }
@@ -112,8 +136,6 @@ public abstract class PeliObjekti implements Käännettävä {
         if (dialogiTekstuuri == null) return tekstuuri;
         else return dialogiTekstuuri;
     }
-
-    public abstract void päivitäLisäOminaisuudet();
 
     public void asetaSuunta(Suunta suunta) {
         this.suunta = suunta;

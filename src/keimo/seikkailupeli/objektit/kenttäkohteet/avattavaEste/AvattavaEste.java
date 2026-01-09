@@ -34,7 +34,7 @@ public abstract class AvattavaEste extends KenttäKohde {
                     }
                 }
             }
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
             this.lisäOminaisuuksia = false;
@@ -84,7 +84,8 @@ public abstract class AvattavaEste extends KenttäKohde {
         super.asetaTiedot();
     }
 
-    public void päivitäLisäOminaisuudet() {
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
         if (this.lisäOminaisuudet != null) {
             this.lisäOminaisuuksia = true;
             String triggeritString = "";

@@ -3,7 +3,7 @@ package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -20,7 +20,7 @@ public class MinipeliIkkuna3D {
     private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/minipeli_kehys.png");
     private static float siirräY = 600;
 
-    public static void renderöiKehys(Window window) {
+    public static void renderöiKehys(Ikkuna window) {
         float scaleX = window.getWidth()/4;
         float scaleY = window.getHeight()/4;
         if (siirräY > 0) siirräY -= 20;
@@ -37,7 +37,7 @@ public class MinipeliIkkuna3D {
         Assets.getModel().render();
     }
     
-    public static void renderöiIkkuna(Window window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
         if (siirräY > 0) siirräY -= 10;
         peliShader.bind();
         peliShader.setUniform("sampler", 0);

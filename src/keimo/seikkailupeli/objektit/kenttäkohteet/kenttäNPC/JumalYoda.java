@@ -1,6 +1,7 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
@@ -8,15 +9,15 @@ import java.util.ArrayList;
 
 public final class JumalYoda extends NPC_KenttäKohde {
 
-    private Tekstuuri pimeäTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/goblin.png");
-    private Tekstuuri normaaliTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/yoda.png");
+    private Renderöitävä pimeäTekstuuri = Assets.annaTekstuuri("jumalyoda_goblin");
+    private Renderöitävä normaaliTekstuuri = Assets.annaTekstuuri("jumalyoda");
 
     public JumalYoda(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Jumal Yoda";
         super.tiedostonNimi = "goblin.png";
         super.tekstuuri = pimeäTekstuuri;
-        super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/goblin_dialogi.png");
+        super.dialogiTekstuuri = Assets.annaTekstuuri("jumalyoda_dialogi");
         super.katsomisTeksti = "Polku pimeälle puolelle?";
         super.dialogit.add("metsä");
         super.dialogit.add("kuu");

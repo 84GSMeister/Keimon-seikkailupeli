@@ -1,14 +1,15 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.warp;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.util.ArrayList;
 
 public final class PuuOvi extends Warp {
 
-    private Tekstuuri suljettuTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/puuovi.png");
-    private Tekstuuri avattuTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/puuovi_avattu.png");
+    private Renderöitävä suljettuTekstuuri = Assets.annaTekstuuri("puuovi");
+    private Renderöitävä avattuTekstuuri = Assets.annaTekstuuri("puuovi_avattu");
 
     public PuuOvi(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);

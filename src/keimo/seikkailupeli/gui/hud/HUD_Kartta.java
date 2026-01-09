@@ -5,7 +5,7 @@ import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
@@ -39,7 +39,7 @@ public class HUD_Kartta {
     private static StaattinenKomponentti huoneLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, 5f/6f, 2f/3f - 2f/9f, huoneTeksti);
     private static StaattinenKomponentti pelaajanKuvakeLabel = new StaattinenKomponentti(1f/32f, 1f/32f, 5f/6f, 2f/3f, pelaajaKartallaKuvake);
 
-    public static void render(Shader shader, Window window) {
+    public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         shader.setUniform("sampler", 0);
 

@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,10 @@ public final class Ämpärikone extends Kiintopiste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Ämpärikone";
         super.tiedostonNimi = "ämpärikone.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("ämpärikone");
         super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
         super.asetaTiedot();
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

@@ -2,15 +2,16 @@ package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
 import keimo.TarkistettavatArvot;
 import keimo.TarkistettavatArvot.PelinLopetukset;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
+import keimo.seikkailupeli.assets.Assets;
 
 public final class Makkara extends Ruoka {
     
     public boolean paistettu = false;
     public boolean käristetty = false;
-    private Tekstuuri vakioTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/makkarat.png");
-    private Tekstuuri paistettuTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/makkarat_paistettu.png");
-    private Tekstuuri käristettyTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/makkarat_käristetty.png");
+    private Renderöitävä vakioTekstuuri = Assets.annaTekstuuri("makkarat");
+    private Renderöitävä paistettuTekstuuri = Assets.annaTekstuuri("makkarat_paistettu");
+    private Renderöitävä käristettyTekstuuri = Assets.annaTekstuuri("makkarat_käristetty");
 
     public Makkara(int sijX, int sijY) {
         super(sijX, sijY);

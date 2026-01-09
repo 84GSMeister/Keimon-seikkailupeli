@@ -87,7 +87,7 @@ public class Kamera {
         this.projection = projection;
     }
 
-    public void resetZoom(Window window) {
+    public void resetZoom(Ikkuna window) {
         zoomX = window.getWidth()/2;
         zoomY = window.getHeight()/2;
         zoomZ = 0;

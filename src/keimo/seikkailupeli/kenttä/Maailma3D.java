@@ -9,10 +9,12 @@ import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.grafiikat.objekti3d.Model3D;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
+import keimo.seikkailupeli.assets.huone.Huone;
+import keimo.seikkailupeli.assets.huone.Huone3D;
 import keimo.seikkailupeli.gui.hud.HUD;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
@@ -41,7 +43,7 @@ public class Maailma3D {
     private static Huone3D ladattuHuone;
     private static HashMap<Integer, Huone3D> huone3dKartta = new HashMap<>();
     private static int huoneenId = 0;
-    public static boolean debugTiedotNäkyvissä = true;
+    public static boolean debugTiedotNäkyvissä = false;
     private static boolean voitto = false;
 
     private static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
@@ -186,7 +188,7 @@ public class Maailma3D {
         }
     }
 
-    public static void render(Window window) {
+    public static void render(Ikkuna window) {
         if (voitto) {
             renderöiVoittoTeksti(window);
         }
@@ -200,7 +202,7 @@ public class Maailma3D {
         }
     }
 
-    protected static void renderöi3DSkene(Window window) {
+    protected static void renderöi3DSkene(Ikkuna window) {
         if (ladattuHuone != null) {
             Model3D ladattuMalli = ladattuHuone.annaHuoneenModel();
             ArrayList<Model3D> ladatutObjektit = ladattuHuone.annaHuoneenObjektit();
@@ -213,7 +215,7 @@ public class Maailma3D {
         }
     }
 
-    protected static void renderöi3DMalli(Model3D malli, Window window) {
+    protected static void renderöi3DMalli(Model3D malli, Ikkuna window) {
         if (malli != null) {
             Matrix4f modelMatrix = malli.getTransform().getTransformation();
             Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, window.getWidth()/window.getHeight(), 0.001f, 1000);
@@ -333,6 +335,15 @@ public class Maailma3D {
         HYPPY;
     }
 
+    public enum KameranLiike {
+        VASEN,
+        OIKEA,
+        YLÖS,
+        ALAS,
+        PYÖRITÄ_VASEN,
+        PYÖRITÄ_OIKEA;
+    }
+
     public static double posStep = 0.01;
     public static float xSij = -72;
     public static float ySij = 0;
@@ -403,6 +414,41 @@ public class Maailma3D {
         }
     }
 
+    public static void käännä(KameranLiike liike) {
+        switch (liike) {
+            case VASEN -> {
+                yaw -= kääntöNopeus;
+                if (yaw < 0) yaw += 360;
+                yaw %= 360;
+            }
+            case OIKEA -> {
+                yaw += kääntöNopeus;
+                yaw %= 360;
+            }
+            case YLÖS -> {
+                pitch += kääntöNopeus;
+                // if (Maailma3D.pitch > 89.999) Maailma3D.pitch = 89.999f;
+                // else Maailma3D.pitch = Math.round(Maailma3D.pitch);
+                if (pitch < -90) pitch = -90;
+            }
+            case ALAS -> {
+                pitch -= kääntöNopeus;
+                // if (Maailma3D.pitch < -89.999) Maailma3D.pitch = -89.999f;
+                // else Maailma3D.pitch = Math.round(Maailma3D.pitch);
+                if (pitch < -90) pitch = -90;
+            }
+            case PYÖRITÄ_VASEN -> {
+                roll -= kääntöNopeus;
+                if (roll < 0) roll += 360;
+                roll %= 360;
+            }
+            case PYÖRITÄ_OIKEA -> {
+                roll += kääntöNopeus;
+                roll %= 360;
+            }
+        }
+    }
+
     private static void päivitäSijainti() {
         kameranYSij = ySij + 0.5f;
         yKohde = kameranYSij + (float)Math.sin(Math.toRadians(pitch));
@@ -420,7 +466,7 @@ public class Maailma3D {
         }
     }
 
-    private static void renderöiVoittoTeksti(Window window) {
+    private static void renderöiVoittoTeksti(Ikkuna window) {
         float skaalaX = 0.5f, skaalaY = 0.25f;
         Komponentti.renderöiKomponentti(objekti3dShader, voittoTeksti, window, skaalaX, skaalaY, 1, 0, 0, 0);
 
@@ -431,7 +477,7 @@ public class Maailma3D {
         Komponentti.renderöiKomponentti(objekti3dShader, voittoTeksti3, window, skaalaX, skaalaY, 1, 0, -0.5f, 0);
     }
 
-    private static void renderöiVihjeTeksti(Window window) {
+    private static void renderöiVihjeTeksti(Ikkuna window) {
         vihjeTeksti.päivitäTeksti("Tavoite: Etsi Keimon koti");
         HUD.renderöiTeksti(vihjeTeksti, (int)(window.getWidth()/2), 60, window);
         vihjeTeksti2.päivitäTeksti("Yo-kylä 46 A 24");
@@ -451,7 +497,7 @@ public class Maailma3D {
             }
         }
 
-        public static void renderöiDebugTeksti(Window window) {
+        public static void renderöiDebugTeksti(Ikkuna window) {
             if (debugTiedotNäkyvissä) {
                 try {
                     int sijx = (int)(window.getWidth()/5.5);
@@ -493,7 +539,7 @@ public class Maailma3D {
             }
         }
         
-        public static void renderöiLisäMoodiTekstit(Window window) {
+        public static void renderöiLisäMoodiTekstit(Ikkuna window) {
             int sijx = (int)(window.getWidth()/5.5);
             if (moonJump) {
                 lisäMoodiTeksti.päivitäTeksti("Moonjump");

@@ -5,7 +5,7 @@ import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.ikkuna.Kamera;
-import keimo.keimoengine.ikkuna.Window;
+import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -13,7 +13,6 @@ import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
 import java.awt.Color;
-import java.util.Random;
 
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -22,11 +21,9 @@ public class MinipeliIkkunaOverflow {
     private static Shader peliShader = new Shader("shader");
 
     private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/minipeli_kehys.png");
-    private static Teksti teksti = new Teksti("Tähän tulee hassu laskuohjelma", Color.green, 200, 48);
     private static float siirräY = 600;
     private static boolean säikeetKäynnissä = false;
 
-    private static Random random = new Random();
     private static byte luku8 = 0;
     private static short luku16 = 0;
     private static int luku32 = 0;
@@ -53,7 +50,7 @@ public class MinipeliIkkunaOverflow {
     private static Teksti info64TekstiOverflow = new Teksti("", Color.green, 400, 48);
     private static Teksti overflow64Teksti = new Teksti("", Color.green, 400, 48);
 
-    public static void renderöiKehys(Window window) {
+    public static void renderöiKehys(Ikkuna window) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         float scaleX = ruudunLeveys/3f;
@@ -73,22 +70,7 @@ public class MinipeliIkkunaOverflow {
         Assets.getModel().render();
     }
     
-    public static void renderöiIkkuna(Window window, Kamera kamera) {
-        // float ruudunLeveys = window.getWidth();
-        // float ruudunKorkeus = window.getWidth() * (3f/4f);
-        // if (siirräY > 0) siirräY -= 10;
-        // peliShader.bind();
-        // peliShader.setUniform("sampler", 0);
-        // peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-
-        // float scaleXValikkoKuvake = ruudunLeveys/4f;
-        // float scaleYValikkoKuvake = ruudunKorkeus/4f;
-        // Matrix4f matValikkoKuvake = new Matrix4f();
-        // window.getView().scale(1, matValikkoKuvake);
-        // matValikkoKuvake.scale(scaleXValikkoKuvake, scaleYValikkoKuvake, 0);
-        // peliShader.setUniform("projection", matValikkoKuvake);
-        // alkuruutuTekstuuri.bind(0);
-        // Assets.getModel().render();
+    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
 
         peliShader.bind();
         peliShader.nollaaShaderEfektit();

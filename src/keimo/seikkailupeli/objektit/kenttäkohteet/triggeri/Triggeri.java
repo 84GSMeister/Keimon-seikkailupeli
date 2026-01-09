@@ -1,5 +1,7 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.triggeri;
 
+import java.util.ArrayList;
+
 import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Esine;
@@ -29,5 +31,9 @@ public abstract class Triggeri extends KenttäKohde {
 
     public Vihollinen annaVaadittuVihollinen() {
         return vaadittuVihollinen;
+    }
+
+    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 }

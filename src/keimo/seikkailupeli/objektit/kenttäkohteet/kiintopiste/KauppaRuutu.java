@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,11 @@ public final class KauppaRuutu extends Kiintopiste {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kaupparuutu";
         super.tiedostonNimi = "kaupparuutu.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
-        super.dialogiTekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png");
+        super.tekstuuri = Assets.annaTekstuuri("kaupparuutu");
+        super.dialogiTekstuuri = Assets.annaTekstuuri("kauppias_dialogi");
         super.katsomisTeksti = "Kylien kauppias";
         super.asetaTiedot();
+        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

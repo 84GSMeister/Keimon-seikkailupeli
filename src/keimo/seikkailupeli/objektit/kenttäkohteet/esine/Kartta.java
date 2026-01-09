@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.esine;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.gui.toimintoIkkunat.KarttaIkkuna;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -10,7 +10,7 @@ public class Kartta extends Esine {
         super(sijX, sijY);
         super.nimi = "Kartta";
         super.tiedostonNimi = "kartta.png";
-        super.tekstuuri = new Tekstuuri("tiedostot/kuvat/kenttäkohteet/" + tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("kartta");
         super.katsomisTeksti = "Parempi vilkaista karttaa, jos on eksynyt.";
         super.käyttö = true;
         super.asetaTiedot();

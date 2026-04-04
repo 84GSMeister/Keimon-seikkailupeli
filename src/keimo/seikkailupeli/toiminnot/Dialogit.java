@@ -21,11 +21,18 @@ import java.util.HashMap;
 
 public class Dialogit {
 
-    public static Renderöitävä dialogiKuvake = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
-    public static Teksti dialogiTeksti = new Teksti("teksti", Color.black, 1500, 240, KeimoFontit.fontti_keimo_36, false);
-    public static Teksti dialogiNimi = new Teksti("nimi", 1500, 48);
+    public static Renderöitävä dialogiKuvake;
+    public static Teksti dialogiTeksti;
+    public static Teksti dialogiNimi;
+    public static Tekstuuri vakiokuva;
+    
 
-    public static Tekstuuri vakiokuva = new Tekstuuri("tiedostot/kuvat/pelaaja_og.png");
+    public static void luoTekstuurit() {
+        dialogiKuvake = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
+        dialogiTeksti = new Teksti("teksti", Color.black, 1500, 224, KeimoFontit.fontti_keimo_36, false);
+        dialogiNimi = new Teksti("nimi", 1500, 48);
+        vakiokuva = new Tekstuuri("tiedostot/kuvat/pelaaja_og.png");
+    }
 
     /**
      * Avaa ruudun alareunassa näkyvä dialogilaatikko. Kaikki pelin varsinainen tekstisisältö näytetään tässä.
@@ -33,15 +40,13 @@ public class Dialogit {
      * @param teksti dialogiteksti
      * @param nimi puhujan nimi / otsikko
      */
-
     public static void avaaDialogi(Renderöitävä tekstuuri, String teksti, String nimi) {
         Peli.syötteenTila = SyötteenTila.DIALOGI;
         Peli.dialoginAvausViive = 5;
         dialogiTekstiString = teksti;
         tekstiäJäljellä = teksti.length();
         dialogiKuvake = tekstuuri;
-        dialogiTeksti.päivitäTeksti("");
-        dialogiNimi.päivitäTeksti(nimi);
+        dialogiNimiString = nimi;
     }
 
     /**
@@ -51,7 +56,6 @@ public class Dialogit {
      * @param teksti dialogiteksti
      * @param nimi puhujan nimi / otsikko
      */
-
     public static void avaaDialogi(String tekstuurinPolku, String teksti, String nimi) {
         if (tekstuurinPolku == null || tekstuurinPolku == "") {
             avaaDialogi(vakiokuva, teksti, nimi);
@@ -64,18 +68,15 @@ public class Dialogit {
 
     public static int tekstiäJäljellä;
     public static boolean tekstiAuki = false;
-
-    public static String dialogiTekstiString = "";
+    private static String dialogiNimiString = "";
+    private static String dialogiTekstiString = "";
     static String kelattuTeksti = "";
-
     public static int dialogiaJäljellä = 0;
     public static boolean useitaRuutuja = false;
 
-    
-
     public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste) {
         if (PitkätDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste)) {
-            avaaDialogi(new Tekstuuri(PitkätDialogit.dialogiKuvienTiedostoNimet[0]), PitkätDialogit.dialogiTekstit[0], PitkätDialogit.dialogiPuhujat[0]);
+            avaaDialogi(PitkätDialogit.dialogiKuvakkeet.get(PitkätDialogit.vuoropuheTunniste + "_0"), PitkätDialogit.dialogiTekstit[0], PitkätDialogit.dialogiPuhujat[0]);
         }
     }
 
@@ -90,11 +91,11 @@ public class Dialogit {
     public static void kelaaDialogi() {
         if (tekstiäJäljellä <= 1) {
             edistäDialogia();
+            Äänet.toistaSFX("Valinta");
         }
         else {
             tekstiäJäljellä = 1;
         }
-        Äänet.toistaSFX("Valinta");
     }
 
     /**
@@ -133,20 +134,30 @@ public class Dialogit {
         Peli.syötteenTila = SyötteenTila.PELI;
         tekstiAuki = false;
         useitaRuutuja = false;
+        Peli.dialoginAvausViive = 5;
+        dialogiNimiString = "";
+        dialogiTekstiString = "";
+        tulostettavaTeksti = "";
     }
 
     /**
      * Lisää dialogilaatikkoon tulostettavaan tekstipätkään 1 merkki kerrallaan.
      */
 
+    static String tulostettavaTeksti;
     public static void scrollaaDialogiTeksti() {
         if (Peli.syötteenTila == SyötteenTila.DIALOGI) {
             if (tekstiäJäljellä > 0) {
-                String tulostettavaTeksti = dialogiTekstiString.substring(0, dialogiTekstiString.length()-tekstiäJäljellä +1);
-                dialogiTeksti.päivitäTeksti(tulostettavaTeksti, 2);
+                tulostettavaTeksti = dialogiTekstiString.substring(0, dialogiTekstiString.length()-tekstiäJäljellä +1);
                 tekstiäJäljellä--;
+                Äänet.toistaSFX(haeDialogiÄäni(dialogiNimiString));
             }
         }
+    }
+
+    public static void renderöiDialogiTeksti() {
+        dialogiNimi.päivitäTeksti(dialogiNimiString);
+        dialogiTeksti.päivitäTeksti(tulostettavaTeksti, 2);
     }
 
     /**
@@ -158,10 +169,23 @@ public class Dialogit {
         String tavoiteVinkki = "";
         switch (tavoite) {
             case "Sytytä nuotio" -> {
-                tavoiteVinkki = "Nuotiopaikka ei ole tässä suunnassa.";
+                switch (TavoiteLista.nykyinenTavoite) {
+                    case "Löydä takaisin kotiin" -> {
+                        tavoiteVinkki = "Koti ei ole tässä suunnassa.";
+                    }
+                    default -> {
+                        tavoiteVinkki = "Nuotiopaikka ei ole tässä suunnassa.";
+                    }
+                }
+            }
+            case "Hae Pasi nuotiolle" -> {
+                tavoiteVinkki = "Pitäisiköhän käväistä Pasin luona? (Pasi asuu Yo-kylässä.)";
+            }
+            case "Etsi Keimo-baari" -> {
+                tavoiteVinkki = "Pitäisiköhän kuitenkin suunnata Keimo-baaria kohti ensin?";
             }
             case "Etsi Pasi" -> {
-                tavoiteVinkki = "Pitäisiköhän kuitenkin suunnata Keimo-baaria kohti ensin?";
+                tavoiteVinkki = "Pitäisiköhän etsiä Pasi ensin? Se on kuitenkin jossain päin Keimo-baaria.";
             }
             case "Avaa takahuone" -> {
                 tavoiteVinkki = "Tästä ei pääse. Kuulemma joku metsän asukas osaisi ehkä neuvoa reitin metsän siimekseen...";
@@ -177,6 +201,19 @@ public class Dialogit {
             }
         }
         Dialogit.avaaDialogi("", tavoiteVinkki, "Huone lukittu");
+    }
+
+    private static String haeDialogiÄäni(String puhuja) {
+        switch (puhuja) {
+            case "Keimo": return "dialogi1";
+            case "Pasi": return "dialogi_pasi";
+            case "Juhani": return "dialogi_juhani";
+            case "Jumal Velho", "Velho": return "dialogi_velho";
+            case "Jumal Yoda", "Yoda", "Goblin", "Goblini": return "dialogi_yoda";
+            case "Kauppias", "ASS-Market kassa", "Keimo-baarin tarjoilija": return "dialogi_kauppias";
+            case "Kuuhahmo1", "Kuuhahmo2", "Kuuhahmo3", "Kuu-baarin tarjoilija": return "dialogi2";
+            case null, default: return "dialogi3";
+        }
     }
 
     public class PitkätDialogit {
@@ -196,11 +233,20 @@ public class Dialogit {
         public static String[] vaihtoehtojenTriggerit;
 
         public static HashMap<String, VuoropuheDialogiPätkä> vuoropuheDialogiKartta = new HashMap<>();
+        public static HashMap<String, Renderöitävä> dialogiKuvakkeet = new HashMap<>();
+
+        public static void lataaDialogiKuvakkeet() {
+            for (VuoropuheDialogiPätkä vdp : vuoropuheDialogiKartta.values()) {
+                for (int i = 0; i < vdp.annaPituus(); i++) {
+                    dialogiKuvakkeet.put(vdp.annaTunniste() + "_" + i, new Tekstuuri(vdp.annaKuvienTiedostoNimet()[i]));
+                }
+            }
+        }
 
         public static void siirrySeuraavaanDialogiRuutuun(int ruudunNro) {
             if (ruudunNro >= 0) {
                 if (dialogiKuvienTiedostoNimet.length > ruudunNro && dialogiTekstit.length > ruudunNro && dialogiPuhujat.length > ruudunNro) {
-                    Dialogit.avaaDialogi(new Tekstuuri(dialogiKuvienTiedostoNimet[ruudunNro]), dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
+                    Dialogit.avaaDialogi(dialogiKuvakkeet.get(vuoropuheTunniste + "_" + ruudunNro), dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
                     dialogiaJäljellä--;
                 }
             }

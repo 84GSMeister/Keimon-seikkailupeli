@@ -1,6 +1,7 @@
 package keimo.seikkailupeli.gui.hud;
 
 import keimo.keimoengine.grafiikat.*;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -23,7 +24,6 @@ public class OstosLista {
     public static void render(Shader shader, Ikkuna window) {
         shader1.bind();
         shader1.nollaaShaderEfektit();
-        shader1.setUniform("sampler", 0);
         shader1.setUniform("subcolor", new Vector4f(0, 0, 0, 0));
         shader1.setUniform("color", new Vector4f(0, 0, 0, 1));
 
@@ -40,7 +40,7 @@ public class OstosLista {
         window.getView().scale(1, matOtsikko);
         matOtsikko.translate(window.getWidth()/2-scaleXOtsikko, keskitysY + 1*offsetY, 0);
         matOtsikko.scale(scaleXOtsikko, scaleYOtsikko, 0);
-        shader1.setUniform("projection", matOtsikko);
+        shader1.asetaSijainti(matOtsikko);
         otsikkoTeksti.bind(0);
         Assets.getModel().render();
 
@@ -49,7 +49,7 @@ public class OstosLista {
             window.getView().scale(1, matKuvake);
             matKuvake.translate(window.getWidth()/2 - scaleXTeksti - keskitysX, keskitysY - i*offsetY, 0);
             matKuvake.scale(scaleXKuvake, scaleY, 0);
-            shader1.setUniform("projection", matKuvake);
+            shader1.asetaSijainti(matKuvake);
             if (Pelaaja.ostosKori.get(i) != null) Pelaaja.ostosKori.get(i).annaDialogiTekstuuri().bind(0);
             else tyhjäTekstuuri.bind(0);
             Assets.getModel().render();
@@ -60,7 +60,7 @@ public class OstosLista {
             window.getView().scale(1, matNimi);
             matNimi.translate(window.getWidth()/2 + scaleXKuvake - keskitysX, keskitysY - i*offsetY, 0);
             matNimi.scale(scaleXTeksti, scaleY, 0);
-            shader1.setUniform("projection", matNimi);
+            shader1.asetaSijainti(matNimi);
             if (Pelaaja.ostosKori.get(i) != null) {
                 esineenNimiTeksti.päivitäTeksti(Pelaaja.ostosKori.get(i).annaNimi());
                 esineenNimiTeksti.bind(0);
@@ -73,7 +73,7 @@ public class OstosLista {
         window.getView().scale(1, matHinta);
         matHinta.translate(window.getWidth()/2-scaleXOtsikko, keskitysY - 8*offsetY, 0);
         matHinta.scale(scaleXOtsikko, scaleYOtsikko, 0);
-        shader1.setUniform("projection", matHinta);
+        shader1.asetaSijainti(matHinta);
         hintaTeksti.päivitäTeksti("Yht. " + kaksiDesimaalia.format(Pelaaja.ostostenHintaYhteensä) + "€");
         hintaTeksti.bind(0);
         Assets.getModel().render();

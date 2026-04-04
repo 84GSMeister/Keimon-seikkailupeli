@@ -1,15 +1,14 @@
 package keimo.seikkailupeli.objektit.entityt.npc;
 
-import keimo.keimoengine.grafiikat.Animaatio;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
 
 public class Pahavihu extends Vihollinen {
 
-    private Renderöitävä vakioTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/pahavihu.gif");
-    private Renderöitävä lyötyTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/pahavihu_lyöty.png");
+    private Renderöitävä vakioTekstuuri = Assets.annaTekstuuri("pahavihu");
+    private Renderöitävä lyötyTekstuuri = Assets.annaTekstuuri("pahavihu_lyöty");
 
     @Override
     public void kukista(String kukistusTapa) {

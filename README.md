@@ -1,6 +1,22 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (9.1.2026): 1.2.1 Alfa
+## Uusin versio (4.4.2026): 1.2.2 Alfa
+
+### Versio 1.2.2 Alfa
+ - Uusia Shader-efektejä.
+ - Lisätty ääniefektit dialogin scrollaukseen. Eri puhujilla voi olla eri äänet.
+ - Lisätty Keimo-äly, uusi minipeli kotona.
+ - Korjattu pelaajan liikkuminen tuplanopeudella jos ohjainta ja näppäimistöä painaa samaan aikaan (ohjaimen ja näppäimistön syötteitä käsittelevät koodit yhdistetty).
+ - HUD-elementtejä uudelleensijoitettu.
+ - Valikoiden navigointia parannettu:
+   - Ohjaimella voi liikkua pohjassa pitämällä analogilla tai askel kerrallaan hattukytkimillä (DPAD).
+   - Näppäimistöllä voi liikkua pohjassa pitämällä WASD:illa tai askel kerrallaan nuolinäppäimillä.
+ - Lisätty säikeistys: Grafiikan renderöinti ja tapahtumankäsittely eri säikeissä -> mahdollistaa mm. ikkunan siirtämisen ja koon muutoksen ilman, että renderöinti pysähtyy.
+ - 3D-minipelin renderöinti kehyksen sisällä (OpenGL Stencil Buffer).
+ - Korjattu kännipöyrimisefektin kuvan hyppääminen.
+ - Korjattu stereon kääntyminen toistaessa ääniä takaperin.
+ - Jälleen koodin refaktorointia.
+ - Lisää tölkkiääniä.
 
 ### Versio 1.2.1 Alfa
  - Lisätty tuki ohjaimille (vaatii XInput-yhteensopivan ohjaimen).
@@ -17,7 +33,7 @@
  - Äänitestiä laajennettu.
 
 ### Versio 1.2 Alfa
- - Lisätty Keimo-baarin salahuone (myös uusi shader-efekti) Salahuoneeseen pääsee ***SPOILER ALERT*** Läpäisemällä baarin minipelin.
+ - Lisätty Keimo-baarin salahuone (myös uusi shader-efekti) Salahuoneeseen pääsee Spoiler >! Läpäisemällä baarin minipelin. !<
  - Lisätty minipelit (Pelikoneita voi olla useantyyppisiä). Pelikoneita löytyy kuusta sekä baarin salahuoneesta.
  - Lisätty Salaovi-objekti. Salaovi tarvii jonkin tehtävän suorituksen (nykyisellään vain hardkoodattu tehtävälista) avautuakseen.
  - Lisätty uuden editorin ensimmäinen versio (suurin osa ominaisuuksista puuttuu vielä). Vanha editori löytyy nykyään erillisenä sovelluksena pelin tiedostoista. Editorin mukana lisätty myös alkeellinen versio enginen sisäisestä UI-frameworkista.
@@ -45,7 +61,7 @@
  - Korjattu bugi, jossa dialogiteksti näkyy joskus kokonaan 1 framen ajan ennen scrollaamista.
  - Korjattu joidenkin lisäominaisuuksia vaativien objektien toimimattomuus ilman argumentteja.
  - Koodia refaktoroitu merkittävästi ja jäsennelty paremmin (pelin ja pelimoottorin koodit pyritty erottelemaan toisistaan mahdollisimman selkeästi) sekä ylimääräisiä kirjastoja poistettu.
- - Lisää tölkkiääniä
+ - Lisää tölkkiääniä.
 
 ### Versio 1.1.2 Alfa
  - Lisätty isot laatat (useamman tilen kokoiset maasto-objektit)

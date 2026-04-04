@@ -1,15 +1,15 @@
 package keimo.seikkailupeli.menu.editori.gui;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.huone.HuoneLista;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
@@ -18,11 +18,9 @@ import keimo.seikkailupeli.äänet.Äänet;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import org.joml.Vector4f;
-
 public class EditorinValikko {
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
-    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin_vanha");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Teksti vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
     private static String otsikkoTeksti = "";
@@ -36,7 +34,6 @@ public class EditorinValikko {
 
     public static void renderöi(Shader shader, Ikkuna window) {
         shader.bind();
-        shader.setUniform("sampler", 0);
 
         if (siirräY > 0) siirräY -= 0.05f;
         kehysKomponentti.muutaOffsetY(siirräY);
@@ -51,11 +48,11 @@ public class EditorinValikko {
             if (i == valintaInt) osoitin = osoitinKuvake;
             else osoitin = tyhjäTekstuuri;
             float offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(shader, osoitin, window, 1f/18f, 1f/15f, 1, -1/8f -1/6f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, osoitin, window, 1f/18f, 1f/15f, 1, -1/8f -1/6f, offsetY + siirräY, 0);
 
             vaihtoehtoTeksti.päivitäTeksti(valintaTekstit.get(i), 1);
             offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(shader, vaihtoehtoTeksti, window, 0.25f, 1f/15f, 1, -1/8f +1/6f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, vaihtoehtoTeksti, window, 0.25f, 1f/15f, 1, -1/8f +1/6f, offsetY + siirräY, 0);
         }
     }
 
@@ -101,17 +98,17 @@ public class EditorinValikko {
                 Peli.nollaaPeli();
                 EditoriRuutu.kopioiEditorinHuonekarttaPeliin();
                 suljeValikko();
-                KeimoEngine.valitseAktiivinenRuutu("peliruutu");
+                Renderöinti.siirrySeuraavaanRuutuun("peliruutu");
             }
             case 2 -> { // Tallenna ja poistu
                 EditoriRuutu.kopioiEditorinHuonekarttaPeliin();
                 suljeValikko();
-                KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
+                Renderöinti.siirrySeuraavaanRuutuun("valikkoruutu");
             }
             case 3 -> { // Poistu tallentamatta
                 HuoneLista.lataaReferenssiHuonekartta();
                 suljeValikko();
-                KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
+                Renderöinti.siirrySeuraavaanRuutuun("valikkoruutu");
             }
         }
         Äänet.toistaSFX("Hyväksy");

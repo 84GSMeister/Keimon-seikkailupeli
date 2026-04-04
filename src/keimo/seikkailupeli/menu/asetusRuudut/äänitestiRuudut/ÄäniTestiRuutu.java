@@ -1,17 +1,19 @@
 package keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.keimoengine.äänet.MidiToistin;
 import keimo.keimoengine.äänet.PeliääniToistin;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -27,21 +29,23 @@ import org.joml.Matrix4f;
 public class ÄäniTestiRuutu {
     private static int valinta = 0;
     private static int asetustenMäärä = 5;
+    private static boolean ohitaÄänisäie = false; // Vaihda jos haluat ohittaa säielogiikan ja toistaa suoraan pääsäikeessä (ongelmatapauksissa tms.).
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
-    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin2");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.85f, 0, osoitinKuvake, 0, 10, 0);
 
-    private static Teksti asetusÄäniPankkiTeksti = new Teksti("Äänipankki", Color.white, 600, 48);
-    private static Teksti asetusÄäniValintaTeksti = new Teksti("Valitse ääni", Color.white, 600, 48);
-    private static Teksti asetusNuottiTeksti = new Teksti("Taajuus", Color.white, 600, 48);
-    private static Teksti asetusTakaperinTeksti = new Teksti("Takaperin", Color.white, 600, 48);
+    private static Teksti asetusÄäniPankkiTeksti;
+    private static Teksti asetusÄäniValintaTeksti;
+    private static Teksti asetusNuottiTeksti;
+    private static Teksti asetusTakaperinTeksti;
 
-    private static Teksti tilaÄäniPankkiTeksti = new Teksti("0", Color.white, 800, 48);
-    private static Teksti tilaÄäniValintaTeksti = new Teksti("0", Color.white, 1000, 48);
-    private static Teksti tilaNuottiTeksti = new Teksti("50", Color.white, 1200, 48);
-    private static Teksti tilaTakaperinTeksti = new Teksti("Ei", Color.white, 800, 48);
+    private static Teksti tilaÄäniPankkiTeksti;
+    private static Teksti tilaÄäniValintaTeksti;
+    private static Teksti tilaNuottiTeksti;
+    private static Teksti tilaTakaperinTeksti;
 
     private static int valittuÄäni = 0;
     private static int taajuus = 64;
@@ -53,13 +57,11 @@ public class ÄäniTestiRuutu {
     private static List<File> woofTiedostot;
 
     private static DecimalFormat kolmeDesimaalia = new DecimalFormat("###.###");
-    private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
-    private static String infoTekstiNäppäimistöString = "Äänitesti\n " +
-    "Space: Toista\n " +
-    "Esc: Pysäytä ";
-    private static String infoTekstiOhjainString = "Äänitesti\n " +
-    "A: Toista\n " +
-    "B: Pysäytä ";
+    private static Teksti infoTeksti;
+    private static String infoTekstiNäppäimistöString = "Äänitesti\n" +
+    "Space: Toista, Esc: Pysäytä";
+    private static String infoTekstiOhjainString = "Äänitesti\n" +
+    "A: Toista, B: Pysäytä ";
 
     private enum Äänipankit {
         PELIÄÄNET,
@@ -72,17 +74,7 @@ public class ÄäniTestiRuutu {
     private static int valittuÄänipankki;
 
     public static void alusta() {
-        Musat.suljeMusa();
         listaaÄänet();
-        tilaÄäniPankkiTeksti.päivitäTeksti(äänipankki.toString());
-        tilaÄäniValintaTeksti.päivitäTeksti(ääniTiedostot.get(valittuÄäni).getName());
-        switch (valittuÄänipankki) {
-            case 0: äänipankki = Äänipankit.PELIÄÄNET; tilaÄäniValintaTeksti.päivitäTeksti(ääniTiedostot.get(valittuÄäni).getName()); break;
-            case 1: äänipankki = Äänipankit.PELIMUSAT; tilaÄäniValintaTeksti.päivitäTeksti(musaTiedostot.get(valittuÄäni).getName()); break;
-            case 2: äänipankki = Äänipankit.UDO_HAUKKUU; tilaÄäniValintaTeksti.päivitäTeksti(udoHaukkuuTiedostot.get(valittuÄäni).getName()); break;
-            case 3: äänipankki = Äänipankit.TÖLKKI; tilaÄäniValintaTeksti.päivitäTeksti(tölkkiTiedostot.get(valittuÄäni).getName()); break;
-            case 4: äänipankki = Äänipankit.WOOF; tilaÄäniValintaTeksti.päivitäTeksti(woofTiedostot.get(valittuÄäni).getName()); break;
-        }
     }
 
     private static void listaaÄänet() {
@@ -107,6 +99,18 @@ public class ÄäniTestiRuutu {
             System.out.println("Virhe ladatessa ääniä");
             e.printStackTrace();
         }
+    }
+
+    public static void alustaGrafiikat() {
+        asetusÄäniPankkiTeksti = new Teksti("Äänipankki", Color.white, 600, 48);
+        asetusÄäniValintaTeksti = new Teksti("Valitse ääni", Color.white, 600, 48);
+        asetusNuottiTeksti = new Teksti("Taajuus", Color.white, 600, 48);
+        asetusTakaperinTeksti = new Teksti("Takaperin", Color.white, 600, 48);
+        tilaÄäniPankkiTeksti = new Teksti("0", Color.white, 800, 48);
+        tilaÄäniValintaTeksti = new Teksti("0", Color.white, 1000, 48);
+        tilaNuottiTeksti = new Teksti("50", Color.white, 1200, 48);
+        tilaTakaperinTeksti = new Teksti("Ei", Color.white, 800, 48);
+        infoTeksti = new Teksti("info", Color.white, 2000, 300);
     }
 
     public static void painaNäppäintä(String näppäin) {
@@ -137,7 +141,9 @@ public class ÄäniTestiRuutu {
                 hyväksy(valinta);
             }
             case "esc" -> {
-                PeliääniToistin.suljeÄänet();
+                Äänet.suljeÄänet();
+                Musat.suljeMusa();
+                MidiToistin.suljeMusat();
             }
         }
     }
@@ -152,14 +158,6 @@ public class ÄäniTestiRuutu {
                     if (valittuÄänipankki > 0) valittuÄänipankki--;
                 }
                 valittuÄäni = 0;
-                switch (valittuÄänipankki) {
-                    case 0: äänipankki = Äänipankit.PELIÄÄNET; tilaÄäniValintaTeksti.päivitäTeksti(ääniTiedostot.get(valittuÄäni).getName()); break;
-                    case 1: äänipankki = Äänipankit.PELIMUSAT; tilaÄäniValintaTeksti.päivitäTeksti(musaTiedostot.get(valittuÄäni).getName()); break;
-                    case 2: äänipankki = Äänipankit.UDO_HAUKKUU; tilaÄäniValintaTeksti.päivitäTeksti(udoHaukkuuTiedostot.get(valittuÄäni).getName()); break;
-                    case 3: äänipankki = Äänipankit.TÖLKKI; tilaÄäniValintaTeksti.päivitäTeksti(tölkkiTiedostot.get(valittuÄäni).getName()); break;
-                    case 4: äänipankki = Äänipankit.WOOF; tilaÄäniValintaTeksti.päivitäTeksti(woofTiedostot.get(valittuÄäni).getName()); break;
-                }
-                tilaÄäniPankkiTeksti.päivitäTeksti(äänipankki.toString());
             }
             case 1 -> { // Valitse ääni
                 int raja = 0;
@@ -176,14 +174,6 @@ public class ÄäniTestiRuutu {
                 else {
                     if (valittuÄäni > 0) valittuÄäni--;
                 }
-                switch (äänipankki) {
-                    case PELIÄÄNET: tilaÄäniValintaTeksti.päivitäTeksti(ääniTiedostot.get(valittuÄäni).getName()); break;
-                    case PELIMUSAT: tilaÄäniValintaTeksti.päivitäTeksti(musaTiedostot.get(valittuÄäni).getName()); break;
-                    case UDO_HAUKKUU: tilaÄäniValintaTeksti.päivitäTeksti(udoHaukkuuTiedostot.get(valittuÄäni).getName()); break;
-                    case TÖLKKI: tilaÄäniValintaTeksti.päivitäTeksti(tölkkiTiedostot.get(valittuÄäni).getName()); break;
-                    case WOOF: tilaÄäniValintaTeksti.päivitäTeksti(woofTiedostot.get(valittuÄäni).getName()); break;
-                }
-                tilaÄäniPankkiTeksti.päivitäTeksti(äänipankki.toString());
                 
             }
             case 2 -> { // Taajuus
@@ -208,8 +198,7 @@ public class ÄäniTestiRuutu {
             toistaValittuÄäni();
         }
         if (valinta == 4) {
-            PeliääniToistin.suljeÄänet();
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNITESTI_VALIKKO;
             Äänet.toistaSFX("Valinta");
         }
     }
@@ -224,35 +213,45 @@ public class ÄäniTestiRuutu {
         switch (äänipankki) {
             case PELIÄÄNET -> {
                 File ääniTiedosto = ääniTiedostot.get(valittuÄäni);
-                //PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false);
-                Äänet.toistaÄäni(ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false, sampleRate, false, takaperin);
+                if (ohitaÄänisäie) PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false, takaperin);
+                else Äänet.toistaÄäni(ääniTiedosto, 1, 0, false, sampleRate, false, takaperin);
             }
             case PELIMUSAT -> {
-                PeliääniToistin.suljeÄänet();
                 File ääniTiedosto = musaTiedostot.get(valittuÄäni);
-                //PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.musaVolyymi, 0, true);
-                Musat.toistaPeliMusa(ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, sampleRate, true, takaperin);
+                MidiToistin.suljeMusat();
+                if (ohitaÄänisäie) PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.musaVolyymi, 0, true, takaperin);
+                else Musat.toistaPeliMusa(ääniTiedosto, null, 1, 0, sampleRate, true, takaperin);
             }
             case UDO_HAUKKUU -> {
-                PeliääniToistin.suljeÄänet();
                 File ääniTiedosto = udoHaukkuuTiedostot.get(valittuÄäni);
-                //PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.musaVolyymi, 0, true);
-                Musat.toistaPeliMusa(ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, sampleRate, true, takaperin);
+                MidiToistin.suljeMusat();
+                if (ohitaÄänisäie) PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.musaVolyymi, 0, true, takaperin);
+                else Musat.toistaPeliMusa(ääniTiedosto, null, 1, 0, sampleRate, true, takaperin);
             }
             case TÖLKKI -> {
                 File ääniTiedosto = tölkkiTiedostot.get(valittuÄäni);
-                //PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false);
-                Äänet.toistaÄäni(ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false, sampleRate, false, takaperin);
+                if (ohitaÄänisäie) PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false, takaperin);
+                else Äänet.toistaÄäni(ääniTiedosto, 1, 0, false, sampleRate, false, takaperin);
             }
             case WOOF -> {
                 File ääniTiedosto = woofTiedostot.get(valittuÄäni);
-                //PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false);
-                Äänet.toistaÄäni(ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false, sampleRate, false, takaperin);
+                if (ohitaÄänisäie) PeliääniToistin.toistaResamplattavaÄäni(sampleRate, ääniTiedosto, PelinAsetukset.ääniVolyymi, 0, false, takaperin);
+                else Äänet.toistaÄäni(ääniTiedosto, 1, 0, false, sampleRate, false, takaperin);
             }
         }
     }
 
-    public static void render(Shader asetusRuutuShader, Ikkuna window) {
+    public static void render(Shader shader, Ikkuna window) {
+        tilaÄäniPankkiTeksti.päivitäTeksti(äänipankki.toString());
+        tilaÄäniValintaTeksti.päivitäTeksti(ääniTiedostot.get(valittuÄäni).getName());
+        switch (valittuÄänipankki) {
+            case 0: äänipankki = Äänipankit.PELIÄÄNET; tilaÄäniValintaTeksti.päivitäTeksti(ääniTiedostot.get(valittuÄäni).getName()); break;
+            case 1: äänipankki = Äänipankit.PELIMUSAT; tilaÄäniValintaTeksti.päivitäTeksti(musaTiedostot.get(valittuÄäni).getName()); break;
+            case 2: äänipankki = Äänipankit.UDO_HAUKKUU; tilaÄäniValintaTeksti.päivitäTeksti(udoHaukkuuTiedostot.get(valittuÄäni).getName()); break;
+            case 3: äänipankki = Äänipankit.TÖLKKI; tilaÄäniValintaTeksti.päivitäTeksti(tölkkiTiedostot.get(valittuÄäni).getName()); break;
+            case 4: äänipankki = Äänipankit.WOOF; tilaÄäniValintaTeksti.päivitäTeksti(woofTiedostot.get(valittuÄäni).getName()); break;
+        }
+
         float scaleXOtsikko = 1;
         if (window.getWidth() != 0 && window.getWidth() != 0) {
             scaleXOtsikko = window.getWidth()/ (window.getWidth()*2/window.getHeight());
@@ -266,26 +265,25 @@ public class ÄäniTestiRuutu {
         tilaNuottiTeksti.päivitäTeksti("" + muunnettuTaajuus + " (" + nuottiMuutos + " nuottia) X" + kerroinMuutos);
         tilaTakaperinTeksti.päivitäTeksti(takaperin ? "Kyllä" : "Ei");
 
-        otsikkoLabel.renderöi(asetusRuutuShader, window);
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(asetusRuutuShader, annaOsoitinKuvake(i), window, 1f/12f, 1f/12f, 1, -1f/12f -3f/4f, offsetY, 0);
-        }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(asetusRuutuShader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
-        }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(asetusRuutuShader, annaTilaTeksti(i), window, 1f/2.25f, 1f/15f, 1, 1f/2f, offsetY, 1f/10f);
-        }
+        otsikkoLabel.renderöi(shader, window);
 
+        osoitinLabel.muutaOffsetY(1f/3f - (float)((valinta) - (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
+
+        for (int i = 0; i < asetustenMäärä; i++) {
+            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaAsetusTekstuuri(i), window, 1f/3f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
+        }
+        for (int i = 0; i < asetustenMäärä; i++) {
+            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaTilaTeksti(i), window, 1f/2f, 1f/15f, 1, 1f/2f, offsetY, 1f/10f);
+        }
 
         Matrix4f matInfoTeksti = new Matrix4f();
         window.getView().scale(1, matInfoTeksti);
         matInfoTeksti.translate(0, -window.getHeight()/2+scaleYInfo, 0);
         matInfoTeksti.scale(scaleXInfo, scaleYInfo, 0);
-        asetusRuutuShader.setUniform("projection", matInfoTeksti);
+        shader.asetaSijainti(matInfoTeksti);
         if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
             infoTeksti.päivitäTeksti(infoTekstiNäppäimistöString, 0, 58);
         }
@@ -304,11 +302,6 @@ public class ÄäniTestiRuutu {
             case 3: return asetusTakaperinTeksti;
             default: return hyväksyTekstuuri;
         }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
     }
 
     private static Renderöitävä annaTilaTeksti(int indeksi) {

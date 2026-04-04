@@ -1,8 +1,9 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.assets.GUITekstuurit;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 
 import java.awt.Color;
@@ -14,8 +15,10 @@ public class TooltipTeksti {
     protected float offsetY;
     private static Ikkuna window1;
     private String teksti;
+    private int leveys;
+    private int korkeus;
 
-    protected Tekstuuri tooltipValikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/popup_teksti_pohja.png");
+    protected Renderöitävä tooltipValikkoTekstuuri = GUITekstuurit.annaTekstuuri("tooltip_pohja");
 
     protected StaattinenKomponentti tooltipPohjaLabel;
     protected Teksti tooltipTeksti;
@@ -27,7 +30,8 @@ public class TooltipTeksti {
         this.offsetX = 0;
         this.offsetY = 0;
         this.teksti = teksti;
-        tooltipTeksti = new Teksti(teksti, Color.white, 600, 48);
+        this.leveys = 600;
+        this.korkeus = 48;
         tooltipTekstiLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipTeksti);
         tooltipPohjaLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipValikkoTekstuuri);
     }
@@ -38,7 +42,8 @@ public class TooltipTeksti {
         this.offsetX = 0;
         this.offsetY = 0;
         this.teksti = teksti;
-        tooltipTeksti = new Teksti(teksti, Color.white, leveys, korkeus);
+        this.leveys = leveys;
+        this.korkeus = korkeus;
         tooltipTekstiLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipTeksti);
         tooltipPohjaLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipValikkoTekstuuri);
     }
@@ -59,6 +64,10 @@ public class TooltipTeksti {
     public void renderöi(Shader shader, Ikkuna window) {
         window1 = window;
         tooltipPohjaLabel.renderöi(shader, window);
+        if (tooltipTeksti == null) {
+            tooltipTeksti = new Teksti(teksti, Color.white, leveys, korkeus);
+            tooltipTekstiLabel.päivitäSisältö(tooltipTeksti);
+        }
         tooltipTeksti.päivitäTeksti(teksti);
         tooltipTekstiLabel.renderöi(shader, window);
     }

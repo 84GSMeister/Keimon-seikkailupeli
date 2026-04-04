@@ -4,12 +4,14 @@ import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
 import keimo.keimoengine.ikkuna.GLFW_Ikkuna;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.kenttä.Maailma;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -18,30 +20,40 @@ import java.util.ArrayList;
 
 public class GrafiikkaAsetusRuutu {
     private static int valinta = 0;
-    private static int asetustenMäärä = 7;
     private static int scrollaus = 0;
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.85f, 0, osoitinKuvake, 10, 0, 0);
     private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
 
-    private static Teksti asetusKokonäyttöTeksti = new Teksti("Kokonäyttö (F11)", Color.white, 600, 48);
-    private static Teksti asetusResoluutioTeksti = new Teksti("Resoluutio", Color.white, 600, 48);
-    private static Teksti asetusNäyttöTeksti = new Teksti("Näyttö", Color.white, 600, 48);
-    private static Teksti asetusZoomTeksti = new Teksti("Näköetäisyys", Color.white, 600, 48);
-    private static Teksti asetusKirkkausTeksti = new Teksti("Kirkkaus", Color.white, 600, 48);
-    private static Teksti asetusVsyncTeksti = new Teksti("Pystysynkronointi", Color.white, 600, 48);
+    private static Renderöitävä[] asetusTekstit = new Renderöitävä[] {
+        new Teksti("Kokonäyttö (F11)", Color.white, 600, 48),
+        new Teksti("Resoluutio", Color.white, 600, 48),
+        new Teksti("Näyttö", Color.white, 600, 48),
+        new Teksti("Näköetäisyys", Color.white, 600, 48),
+        new Teksti("Kirkkaus", Color.white, 600, 48),
+        new Teksti("Pystysynkronointi", Color.white, 600, 48),
+        new Teksti("Vapaa kamera", Color.white, 600, 48),
+        new Teksti("Grafiikkatesti", Color.white, 600, 48),
+        hyväksyTekstuuri,
+    };
 
-    private static Teksti tilaKokonäyttöTeksti = new Teksti("Ei", Color.white, 600, 48);
-    private static Teksti tilaResoluutioTeksti = new Teksti("Natiivi", Color.white, 800, 48);
-    private static Teksti tilaNäyttöTeksti = new Teksti("0", Color.white, 800, 48);
-    private static Teksti tilaZoomTeksti = new Teksti("1x", Color.white, 600, 48);
-    private static Teksti tilaKirkkausTeksti = new Teksti("100%", Color.white, 600, 48);
-    private static Teksti tilaVsyncTeksti = new Teksti("Ei", Color.white, 600, 48);
+    private static Teksti[] tilaTekstit = new Teksti[] {
+        new Teksti("Ei", Color.white, 600, 48),
+        new Teksti("Natiivi", Color.white, 800, 48),
+        new Teksti("0", Color.white, 600, 48),
+        new Teksti("1x", Color.white, 600, 48),
+        new Teksti("100%", Color.white, 600, 48),
+        new Teksti("Ei", Color.white, 600, 48),
+        new Teksti("Kyllä", Color.white, 600, 48),
+        new Teksti("", Color.white, 600, 48),
+        new Teksti("", Color.white, 600, 48),
+    };
 
+    private static int asetustenMäärä = asetusTekstit.length;
     private static ArrayList<String> resoluutiot = KeimoEngine.window.annaResoluutiot();
     private static boolean kokonäyttö = false, vsync = false;
     private static int resoluutioValInt = resoluutiot.size()-1;
@@ -51,6 +63,7 @@ public class GrafiikkaAsetusRuutu {
     private static int resoluutioX, resoluutioY;
     private static float zoom = 1f;
     private static float kirkkaus = 1f;
+    private static boolean vapaaKamera = true;
     private static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 
     private static String infoTekstiKokonäyttö = "Valitse kokonäyttö- tai ikkunoitu tila\n";
@@ -63,7 +76,7 @@ public class GrafiikkaAsetusRuutu {
     "Oletuksena käytetään järjestelmän päänäyttöä.";
     private static String infoTekstiNäköetäisyys = "Näköetäisyys\n" +
     "Vaikuttaa zoomaustasoon sekä piirtoetäisyyteen.\n" +
-    "Suurempi arvo zoomaa ulos ja kasvattaa piirrettävien laattojen määrää.\n" +
+    "Suurempi arvo loitontaa näkymää ja kasvattaa piirrettävien laattojen määrää.\n" +
     "Pienempi arvo parantaa suorituskykyä.\n" +
     "Oletus: 1";
     private static String infoTekstiKirkkaus = "Kirkkaus\n" +
@@ -75,6 +88,10 @@ public class GrafiikkaAsetusRuutu {
     "Lukitsee pelin päivitysnopeuden näytön virkistystaajuuteen.\n" +
     "Voi aiheuttaa lisäviivettä syötteeseen.\n" +
     "Oletus: Ei";
+    private static String infoTekstiVapaaKamera = "Vapaa kamera\n" +
+    "Sallii kameran liikkeen kentän ulkopuolelle.\n" +
+    "Kamera liikkuu aina pelaajan sijainnin mukaan eikä pysähdy huoneen reunaan.\n" +
+    "Oletus: Kyllä";
 
     public static void painaNäppäintä(String näppäin) {
         switch (näppäin) {
@@ -153,7 +170,10 @@ public class GrafiikkaAsetusRuutu {
                 vsync = KeimoEngine.window.isVsync();
                 vsync = !vsync;
             break;
-            case 6: // Hyväksy
+            case 6: // Vapaa kamera
+                vapaaKamera = !vapaaKamera;
+            break;
+            case 7: // Hyväksy
                 
             break;
             default:
@@ -183,6 +203,7 @@ public class GrafiikkaAsetusRuutu {
             PelinAsetukset.zoom = zoom;
             Kamera.päivitäZoom = true;
             Maailma.fade = 1f - kirkkaus;
+            PelinAsetukset.vapaaKamera = vapaaKamera;
         }
         catch (Exception e) {
             System.out.println("Asetusten tallentaminen epäonnistui.");
@@ -191,76 +212,50 @@ public class GrafiikkaAsetusRuutu {
     }
 
     static void hyväksy(int valinta) {
-        if (valinta == 6) {
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        if (valinta == 7) {
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.GRAFIIKKATESTI_VALIKKO;
+        }
+        if (valinta == asetustenMäärä -1) {
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+            valinta = 0;
         }
     }
 
     static void peruuta() {
-        KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+        valinta = 0;
     }
 
     public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         
-        tilaKokonäyttöTeksti.päivitäTeksti(KeimoEngine.window.isFullscreen() ? "Kyllä" : "Ei");
-        tilaResoluutioTeksti.päivitäTeksti(valittuResoluutio);
-        tilaNäyttöTeksti.päivitäTeksti("" + valittuNäyttö);
-        tilaZoomTeksti.päivitäTeksti("" + kaksiDesimaalia.format(zoom));
-        tilaKirkkausTeksti.päivitäTeksti("" + kaksiDesimaalia.format(kirkkaus));
-        tilaVsyncTeksti.päivitäTeksti(KeimoEngine.window.isVsync() ? "Kyllä" : "Ei");
+        tilaTekstit[0].päivitäTeksti(KeimoEngine.window.isFullscreen() ? "Kyllä" : "Ei");
+        tilaTekstit[1].päivitäTeksti(valittuResoluutio);
+        tilaTekstit[2].päivitäTeksti("" + valittuNäyttö);
+        tilaTekstit[3].päivitäTeksti("" + kaksiDesimaalia.format(zoom));
+        tilaTekstit[4].päivitäTeksti("" + kaksiDesimaalia.format(kirkkaus));
+        tilaTekstit[5].päivitäTeksti(KeimoEngine.window.isVsync() ? "Kyllä" : "Ei");
+        tilaTekstit[6].päivitäTeksti(vapaaKamera ? "Kyllä" : "Ei");
 
         if (valinta > 4) scrollaus = valinta - 4;
         else scrollaus = 0;
 
+        osoitinLabel.muutaOffsetY(1f/3f - (float)((valinta-scrollaus) - (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
+
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i-scrollaus) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 1f/12f, 1f/12f, 1, -1f/12f -3f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, asetusTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
         }
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i-scrollaus) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
-        }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i-scrollaus) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaTilaTeksti(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, tilaTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
         }
 
         otsikkoLabel.renderöi(shader, window);
 
         annaInfoTeksti(valinta);
         infoTekstiLabel.renderöi(shader, window);
-    }
-
-    private static Renderöitävä annaAsetusTekstuuri(int indeksi) {
-        switch (indeksi) {
-            case 0: return asetusKokonäyttöTeksti;
-            case 1: return asetusResoluutioTeksti;
-            case 2: return asetusNäyttöTeksti;
-            case 3: return asetusZoomTeksti;
-            case 4: return asetusKirkkausTeksti;
-            case 5: return asetusVsyncTeksti;
-            case 6: return hyväksyTekstuuri;
-            default: return hyväksyTekstuuri;
-        }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
-    }
-
-    private static Renderöitävä annaTilaTeksti(int indeksi) {
-        switch (indeksi) {
-            case 0: return tilaKokonäyttöTeksti;
-            case 1: return tilaResoluutioTeksti;
-            case 2: return tilaNäyttöTeksti;
-            case 3: return tilaZoomTeksti;
-            case 4: return tilaKirkkausTeksti;
-            case 5: return tilaVsyncTeksti;
-            case 6: return tyhjäTekstuuri;
-            default: return tyhjäTekstuuri;
-        }
     }
 
     private static void annaInfoTeksti(int indeksi) {
@@ -271,6 +266,7 @@ public class GrafiikkaAsetusRuutu {
             case 3: infoTeksti.päivitäTeksti(infoTekstiNäköetäisyys, 2); break;
             case 4: infoTeksti.päivitäTeksti(infoTekstiKirkkaus); break;
             case 5: infoTeksti.päivitäTeksti(infoTekstiVsync, 2); break;
+            case 6: infoTeksti.päivitäTeksti(infoTekstiVapaaKamera, 2); break;
             default: infoTeksti.päivitäTeksti(""); break;
         }
     }

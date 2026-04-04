@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.assets.huone;
 
 import keimo.keimoengine.KeimoEngine;
+import keimo.keimoengine.ruudut.LatausRuutu;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
-import keimo.seikkailupeli.gui.LatausRuutu;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
 import keimo.seikkailupeli.objektit.entityt.*;
@@ -27,6 +27,7 @@ import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 public class HuoneLista {
 
     public static HashMap<Integer, Huone> huoneKarttaReferenssi = new HashMap<>();
+    public static boolean huoneKarttaLadattu = false;
 
         public static void lataaPelitiedosto() {
             try {
@@ -247,6 +248,7 @@ public class HuoneLista {
 
             renderöiLatausRuutu("Ladataan dialogeja", 60);
             Dialogit.PitkätDialogit.vuoropuheDialogiKartta = KSTLoader.lataaDialogitKST(tiedostoPolku);
+            Dialogit.PitkätDialogit.lataaDialogiKuvakkeet();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -302,6 +304,7 @@ public class HuoneLista {
     }
 
     public static void lataaReferenssiHuonekartta() {
+        huoneKarttaLadattu = false;
         Peli.huoneKartta.clear();
         for (int i = 0; i < huoneKarttaReferenssi.size(); i++) {
             Huone h = huoneKarttaReferenssi.get(i);
@@ -346,5 +349,6 @@ public class HuoneLista {
                 Peli.huoneKartta.put(i, uusiHuone);
             }
         }
+        huoneKarttaLadattu = true;
     }
 }

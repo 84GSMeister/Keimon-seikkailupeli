@@ -2,6 +2,7 @@ package keimo.seikkailupeli.objektit.entityt.npc;
 
 import keimo.keimoengine.collision.Neliö;
 import keimo.keimoengine.grafiikat.*;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Ase;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -9,10 +10,10 @@ import java.util.ArrayList;
 
 public class Boss extends Vihollinen {
 
-    private Renderöitävä idleTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/boss/boss_idle.gif");
-    private Renderöitävä spinTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/boss/boss_spin.gif");
-    private Renderöitävä attackTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/boss/boss_aggr.gif");
-    private Renderöitävä kuollutTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/boss/boss_kuollut.png");
+    private Renderöitävä idleTekstuuri = Assets.annaTekstuuri("boss_idle");
+    private Renderöitävä spinTekstuuri = Assets.annaTekstuuri("boss_spin");
+    private Renderöitävä attackTekstuuri = Assets.annaTekstuuri("boss_aggr");
+    private Renderöitävä kuollutTekstuuri = Assets.annaTekstuuri("boss_kuollut");
 
     public BossState bossTila = BossState.NORMAALI;
     public enum BossState {

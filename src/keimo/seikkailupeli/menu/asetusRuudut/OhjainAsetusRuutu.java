@@ -1,15 +1,15 @@
 package keimo.seikkailupeli.menu.asetusRuudut;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.PelinAsetukset.OhjainKuvakkeet;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -19,19 +19,30 @@ public class OhjainAsetusRuutu {
     private static int asetustenMäärä = 2;
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.85f, 0, osoitinKuvake, 10, 0, 0);
     private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
 
-    private static Teksti asetusOhjainkuvakkeetTeksti = new Teksti("Ohjainkuvakkeet", Color.white, 600, 48);
+    private static Renderöitävä[] asetusTekstit = new Renderöitävä[] {
+        new Teksti("Ohjainkuvakkeet", Color.white, 600, 48),
+        hyväksyTekstuuri,
+    };
 
-    private static Teksti tilaOhjainkuvakkeetTeksti = new Teksti("ABYX (Xbox)", Color.white, 800, 48);
+    private static Renderöitävä[] tilaKuvakkeet = new Renderöitävä[] {
+        Assets.annaTekstuuri("asetukset_ohjaimet_xbox"),
+        new Teksti("", Color.white, 600, 48),
+    };
 
-    private static String[] ohjainKuvakeValinnat = {"ABYX (Xbox)", "BAXY (Nintendo)", "X○▲□ (Playstation)"};
+    // private static Teksti[] tilaTekstit = new Teksti[] {
+    //     new Teksti("ABYX (Xbox)", Color.white, 800, 48),
+    //     new Teksti("", Color.white, 600, 48),
+    // };
+
+    private static String[] ohjainKuvakeValinnat = {"Xbox", "Nintendo", "Playstation"};
     private static int ohjainKuvakeValinta = 0;
-    private static String valittuOhjainKuvake = "ABYX (Xbox)";
+    private static String valittuOhjainKuvake = "Xbox";
 
     private static String infoTekstiOhjainkuvakkeet = "Valitse ohjainkuvakkeet\n" + 
     "Vaikuttaa ainoastaan visuaalisiin kuvakkeisiin.\n" +
@@ -90,60 +101,53 @@ public class OhjainAsetusRuutu {
 
     static void päivitäAsetukset() {
         switch (valittuOhjainKuvake) {
-            case "ABYX (Xbox)": PelinAsetukset.ohjainKuvakkeet = OhjainKuvakkeet.XBOX; break;
-            case "BAXY (Nintendo)": PelinAsetukset.ohjainKuvakkeet = OhjainKuvakkeet.NINTENDO; break;
-            case "X○▲□ (Playstation)": PelinAsetukset.ohjainKuvakkeet = OhjainKuvakkeet.PLAYSTATION; break;
+            case "Xbox": PelinAsetukset.ohjainKuvakkeet = OhjainKuvakkeet.XBOX; break;
+            case "Nintendo": PelinAsetukset.ohjainKuvakkeet = OhjainKuvakkeet.NINTENDO; break;
+            case "Playstation": PelinAsetukset.ohjainKuvakkeet = OhjainKuvakkeet.PLAYSTATION; break;
         }
     }
 
     static void hyväksy(int valinta) {
-        if (valinta == 1) {
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        if (valinta == asetustenMäärä -1) {
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+            valinta = 0;
         }
     }
 
     static void peruuta() {
-        KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+        valinta = 0;
     }
 
     public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         
-        tilaOhjainkuvakkeetTeksti.päivitäTeksti(valittuOhjainKuvake);
+        //tilaTekstit[0].päivitäTeksti(valittuOhjainKuvake);
+        tilaKuvakkeet[0] = annaOhjainKuvakeTekstuuri(valittuOhjainKuvake);
 
         otsikkoLabel.renderöi(shader, window);
+
+        osoitinLabel.muutaOffsetY(1f/3f - (float)((valinta) - (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
+
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 1f/12f, 1f/12f, 1, -1f/12f -3f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, asetusTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
         }
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
-        }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaTilaTeksti(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, tilaKuvakkeet[i], window, 1f/3f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
         }
         annaInfoTeksti(valinta);
         infoTekstiLabel.renderöi(shader, window);
     }
 
-    private static Renderöitävä annaAsetusTekstuuri(int indeksi) {
-        switch (indeksi) {
-            case 0: return asetusOhjainkuvakkeetTeksti;
-            default: return hyväksyTekstuuri;
-        }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
-    }
-
-    private static Renderöitävä annaTilaTeksti(int indeksi) {
-        switch (indeksi) {
-            case 0: return tilaOhjainkuvakkeetTeksti;
-            default: return tyhjäTekstuuri;
+    private static Renderöitävä annaOhjainKuvakeTekstuuri(String valittuOhjainKuvake) {
+        switch (valittuOhjainKuvake) {
+            case "Xbox": return Assets.annaTekstuuri("asetukset_ohjaimet_xbox");
+            case "Nintendo": return Assets.annaTekstuuri("asetukset_ohjaimet_nintendo");
+            case "Playstation": return Assets.annaTekstuuri("asetukset_ohjaimet_playstation");
+            case null, default: return Assets.annaTekstuuri("asetukset_ohjaimet_xbox");
         }
     }
 

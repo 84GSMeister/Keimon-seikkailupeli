@@ -1,11 +1,13 @@
 package keimo.seikkailupeli;
 
 import keimo.TarkistettavatArvot.PelinLopetukset;
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.Kello;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.assets.huone.HuoneLista;
+import keimo.seikkailupeli.io.SyöteYhdistetty;
+import keimo.seikkailupeli.kenttä.Maailma;
+import keimo.seikkailupeli.menu.PeliRuutu;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.Pelaaja.*;
 import keimo.seikkailupeli.objektit.entityt.*;
@@ -21,7 +23,6 @@ import keimo.seikkailupeli.toiminnot.Dialogit;
 import keimo.seikkailupeli.toiminnot.Vuorovaikutukset;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
-import keimo.Sovellus;
 import keimo.TarkistettavatArvot;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class Peli {
     public static boolean pause = true;
     public static boolean pauseDialogi = false;
     public static boolean valintaDialogi = false;
-    public static boolean peliAloitettu = false;
+    //public static boolean peliAloitettu = false;
     public static int kentänKoko = 10;
     public static int kentänAlaraja = 0;
     public static int kentänYläraja = kentänAlaraja + kentänKoko - 1;
@@ -60,6 +61,7 @@ public class Peli {
     public static Object grafiikanLatausLukko = new Object();
     public static boolean peliLäpäisty = false;
     public static boolean peliKäynnissä = true;
+    public static boolean vaatiiUudelleenkäynnistyksen = false;
     static boolean peliHävitty = false;
     public static Esine valittuEsine;
     public static int esineValInt = 0;
@@ -75,6 +77,8 @@ public class Peli {
     public static boolean warpOikeaPainettu = false;
     public static boolean warpAlasPainettu = false;
     public static boolean warpYlösPainettu = false;
+    public static int warppiViive = 0;
+    public static int dialoginAvausViive = 0;
     
     public static KenttäKohde[][] annaObjektiKenttä() {
         if (huone != null) return huone.annaHuoneenKenttäSisältö();
@@ -92,17 +96,8 @@ public class Peli {
 		TARINARUUTU,
 		VALIKKORUUTU,
         ASETUSRUUTU,
-        ASETUSRUUTU_GRAFIIKKA,
-        ASETUSRUUTU_ÄÄNI,
-        ASETUSRUUTU_PELI,
-        ASETUSRUUTU_OHJAIMET,
-        ASETUSRUUTU_ÄÄNITESTI_VALIKKO,
-        ASETUSRUUTU_ÄÄNITESTI_PELIÄÄNET,
-        ASETUSRUUTU_ÄÄNITESTI_MIDI,
-        ASETUSRUUTU_ÄÄNITESTI_WOOF,
         KEHITTÄJÄRUUTU,
 		LOPPURUUTU,
-        MINIPELIRUUTU,
         EDITORIRUUTU,
         EDITORIRUUTU_VARMISTUS,
         VIRHERUUTU;
@@ -123,11 +118,12 @@ public class Peli {
         KARTTA,
         OHJEET,
         HUIJAUSKOODIT,
-        MINIPELI_0,
+        MINIPELI_3D,
         MINIPELI_PONG,
         MINIPELI_POKERI,
         MINIPELI_TETRIS,
-        MINIPELI_4;
+        MINIPELI_4,
+        MINIPELI_KEIMOÄLY;
     }
     public static ToimintoIkkunanTyyppi toimintoIkkuna;
 
@@ -182,7 +178,7 @@ public class Peli {
                 annaObjektiKenttä()[x][y] = Pelaaja.esineet[esineVal];
                 Pelaaja.esineet[esineVal] = null;
                 valittuEsine = null;
-                Äänet.toistaSFX("Pudota", true);
+                Äänet.toistaSFX("Kerää", true, -1, 1, true);
             }
         }
         if (yhdistäminenKäynnissä) {
@@ -301,8 +297,10 @@ public class Peli {
 
     public static void käyttö(int esine) {
         valittuEsine = Pelaaja.esineet[esine];
-        KenttäKohde k = annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY];
-        käytäEsinettä(k, esine);
+        if (annaObjektiKenttä() != null) {
+            KenttäKohde k = annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY];
+            käytäEsinettä(k, esine);
+        }
     }
 
     static void käytäEsinettä(KenttäKohde k, int esine) {
@@ -352,19 +350,19 @@ public class Peli {
     }
 
     private static void warpTarkistaPainallukset() {
-        if (keimo.seikkailupeli.io.NäppäinKomennot.vasenPainettu || keimo.seikkailupeli.io.OhjainKomennot.lAnalogVasenPainettu) {
+        if (Maailma.liikuVasemmalle) {
             warpVasenPainettu = true;
         }
         else warpVasenPainettu = false;
-        if (keimo.seikkailupeli.io.NäppäinKomennot.oikeaPainettu || keimo.seikkailupeli.io.OhjainKomennot.lAnalogOikeaPainettu) {
+        if (Maailma.liikuOikealle) {
             warpOikeaPainettu = true;
         }
         else warpOikeaPainettu = false;
-        if (keimo.seikkailupeli.io.NäppäinKomennot.alasPainettu || keimo.seikkailupeli.io.OhjainKomennot.lAnalogAlasPainettu) {
+        if (Maailma.liikuAlas) {
             warpAlasPainettu = true;
         }
         else warpAlasPainettu = false;
-        if (keimo.seikkailupeli.io.NäppäinKomennot.ylösPainettu || keimo.seikkailupeli.io.OhjainKomennot.lAnalogYlösPainettu) {
+        if (Maailma.liikuYlös) {
             warpYlösPainettu = true;
         }
         else warpYlösPainettu = false;
@@ -389,11 +387,6 @@ public class Peli {
             else if (annaObjektiKenttä() != null && annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY] instanceof Warp) {
                 Warp warp = (Warp)annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY];
                 if (
-                    // warp.annaSuunta() == KenttäKohde.Suunta.VASEN && (keimo.seikkailupeli.io.NäppäinKomennot.vasenPainettu) ||
-                    // warp.annaSuunta() == KenttäKohde.Suunta.OIKEA && (keimo.seikkailupeli.io.NäppäinKomennot.oikeaPainettu) ||
-                    // warp.annaSuunta() == KenttäKohde.Suunta.ALAS && (keimo.seikkailupeli.io.NäppäinKomennot.alasPainettu) ||
-                    // warp.annaSuunta() == KenttäKohde.Suunta.YLÖS && (keimo.seikkailupeli.io.NäppäinKomennot.ylösPainettu)
-
                     warp.annaSuunta() == KenttäKohde.Suunta.VASEN && warpVasenPainettu ||
                     warp.annaSuunta() == KenttäKohde.Suunta.OIKEA && warpOikeaPainettu ||
                     warp.annaSuunta() == KenttäKohde.Suunta.ALAS && warpAlasPainettu ||
@@ -480,8 +473,13 @@ public class Peli {
         else if (tarina.startsWith("temppeli")) TavoiteLista.suoritaPääTavoite(8);
         else if (tarina.startsWith("boss")) TavoiteLista.suoritaPääTavoite(9);
         Peli.pause = true;
-        KeimoEngine.lataaTarinaRuutu(tarina);
+        Renderöinti.siirrySeuraavaanRuutuun("tarinaruutu", tarina);
     }
+
+    /**
+     * Siirry loppuruutuun
+     * @param sulkuTapa 0 = Voitto, 1 = Häviö
+     */
 
     static void siirryLoppuRuutuun(int sulkuTapa) {
         peliKäynnissä = false;
@@ -498,7 +496,7 @@ public class Peli {
             default:
                 break;
         }
-        KeimoEngine.lataaLoppuRuutu(TarkistettavatArvot.pelinLoppuSyy);
+        Renderöinti.siirrySeuraavaanRuutuun("loppuruutu", TarkistettavatArvot.pelinLoppuSyy);
     }
 
     public static void suljePeli() {
@@ -577,8 +575,13 @@ public class Peli {
 
     private static void kokeileHuoneenLatausta(int huoneenId, int kohteenX, int kohteenY) {
         synchronized(huoneenLatausLukko) {
-            Sovellus.engine.lataaHuone(huoneenId, kohteenX, kohteenY, false);
+            PeliRuutu.lataaHuone(huoneenId, kohteenX, kohteenY, false);
         }
+    }
+
+    public static void nollaaPainallukset() {
+        SyöteYhdistetty.nollaaPainallukset();
+        Pelaaja.pakotaPelaajanPysäytys();
     }
 
     /**
@@ -599,8 +602,6 @@ public class Peli {
         huoneKartta.put(huoneenId, huone);
     }
 
-    public static int warppiViive = 0;
-    public static int dialoginAvausViive = 0;
     /**
      * Warppiviiveen tarkoitus on estää liian tiheät reunan yli warppaukset, jotta reunaan ei jää jumiin jatkuvaan warppilooppiin.
      * Warppiviivettä vähennetään yhdellä joka framessa.
@@ -627,6 +628,7 @@ public class Peli {
             suoritaKohtaaminen();
             warpTarkistaPainallukset();
             warppaaKohteeseen();
+            Maailma.liikutaPelaajaa();
             Pelaaja.pelaajaLiikkuu = false;
         }
         catch (NullPointerException npe) {
@@ -646,11 +648,11 @@ public class Peli {
     public static void pelinKulku() {
 
         if (huoneVaihdettava) {
-            synchronized(Peli.huoneenLatausLukko) {
+            synchronized(huoneenLatausLukko) {
                 System.out.println("Pelisäie ottaa lukon");
-                Sovellus.engine.lataaHuone(uusiHuone, Pelaaja.sijX, Pelaaja.sijY, true);
+                PeliRuutu.lataaHuone(uusiHuone, Pelaaja.sijX, Pelaaja.sijY, true);
                 boolean turvallinenRuutuLöydetty = false;
-                if (Peli.huone != null && (Pelaaja.sijX >= huone.annaKoko() || Pelaaja.sijY >= huone.annaKoko())) {
+                if (huone != null && (Pelaaja.sijX >= huone.annaKoko() || Pelaaja.sijY >= huone.annaKoko())) {
                     Dialogit.avaaDialogi("", "Pelaajan nykyinen sijainti on uuden huoneen ulkopuolella. Pelaaja siirretään ensimmäiseen turvalliseen ruutuun.", "Pelaaja uuden huoneen ulkopuolella");
                     for (int i = 0; i < huone.annaKoko(); i++) {
                         if (!turvallinenRuutuLöydetty) {
@@ -719,8 +721,8 @@ public class Peli {
     }
 
     private static void luoPeli() {
+        peliKäynnissä = false;
         latausValmis = false;
-        peliAloitettu = false;
         peliLäpäisty = false;
         pauseDialogi = false;
         valintaDialogi = false;
@@ -734,7 +736,7 @@ public class Peli {
     }
 
     public static void nollaaPeli() {
-        peliAloitettu = false;
+        peliKäynnissä = false;
         peliLäpäisty = false;
         pauseDialogi = false;
         valintaDialogi = false;
@@ -746,6 +748,7 @@ public class Peli {
         Kello.nollaa();
         p = new Pelaaja();
         HuoneLista.lataaReferenssiHuonekartta();
+        huone = null;
         Pelaaja.teleporttaaSpawniin();
         TarkistettavatArvot.pelinLoppuSyy = null;
         TarkistettavatArvot.nollaa();

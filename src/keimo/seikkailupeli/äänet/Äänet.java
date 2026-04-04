@@ -34,8 +34,12 @@ public class Äänet {
         toistaSFX(ääni, defaultVolume, defaultPan, muuttuvaTaajuus);
     }
 
-    public static void toistaSFX(String ääni, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel ) {
-        toistaSFX(ääni, defaultVolume, defaultPan, muuttuvaTaajuus, minimiMuutosPuoliaskel, maksimiMuutosPuoliaskel);
+    public static void toistaSFX(String ääni, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel) {
+        toistaSFX(ääni, defaultVolume, defaultPan, muuttuvaTaajuus, minimiMuutosPuoliaskel, maksimiMuutosPuoliaskel, false);
+    }
+
+    public static void toistaSFX(String ääni, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel, boolean takaperin) {
+        toistaSFX(ääni, defaultVolume, defaultPan, muuttuvaTaajuus, minimiMuutosPuoliaskel, maksimiMuutosPuoliaskel, takaperin);
     }
 
     public static void toistaSFX(String ääni, Piste sijaintiKentällä) {
@@ -58,26 +62,31 @@ public class Äänet {
     public static void toistaSFX(String ääni, double volume, double pan, boolean muuttuvaTaajuus) {
         toistaSFX(ääni, volume, pan, muuttuvaTaajuus, -1, 1);
     }
+
+    public static void toistaSFX(String ääni, double volume, double pan, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel) {
+        toistaSFX(ääni, volume, pan, muuttuvaTaajuus, minimiMuutosPuoliaskel, maksimiMuutosPuoliaskel, false);
+    }
     
     /**
      * Toista valittu ääni
      * @param ääni äänitiedoston nimi
      * @param volume voimakkuus (0 - 1)
      * @param pan stereo-panorointi: -1 = Täysin vasemmalla; 0 = Keskellä; 1 = Täysin oikealla
-     * @param randomTaajuus Aseta äänelle taajuusvaihtelua
+     * @param muuttuvaTaajuus Aseta äänelle taajuusvaihtelua
      * @param minimiMuutosPuoliaskel Montako puoliaskelta matalammalta ääni voidaan toistaa (Oletus = -1)
      * @param maksimiMuutosPuoliaskel Montako puoliaskelta korkeammalta ääni voidaan toistaa (Oletus = 1)
+     * @param takaperin Toista takaperin
      */
-    public static void toistaSFX(String ääni, double volume, double pan, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel) {
+    public static void toistaSFX(String ääni, double volume, double pan, boolean muuttuvaTaajuus, float minimiMuutosPuoliaskel, float maksimiMuutosPuoliaskel, boolean takaperin) {
         try {
             double sfxVolyymi = volume * PelinAsetukset.ääniVolyymi;
             if (muuttuvaTaajuus) {
                 float minTaajuus = (float)(44100 * Math.pow(2d, ((minimiMuutosPuoliaskel/12d))));
                 float maxTaajuus = (float)(44100 * Math.pow(2d, ((maksimiMuutosPuoliaskel/12d))));
                 float sampleRate = random.nextFloat(minTaajuus, maxTaajuus);
-                toistaÄäni(ääni, sfxVolyymi, pan, sampleRate, false, false);
+                toistaÄäni(ääni, sfxVolyymi, pan, sampleRate, false, takaperin);
             }
-            else toistaÄäni(ääni, sfxVolyymi, pan, 44100, false, false);
+            else toistaÄäni(ääni, sfxVolyymi, pan, 44100, false, takaperin);
         }
         catch (Exception e) {
             System.out.println("Äänitiedostoa \"" + ääni + "\" ei löytynyt");
@@ -125,6 +134,7 @@ public class Äänet {
                 }
             }
         };
+        äänisäie.setName("Äänten ajoittajasäie");
         return äänisäie;
     }
 
@@ -146,7 +156,6 @@ public class Äänet {
             }
             if (äänisäie != null) {
                 if (äänisäie.getState() != State.TERMINATED && äänisäie.getState() != State.RUNNABLE) {
-                    System.out.println();
                     asetaArvotSäikeelle("", volume, pan, sampleRate, loop, true, ääniTiedosto, takaperin);
                     äänisäie.start();
                 }
@@ -164,12 +173,26 @@ public class Äänet {
                 äänisäie = luoÄänisäie();
             }
             if (äänisäie != null) {
+                // while (äänisäie.getState() == State.RUNNABLE) {
+                //     Thread.sleep(50);
+                // }
+                äänisäie = luoÄänisäie();
                 asetaArvotSäikeelle(ääni, volume, pan, sampleRate, loop, false, null, takaperin);
                 äänisäie.start();
             }
         }
         catch (Exception e) {
             e.printStackTrace();
+            System.out.println("state: " + äänisäie.getState());
         }
+    }
+
+    public static void suljeÄänet() {
+        new Thread() {
+            @Override
+            public void run() {
+                PeliääniToistin.suljeÄänet();
+            }
+        }.start();
     }
 }

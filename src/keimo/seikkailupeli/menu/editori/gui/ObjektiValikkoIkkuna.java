@@ -1,12 +1,12 @@
 package keimo.seikkailupeli.menu.editori.gui;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.ObjektiListaNappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
@@ -198,8 +198,7 @@ public class ObjektiValikkoIkkuna {
         Matrix4f objektiValikonSijainti = new Matrix4f();
         objektiValikonSijainti.scale(scaleX, scaleYPohja, 1);
         shader.bind();
-		shader.setUniform("projection", objektiValikonSijainti);
-        shader.setUniform("sampler", 0);
+		shader.asetaSijainti(objektiValikonSijainti);
         shader.setUniform("subcolor", new Vector4f(1, 1, 1, 0.25f));
         objektiValikkoPohjaTekstuuri.bind(0);
         Assets.getModel().render();

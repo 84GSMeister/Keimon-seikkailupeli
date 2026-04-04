@@ -1,14 +1,15 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.Ruudut;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
 import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
@@ -23,25 +24,33 @@ import org.joml.Vector4f;
 
 public class DialogiValintaIkkuna {
 
-    private static Shader peliShader = new Shader("shader");
+    //private static Shader peliShader = new Shader("shader");
 
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
-    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin_vanha");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
-    private static Teksti vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
+    private static Teksti vaihtoehtoTeksti;
     private static String otsikkoTeksti = "";
     private static ArrayList<String> valintaTekstit = new ArrayList<>();
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
-    private static StaattinenKomponentti valintaOtsikkoKomponentti = new StaattinenKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
+    private static StaattinenKomponentti kehysKomponentti;
+    private static StaattinenKomponentti valintaOtsikkoKomponentti;
 
     public static int valintaInt = 0;
     private static int valintojenMäärä = 0;
     private static String valintaDialoginTunniste = "";
     private static float siirräY;
 
-    public static void renderöi(Shader shader, Ikkuna window) {
+    private static void alustaGrafiikat() {
+        if (vaihtoehtoTeksti == null) {
+            vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
+            kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
+            valintaOtsikkoKomponentti = new StaattinenKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
+        }
+    }
+
+    public static void renderöi(Shader peliShader, Ikkuna window) {
+        alustaGrafiikat();
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
         if (siirräY > 0) siirräY -= 0.05f;
@@ -60,11 +69,11 @@ public class DialogiValintaIkkuna {
             if (valintojenMäärä >= 4) scaleY = 1f / (3.25f*valintojenMäärä);
             else scaleY = 1f/15f;
             float offsetY = 0.25f - i * scaleY*1.75f - scaleY*1.75f;
-            Komponentti.renderöiKomponentti(peliShader, osoitin, window, 1f/18f, scaleY, 1, -1/8f -1/6f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, osoitin, window, 1f/18f, scaleY, 1, -1/8f -1/6f, offsetY + siirräY, 0);
 
             vaihtoehtoTeksti.päivitäTeksti(valintaTekstit.get(i), 1, 7);
             offsetY = 0.25f - i * scaleY*1.75f - scaleY*1.75f;
-            Komponentti.renderöiKomponentti(peliShader, vaihtoehtoTeksti, window, 0.25f, scaleY, 1, -1/8f +1/6f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, vaihtoehtoTeksti, window, 0.25f, scaleY, 1, -1/8f +1/6f, offsetY + siirräY, 0);
         }
     }
 
@@ -135,11 +144,10 @@ public class DialogiValintaIkkuna {
                     OhjeIkkuna.avaaToimintoIkkuna();
                 break;
                 case 3: // Siirry editoriin
-                    KeimoEngine.valitseAktiivinenRuutu("editoriruutu");
+                    Renderöinti.siirrySeuraavaanRuutuun("editoriruutu");
                 break;
                 case 4: // Uusi peli
-                    Peli.nollaaPeli();
-                    KeimoEngine.lataaTarinaRuutu("alku");
+                    Peli.vaatiiUudelleenkäynnistyksen = true;
                 break;
                 case 5: // Lopeta
                     System.exit(0);

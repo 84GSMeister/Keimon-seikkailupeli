@@ -1,18 +1,18 @@
 package keimo.seikkailupeli.objektit.entityt.npc;
 
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import keimo.keimoengine.grafiikat.Animaatio;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
+
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Vartija extends Vihollinen {
 
     public boolean liikkuu = false;
     public int x1, y1, x2, y2;
-    private Tekstuuri offTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/vartija_off.png");
-    private Animaatio onTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/vartija_on.gif");
+    private Renderöitävä offTekstuuri = Assets.annaTekstuuri("vartija_off");
+    private Renderöitävä onTekstuuri = Assets.annaTekstuuri("vartija_on");
     
     @Override
     public void kukista(String kukistusTapa) {

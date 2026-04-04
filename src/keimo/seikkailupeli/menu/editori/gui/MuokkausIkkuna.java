@@ -1,10 +1,10 @@
 package keimo.seikkailupeli.menu.editori.gui;
 
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;

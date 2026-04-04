@@ -1,11 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Kamera;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
-import keimo.keimoengine.äänet.PeliääniToistin;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
@@ -21,12 +20,11 @@ import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 public class MinipeliIkkunaPong {
-    private static Shader peliShader = new Shader("shader");
-
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/minipeli_kehys.png");
-    private static Tekstuuri alkuruutuTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pong/alkuruutu.png");
-    private static Tekstuuri valkoinenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pong/valkoinen.png");
-    private static Teksti teksti = new Teksti("Tähän tulee pong", Color.green, 200, 48);
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
+    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static Renderöitävä alkuruutuTekstuuri = Assets.annaTekstuuri("minipeli_pong_alkuruutu");
+    private static Renderöitävä valkoinenTekstuuri = Assets.annaTekstuuri("minipeli_pong_valkoinen");
+    private static Teksti teksti;
     private static float siirtymä = 0;
     private static boolean valikko = true;
 
@@ -52,32 +50,26 @@ public class MinipeliIkkunaPong {
     private static int pelaajanPisteet = 0;
     private static int vihollisenPisteet = 0;
 
-    public static void renderöiKehys(Ikkuna window) {
-        float ruudunLeveys = window.getWidth();
-        float ruudunKorkeus = window.getHeight();
-        float scaleX = ruudunLeveys/3f;
-        float scaleY = ruudunKorkeus/2.4f;
-        float offsetY = ruudunKorkeus/12f;
+    private static void alustaGrafiikat() {
+        if (teksti == null) {
+            teksti = new Teksti("Tähän tulee pong", Color.green, 200, 48);
+        }
+    }
+
+    public static void renderöiKehys(Ikkuna window, Shader peliShader) {
+        alustaGrafiikat();
         if (siirtymä < 1) siirtymä += 0.05;
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-
-        Matrix4f matKehys = new Matrix4f();
-        window.getView().scale(1, matKehys);
-        matKehys.translate(0, - offsetY, 0);
-        matKehys.scale(scaleX * siirtymä, scaleY * siirtymä, 0);
-        peliShader.setUniform("projection", matKehys);
-        kehysTekstuuri.bind(0);
-        Assets.getModel().render();
+        kehysKomponentti.muutaKokoa(2f/3f * siirtymä, 2f/2.4f * siirtymä, 0, -1f/6f);
+        kehysKomponentti.renderöi(peliShader, window);
     }
     
-    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Shader peliShader) {
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
             peliShader.bind();
-            peliShader.setUniform("sampler", 0);
             peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
             if (valikko) {
@@ -87,7 +79,7 @@ public class MinipeliIkkunaPong {
                 Matrix4f matValikkoKuvake = new Matrix4f();
                 window.getView().scale(1, matValikkoKuvake);
                 matValikkoKuvake.scale(scaleXValikkoKuvake, scaleYValikkoKuvake, 0);
-                peliShader.setUniform("projection", matValikkoKuvake);
+                peliShader.asetaSijainti(matValikkoKuvake);
                 alkuruutuTekstuuri.bind(0);
                 Assets.getModel().render();
             }
@@ -100,14 +92,14 @@ public class MinipeliIkkunaPong {
                 window.getView().scale(1, matMailaVas);
                 matMailaVas.translate(-ruudunLeveys/4, liikeSkaalaY * pelaajanSijY, 0);
                 matMailaVas.scale(scaleXMaila, scaleYMaila, 0);
-                peliShader.setUniform("projection", matMailaVas);
+                peliShader.asetaSijainti(matMailaVas);
                 valkoinenTekstuuri.bind(0);
                 Assets.getModel().render();
                 Matrix4f matMailaOik = new Matrix4f();
                 window.getView().scale(1, matMailaOik);
                 matMailaOik.translate(ruudunLeveys/4, liikeSkaalaY * vihollisenSijY, 0);
                 matMailaOik.scale(scaleXMaila, scaleYMaila, 0);
-                peliShader.setUniform("projection", matMailaOik);
+                peliShader.asetaSijainti(matMailaOik);
                 valkoinenTekstuuri.bind(0);
                 Assets.getModel().render();
 
@@ -120,7 +112,7 @@ public class MinipeliIkkunaPong {
                 window.getView().scale(1, matPallo);
                 matPallo.translate(liikeSkaalaXPallo * pallonSijX, liikeSkaalaYPallo * pallonSijY, 0);
                 matPallo.scale(scaleXPallo, scaleYPallo, 0);
-                peliShader.setUniform("projection", matPallo);
+                peliShader.asetaSijainti(matPallo);
                 valkoinenTekstuuri.bind(0);
                 Assets.getModel().render();
 
@@ -133,7 +125,7 @@ public class MinipeliIkkunaPong {
                 window.getView().scale(1, matTekstiPelaajanPisteet);
                 matTekstiPelaajanPisteet.translate(-keskitysXPisteet + offsetXPisteet, 0, 0);
                 matTekstiPelaajanPisteet.scale(scaleXPisteet, scaleYPisteet, 0);
-                peliShader.setUniform("projection", matTekstiPelaajanPisteet);
+                peliShader.asetaSijainti(matTekstiPelaajanPisteet);
                 teksti.päivitäTeksti("" + pelaajanPisteet);
                 teksti.bind(0);
                 Assets.getModel().render();
@@ -141,7 +133,7 @@ public class MinipeliIkkunaPong {
                 window.getView().scale(1, matTekstiVihollisenPisteet);
                 matTekstiVihollisenPisteet.translate(keskitysXPisteet + offsetXPisteet, 0, 0);
                 matTekstiVihollisenPisteet.scale(scaleXPisteet, scaleYPisteet, 0);
-                peliShader.setUniform("projection", matTekstiVihollisenPisteet);
+                peliShader.asetaSijainti(matTekstiVihollisenPisteet);
                 teksti.päivitäTeksti("" + vihollisenPisteet);
                 teksti.bind(0);
                 Assets.getModel().render();
@@ -234,6 +226,6 @@ public class MinipeliIkkunaPong {
         Peli.syötteenTila = SyötteenTila.PELI;
         Pelaaja.käyttöViive = 50;
         siirtymä = 0;
-        PeliääniToistin.suljeÄänet();
+        Äänet.suljeÄänet();
     }
 }

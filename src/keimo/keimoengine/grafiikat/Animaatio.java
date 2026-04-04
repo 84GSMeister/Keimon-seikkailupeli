@@ -21,10 +21,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
-public class Animaatio implements Renderöitävä {
+public class Animaatio extends Renderöitävä {
     private int pointer;
     private ArrayList<Tekstuuri> frames = new ArrayList<>();
-
     private double elapsedTime;
     private double currentTime;
     private double lastTime;
@@ -98,19 +97,33 @@ public class Animaatio implements Renderöitävä {
         if (pointer < frames.size()) frames.get(pointer).bind(sampler);
     }
 
-    private void extractFrames(ArrayList<BufferedImage> loadedGif, String fileName) {
-        for (int i = 0; i < loadedGif.size(); i++) {
-            try {
-                System.out.println(fileName);
-                ImageIO.write(loadedGif.get(i), "PNG", new File(fileName + "/" + i + ".png"));
+    /**
+     * Jos haluat käyttää tätä funktiota:
+     * Luo samanniminen tyhjä kansio alkuperäisen GIF-tiedoston hakemistoon (ilman .gif-päätettä).
+     * GIF-kuvan framet tallennetaan PNG-formaatissa kansioon.
+     * @param tiedostonNimi lähdetiedosto
+     */
+    public static void exportGifFramesAnPng(String tiedostonNimi) {
+        ArrayList<ImageFrame> loadedGif = loadGif(tiedostonNimi);
+        System.out.println("puretaan gif: " + tiedostonNimi);
+        try {
+            if (tiedostonNimi.endsWith(".gif")) {
+                tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
+                for (int i = 0; i < loadedGif.size(); i++) {
+                    ImageIO.write(loadedGif.get(i).getImage(), "PNG", new File(tiedostonNimi + "/" + i + ".png"));
+                }
             }
-            catch (IOException e) {
-                e.printStackTrace();
+            else {
+                throw new UnsupportedOperationException();
             }
+        }
+        catch (IOException | UnsupportedOperationException e) {
+            System.out.println("Virheellinen tiedosto: " + tiedostonNimi);
+            e.printStackTrace();
         }
     }
 
-    private ArrayList<ImageFrame> loadGif(String tiedostonNimi) {
+    private static ArrayList<ImageFrame> loadGif(String tiedostonNimi) {
         try {
             File kuvaTiedosto = new File(tiedostonNimi);
             InputStream stream = new FileInputStream(kuvaTiedosto);
@@ -121,11 +134,6 @@ public class Animaatio implements Renderöitävä {
             for (ImageFrame frame : readGIF(reader)) {
                 kuvat.add(frame);
             }
-            if (tiedostonNimi.endsWith(".gif")) {
-                tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
-            }
-            // Uncommenttaa jos haluat gif-framet png-tiedostoina
-            //extractFrames(kuvat, tiedostonNimi);
             return kuvat;
         }
         catch (IOException e) {
@@ -135,7 +143,7 @@ public class Animaatio implements Renderöitävä {
         }
     }
 
-    private ArrayList<ImageFrame> readGIF(ImageReader reader) throws IOException {
+    private static ArrayList<ImageFrame> readGIF(ImageReader reader) throws IOException {
         ArrayList<ImageFrame> frames = new ArrayList<ImageFrame>(2);
     
         int width = -1;
@@ -222,7 +230,7 @@ public class Animaatio implements Renderöitävä {
         return frames;
     }
 
-    private class ImageFrame {
+    private static class ImageFrame {
         private final int delay;
         private final BufferedImage image;
         private final String disposal;

@@ -1,11 +1,12 @@
 package keimo.seikkailupeli.menu.editori.gui;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
 import keimo.seikkailupeli.menu.editori.muokkausikkunat.WarpMuokkausIkkuna;
 import keimo.seikkailupeli.objektit.PeliObjekti;
@@ -22,12 +23,17 @@ public class PopupValikko {
     public static int popupHiiriY = 0;
     private static Ikkuna window1;
 
-    private static Tekstuuri popupValikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/editori/popup_valinta_pohja.png");
-
+    private static Renderöitävä popupValikkoTekstuuri = Assets.annaTekstuuri("editori_popup_pohja");
     private static StaattinenKomponentti popupPohjaLabel = new StaattinenKomponentti(0.2f, 0.3f, 0.5f, 0, popupValikkoTekstuuri);
-    private static Nappi popupTiedotNappi = new Nappi(0.2f, 0.1f, 0.5f, 0.2f, new Teksti("Tiedot", Color.white, 300, 48));
-    private static Nappi popupMuokkaaNappi = new Nappi(0.2f, 0.1f, 0.5f, 0, new Teksti("Muokkaa", Color.white, 300, 48));
-    private static Nappi popupPoistaNappi = new Nappi(0.2f, 0.1f, 0.5f, -0.2f, new Teksti("Poista", Color.white, 300, 48));
+    private static Nappi popupTiedotNappi = new Nappi(0.2f, 0.1f, 0.5f, 0.2f, null);
+    private static Nappi popupMuokkaaNappi = new Nappi(0.2f, 0.1f, 0.5f, 0, null);
+    private static Nappi popupPoistaNappi = new Nappi(0.2f, 0.1f, 0.5f, -0.2f, null);
+
+    public static void alustaGrafiikat() {
+        popupTiedotNappi.päivitäSisältö(new Teksti("Tiedot", Color.white, 300, 48));
+        popupMuokkaaNappi.päivitäSisältö(new Teksti("Muokkaa", Color.white, 300, 48));
+        popupPoistaNappi.päivitäSisältö(new Teksti("Poista", Color.white, 300, 48));
+    }
 
     public static void tarkistaPopupHover(int hiiriX, int hiiriY) {
         popupTiedotNappi.hiiriSisällä(hiiriX, hiiriY);

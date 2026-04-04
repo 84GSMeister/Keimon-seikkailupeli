@@ -83,6 +83,14 @@ public class Kamera {
         projection.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
     }
 
+    public Matrix4f getPerspectiveView(Ikkuna window, float zoom) {
+        Matrix4f perspectiveMatrix = new Matrix4f().setPerspective((float)Math.toRadians(90), window.getHeight() > 0 ? window.getWidth()/window.getHeight() : 1, 0.001f, 1000);
+        perspectiveMatrix.scale(2048f/window.getWidth(), 2048f/window.getHeight(), 1);
+        Matrix4f lookAtMatrix = new Matrix4f().setLookAt(0, 0, 32 * zoom, 0, 0, 0, 0, 1, 0);
+        Matrix4f cameraMatrix = perspectiveMatrix.mul(lookAtMatrix);
+        return cameraMatrix;
+    }
+
     public void setProjection(Matrix4f projection) {
         this.projection = projection;
     }

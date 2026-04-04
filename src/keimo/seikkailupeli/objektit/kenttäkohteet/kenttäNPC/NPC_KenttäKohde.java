@@ -11,15 +11,15 @@ public abstract class NPC_KenttäKohde extends KenttäKohde {
     protected ArrayList<String> dialogit = new ArrayList<>();
 
     public NPC_KenttäKohde(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
-        super(sijX, sijY);
+        super(sijX, sijY, ominaisuusLista);
         if (ominaisuusLista != null) {
             this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("dialogi=")) {
-                    asetaDialogi(ominaisuus.substring(8));
+                    this.valittuDialogi = ominaisuus.substring(8);
                 }
             }
-            päivitäLisäOminaisuudet();
+            päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
             if (this.dialogit.size() > 0) {
@@ -39,12 +39,8 @@ public abstract class NPC_KenttäKohde extends KenttäKohde {
         return dialogit;
     }
 
-    public void asetaDialogi(String dialogi) {
-        this.valittuDialogi = dialogi;
-        päivitäLisäOminaisuudet();
-    }
-
     public void päivitäLisäOminaisuudet() {
+        super.päivitäLisäOminaisuudet(this.lisäOminaisuudet);
         if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
         this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("dialogi="));

@@ -1,8 +1,8 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyöteLaitteet;
@@ -19,53 +19,52 @@ import org.joml.Vector4f;
 
 public class OhjeIkkuna {
     public static boolean näytäOhjeet = true;
-    private static Shader peliShader = new Shader("shader");
-    private static Tekstuuri pohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/ohje/kartta_pohja_kädet.png");
+    private static Renderöitävä pohjaTekstuuri = Assets.annaTekstuuri("isokartta_tyhjä");
     private static Teksti otsikkoTeksti = new Teksti("Näppäimet", Color.black, 600, 48);
     private static Teksti ohjeTeksti = new Teksti("ohje", Color.black, 1000, 48);
 
-    private static Tekstuuri[] näppäinTekstuurit = {
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/wasd_näppäimet.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_e.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_nuoli.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_space.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_q.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_z.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_x.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_c.png"),
+    private static Renderöitävä[] näppäinTekstuurit = {
+        Assets.annaTekstuuri("näppäin_wasd"),
+        Assets.annaTekstuuri("näppäin_e"),
+        Assets.annaTekstuuri("näppäin_nuoli"),
+        Assets.annaTekstuuri("näppäin_space"),
+        Assets.annaTekstuuri("näppäin_q"),
+        Assets.annaTekstuuri("näppäin_z"),
+        Assets.annaTekstuuri("näppäin_x"),
+        Assets.annaTekstuuri("näppäin_c"),
     };
 
-    private static Tekstuuri[] ohjainTekstuuritXbox = {
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_analog.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_a.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nuoli.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_b.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_rt.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_select.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_r.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_x.png"),
+    private static Renderöitävä[] ohjainTekstuuritXbox = {
+        Assets.annaTekstuuri("ohjain_analog"),
+        Assets.annaTekstuuri("ohjain_xbox_a"),
+        Assets.annaTekstuuri("ohjain_nuoli"),
+        Assets.annaTekstuuri("ohjain_xbox_b"),
+        Assets.annaTekstuuri("ohjain_xbox_rt"),
+        Assets.annaTekstuuri("ohjain_select"),
+        Assets.annaTekstuuri("ohjain_r"),
+        Assets.annaTekstuuri("ohjain_xbox_x"),
     };
 
-    private static Tekstuuri[] ohjainTekstuuritNintendo = {
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_analog.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_b.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nuoli.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_a.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_rz.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_select.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_r.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_y.png"),
+    private static Renderöitävä[] ohjainTekstuuritNintendo = {
+        Assets.annaTekstuuri("ohjain_analog"),
+        Assets.annaTekstuuri("ohjain_nintendo_b"),
+        Assets.annaTekstuuri("ohjain_nuoli"),
+        Assets.annaTekstuuri("ohjain_nintendo_a"),
+        Assets.annaTekstuuri("ohjain_nintendo_rz"),
+        Assets.annaTekstuuri("ohjain_select"),
+        Assets.annaTekstuuri("ohjain_r"),
+        Assets.annaTekstuuri("ohjain_nintendo_y"),
     };
 
-    private static Tekstuuri[] ohjainTekstuuritPlaystation = {
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_analog.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_x.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nuoli.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_ympyrä.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_r2.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_select.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_r.png"),
-        new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_neliö.png"),
+    private static Renderöitävä[] ohjainTekstuuritPlaystation = {
+        Assets.annaTekstuuri("ohjain_analog"),
+        Assets.annaTekstuuri("ohjain_playstation_x"),
+        Assets.annaTekstuuri("ohjain_nuoli"),
+        Assets.annaTekstuuri("ohjain_playstation_ympyrä"),
+        Assets.annaTekstuuri("ohjain_playstation_r2"),
+        Assets.annaTekstuuri("ohjain_select"),
+        Assets.annaTekstuuri("ohjain_r"),
+        Assets.annaTekstuuri("ohjain_playstation_neliö"),
     };
 
     private static String[] ohjeTekstit = {
@@ -80,7 +79,7 @@ public class OhjeIkkuna {
     };
     private static float siirtymäY = -600;
     
-    public static void renderöiIkkuna(Ikkuna window) {
+    public static void renderöiIkkuna(Shader peliShader, Ikkuna window) {
         if (siirtymäY < 0) siirtymäY += 20;
         float scaleXPohja = window.getWidth()/4f;
         float scaleYPohja = window.getHeight()/2f;
@@ -93,14 +92,13 @@ public class OhjeIkkuna {
         float offsetX = window.getWidth()/5.75f;
 
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
         Matrix4f matKehys = new Matrix4f();
         window.getView().scale(1, matKehys);
         matKehys.translate(0, siirtymäY, 0);
         matKehys.scale(scaleXPohja, scaleYPohja, 0);
-        peliShader.setUniform("projection", matKehys);
+        peliShader.asetaSijainti(matKehys);
         pohjaTekstuuri.bind(0);
         Assets.getModel().render();
 
@@ -108,7 +106,7 @@ public class OhjeIkkuna {
         window.getView().scale(1, matOtsikko);
         matOtsikko.translate(0, keskitysY + offsetY + siirtymäY, 0);
         matOtsikko.scale(scaleXTekstit, scaleYTekstit, 0);
-        peliShader.setUniform("projection", matOtsikko);
+        peliShader.asetaSijainti(matOtsikko);
         otsikkoTeksti.bind(0);
         Assets.getModel().render();
 
@@ -117,7 +115,7 @@ public class OhjeIkkuna {
             window.getView().scale(1, matNäppäinTekstuuri);
             matNäppäinTekstuuri.translate(-offsetX -scaleXKuvakkeet, keskitysY -offsetY * i + siirtymäY, 0);
             matNäppäinTekstuuri.scale(scaleXKuvakkeet, scaleYKuvakkeet, 0);
-            peliShader.setUniform("projection", matNäppäinTekstuuri);
+            peliShader.asetaSijainti(matNäppäinTekstuuri);
             if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) näppäinTekstuurit[i].bind(0);
             else if (Peli.viimeisinSyöteLaite == SyöteLaitteet.PELIOHJAIN) {
                 switch (PelinAsetukset.ohjainKuvakkeet) {
@@ -135,7 +133,7 @@ public class OhjeIkkuna {
             window.getView().scale(1, matNäppäinTeksti);
             matNäppäinTeksti.translate(scaleXKuvakkeet*3f, keskitysY -offsetY * i + siirtymäY, 0);
             matNäppäinTeksti.scale(scaleXTekstit, scaleYTekstit, 0);
-            peliShader.setUniform("projection", matNäppäinTeksti);
+            peliShader.asetaSijainti(matNäppäinTeksti);
             ohjeTeksti.päivitäTeksti(ohjeTekstit[i]);
             ohjeTeksti.bind(0);
             Assets.getModel().render();

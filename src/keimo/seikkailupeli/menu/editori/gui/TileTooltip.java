@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.menu.editori.gui;
 
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.TooltipTeksti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 
 import java.awt.Color;

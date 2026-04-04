@@ -3,11 +3,13 @@ package keimo.seikkailupeli.menu.editori;
 import keimo.keimoengine.collision.AABB;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.gui.hud.HUD;
+import keimo.seikkailupeli.kenttä.KenttäShaderEfektit;
 import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.menu.editori.gui.HuoneenLuontiIkkuna;
@@ -51,26 +53,27 @@ public class EditoriRuutu {
     public static ArrayList<Maasto> tilet = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
-    private static Shader objektiShader = new Shader("shader");
-    public static Shader objekti3dShader = new Shader("shader");
-    public static Shader esineShader = new Shader("shader");
-    private static Shader kiintopisteShader = new Shader("shader");
-    private static Shader tileShader = new Shader("shader");
-    private static Shader entityShader = new Shader("shader");
-    private static Shader erikoisEfektiShader = new Shader("shader");
-    private static Shader valikkoShader = new Shader("shader");
+    private static Shader objektiShader;
+    public static Shader objekti3dShader;
+    public static Shader esineShader;
+    private static Shader kiintopisteShader;
+    private static Shader tileShader;
+    private static Shader entityShader;
+    private static Shader erikoisEfektiShader;
+    private static Shader valikkoShader;
     //Tausta tausta;
     private static int scale = 32;
     public static int tileMäärä, objektiMäärä, entityMäärä;
     public static float rotZ = 0;
-    public static boolean debugTiedotNäkyvissä = true;
+    public static boolean debugTiedotNäkyvissä = false;
     public static boolean estäVahinkoPainallukset = false;
+    private static boolean grafiikatAlustettu = false;
 
 	public static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
-	private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
-    private static Tekstuuri tyhjäTileTekstuuri = new Tekstuuri("tiedostot/kuvat/editori/tyhjä_tile.png");
-    private static Tekstuuri entityHpPalkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
-    private static Tekstuuri entityHpPalkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
+	private static Tekstuuri virheTekstuuri;
+    private static Tekstuuri tyhjäTileTekstuuri;
+    private static Tekstuuri entityHpPalkkiPunainenTekstuuri;
+    private static Tekstuuri entityHpPalkkiVihreäTekstuuri;
 	public static float fade = 0f;
     public static HashMap<Integer, Huone> editorinHuoneKartta = new HashMap<>();
 
@@ -108,7 +111,7 @@ public class EditoriRuutu {
     public static PeliObjekti tarkistettavaEsine;
     public static boolean kopiointi = false;
     public static boolean käytäKopioitujaOminaisuuksia = false;
-    private static TileTooltip tileTooltip = new TileTooltip("X, Y");
+    private static TileTooltip tileTooltip;
     public static boolean näytäTileTooltip = true;
     
     public static enum EditorinTilat {
@@ -123,10 +126,34 @@ public class EditoriRuutu {
     }
     public static EditorinTilat aktiivinenKomponentti = EditorinTilat.MAAILMA;
 
-    public static void luoEditoriRuutu(GLFW_Ikkuna window) {
+    public static void luoEditoriRuutu() {
         kopioiHuonekarttaEditoriin();
         createWorld();
         ObjektiValikkoIkkuna.luoObjektiValikko();
+    }
+
+    private static void alustaGrafiikat() {
+        if (!grafiikatAlustettu) {
+            luoEditoriRuutu();
+            lataaHuone(0);
+            EditorinValikko.suljeValikko();
+            tileTooltip = new TileTooltip("X, Y");
+            objektiShader = new Shader("shader");
+            objekti3dShader = new Shader("shader");
+            esineShader = new Shader("shader");
+            kiintopisteShader = new Shader("shader");
+            tileShader = new Shader("shader");
+            entityShader = new Shader("shader");
+            erikoisEfektiShader = new Shader("shader");
+            valikkoShader = new Shader("shader");
+            virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
+            tyhjäTileTekstuuri = new Tekstuuri("tiedostot/kuvat/editori/tyhjä_tile.png");
+            entityHpPalkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
+            entityHpPalkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
+            Yläpalkki.alustaGrafiikat();
+            PopupValikko.alustaGrafiikat();
+            grafiikatAlustettu = true;
+        }
     }
 
     public static void kopioiHuonekarttaEditoriin() {
@@ -314,24 +341,16 @@ public class EditoriRuutu {
         }
     }
 
-    public static void render(Kamera camera, Ikkuna window) {
+    public static void renderöi(Ikkuna ikkuna, Kamera kamera) {
+        alustaGrafiikat();
         try {
             tileMäärä = 0; objektiMäärä = 0; entityMäärä = 0;
             int posX = kameranSijX / 2;// / (scale * 2);
             int posY = kameranSijY / 2;// / (scale * 2);
-            Matrix4f perspectiveMatrix = new Matrix4f().setPerspective((float)Math.toRadians(90), window.getHeight() > 0 ? window.getWidth()/window.getHeight() : 1, 0.001f, 1000);
-            perspectiveMatrix.scale(2048f/window.getWidth(), 2048f/window.getHeight(), 1);
-            Matrix4f lookAtMatrix = new Matrix4f().setLookAt(0, 0, 32 * zoom, 0, 0, 0, 0, 1, 0);
-            //lookAtMatrix = KenttäShaderEfektit.känniEfektiRotaatio(lookAtMatrix);
-            //lookAtMatrtix.rotate((float)Math.toRadians(rotZ), new Vector3f(0, 0, 1));
-            //lookAtMatrix = asetaKameranSijainti(lookAtMatrix, window);
-            lookAtMatrix = asetaKameranSijaintiVanha(lookAtMatrix, window);
-            Matrix4f cameraMatrix = perspectiveMatrix.mul(lookAtMatrix);
-            //cameraMatrix = KenttäShaderEfektit.känniEfekti(cameraMatrix);
-            //asetaKameranSijainti(cameraMatrix, window);
+            Matrix4f cameraMatrix = kamera.getPerspectiveView(ikkuna, zoom);
+            cameraMatrix = asetaKameranSijaintiVanha(cameraMatrix, ikkuna);
 
-            //renderöiTausta(0, 0, 1, new Matrix4f(), fade);
-            laskeNäköetäisyys(window);
+            laskeNäköetäisyys(ikkuna);
 
             if (maastoNäkyvissä) {
                 int etäisyys = laskeIsonLaatanNäköetäisyys();
@@ -427,8 +446,8 @@ public class EditoriRuutu {
                     }
                 }
             }
-            renderöiGUI(hoverX, hoverY, cameraMatrix, kameranSijX, kameranSijY, valikkoShader, window);
-            DebugTeksti.renderöiDebugTeksti(window);
+            renderöiGUI(hoverX, hoverY, cameraMatrix, kameranSijX, kameranSijY, valikkoShader, ikkuna);
+            DebugTeksti.renderöiDebugTeksti(ikkuna);
         }
         catch (IndexOutOfBoundsException aioobe) {
             System.out.println("koko muuttui");
@@ -466,8 +485,8 @@ public class EditoriRuutu {
         resultMatrix.mul(tilenSijainti);
         
         tileShader.bind();
-		tileShader.setUniform("sampler", 0);
-		tileShader.setUniform("projection", resultMatrix);
+		tileShader.asetaSampler(0);
+		tileShader.asetaSijainti(resultMatrix);
         tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel(tile.annaKääntöAsteet(), tile.annaXPeilaus(), tile.annaYPeilaus());
@@ -493,8 +512,8 @@ public class EditoriRuutu {
         resultMatrix.mul(tilenSijainti);
         
         tileShader.bind();
-		tileShader.setUniform("sampler", 0);
-		tileShader.setUniform("projection", resultMatrix);
+		tileShader.asetaSampler(0);
+		tileShader.asetaSijainti(resultMatrix);
         tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel(maasto.annaKääntöAsteet(), maasto.annaXPeilaus(), maasto.annaYPeilaus());
@@ -509,8 +528,8 @@ public class EditoriRuutu {
         resultMatrix.mul(tilenSijainti);
         
         tileShader.bind();
-		tileShader.setUniform("sampler", 0);
-		tileShader.setUniform("projection", resultMatrix);
+		tileShader.asetaSampler(0);
+		tileShader.asetaSijainti(resultMatrix);
         tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel();
@@ -534,8 +553,8 @@ public class EditoriRuutu {
         }
 
         entityShader.bind();
-		entityShader.setUniform("sampler", 0);
-		entityShader.setUniform("projection", resultMatrix);
+		entityShader.asetaSampler(0);
+		entityShader.asetaSijainti(resultMatrix);
         entityShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
         entityShader.setUniform("addcolor", new Vector4f(hurtEfekti, hurtEfekti, hurtEfekti, 0));
 		
@@ -549,14 +568,14 @@ public class EditoriRuutu {
             if (npc.maxHp > 0) {
                 resultMatrix.translate(0, -1f, 0);
                 resultMatrix.scale(1, 0.0625f, 1);
-                entityShader.setUniform("projection", resultMatrix);
+                entityShader.asetaSijainti(resultMatrix);
                 entityHpPalkkiPunainenTekstuuri.bind(0);
                 Assets.getModel().render();
 
                 float offsetX = (float)npc.hp/(float)npc.maxHp;
                 resultMatrix.scale(offsetX, 1, 1);
                 resultMatrix.translate(-(1f - offsetX)*2, 0, 0);
-                entityShader.setUniform("projection", resultMatrix);
+                entityShader.asetaSijainti(resultMatrix);
                 entityHpPalkkiVihreäTekstuuri.bind(0);
                 Assets.getModel().render();
             }
@@ -596,8 +615,8 @@ public class EditoriRuutu {
         resultMatrix.mul(objekti.transform.getTransformation());
 
         esineShader.bind();
-        esineShader.setUniform("projection", resultMatrix);
-        esineShader.setUniform("sampler", 0);
+        esineShader.asetaSijainti(resultMatrix);
+        esineShader.asetaSampler(0);
         if (valittuEsine instanceof KenttäKohde && tileX == (int)x && tileY == (int)-y) esineShader.setUniform("subcolor", new Vector4f(0.5f, 0.5f, 0.5f, 0f));
         else esineShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
     }
@@ -611,8 +630,8 @@ public class EditoriRuutu {
         resultMatrix.mul(objektinSijainti);
 
         kiintopisteShader.bind();
-        kiintopisteShader.setUniform("projection", resultMatrix);
-        kiintopisteShader.setUniform("sampler", 0);
+        kiintopisteShader.asetaSijainti(resultMatrix);
+        kiintopisteShader.asetaSampler(0);
         if (valittuEsine instanceof KenttäKohde && tileX == (int)x && tileY == (int)-y) kiintopisteShader.setUniform("subcolor", new Vector4f(0.5f, 0.5f, 0.5f, 0f));
         else kiintopisteShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
     }
@@ -627,8 +646,8 @@ public class EditoriRuutu {
         resultMatrix.mul(objektinSijainti);
 
         objektiShader.bind();
-        objektiShader.setUniform("projection", resultMatrix);
-        objektiShader.setUniform("sampler", 0);
+        objektiShader.asetaSijainti(resultMatrix);
+        objektiShader.asetaSampler(0);
         objektiShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
@@ -642,8 +661,8 @@ public class EditoriRuutu {
         resultMatrix.mul(objekti.transform.getTransformation());
 
         objekti3dShader.bind();
-		objekti3dShader.setUniform("projection", resultMatrix);
-        objekti3dShader.setUniform("sampler", 0);
+		objekti3dShader.asetaSijainti(resultMatrix);
+        objekti3dShader.asetaSampler(0);
         if (valittuEsine instanceof KenttäKohde && tileX == (int)x && tileY == (int)-y) objekti3dShader.setUniform("subcolor", new Vector4f(0.5f, 0.5f, 0.5f, 0f));
         else objekti3dShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
         Assets.getModel3D(objekti.anna3dMallinTunniste()).draw();
@@ -986,8 +1005,8 @@ public class EditoriRuutu {
         resultMatrix.mul(objektinSijainti);
 
         valikkoShader.bind();
-		valikkoShader.setUniform("projection", resultMatrix);
-        valikkoShader.setUniform("sampler", 0);
+		valikkoShader.asetaSijainti(resultMatrix);
+        valikkoShader.asetaSampler(0);
         valikkoShader.setUniform("subcolor", new Vector4f(1, 1, 1, 0.5f));
         hoverTileTekstuuri.bind(0);
         Assets.getModel().render();

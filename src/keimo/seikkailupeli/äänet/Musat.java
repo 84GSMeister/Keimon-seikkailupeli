@@ -12,6 +12,7 @@ public class Musat {
     private static Object äänisäikeenLukko = new Object();
     private static Thread musasäie;
     private static File musaSäieTiedosto;
+    private static String musaSäieNimi;
     private static double musasäieVolyymi = 0;
     private static double musasäiePan = 0;
     private static float musasäieSampleRate = 44100;
@@ -25,9 +26,13 @@ public class Musat {
             public void run() {
                 synchronized(äänisäikeenLukko) {
                     try {
-                        if (PelinAsetukset.äänetPäällä) {
-                            double toistoVolyymi = musasäieVolyymi * PelinAsetukset.ääniVolyymi;
-                            PeliääniToistin.toistaPelimusa(musasäieSampleRate, musaSäieTiedosto, toistoVolyymi, musasäiePan, musasäieLoop, musaSäieLoopKohta, musaSäieTakaperin);
+                        if (PelinAsetukset.musiikkiPäällä) {
+                            if (nytSoi == null || musaSäieNimi == null || !nytSoi.equals(musaSäieNimi)) {
+                                double toistoVolyymi = musasäieVolyymi * PelinAsetukset.ääniVolyymi;
+                                PeliääniToistin.toistaPelimusa(musasäieSampleRate, musaSäieTiedosto, toistoVolyymi, musasäiePan, musasäieLoop, musaSäieLoopKohta, musaSäieTakaperin);
+                                if (musaSäieNimi == null) nytSoi = "äänitesti";
+                                else nytSoi = musaSäieNimi;
+                            }
                         }
                     }
                     catch (Exception e) {
@@ -37,6 +42,7 @@ public class Musat {
                 }
             }
         };
+        musasäie.setName("Musiikin dekoodaussäie");
         return musasäie;
     }
 
@@ -58,6 +64,7 @@ public class Musat {
             case "keimo_välitarina.ogg":       loopKohtaMs = 29_536; break;
             case "minipeli_pong.ogg":          loopKohtaMs = 6_400; break;
             case "minipeli_kasino.mid":        loopKohtaMs = 0; break;
+            case "minipeli_keimoäly.ogg":      loopKohtaMs = 7_385; break;
             case "0_udo_haukkuu_90s.ogg":      loopKohtaMs = 0; break;
             case "1_udo_haukkuu_diiduu.ogg":   loopKohtaMs = 0; break;
             case "2_udo_haukkuu_kylie.ogg":    loopKohtaMs = 0; break;
@@ -72,8 +79,9 @@ public class Musat {
         return loopKohta;
     }
 
-    private static void asetaArvotSäikeelle(File tiedosto, double volume, double pan, float sampleRate, boolean loop, int loopKohta, boolean takaperin) {
+    private static void asetaArvotSäikeelle(File tiedosto, String musa, double volume, double pan, float sampleRate, boolean loop, int loopKohta, boolean takaperin) {
         musaSäieTiedosto = tiedosto;
+        musaSäieNimi = musa;
         musasäieVolyymi = volume;
         musasäiePan = pan;
         musasäieSampleRate = sampleRate;
@@ -86,17 +94,16 @@ public class Musat {
      * @param musa musan nimi
      */
     public static void toistaPeliMusa(String musa) {
-        File musaTiedosto = Assets.annaMusa(musa);
-        if (nytSoi == null || !nytSoi.equals(musa)) {
-            nytSoi = musa;
-            toistaPeliMusa(musaTiedosto, 1, 0, 44100, true, false);
+        synchronized(äänisäikeenLukko) {
+            File musaTiedosto = Assets.annaMusa(musa);
+            toistaPeliMusa(musaTiedosto, musa, 1, 0, 44100, true, false);
         }
     }
 
     /**
      * @param musa musan nimi
      */
-    public static void toistaPeliMusa(File musaTiedosto, double volume, double pan, float sampleRate, boolean loop, boolean takaperin) {
+    public static void toistaPeliMusa(File musaTiedosto, String musanNimi, double volume, double pan, float sampleRate, boolean loop, boolean takaperin) {
         synchronized(äänisäikeenLukko) {
             try {
                 int loopKohta = valitsePeliMusanLoopKohta(musaTiedosto.getName(), 44100);
@@ -105,8 +112,7 @@ public class Musat {
                 }
                 if (musasäie != null) {
                     if (musasäie.getState() != State.TERMINATED && musasäie.getState() != State.RUNNABLE) {
-                        System.out.println();
-                        asetaArvotSäikeelle(musaTiedosto, volume, pan, sampleRate, loop, loopKohta, takaperin);
+                        asetaArvotSäikeelle(musaTiedosto, musanNimi, volume, pan, sampleRate, loop, loopKohta, takaperin);
                         musasäie.start();
                     }
                 }

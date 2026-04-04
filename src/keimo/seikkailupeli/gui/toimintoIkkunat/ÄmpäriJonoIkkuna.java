@@ -1,15 +1,17 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Vesiämpäri;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Ämpärikone;
@@ -19,20 +21,17 @@ import java.awt.Color;
 import java.util.Random;
 
 public class ÄmpäriJonoIkkuna {
-
-    private static Shader peliShader = new Shader("shader");
-
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
-    private static Tekstuuri taustaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/ämpärijono.png");
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
+    private static Renderöitävä taustaTekstuuri = Assets.annaTekstuuri("toimintoikkuna_ämpärijono");
     private static Teksti ämpäriJonoTeksti = new Teksti("Jonossa", Color.black, 900, 48);
     private static Teksti ohjeTeksti = new Teksti("Poistu", Color.black, 500, 48);
-    private static Tekstuuri surunaamaTekstuuri = new Tekstuuri("tiedostot/kuvat/surunaama.png");
-    private static Tekstuuri keimoTekstuuri = new Tekstuuri("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
+    private static Tekstuuri surunaamaTekstuuri;
+    private static Tekstuuri keimoTekstuuri;
     private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
     private static StaattinenKomponentti taustaLabel = new StaattinenKomponentti(0.4f, 0.4f, 0, 0, taustaTekstuuri);
-    private static StaattinenKomponentti OhjeLabel = new StaattinenKomponentti(0.15f, 0.05f, 0.15f, 0.2f, ohjeTeksti);
+    private static StaattinenKomponentti OhjeLabel;
     private static Latauspalkki edistymispalkki = new Latauspalkki(1f/3f, 0.05f, 0.0f, -0.2f);
-    private static StaattinenKomponentti jonossaLabel = new StaattinenKomponentti(1f/3f, 0.05f, 0, -0.1f, ämpäriJonoTeksti);
+    private static StaattinenKomponentti jonossaLabel;
 
     private static Random r = new Random();
     private static String statusTeksti = "Jonotetaan";
@@ -43,8 +42,19 @@ public class ÄmpäriJonoIkkuna {
     public static Ämpärikone ämpärikone;
     private static float siirräY;
     private static float venytäX;
+
+    public static void alustaGrafiikat() {
+        ämpäriJonoTeksti = new Teksti("Jonossa", Color.black, 900, 48);
+        ohjeTeksti = new Teksti("Poistu", Color.black, 500, 48);
+        surunaamaTekstuuri = new Tekstuuri("tiedostot/kuvat/surunaama.png");
+        keimoTekstuuri = new Tekstuuri("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
+        OhjeLabel = new StaattinenKomponentti(0.15f, 0.05f, 0.15f, 0.2f, ohjeTeksti);
+        jonossaLabel = new StaattinenKomponentti(1f/3f, 0.05f, 0, -0.1f, ämpäriJonoTeksti);
+    }
     
-    public static void renderöiIkkuna(Ikkuna window) {
+    public static void renderöiIkkuna(Shader peliShader, Ikkuna window) {
+        peliShader.bind();
+        peliShader.nollaaShaderEfektit();
         if (siirräY > 0) siirräY -= 0.05f;
         if (venytäX < 1) venytäX += 0.05f;
 

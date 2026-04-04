@@ -31,6 +31,53 @@ public abstract class KenttäKohde extends PeliObjekti {
     protected float liikeNopeus = 4f;
     protected float pyörimisNopeus = 1f;
 
+    public KenttäKohde(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.objektinId = seuraavaObjektinId;
+        seuraavaObjektinId++;
+        this.hitbox = new Neliö(64, 64);
+        this.hitbox.setLocation(sijX * 64, sijY * 64);
+        if (ominaisuusLista != null) {
+            for (String ominaisuus : ominaisuusLista) {
+                if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
+                if (ominaisuus.startsWith("kääntö=")) {
+                    try {
+                        kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("virheellinen syöte: " + kääntöAsteet);
+                        e.printStackTrace();
+                        kääntöAsteet = 0;
+                    }
+                }
+                else if (ominaisuus.startsWith("x-peilaus=")) {
+                    if (ominaisuus.substring(10).startsWith("kyllä")) xPeilaus = true;
+                    else xPeilaus = false;
+                }
+                else if (ominaisuus.startsWith("y-peilaus=")) {
+                    if (ominaisuus.substring(10).startsWith("kyllä")) yPeilaus = true;
+                    else yPeilaus = false;
+                }
+            }
+            päivitäLisäOminaisuudet(ominaisuusLista);
+        }
+        else {
+            this.lisäOminaisuuksia = false;
+        }
+        asetaTiedot();
+    }
+
+    public KenttäKohde(int sijX, int sijY) {
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.objektinId = seuraavaObjektinId;
+        seuraavaObjektinId++;
+        this.hitbox = new Neliö(64, 64);
+        this.hitbox.setLocation(sijX * 64, sijY * 64);
+        asetaTiedot();
+    }
+
     public boolean onkoKolmiUlotteinen() {
         return kolmiUlotteinen;
     }
@@ -225,15 +272,5 @@ public abstract class KenttäKohde extends PeliObjekti {
     
     public String annaTiedot() {
         return tiedot;
-    }
-
-    public KenttäKohde(int sijX, int sijY) {
-        this.sijX = sijX;
-        this.sijY = sijY;
-        this.objektinId = seuraavaObjektinId;
-        seuraavaObjektinId++;
-        this.hitbox = new Neliö(64, 64);
-        this.hitbox.setLocation(sijX * 64, sijY * 64);
-        asetaTiedot();
     }
 }

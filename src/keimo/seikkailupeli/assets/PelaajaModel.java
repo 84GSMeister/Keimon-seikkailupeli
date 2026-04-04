@@ -4,6 +4,7 @@ import keimo.keimoengine.Kello;
 import keimo.keimoengine.collision.AABB;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Transform;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -87,12 +88,11 @@ public class PelaajaModel {
 
     public void render(Kamera camera, Ikkuna window) {
         pelaajaShader.bind();
-        pelaajaShader.setUniform("sampler", 0);
 
         float känniHajontaX = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
 		float känniHajontaY = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
 
-        pelaajaShader.setUniform("projection", transform.getProjection(camera.getProjection().translate(känniHajontaX, känniHajontaY, 0)));
+        pelaajaShader.asetaSijainti(transform.getProjection(camera.getProjection().translate(känniHajontaX, känniHajontaY, 0)));
         valitsePelaajanKuvake();
         if (Pelaaja.känniKuolemattomuus > 0) {
             if (Kello.globaaliTickit() % 4 == 0 || Kello.globaaliTickit() % 4 == 1) {
@@ -109,19 +109,21 @@ public class PelaajaModel {
 
         if (Pelaaja.hyökkäysAika > 0) {
             boolean hyökkäysKuvakkeenPeilaus = Pelaaja.keimonSuuntaVasenOikea == SuuntaVasenOikea.VASEN;
-            pelaajaShader.setUniform("projection", transform.getProjection(camera.getProjection().translate(känniHajontaX, känniHajontaY, 0).translate(hyökkäysKuvakkeenPeilaus ? -32 : 32, 0, 0)));
+            pelaajaShader.asetaSijainti(transform.getProjection(camera.getProjection().translate(känniHajontaX, känniHajontaY, 0).translate(hyökkäysKuvakkeenPeilaus ? -32 : 32, 0, 0)));
             hyökkäysTekstuuri.bind(0);
             Assets.getModel(0, !hyökkäysKuvakkeenPeilaus, false).render();
         }
         if (Peli.valittuEsine != null) {
-            pelaajaShader.setUniform("projection", transform.getProjection(camera.getProjection().scale(0.5f, 0.5f, 0).translate((float)Pelaaja.hitbox.getX() + känniHajontaX, (float)-Pelaaja.hitbox.getY() + känniHajontaY, 0)));
+            pelaajaShader.asetaSijainti(transform.getProjection(camera.getProjection().scale(0.5f, 0.5f, 0).translate((float)Pelaaja.hitbox.getX() + känniHajontaX, (float)-Pelaaja.hitbox.getY() + känniHajontaY, 0)));
             esineTekstuuri = Peli.valittuEsine.annaTekstuuri();
             esineTekstuuri.bind(0);
             Assets.getModel().render();
         }
-        if (Pelaaja.sijX < Peli.annaObjektiKenttä().length && Pelaaja.sijY < Peli.annaObjektiKenttä().length) {
-            if (Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY] != null) {
-                NäppäinVinkkiTekstit.renderöiNäppäinVinkki(Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY], pelaajaShaderStaattinen, camera, transform);
+        if (Peli.annaObjektiKenttä() != null) {
+            if (Pelaaja.sijX < Peli.annaObjektiKenttä().length && Pelaaja.sijY < Peli.annaObjektiKenttä().length) {
+                if (Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY] != null) {
+                    NäppäinVinkkiTekstit.renderöiNäppäinVinkki(Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY], pelaajaShaderStaattinen, camera, transform);
+                }
             }
         }
         NäppäinVinkkiTekstit.renderöiKäyttöesineenVinkki(Peli.valittuEsine, käyttöVinkkiTekstiShader, camera, transform);
@@ -316,9 +318,8 @@ public class PelaajaModel {
 
     public void renderöiHitboxKehys(Rectangle hitbox, Kamera camera) {
         pelaajaShaderStaattinen.bind();
-        pelaajaShaderStaattinen.setUniform("sampler", 0);
 
-        pelaajaShader.setUniform("projection", transform.getProjection(camera.getProjection()));
+        pelaajaShader.asetaSijainti(transform.getProjection(camera.getProjection()));
         hitboxKehysTekstuuri.bind(0);
         Assets.getModel(0, peilaaX, peilaaY).render();
     }

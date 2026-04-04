@@ -3,24 +3,24 @@ package keimo.keimoengine.ikkuna;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWJoystickCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowRefreshCallback;
 import org.lwjgl.glfw.GLFWVidMode.Buffer;
+
 
 /**
  * Ikkunan toteutus GLFW-ikkunointikirjastolla. Muita ikkunointijärjestelmiä ei toistaiseksi tueta.
  */
 
 public class GLFW_Ikkuna extends Ikkuna {
-    private GLFWWindowSizeCallback windowSizeCallback;
-    private GLFWCursorPosCallback cursorPosCallback;
-    private GLFWScrollCallback scrollCallback;
-
     private HashMap<Short, Long> näytöt = new HashMap<>();
     private short valittuNäyttö = 0;
     private boolean käytäAinaPäänäyttöä = false;
@@ -35,7 +35,14 @@ public class GLFW_Ikkuna extends Ikkuna {
     }
 
     private void setLocalCallbacks() {
-        windowSizeCallback = new GLFWWindowSizeCallback() {
+        glfwSetWindowRefreshCallback(window, new GLFWWindowRefreshCallback() {
+            @Override
+            public void invoke(long window) {
+                hasResized = true;
+            }
+        });
+
+        glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long argWindow, int argWidth, int argHeight) {
                 windowedWidth = width;
@@ -44,24 +51,31 @@ public class GLFW_Ikkuna extends Ikkuna {
                 height = argHeight;
                 hasResized = true;
             }
-        };
-        glfwSetWindowSizeCallback(window, windowSizeCallback);
+        });
 
-        cursorPosCallback = new GLFWCursorPosCallback() {
+        glfwSetCursorPosCallback(window, new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double xpos, double ypos) {
-                getInput().setCursorPos(xpos, ypos);
+                //annaNäppäimistöSyöte().setCursorPos(xpos, ypos);
+                annaSyöte().setCursorPos(xpos, ypos);
             }
-        };
-        glfwSetCursorPosCallback(window, cursorPosCallback);
+        });
 
-        scrollCallback = new GLFWScrollCallback() {
+        glfwSetScrollCallback(window, new GLFWScrollCallback() {
             @Override
             public void invoke(long window, double xoffset, double yoffset) {
-                getInput().setScroll(xoffset, yoffset);
+                //annaNäppäimistöSyöte().setScroll(xoffset, yoffset);
+                annaSyöte().setScroll(xoffset, yoffset);
             }
-        };
-        glfwSetScrollCallback(window, scrollCallback);
+        });
+
+        glfwSetJoystickCallback(new GLFWJoystickCallback() {
+            @Override
+            public void invoke(int jid, int event) {
+                //annaOhjainSyöte().asetaOhjaimenTila(jid, event);
+                annaSyöte().asetaOhjaimenTila(jid, event);
+            }
+        });
     }
 
     public GLFW_Ikkuna(String title, boolean fullscreen, int width, int height) {
@@ -70,12 +84,20 @@ public class GLFW_Ikkuna extends Ikkuna {
         this.height = height;
         this.fullscreen = fullscreen;
 
+        glfwInitHint(GLFW_JOYSTICK_HAT_BUTTONS, GLFW_FALSE);
+
+        // Initialize GLFW. Most GLFW functions will not work before doing this.
+		if (!glfwInit()) {
+			throw new IllegalStateException("Unable to initialize GLFW");
+		}
+
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 1);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        
         Buffer videoModeBuffer = glfwGetVideoModes(glfwGetPrimaryMonitor());
         videoModeBuffer.forEach(e -> {
             String resoluutio = e.width() + "x" + e.height();
@@ -84,7 +106,6 @@ public class GLFW_Ikkuna extends Ikkuna {
 
         setSize(width, height);
         asetaNäytöt();
-        //setView(width, height);
         window = glfwCreateWindow(width, height, title, fullscreen ? glfwGetPrimaryMonitor() : 0, 0);
         if (window == 0) {
             throw new IllegalStateException("Failed to create window!");
@@ -94,7 +115,8 @@ public class GLFW_Ikkuna extends Ikkuna {
             glfwSetWindowPos(window, (vid.width()-width)/2, (vid.height()-height)/2);
         }
         glfwShowWindow(window);
-        glfwMakeContextCurrent(window); // Make the OpenGL context current
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(1);
         setLocalCallbacks();
         hasResized = false;
     }
@@ -116,10 +138,6 @@ public class GLFW_Ikkuna extends Ikkuna {
         }
     }
 
-    public void cleanUp() {
-        windowSizeCallback.close();
-    }
-
     @Override
     public void setMonitor(int monitor) {
         valittuNäyttö = (short)monitor;
@@ -128,6 +146,13 @@ public class GLFW_Ikkuna extends Ikkuna {
     @Override
     public boolean shouldClose() {
         return glfwWindowShouldClose(window);
+    }
+
+    @Override
+    public void muutaKokoa(int leveys, int korkeus) {
+        super.muutaKokoa(leveys, korkeus);
+        glViewport(0, 0, getWidth(), getHeight());
+        hasResized = false;
     }
 
     @Override
@@ -181,8 +206,12 @@ public class GLFW_Ikkuna extends Ikkuna {
 
     @Override
     public void update() {
-        input.update();
-        hasResized = false;
+        if (näppäimistöSyöte != null) näppäimistöSyöte.update();
+        if (ohjainSyöte != null) ohjainSyöte.update();
+        if (syöte != null) syöte.update();
+    }
+
+    public void pollEvents() {
         glfwPollEvents();
     }
 }

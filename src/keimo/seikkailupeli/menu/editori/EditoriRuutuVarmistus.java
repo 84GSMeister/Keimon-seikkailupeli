@@ -1,13 +1,13 @@
 package keimo.seikkailupeli.menu.editori;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -17,7 +17,7 @@ public class EditoriRuutuVarmistus {
     private static Teksti otsikkoTeksti = new Teksti("Siirry editoriin?", Color.white, 720, 100, KeimoFontit.fontti_keimo_36, true);
     private static Teksti tekstiTexture = new Teksti("Varmistusteksti", Color.white, 3000, 900);
     private static Teksti jatkaNappiTexture = new Teksti("Jatka", Color.white, 430, 48);
-    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin_vanha");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä takaisinTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static MenuKomponentti ostikkoLabel = new MenuKomponentti(1, 1f/6f, 0, 5f/6f, otsikkoTeksti);
@@ -49,6 +49,9 @@ public class EditoriRuutuVarmistus {
             case "enter" -> {
                 hyväksy(valinta);
             }
+            case "esc" -> {
+                takaisin();
+            }
         }
         Äänet.toistaSFX("Valinta");
     }
@@ -68,15 +71,15 @@ public class EditoriRuutuVarmistus {
 
     public static void jatka() {
         Äänet.toistaSFX("Valinta");
-        KeimoEngine.valitseAktiivinenRuutu("editoriruutu");
+        Renderöinti.siirrySeuraavaanRuutuun("editoriruutu");
     }
 
     public static void takaisin() {
         Äänet.toistaSFX("Valinta");
-        KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
+        Renderöinti.siirrySeuraavaanRuutuun("valikkoruutu");
     }
 
-    public static void render(Shader shader, Ikkuna window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         shader.bind();
         shader.nollaaShaderEfektit();
 
@@ -87,12 +90,12 @@ public class EditoriRuutuVarmistus {
 
         for (int i = 0; i < vaihtoehtojenMäärä; i++) {
             float offsetX = i*(1f/1.5f);
-            Komponentti.renderöiKomponentti(shader, annaValikkoTeksti(i), window, 0.5f, 0.1f, 1, offsetX, -0.5f, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaValikkoTeksti(i), window, 0.5f, 0.1f, 1, offsetX, -0.5f, 0);
         }
 
         for (int i = 0; i < vaihtoehtojenMäärä; i++) {
             float offsetX = -0.6f + i*(1f/1.5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 0.1f, 0.1f, 1, offsetX, -0.5f, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaOsoitinKuvake(i), window, 0.1f, 0.1f, 1, offsetX, -0.5f, 0);
         }
     }
 

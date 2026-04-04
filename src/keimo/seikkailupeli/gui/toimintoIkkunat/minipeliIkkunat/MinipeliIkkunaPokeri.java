@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Kamera;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
@@ -25,14 +25,15 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class MinipeliIkkunaPokeri {
-    private static Shader peliShader = new Shader("shader");
+    //private static Shader peliShader = new Shader("shader");
 
     private static float ruudunLeveys = 1;
     private static float ruudunKorkeus = 1;
 
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/minipeli_kehys.png");
-    private static Tekstuuri alkuruutuTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/alkuruutu.png");
-    private static Tekstuuri valkoinenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/valkoinen.png");
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
+    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static Renderöitävä alkuruutuTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_alkuruutu");
+    private static Renderöitävä valkoinenTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_valkoinen");
     private static float siirtymä = 0;
     private static boolean valikko = true;
 
@@ -67,27 +68,27 @@ public class MinipeliIkkunaPokeri {
     // private static Tekstuuri olutolutTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kaljat/olut_olut.png");
     // private static Tekstuuri kupariTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kaljat/rainbow_lager.png");
 
-    private static Tekstuuri sandelsTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_velho.png");
-    private static Tekstuuri olviTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_juhani.png");
-    private static Tekstuuri karhuTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_goblini.png");
-    private static Tekstuuri alecoqTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_pasi.png");
-    private static Tekstuuri lapinkultaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_kauppias.png");
-    private static Tekstuuri karjalaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_keimo.png");
-    private static Tekstuuri olutolutTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_pahavihu.png");
-    private static Tekstuuri kupariTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortit/kortti_pikkuvihu.png");
+    private static Renderöitävä korttiVelhoTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_velho");
+    private static Renderöitävä korttiJuhaniTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_juhani");
+    private static Renderöitävä korttiGobliniTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_goblini");
+    private static Renderöitävä korttiPasiTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_pasi");
+    private static Renderöitävä korttiKauppiasTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_kauppias");
+    private static Renderöitävä korttiKeimoTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_keimo");
+    private static Renderöitävä korttiPahavihuTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_pahavihu");
+    private static Renderöitävä korttiPikkuvihuTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_pikkuvihu");
 
     private static Kortti[] pelaajanKortit = new Kortti[5];
     private static Kortti[] vihollisenKortit = new Kortti[5];
 
-    private static Tekstuuri pidäNappiTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/nappi_pidä.png");
-    private static Tekstuuri vaihdaNappiTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/nappi_vaihda.png");
-    private static Tekstuuri häviöTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/teksti_häviö.png");
-    private static Tekstuuri voittoTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/teksti_voitto.png");
-    private static Tekstuuri tasapeliTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/teksti_tasapeli.png");
-    private static Tekstuuri korttiTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/pokeri/kortti_selkä.png");
-    private static Teksti ohjeTeksti = new Teksti("ohje", Color.green, 600, 48);
-    private static Teksti voitotTekstiPelaaja = new Teksti("0", Color.green, 200, 48);
-    private static Teksti voitotTekstiVihollinen = new Teksti("0", Color.green, 200, 48);
+    private static Renderöitävä pidäNappiTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_nappi_pidä");
+    private static Renderöitävä vaihdaNappiTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_nappi_vaihda");
+    private static Renderöitävä häviöTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_teksti_häviö");
+    private static Renderöitävä voittoTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_teksti_voitto");
+    private static Renderöitävä tasapeliTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_teksti_tasapeli");
+    private static Renderöitävä korttiTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_kortti_selkä");
+    private static Teksti ohjeTeksti;
+    private static Teksti voitotTekstiPelaaja;
+    private static Teksti voitotTekstiVihollinen;
 
     private static class Kortti {
         public int arvo;
@@ -111,41 +112,38 @@ public class MinipeliIkkunaPokeri {
     }
     private static LiikkeenTila liikkeenTila = LiikkeenTila.ALKU;
 
-    public static void renderöiKehys(Ikkuna window) {
-        ruudunLeveys = window.getWidth();
-        ruudunKorkeus = window.getHeight();
-        float scaleX = ruudunLeveys/3f;
-        float scaleY = ruudunKorkeus/2.4f;
-        float offsetY = ruudunKorkeus/12f;
+    private static void alustaGrafiikat() {
+        if (ohjeTeksti == null) {
+            ohjeTeksti = new Teksti("ohje", Color.green, 600, 48);
+            voitotTekstiPelaaja = new Teksti("0", Color.green, 200, 48);
+            voitotTekstiVihollinen = new Teksti("0", Color.green, 200, 48);
+        }
+    }
+
+    public static void renderöiKehys(Ikkuna window, Shader peliShader) {
+        alustaGrafiikat();
         if (siirtymä < 1) siirtymä += 0.05;
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-
-        Matrix4f matKehys = new Matrix4f();
-        window.getView().scale(1, matKehys);
-        matKehys.translate(0, -offsetY, 0);
-        matKehys.scale(scaleX * siirtymä, scaleY * siirtymä, 0);
-        peliShader.setUniform("projection", matKehys);
-        kehysTekstuuri.bind(0);
-        Assets.getModel().render();
+        kehysKomponentti.muutaKokoa(2f/3f * siirtymä, 2f/2.4f * siirtymä, 0, -1f/6f);
+        kehysKomponentti.renderöi(peliShader, window);
     }
     
-    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Shader peliShader) {
         ruudunLeveys = window.getWidth();
         ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
             peliShader.bind();
-            peliShader.setUniform("sampler", 0);
             peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
             if (valikko) {
+                // Renderöi valikko
                 float scaleXValikkoKuvake = ruudunLeveys/4f;
                 float scaleYValikkoKuvake = ruudunKorkeus/4f;
                 Matrix4f matValikkoKuvake = new Matrix4f();
                 window.getView().scale(1, matValikkoKuvake);
                 matValikkoKuvake.scale(scaleXValikkoKuvake, scaleYValikkoKuvake, 0);
-                peliShader.setUniform("projection", matValikkoKuvake);
+                peliShader.asetaSijainti(matValikkoKuvake);
                 alkuruutuTekstuuri.bind(0);
                 Assets.getModel().render();
             }
@@ -155,21 +153,23 @@ public class MinipeliIkkunaPokeri {
                 float offsetXKortti = scaleXKortti*2f;
                 float offsetYKortti = ruudunKorkeus/6f;
                 for (int i = 0; i < 5; i++) {
+                    // Renderöi pelaajan kortit
                     Matrix4f matKorttiPelaaja = new Matrix4f();
                     window.getView().scale(1, matKorttiPelaaja);
                     matKorttiPelaaja.translate((i-2)*offsetXKortti + siirräXKorttiPelaaja[i], -offsetYKortti + siirräYKorttiPelaaja[i], 0);
                     matKorttiPelaaja.scale(scaleXKortti, scaleYKortti, 0);
-                    peliShader.setUniform("projection", matKorttiPelaaja);
-                    valitseKortinTekstuuri(pelaajanKortit[i].arvo).bind(0);
+                    peliShader.asetaSijainti(matKorttiPelaaja);
+                    if (pelaajanKortit[i] != null) valitseKortinTekstuuri(pelaajanKortit[i].arvo).bind(0);
                     Assets.getModel().render();
 
+                    // Renderöi vihollisen kortit
                     Matrix4f matKorttiVihollinen = new Matrix4f();
                     window.getView().scale(1, matKorttiVihollinen);
                     matKorttiVihollinen.translate((i-2)*offsetXKortti + siirräXKorttiVihollinen[i], offsetYKortti + siirräYKorttiVihollinen[i], 0);
                     matKorttiVihollinen.scale(scaleXKortti, scaleYKortti, 0);
                     matKorttiVihollinen.rotate((float)Math.toRadians(180 - käännäYKorttiVihollinen[i]), new Vector3f(0, 1, 0));
-                    peliShader.setUniform("projection", matKorttiVihollinen);
-                    if (vihollisenKortitNäkyvissä) valitseKortinTekstuuri(vihollisenKortit[i].arvo).bind(0);
+                    peliShader.asetaSijainti(matKorttiVihollinen);
+                    if (vihollisenKortitNäkyvissä && vihollisenKortit[i] != null) valitseKortinTekstuuri(vihollisenKortit[i].arvo).bind(0);
                     else korttiTekstuuri.bind(0);
                     Assets.getModel().render();
                 }
@@ -179,7 +179,7 @@ public class MinipeliIkkunaPokeri {
                 Matrix4f matNappi = new Matrix4f();
                 window.getView().scale(1, matNappi);
                 matNappi.scale(scaleXNappi, scaleYNappi, 0);
-                peliShader.setUniform("projection", matNappi);
+                peliShader.asetaSijainti(matNappi);
                 if (liikkeenTila == LiikkeenTila.VALMIS) {
                     valitseLoppuTeksti(voittaja).bind(0);
                     Assets.getModel().render();
@@ -190,6 +190,7 @@ public class MinipeliIkkunaPokeri {
                     Assets.getModel().render();
                 }
 
+                // Renderöi voittotekstit
                 float scaleXVoitotTeksti = ruudunLeveys/6f;
                 float scaleYVoitotTeksti = ruudunKorkeus/24f;
                 float offsetXVoitotTeksti = ruudunLeveys/10f;
@@ -198,7 +199,7 @@ public class MinipeliIkkunaPokeri {
                 window.getView().scale(1, matVoitotTekstiPelaaja);
                 matVoitotTekstiPelaaja.translate(-offsetXVoitotTeksti, -offsetYVoitotTeksti, 0);
                 matVoitotTekstiPelaaja.scale(scaleXVoitotTeksti, scaleYVoitotTeksti, 0);
-                peliShader.setUniform("projection", matVoitotTekstiPelaaja);
+                peliShader.asetaSijainti(matVoitotTekstiPelaaja);
                 voitotTekstiPelaaja.päivitäTeksti("" + pelaajanVoitot);
                 voitotTekstiPelaaja.bind(0);
                 Assets.getModel().render();
@@ -206,11 +207,12 @@ public class MinipeliIkkunaPokeri {
                 window.getView().scale(1, matVoitotTekstiVihollinen);
                 matVoitotTekstiVihollinen.translate(-offsetXVoitotTeksti, offsetYVoitotTeksti, 0);
                 matVoitotTekstiVihollinen.scale(scaleXVoitotTeksti, scaleYVoitotTeksti, 0);
-                peliShader.setUniform("projection", matVoitotTekstiVihollinen);
+                peliShader.asetaSijainti(matVoitotTekstiVihollinen);
                 voitotTekstiVihollinen.päivitäTeksti("" + vihollisenVoitot);
                 voitotTekstiVihollinen.bind(0);
                 Assets.getModel().render();
                 
+                // Renderöi ohjetekstit
                 float scaleXOhjeTeksti = ruudunLeveys/6f;
                 float scaleYOhjeTeksti = ruudunKorkeus/24f;
                 float offsetYOhjeTeksti = ruudunKorkeus/12f;
@@ -218,7 +220,7 @@ public class MinipeliIkkunaPokeri {
                 window.getView().scale(1, matOhjeTeksti);
                 matOhjeTeksti.translate(0, -offsetYOhjeTeksti, 0);
                 matOhjeTeksti.scale(scaleXOhjeTeksti, scaleYOhjeTeksti, 0);
-                peliShader.setUniform("projection", matOhjeTeksti);
+                peliShader.asetaSijainti(matOhjeTeksti);
                 if (liikkeenTila == LiikkeenTila.VALMIS) ohjeTeksti.päivitäTeksti("Space: Uusi peli");
                 else if (liikkeenTila == LiikkeenTila.ALKU) ohjeTeksti.päivitäTeksti("Space: Pelaa");
                 else ohjeTeksti.päivitäTeksti("");
@@ -228,7 +230,7 @@ public class MinipeliIkkunaPokeri {
                 window.getView().scale(1, matOhjeTeksti2);
                 matOhjeTeksti2.translate(0, offsetYOhjeTeksti, 0);
                 matOhjeTeksti2.scale(scaleXOhjeTeksti, scaleYOhjeTeksti, 0);
-                peliShader.setUniform("projection", matOhjeTeksti2);
+                peliShader.asetaSijainti(matOhjeTeksti2);
                 if (liikkeenTila == LiikkeenTila.ALKU) ohjeTeksti.päivitäTeksti("1-5: Valitse");
                 else ohjeTeksti.päivitäTeksti("");
                 ohjeTeksti.bind(0);
@@ -241,16 +243,16 @@ public class MinipeliIkkunaPokeri {
         }
     }
 
-    private static Tekstuuri valitseKortinTekstuuri(int arvo) {
+    private static Renderöitävä valitseKortinTekstuuri(int arvo) {
         switch (arvo) {
-            case 0: return kupariTekstuuri;
-            case 1: return olutolutTekstuuri;
-            case 2: return karjalaTekstuuri;
-            case 3: return lapinkultaTekstuuri;
-            case 4: return alecoqTekstuuri;
-            case 5: return karhuTekstuuri;
-            case 6: return olviTekstuuri;
-            case 7: return sandelsTekstuuri;
+            case 0: return korttiPikkuvihuTekstuuri;
+            case 1: return korttiPahavihuTekstuuri;
+            case 2: return korttiKeimoTekstuuri;
+            case 3: return korttiKauppiasTekstuuri;
+            case 4: return korttiPasiTekstuuri;
+            case 5: return korttiGobliniTekstuuri;
+            case 6: return korttiJuhaniTekstuuri;
+            case 7: return korttiVelhoTekstuuri;
             default: return valkoinenTekstuuri;
         }
     }
@@ -448,7 +450,7 @@ public class MinipeliIkkunaPokeri {
         else return "tasapeli";
     }
 
-    private static Tekstuuri valitseLoppuTeksti(String voittaja) {
+    private static Renderöitävä valitseLoppuTeksti(String voittaja) {
         switch (voittaja) {
             case "pelaaja": return voittoTekstuuri;
             case "vihollinen": return häviöTekstuuri;
@@ -524,7 +526,7 @@ public class MinipeliIkkunaPokeri {
     private static int valitutKortit() {
         int valitutKortit = 0;
         for (int i = 0; i < 5; i++) {
-            if (pelaajanKortit[i].valittu) {
+            if (pelaajanKortit[i] != null && pelaajanKortit[i].valittu) {
                 valitutKortit++;
             }
         }

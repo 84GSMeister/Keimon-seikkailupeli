@@ -5077,6 +5077,7 @@ Huone 5:
         Koriste-esine_4_1+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,x-peilaus=kyllä],
         Koriste-esine_4_16+ominaisuudet:[kuva=tuoli.png],
         Kaasusytytin_4_18+ominaisuudet:[toimivuus=tyhjä],
+        Pelikone_1_2+ominaisuudet:[tyyppi=5],
         Kirstu_5_8+ominaisuudet:[sisältö=Pesäpallomaila,kääntö=0,x-peilaus=ei,y-peilaus=ei],
         Koriste-esine_5_16+ominaisuudet:[kuva=pöytä_e.png],
         Koriste-esine_6_16+ominaisuudet:[kuva=tuoli.png,x-peilaus=kyllä],
@@ -19830,6 +19831,9 @@ Dialogi 0:
         vaihtoehto 0: Ei;
         triggeri 0: ;
         kohde 0: ;
+        vaihtoehto 1: Kyllä;
+        triggeri 1: silta_hyppää;
+        kohde 1: ;
     }
 /Dialogi
 Dialogi 0:
@@ -19901,10 +19905,10 @@ Dialogi 0:
         vaihtoehto 0: Hanaolut 4,95€;
         triggeri 0: baari_juoma1;
         kohde 0: baari_juoma1;
-		vaihtoehto 1: Hanalonkero 4,95€;
+		vaihtoehto 1: Hanalonkero 6,95€;
         triggeri 1: baari_juoma2;
         kohde 1: baari_juoma2;
-		vaihtoehto 2: Hanasiideri 6,95€;
+		vaihtoehto 2: Hanasiideri 5,95€;
         triggeri 2: baari_juoma3;
         kohde 2: baari_juoma3;
 		vaihtoehto 3: Peruuta;

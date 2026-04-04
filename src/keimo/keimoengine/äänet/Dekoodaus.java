@@ -23,17 +23,25 @@ import org.lwjgl.system.libc.LibCStdlib;
 
 public class Dekoodaus {
 
+    /**
+     * Haetaan ääni-stream kaikille tuetuille tiedostomuodoille.
+     * Käytetään tiedostomuodon mukaista dekoodausfunktiota.
+     * @param ääniTiedosto Tiedosto
+     * @param sampleRate Näytetaajuus (Hz). Oletus: 44100 (CD-ääni)
+     * @param takaperin käännä bittivirta takaperin toistoa varten.
+     * @return
+     */
     public static AudioInputStream haeÄäniStream(File ääniTiedosto, float sampleRate, boolean takaperin) {
         AudioInputStream sourceStream = null;
         try {
             if (ääniTiedosto.getName().endsWith(".wav")) {
-                sourceStream = decodeWav(ääniTiedosto, sampleRate, takaperin);
+                sourceStream = dekoodaaWav(ääniTiedosto, sampleRate, takaperin);
             }
             else if (ääniTiedosto.getName().endsWith(".ogg")) {
-                sourceStream = decodeOgg(ääniTiedosto.getPath(), sampleRate, takaperin);
+                sourceStream = dekoodaaOgg(ääniTiedosto.getPath(), sampleRate, takaperin);
             }
             else if (ääniTiedosto.getName().endsWith(".mp3")) {
-                sourceStream = decodeMP3(ääniTiedosto.getPath(), sampleRate, takaperin);
+                sourceStream = dekoodaaMP3(ääniTiedosto.getPath(), sampleRate, takaperin);
             }
             else {
                 throw new UnsupportedAudioFileException();
@@ -46,7 +54,7 @@ public class Dekoodaus {
         return sourceStream;
     }
 
-    public static AudioInputStream decodeWav(File ääniTiedosto, float newSampleRate, boolean takaperin ) {
+    public static AudioInputStream dekoodaaWav(File ääniTiedosto, float newSampleRate, boolean takaperin ) {
         // Tähän ei tarvita mitään ihmeellistä koska Java Sound API tukee natiivisti Wave-tiedostoja.
         // Jos ääntä ei tarvitse manipuloida, voidaan palauttaa AudioInputStream suoraan.
         try {
@@ -55,10 +63,11 @@ public class Dekoodaus {
             // Jos halutaan toistaa takaperin, käännetään array
             // Jos halutaan toistaa suuremmalla taajuudella kuin Java Sound API tukee, leikataan "nerokkaasti" osa sampleista pois.
             if (takaperin || newSampleRate > 176_400) {
+                int channels = stream.getFormat().getChannels();
                 byte[] bytes = stream.readAllBytes();
                 short[] samples = new short[bytes.length/2];
                 for (int i = 0; i < samples.length-1; i++) {
-                    short s = (short)(bytes[i*2] + bytes[i*2+1]*0xFF);
+                    short s = (short)(-bytes[i*2] + bytes[i*2+1]*0xFF);
                     samples[i] = s;
                 }
 
@@ -71,8 +80,15 @@ public class Dekoodaus {
                     }
                     if (takaperin) {
                         samplesReversed = new short[samplesCut.length];
-                        for (int i = 0; i < samplesReversed.length; i++) {
-                            samplesReversed[samplesCut.length-1 -i] = samplesCut[i];
+                        if (channels == 2) {
+                            for (int i = 0; i < samplesReversed.length; i++) {
+                                samplesReversed[samples.length-1 -i + (i % 2 == 0 ? -1 : 1)] = samples[i];
+                            }
+                        }
+                        else if (channels == 1) {
+                            for (int i = 0; i < samplesReversed.length; i++) {
+                                samplesReversed[samples.length-1 -i] = samples[i];
+                            }
                         }
                     }
                     else {
@@ -81,8 +97,15 @@ public class Dekoodaus {
                 }
                 else {
                     samplesReversed = new short[samples.length];
-                    for (int i = 0; i < samplesReversed.length; i++) {
-                        samplesReversed[samples.length-1 -i] = samples[i];
+                    if (channels == 2) {
+                        for (int i = 0; i < samplesReversed.length; i++) {
+                            samplesReversed[samples.length-1 -i + (i % 2 == 0 ? -1 : 1)] = samples[i];
+                        }
+                    }
+                    else if (channels == 1) {
+                        for (int i = 0; i < samplesReversed.length; i++) {
+                            samplesReversed[samples.length-1 -i] = samples[i];
+                        }
                     }
                 }
 
@@ -103,11 +126,11 @@ public class Dekoodaus {
         }
     }
 
-    public static AudioInputStream decodeOgg(String tiedostonNimi) {
-        return decodeOgg(tiedostonNimi, 44100, false);
+    public static AudioInputStream dekoodaaOgg(String tiedostonNimi) {
+        return dekoodaaOgg(tiedostonNimi, 44100, false);
     }
     
-    public static AudioInputStream decodeOgg(String tiedostonNimi, float newSampleRate, boolean takaperin) {
+    public static AudioInputStream dekoodaaOgg(String tiedostonNimi, float newSampleRate, boolean takaperin) {
         int channels = 0;
         int sampleRate = 0;
         int sampleCount = 0;
@@ -143,10 +166,16 @@ public class Dekoodaus {
             if (takaperin) {
                 // Tehdään käänteinen array jos halutaan toistaa takaperin.
                 short[] samplesReversed = new short[samples.length];
-                for (int i = 0; i < samplesReversed.length; i++) {
-                    samplesReversed[samples.length-1 -i] = samples[i];
+                if (channels == 2) {
+                    for (int i = 0; i < samplesReversed.length; i++) {
+                        samplesReversed[samples.length-1 -i + (i % 2 == 0 ? -1 : 1)] = samples[i];
+                    }
                 }
-
+                else if (channels == 1) {
+                    for (int i = 0; i < samplesReversed.length; i++) {
+                        samplesReversed[samples.length-1 -i] = samples[i];
+                    }
+                }
                 for (int i = 0; i < samplesReversed.length-1; i++) {
                     sampleBytes[i*2] = (byte)(samplesReversed[i] & 0x00FF);
                     sampleBytes[i*2+1] = (byte)((samplesReversed[i] >> 8) & 0x00FF);
@@ -172,11 +201,11 @@ public class Dekoodaus {
         }
     }
 
-    public static AudioInputStream decodeMP3(String tiedostonNimi) {
-        return decodeMP3(tiedostonNimi, 44100, false);
+    public static AudioInputStream dekoodaaMP3(String tiedostonNimi) {
+        return dekoodaaMP3(tiedostonNimi, 44100, false);
     }
 
-    public static AudioInputStream decodeMP3(String tiedostonNimi, float newSampleRate, boolean takaperin) {
+    public static AudioInputStream dekoodaaMP3(String tiedostonNimi, float newSampleRate, boolean takaperin) {
         try {
             Bitstream bitStream;
             bitStream = new Bitstream(new FileInputStream(tiedostonNimi));
@@ -232,8 +261,15 @@ public class Dekoodaus {
             if (takaperin) {
                 // Tehdään käänteinen array jos halutaan toistaa takaperin.
                 short[] samplesReversed = new short[samples.length];
-                for (int i = 0; i < samplesReversed.length; i++) {
-                    samplesReversed[samples.length-1 -i] = samples[i];
+                if (channels == 2) {
+                    for (int i = 0; i < samplesReversed.length; i++) {
+                        samplesReversed[samples.length-1 -i + (i % 2 == 0 ? -1 : 1)] = samples[i];
+                    }
+                }
+                else if (channels == 1) {
+                    for (int i = 0; i < samplesReversed.length; i++) {
+                        samplesReversed[samples.length-1 -i] = samples[i];
+                    }
                 }
                 for (int i = 0; i < samplesReversed.length-1; i++) {
                     sampleBytes[i*2] = (byte)(samplesReversed[i] & 0x00FF);

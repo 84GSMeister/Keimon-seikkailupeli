@@ -1,9 +1,10 @@
 package keimo.seikkailupeli.gui.hud;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.objekti2d.Transform;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PelinAsetukset;
@@ -25,34 +26,34 @@ import java.awt.Color;
 import org.joml.Vector4f;
 
 public class NäppäinVinkkiTekstit {
-    private static Tekstuuri näppäinETekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_e.png");
-    private static Tekstuuri näppäinQTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_q.png");
-    private static Tekstuuri näppäinZTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_z.png");
-    private static Tekstuuri näppäinXTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_x.png");
-    private static Tekstuuri näppäinCTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_c.png");
-    private static Tekstuuri näppäinNuoliTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_nuoli.png");
-    private static Tekstuuri näppäinSpaceTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_space.png");
+    private static Renderöitävä näppäinETekstuuri = Assets.annaTekstuuri("näppäin_e");
+    private static Renderöitävä näppäinQTekstuuri = Assets.annaTekstuuri("näppäin_q");
+    private static Renderöitävä näppäinZTekstuuri = Assets.annaTekstuuri("näppäin_z");
+    private static Renderöitävä näppäinXTekstuuri = Assets.annaTekstuuri("näppäin_x");
+    private static Renderöitävä näppäinCTekstuuri = Assets.annaTekstuuri("näppäin_c");
+    private static Renderöitävä näppäinNuoliTekstuuri = Assets.annaTekstuuri("näppäin_nuoli");
+    private static Renderöitävä näppäinSpaceTekstuuri = Assets.annaTekstuuri("näppäin_space");
 
-    private static Tekstuuri ohjainXboxATekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_a.png");
-    private static Tekstuuri ohjainXboxBTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_b.png");
-    private static Tekstuuri ohjainXboxXTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_x.png");
-    private static Tekstuuri ohjainXboxYTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_y.png");
-    private static Tekstuuri ohjainXboxRtTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_xbox_rt.png");
-    private static Tekstuuri ohjainNintendoATekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_a.png");
-    private static Tekstuuri ohjainNintendoBTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_b.png");
-    private static Tekstuuri ohjainNintendoXTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_x.png");
-    private static Tekstuuri ohjainNintendoYTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_y.png");
-    private static Tekstuuri ohjainNintendoRzTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nintendo_rz.png");
-    private static Tekstuuri ohjainPlaystationXTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_x.png");
-    private static Tekstuuri ohjainPlaystationYmpyräTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_ympyrä.png");
-    private static Tekstuuri ohjainPlaystationKolmioTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_kolmio.png");
-    private static Tekstuuri ohjainPlaystationNeliöTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_neliö.png");
-    private static Tekstuuri ohjainPlaystationR2Tekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_r2.png");
-    private static Tekstuuri ohjainRTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_r.png");
-    
-    private static Tekstuuri ohjainSelectTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_select.png");
-    private static Tekstuuri ohjainNuoliTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_nuoli.png");
-    private static Tekstuuri ohjainAnalogTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_analog.png");
+    private static Renderöitävä ohjainXboxATekstuuri = Assets.annaTekstuuri("ohjain_xbox_a");
+    private static Renderöitävä ohjainXboxBTekstuuri = Assets.annaTekstuuri("ohjain_xbox_b");
+    private static Renderöitävä ohjainXboxXTekstuuri = Assets.annaTekstuuri("ohjain_xbox_x");
+    private static Renderöitävä ohjainXboxYTekstuuri = Assets.annaTekstuuri("ohjain_xbox_y");
+    private static Renderöitävä ohjainXboxRtTekstuuri = Assets.annaTekstuuri("ohjain_xbox_rt");
+    private static Renderöitävä ohjainNintendoATekstuuri = Assets.annaTekstuuri("ohjain_nintendo_a");
+    private static Renderöitävä ohjainNintendoBTekstuuri = Assets.annaTekstuuri("ohjain_nintendo_b");
+    private static Renderöitävä ohjainNintendoXTekstuuri = Assets.annaTekstuuri("ohjain_nintendo_x");
+    private static Renderöitävä ohjainNintendoYTekstuuri = Assets.annaTekstuuri("ohjain_nintendo_y");
+    private static Renderöitävä ohjainNintendoRzTekstuuri = Assets.annaTekstuuri("ohjain_nintendo_rz");
+    private static Renderöitävä ohjainPlaystationXTekstuuri = Assets.annaTekstuuri("ohjain_playstation_x");
+    private static Renderöitävä ohjainPlaystationYmpyräTekstuuri = Assets.annaTekstuuri("ohjain_playstation_ympyrä");
+    private static Renderöitävä ohjainPlaystationKolmioTekstuuri = Assets.annaTekstuuri("ohjain_playstation_kolmio");
+    private static Renderöitävä ohjainPlaystationNeliöTekstuuri = Assets.annaTekstuuri("ohjain_playstation_neliö");
+    private static Renderöitävä ohjainPlaystationR2Tekstuuri = Assets.annaTekstuuri("ohjain_playstation_r2");
+
+    private static Renderöitävä ohjainRTekstuuri = Assets.annaTekstuuri("ohjain_r");
+    private static Renderöitävä ohjainSelectTekstuuri = Assets.annaTekstuuri("ohjain_select");
+    private static Renderöitävä ohjainNuoliTekstuuri = Assets.annaTekstuuri("ohjain_nuoli");
+    private static Renderöitävä ohjainAnalogTekstuuri = Assets.annaTekstuuri("ohjain_analog");
 
     private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
     private static Teksti näppäinVihjeTeksti = new Teksti("näppäin", Color.white, 900, 48);
@@ -66,7 +67,9 @@ public class NäppäinVinkkiTekstit {
         NÄPPÄIN_C_OHJAIN_VASEN,
         NÄPPÄIN_Z_OHJAIN_SELECT,
         NÄPPÄIN_X_OHJAIN_R,
-        NÄPPÄIN_NUOLI;
+        NÄPPÄIN_NUOLI_OHJAIN_ANALOG,
+        OHJAIN_NUOLI,
+        OHJAIN_YLÄ;
     }
 
     public static void renderöiNäppäinVinkki(KenttäKohde objektiKohdalla, Shader shader, Kamera camera, Transform transform) {
@@ -185,7 +188,7 @@ public class NäppäinVinkkiTekstit {
                 case YLÖS: kääntöAsteet = 0; break;
                 default: break;
             }
-            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_NUOLI, "", kääntöAsteet, Color.white, 0, 36, shader, camera, transform);
+            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_NUOLI_OHJAIN_ANALOG, "", kääntöAsteet, Color.white, 0, 36, shader, camera, transform);
         }
         else {
             renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", shader, camera, transform);
@@ -231,11 +234,11 @@ public class NäppäinVinkkiTekstit {
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;
         float translateY = 3f;
-        shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
         valitseTekstuuri(näppäin).bind(0);
         Assets.getModel(kääntöAsteet, false, false).render();
         if (teksti != null && !teksti.equals("")) {
-            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+            shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
             näppäinVihjeTeksti.päivitäTeksti(teksti, 0, 36, väri);
             näppäinVihjeTeksti.bind(0);
             Assets.getModel().render();
@@ -247,10 +250,10 @@ public class NäppäinVinkkiTekstit {
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;
         float translateY = 2.5f;
-        shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
         valitseTekstuuri(näppäin).bind(0);
         Assets.getModel().render();
-        shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
         näppäinVihjeTeksti.päivitäTeksti(teksti);
         näppäinVihjeTeksti.bind(0);
         Assets.getModel().render();
@@ -261,10 +264,10 @@ public class NäppäinVinkkiTekstit {
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;
         float translateY = 2f;
-        shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
         valitseTekstuuri(näppäin).bind(0);
         Assets.getModel().render();
-        shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
         näppäinVihjeTeksti.päivitäTeksti(teksti);
         näppäinVihjeTeksti.bind(0);
         Assets.getModel().render();
@@ -276,12 +279,12 @@ public class NäppäinVinkkiTekstit {
             float scaleXTeksti = 7f;
             float scaleYTeksti = 0.5f;
             float translateY = ySij;
-            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+            shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
             if (käytettävänEsineenVinkkiAjastin < 50) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 1f - käytettävänEsineenVinkkiAjastin/50f));
             else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
             valitseTekstuuri(näppäin).bind(0);
             Assets.getModel().render();
-            shader.setUniform("projection", transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+            shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
             if (käytettävänEsineenVinkkiAjastin < 50) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 1f - käytettävänEsineenVinkkiAjastin/50f));
             else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
             näppäinVihjeTeksti.päivitäTeksti(teksti);
@@ -290,7 +293,7 @@ public class NäppäinVinkkiTekstit {
         }
     }
 
-    private static Tekstuuri valitseTekstuuri(Näppäimet näppäin) {
+    private static Renderöitävä valitseTekstuuri(Näppäimet näppäin) {
         if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
             switch (näppäin) {
                 case NÄPPÄIN_E_OHJAIN_ALA: return näppäinETekstuuri;
@@ -299,7 +302,7 @@ public class NäppäinVinkkiTekstit {
                 case NÄPPÄIN_X_OHJAIN_R: return näppäinXTekstuuri;
                 case NÄPPÄIN_C_OHJAIN_VASEN: return näppäinCTekstuuri;
                 case NÄPPÄIN_SPACE_OHJAIN_OIKEA: return näppäinSpaceTekstuuri;
-                case NÄPPÄIN_NUOLI: return näppäinNuoliTekstuuri;
+                case NÄPPÄIN_NUOLI_OHJAIN_ANALOG: return näppäinNuoliTekstuuri;
                 default: return virheTekstuuri;
             }
         }
@@ -313,7 +316,9 @@ public class NäppäinVinkkiTekstit {
                         case NÄPPÄIN_SPACE_OHJAIN_OIKEA: return ohjainXboxBTekstuuri;
                         case NÄPPÄIN_X_OHJAIN_R: return ohjainRTekstuuri;
                         case NÄPPÄIN_Z_OHJAIN_SELECT: return ohjainSelectTekstuuri;
-                        case NÄPPÄIN_NUOLI: return ohjainAnalogTekstuuri;
+                        case NÄPPÄIN_NUOLI_OHJAIN_ANALOG: return ohjainAnalogTekstuuri;
+                        case OHJAIN_NUOLI: return ohjainNuoliTekstuuri;
+                        case OHJAIN_YLÄ: return ohjainXboxYTekstuuri;
                         default: return virheTekstuuri;
                     }
                 }
@@ -325,7 +330,9 @@ public class NäppäinVinkkiTekstit {
                         case NÄPPÄIN_SPACE_OHJAIN_OIKEA: return ohjainNintendoATekstuuri;
                         case NÄPPÄIN_X_OHJAIN_R: return ohjainRTekstuuri;
                         case NÄPPÄIN_Z_OHJAIN_SELECT: return ohjainSelectTekstuuri;
-                        case NÄPPÄIN_NUOLI: return ohjainAnalogTekstuuri;
+                        case NÄPPÄIN_NUOLI_OHJAIN_ANALOG: return ohjainAnalogTekstuuri;
+                        case OHJAIN_NUOLI: return ohjainNuoliTekstuuri;
+                        case OHJAIN_YLÄ: return ohjainNintendoXTekstuuri;
                         default: return virheTekstuuri;
                     }
                 }
@@ -337,7 +344,9 @@ public class NäppäinVinkkiTekstit {
                         case NÄPPÄIN_SPACE_OHJAIN_OIKEA: return ohjainPlaystationYmpyräTekstuuri;
                         case NÄPPÄIN_X_OHJAIN_R: return ohjainRTekstuuri;
                         case NÄPPÄIN_Z_OHJAIN_SELECT: return ohjainSelectTekstuuri;
-                        case NÄPPÄIN_NUOLI: return ohjainAnalogTekstuuri;
+                        case NÄPPÄIN_NUOLI_OHJAIN_ANALOG: return ohjainAnalogTekstuuri;
+                        case OHJAIN_NUOLI: return ohjainNuoliTekstuuri;
+                        case OHJAIN_YLÄ: return ohjainPlaystationKolmioTekstuuri;
                         default: return virheTekstuuri;
                     }
                 }

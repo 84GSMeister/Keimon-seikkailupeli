@@ -1,8 +1,8 @@
 package keimo.seikkailupeli.kenttä;
 
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -30,39 +30,39 @@ public class KenttäShaderEfektit {
             if (Peli.huone.annaNimi().equals("Metsä") || Peli.huone.annaNimi().equals("Metsä_kalja")) {
                 shader.setUniform("himmennys", new Vector4f(0.5f, 0.5f, 0.5f, 0f));
             }
-            else if (Peli.huone.annaNimi().equals("Metsä_boss")) {
+            else if (Peli.huone.annaNimi().equals("Metsä")) {
                 shader.setUniform("himmennys", new Vector4f(0.7f, 0.7f, 0.7f, 0f));
             }
-            else if (Peli.huone.annaNimi().equals("Keimo-baari")) {
-                shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
-            }
+            // else if (Peli.huone.annaNimi().equals("Keimo-baari")) {
+            //     shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
+            // }
             else if (Peli.huone.annaNimi().equals("Baari_salahuone")) {
                 shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
             }
-            else if (Peli.huone.annaNimi().equals("Kuu")) {
-                shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
-            }
+            // else if (Peli.huone.annaNimi().equals("Kuu")) {
+            //     shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
+            // }
             else shader.setUniform("himmennys", new Vector4f(0f, 0f, 0f, 0f));
         }
     }
 
     protected static void luoKenttäVäriEfekti() {
-        if (Peli.huone.annaNimi().equals("Keimo-baari")) {
-            if (lisääPun) punainen += lisäysAskelVäriBaari;
-            else punainen -= lisäysAskelVäriBaari;
-            if (lisääVihr) vihreä += lisäysAskelVäriBaari;
-            else vihreä -= lisäysAskelVäriBaari;
-            if (lisääSin) sininen += lisäysAskelVäriBaari;
-            else sininen -= lisäysAskelVäriBaari;
+        // if (Peli.huone.annaNimi().equals("Keimo-baari")) {
+        //     if (lisääPun) punainen += lisäysAskelVäriBaari;
+        //     else punainen -= lisäysAskelVäriBaari;
+        //     if (lisääVihr) vihreä += lisäysAskelVäriBaari;
+        //     else vihreä -= lisäysAskelVäriBaari;
+        //     if (lisääSin) sininen += lisäysAskelVäriBaari;
+        //     else sininen -= lisäysAskelVäriBaari;
             
-            if (punainen >= 1f) lisääPun = false;
-            else if (punainen <= 0f) lisääPun = true;
-            if (vihreä >= 1f) lisääVihr = false;
-            else if (vihreä <= 0f) lisääVihr = true;
-            if (sininen >= 1f) lisääSin = false;
-            else if (sininen <= 0f) lisääSin = true;
-        }
-        else if (Peli.huone.annaNimi().equals("Baari_salahuone")) {
+        //     if (punainen >= 1f) lisääPun = false;
+        //     else if (punainen <= 0f) lisääPun = true;
+        //     if (vihreä >= 1f) lisääVihr = false;
+        //     else if (vihreä <= 0f) lisääVihr = true;
+        //     if (sininen >= 1f) lisääSin = false;
+        //     else if (sininen <= 0f) lisääSin = true;
+        // }
+        if (Peli.huone.annaNimi().equals("Baari_salahuone")) {
             if (lisättäväVäri.equals("punainen")) {
                 if (lisääPun) punainen += lisäysAskelVäriBaariSala;
                 else punainen -= lisäysAskelVäriBaariSala;
@@ -97,21 +97,21 @@ public class KenttäShaderEfektit {
                 }
             }
         }
-        else if (Peli.huone.annaNimi().equals("Kuu")) {
-            if (lisääPun) punainen += lisäysAskelVäriKuu*0.731;
-            else punainen -= lisäysAskelVäriKuu*0.641;
-            if (lisääVihr) vihreä += lisäysAskelVäriKuu*0.985;
-            else vihreä -= lisäysAskelVäriKuu*0.652;
-            if (lisääSin) sininen += lisäysAskelVäriKuu*0.421;
-            else sininen -= lisäysAskelVäriKuu*0.794;
+        // else if (Peli.huone.annaNimi().equals("Kuu")) {
+        //     if (lisääPun) punainen += lisäysAskelVäriKuu*0.731;
+        //     else punainen -= lisäysAskelVäriKuu*0.641;
+        //     if (lisääVihr) vihreä += lisäysAskelVäriKuu*0.985;
+        //     else vihreä -= lisäysAskelVäriKuu*0.652;
+        //     if (lisääSin) sininen += lisäysAskelVäriKuu*0.421;
+        //     else sininen -= lisäysAskelVäriKuu*0.794;
             
-            if (punainen >= 1f) lisääPun = false;
-            else if (punainen <= 0f) lisääPun = true;
-            if (vihreä >= 1f) lisääVihr = false;
-            else if (vihreä <= 0f) lisääVihr = true;
-            if (sininen >= 1f) lisääSin = false;
-            else if (sininen <= 0f) lisääSin = true;
-        }
+        //     if (punainen >= 1f) lisääPun = false;
+        //     else if (punainen <= 0f) lisääPun = true;
+        //     if (vihreä >= 1f) lisääVihr = false;
+        //     else if (vihreä <= 0f) lisääVihr = true;
+        //     if (sininen >= 1f) lisääSin = false;
+        //     else if (sininen <= 0f) lisääSin = true;
+        // }
     }
 
     static float xHeilunnanNopeus = 0f;
@@ -145,8 +145,8 @@ public class KenttäShaderEfektit {
     protected static Matrix4f känniEfektiRotaatio(Matrix4f projection) {
         if (Pelaaja.känninVoimakkuusFloat > 6f) {
             rotaationNopeus = (Pelaaja.känninVoimakkuusFloat * Pelaaja.känninVoimakkuusFloat)/20f - (Pelaaja.känninVoimakkuusFloat * 6f)/20f;
-            projection.rotate(rotaationNopeus * (float)Math.toRadians(rotZ), new Vector3f(0, 0, 1));
-            rotZ++;
+            projection.rotate((float)Math.toRadians(rotZ), new Vector3f(0, 0, 1));
+            rotZ += rotaationNopeus;
             return projection;
         }
         else return projection;
@@ -195,8 +195,8 @@ public class KenttäShaderEfektit {
         resultMatrix.mul(tilenSijainti);
         
         shader.bind();
-        shader.setUniform("sampler", 0);
-        shader.setUniform("projection", resultMatrix);
+        shader.asetaSampler(0);
+        shader.asetaSijainti(resultMatrix);
         
         mustaTekstuuri.bind(0);
         Model model = Assets.getModel();

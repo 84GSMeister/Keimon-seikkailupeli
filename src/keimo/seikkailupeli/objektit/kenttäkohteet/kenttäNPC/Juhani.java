@@ -19,7 +19,7 @@ public final class Juhani extends NPC_KenttäKohde {
         super.dialogiTekstuuri = Assets.annaTekstuuri("juhani_dialogi");
         super.katsomisTeksti = "Hämärän näköinen tyyppi. Mitähän se aikoo?";
         super.dialogit.add("vakio");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

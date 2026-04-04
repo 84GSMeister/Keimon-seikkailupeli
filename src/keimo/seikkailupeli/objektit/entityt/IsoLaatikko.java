@@ -1,7 +1,7 @@
 package keimo.seikkailupeli.objektit.entityt;
 
 import keimo.keimoengine.collision.Neliö;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public class IsoLaatikko extends LiikkuvaObjekti {
     
@@ -16,7 +16,7 @@ public class IsoLaatikko extends LiikkuvaObjekti {
         super.ulkoHitboxOffset = 8;
         super.ulkoHitbox = new Neliö(sijX * tilenKoko - ulkoHitboxOffset, sijY * tilenKoko - ulkoHitboxOffset, leveys + 2*ulkoHitboxOffset, korkeus +2*ulkoHitboxOffset);
         super.tiedostonNimi = "tiedostot/kuvat/entity/iso_laatikko.png";
-        super.tekstuuri = new Tekstuuri(tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("laatikko_iso");
         super.voiTyöntää = true;
         super.asetaTiedot();
     }

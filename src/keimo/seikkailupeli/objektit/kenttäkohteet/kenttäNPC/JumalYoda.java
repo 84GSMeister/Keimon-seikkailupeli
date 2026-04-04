@@ -21,7 +21,7 @@ public final class JumalYoda extends NPC_KenttäKohde {
         super.katsomisTeksti = "Polku pimeälle puolelle?";
         super.dialogit.add("metsä");
         super.dialogit.add("kuu");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

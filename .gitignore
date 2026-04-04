@@ -1,14 +1,16 @@
 /.vscode
+/bin
 /Editori_vanha/.vscode
+/debug.log
+/hs_err_pid*
 /jlink
 /jlink.exe
 /jlink.bat
 /jlink.txt
+/laskerivit.ps1
 /launch4j.log
 /launch4j.xml
 /launch4j_keimo.xml
-/laskerivit.ps1
 /muistilista.txt
-/hs_err_pid*
 /replay_pid*
-/debug.log
+/requestit udolle.txt

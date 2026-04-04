@@ -1,13 +1,13 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
-import org.joml.Matrix4f;
-import org.joml.Vector4f;
-
 import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 public class Latauspalkki {
 
@@ -44,7 +44,7 @@ public class Latauspalkki {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.setUniform("projection", sijaintiMatriisi);
+        shader.asetaSijainti(sijaintiMatriisi);
         shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
         tekstuuri.bind(0);
         EngineAssets.getModel().render();

@@ -1,8 +1,8 @@
 package keimo.seikkailupeli.kenttä;
 
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.seikkailupeli.assets.Assets;
 
 import java.util.HashMap;
@@ -30,8 +30,8 @@ public class Tausta {
 		taustanSijainti.translate(x, y, z);
         Matrix4f resultMatrix = cameraMatrix.mul(taustanSijainti);
 		
-		taustaShader.setUniform("sampler", 0);
-		taustaShader.setUniform("projection", resultMatrix);
+		taustaShader.asetaSampler(0);
+		taustaShader.asetaSijainti(resultMatrix);
 		taustaShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel();

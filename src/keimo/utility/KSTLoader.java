@@ -1009,7 +1009,7 @@ public class KSTLoader {
         return uusiTarinaKartta;
     }
 
-    public static HashMap<String, VuoropuheDialogiPätkä> luoDialogiKarttaMerkkijonosta(String[] tarinaMerkkijonot) {
+    public static HashMap<String, VuoropuheDialogiPätkä> luoDialogiKarttaMerkkijonosta(String[] dialogiMerkkijonot) {
         
         HashMap<String, VuoropuheDialogiPätkä> uusiDialogiKartta = new HashMap<>();
 
@@ -1026,7 +1026,7 @@ public class KSTLoader {
         String[] valinnanTriggerit = new String[uusiDialoginPituus];
 
         try {
-            for (String s : tarinaMerkkijonot) {
+            for (String s : dialogiMerkkijonot) {
                 Scanner sc = new Scanner(s);
                 valinta = false;
                 while (sc.hasNextLine()) {
@@ -1108,8 +1108,8 @@ public class KSTLoader {
                         }
                     }
                 }
-                if (valinta) uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, true, valinnanNimi, valinnanOtsikko, valinnanVaihtoehdot, vaihtoehtojenKohdedialogit, valinnanTriggerit));
-                else uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, false, null, null, null, null, null));
+                if (valinta) uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, null, true, valinnanNimi, valinnanOtsikko, valinnanVaihtoehdot, vaihtoehtojenKohdedialogit, valinnanTriggerit));
+                else uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, null, false, null, null, null, null, null));
                 sc.close();
             }
         }
@@ -1218,7 +1218,6 @@ public class KSTLoader {
                 huoneetMerkkijonoina[i] += "    }\n    ";
             }
             catch (NullPointerException e) {
-                //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa objekteja", JOptionPane.ERROR_MESSAGE);
                 tinyfd_messageBox("Virhe tallentaessa objekteja", "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                 huoneetMerkkijonoina[i] += "\n    }\n";
             }
@@ -1248,7 +1247,6 @@ public class KSTLoader {
                 huoneetMerkkijonoina[i] += "    }\n    ";
             }
             catch (NullPointerException e) {
-                //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa maastoa", JOptionPane.ERROR_MESSAGE);
                 tinyfd_messageBox("Virhe tallentaessa maastoa", "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                 huoneetMerkkijonoina[i] += "\n    }\n";
             }
@@ -1284,7 +1282,6 @@ public class KSTLoader {
                 huoneetMerkkijonoina[i] += "    }\n";
             }
             catch (NullPointerException e) {
-                //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa npc:itä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa NPC:itä", JOptionPane.ERROR_MESSAGE);
                 tinyfd_messageBox("Virhe tallentaessa entityjä", "Ei voitu tallentaa entityjä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                 huoneetMerkkijonoina[i] += "\n    }\n";
             }
@@ -1314,7 +1311,6 @@ public class KSTLoader {
                     tarinaDialogitMerkkijonoina[i] += "    }\n";
                 }
                 catch (NullPointerException e) {
-                    //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa tarinan sivuja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa tarinaa", JOptionPane.ERROR_MESSAGE);
                     tinyfd_messageBox("Virhe tallentaessa tarinaa", "Ei voitu tallentaa tarinan sivuja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                     tarinaDialogitMerkkijonoina[i] += "\n    }\n";
                 }
@@ -1348,7 +1344,7 @@ public class KSTLoader {
                         vuoropuheDialogitMerkkijonoina[i] += "        valinnan_nimi: " + vdp.annaValinnanNimi() + ";\n";
                         vuoropuheDialogitMerkkijonoina[i] += "        valinnan_otsikko: " + vdp.annaValinnanOtsikko() + ";\n";
                         vuoropuheDialogitMerkkijonoina[i] += "        vaihtoehdot: " + vdp.annaValinnanVaihtoehdot().length + ";\n";
-                        for (int j = 0; j < vdp.annaPituus(); j++) {
+                        for (int j = 0; j < vdp.annaValinnanVaihtoehdot().length; j++) {
                             vuoropuheDialogitMerkkijonoina[i] += "        vaihtoehto " + j + ": " + vdp.annaValinnanVaihtoehdot()[j] + ";\n";
                             vuoropuheDialogitMerkkijonoina[i] += "        triggeri " + j + ": " + vdp.annaTriggerit()[j] + ";\n";
                             vuoropuheDialogitMerkkijonoina[i] += "        kohde " + j + ": " + vdp.annaValinnanVaihtoehtojenKohdeDialogit()[j] + ";\n";
@@ -1357,7 +1353,6 @@ public class KSTLoader {
                     }
                 }
                 catch (NullPointerException e) {
-                    //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa dialogeja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa dialogeja", JOptionPane.ERROR_MESSAGE);
                     tinyfd_messageBox("Virhe tallentaessa dialogeja", "Ei voitu tallentaa dialogeja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                     vuoropuheDialogitMerkkijonoina[i] += "\n    }\n";
                 }
@@ -1445,7 +1440,6 @@ public class KSTLoader {
             huoneetMerkkijonoina += "    }\n    ";
         }
         catch (NullPointerException e) {
-            //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa objekteja", JOptionPane.ERROR_MESSAGE);
             tinyfd_messageBox("Virhe tallentaessa objekteja", "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
             huoneetMerkkijonoina += "\n    }\n";
         }
@@ -1475,7 +1469,6 @@ public class KSTLoader {
             huoneetMerkkijonoina += "    }\n    ";
         }
         catch (NullPointerException e) {
-            //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa maastoa", JOptionPane.ERROR_MESSAGE);
             tinyfd_messageBox("Virhe tallentaessa maastoa", "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
             huoneetMerkkijonoina += "\n    }\n";
         }
@@ -1511,7 +1504,6 @@ public class KSTLoader {
             huoneetMerkkijonoina += "    }\n";
         }
         catch (NullPointerException e) {
-            //JOptionPane.showMessageDialog(null, "Ei voitu tallentaa npc:itä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "Virhe tallentaessa NPC:itä", JOptionPane.ERROR_MESSAGE);
             tinyfd_messageBox("Virhe tallentaessa entityjä", "Ei voitu tallentaa entityjä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
             huoneetMerkkijonoina += "\n    }\n";
         }

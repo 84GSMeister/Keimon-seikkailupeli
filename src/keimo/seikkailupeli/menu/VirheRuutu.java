@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.menu;
 
 import keimo.keimoengine.fontit.KeimoFontit;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.Ruudut;
@@ -24,7 +24,7 @@ public class VirheRuutu {
         Peli.aktiivinenRuutu = Ruudut.VIRHERUUTU;
     }
 
-    public static void render(Shader shader, Ikkuna window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         shader.bind();
         shader.nollaaShaderEfektit();
         otsikkoLabel.renderöi(shader, window);

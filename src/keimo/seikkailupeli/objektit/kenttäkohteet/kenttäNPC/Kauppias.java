@@ -14,7 +14,7 @@ public final class Kauppias extends NPC_KenttäKohde {
         super.tekstuuri = Assets.annaTekstuuri("kauppias");
         super.katsomisTeksti = "Kylien kauppias";
         super.dialogit.add("vakio");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

@@ -22,7 +22,7 @@ public final class JumalVelho extends NPC_KenttäKohde {
         super.katsomisTeksti = "No se on se Jumal Velho!";
         super.dialogit.add("metsä");
         super.dialogit.add("kuu");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

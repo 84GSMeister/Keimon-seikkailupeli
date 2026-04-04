@@ -1,7 +1,7 @@
 package keimo.seikkailupeli.objektit.entityt;
 
 import keimo.keimoengine.collision.Neliö;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.seikkailupeli.assets.Assets;
 
 public class TestiEntity extends LiikkuvaObjekti {
     
@@ -16,7 +16,7 @@ public class TestiEntity extends LiikkuvaObjekti {
         super.ulkoHitboxOffset = 8;
         super.ulkoHitbox = new Neliö(sijX * tilenKoko - ulkoHitboxOffset, sijY * tilenKoko - ulkoHitboxOffset, leveys + 2*ulkoHitboxOffset, korkeus +2*ulkoHitboxOffset);
         super.tiedostonNimi = "tiedostot/kuvat/entity/apu_pesukone.png";
-        super.tekstuuri = new Tekstuuri(tiedostonNimi);
+        super.tekstuuri = Assets.annaTekstuuri("testi_entity");
         super.voiTyöntää = true;
         super.asetaTiedot();
     }

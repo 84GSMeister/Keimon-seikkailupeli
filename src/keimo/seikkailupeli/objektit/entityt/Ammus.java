@@ -1,11 +1,11 @@
 package keimo.seikkailupeli.objektit.entityt;
 
-import java.util.ArrayList;
-
 import keimo.keimoengine.collision.Neliö;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
+
+import java.util.ArrayList;
 
 public class Ammus extends Entity {
     
@@ -31,7 +31,7 @@ public class Ammus extends Entity {
         this.hitbox = new Neliö(sijX, sijX, 16, 16);
         this.hitbox.setLocation(sijX, sijY);
         this.tiedostonNimi = "tiedostot/kuvat/entity/ammus.png";
-        this.tekstuuri = new Tekstuuri(tiedostonNimi);
+        this.tekstuuri = Assets.annaTekstuuri("ammus");
         this.ampuja = ampuja;
         if (suunta == SuuntaVasenOikea.OIKEA) {
             this.suunta = Suunta.OIKEA;
@@ -55,7 +55,7 @@ public class Ammus extends Entity {
         this.hitbox = new Neliö(sijX, sijX, 16, 16);
         this.hitbox.setLocation(sijX, sijY);
         this.tiedostonNimi = "tiedostot/kuvat/entity/ammus.png";
-        this.tekstuuri = new Tekstuuri(tiedostonNimi);
+        this.tekstuuri = Assets.annaTekstuuri("ammus");
         this.ampuja = ampuja;
         this.suunta = suunta8;
     }

@@ -81,7 +81,7 @@ public class VuoropuheDialogiPätkä {
         return triggerit;
     }
 
-    public VuoropuheDialogiPätkä(String vuoropuheTunniste, int dialoginPituus, String[] dialogiKuvienTiedostoNimet, String[] dialogiTekstit, String[] dialogiPuhujat, boolean valinta, String valinnanNimi, String valinnanOtsikko, String[] valinnanVaihtoehdot, String[] valinnanVaihtoehtojenKohdeDialogit, String[] triggerit) {
+    public VuoropuheDialogiPätkä(String vuoropuheTunniste, int dialoginPituus, String[] dialogiKuvienTiedostoNimet, String[] dialogiTekstit, String[] dialogiPuhujat, String[] dialogiÄänet, boolean valinta, String valinnanNimi, String valinnanOtsikko, String[] valinnanVaihtoehdot, String[] valinnanVaihtoehtojenKohdeDialogit, String[] triggerit) {
         this.vuoropuheTunniste = vuoropuheTunniste;
         this.dialoginPituus = dialoginPituus;
         this.dialogiKuvienTiedostoNimet = dialogiKuvienTiedostoNimet;

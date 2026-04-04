@@ -1,14 +1,15 @@
 package keimo.seikkailupeli.objektit.entityt.npc;
 
-import java.util.ArrayList;
-
 import keimo.keimoengine.grafiikat.*;
+import keimo.seikkailupeli.assets.Assets;
+
+import java.util.ArrayList;
 
 public class Asevihu extends Vihollinen {
 
-    private Renderöitävä vakioTekstuuri = new Animaatio(12, "tiedostot/kuvat/npc/asevihu.gif");
-    private Renderöitävä ämpäröityTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/asevihu_ämpäröity.png");
-    private Renderöitävä lyötyTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/asevihu_lyöty.png");
+    private Renderöitävä vakioTekstuuri = Assets.annaTekstuuri("asevihu");
+    private Renderöitävä ämpäröityTekstuuri = Assets.annaTekstuuri("asevihu_ämpäröity");
+    private Renderöitävä lyötyTekstuuri = Assets.annaTekstuuri("asevihu_lyöty");
 
     @Override
     public void kukista(String kukistusTapa) {

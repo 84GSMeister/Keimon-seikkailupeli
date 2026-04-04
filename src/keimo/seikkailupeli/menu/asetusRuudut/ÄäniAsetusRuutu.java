@@ -1,14 +1,14 @@
 package keimo.seikkailupeli.menu.asetusRuudut;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -19,27 +19,34 @@ public class ÄäniAsetusRuutu {
     private static int asetustenMäärä = 6;
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.85f, 0, osoitinKuvake, 10, 0, 0);
     private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
 
-    private static Teksti asetusMusaTeksti = new Teksti("Musiikki", Color.white, 600, 48);
-    private static Teksti asetusMusanVoimakkuusTeksti = new Teksti("Musiikin voim.", Color.white, 600, 48);
-    private static Teksti asetusÄänetTeksti = new Teksti("Äänet (SFX)", Color.white, 600, 48);
-    private static Teksti asetusÄäntenVoimakkuusTeksti = new Teksti("Äänten voim.", Color.white, 600, 48);
-    private static Teksti asetusÄänitestiTeksti = new Teksti("Äänitesti", Color.white, 600, 48);
+    private static Renderöitävä[] asetusTekstit = new Renderöitävä[] {
+        new Teksti("Musiikki", Color.white, 600, 48),
+        new Teksti("Musiikin voim.", Color.white, 600, 48),
+        new Teksti("Äänet (SFX)", Color.white, 600, 48),
+        new Teksti("Äänten voim.", Color.white, 600, 48),
+        new Teksti("Äänitesti", Color.white, 600, 48),
+        hyväksyTekstuuri,
+    };
 
-    private static Teksti tilaMusaTeksti = new Teksti("Päällä", Color.white, 600, 48);
-    private static Teksti tilaMusanVoimakkuusTeksti = new Teksti("50", Color.white, 600, 48);
-    private static Teksti tilaÄänetTeksti = new Teksti("Päällä", Color.white, 600, 48);
-    private static Teksti tilaÄäntenVoimakkuusTeksti = new Teksti("50", Color.white, 600, 48);
+    private static Teksti[] tilaTekstit = new Teksti[] {
+        new Teksti("Päällä", Color.white, 600, 48),
+        new Teksti("50", Color.white, 600, 48),
+        new Teksti("Päällä", Color.white, 600, 48),
+        new Teksti("50", Color.white, 600, 48),
+        new Teksti("", Color.white, 600, 48),
+        new Teksti("", Color.white, 600, 48),
+    };
 
     private static boolean musiikkiPäällä = true;
-    private static float musanVoimakkuus = 0.5f;
+    private static float musanVoimakkuus = 0.7f;
     private static boolean äänetPäällä = true;
-    private static float ääntenVoimakkuus = 0.5f;
+    private static float ääntenVoimakkuus = 0.7f;
 
     private static String infoTekstiMusa = "Musat\n" + 
     "Musiikin voimakkuuden muutoksessa voi kestää hetki\n" +
@@ -125,69 +132,42 @@ public class ÄäniAsetusRuutu {
 
     static void hyväksy(int valinta) {
         if (valinta == 4) {
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNITESTI_VALIKKO;
         }
-        else if (valinta == 5) {
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        else if (valinta == asetustenMäärä -1) {
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+            valinta = 0;
         }
     }
 
     static void peruuta() {
-        KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+        valinta = 0;
     }
 
     public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         
-        tilaMusaTeksti.päivitäTeksti(musiikkiPäällä ? "Päällä" : "Pois");
-        tilaMusanVoimakkuusTeksti.päivitäTeksti("" + (int)(musanVoimakkuus*100f));
-        tilaÄänetTeksti.päivitäTeksti(äänetPäällä ? "Päällä" : "Pois");
-        tilaÄäntenVoimakkuusTeksti.päivitäTeksti("" + (int)(ääntenVoimakkuus*100f));
+        tilaTekstit[0].päivitäTeksti(musiikkiPäällä ? "Päällä" : "Pois");
+        tilaTekstit[1].päivitäTeksti("" + (int)(musanVoimakkuus*100f));
+        tilaTekstit[2].päivitäTeksti(äänetPäällä ? "Päällä" : "Pois");
+        tilaTekstit[3].päivitäTeksti("" + (int)(ääntenVoimakkuus*100f));
 
         otsikkoLabel.renderöi(shader, window);
+
+        osoitinLabel.muutaOffsetY(1f/3f - (float)((valinta) - (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
+
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 1f/12f, 1f/12f, 1, -1f/12f -3f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, asetusTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
         }
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
-        }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaTilaTeksti(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, tilaTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
         }
         annaInfoTeksti(valinta);
         infoTekstiLabel.renderöi(shader, window);
-    }
-
-    private static Renderöitävä annaAsetusTekstuuri(int indeksi) {
-        switch (indeksi) {
-            case 0: return asetusMusaTeksti;
-            case 1: return asetusMusanVoimakkuusTeksti;
-            case 2: return asetusÄänetTeksti;
-            case 3: return asetusÄäntenVoimakkuusTeksti;
-            case 4: return asetusÄänitestiTeksti;
-            case 5: return hyväksyTekstuuri;
-            default: return hyväksyTekstuuri;
-        }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
-    }
-
-    private static Renderöitävä annaTilaTeksti(int indeksi) {
-        switch (indeksi) {
-            case 0: return tilaMusaTeksti;
-            case 1: return tilaMusanVoimakkuusTeksti;
-            case 2: return tilaÄänetTeksti;
-            case 3: return tilaÄäntenVoimakkuusTeksti;
-            case 4: return tyhjäTekstuuri;
-            case 5: return tyhjäTekstuuri;
-            default: return tyhjäTekstuuri;
-        }
     }
 
     private static void annaInfoTeksti(int indeksi) {

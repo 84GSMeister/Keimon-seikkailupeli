@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.ikkuna.Kamera;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
@@ -19,15 +19,16 @@ import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 public class MinipeliIkkunaTetris {
-    private static Shader peliShader = new Shader("shader");
+    private static Shader peliShader;
 
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/minipeli_kehys.png");
-    private static Tekstuuri alkuruutuTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/tetris/alkuruutu.png");
-    private static Tekstuuri palikkaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/tetris/palikka.png");
-    private static Tekstuuri hudTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/minipelit/tetris/tetris_hud.png");
-    private static Teksti teksti = new Teksti("Tähän tulee tetris", Color.green, 200, 48);
-    private static Teksti peliohiTeksti = new Teksti("Peli ohi!", Color.green, 350, 48);
-    private static Teksti ohjeTeksti = new Teksti("Ohjeet", Color.green, 500, 140);
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
+    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static Renderöitävä alkuruutuTekstuuri = Assets.annaTekstuuri("minipeli_tetris_alkuruutu");
+    private static Renderöitävä palikkaTekstuuri = Assets.annaTekstuuri("minipeli_tetris_palikka");
+    private static Renderöitävä hudTekstuuri = Assets.annaTekstuuri("minipeli_tetris_hud");
+    private static Teksti teksti;
+    private static Teksti peliohiTeksti;
+    private static Teksti ohjeTeksti;
     private static float siirtymä = 0;
 
     public static int pelaajanSijY = 0;
@@ -143,33 +144,45 @@ public class MinipeliIkkunaTetris {
         seuraavaPalikka = new Palikka(-1);
     }
 
-    public static void renderöiKehys(Ikkuna window) {
-        float ruudunLeveys = window.getWidth();
-        float ruudunKorkeus = window.getHeight();
-        float scaleX = ruudunLeveys/3f;
-        float scaleY = ruudunKorkeus/2.4f;
-        float offsetY = ruudunKorkeus/12f;
-        if (siirtymä < 1) siirtymä += 0.05;
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-        peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
+    private static void alustaGrafiikat() {
+        if (teksti == null) {
+            teksti = new Teksti("Tähän tulee tetris", Color.green, 200, 48);
+            peliohiTeksti = new Teksti("Peli ohi!", Color.green, 350, 48);
+            ohjeTeksti = new Teksti("Ohjeet", Color.green, 500, 140);
+        }
+    }
 
-        Matrix4f matKehys = new Matrix4f();
-        window.getView().scale(1, matKehys);
-        matKehys.translate(0, - offsetY, 0);
-        matKehys.scale(scaleX * siirtymä, scaleY * siirtymä, 0);
-        peliShader.setUniform("projection", matKehys);
-        kehysTekstuuri.bind(0);
-        Assets.getModel().render();
+    public static void renderöiKehys(Ikkuna window, Shader peliShader1) {
+        alustaGrafiikat();
+        // if (peliShader == null) peliShader = peliShader1;
+        // float ruudunLeveys = window.getWidth();
+        // float ruudunKorkeus = window.getHeight();
+        // float scaleX = ruudunLeveys/3f;
+        // float scaleY = ruudunKorkeus/2.4f;
+        // float offsetY = ruudunKorkeus/12f;
+        if (siirtymä < 1) siirtymä += 0.05;
+        peliShader1.bind();
+        peliShader1.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
+        peliShader1.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
+
+        // Matrix4f matKehys = new Matrix4f();
+        // window.getView().scale(1, matKehys);
+        // matKehys.translate(0, - offsetY, 0);
+        // matKehys.scale(scaleX * siirtymä, scaleY * siirtymä, 0);
+        // peliShader.asetaSijainti(matKehys);
+        // kehysTekstuuri.bind(0);
+        // Assets.getModel().render();
+
+        kehysKomponentti.muutaKokoa(2f/3f * siirtymä, 2f/2.4f * siirtymä, 0, -1f/6f);
+        kehysKomponentti.renderöi(peliShader1, window);
     }
     
-    public static void renderöiIkkuna(Ikkuna window, Kamera kamera) {
+    public static void renderöiIkkuna(Ikkuna window, Shader peliShader1) {
+        if (peliShader == null) peliShader = peliShader1;
         float ruudunLeveys = window.getWidth();
         float ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
             peliShader.bind();
-            peliShader.setUniform("sampler", 0);
             peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
             peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
 
@@ -179,7 +192,7 @@ public class MinipeliIkkunaTetris {
                 Matrix4f matValikkoKuvake = new Matrix4f();
                 window.getView().scale(1, matValikkoKuvake);
                 matValikkoKuvake.scale(scaleXValikkoKuvake, scaleYValikkoKuvake, 0);
-                peliShader.setUniform("projection", matValikkoKuvake);
+                peliShader.asetaSijainti(matValikkoKuvake);
                 peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
                 alkuruutuTekstuuri.bind(0);
                 Assets.getModel().render();
@@ -202,7 +215,7 @@ public class MinipeliIkkunaTetris {
                             window.getView().scale(1, matTaulukko);
                             matTaulukko.translate(2 * liikeSkaalaXPalikka * (x+0.5f) - offsetX, 2 * liikeSkaalaYPalikka * (y+0.5f) - offsetY, 0);
                             matTaulukko.scale(scaleXPalikka, scaleYPalikka, 0);
-                            peliShader.setUniform("projection", matTaulukko);
+                            peliShader.asetaSijainti(matTaulukko);
                             switch (taulukko[x][y]) {
                                 case 1: peliShader.setUniform("addcolor", new Vector4f(1, 1, 0, 1)); break;
                                 case 2: peliShader.setUniform("addcolor", new Vector4f(0, 1, 0, 1)); break;
@@ -225,7 +238,7 @@ public class MinipeliIkkunaTetris {
                 window.getView().scale(1, matHUD);
                 matHUD.translate(scaleXHUD, 0, 0);
                 matHUD.scale(scaleXHUD, scaleYHUD, 0);
-                peliShader.setUniform("projection", matHUD);
+                peliShader.asetaSijainti(matHUD);
                 peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
                 hudTekstuuri.bind(0);
                 Assets.getModel().render();
@@ -242,7 +255,7 @@ public class MinipeliIkkunaTetris {
                 window.getView().scale(1, matOhjeTeksti);
                 matOhjeTeksti.translate(-0*keskitysXPisteet + offsetXPisteet, - offsetYPisteet, 0);
                 matOhjeTeksti.scale(scaleXPisteet, scaleYPisteet, 0);
-                peliShader.setUniform("projection", matOhjeTeksti);
+                peliShader.asetaSijainti(matOhjeTeksti);
                 ohjeTeksti.päivitäTeksti("A/D: Liikuta" + "\n" + "S: Aseta" + "\n" + "Space: Käännä" + "        ", 2);
                 peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
                 ohjeTeksti.bind(0);
@@ -252,7 +265,7 @@ public class MinipeliIkkunaTetris {
                 window.getView().scale(1, matTekstiPelaajanPisteet);
                 matTekstiPelaajanPisteet.translate(-0*keskitysXPisteet + offsetXPisteet, - 0*offsetYPisteet, 0);
                 matTekstiPelaajanPisteet.scale(scaleXPisteet, scaleYPisteet, 0);
-                peliShader.setUniform("projection", matTekstiPelaajanPisteet);
+                peliShader.asetaSijainti(matTekstiPelaajanPisteet);
                 peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
                 teksti.päivitäTeksti("" + pelaajanPisteet);
                 teksti.bind(0);
@@ -267,7 +280,7 @@ public class MinipeliIkkunaTetris {
                 window.getView().scale(1, matTekstiPelaajanPisteet);
                 matTekstiPelaajanPisteet.translate(-keskitysXPisteet + offsetXPisteet, 0, 0);
                 matTekstiPelaajanPisteet.scale(scaleXPeliohiTeksti, scaleYPeliohiTeksti, 0);
-                peliShader.setUniform("projection", matTekstiPelaajanPisteet);
+                peliShader.asetaSijainti(matTekstiPelaajanPisteet);
                 peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1));
                 peliohiTeksti.bind(0);
                 Assets.getModel().render();
@@ -347,7 +360,7 @@ public class MinipeliIkkunaTetris {
             default: peliShader.setUniform("addcolor", new Vector4f(0, 0, 0, 1)); break;
         }
         matPalikka.scale(scaleXPalikka, scaleYPalikka, 0);
-        peliShader.setUniform("projection", matPalikka);
+        peliShader.asetaSijainti(matPalikka);
         
         palikkaTekstuuri.bind(0);
         Assets.getModel().render();

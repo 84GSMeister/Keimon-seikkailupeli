@@ -8,14 +8,17 @@ import org.joml.Vector4f;
 
 import keimo.keimoengine.Kello;
 import keimo.keimoengine.fontit.KeimoFontit;
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
+import keimo.seikkailupeli.gui.toimintoIkkunat.PullonPalautusIkkuna;
+import keimo.seikkailupeli.gui.toimintoIkkunat.ÄmpäriJonoIkkuna;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
@@ -23,60 +26,136 @@ public class HUD {
 
     private static Shader peliShader = new Shader("shader");
     private static Shader guiShader = new Shader("staattinen");
-
-    private static Tekstuuri aikaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/aika.png");
-    private static Tekstuuri hpTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/hp.png");
-    private static Tekstuuri ruokaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/ruoka.png");
-    private static Tekstuuri ruokaStatus0Tekstuuri = new Tekstuuri("tiedostot/kuvat/hud/pelaaja_kuvake/pelaaja.png");
-    private static Tekstuuri ruokaStatus1Tekstuuri = new Tekstuuri("tiedostot/kuvat/hud/pelaaja_kuvake/pelaaja_1.png");
-    private static Tekstuuri ruokaStatus2Tekstuuri = new Tekstuuri("tiedostot/kuvat/hud/pelaaja_kuvake/pelaaja_2.png");
-    private static Tekstuuri ruokaStatus3Tekstuuri = new Tekstuuri("tiedostot/kuvat/hud/pelaaja_kuvake/pelaaja_3.png");
-    private static Tekstuuri ruokaStatus4Tekstuuri = new Tekstuuri("tiedostot/kuvat/hud/pelaaja_kuvake/pelaaja_ylensyönti.png");
-    private static Tekstuuri rahaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/rahet.png");
-    private static Tekstuuri tölksTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/tölks.png");
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
-
-    private static Tekstuuri taustaOhjeTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/paneeli_tausta_tyhjä.png");
-    private static Tekstuuri taustaStatsitTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/paneeli_tausta_ohjeet.png");
-    private static Tekstuuri taustaTavaraluetteloTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/paneeli_tausta_tavaraluettelo.png");
-    private static Tekstuuri taustaTavoitelistaTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/seuraavatavoite.png");
-
-    private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", Color.black, 1000, 48);
-
-    private static Teksti aikaTeksti = new Teksti("aika", Color.black, 500, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti hpTeksti = new Teksti("" + Pelaaja.hp, Color.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti syödytRuoatTeksti = new Teksti("" + Pelaaja.syödytRuoat, Color.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti rahaTeksti = new Teksti("" + Pelaaja.raha, Color.black, 180, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti tölksTeksti = new Teksti("" + Pelaaja.kuparit, Color.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti tavaraluetteloTeksti = new Teksti("Tavaraluettelo", 550, 48);
-    private static Teksti valittuEsineTeksti = new Teksti("", 150, 48);
-
-    private static Tekstuuri valittuSlotTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/valittu_tavarapaikka.png");
-    private static Tekstuuri yhdistettäväSlotTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/yhdistettävä_tavarapaikka.png");
-    private static Tekstuuri tavarapaikka1Tekstuuri1 = new Tekstuuri("tiedostot/kuvat/hud/tavarapaikka_1.png");
-    private static Tekstuuri tavarapaikka1Tekstuuri2 = new Tekstuuri("tiedostot/kuvat/hud/tavarapaikka_2.png");
-    private static Tekstuuri tavarapaikka1Tekstuuri3 = new Tekstuuri("tiedostot/kuvat/hud/tavarapaikka_3.png");
-    private static Tekstuuri tavarapaikka1Tekstuuri4 = new Tekstuuri("tiedostot/kuvat/hud/tavarapaikka_4.png");
-    private static Tekstuuri tavarapaikka1Tekstuuri5 = new Tekstuuri("tiedostot/kuvat/hud/tavarapaikka_5.png");
-    private static Tekstuuri tavarapaikka1Tekstuuri6 = new Tekstuuri("tiedostot/kuvat/hud/tavarapaikka_6.png");
-
-    private static Tekstuuri dialogiKuvakeKehysTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/dialogi_kuvake_kehys.png");
-    private static Tekstuuri dialogiTekstiKehysTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/dialogi_teksti_kehys.png");
-    private static Tekstuuri dialogiNimiKehysTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/dialogi_nimi_kehys.png");
-
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
     static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
+    public static boolean hudGrafiikatAlustettu = false;
+
+    // Pohja
+    private static Renderöitävä taustaOhjeTekstuuri = Assets.annaTekstuuri("hud_paneeli_tyhjä");
+    private static Renderöitävä taustaTavaraluetteloTekstuuri = Assets.annaTekstuuri("hud_paneeli_tavaraluettelo");
+    private static StaattinenKomponentti hudPohjaVasenYläLabel = new StaattinenKomponentti(1f/6f, 1f/3f, -5f/6f, 2f/3f, taustaOhjeTekstuuri);
+    private static StaattinenKomponentti hudPohjaVasenKeskiLabel = new StaattinenKomponentti(1f/6f, 1f/3f, -5f/6f, 0, taustaOhjeTekstuuri);
+    private static StaattinenKomponentti hudPohjaVasenAlaLabel = new StaattinenKomponentti(1f/6f, 1f/3f, -5f/6f, -2f/3f, taustaTavaraluetteloTekstuuri);
+    private static StaattinenKomponentti hudPohjaOikeaYläLabel = new StaattinenKomponentti(1f/6f, 1f/3f, 5f/6f, 2f/3f, taustaOhjeTekstuuri);
+    private static StaattinenKomponentti hudPohjaOikeaKeskiLabel = new StaattinenKomponentti(1f/6f, 1f/3f, 5f/6f, 0, taustaOhjeTekstuuri);
+    private static StaattinenKomponentti hudPohjaOikeaAlaLabel = new StaattinenKomponentti(1f/6f, 1f/3f, 5f/6f, -2f/3f, taustaOhjeTekstuuri);
+
+    // HP & Juomat
+    private static Renderöitävä hpTekstuuri = Assets.annaTekstuuri("hud_hp");
+    private static Renderöitävä juomatTekstuuri = Assets.annaTekstuuri("hud_juomat");
+    private static Teksti hpTeksti = new Teksti("HP", Color.black, 100, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti juomatTeksti = new Teksti("Juomat", Color.black, 200, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Renderöitävä ruokaTekstuuri = Assets.annaTekstuuri("hud_ruoka");
+    private static Renderöitävä pelaajaStatus0Tekstuuri = Assets.annaTekstuuri("hud_pelaaja0");
+    private static Renderöitävä pelaajaStatus1Tekstuuri = Assets.annaTekstuuri("hud_pelaaja1");
+    private static Renderöitävä pelaajaStatus2Tekstuuri = Assets.annaTekstuuri("hud_pelaaja2");
+    private static Renderöitävä pelaajaStatus3Tekstuuri = Assets.annaTekstuuri("hud_pelaaja3");
+    private static Renderöitävä pelaajaStatus4Tekstuuri = Assets.annaTekstuuri("hud_pelaaja_ylensyönti");
+    private static Teksti syödytRuoatTeksti = new Teksti("" + Pelaaja.syödytRuoat, Color.black, 100, 48, KeimoFontit.fontti_keimo_36, true);
+    private static StaattinenKomponentti hpKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 5f/6f, hpTekstuuri);
+    private static StaattinenKomponentti hpTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 5f/6f, hpTeksti);
+    private static StaattinenKomponentti juomatKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 4f/6f, juomatTekstuuri);
+    private static StaattinenKomponentti juomatTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 4f/6f, juomatTeksti);
+    private static StaattinenKomponentti pelaajaKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 3f/6f, pelaajaStatus0Tekstuuri);
+    private static StaattinenKomponentti ruokaKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 3f/6f, ruokaTekstuuri);
+    private static StaattinenKomponentti ruokaTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 3f/6f, syödytRuoatTeksti);
+
+    // Statsit
+    private static Renderöitävä aikaTekstuuri = Assets.annaTekstuuri("hud_aika");
+    private static Renderöitävä rahaTekstuuri = Assets.annaTekstuuri("hud_rahet");
+    private static Renderöitävä tölksTekstuuri = Assets.annaTekstuuri("hud_tölks");
+    private static Teksti aikaTeksti = new Teksti("aika", Color.black, 500, 100, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti rahaTeksti = new Teksti("" + Pelaaja.raha, Color.black, 180, 100, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti tölksTeksti = new Teksti("" + Pelaaja.kuparit, Color.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
+    private static StaattinenKomponentti aikaKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 1f/6f, aikaTekstuuri);
+    private static StaattinenKomponentti aikaTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 1f/6f, aikaTeksti);
+    private static StaattinenKomponentti rahetKuvakeLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -27f/30f, 0, rahaTekstuuri);
+    private static StaattinenKomponentti rahetTekstiLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -23f/30f, 0, rahaTeksti);
+    private static StaattinenKomponentti tölksKuvakeLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -27f/30f, -1f/6f, tölksTekstuuri);
+    private static StaattinenKomponentti tölksTekstiLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -23f/30f, -1f/6f, tölksTeksti);
+
+    // Tavaraluettelo
+    private static Teksti tavaraluetteloTeksti = new Teksti("Tavaraluettelo", 550, 48);
+    private static Teksti valittuEsineTeksti = new Teksti("", 150, 48);
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
+    private static Renderöitävä valittuSlotTekstuuri = Assets.annaTekstuuri("hud_tavarapaikka_valittu");
+    private static Renderöitävä yhdistettäväSlotTekstuuri = Assets.annaTekstuuri("hud_tavarapaikka_yhdistettävä");
+    private static Renderöitävä tavarapaikka1Tekstuuri1 = Assets.annaTekstuuri("hud_tavarapaikka_1");
+    private static Renderöitävä tavarapaikka1Tekstuuri2 = Assets.annaTekstuuri("hud_tavarapaikka_2");
+    private static Renderöitävä tavarapaikka1Tekstuuri3 = Assets.annaTekstuuri("hud_tavarapaikka_3");
+    private static Renderöitävä tavarapaikka1Tekstuuri4 = Assets.annaTekstuuri("hud_tavarapaikka_4");
+    private static Renderöitävä tavarapaikka1Tekstuuri5 = Assets.annaTekstuuri("hud_tavarapaikka_5");
+    private static Renderöitävä tavarapaikka1Tekstuuri6 = Assets.annaTekstuuri("hud_tavarapaikka_6");
+    private static StaattinenKomponentti tavaraluetteloOtsikkoLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, -5f/6f, -4f/9f, tavaraluetteloTeksti);
+    private static StaattinenKomponentti valittuEsineTekstiLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, -5f/6f, -8f/9f, valittuEsineTeksti);
+    private static StaattinenKomponentti tavarapaikka1Label = new StaattinenKomponentti(1f/24f, 1f/15f, -11f/12f, -9f/15f, tavarapaikka1Tekstuuri1);
+    private static StaattinenKomponentti tavarapaikka2Label = new StaattinenKomponentti(1f/24f, 1f/15f, -5f/6f, -9f/15f, tavarapaikka1Tekstuuri2);
+    private static StaattinenKomponentti tavarapaikka3Label = new StaattinenKomponentti(1f/24f, 1f/15f, -3f/4f, -9f/15f, tavarapaikka1Tekstuuri3);
+    private static StaattinenKomponentti tavarapaikka4Label = new StaattinenKomponentti(1f/24f, 1f/15f, -11f/12f, -11f/15f, tavarapaikka1Tekstuuri4);
+    private static StaattinenKomponentti tavarapaikka5Label = new StaattinenKomponentti(1f/24f, 1f/15f, -5f/6f, -11f/15f, tavarapaikka1Tekstuuri5);
+    private static StaattinenKomponentti tavarapaikka6Label = new StaattinenKomponentti(1f/24f, 1f/15f, -3f/4f, -11f/15f, tavarapaikka1Tekstuuri6);
+    private static StaattinenKomponentti valittuTavarapaikkaLabel = new StaattinenKomponentti(1f/24f, 1f/12f, 0, 0, valittuSlotTekstuuri);
+    private static StaattinenKomponentti yhdistettäväTavarapaikkaLabel = new StaattinenKomponentti(1f/24f, 1f/12f, 0, 0, yhdistettäväSlotTekstuuri);
+
+    // Kartta
+    private static Teksti alueTeksti = new Teksti("Alue", Color.black, 192, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti huoneTeksti = new Teksti("Huone", Color.black, 192, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Renderöitävä karttaTekstuuri;
+    private static Renderöitävä pelaajaKartallaKuvake = Assets.annaTekstuuri("kartta_pelaajakuvake");
+    private static Renderöitävä karttaAsuintalotTekstuuri = Assets.annaTekstuuri("kartta_asuintalot");
+    private static Renderöitävä karttaBaariTekstuuri = Assets.annaTekstuuri("kartta_baari");
+    private static Renderöitävä karttaBaariSalahuoneTekstuuri = Assets.annaTekstuuri("kartta_baari_salahuone");
+    private static Renderöitävä karttaKauppaTekstuuri = Assets.annaTekstuuri("kartta_kauppa");
+    private static Renderöitävä karttaKotiTekstuuri = Assets.annaTekstuuri("kartta_koti");
+    private static Renderöitävä karttaKuuTekstuuri = Assets.annaTekstuuri("kartta_kuu");
+    private static Renderöitävä karttaMetsäTekstuuri = Assets.annaTekstuuri("kartta_metsä");
+    private static Renderöitävä karttaMetsäBossTekstuuri = Assets.annaTekstuuri("kartta_metsä_boss");
+    private static Renderöitävä karttaPeltoTekstuuri = Assets.annaTekstuuri("kartta_pelto");
+    private static Renderöitävä karttaPuistoTekstuuri = Assets.annaTekstuuri("kartta_puisto");
+    private static Renderöitävä karttaTemppeliTekstuuri = Assets.annaTekstuuri("kartta_temppeli");
+    private static Renderöitävä karttaTemppeliBossTekstuuri = Assets.annaTekstuuri("kartta_temppeli_boss");
+    private static Renderöitävä karttaYokyläTekstuuri = Assets.annaTekstuuri("kartta_yo-kylä");
+    private static Renderöitävä eiKarttaaTekstuuri = Assets.annaTekstuuri("kartta_eikarttaa");
+    private static StaattinenKomponentti alueLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, 5f/6f, 8f/9f, alueTeksti);
+    private static StaattinenKomponentti karttaLabel = new StaattinenKomponentti(1f/7.5f, 1f/6f, 5f/6f, 2f/3f, karttaTekstuuri);
+    private static StaattinenKomponentti huoneLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, 5f/6f, 4f/9f, huoneTeksti);
+    private static StaattinenKomponentti pelaajanKuvakeLabel = new StaattinenKomponentti(1f/32f, 1f/32f, 5f/6f, 2f/3f, pelaajaKartallaKuvake);
+
+    // Tavoitelaatikko
+    private static Renderöitävä taustaTavoitelistaTekstuuri = Assets.annaTekstuuri("hud_seuraava_tavoite");
+    private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", Color.black, 1000, 48);
+    private static StaattinenKomponentti tavoitelaatikkoKehysLabel = new StaattinenKomponentti(2f/3f, 1f/12f, 0, 11f/12f, taustaTavoitelistaTekstuuri);
+    private static StaattinenKomponentti seuraavaTavoiteLabel = new StaattinenKomponentti(1.75f/3f, 1f/27.5f, 0, 8f/9f, seuraavaTavoiteTeksti);
+
+    // Dialogilaatikko
+    private static Renderöitävä dialogiKuvakeKehysTekstuuri = Assets.annaTekstuuri("dialogi_kuvake_kehys");
+    private static Renderöitävä dialogiTekstiKehysTekstuuri = Assets.annaTekstuuri("dialogi_teksti_kehys");
+    private static Renderöitävä dialogiNimiKehysTekstuuri = Assets.annaTekstuuri("dialogi_nimi_kehys");
+    private static StaattinenKomponentti dialogiPohjaLabel = new StaattinenKomponentti(2f/3f, 1f/6f, 0, -5f/6f, tyhjäTekstuuri);
+    private static StaattinenKomponentti dialogiKuvakeKehysLabel = new StaattinenKomponentti(1f/6f, 1f/6f, -1f/2f, -5f/6f, dialogiKuvakeKehysTekstuuri);
+    private static StaattinenKomponentti dialogiKuvakeLabel = new StaattinenKomponentti(3f/20f, 3f/20f, -1f/2f, -5f/6f);
+    private static StaattinenKomponentti dialogiTekstiKehysLabel = new StaattinenKomponentti(1f/2f, 1f/8f, 1f/6f, -7f/8f, dialogiTekstiKehysTekstuuri);
+    private static StaattinenKomponentti dialogiTekstiLabel = new StaattinenKomponentti(29f/60f, 9f/80f, 1f/6f, -7f/8f);
+    private static StaattinenKomponentti dialogiPuhujaKehysLabel = new StaattinenKomponentti(1f/2f, 1f/24f, 1f/6f, -17/24f, dialogiNimiKehysTekstuuri);
+    private static StaattinenKomponentti dialogiPuhujaLabel = new StaattinenKomponentti(29f/60f, 3f/80f, 1f/6f, -17f/24f);
+
+    private static void alustaHUDGrafiikat() {
+        if (!hudGrafiikatAlustettu) {
+            ÄmpäriJonoIkkuna.alustaGrafiikat();
+            PullonPalautusIkkuna.alustaGrafiikat();
+            hudGrafiikatAlustettu = true;
+        }
+    }
 
     public static void renderöiTeksti(String teksti, int sijX, int sijY, int leveys, int korkeus, Kamera camera, Ikkuna window) {
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
         Matrix4f tekstiAlue = new Matrix4f();
         camera.getUntransformedProjection().scale(1, tekstiAlue);
         tekstiAlue.translate(-window.getWidth()/2+sijX + leveys, window.getHeight()/2-sijY, 0);
         tekstiAlue.scale(leveys, korkeus, 0);
-        peliShader.setUniform("projection", tekstiAlue);
+        peliShader.asetaSijainti(tekstiAlue);
         
         Teksti text = new Teksti(teksti, leveys, korkeus);
 
@@ -86,11 +165,9 @@ public class HUD {
 
     public static void renderöiTeksti(Teksti teksti, int sijX, int sijY, Ikkuna window) {
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
         
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         float scaleX = window.getWidth()/6;
         float scaleY = window.getHeight()/60;
         float offsetX = sijX;
@@ -102,277 +179,69 @@ public class HUD {
         matAika.scale(scaleX, scaleY, 0);
 
         teksti.bind(0);
-        peliShader.setUniform("projection", matAika);
+        peliShader.asetaSijainti(matAika);
         Assets.getModel().render();
     }
 
     public static void renderöiHUD(Ikkuna window) {
-        renderöiHUDPohjaVasen(window);
-        renderöiHUDPohjaOikea(window);
-        renderöiInfoHUDKuvakkeet(window);
-        renderöiInfoHUDNumerot(window);
-        renderöiTavaraluetteloKuvakkeet(window);
-        renderöiTavaraluetteloTekstit(window);
-        renderöiTavoiteLaatikko(window);
-        HUD_HP.render(peliShader, window);
-        HUD_Kartta.render(peliShader, window);
+        alustaHUDGrafiikat();
+        guiShader.bind();
+        guiShader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
+        renderöiPohja(guiShader, window);
+        renderöiHp(guiShader, window);
+        renderöiStatsit(guiShader, window);
+        renderöiTavaraluettelo(guiShader, window);
+        renderöiKartta(guiShader, window);
+        renderöiTavoiteLaatikko(guiShader, window);
     }
 
-    private static void renderöiInfoHUDKuvakkeet(Ikkuna window) {
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-        float scaleX = window.getWidth()/60;
-        float scaleY = window.getHeight()/30;
-        float keskitysX = window.getWidth()/29;
-        float keskitysY = window.getHeight()/28.75f;
+    private static void renderöiPohja(Shader shader, Ikkuna window) {
+        hudPohjaVasenYläLabel.renderöi(shader, window);
+        hudPohjaVasenKeskiLabel.renderöi(shader, window);
+        hudPohjaVasenAlaLabel.renderöi(shader, window);
+        hudPohjaOikeaYläLabel.renderöi(shader, window);
+        hudPohjaOikeaKeskiLabel.renderöi(shader, window);
+        hudPohjaOikeaAlaLabel.renderöi(shader, window);
+    }
 
-        Matrix4f matAika = new Matrix4f();
-        window.getView().scale(1, matAika);
-        matAika.translate(-window.getWidth()/2+scaleX + keskitysX, 3*keskitysY, 0);
-        matAika.scale(scaleX, scaleY, 0);
-        Matrix4f matRuoka1 = new Matrix4f();
-        window.getView().scale(1, matRuoka1);
-        matRuoka1.translate(-window.getWidth()/2+scaleX + keskitysX, keskitysY, 0);
-        matRuoka1.scale(scaleX, scaleY, 0);
-        Matrix4f matRuoka2 = new Matrix4f();
-        window.getView().scale(1, matRuoka2);
-        matRuoka2.translate(-window.getWidth()/2+scaleX + keskitysX, keskitysY, 0);
-        matRuoka2.scale(scaleX, scaleY, 0);
-        Matrix4f matRahet = new Matrix4f();
-        window.getView().scale(1, matRahet);
-        matRahet.translate(-window.getWidth()/2+scaleX + keskitysX, -keskitysY, 0);
-        matRahet.scale(scaleX*1.8f, scaleY, 0);
-        Matrix4f matTölks = new Matrix4f();
-        window.getView().scale(1, matTölks);
-        matTölks.translate(-window.getWidth()/2+scaleX + keskitysX, -3*keskitysY, 0);
-        matTölks.scale(scaleX*2, scaleY, 0);
+    private static void renderöiHp(Shader shader, Ikkuna window) {
+        hpKuvakeLabel.renderöi(shader, window);
+        hpTeksti.päivitäTeksti("" + Pelaaja.hp, 0, 50, Color.black);
+        hpTekstiLabel.renderöi(shader, window);
 
-        aikaTekstuuri.bind(0);
-        peliShader.setUniform("projection", matAika);
-        Assets.getModel().render();
-        ruokaTekstuuri.bind(0);
-        peliShader.setUniform("projection", matRuoka1);
-        Assets.getModel().render();
+        juomatKuvakeLabel.renderöi(shader, window);
+        juomatTeksti.päivitäTeksti(kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat*(1.5f/4f)) + "‰", 0, 50, Color.black);
+        juomatTekstiLabel.renderöi(shader, window);
+
+        ruokaKuvakeLabel.renderöi(shader, window);
         switch (Pelaaja.syödytRuoat) {
-            case 0: ruokaStatus0Tekstuuri.bind(0); break;
-            case 1: ruokaStatus1Tekstuuri.bind(0); break;
-            case 2: ruokaStatus2Tekstuuri.bind(0); break;
-            case 3: ruokaStatus3Tekstuuri.bind(0); break;
-            case 4: ruokaStatus4Tekstuuri.bind(0); break;
+            case 0: pelaajaKuvakeLabel.päivitäSisältö(pelaajaStatus0Tekstuuri); break;
+            case 1: pelaajaKuvakeLabel.päivitäSisältö(pelaajaStatus1Tekstuuri); break;
+            case 2: pelaajaKuvakeLabel.päivitäSisältö(pelaajaStatus2Tekstuuri); break;
+            case 3: pelaajaKuvakeLabel.päivitäSisältö(pelaajaStatus3Tekstuuri); break;
+            case 4: pelaajaKuvakeLabel.päivitäSisältö(pelaajaStatus4Tekstuuri); break;
         }
-        peliShader.setUniform("projection", matRuoka2);
-        Assets.getModel().render();
-        rahaTekstuuri.bind(0);
-        peliShader.setUniform("projection", matRahet);
-        Assets.getModel().render();
-        tölksTekstuuri.bind(0);
-        peliShader.setUniform("projection", matTölks);
-        Assets.getModel().render();
+        pelaajaKuvakeLabel.renderöi(shader, window);
+        syödytRuoatTeksti.päivitäTeksti("" + Pelaaja.syödytRuoat + "/3");
+        ruokaTekstiLabel.renderöi(shader, window);
     }
 
-    private static void renderöiInfoHUDNumerot(Ikkuna window) {
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-        float scaleX = window.getWidth()/24;
-        float scaleY = window.getHeight()/30;
-        float keskitysX = window.getWidth()/15;
-        float keskitysY = window.getHeight()/28.75f;
+    private static void renderöiStatsit(Shader shader, Ikkuna window) {
+        aikaKuvakeLabel.renderöi(shader, window);
+        aikaTeksti.päivitäTeksti(Kello.päivitäAika());
+        aikaTekstiLabel.renderöi(shader, window);
 
-        Matrix4f matAika = new Matrix4f();
-        window.getView().scale(1, matAika);
-        matAika.translate(-window.getWidth()/2+scaleX + keskitysX, 3*keskitysY, 0);
-        matAika.scale(scaleX, scaleY, 0);
-        Matrix4f matRuoka = new Matrix4f();
-        window.getView().scale(1, matRuoka);
-        matRuoka.translate(-window.getWidth()/2+scaleX + keskitysX*1.125f, keskitysY, 0);
-        matRuoka.scale(scaleX, scaleY, 0);
-        Matrix4f matRahet = new Matrix4f();
-        window.getView().scale(1, matRahet);
-        matRahet.translate(-window.getWidth()/2+scaleX + keskitysX*1.25f, -keskitysY, 0);
-        matRahet.scale(scaleX, scaleY, 0);
-        Matrix4f matTölks = new Matrix4f();
-        window.getView().scale(1, matTölks);
-        matTölks.translate(-window.getWidth()/2+scaleX + keskitysX*1.25f, -3*keskitysY, 0);
-        matTölks.scale(scaleX, scaleY, 0);
-
-        aikaTeksti.päivitäTeksti("" + Kello.päivitäAika());
-        aikaTeksti.bind(0);
-        peliShader.setUniform("projection", matAika);
-        Assets.getModel().render();
-        syödytRuoatTeksti.päivitäTeksti("" + Pelaaja.syödytRuoat);
-        syödytRuoatTeksti.bind(0);
-        peliShader.setUniform("projection", matRuoka);
-        Assets.getModel().render();
+        rahetKuvakeLabel.renderöi(shader, window);
         rahaTeksti.päivitäTeksti("" + Pelaaja.raha);
-        rahaTeksti.bind(0);
-        peliShader.setUniform("projection", matRahet);
-        Assets.getModel().render();
+        rahetTekstiLabel.renderöi(shader, window);
+
+        tölksKuvakeLabel.renderöi(shader, window);
         tölksTeksti.päivitäTeksti("" + Pelaaja.kuparit);
-        tölksTeksti.bind(0);
-        peliShader.setUniform("projection", matTölks);
-        Assets.getModel().render();
+        tölksTekstiLabel.renderöi(shader, window);
     }
 
-    private static void renderöiTavaraluetteloKuvakkeet(Ikkuna window) {
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-        float scaleX = window.getWidth()/50;
-        float scaleY = window.getHeight()/25;
-        float keskitysX = window.getWidth()/15.75f;
-        float keskitysY = window.getHeight()/7.85f;
-        float offsetX = window.getWidth()/22.75f;
-        float offsetY = window.getHeight()/25;
-
-        Matrix4f matSlot1 = new Matrix4f();
-        window.getView().scale(1, matSlot1);
-        matSlot1.translate(-window.getWidth()/2+scaleX + keskitysX - offsetX, -window.getHeight()/2+scaleY + keskitysY + offsetY, 0);
-        matSlot1.scale(scaleX, scaleY, 0);
-        Matrix4f matSlot2 = new Matrix4f();
-        window.getView().scale(1, matSlot2);
-        matSlot2.translate(-window.getWidth()/2+scaleX + keskitysX, -window.getHeight()/2+scaleY + keskitysY + offsetY, 0);
-        matSlot2.scale(scaleX, scaleY, 0);
-        Matrix4f matSlot3 = new Matrix4f();
-        window.getView().scale(1, matSlot3);
-        matSlot3.translate(-window.getWidth()/2+scaleX + keskitysX + offsetX, -window.getHeight()/2+scaleY + keskitysY + offsetY, 0);
-        matSlot3.scale(scaleX, scaleY, 0);
-        Matrix4f matSlot4 = new Matrix4f();
-        window.getView().scale(1, matSlot4);
-        matSlot4.translate(-window.getWidth()/2+scaleX + keskitysX - offsetX, -window.getHeight()/2+scaleY + keskitysY - offsetY, 0);
-        matSlot4.scale(scaleX, scaleY, 0);
-        Matrix4f matSlot5 = new Matrix4f();
-        window.getView().scale(1, matSlot5);
-        matSlot5.translate(-window.getWidth()/2+scaleX + keskitysX, -window.getHeight()/2+scaleY + keskitysY - offsetY, 0);
-        matSlot5.scale(scaleX, scaleY, 0);
-        Matrix4f matSlot6 = new Matrix4f();
-        window.getView().scale(1, matSlot6);
-        matSlot6.translate(-window.getWidth()/2+scaleX + keskitysX + offsetX, -window.getHeight()/2+scaleY + keskitysY - offsetY, 0);
-        matSlot6.scale(scaleX, scaleY, 0);
-
-        Matrix4f matValittuSlot = new Matrix4f();
-        switch (Peli.esineValInt) {
-            case 0: matValittuSlot = matSlot1; break;
-            case 1: matValittuSlot = matSlot2; break;
-            case 2: matValittuSlot = matSlot3; break;
-            case 3: matValittuSlot = matSlot4; break;
-            case 4: matValittuSlot = matSlot5; break;
-            case 5: matValittuSlot = matSlot6; break;
-            default: matValittuSlot = null; break;
-        }
-        Matrix4f matYhdistettäväSlot = new Matrix4f();
-        switch (Peli.yhdistettäväTavarapaikka) {
-            case 0: matYhdistettäväSlot = matSlot1; break;
-            case 1: matYhdistettäväSlot = matSlot2; break;
-            case 2: matYhdistettäväSlot = matSlot3; break;
-            case 3: matYhdistettäväSlot = matSlot4; break;
-            case 4: matYhdistettäväSlot = matSlot5; break;
-            case 5: matYhdistettäväSlot = matSlot6; break;
-            default: matYhdistettäväSlot = null; break;
-        }
-
-        try {
-            Pelaaja.esineet[0].annaTekstuuri().bind(0);
-        }
-        catch (NullPointerException npe) {
-            tyhjäTekstuuri.bind(0);
-        }
-        peliShader.setUniform("projection", matSlot1);
-        Assets.getModel().render();
-        tavarapaikka1Tekstuuri1.bind(0);
-        Assets.getModel().render();
-
-        try {
-            Pelaaja.esineet[1].annaTekstuuri().bind(0);
-        }
-        catch (NullPointerException npe) {
-            tyhjäTekstuuri.bind(0);
-        }
-        peliShader.setUniform("projection", matSlot2);
-        Assets.getModel().render();
-        tavarapaikka1Tekstuuri2.bind(0);
-        Assets.getModel().render();
-
-        try {
-            Pelaaja.esineet[2].annaTekstuuri().bind(0);
-        }
-        catch (NullPointerException npe) {
-            tyhjäTekstuuri.bind(0);
-        }
-        peliShader.setUniform("projection", matSlot3);
-        Assets.getModel().render();
-        tavarapaikka1Tekstuuri3.bind(0);
-        Assets.getModel().render();
-
-        try {
-            Pelaaja.esineet[3].annaTekstuuri().bind(0);
-        }
-        catch (NullPointerException npe) {
-            tyhjäTekstuuri.bind(0);
-        }
-        peliShader.setUniform("projection", matSlot4);
-        Assets.getModel().render();
-        tavarapaikka1Tekstuuri4.bind(0);
-        Assets.getModel().render();
-
-        try {
-            Pelaaja.esineet[4].annaTekstuuri().bind(0);
-        }
-        catch (NullPointerException npe) {
-            tyhjäTekstuuri.bind(0);
-        }
-        peliShader.setUniform("projection", matSlot5);
-        Assets.getModel().render();
-        tavarapaikka1Tekstuuri5.bind(0);
-        Assets.getModel().render();
-
-        try {
-            Pelaaja.esineet[5].annaTekstuuri().bind(0);
-        }
-        catch (NullPointerException npe) {
-            tyhjäTekstuuri.bind(0);
-        }
-        peliShader.setUniform("projection", matSlot6);
-        Assets.getModel().render();
-        tavarapaikka1Tekstuuri6.bind(0);
-        Assets.getModel().render();
-
-        if (matValittuSlot != null) {
-            valittuSlotTekstuuri.bind(0);
-            peliShader.setUniform("projection", matValittuSlot);
-            Assets.getModel().render();
-        }
-
-        if (matYhdistettäväSlot != null) {
-            yhdistettäväSlotTekstuuri.bind(0);
-            peliShader.setUniform("projection", matYhdistettäväSlot);
-            Assets.getModel().render();
-        }
-    }
-
-    private static void renderöiTavaraluetteloTekstit(Ikkuna window) {
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-        float scaleX = window.getWidth()/15f;
-        float scaleY = window.getHeight()/36f;
-        float keskitysX = window.getWidth()/56f;
-        float keskitysY = window.getHeight()/7.2f;
-        float offsetY = window.getHeight()/9.25f;
-
-        Matrix4f matOtsikko = new Matrix4f();
-        window.getView().scale(1, matOtsikko);
-        matOtsikko.translate(-window.getWidth()/2+scaleX + keskitysX, -window.getHeight()/2+scaleY + keskitysY + offsetY, 0);
-        matOtsikko.scale(scaleX, scaleY, 0);
-        tavaraluetteloTeksti.bind(0);
-        peliShader.setUniform("projection", matOtsikko);
-        Assets.getModel().render();
-
-        Matrix4f matTavara = new Matrix4f();
-        window.getView().scale(1, matTavara);
-        matTavara.translate(-window.getWidth()/2+scaleX + keskitysX, -window.getHeight()/2+scaleY + keskitysY - offsetY, 0);
-        matTavara.scale(scaleX, scaleY, 0);
+    private static void renderöiTavaraluettelo(Shader shader, Ikkuna window) {
+        tavaraluetteloOtsikkoLabel.renderöi(shader, window);
         try {
             valittuEsineTeksti.päivitäTeksti(Peli.valittuEsine.annaNimi(), 1, 1);
             valittuEsineTeksti.bind(0);
@@ -381,182 +250,108 @@ public class HUD {
             valittuEsineTeksti.päivitäTeksti("");
             valittuEsineTeksti.bind(0);
         }
-        peliShader.setUniform("projection", matTavara);
-        Assets.getModel().render();
-    }
+        valittuEsineTekstiLabel.renderöi(shader, window);
 
-    private static void renderöiHUDPohjaVasen(Ikkuna window) {
-        float scaleX = window.getWidth()/12;
-        float scaleY = window.getHeight()/6;
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
+        tavarapaikka1Label.päivitäSisältö(Pelaaja.esineet[0] != null ? Pelaaja.esineet[0].annaTekstuuri() : tyhjäTekstuuri);
+        tavarapaikka1Label.renderöi(shader, window);
+        tavarapaikka1Label.päivitäSisältö(tavarapaikka1Tekstuuri1);
+        tavarapaikka1Label.renderöi(shader, window);
+        tavarapaikka2Label.päivitäSisältö(Pelaaja.esineet[1] != null ? Pelaaja.esineet[1].annaTekstuuri() : tyhjäTekstuuri);
+        tavarapaikka2Label.renderöi(shader, window);
+        tavarapaikka2Label.päivitäSisältö(tavarapaikka1Tekstuuri2);
+        tavarapaikka2Label.renderöi(shader, window);
+        tavarapaikka3Label.päivitäSisältö(Pelaaja.esineet[2] != null ? Pelaaja.esineet[2].annaTekstuuri() : tyhjäTekstuuri);
+        tavarapaikka3Label.renderöi(shader, window);
+        tavarapaikka3Label.päivitäSisältö(tavarapaikka1Tekstuuri3);
+        tavarapaikka3Label.renderöi(shader, window);
+        tavarapaikka4Label.päivitäSisältö(Pelaaja.esineet[3] != null ? Pelaaja.esineet[3].annaTekstuuri() : tyhjäTekstuuri);
+        tavarapaikka4Label.renderöi(shader, window);
+        tavarapaikka4Label.päivitäSisältö(tavarapaikka1Tekstuuri4);
+        tavarapaikka4Label.renderöi(shader, window);
+        tavarapaikka5Label.päivitäSisältö(Pelaaja.esineet[4] != null ? Pelaaja.esineet[4].annaTekstuuri() : tyhjäTekstuuri);
+        tavarapaikka5Label.renderöi(shader, window);
+        tavarapaikka5Label.päivitäSisältö(tavarapaikka1Tekstuuri5);
+        tavarapaikka5Label.renderöi(shader, window);
+        tavarapaikka6Label.päivitäSisältö(Pelaaja.esineet[5] != null ? Pelaaja.esineet[5].annaTekstuuri() : tyhjäTekstuuri);
+        tavarapaikka6Label.renderöi(shader, window);
+        tavarapaikka6Label.päivitäSisältö(tavarapaikka1Tekstuuri6);
+        tavarapaikka6Label.renderöi(shader, window);
 
-        Matrix4f matVasenYlä = new Matrix4f();
-        window.getView().scale(1, matVasenYlä);
-        matVasenYlä.translate(-window.getWidth()/2+scaleX, window.getHeight()/2-scaleY, 0);
-        matVasenYlä.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matVasenYlä);
-        taustaOhjeTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matVasenKeski = new Matrix4f();
-        window.getView().scale(1, matVasenKeski);
-        matVasenKeski.translate(-window.getWidth()/2+scaleX, 0, 0);
-        matVasenKeski.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matVasenKeski);
-        taustaStatsitTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matVasenAla = new Matrix4f();
-        window.getView().scale(1, matVasenAla);
-        matVasenAla.translate(-window.getWidth()/2+scaleX, -window.getHeight()/2+scaleY, 0);
-        matVasenAla.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matVasenAla);
-        taustaTavaraluetteloTekstuuri.bind(0);
-        Assets.getModel().render();
-    }
-
-    private static void renderöiHUDPohjaOikea(Ikkuna window) {
-        float scaleX = window.getWidth()/12;
-        float scaleY = window.getHeight()/6;
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
-        peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
-
-        Matrix4f matOikeaYlä = new Matrix4f();
-        window.getView().scale(1, matOikeaYlä);
-        matOikeaYlä.translate(window.getWidth()/2-scaleX, window.getHeight()/2-scaleY, 0);
-        matOikeaYlä.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matOikeaYlä);
-        taustaOhjeTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matOikeaKeski = new Matrix4f();
-        window.getView().scale(1, matOikeaKeski);
-        matOikeaKeski.translate(window.getWidth()/2-scaleX, 0, 0);
-        matOikeaKeski.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matOikeaKeski);
-        taustaOhjeTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matOikeaAla = new Matrix4f();
-        window.getView().scale(1, matOikeaAla);
-        matOikeaAla.translate(window.getWidth()/2-scaleX, -window.getHeight()/2+scaleY, 0);
-        matOikeaAla.scale(scaleX, scaleY, 0);
-        peliShader.setUniform("projection", matOikeaAla);
-        taustaOhjeTekstuuri.bind(0);
-        Assets.getModel().render();
-    }
-
-    private static void renderöiTavoiteLaatikko(Ikkuna window) {
-        float scaleXTavoitelista = window.getWidth()/4 + window.getWidth()/12;
-        float scaleYTavoitelista = window.getHeight()/24;
-        float scaleXTavoitelistaTeksti = scaleXTavoitelista*(31f/32f);
-        float scaleYTavoitelistaTeksti = scaleYTavoitelista*(7f/16f);
-        float offsetY = window.getHeight()/40;
+        if (Peli.esineValInt % 3 == 0) valittuTavarapaikkaLabel.muutaOffsetX(-11f/12f);
+        else if (Peli.esineValInt % 3 == 1) valittuTavarapaikkaLabel.muutaOffsetX(-5f/6f);
+        else if (Peli.esineValInt % 3 == 2) valittuTavarapaikkaLabel.muutaOffsetX(-3f/4f);
+        if (Peli.esineValInt / 3 == 0) valittuTavarapaikkaLabel.muutaOffsetY(-7f/12f);
+        else if (Peli.esineValInt / 3 == 1) valittuTavarapaikkaLabel.muutaOffsetY(-3f/4f);
         
-        Matrix4f matTavoitelista = new Matrix4f();
-        window.getView().scale(1, matTavoitelista);
-        matTavoitelista.translate(0, window.getHeight()/2-scaleYTavoitelista, 0);
-        matTavoitelista.scale(scaleXTavoitelista, scaleYTavoitelista, 0);
+        if (Peli.yhdistettäväTavarapaikka % 3 == 0) yhdistettäväTavarapaikkaLabel.muutaOffsetX(-11f/12f);
+        else if (Peli.yhdistettäväTavarapaikka % 3 == 1) yhdistettäväTavarapaikkaLabel.muutaOffsetX(-5f/6f);
+        else if (Peli.yhdistettäväTavarapaikka % 3 == 2) yhdistettäväTavarapaikkaLabel.muutaOffsetX(-3f/4f);
+        if (Peli.yhdistettäväTavarapaikka / 3 == 0) yhdistettäväTavarapaikkaLabel.muutaOffsetY(-7f/12f);
+        else if (Peli.yhdistettäväTavarapaikka / 3 == 1) yhdistettäväTavarapaikkaLabel.muutaOffsetY(-3f/4f);
 
-        peliShader.bind();
-        peliShader.setUniform("projection", matTavoitelista);
-        peliShader.setUniform("sampler", 0);
-        taustaTavoitelistaTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matSeuraavaTavoite = new Matrix4f();
-        window.getView().scale(1, matSeuraavaTavoite);
-        matSeuraavaTavoite.translate(0, window.getHeight()/2-scaleYTavoitelistaTeksti - 1.5f*offsetY, 0);
-        matSeuraavaTavoite.scale(scaleXTavoitelistaTeksti, scaleYTavoitelistaTeksti, 0);
-
-        peliShader.setUniform("projection", matSeuraavaTavoite);
-        seuraavaTavoiteTeksti.päivitäTeksti(TavoiteLista.nykyinenTavoite);
-        seuraavaTavoiteTeksti.bind(0);
-        Assets.getModel().render();
+        valittuTavarapaikkaLabel.renderöi(shader, window);
+        if (Peli.yhdistäminenKäynnissä) yhdistettäväTavarapaikkaLabel.renderöi(shader, window);
     }
 
-    public static void renderöiDialogiLaatikko(Ikkuna window) {
-        guiShader.bind();
-        guiShader.setUniform("sampler", 0);
+    private static void renderöiKartta(Shader shader, Ikkuna window) {
+        shader.bind();
 
-        float scaleXPohja = window.getWidth()/4 + window.getWidth()/12;
-        float scaleYPohja = window.getHeight()/12;
+        alueTeksti.päivitäTeksti(Peli.huone.annaAlue(), 1, 1);
+        alueLabel.renderöi(shader, window);
 
-        Matrix4f matDialogiPohja = new Matrix4f();
-        window.getView().scale(1, matDialogiPohja);
-        matDialogiPohja.translate(0, -window.getHeight()/2+scaleYPohja, 0);
-        matDialogiPohja.scale(scaleXPohja, scaleYPohja, 0);
-        guiShader.setUniform("projection", matDialogiPohja);
-        guiShader.setUniform("color", new Vector4f(85, 79, 67, 0.7f));
-        tyhjäTekstuuri.bind(0);
-        Assets.getModel().render();
+        switch (Peli.huone.annaNimi()) {
+            case "Asuintalot": karttaTekstuuri = karttaAsuintalotTekstuuri; break;
+            case "Baari_salahuone": karttaTekstuuri = karttaBaariSalahuoneTekstuuri; break;
+            case "Jatkuva_puisto": karttaTekstuuri = karttaPuistoTekstuuri; break;
+            case "Kauppa": karttaTekstuuri = karttaKauppaTekstuuri; break;
+            case "Keimo-baari": karttaTekstuuri = karttaBaariTekstuuri; break;
+            case "Koti": karttaTekstuuri = karttaKotiTekstuuri; break;
+            case "Kuu": karttaTekstuuri = karttaKuuTekstuuri; break;
+            case "Metsä": karttaTekstuuri = karttaMetsäTekstuuri; break;
+            case "Metsä_boss": karttaTekstuuri = karttaMetsäBossTekstuuri; break;
+            case "Pelto": karttaTekstuuri = karttaPeltoTekstuuri; break;
+            case "Temppeli": karttaTekstuuri = karttaTemppeliTekstuuri; break;
+            case "Temppeli_boss": karttaTekstuuri = karttaTemppeliBossTekstuuri; break;
+            case "Yo-kylä_Itä": karttaTekstuuri = karttaYokyläTekstuuri; break;
+            default: karttaTekstuuri = eiKarttaaTekstuuri; break;
+        }
+        karttaLabel.päivitäSisältö(karttaTekstuuri);
+        karttaLabel.renderöi(shader, window);
 
-        peliShader.bind();
-        peliShader.setUniform("sampler", 0);
+        huoneTeksti.päivitäTeksti(Peli.huone.annaNimi(), 1, 1);
+        huoneLabel.renderöi(shader, window);
 
-        float scaleXKuvake = window.getWidth()/12;
-        float scaleYKuvake = window.getHeight()/12;
-        float offsetXKuvake = window.getWidth()/4;
-        Matrix4f matDialogiKuvake = new Matrix4f();
-        window.getView().scale(1, matDialogiKuvake);
-        matDialogiKuvake.translate(-offsetXKuvake, -window.getHeight()/2+scaleYKuvake, 0);
-        matDialogiKuvake.scale(scaleXKuvake, scaleYKuvake, 0);
-        peliShader.setUniform("projection", matDialogiKuvake);
-        dialogiKuvakeKehysTekstuuri.bind(0);
-        Assets.getModel().render();
-        float scaleXKuvakeSisempi = scaleXKuvake*(15f/16f);
-        float scaleYKuvakeSisempi = scaleYKuvake*(15f/16f);
-        Matrix4f matDialogiKuvakeSisempi = new Matrix4f();
-        window.getView().scale(1, matDialogiKuvakeSisempi);
-        matDialogiKuvakeSisempi.translate(-offsetXKuvake, -window.getHeight()/2+scaleYKuvake, 0);
-        matDialogiKuvakeSisempi.scale(scaleXKuvakeSisempi, scaleYKuvakeSisempi, 0);
-        peliShader.setUniform("projection", matDialogiKuvakeSisempi);
-        Dialogit.dialogiKuvake.bind(0);
-        Assets.getModel().render();
+        float pelaajanSijXRelatiivinen = (float)(Pelaaja.hitbox.getCenterX() - Peli.huone.annaKoko() * 32f);
+        float pelaajanSijYRelatiivinen = (float)(Pelaaja.hitbox.getCenterY() - Peli.huone.annaKoko() * 32f);
+        pelaajanKuvakeLabel.muutaOffsetX(5f/6f + pelaajanSijXRelatiivinen/(float)Peli.huone.annaKoko()/64f /4f);
+        pelaajanKuvakeLabel.muutaOffsetY(2f/3f - pelaajanSijYRelatiivinen/(float)Peli.huone.annaKoko()/64f /3f);
+        pelaajanKuvakeLabel.renderöi(shader, window);
+    }
 
-        float scaleXTeksti = scaleXPohja - window.getWidth()/12;
-        float scaleYTeksti = scaleYPohja * (3f/4f);
-        float offsetXTeksti = scaleXKuvake;
-        float offsetYTeksti = 0;
-        Matrix4f matDialogiTeksti = new Matrix4f();
-        window.getView().scale(1, matDialogiTeksti);
-        matDialogiTeksti.translate(offsetXTeksti, -window.getHeight()/2+scaleYTeksti - offsetYTeksti, 0);
-        matDialogiTeksti.scale(scaleXTeksti, scaleYTeksti, 0);
-        peliShader.setUniform("projection", matDialogiTeksti);
-        dialogiTekstiKehysTekstuuri.bind(0);
-        Assets.getModel().render();
-        float scaleXTekstiSisempi = scaleXTeksti*(47f/48f);
-        float scaleYTekstiSisempi = scaleYTeksti*(15f/16f);
-        Matrix4f matDialogiTekstiSisempi = new Matrix4f();
-        window.getView().scale(1, matDialogiTekstiSisempi);
-        matDialogiTekstiSisempi.translate(offsetXTeksti, -window.getHeight()/2+scaleYTekstiSisempi - offsetYTeksti, 0);
-        matDialogiTekstiSisempi.scale(scaleXTekstiSisempi, scaleYTekstiSisempi, 0);
-        peliShader.setUniform("projection", matDialogiTekstiSisempi);
-        Dialogit.dialogiTeksti.bind(0);
-        Assets.getModel().render();
+    private static void renderöiTavoiteLaatikko(Shader shader, Ikkuna window) {
+        tavoitelaatikkoKehysLabel.renderöi(shader, window);
+        seuraavaTavoiteTeksti.päivitäTeksti(TavoiteLista.nykyinenTavoite);
+        seuraavaTavoiteLabel.renderöi(shader, window);
+    }
 
-        float scaleXPuhuja = scaleXPohja - window.getWidth()/12;
-        float scaleYPuhuja = scaleYPohja * (1f/4f);
-        float offsetXPuhuja = scaleXKuvake;
-        float offsetYPuhuja = scaleYPuhuja * 6;
-        Matrix4f matDialogiPuhuja = new Matrix4f();
-        window.getView().scale(1, matDialogiPuhuja);
-        matDialogiPuhuja.translate(offsetXPuhuja, -window.getHeight()/2+scaleYPuhuja + offsetYPuhuja, 0);
-        matDialogiPuhuja.scale(scaleXPuhuja, scaleYPuhuja, 0);
-        peliShader.setUniform("projection", matDialogiPuhuja);
-        dialogiNimiKehysTekstuuri.bind(0);
-        Assets.getModel().render();
-        float scaleXPuhujaSisempi = scaleXPuhuja*(63f/64f);
-        float scaleYPuhujaSisempi = scaleYPuhuja*(7f/8f);
-        Matrix4f matDialogiPuhujaSisempi = new Matrix4f();
-        window.getView().scale(1, matDialogiPuhujaSisempi);
-        matDialogiPuhujaSisempi.translate(offsetXPuhuja, -window.getHeight()/2+scaleYPuhujaSisempi + offsetYPuhuja, 0);
-        matDialogiPuhujaSisempi.scale(scaleXPuhujaSisempi, scaleYPuhujaSisempi, 0);
-        peliShader.setUniform("projection", matDialogiPuhujaSisempi);
-        Dialogit.dialogiNimi.bind(0);
-        Assets.getModel().render();
+    public static void renderöiDialogiLaatikko(Shader shader, Ikkuna window) {
+        shader.bind();
+        shader.setUniform("addcolor", new Vector4f(0.85f, 0.85f, 0.85f, 0.7f));
+        dialogiPohjaLabel.renderöi(shader, window);
+        shader.setUniform("addcolor", new Vector4f(0f, 0f, 0f, 0f));
+        
+        Dialogit.renderöiDialogiTeksti();
+
+        dialogiKuvakeKehysLabel.renderöi(shader, window);
+        dialogiKuvakeLabel.päivitäSisältö(Dialogit.dialogiKuvake);
+        dialogiKuvakeLabel.renderöi(shader, window);
+
+        dialogiTekstiKehysLabel.renderöi(shader, window);
+        dialogiTekstiLabel.päivitäSisältö(Dialogit.dialogiTeksti);
+        dialogiTekstiLabel.renderöi(shader, window);
+
+        dialogiPuhujaKehysLabel.renderöi(shader, window);
+        dialogiPuhujaLabel.päivitäSisältö(Dialogit.dialogiNimi);
+        dialogiPuhujaLabel.renderöi(shader, window);
     }
 }

@@ -1,31 +1,27 @@
 package keimo.keimoengine;
 
-import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoengine.assets.EngineAssets;
+import keimo.keimoengine.assets.GUITekstuurit;
 import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.ikkuna.*;
+import keimo.keimoengine.ruudut.LatausRuutu;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PeliKenttäMetodit;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
-import keimo.seikkailupeli.assets.PelaajaModel;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.assets.huone.HuoneLista;
-import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
 import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
-import keimo.seikkailupeli.gui.*;
-import keimo.seikkailupeli.gui.toimintoIkkunat.*;
-import keimo.seikkailupeli.io.NäppäinKomennot;
-import keimo.seikkailupeli.io.OhjainKomennot;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaOverflow;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPokeri;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPong;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaTetris;
+import keimo.seikkailupeli.io.SyöteYhdistetty;
 import keimo.seikkailupeli.kenttä.*;
 import keimo.seikkailupeli.menu.*;
-import keimo.seikkailupeli.menu.editori.EditoriRuutu;
-import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.objektit.Pelaaja;
-import keimo.seikkailupeli.objektit.entityt.Entity;
-import keimo.seikkailupeli.objektit.entityt.npc.NPC;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 import keimo.seikkailupeli.äänet.Musat;
@@ -36,15 +32,8 @@ import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.util.concurrent.locks.LockSupport;
 
-import javax.swing.JOptionPane;
-
-import org.joml.AxisAngle4f;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import org.lwjgl.glfw.*;
 import static org.lwjgl.glfw.GLFW.*;
-
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
@@ -57,16 +46,17 @@ public class KeimoEngine extends Thread {
 	boolean kokoNäyttö = false;
 	public static Ikkuna window;
 	public static boolean glKäynnistetty = false;
+	public static long glfwWindowHandle = 0;
 
-	static Kamera camera;
 	public static Teksti kaatoTeksti;
-	double startTime, passedTime, endTime;
-	public static double targetUpdate = 1f/6e0f;
-	public static double frameTime;
+	public static double tavoitePäivitysAika = 1f/6e0f;
+	public static double tavoiteFrameAika = 60f;
 	public static int frames;
-	double unprocessed = 0;
+	public static double keskivertoFrameAika = 0;
+	boolean pääsäikeenAlustusValmis = false;
+	boolean latausValmis = false;
+	boolean pääsäikeenVirhe = false;
 	
-	PelaajaModel player;
 	public static boolean siirryEditoriin = false;
 
 	static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
@@ -77,16 +67,13 @@ public class KeimoEngine extends Thread {
 		this.setName("Keimo Engine -säie");
 		try {
 			init();
-			loop();
-		} catch (Exception excp) {
+		}
+		catch (Exception excp) {
 			excp.printStackTrace();
 		}
 	}
 		
 	protected void init() {
-		glKäynnistetty = false;
-		// Setup an error callback. The default implementation
-		// will print the error message in System.err.
 		GLFWErrorCallback.createPrint(System.err).set();
 		GLFW_Ikkuna.setCallbacks();
 		try {
@@ -99,145 +86,189 @@ public class KeimoEngine extends Thread {
 			String viesti = "Grafiikkaikkunan luonti epäonnistui.\n\n" + //
 								"Varmista, että sinulla on OpenGL 3.2 -yhteensopiva näytönohjain ja ajurit ajan tasalla.\n\n" + //
 								"Nvidia: vähintään Geforce 8000 -sarja\n" + //
-								"AMD/ATI: vähintään Radeon 3000 -sarja\n" + //
+								"AMD/ATI: vähintään Radeon HD 2000 -sarja\n" + //
 								"Intel: vähintään HD Graphics 4000 -sarja(Ivy Bridge)\n" + //
 								"Muut: ei varmaan toimi\n\n" +
-								"Virhe voi myös johtua GLFW-ikkunakirjaston toimimattomuudesta joillakin näytönohjainten ja käyttöjärjestelmien yhdistelmillä.\n" +
-								"Jos sinulla on vanha Intelin näytönohjain ja uudempi Windows-versio kuin 7, tätä ongelmaa ei varmaan pystytä korjaamaan.\n\n" +
-								"Haluatko kokeilla käynnistää pelin vanhalla ikkunointijärjestelmällä (kaikki ominaisuudet eivät ehkä toimi)?";
+								"Sovellus sulkeutuu.";
 			String otsikko = "Virhe OpenGL-kirjaston luonnissa.";
-			int valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
-			int viestiTyyppi = JOptionPane.ERROR_MESSAGE;
-			String[] vaihtoehdot = {"Käynnistä Legacy-tilassa", "Sulje sovellus"};
-
-			switch (JOptionPane.showOptionDialog(null, viesti, otsikko, valitaTyyppi, viestiTyyppi, null, vaihtoehdot, vaihtoehdot[1])) {
-				case JOptionPane.OK_OPTION -> {
-					try {
-						JOptionPane.showMessageDialog(null, "Legacy-tilaa ei enää tueta.", "Ei tuettu", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (Exception e) {
-						viesti = "Käsittämätön poikkeus sovelluksessa. \n\nSanokaa sille jontulle että vetää käteen ja korjaa paskan softansa.";
-						otsikko = "Fataali häire!";
-						valitaTyyppi = JOptionPane.OK_CANCEL_OPTION;
-						viestiTyyppi = JOptionPane.ERROR_MESSAGE;
-						JOptionPane.showMessageDialog(null, viesti, otsikko, JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				case JOptionPane.CANCEL_OPTION, JOptionPane.CLOSED_OPTION -> {
-					ise.printStackTrace();
-				}
-			}
+			tinyfd_messageBox(otsikko, viesti, "ok", "error", false);
 		}
 	}
 
 	private void initGLFW() {
-		// Initialize GLFW. Most GLFW functions will not work before doing this.
-		if (!glfwInit()) {
-			throw new IllegalStateException("Unable to initialize GLFW");
-		}
-		window = new GLFW_Ikkuna(ikkunaTeksti, kokoNäyttö, ikkunanLeveys, ikkunanKorkeus);
-		final Image_parser ikkunanKuvake = Image_parser.load_image("tiedostot/kuvat/pelaaja_og.png");
-		GLFWImage image = GLFWImage.malloc(); GLFWImage.Buffer imagebf = GLFWImage.malloc(1);
-		if (ikkunanKuvake.get_image() != null) {
-			image.set(ikkunanKuvake.get_width(), ikkunanKuvake.get_height(), ikkunanKuvake.get_image());
-			imagebf.put(0, image);
-			glfwSetWindowIcon(window.getWindow(), imagebf);
-		}
-		window.setInput(new NäppäinKomennot(window.getWindow()));
-		
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GL.createCapabilities();
-		glKäynnistetty = true;
-		EngineAssets.createModels();
+		Thread peliSäie = new Thread() {
+			@Override
+			public void run() {
+				window = new GLFW_Ikkuna(ikkunaTeksti, kokoNäyttö, ikkunanLeveys, ikkunanKorkeus);
+				final Image_parser ikkunanKuvake = Image_parser.load_image("tiedostot/kuvat/pelaaja_og.png");
+				GLFWImage image = GLFWImage.malloc(); GLFWImage.Buffer imagebf = GLFWImage.malloc(1);
+				if (ikkunanKuvake.get_image() != null) {
+					image.set(ikkunanKuvake.get_width(), ikkunanKuvake.get_height(), ikkunanKuvake.get_image());
+					imagebf.put(0, image);
+					glfwSetWindowIcon(window.getWindow(), imagebf);
+				}
+				window.asetaSyöte(new SyöteYhdistetty(window.getWindow()));
+				glfwMakeContextCurrent(0);
+				pääsäikeenAlustusValmis = true;
 
-		renderöiLatausRuutu("Alustetaan pelimoottoria", 10);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_TEXTURE_2D);
-		glDepthMask(true);
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LEQUAL);
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		Renderöinti.luoShaderit();
-		
-		renderöiLatausRuutu("Ladataan grafiikkaa", 20);
-		Assets.lataa3DMallit();
-		Assets.lataaTekstuurit();
-		KeimoFontit.rekisteröiFontit();
-		player = new PelaajaModel();
-
-		renderöiLatausRuutu("Ladataan ääniä", 30);
-		Assets.lataaÄänet();
-		Assets.lataaMusat();
-
-		renderöiLatausRuutu("Ladataan asetuksia", 35);
-		TavoiteLista.luoPääTavoiteLista();
-		TavoiteLista.luoTavoiteLista();
-		TarinaPätkä.nollaaTarinaId();
-		KenttäKohde.nollaaObjektiId();
-
-		HuoneLista.lataaPelitiedosto();
-		
-		renderöiLatausRuutu("Mukautetaan kenttiä", 70);
-		if (Peli.huoneKartta != null) {
-			if (Peli.huoneKartta.get(0) != null) {
-				Peli.muutaKentänKokoa(Peli.huoneKartta.get(0).annaKoko());
+				while (!latausValmis) {
+					try {
+						// Odota renderöintisäiettä, jotta pelisäie ei ehdi alustaa GL-elementtejä
+						Thread.sleep(50);
+					}
+					catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				pelisäieLoop();
 			}
-		}
-		Pelaaja.teleporttaaSpawniin();
+		};
+		peliSäie.setName("Keimo Engine -Pääsäie");
+		peliSäie.start();
 
-		camera = new Kamera(window.getWidth(), window.getHeight());
-		camera.setPosition(new Vector3f(-Pelaaja.hitbox.x, Pelaaja.hitbox.y, 0));
-		camera.setOrthographic(window.getWidth(), window.getHeight());
-		camera.setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(30), new Vector3f(1, 0, 0))));
 
-		renderöiLatausRuutu("Luodaan maailmaa", 80);
-		Maailma.createWorld();
-		Maailma3D.createWorld();
+		Thread renderöintiSäie = new Thread() {
+			@Override
+			public void run() {
 
-		renderöiLatausRuutu("Ladataan", 90);
-		kaatoTeksti = new Teksti("null", Color.white, 1, 1);
-		startTime = Kello.annaAika();
-		unprocessed = 0;
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Set the clear color
+				while (!pääsäikeenAlustusValmis) {
+					try {
+						// Odota pelisäiettä, jotta GL-konteksti saadaan renderöintisäikeelle
+						Thread.sleep(50);
+					}
+					catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				glfwWindowHandle = window.getWindow();
+				glfwMakeContextCurrent(glfwWindowHandle);
 
-		renderöiLatausRuutu("Käynnistetään peliä", 95);
-		lataaTarinaRuutu("alku");
-		renderöiLatausRuutu("Valmis", 100);
+				// Tehdään kaikki pelin sisällön lataus renderöintisäikeessä.
+
+				GL.createCapabilities();
+				glKäynnistetty = true;
+				EngineAssets.createModels();
+				GUITekstuurit.lataaTekstuurit();
+
+				renderöiLatausRuutu("Alustetaan pelimoottoria", 10);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_TEXTURE_2D);
+				glDepthMask(true);
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(GL_LEQUAL);
+				glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+				Renderöinti.alusta(window);
+				
+				renderöiLatausRuutu("Ladataan grafiikkaa", 20);
+				Assets.lataaTekstuurit();
+				Assets.lataa3DMallit();
+				KeimoFontit.rekisteröiFontit();
+
+				renderöiLatausRuutu("Ladataan shadereita", 25);
+				Assets.lataaShaderit();
+				
+				renderöiLatausRuutu("Ladataan ääniä", 30);
+				Assets.lataaÄänet();
+				Assets.lataaMusat();
+
+				renderöiLatausRuutu("Ladataan asetuksia", 35);
+				TavoiteLista.luoPääTavoiteLista();
+				TavoiteLista.luoTavoiteLista();
+				TarinaPätkä.nollaaTarinaId();
+				KenttäKohde.nollaaObjektiId();
+				Dialogit.luoTekstuurit();
+				HuoneLista.lataaPelitiedosto();
+				
+				renderöiLatausRuutu("Mukautetaan kenttiä", 75);
+				if (Peli.huoneKartta != null) {
+					if (Peli.huoneKartta.get(0) != null) {
+						Peli.muutaKentänKokoa(Peli.huoneKartta.get(0).annaKoko());
+					}
+				}
+				Pelaaja.teleporttaaSpawniin();
+
+				renderöiLatausRuutu("Luodaan maailmaa", 80);
+				Maailma.createWorld();
+				Maailma3D.createWorld();
+
+				renderöiLatausRuutu("Ladataan", 90);
+				kaatoTeksti = new Teksti("null", Color.white, 1, 1);
+				glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Aseta tyhjennysväri mustaksi
+
+				renderöiLatausRuutu("Käynnistetään peliä", 95);
+				Renderöinti.siirrySeuraavaanRuutuun("tarinaruutu", "alku");
+				latausValmis = true;
+				renderöiLatausRuutu("Valmis", 100);
+
+				renderöintisäieLoop();
+			}
+		};
+		renderöintiSäie.setName("Keimo Engine -Renderöintisäie");
+		renderöintiSäie.start();
 	}
 
-	protected void loop() {
+	protected void pelisäieLoop() {
+		double startTime = Kello.annaAika(), passedTime, endTime, unprocessed = 0;
 		while (!window.shouldClose()) {
 			try {
-				targetUpdate = 1f/PelinAsetukset.pelinNopeus;
+				tavoitePäivitysAika = 1f/PelinAsetukset.pelinNopeus;
+				endTime = Kello.annaAika();
+				passedTime = endTime - startTime;
+				unprocessed += passedTime;
+				startTime = endTime;
+				while (unprocessed >= tavoitePäivitysAika) {
+					if (unprocessed > 0.05) unprocessed = 0.05;
+					unprocessed -= tavoitePäivitysAika;
+					pääsäikeenVirhe = false;
+					// Pelilogiikan voisi laittaa omaan säikeeseen.
+					peliLogiikkaLoop(); 
+					// Tapahtumankäsittely pääsäikeessä, jotta muut säikeet (renderöinti) eivät jumitu ikkunaa siirrettäessä yms.
+					window.annaSyöte().tarkistaSyöte();
+					window.update();
+					((GLFW_Ikkuna)window).pollEvents();
+				}
+				LockSupport.parkNanos(1_000_000);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				pääsäikeenVirhe = true;
+			}
+		}
+		glKäynnistetty = false;
+		glfwTerminate();
+		Musat.suljeMusa();
+		System.exit(0);
+	}
+
+	double[] avgFrameTimes = new double[10];
+	protected void renderöintisäieLoop() {
+		double startTime = Kello.annaAika(), passedTime, endTime, unprocessed = 0;
+		while (glKäynnistetty) {
+			try {
+				if (Peli.vaatiiUudelleenkäynnistyksen) {
+					Peli.nollaaPeli();
+					KeimoEngine.kaatoTeksti = new Teksti("", 0, 0);
+					Renderöinti.siirrySeuraavaanRuutuun("tarinaruutu", "alku");
+					Peli.vaatiiUudelleenkäynnistyksen = false;
+				}
+				//if (PelinAsetukset.tavoiteFPS == 0) tavoiteFrameAika = 0.001f;
+				//else tavoiteFrameAika = 1f/PelinAsetukset.tavoiteFPS;
+				tavoiteFrameAika = 1f/PelinAsetukset.pelinNopeus;
 				boolean canRender = false;
 				endTime = Kello.annaAika();
 				passedTime = endTime - startTime;
 				unprocessed += passedTime;
-				frameTime += passedTime;
 				startTime = endTime;
-				while (unprocessed >= targetUpdate) {
+				while (unprocessed >= tavoiteFrameAika) {
 					if (unprocessed > 0.05) unprocessed = 0.05;
-					unprocessed -= targetUpdate;
+					unprocessed -= tavoiteFrameAika;
 					canRender = true;
-					window.getInput().tarkistaSyöte();
-					OhjainKomennot.tarkistaSyöte();
-					peliLoop();
+					pelinPäivitysLoop(); // Pelin tilan päivityksen kautta kutsutaan useita GL-funktioita, joten helpointa pitää se renderöintisäikeessä.
 					if (window.hasResized()) {
 						Maailma.laskeNäköetäisyys(window);
-						camera.setOrthographic(window.getWidth(), window.getHeight());
-						camera.resetZoom(window);
-						window.setView(window.getWidth(), window.getHeight());
-						glViewport(0, 0, window.getWidth(), window.getHeight());
-					}
-					window.update();
-					if (frameTime >= 1f) {
-						frameTime = 0;
-						frames = 0;
+						Renderöinti.päivitäKameranNäköalue(window);
+						window.muutaKokoa(window.getWidth(), window.getHeight());
 					}
 				}
 				if (canRender) {
@@ -245,6 +276,19 @@ public class KeimoEngine extends Thread {
 				}
 				else {
 					LockSupport.parkNanos(1_000_000);
+				}
+
+				double frameTime = Kello.annaAika() - startTime;
+				avgFrameTimes[frames % avgFrameTimes.length] = frameTime;
+				keskivertoFrameAika = 0;
+				for (int i = 0; i < avgFrameTimes.length; i++) {
+					if (avgFrameTimes[i] > 0) keskivertoFrameAika += avgFrameTimes[i];
+				}
+				keskivertoFrameAika /= avgFrameTimes.length;
+				frameTime = 0;
+
+				if (pääsäikeenVirhe) {
+					throw new Exception();
 				}
 			}
 			catch (Exception e) {
@@ -257,110 +301,18 @@ public class KeimoEngine extends Thread {
 				if (kaatoTeksti == null) viesti += "\nPakotettu kaatuminen\n\n";
 				viesti += sStackTrace;
 				viesti += "\n\nSovellus sulkeutuu.";
-				valitseAktiivinenRuutu("virheruutu");
+				glDisable(GL_STENCIL_TEST);
+				glDisable(GL_DEPTH_TEST);
+				Renderöinti.siirrySeuraavaanRuutuun("virheruutu");
 				VirheRuutu.siirryVirheruutuun(viesti);
 			}
 		}
 		GL.destroy();
-		glfwTerminate();
-		Musat.suljeMusa();
-		glKäynnistetty = false;
-		System.exit(0);
 	}
 
-	public static void lataaTarinaRuutu(String tarina) {
-		valitseAktiivinenRuutu("tarinaruutu");
-		TarinaRuutu.lataaTarinaPätkä(tarina);
-		if (tarina.equals("alku")) Musat.toistaPeliMusa("tarina");
-		else Musat.toistaPeliMusa("välitarina");
-	}
-
-	public static void lataaLoppuRuutu(PelinLopetukset pelinLoppuSyy) {
-		LoppuRuutu.lataaLopetus(pelinLoppuSyy);
-		valitseAktiivinenRuutu("loppuruutu");
-	}
-
-	public static void valitseAktiivinenRuutu(String ruutu) {
-		switch (ruutu) {
-			case "peliruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.PELIRUUTU;
-				Peli.peliAloitettu = true;
-				Peli.peliKäynnissä = true;
-				Peli.pause = false;
-				Maailma.laskeNäköetäisyys(window);
-				camera.resetZoom(window);
-				if (OhjeIkkuna.näytäOhjeet) OhjeIkkuna.avaaToimintoIkkuna();
-			}
-			case "tarinaruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.TARINARUUTU;
-				Peli.pause = true;
-				camera.setPosition(new Vector3f(0,0.5f, 0));
-			}
-			case "valikkoruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.VALIKKORUUTU;
-				Peli.pause = true;
-				Musat.toistaPeliMusa("valikko");
-			}
-			case "asetusruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU;
-				Peli.pause = true;
-			}
-			case "asetusruutu_grafiikka" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_GRAFIIKKA;
-			}
-			case "asetusruutu_ääni" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNI;
-			}
-			case "asetusruutu_peli" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_PELI;
-			}
-			case "asetusruutu_ohjaimet" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_OHJAIMET;
-			}
-			case "asetusruutu_äänitesti" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_VALIKKO;
-			}
-			case "asetusruutu_äänitesti_peliäänet" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_PELIÄÄNET;
-			}
-			case "asetusruutu_äänitesti_midi" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_MIDI;
-			}
-			case "asetusruutu_äänitesti_woof" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.ASETUSRUUTU_ÄÄNITESTI_WOOF;
-			}
-			case "kehittäjäruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.KEHITTÄJÄRUUTU;
-			}
-			case "loppuruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.LOPPURUUTU;
-				Peli.pause = true;
-				Musat.toistaPeliMusa("tarina");
-			}
-			case "editoriruutu" -> {
-				try {
-					Peli.aktiivinenRuutu = Peli.Ruudut.EDITORIRUUTU;
-					Peli.pause = true;
-					EditoriRuutu.luoEditoriRuutu((GLFW_Ikkuna)window);
-					EditoriRuutu.lataaHuone(0);
-					EditorinValikko.suljeValikko();
-				}
-				catch (Exception e) {
-					tinyfd_messageBox("Editoriin siirtyminen epäonnistui.", "Editoria ei voi käynnistää.\nEditori ei toimi, jos peli on käynnistetty Legacy-ikkunassa.", "ok", "error", false);
-				}
-			}
-			case "editoriruutu_varmistus" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.EDITORIRUUTU_VARMISTUS;
-			}
-			case "virheruutu" -> {
-				Peli.aktiivinenRuutu = Peli.Ruudut.VIRHERUUTU;
-				Peli.pause = true;
-			}
-		}
-	}
 	private void renderLoop() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-		Renderöinti.renderöiRuutu(window, camera, player);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Tyhjennä framebuffer
+		Renderöinti.renderöiRuutu(window);
 		window.swapBuffers();
 		frames++;
     }
@@ -372,135 +324,81 @@ public class KeimoEngine extends Thread {
 		window.swapBuffers();
 	}
 
-	public void peliLoop() {
+	public void pelinPäivitysLoop() {
 		if (Peli.peliKäynnissä) {
 			switch (Peli.aktiivinenRuutu) {
-				case MINIPELIRUUTU -> {
-					Maailma3D.maailma3DLoop();
-				}
 				default -> {
-					if (!Peli.pause && !Peli.pauseDialogi) {
-						Peli.pelaajanLiike();
-						Peli.pelinKulku();
-						Peli.valittuEsine = Pelaaja.esineet[Peli.esineValInt];
-						camera.setPosition(new Vector3f(-Pelaaja.hitbox.x, Pelaaja.hitbox.y, 0));
-						if (Kamera.päivitäZoom) camera.setProjection(new Matrix4f().setOrtho2D(-Kamera.zoomX * Kamera.zoomKerroin, Kamera.zoomX * Kamera.zoomKerroin, -Kamera.zoomY * Kamera.zoomKerroin, Kamera.zoomY * Kamera.zoomKerroin));
-						PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
-						if (Kello.globaaliTickit() % 2 == 0) {
-							PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
+					Peli.pelaajanLiike();
+					Peli.pelinKulku();
+					Peli.valittuEsine = Pelaaja.esineet[Peli.esineValInt];
+					switch (Peli.syötteenTila) {
+						default -> {
+							
 						}
-						if (Kello.globaaliTickit() % 10 == 0) {
-							PeliKenttäMetodit.suoritaPelikenttäMetoditJoka10Tick();
+						case TOIMINTO -> {
+							switch (Peli.toimintoIkkuna) {
+								case MINIPELI_3D -> {
+									Maailma3D.maailma3DLoop();
+								}
+								case MINIPELI_PONG -> {
+									MinipeliIkkunaPong.pelaa();
+								}
+								case MINIPELI_POKERI -> {
+									MinipeliIkkunaPokeri.pelaa();
+								}
+								case MINIPELI_TETRIS -> {
+									MinipeliIkkunaTetris.pelaa();
+								}
+								case MINIPELI_4 -> {
+									MinipeliIkkunaOverflow.pelaa();
+								}
+								default -> {}
+							}
 						}
-						if (Kello.globaaliTickit() % 60 == 0) {
-							PeliKenttäMetodit.suoritaPelikenttäMetoditJoka60Tick();
-						}
-						if (Kello.globaaliTickit() % 2000 == 0) {
-							PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2000Tick();
-						}
-						if (Kello.globaaliTickit() % 100 == 0) {
-							PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();
-						}
-						if (Kello.globaaliTickit() % 600 == 0) {
-							PeliKenttäMetodit.suoritaPelikenttäMetoditJoka600Tick();
-						}
-					}
-					if (Kello.globaaliTickit() % 2 == 0) {
-						Dialogit.scrollaaDialogiTeksti();
 					}
 				}
 			}
 		}
-        if (!Peli.pause) {
-            Kello.tick();
-        }
     }
 
-	/**
-     * "Siirry valittuun huoneeseen" eli
-     * Lataa pelin nykyiseksi kentäksi huonekartasta (HashMapista) valittu Huone-objekti
-     * @param huoneenId ladattavan huoneen ID huonekartassa
-	 * @param pelaajanX X-koordinaatti, johon pelaaja siirretään (Tile)
-	 * @param pelaajanY Y-koordinaatti, johon pelaaja siirretään (Tile)
-     * @param debug estä tavoitteen tarkistus ja tarinan lataus
-     */
-	public void lataaHuone(int huoneenId, int pelaajanX, int pelaajanY, boolean debug) {
-        try{
-            if (Peli.huoneKartta.get(huoneenId) != null) {
-                if ((!Peli.huoneKartta.get(huoneenId).annaTavoiteVaatimus() || TavoiteLista.tavoiteLista.get(Peli.huoneKartta.get(huoneenId).annaVaaditunTavoitteenTunniste())) || debug || Pelaaja.ohitaTavoitteet) {
-                    if (Peli.huone != null) {
-						if (!Peli.huone.annaTaustanPolku().equals(Peli.huoneKartta.get(huoneenId).annaTaustanPolku())) Tausta.häivytäTausta = true;
-						else Tausta.häivytäTausta = false;
-						Renderöinti.häivytäPeliRuutuUlos(window, camera, player);
-					}
-					Peli.huone = Peli.huoneKartta.get(huoneenId);
-					Peli.muutaKentänKokoa(Peli.huone.annaKoko());
-                    synchronized (Peli.entityLista) {
-						Peli.entityLista.clear();
-						for (Entity[] nn : Peli.huone.annaHuoneenNPCSisältö()) {
-							for (Entity entity : nn) {
-								if (entity != null) {
-									Peli.entityLista.add(entity);
-									if (entity instanceof NPC) {
-										NPC npc = (NPC)entity;
-										if (!npc.onLadattuPelissä) {
-											npc.teleport(npc.annaAlkuSijX(), npc.annaAlkuSijY());
-											npc.onLadattuPelissä = true;
-										}
+	public void peliLogiikkaLoop() {
+		if (Peli.peliKäynnissä) {
+			switch (Peli.aktiivinenRuutu) {
+				default -> {
+					switch (Peli.syötteenTila) {
+						default -> {
+							if (!Peli.pause && !Peli.pauseDialogi) {
+								if (Peli.annaObjektiKenttä() != null && Peli.annaMaastoKenttä() != null) {
+									PeliKenttäMetodit.suoritaPelikenttäMetoditJokaTick();
+									if (Kello.globaaliTickit() % 2 == 0) {
+										PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2Tick();
+									}
+									if (Kello.globaaliTickit() % 10 == 0) {
+										PeliKenttäMetodit.suoritaPelikenttäMetoditJoka10Tick();
+									}
+									if (Kello.globaaliTickit() % 60 == 0) {
+										PeliKenttäMetodit.suoritaPelikenttäMetoditJoka60Tick();
+									}
+									if (Kello.globaaliTickit() % 2000 == 0) {
+										PeliKenttäMetodit.suoritaPelikenttäMetoditJoka2000Tick();
+									}
+									if (Kello.globaaliTickit() % 100 == 0) {
+										PeliKenttäMetodit.suoritaPelikenttäMetoditJoka100Tick();
+									}
+									if (Kello.globaaliTickit() % 600 == 0) {
+										PeliKenttäMetodit.suoritaPelikenttäMetoditJoka600Tick();
 									}
 								}
 							}
 						}
 					}
-                    Peli.voiWarpataVasen = false;
-                    Peli.voiWarpataOikea = false;
-                    Peli.voiWarpataAlas = false;
-                    Peli.voiWarpataYlös = false;
-                    Peli.warppiViive = 20;
-                    boolean toistaMusaTarinanJälkeen = false;
-					Pelaaja.teleport(pelaajanX, pelaajanY);
-                    if (Peli.huoneKartta.get(huoneenId).annaTarinaRuudunLataus() && !debug) {
-                        if (TarinaDialogiLista.tarinaKartta.containsKey(Peli.huoneKartta.get(huoneenId).annaTarinaRuudunTunniste())) {
-                            Peli.pause = true;
-                            toistaMusaTarinanJälkeen = true;
-                            Peli.siirryTarinaRuutuun(Peli.huoneKartta.get(huoneenId).annaTarinaRuudunTunniste());
-                            Peli.huoneKartta.get(huoneenId).päivitäAlkudialogi(null);
-                        }
-                        else {
-                            Dialogit.avaaDialogi("", "Tarinapätkää " + Peli.huoneKartta.get(huoneenId).annaTarinaRuudunTunniste() + " ei löytynyt", "Virhe!");
-                        }
-                    }
-                    if (!toistaMusaTarinanJälkeen) {
-                        String musa = Peli.huone.annaHuoneenMusa();
-                        Musat.toistaPeliMusa(musa);
-                    }
-                    else {
-                        //Musat.toistaPeliMusa(null);
-                    }
-					Renderöinti.häivytäPeliRuutuSisään(window, camera, player);
-                }
-                else {
-					Dialogit.haeTavoiteVinkkiTeksti(Peli.huoneKartta.get(huoneenId).annaVaaditunTavoitteenTunniste());
-                }
-            }
-            else {
-				if (!window.isFullscreen()) tinyfd_messageBox("Huonetta ei löytynyt.", "Yritettiin warpata huoneeseen " + huoneenId + ", jota ei ole olemassa.", "ok", "error", false);
-				Peli.voiWarpataVasen = false;
-				Peli.voiWarpataOikea = false;
-				Peli.voiWarpataAlas = false;
-				Peli.voiWarpataYlös = false;
-            }
-            
+				}
+			}
+		}
+		if (!Peli.pause) {
+            Kello.tick();
         }
-        catch (NullPointerException e) {
-			if (!window.isFullscreen()) tinyfd_messageBox("Huonetta ei löytynyt.", "Ongelma ladatessa huonetta " + huoneenId + ". Tämä voi johtua viallisesta default.kst-tiedostosta.", "ok", "error", false);
-            e.printStackTrace();
-			Peli.voiWarpataVasen = false;
-			Peli.voiWarpataOikea = false;
-			Peli.voiWarpataAlas = false;
-			Peli.voiWarpataYlös = false;
-        }
-    }
+	}
 
 	public static void suljePeliIkkuna() {
 		glfwSetWindowShouldClose(window.getWindow(), true);

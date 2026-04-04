@@ -1,11 +1,12 @@
 package keimo.seikkailupeli.menu;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti3d.Model3D;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -54,10 +55,10 @@ public class KehittäjäRuutu {
 
     public static void takaisin() {
         Äänet.toistaSFX("Valinta");
-        KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
+        Renderöinti.siirrySeuraavaanRuutuun("valikkoruutu");
     }
 
-    public static void render(Ikkuna window) {
+    public static void renderöi(Ikkuna window) {
         renderöiTekstit(window);
         renderöi3DTeksti(window);
     }
@@ -86,7 +87,7 @@ public class KehittäjäRuutu {
         matOtsikko.translate(0, scaleYOtsikko*6f -keskitysY, 0);
         matOtsikko.scale(scaleXOtsikko, scaleYOtsikko, 0);
         matOtsikko.mul(transformOtsikko.getTransformation());
-        otsikkoShader.setUniform("projection", matOtsikko);
+        otsikkoShader.asetaSijainti(matOtsikko);
         otsikkoTekstuuri.bind(0);
         Assets.getModel().render();
         väriEfekti(otsikkoShader);
@@ -97,7 +98,7 @@ public class KehittäjäRuutu {
             window.getView().scale(1, matOsoitin);
             matOsoitin.translate(-keskitysX + offsetX, scaleYOtsikko*4f -keskitysY -i*offsetYValinta, 0);
             matOsoitin.scale(scaleXTekstit, scaleYTekstit, 0);
-            tekstiShader.setUniform("projection", matOsoitin);
+            tekstiShader.asetaSijainti(matOsoitin);
             switch (i) {
                 case 0: tieto1Teksti.bind(0); break;
                 case 1: tieto2Teksti.bind(0); break;
@@ -119,7 +120,7 @@ public class KehittäjäRuutu {
             matValinta.translate(keskitysX + offsetX, scaleYOtsikko*4f -keskitysY -i*offsetYValinta, 0);
             matValinta.scale(scaleXTekstit, scaleYTekstit, 0);
             matValinta.mul(transformTekstit.getTransformation());
-            tekstiShader.setUniform("projection", matValinta);
+            tekstiShader.asetaSijainti( matValinta);
             switch (i) {
                 case 0: kehittäjä1Teksti.bind(0); break;
                 case 1: kehittäjä2Teksti.bind(0); break;
@@ -145,7 +146,7 @@ public class KehittäjäRuutu {
         transform.getRotation().rotateAxis((float)Math.toRadians(pyörimisNopeus3DTeksti), 0, 0, 1);
         Matrix4f mat3DMalli = new Matrix4f();
         mat3DMalli.mul(transform.getTransformation());
-        teksti3dShader.setUniform("projection", mat3DMalli);
+        teksti3dShader.asetaSijainti(mat3DMalli);
         keimoTekstiModel.draw();
     }
 

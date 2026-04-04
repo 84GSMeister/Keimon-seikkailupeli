@@ -3,12 +3,20 @@ package keimo.seikkailupeli.kenttä;
 import keimo.keimoengine.collision.AABB;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
+import keimo.keimoengine.grafiikat.shaderit.EfektiShader;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
+import keimo.keimoengine.grafiikat.shaderit.TestiShader;
+import keimo.keimoengine.grafiikat.shaderit.TrippiShader;
+import keimo.keimoengine.grafiikat.shaderit.VäriliukuShader;
+import keimo.keimoengine.grafiikat.shaderit.VärinvaihtoShader;
+import keimo.keimoengine.grafiikat.shaderit.VärinvaihtoShaderKuu;
 import keimo.keimoengine.ikkuna.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.objektit.Pelaaja;
+import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.entityt.npc.Boss;
 import keimo.seikkailupeli.objektit.entityt.npc.NPC;
@@ -36,13 +44,22 @@ public class Maailma {
     public static ArrayList<Maasto> tilet = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
-    private static Shader objektiShader = new Shader("shader");
-    public static Shader objekti3dShader = new Shader("shader");
-    public static Shader esineShader = new Shader("shader");
-    private static Shader kiintopisteShader = new Shader("shader");
-    private static Shader tileShader = new Shader("shader");
-    private static Shader entityShader = new Shader("shader");
-    private static Shader erikoisEfektiShader = new Shader("shader");
+    //private static Shader objektiShader = new Shader("shader");
+    //public static Shader objekti3dShader = new Shader("shader");
+    //public static Shader esineShader = new Shader("shader");
+    private static Shader kiintopisteShader = Assets.annaShader("kiintopiste");
+    //private static Shader tileShader = new Shader("shader");
+    //private static Shader entityShader = new Shader("shader");
+    //private static Shader erikoisEfektiShader = new Shader("shader");
+
+    private static Shader vakioShader = Assets.annaShader("vakio");
+    private static Shader värinvaihtoShaderBaari = Assets.annaShader("värinvaihto");
+    private static Shader värinvaihtoShaderBaariSala = Assets.annaShader("värinvaihto2");
+    private static Shader trippiShader = Assets.annaShader("trippi");
+    private static Shader väriliukuShader = Assets.annaShader("väriliuku");
+    private static Shader kuuShader = Assets.annaShader("kuu");
+    private static Shader testiShader = Assets.annaShader("testi");
+
     static Tausta tausta;
     private static int scale = 32;
     public static int tileMäärä, objektiMäärä, entityMäärä;
@@ -109,109 +126,121 @@ public class Maailma {
             tileMäärä = 0; objektiMäärä = 0; entityMäärä = 0;
             int posX = ((int)camera.getPosition().x / (scale * 2));
             int posY = ((int)camera.getPosition().y / (scale * 2));
-            Matrix4f perspectiveMatrix = new Matrix4f().setPerspective((float)Math.toRadians(90), window.getHeight() > 0 ? window.getWidth()/window.getHeight() : 1, 0.001f, 1000);
-            perspectiveMatrix.scale(2048f/window.getWidth(), 2048f/window.getHeight(), 1);
-            Matrix4f lookAtMatrix = new Matrix4f().setLookAt(0, 0, 32 * PelinAsetukset.zoom, 0, 0, 0, 0, 1, 0);
-            lookAtMatrix = KenttäShaderEfektit.känniEfektiRotaatio(lookAtMatrix);
-            //lookAtMatrtix.rotate((float)Math.toRadians(rotZ), new Vector3f(0, 0, 1));
-            //lookAtMatrix = asetaKameranSijainti(lookAtMatrix, window);
-            lookAtMatrix = asetaKameranSijaintiVanha(lookAtMatrix, window);
-            Matrix4f cameraMatrix = perspectiveMatrix.mul(lookAtMatrix);
+            Matrix4f cameraMatrix = camera.getPerspectiveView(window, PelinAsetukset.zoom);
+            cameraMatrix = KenttäShaderEfektit.känniEfektiRotaatio(cameraMatrix);
+            if (PelinAsetukset.vapaaKamera) cameraMatrix = asetaKameranSijaintiVapaa(cameraMatrix, window);
+            else cameraMatrix = asetaKameranSijainti(cameraMatrix, window);
             cameraMatrix = KenttäShaderEfektit.känniEfekti(cameraMatrix);
-            asetaKameranSijainti(cameraMatrix, window);
 
             renderöiTausta(0, 0, 1, new Matrix4f(), fade);
-
-            int etäisyys = laskeIsonLaatanNäköetäisyys();
-            for (int y = 0; y < etäisyys; y++) {
-                for (int x = 0; x < etäisyys; x++) {
-                    int renderX = x-posX-etäisyys/2 +1;
-                    int renderY = y+posY-etäisyys/2 +1;
-                    int maxX = Peli.annaObjektiKenttä().length;
-                    int maxY = Peli.annaObjektiKenttä().length;
-                    if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
-                        Maasto m = Peli.annaMaastoKenttä()[renderX][renderY];
-                        if (m instanceof IsoLaatta) {
-                            IsoLaatta l = (IsoLaatta)m;
-                            if (l != null) {
-                                renderöiIsoLaatta(l, renderX, -renderY, 0, cameraMatrix);
-                                tileMäärä++;
-                            }
-                        }
-                    }
-                }
-            }
-            for (int y = 0; y < viewY; y++) {
-                for (int x = 0; x < viewX; x++) {
-                    int renderX = x-posX-viewX/2 +1;
-                    int renderY = y+posY-viewY/2 +1;
-                    int maxX = Peli.annaMaastoKenttä().length;
-                    int maxY = Peli.annaMaastoKenttä().length;
-                    if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
-                        Maasto m = Peli.annaMaastoKenttä()[renderX][renderY];
-                        if (m instanceof Tile) {
-                            Tile t = (Tile)m;
-                            if (t != null) {
-                                renderöiTile(t, renderX, -renderY, 0, cameraMatrix);
-                                tileMäärä++;
-                            }
-                        }
-                    }
-                }
-            }
-            synchronized (Peli.entityLista) {
-                for (Entity e : Peli.entityLista) {
-                    if (e != null) {
-                        renderöiEntity(e, (int)e.hitbox.getMinX(), (int)-e.hitbox.getMinY(), 0, cameraMatrix);
-                        entityMäärä++;
-                    }
-                }
-            }
-            for (int y = 0; y < viewY; y++) {
-                for (int x = 0; x < viewX; x++) {
-                    int renderX = x-posX-viewX/2 +1;
-                    int renderY = y+posY-viewY/2 +1;
-                    int maxX = Peli.annaObjektiKenttä().length;
-                    int maxY = Peli.annaObjektiKenttä().length;
-                    if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
-                        KenttäKohde k = Peli.annaObjektiKenttä()[renderX][renderY];
-                        if (k != null) {
-                            if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, renderX, -renderY, 1, cameraMatrix);
-                            else renderöiKenttäObjekti(k, renderX, -renderY, 1, cameraMatrix);
-                            objektiMäärä++;
-                        }
-                    }
-                }
-            }
-            KenttäShaderEfektit.luoErikoisEfektit();
-            KenttäShaderEfektit.luoKenttäVäriEfekti();
-
-            KenttäShaderEfektit.renderöiKenttäVäriEfekti(objektiShader);
-            KenttäShaderEfektit.renderöiKenttäVäriEfekti(objekti3dShader);
-            KenttäShaderEfektit.renderöiKenttäVäriEfekti(kiintopisteShader);
-            KenttäShaderEfektit.renderöiKenttäVäriEfekti(esineShader);
-            KenttäShaderEfektit.renderöiKenttäVäriEfekti(tileShader);
-            KenttäShaderEfektit.renderöiKenttäVäriEfekti(entityShader);
-            KenttäShaderEfektit.kimmellysEfekti(kiintopisteShader);
-
-            for (int y = 0; y < viewY; y++) {
-                for (int x = 0; x < viewX; x++) {
-                    int renderX = x-posX-viewX/2 +1;
-                    int renderY = y+posY-viewY/2 +1;
-                    int maxX = Peli.annaMaastoKenttä().length;
-                    int maxY = Peli.annaMaastoKenttä().length;
-                    if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
-                        KenttäShaderEfektit.renderöiErikoisEfektit(erikoisEfektiShader, renderX, -renderY, 1, cameraMatrix);
-                    }
-                }
-            }
             
+            if (Peli.huone != null) {
+                // Shaderin vois ehkä valita muuten kuin huoneen nimen perusteella.
+                Shader shader = valitseShader(Peli.huone.annaNimi());
+                Shader kokoRuutuEfektiShader = valitseKokoRuutuEfektiShader(Peli.huone.annaNimi());
+                shader.bind();
+                shader.loop();
+                int etäisyys = laskeIsonLaatanNäköetäisyys();
+                for (int y = 0; y < etäisyys; y++) {
+                    for (int x = 0; x < etäisyys; x++) {
+                        int renderX = x-posX-etäisyys/2 +1;
+                        int renderY = y+posY-etäisyys/2 +1;
+                        int maxX = Peli.annaObjektiKenttä().length;
+                        int maxY = Peli.annaObjektiKenttä().length;
+                        if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
+                            Maasto m = Peli.annaMaastoKenttä()[renderX][renderY];
+                            if (m instanceof IsoLaatta) {
+                                IsoLaatta l = (IsoLaatta)m;
+                                if (l != null) {
+                                    renderöiIsoLaatta(l, renderX, -renderY, 0, cameraMatrix, shader);
+                                    tileMäärä++;
+                                }
+                            }
+                        }
+                    }
+                }
+                for (int y = 0; y < viewY; y++) {
+                    for (int x = 0; x < viewX; x++) {
+                        int renderX = x-posX-viewX/2 +1;
+                        int renderY = y+posY-viewY/2 +1;
+                        int maxX = Peli.annaMaastoKenttä().length;
+                        int maxY = Peli.annaMaastoKenttä().length;
+                        if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
+                            Maasto m = Peli.annaMaastoKenttä()[renderX][renderY];
+                            if (m instanceof Tile) {
+                                Tile t = (Tile)m;
+                                if (t != null) {
+                                    renderöiTile(t, renderX, -renderY, 0, cameraMatrix, shader);
+                                    tileMäärä++;
+                                }
+                            }
+                        }
+                    }
+                }
+                synchronized (Peli.entityLista) {
+                    for (Entity e : Peli.entityLista) {
+                        if (e != null) {
+                            renderöiEntity(e, (int)e.hitbox.getMinX(), (int)-e.hitbox.getMinY(), 0, cameraMatrix, shader);
+                            entityMäärä++;
+                        }
+                    }
+                }
+                for (int y = 0; y < viewY; y++) {
+                    for (int x = 0; x < viewX; x++) {
+                        int renderX = x-posX-viewX/2 +1;
+                        int renderY = y+posY-viewY/2 +1;
+                        int maxX = Peli.annaObjektiKenttä().length;
+                        int maxY = Peli.annaObjektiKenttä().length;
+                        if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
+                            KenttäKohde k = Peli.annaObjektiKenttä()[renderX][renderY];
+                            if (k != null) {
+                                if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, renderX, -renderY, 1, cameraMatrix, shader);
+                                else renderöiKenttäObjekti(k, renderX, -renderY, 1, cameraMatrix, shader);
+                                objektiMäärä++;
+                            }
+                        }
+                    }
+                }
+                KenttäShaderEfektit.luoErikoisEfektit();
+                KenttäShaderEfektit.luoKenttäVäriEfekti();
+                KenttäShaderEfektit.renderöiKenttäVäriEfekti(vakioShader);
+                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(objekti3dShader);
+                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(esineShader);
+                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(tileShader);
+                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(entityShader);
+                KenttäShaderEfektit.renderöiKenttäVäriEfekti(kiintopisteShader);
+                KenttäShaderEfektit.kimmellysEfekti(kiintopisteShader);
+
+                // Shaderien testaukseen
+                //renderöiShaderEfekti();
+
+                for (int y = 0; y < viewY; y++) {
+                    for (int x = 0; x < viewX; x++) {
+                        int renderX = x-posX-viewX/2 +1;
+                        int renderY = y+posY-viewY/2 +1;
+                        int maxX = Peli.annaMaastoKenttä().length;
+                        int maxY = Peli.annaMaastoKenttä().length;
+                        if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
+                            KenttäShaderEfektit.renderöiErikoisEfektit(vakioShader, renderX, -renderY, 1, cameraMatrix);
+                        }
+                    }
+                }
+                if (kokoRuutuEfektiShader instanceof EfektiShader) {
+                    EfektiShader efektiShader = (EfektiShader)kokoRuutuEfektiShader;
+                    efektiShader.bind();
+                    efektiShader.asetaFade(fade);
+                    efektiShader.loop();
+                    efektiShader.asetaSijainti(new Matrix4f());
+                    shaderPohjaTekstuuri.bind(0);
+                    Assets.getModel().render();
+                }
+            }
         }
-        catch (IndexOutOfBoundsException aioobe) {
-            System.out.println("koko muuttui");
-            aioobe.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
+    static Tekstuuri shaderPohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/shader_kerros.png");
 
     public static void laskeNäköetäisyys(Ikkuna window) {
         viewX = (int)(window.getWidth()/64f * PelinAsetukset.zoom) +4;
@@ -251,7 +280,7 @@ public class Maailma {
         return kameranSijainti;
     }
 
-    private static Matrix4f asetaKameranSijaintiVanha(Matrix4f cameraMatrix, Ikkuna window) {
+    private static Matrix4f asetaKameranSijaintiVapaa(Matrix4f cameraMatrix, Ikkuna window) {
         Matrix4f kameranSijainti = new Matrix4f(cameraMatrix);
         kameranSijainti.translate((float)(-2*Pelaaja.hitbox.getMinX()/64d), (float)(2*Pelaaja.hitbox.getMinY()/64d), 0);
         return kameranSijainti;
@@ -263,7 +292,7 @@ public class Maailma {
 		}
 	}
 
-    protected static void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix) {
+    protected static void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
 		if (tileTextures.containsKey(tile.annaTekstuurinNimi())) tileTextures.get(tile.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -271,16 +300,17 @@ public class Maailma {
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(tilenSijainti);
         
-        tileShader.bind();
-		tileShader.setUniform("sampler", 0);
-		tileShader.setUniform("projection", resultMatrix);
-        tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
+        shader.bind();
+		shader.asetaSampler(0);
+        //shader.asetaKamera(cameraMatrix);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel(tile.annaKääntöAsteet(), tile.annaXPeilaus(), tile.annaYPeilaus());
 		model.render();
 	}
 
-    protected static void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix) {
+    protected static void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
         if (tileTextures.containsKey(laatta.annaTekstuurinNimi())) tileTextures.get(laatta.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -289,16 +319,16 @@ public class Maailma {
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(tilenSijainti);
         
-        tileShader.bind();
-		tileShader.setUniform("sampler", 0);
-		tileShader.setUniform("projection", resultMatrix);
-        tileShader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
 		Model model = Assets.getModel(laatta.annaKääntöAsteet(), laatta.annaXPeilaus(), laatta.annaYPeilaus());
 		model.render();
 	}
 
-    protected static void renderöiEntity(Entity entity, int x, int y, int z, Matrix4f cameraMatrix) {
+    protected static void renderöiEntity(Entity entity, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
 		if (entity.annaTekstuuri() != null) entity.annaTekstuuri().bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -314,11 +344,11 @@ public class Maailma {
             else hurtEfekti = 0f;
         }
 
-        entityShader.bind();
-		entityShader.setUniform("sampler", 0);
-		entityShader.setUniform("projection", resultMatrix);
-        entityShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
-        entityShader.setUniform("addcolor", new Vector4f(hurtEfekti, hurtEfekti, hurtEfekti, 0));
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
+        shader.setUniform("addcolor", new Vector4f(hurtEfekti, hurtEfekti, hurtEfekti, 0));
 		
 		Model model;
 		if (entity instanceof Boss) model = Assets.getModel(entity.suuntaVasenOikea);
@@ -330,40 +360,40 @@ public class Maailma {
             if (npc.maxHp > 0) {
                 resultMatrix.translate(0, -1f, 0);
                 resultMatrix.scale(1, 0.0625f, 1);
-                entityShader.setUniform("projection", resultMatrix);
+                shader.asetaSijainti(resultMatrix);
                 entityHpPalkkiPunainenTekstuuri.bind(0);
                 Assets.getModel().render();
 
                 float offsetX = (float)npc.hp/(float)npc.maxHp;
                 resultMatrix.scale(offsetX, 1, 1);
                 resultMatrix.translate(-(1f - offsetX)*2, 0, 0);
-                entityShader.setUniform("projection", resultMatrix);
+                shader.asetaSijainti(resultMatrix);
                 entityHpPalkkiVihreäTekstuuri.bind(0);
                 Assets.getModel().render();
             }
         }
 	}
 
-	protected static void renderöiKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+	protected static void renderöiKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
 		if (objekti.onkoKolmiUlotteinen()) {
-            renderöi3dKenttäObjekti(objekti, x, y, z, cameraMatrix);
+            renderöi3dKenttäObjekti(objekti, x, y, z, cameraMatrix, shader);
         }
         else {
             if (objekti instanceof Esine || objekti instanceof Kerättävä) {
-                renderöiEsinePyörivä(objekti, x, y, z, cameraMatrix);
+                renderöiEsinePyörivä(objekti, x, y, z, cameraMatrix, shader);
             }
             else if (objekti instanceof Kiintopiste || objekti instanceof NPC_KenttäKohde) {
-                renderöiKiintopisteKiiluva(objekti, x, y, 0, cameraMatrix);
+                renderöiKiintopisteKiiluva(objekti, x, y, 0, cameraMatrix, kiintopisteShader);
             }
             else {
-                renderöiKenttäkohdeStaattinen(objekti, x, y, 0, cameraMatrix);
+                renderöiKenttäkohdeStaattinen(objekti, x, y, 0, cameraMatrix, shader);
             }
             Model model = Assets.getModel(objekti.annaKääntöAsteet(), objekti.annaXPeilaus(), objekti.annaYPeilaus());
 		    model.render();
         }
 	}
 
-    protected static void renderöiEsinePyörivä(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöiEsinePyörivä(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
         if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
         
@@ -376,13 +406,13 @@ public class Maailma {
         objekti.transform.getPosition().set(0, -2f - (float)(4*Math.sin(Math.toRadians(objekti.annaLiikeY()))), 0);
         resultMatrix.mul(objekti.transform.getTransformation());
 
-        esineShader.bind();
-        esineShader.setUniform("projection", resultMatrix);
-        esineShader.setUniform("sampler", 0);
-        esineShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
-    protected static void renderöiKiintopisteKiiluva(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöiKiintopisteKiiluva(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
         if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
         
@@ -390,13 +420,13 @@ public class Maailma {
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(objektinSijainti);
 
-        kiintopisteShader.bind();
-        kiintopisteShader.setUniform("projection", resultMatrix);
-        kiintopisteShader.setUniform("sampler", 0);
-        kiintopisteShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
-    protected static void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
         if (objekti instanceof VisuaalinenObjekti) ErikoisTileMuutokset.annaSpesiaaliTekstuuri(objekti.annaTekstuuri(), objekti.annaKuvanTiedostoNimi(), (int)x, (int)y).bind(0);
         else if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
         else virheTekstuuri.bind(0);
@@ -405,13 +435,13 @@ public class Maailma {
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(objektinSijainti);
 
-        objektiShader.bind();
-        objektiShader.setUniform("projection", resultMatrix);
-        objektiShader.setUniform("sampler", 0);
-        objektiShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
+        shader.bind();
+		shader.asetaSampler( 0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
 
-    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix) {
+    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
         Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
         Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
         resultMatrix.mul(objektinSijainti);
@@ -420,10 +450,136 @@ public class Maailma {
         objekti.transform.getRotation().rotateAxis((float)Math.toRadians(objekti.annaPyörimisNopeus()), 0, 1, 0);
         resultMatrix.mul(objekti.transform.getTransformation());
 
-        objekti3dShader.bind();
-		objekti3dShader.setUniform("projection", resultMatrix);
-        objekti3dShader.setUniform("sampler", 0);
-        objekti3dShader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
         Assets.getModel3D(objekti.anna3dMallinTunniste()).draw();
+    }
+
+    protected static void renderöiShaderEfekti() {
+        Shader shader = valitseShader(Peli.huone.annaNimi());
+        shader.bind();
+        shader.loop();
+        shader.asetaSijainti(new Matrix4f());
+        Assets.annaTekstuuri("menu_osoitin").bind(0);
+        Assets.getModel().render();
+    }
+
+    private static Shader valitseShader(String kenttä) {
+        switch (kenttä) {
+            default -> {
+                return vakioShader;
+            }
+            case "Keimo-baari" -> {
+                return värinvaihtoShaderBaari;
+            }
+            case "Baari_salahuone" -> {
+                return värinvaihtoShaderBaariSala;
+            }
+            case "Kuu" -> {
+                return kuuShader;
+            }
+            case "Metsä_kalja" -> {
+                return trippiShader;
+            }
+        }
+    }
+
+    private static Shader valitseKokoRuutuEfektiShader(String kenttä) {
+        switch (kenttä) {
+            default -> {
+                return vakioShader;
+            }
+            case "Baari_salahuone" -> {
+                return testiShader;
+            }
+            case "Metsä_boss" -> {
+                return väriliukuShader;
+            }
+        }
+    }
+
+    public enum Liike {
+        VASEN,
+        OIKEA,
+        YLÖS,
+        ALAS,
+    }
+
+    public static boolean liikuYlös = false;
+    public static boolean liikuAlas = false;
+    public static boolean liikuVasemmalle = false;
+    public static boolean liikuOikealle = false;
+
+    public static void liiku(Liike liike) {
+        switch (liike) {
+            case YLÖS:
+                liikuYlös = true;
+            break;
+            case ALAS:
+                liikuAlas = true;
+            break;
+            case VASEN:
+                liikuVasemmalle = true;
+            break;
+            case OIKEA:
+                liikuOikealle = true;
+            break;
+            case null, default:
+            break;
+        }
+    }
+
+    public static void lopetaLiike(Liike liike) {
+        switch (liike) {
+            case YLÖS:
+                liikuYlös = false;
+            break;
+            case ALAS:
+                liikuAlas = false;
+            break;
+            case VASEN:
+                liikuVasemmalle = false;
+            break;
+            case OIKEA:
+                liikuOikealle = false;
+            break;
+            case null, default:
+                liikuYlös = false;
+                liikuAlas = false;
+                liikuVasemmalle = false;
+                liikuOikealle = false;
+            break;
+        }
+    }
+
+    public static void liikutaPelaajaa() {
+        if (liikuYlös & liikuVasemmalle) {
+            Pelaaja.kokeileLiikkumista(Suunta.YLÄVASEN);
+        }
+        else if (liikuAlas & liikuVasemmalle) {
+            Pelaaja.kokeileLiikkumista(Suunta.ALAVASEN);
+        }
+        else if (liikuYlös & liikuOikealle) {
+            Pelaaja.kokeileLiikkumista(Suunta.YLÄOIKEA);
+        }
+        else if (liikuAlas & liikuOikealle) {
+            Pelaaja.kokeileLiikkumista(Suunta.ALAOIKEA);
+        }
+        else {
+            if (liikuYlös) {
+                Pelaaja.kokeileLiikkumista(Suunta.YLÖS);
+            }
+            if (liikuAlas) {
+                Pelaaja.kokeileLiikkumista(Suunta.ALAS);
+            }
+            if (liikuVasemmalle) {
+                Pelaaja.kokeileLiikkumista(Suunta.VASEN);
+            }
+            if (liikuOikealle) {
+                Pelaaja.kokeileLiikkumista(Suunta.OIKEA);
+            }
+        }
     }
 }

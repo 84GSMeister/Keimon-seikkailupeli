@@ -1,10 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
@@ -19,25 +19,34 @@ import java.util.ArrayList;
 import org.joml.Vector4f;
 
 public class HuijauskoodiValikko {
-    private static Shader peliShader = new Shader("shader");
+    //private static Shader peliShader = new Shader("shader");
 
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
-    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin_vanha");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
-    private static Teksti vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
-    private static Teksti tilaTeksti = new Teksti("tila", Color.green, 200, 70);
+    private static Teksti vaihtoehtoTeksti;
+    private static Teksti tilaTeksti;
     private static String otsikkoTeksti = "";
     private static ArrayList<String> valintaTekstit = new ArrayList<>();
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
-    private static StaattinenKomponentti valintaOtsikkoKomponentti = new StaattinenKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
+    private static StaattinenKomponentti kehysKomponentti;
+    private static StaattinenKomponentti valintaOtsikkoKomponentti;
 
     public static int valintaInt = 0;
     private static int valintojenMäärä = 0;
     private static float siirräY;
 
-    public static void renderöi(Shader shader, Ikkuna window) {
+    private static void alustaGrafiikat() {
+        if (vaihtoehtoTeksti == null) {
+            vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
+            tilaTeksti = new Teksti("tila", Color.green, 200, 70);
+            kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
+            valintaOtsikkoKomponentti = new StaattinenKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
+        }
+    }
+
+    public static void renderöi(Shader peliShader, Ikkuna window) {
+        alustaGrafiikat();
         peliShader.bind();
-        peliShader.setUniform("sampler", 0);
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
         if (siirräY > 0) siirräY -= 0.05f;
@@ -53,18 +62,18 @@ public class HuijauskoodiValikko {
             if (i == valintaInt) osoitin = osoitinKuvake;
             else osoitin = tyhjäTekstuuri;
             float offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(peliShader, osoitin, window, 1f/18f, 1f/15f, 1, -0.25f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, osoitin, window, 1f/18f, 1f/15f, 1, -0.25f, offsetY + siirräY, 0);
 
             String uusiTeksti = valintaTekstit.get(i) + ": ";
             vaihtoehtoTeksti.päivitäTeksti(uusiTeksti, 1, 13, Color.yellow);
             offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(peliShader, vaihtoehtoTeksti, window, 1f/6f, 1f/15f, 1, 0f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, vaihtoehtoTeksti, window, 1f/6f, 1f/15f, 1, 0f, offsetY + siirräY, 0);
 
             uusiTeksti = (koodiValittu(i) ? "Kyllä" : "Ei");
             if (koodiValittu(i)) tilaTeksti.päivitäTeksti(uusiTeksti, 0, 5, Color.green);
             else tilaTeksti.päivitäTeksti(uusiTeksti, 0, 30, Color.red);
             offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponentti(peliShader, tilaTeksti, window, 1f/12f, 1f/15f, 1, 0.3f, offsetY + siirräY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, tilaTeksti, window, 1f/12f, 1f/15f, 1, 0.3f, offsetY + siirräY, 0);
         }
     }
 

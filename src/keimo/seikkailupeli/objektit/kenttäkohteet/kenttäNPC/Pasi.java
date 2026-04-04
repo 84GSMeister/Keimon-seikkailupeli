@@ -17,7 +17,7 @@ public final class Pasi extends NPC_KenttäKohde {
         super.dialogit.add("baari");
         super.dialogit.add("baari_salahuone");
         super.dialogit.add("kuu");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

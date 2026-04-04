@@ -1,7 +1,7 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.assets.EngineAssets;
 
@@ -42,7 +42,7 @@ public class ValintaLaatikko extends Nappi {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.setUniform("projection", sijaintiMatriisi);
+        shader.asetaSijainti(sijaintiMatriisi);
         if (hover) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0.5f));
         else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
         if (valittu) valittuTekstuuri.bind(0);

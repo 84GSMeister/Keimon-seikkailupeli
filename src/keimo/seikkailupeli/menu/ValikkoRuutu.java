@@ -1,10 +1,11 @@
 package keimo.seikkailupeli.menu;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -14,17 +15,17 @@ public class ValikkoRuutu {
     
     private static int valinta = 0;
     private static int vaihtoehtojenMäärä = 5;
-    private static Tekstuuri otsikkoKuva = new Tekstuuri("tiedostot/kuvat/menu/KEIMON_logo.png");
+    private static Renderöitävä otsikkoKuva = Assets.annaTekstuuri("menu_logo");
     private static Renderöitävä valintaAloitaTekstuuri = Assets.annaTekstuuri("menu_main_aloita");
     private static Renderöitävä valintaAsetuksetTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
     private static Renderöitävä valintaEditoriTekstuuri = Assets.annaTekstuuri("menu_main_editori");
     private static Renderöitävä valintaKehittäjätTekstuuri = Assets.annaTekstuuri("menu_main_kehittäjät");
     private static Renderöitävä valintaLopetaTekstuuri = Assets.annaTekstuuri("menu_main_lopeta");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static MenuKomponentti logo = new MenuKomponentti(1, 0.5f, 0, 0.5f, otsikkoKuva);
-    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -1f/10f -1f/2f, 0);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -1f/10f -1f/2f, 0, osoitinKuvake, 10, 0, 0);
     private static MenuKomponentti valintaLabel = new MenuKomponentti(1f/2f, 1f/10f, 0, 0);
+    private static boolean siirtymä = false;
 
     public static void painaNäppäintä(String näppäin) {
         switch (näppäin) {
@@ -55,13 +56,13 @@ public class ValikkoRuutu {
                 break;
             case 1: // Asetukset
                 AsetusRuutu.pelissä = false;
-                KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+                Renderöinti.siirrySeuraavaanRuutuun("asetusruutu");
                 break;
             case 2: // Huone-editori
-                KeimoEngine.valitseAktiivinenRuutu("editoriruutu_varmistus");
+                Renderöinti.siirrySeuraavaanRuutuun("editoriruutu_varmistus");
                 break;
             case 3: // Kehittäjät
-                KeimoEngine.valitseAktiivinenRuutu("kehittäjäruutu");
+                Renderöinti.siirrySeuraavaanRuutuun("kehittäjäruutu");
                 break;
             case 4: // Lopeta
                 System.exit(0);
@@ -72,27 +73,17 @@ public class ValikkoRuutu {
     }
 
     public static void jatka() {
-        if (!Peli.peliAloitettu) {
-            KeimoEngine.valitseAktiivinenRuutu("peliruutu");
-        }
-        else {
-            KeimoEngine.valitseAktiivinenRuutu("peliruutu");
-            Pelaaja.pakotaPelaajanPysäytys();
-            Peli.pause = false;
-        }
-        Äänet.toistaSFX("Valinta");
+        siirtymä = true;
     }
 
-    public static void render(Shader shader, Ikkuna window) {
+    public static void renderöi(Shader shader, Ikkuna window) {
         try {
             shader.bind();
             shader.nollaaShaderEfektit();
+            tarkistaSiirtymä();
             logo.renderöi(shader, window);
-            for (int i = 2; i >= -2; i--) {
-                osoitinLabel.muutaOffsetY(-1f/2f +i*(1f/5f));
-                osoitinLabel.päivitäSisältö(annaOsoitinKuvake(2-i));
-                osoitinLabel.renderöi(shader, window);
-            }
+            osoitinLabel.muutaOffsetY(-1f/2f + (float)((2-valinta) * (1f/5f)));
+            osoitinLabel.renderöiPyörivä(shader, window);
 
             for (int i = 2; i >= -2; i--) {
                 valintaLabel.muutaOffsetY(-1f/2f +i*(1f/5f));
@@ -118,8 +109,18 @@ public class ValikkoRuutu {
         }
     }
 
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
+    private static void tarkistaSiirtymä() {
+        if (siirtymä) {
+            if (!Peli.peliKäynnissä) {
+                Renderöinti.siirrySeuraavaanRuutuun("peliruutu");
+            }
+            else {
+                Renderöinti.siirrySeuraavaanRuutuun("peliruutu");
+                Pelaaja.pakotaPelaajanPysäytys();
+                Peli.pause = false;
+            }
+            Äänet.toistaSFX("Valinta");
+            siirtymä = false;
+        }
     }
 }

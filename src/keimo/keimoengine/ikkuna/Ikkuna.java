@@ -15,7 +15,9 @@ public abstract class Ikkuna {
     protected int windowedWidth, windowedHeight;
     protected int width, height;
     protected boolean fullscreen, vsync;
-    protected Input input;
+    protected Input näppäimistöSyöte;
+    protected Input ohjainSyöte;
+    protected Input syöte;
     protected boolean hasResized;
     protected Matrix4f view;
     protected ArrayList<String> resoluutiot = new ArrayList<>();
@@ -25,7 +27,7 @@ public abstract class Ikkuna {
         this.height = height;
         this.fullscreen = fullscreen;
         setSize(width, height);
-        setView(width, height);
+        view = new Matrix4f().setOrtho2D(-width/2, width/2, -height/2, height/2);
         hasResized = false;
     }
 
@@ -37,7 +39,9 @@ public abstract class Ikkuna {
         return resoluutiot;
     }
 
-    public void setView(int width, int height) {
+    public void muutaKokoa(int leveys, int korkeus) {
+        this.width = leveys;
+        this.height = korkeus;
         view = new Matrix4f().setOrtho2D(-width/2, width/2, -height/2, height/2);
     }
 
@@ -50,8 +54,16 @@ public abstract class Ikkuna {
         this.height = height;
     }
 
-    public void setInput(Input input) {
-        this.input = input;
+    public void asetaNäppäimistöSyöte(Input input) {
+        this.näppäimistöSyöte = input;
+    }
+
+    public void asetaOhjainSyöte(Input input) {
+        this.ohjainSyöte = input;
+    }
+
+    public void asetaSyöte(Input input) {
+        this.syöte = input;
     }
 
     public abstract void setFullscreen(boolean fullscreen, boolean changeResolution);
@@ -68,5 +80,7 @@ public abstract class Ikkuna {
     public boolean isVsync() {return vsync;}
     public boolean hasResized() {return hasResized;}
     public long getWindow() {return window;}
-    public Input getInput() {return input;}
+    public Input annaNäppäimistöSyöte() {return näppäimistöSyöte;}
+    public Input annaOhjainSyöte() {return ohjainSyöte;}
+    public Input annaSyöte() {return syöte;}
 }

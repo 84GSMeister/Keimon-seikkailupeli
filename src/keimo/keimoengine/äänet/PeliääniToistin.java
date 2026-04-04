@@ -10,6 +10,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 
 public class PeliääniToistin {
@@ -18,6 +19,7 @@ public class PeliääniToistin {
     static HashMap<Integer, Clip> ääniClipit = new HashMap<>();
     static int seuraavaÄäniIndeksi = 0;
     static Clip musaClip;
+    static Line line;
 
     public static void toistaPelimusa(float sampleRate, File ääniTiedosto, double volume, double pan, boolean loop, int loopKohta, boolean takaperin) {
         try {
@@ -169,16 +171,11 @@ public class PeliääniToistin {
     }
 
     public static void suljeÄänet() {
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 0; i < ääniClipit.size(); i++) {
-                    if (ääniClipit.get(i) != null) {
-                        ääniClipit.get(i).close();
-                    }
-                }
+        for (int i = 0; i < ääniClipit.size(); i++) {
+            if (ääniClipit.get(i) != null) {
+                ääniClipit.get(i).close();
             }
-        }.start();
+        }
     }
 
     public static void suljeMusa() {

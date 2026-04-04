@@ -1,15 +1,16 @@
 package keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
-import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.Peli.SyötteenTila;
+import keimo.keimoengine.äänet.MidiToistin;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
+import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -19,15 +20,19 @@ public class ÄäniTestiValikko {
     private static int asetustenMäärä = 4;
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.6f, 0, osoitinKuvake, 10, 0, 0);
 
     private static Teksti asetus1Teksti = new Teksti("Peliäänitesti", Color.white, 600, 48);
     private static Teksti asetus2Teksti = new Teksti("Miditesti", Color.white, 600, 48);
     private static Teksti asetus3Teksti = new Teksti("Wooftesti", Color.white,600, 48);
-    
-    public static boolean pelissä = false;
+
+    public static void alustaGrafiikat() {
+        ÄäniTestiRuutu.alustaGrafiikat();
+        ÄäniTestiMidi.alustaGrafiikat();
+        ÄäniTestiWoof.alustaGrafiikat();
+    }
 
     public static void painaNäppäintä(String näppäin) {
         switch (näppäin) {
@@ -58,15 +63,15 @@ public class ÄäniTestiValikko {
         switch (valinta) {
             case 0: // Peliäänitesti
                 ÄäniTestiRuutu.alusta();
-                KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti_peliäänet");
+                AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNITESTI_PELIÄÄNET;
                 break;
             case 1: // Miditesti
                 ÄäniTestiMidi.alusta();
-                KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti_midi");
+                AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNITESTI_MIDI;
                 break;
             case 2: // Wooftesti
                 ÄäniTestiWoof.alusta();
-                KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti_woof");
+                AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNITESTI_WOOF;
                 break;
             case 3: // Takaisin
                 hyväksy();
@@ -82,26 +87,22 @@ public class ÄäniTestiValikko {
     }
 
     private static void peruuta() {
-        if (pelissä) {
-            Peli.syötteenTila = SyötteenTila.TOIMINTO;
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu_ääni");
-            Peli.pause = true;
-        }
-        else KeimoEngine.valitseAktiivinenRuutu("asetusruutu_ääni");
+        AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNET;
+        Äänet.suljeÄänet();
+        Musat.suljeMusa();
+        MidiToistin.suljeMusat();
     }
 
     public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         otsikkoLabel.renderöi(shader, window);
 
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = -1f/7.5f + (float)((2-i) + (i == asetustenMäärä-1 ? 0 : 1)) * (1f/5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 1f/10f, 1f/10f, 1, -0.6f, offsetY, 0);
-        }
+        osoitinLabel.muutaOffsetY(-1f/7.5f + (float)((2-valinta) + (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
 
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = -1f/7.5f + ((2-i) + (i == asetustenMäärä-1 ? 0 : 1)) * (1f/5f);
-            Komponentti.renderöiKomponentti(shader, annaAsetusTekstuuri(i), window, 1f/2f, 1f/15f, 1, 0, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaAsetusTekstuuri(i), window, 1f/2f, 1f/15f, 1, 0, offsetY, 0);
         }
     }
 
@@ -113,10 +114,5 @@ public class ÄäniTestiValikko {
             case 3: return hyväksyTekstuuri;
             default: return hyväksyTekstuuri;
         }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
     }
 }

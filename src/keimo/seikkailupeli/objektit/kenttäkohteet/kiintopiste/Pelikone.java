@@ -1,5 +1,6 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public final class Pelikone extends Kiintopiste {
                     }
                 }
             }
+            super.tekstuuri = valitseTekstuuri();
             päivitäLisäOminaisuudet(ominaisuusLista);
         }
         else {
@@ -65,7 +67,23 @@ public final class Pelikone extends Kiintopiste {
         this.lisäOminaisuudet.add("tyyppi=" + this.annaTyyppi());
     }
 
+    public enum PeliTyyppi {
+        SIM3D,
+        PONG,
+        POKERI,
+        TETRIS,
+        OVERFLOW,
+        KEIMOÄLY;
+    }
+
     public int annaTyyppi() {
         return tyyppi;
+    }
+
+    private Renderöitävä valitseTekstuuri() {
+        switch (tyyppi) {
+            default: return Assets.annaTekstuuri("pelikone");
+            case 5: return Assets.annaTekstuuri("pelikone_keimoäly");
+        }
     }
 }

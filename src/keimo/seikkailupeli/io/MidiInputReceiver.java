@@ -3,6 +3,8 @@ package keimo.seikkailupeli.io;
 import keimo.keimoengine.io.Input;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.Ruudut;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut.ÄäniTestiRuutu;
 import keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut.ÄäniTestiWoof;
 
@@ -25,11 +27,13 @@ class MidiInputReceiver implements Receiver {
             int midiEvent = msgBytes[0];
             int midiNuotti = msgBytes[1];
             int voimakkuus = msgBytes[2];
-            if (Peli.aktiivinenRuutu == Ruudut.ASETUSRUUTU_ÄÄNITESTI_PELIÄÄNET || Peli.aktiivinenRuutu == Ruudut.ASETUSRUUTU_ÄÄNITESTI_WOOF) {
-                toistaMuunnettuÄäni(midiEvent, midiNuotti, voimakkuus);
-            }
-            else if (Peli.aktiivinenRuutu == Ruudut.ASETUSRUUTU_ÄÄNITESTI_MIDI) {
-                toistaMidi(midiEvent, midiNuotti, voimakkuus);
+            if (Peli.aktiivinenRuutu == Ruudut.ASETUSRUUTU) {
+                if (AsetusRuutu.aktiivinenAsetusRuutu == AsetusRuudut.ÄÄNITESTI_PELIÄÄNET || AsetusRuutu.aktiivinenAsetusRuutu == AsetusRuudut.ÄÄNITESTI_WOOF) {
+                    toistaMuunnettuÄäni(midiEvent, midiNuotti, voimakkuus);
+                }
+                else if (AsetusRuutu.aktiivinenAsetusRuutu == AsetusRuudut.ÄÄNITESTI_MIDI) {
+                    toistaMidi(midiEvent, midiNuotti, voimakkuus);
+                }
             }
         }
     }
@@ -73,15 +77,17 @@ class MidiInputReceiver implements Receiver {
             default: System.out.println("unsupported midi event: " + midiEvent); break;
         }
         if (midiEventInt == ShortMessage.NOTE_ON) {
-            switch (Peli.aktiivinenRuutu) {
-                case ASETUSRUUTU_ÄÄNITESTI_PELIÄÄNET -> {
-                    ÄäniTestiRuutu.toistaValittuÄäni(haeMidiSyötteenSampleRate(midiNuotti));
-                }
-                case ASETUSRUUTU_ÄÄNITESTI_WOOF -> {
-                    ÄäniTestiWoof.toistaValittuÄäni(haeMidiSyötteenSampleRate(midiNuotti));
-                }
-                default -> {
-                    
+            if (Peli.aktiivinenRuutu == Ruudut.ASETUSRUUTU) {
+                switch (AsetusRuutu.aktiivinenAsetusRuutu) {
+                    case ÄÄNITESTI_PELIÄÄNET -> {
+                        ÄäniTestiRuutu.toistaValittuÄäni(haeMidiSyötteenSampleRate(midiNuotti));
+                    }
+                    case ÄÄNITESTI_WOOF -> {
+                        ÄäniTestiWoof.toistaValittuÄäni(haeMidiSyötteenSampleRate(midiNuotti));
+                    }
+                    default -> {
+                        
+                    }
                 }
             }
         }

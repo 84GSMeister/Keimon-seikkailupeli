@@ -14,7 +14,7 @@ public class Kuuhahmo2 extends NPC_KenttäKohde{
         super.tekstuuri = Assets.annaTekstuuri("kuuhahmo2");
         super.katsomisTeksti = "Ei ole erityisen puheliaita paikalliset kaverit.";
         super.dialogit.add("vakio");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

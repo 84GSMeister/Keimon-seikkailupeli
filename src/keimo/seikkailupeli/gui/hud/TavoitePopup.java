@@ -1,6 +1,7 @@
 package keimo.seikkailupeli.gui.hud;
 
 import keimo.keimoengine.grafiikat.*;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 
@@ -27,8 +28,7 @@ public class TavoitePopup {
             matDialogiPohja.scale(scaleXPohja, scaleYPohja, 0);
 
             shader.bind();
-            shader.setUniform("sampler", 0);
-            shader.setUniform("projection", matDialogiPohja);
+            shader.asetaSijainti(matDialogiPohja);
             if (popupAjastin < 50) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 1f - popupAjastin/50f));
             else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
             tavoiteKehysTekstuuri.bind(0);
@@ -44,7 +44,7 @@ public class TavoitePopup {
             matTavoiteTeksti.translate(offsetXTeksti, window.getHeight()/2 -4*scaleYPohja - offsetYTeksti, 0);
             matTavoiteTeksti.scale(scaleXTeksti, scaleYTeksti, 0);
             
-            shader.setUniform("projection", matTavoiteTeksti);
+            shader.asetaSijainti(matTavoiteTeksti);
             if (popupAjastin < 50) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 1f - popupAjastin/50f));
             else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
             tavoiteTeksti.päivitäTeksti(suoritettuTavoite, 0, 36, Color.black);

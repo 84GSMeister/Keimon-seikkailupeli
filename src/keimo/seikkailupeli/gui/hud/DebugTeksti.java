@@ -49,15 +49,16 @@ public class DebugTeksti {
             int sijx = (int)(window.getWidth()/5.5);
             int sijy = (int)(window.getHeight()/8f);
             int sijyOffset = (int)(window.getHeight()/54f);
-            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.2 Alfa");
+            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.2.2 Alfa");
             HUD.renderöiTeksti(versioInfoTeksti, sijx, sijy, window);
             näppäinInfoTeksti1.päivitäTeksti("F1: Käynistä uudelleen, F2: Kaada peli");
             HUD.renderöiTeksti(näppäinInfoTeksti1, sijx, sijy + sijyOffset, window);
             näppäinInfoTeksti2.päivitäTeksti("F3: Debug, F5: Huijauskoodit");
             HUD.renderöiTeksti(näppäinInfoTeksti2, sijx, sijy + 2*sijyOffset, window);
 
-            if (KeimoEngine.frameTime > 0) debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
-            else debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
+            //if (KeimoEngine.frameTime > 0) debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
+            //else debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
+            debugInfoTekstiFPS.päivitäTeksti("fps: " + kaksiDesimaalia.format(1d /KeimoEngine.keskivertoFrameAika));
             HUD.renderöiTeksti(debugInfoTekstiFPS, sijx, sijy + 4*sijyOffset, window);
             debugInfoTekstiMaailmaMs.päivitäTeksti("maailma: " + kaksiDesimaalia.format(tileAika/1_000_000d) + " ms");
             HUD.renderöiTeksti(debugInfoTekstiMaailmaMs, sijx, sijy + 5*sijyOffset, window);

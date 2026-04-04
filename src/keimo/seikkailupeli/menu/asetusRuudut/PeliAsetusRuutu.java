@@ -1,14 +1,14 @@
 package keimo.seikkailupeli.menu.asetusRuudut;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
@@ -18,19 +18,25 @@ public class PeliAsetusRuutu {
     private static int asetustenMäärä = 4;
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
     private static Teksti infoTeksti = new Teksti("info", Color.white, 2000, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.85f, 0, osoitinKuvake, 10, 0, 0);
     private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
 
-    private static Teksti asetusVaikeusasteTeksti = new Teksti("Vaikeusaste", Color.white, 600, 48);
-    private static Teksti asetusNopeusTeksti = new Teksti("Pelin nopeus", Color.white, 600, 48);
-    private static Teksti asetusDebugInfoTeksti = new Teksti("Debug-tiedot (F3)", Color.white, 600, 48);
+    private static Renderöitävä[] asetusTekstit = new Renderöitävä[] {
+        new Teksti("Vaikeusaste", Color.white, 600, 48),
+        new Teksti("Pelin nopeus", Color.white, 600, 48),
+        new Teksti("Debug-tiedot (F3)", Color.white, 600, 48),
+        hyväksyTekstuuri,
+    };
 
-    private static Teksti tilaVaikeusasteTeksti = new Teksti("Normaali", Color.white, 800, 48);
-    private static Teksti tilaNopeusTeksti = new Teksti("60", Color.white, 600, 48);
-    private static Teksti tilaDebugInfoTeksti = new Teksti("Ei", Color.white, 600, 48);
+    private static Teksti[] tilaTekstit = new Teksti[] {
+        new Teksti("Normaali", Color.white, 800, 48),
+        new Teksti("60", Color.white, 600, 48),
+        new Teksti("Ei", Color.white, 600, 48),
+        new Teksti("", Color.white, 600, 48),
+    };
 
     private static String[] vaikeusasteet = {"Passiivinen", "Normaali", "Vaikea", "Järjetön"};
     private static int vaikeusasteValInt = 1;
@@ -119,60 +125,39 @@ public class PeliAsetusRuutu {
     }
 
     static void hyväksy(int valinta) {
-        if (valinta == 3) {
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        if (valinta == asetustenMäärä -1) {
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+            valinta = 0;
         }
     }
 
     static void peruuta() {
-        KeimoEngine.valitseAktiivinenRuutu("asetusruutu");
+        AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ASETUSRUUTU;
+        valinta = 0;
     }
 
     public static void render(Shader shader, Ikkuna window) {
         shader.bind();
         
-        tilaVaikeusasteTeksti.päivitäTeksti(valittuVaikeusaste);
-        tilaNopeusTeksti.päivitäTeksti("" + pelinNopeus);
-        tilaDebugInfoTeksti.päivitäTeksti(PelinAsetukset.debugTiedot ? "Kyllä" : "Ei");
+        tilaTekstit[0].päivitäTeksti(valittuVaikeusaste);
+        tilaTekstit[1].päivitäTeksti("" + pelinNopeus);
+        tilaTekstit[2].päivitäTeksti(PelinAsetukset.debugTiedot ? "Kyllä" : "Ei");
 
         otsikkoLabel.renderöi(shader, window);
+
+        osoitinLabel.muutaOffsetY(1f/3f - (float)((valinta) - (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
+
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 1f/12f, 1f/12f, 1, -1f/12f -3f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, asetusTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
         }
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
-        }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaTilaTeksti(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, tilaTekstit[i], window, 1f/2.5f, 1f/15f, 1, 1f/2.5f +1f/4f, offsetY, 0);
         }
         annaInfoTeksti(valinta);
         infoTekstiLabel.renderöi(shader, window);
-    }
-
-    private static Renderöitävä annaAsetusTekstuuri(int indeksi) {
-        switch (indeksi) {
-            case 0: return asetusVaikeusasteTeksti;
-            case 1: return asetusNopeusTeksti;
-            case 2: return asetusDebugInfoTeksti;
-            default: return hyväksyTekstuuri;
-        }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
-    }
-
-    private static Renderöitävä annaTilaTeksti(int indeksi) {
-        switch (indeksi) {
-            case 0: return tilaVaikeusasteTeksti;
-            case 1: return tilaNopeusTeksti;
-            case 2: return tilaDebugInfoTeksti;
-            default: return tyhjäTekstuuri;
-        }
     }
 
     private static void annaInfoTeksti(int indeksi) {

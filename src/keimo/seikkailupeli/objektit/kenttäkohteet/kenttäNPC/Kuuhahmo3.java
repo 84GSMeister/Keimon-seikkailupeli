@@ -14,7 +14,7 @@ public class Kuuhahmo3 extends NPC_KenttäKohde{
         super.tekstuuri = Assets.annaTekstuuri("kuuhahmo3");
         super.katsomisTeksti = "Mikähän tuokin tyyppi lienee? No, ainakin se näyttäisi nauttivan menosta.";
         super.dialogit.add("vakio");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

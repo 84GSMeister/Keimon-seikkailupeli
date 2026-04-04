@@ -30,6 +30,13 @@ public abstract class Maasto extends PeliObjekti {
             super.lisäOminaisuuksia = true;
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kuva="));
             this.lisäOminaisuudet.add("kuva="+ tiedostonNimi);
+            
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+            if (kääntöAsteet != 0) this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+            if (xPeilaus) this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+            if (yPeilaus)this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
         }
     }
 

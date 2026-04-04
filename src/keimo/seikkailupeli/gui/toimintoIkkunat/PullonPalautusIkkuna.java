@@ -1,15 +1,16 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Pulloautomaatti;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Pulloautomaatti.PulloautomaatinKuvake;
@@ -20,18 +21,15 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 public class PullonPalautusIkkuna {
-    
-    private static Shader peliShader = new Shader("shader");
-
-    private static Tekstuuri kehysTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys_valikko.png");
-    private static Tekstuuri taustaTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/pullonpalautus.png");
-    private static Teksti tölkkiMääräTeksti = new Teksti("0 / 0", Color.black, 350, 48);
-    private static Teksti pullonPalautusTeksti = new Teksti("Palautetaan", Color.black, 600, 192);
+    private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
+    private static Renderöitävä taustaTekstuuri = Assets.annaTekstuuri("toimintoikkuna_pullonpalautus");
+    private static Teksti tölkkiMääräTeksti;
+    private static Teksti pullonPalautusTeksti;
     private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
     private static StaattinenKomponentti taustaLabel = new StaattinenKomponentti(0.4f, 0.4f, 0, 0, taustaTekstuuri);
-    private static StaattinenKomponentti tölkkiMääräLabel = new StaattinenKomponentti(0.15f, 0.1f, 0.275f, 0.2f, tölkkiMääräTeksti);
+    private static StaattinenKomponentti tölkkiMääräLabel;
     private static Latauspalkki edistymispalkki = new Latauspalkki(1f/3f, 0.05f, 0.0f, -0.2f);
-    private static StaattinenKomponentti virheLabel = new StaattinenKomponentti(0.125f, 0.1f, 0.15f, 0, pullonPalautusTeksti);
+    private static StaattinenKomponentti virheLabel;
 
     private static Random r = new Random();
     private static String statusTeksti1 = "0/0";
@@ -45,8 +43,17 @@ public class PullonPalautusIkkuna {
     private static float venytäX;
     private static int toistot = 0;
     private static int virhe;
+
+    public static void alustaGrafiikat() {
+        tölkkiMääräTeksti = new Teksti("0 / 0", Color.black, 350, 48);
+        pullonPalautusTeksti = new Teksti("Palautetaan", Color.black, 600, 192);
+        tölkkiMääräLabel = new StaattinenKomponentti(0.15f, 0.1f, 0.275f, 0.2f, tölkkiMääräTeksti);
+        virheLabel = new StaattinenKomponentti(0.125f, 0.1f, 0.15f, 0, pullonPalautusTeksti);
+    }
     
-    public static void renderöiIkkuna(Ikkuna window) {
+    public static void renderöiIkkuna(Shader peliShader, Ikkuna window) {
+        peliShader.bind();
+        peliShader.nollaaShaderEfektit();
         if (siirräY > 0) siirräY -= 0.05f;
         if (venytäX < 1) venytäX += 0.05f;
 

@@ -2,7 +2,7 @@ package keimo.keimoengine.grafiikat.guikomponentit;
 
 import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 
 import org.joml.AxisAngle4f;
@@ -12,14 +12,23 @@ public class Komponentti {
 
     private static Matrix4f sijaintiMatriisi = new Matrix4f();
     private static Matrix4f rotaatioMatriisi = new Matrix4f();
-    
+
     public static void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
+        sijaintiMatriisi.identity();
+        sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
+        sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
+        shader.asetaSijainti(sijaintiMatriisi);
+        if (tekstuuri != null) tekstuuri.bind(0);
+        EngineAssets.getModel().render();
+    }
+    
+    public static void renderöiKomponenttiJaSkaalaa(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
         sijaintiMatriisi.identity();
         sijaintiMatriisi = skaalaaPiirtoalueKuvasuhteenMukaan(sijaintiMatriisi, window);
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.setUniform("projection", sijaintiMatriisi);
-        tekstuuri.bind(0);
+        shader.asetaSijainti(sijaintiMatriisi);
+        if (tekstuuri != null) tekstuuri.bind(0);
         EngineAssets.getModel().render();
     }
 
@@ -28,10 +37,12 @@ public class Komponentti {
         sijaintiMatriisi = skaalaaPiirtoalueKuvasuhteenMukaan(sijaintiMatriisi, window);
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(1), rotX, rotY, rotZ));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotX), 1, 0, 0));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotY), 0, 1, 0));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotZ), 0, 0, 1));
         sijaintiMatriisi.mul(rotaatioMatriisi);
-        shader.setUniform("projection", sijaintiMatriisi);
-        tekstuuri.bind(0);
+        shader.asetaSijainti(sijaintiMatriisi);
+        if (tekstuuri != null) tekstuuri.bind(0);
         EngineAssets.getModel().render();
     }
 

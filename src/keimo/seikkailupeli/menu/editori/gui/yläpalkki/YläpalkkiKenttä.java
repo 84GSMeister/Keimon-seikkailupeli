@@ -1,12 +1,11 @@
 package keimo.seikkailupeli.menu.editori.gui.yläpalkki;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.TooltipTeksti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
@@ -22,26 +21,38 @@ import org.joml.Vector4f;
 
 public class YläpalkkiKenttä {
 
-    private static StaattinenKomponentti otsikko = new StaattinenKomponentti(0.5f, 0.05f, 0.25f, 0.95f, new Teksti("Kenttä", Color.white, 400, 48));
+    private static Teksti otsikkoTeksti;
+    private static StaattinenKomponentti otsikko = new StaattinenKomponentti(0.5f, 0.05f, 0.25f, 0.95f, otsikkoTeksti);
     
-    private static Teksti valitunEsineenNimiTeksti = new Teksti("Valitse esine", Color.magenta, 1200, 36);
-    private static Teksti valitunMaastonKuvaTeksti = new Teksti("", Color.blue, 1200, 36);
-    private static Tekstuuri kopioituTekstuuri = new Tekstuuri("tiedostot/kuvat/editori/kopioi_ominaisuudet.png");
-    private static Teksti objektinKääntöAsteetTeksti = new Teksti("" + EditoriRuutu.kääntöAsteet, Color.orange, 100, 36);
-    private static Tekstuuri objektinPeilausValittuKuvake = new Tekstuuri("tiedostot/kuvat/editori/valittu.png");
+    private static Teksti valitunEsineenNimiTeksti;
+    private static Teksti valitunMaastonKuvaTeksti;
+    private static Renderöitävä kopioituTekstuuri = Assets.annaTekstuuri("editori_kopioi_ominaisuudet");
+    private static Teksti objektinKääntöAsteetTeksti ;
+    private static Renderöitävä objektinPeilausValittuKuvake = Assets.annaTekstuuri("editori_valittu");
     private static Renderöitävä valitunEsineenTekstuuri;
 
     private static Nappi valitunEsineenTekstuuriNappi = new Nappi(0.05f, 0.1f, -0.35f, 0.85f, valitunEsineenTekstuuri, new TooltipTeksti("Muokkaa objektia"));
-    private static Nappi valittuObjektiNappi = new Nappi(0.1f, 0.05f, -0.15f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/valittu_objekti.png"), new TooltipTeksti("Objektivalikko"));
+    private static Nappi valittuObjektiNappi = new Nappi(0.1f, 0.05f, -0.15f, 0.8f, Assets.annaTekstuuri("editori_objekti_valittu"), new TooltipTeksti("Objektivalikko"));
     private static StaattinenKomponentti kopioituTekstuuriLabel = new StaattinenKomponentti(0.0125f, 0.025f, -0.220f, 0.775f, kopioituTekstuuri);
 
-    private static Nappi käännäObjektiaNappi = new Nappi(0.025f, 0.05f, 0f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/objekti_kääntö.png"), new TooltipTeksti("Käännä objektia"));
-    private static Nappi peilaaObjektiXNappi = new Nappi(0.025f, 0.05f, 0.1f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/objekti_peilaus_x.png"), new TooltipTeksti("Peilaa vaakasuunnassa", 750, 48));
-    private static Nappi peilaaObjektiYNappi = new Nappi(0.025f, 0.05f, 0.2f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/objekti_peilaus_y.png"), new TooltipTeksti("Peilaa pystysuunnassa", 750, 48));
+    private static Nappi käännäObjektiaNappi = new Nappi(0.025f, 0.05f, 0f, 0.8f, Assets.annaTekstuuri("editori_objekti_kääntö"), new TooltipTeksti("Käännä objektia"));
+    private static Nappi peilaaObjektiXNappi = new Nappi(0.025f, 0.05f, 0.1f, 0.8f, Assets.annaTekstuuri("editori_objekti_peilaus_x"), new TooltipTeksti("Peilaa vaakasuunnassa", 750, 48));
+    private static Nappi peilaaObjektiYNappi = new Nappi(0.025f, 0.05f, 0.2f, 0.8f, Assets.annaTekstuuri("editori_objekti_peilaus_y"), new TooltipTeksti("Peilaa pystysuunnassa", 750, 48));
     private static StaattinenKomponentti objektinKääntöAsteetLabel = new StaattinenKomponentti(0.025f, 0.05f, 0f, 0.8f, objektinKääntöAsteetTeksti);
     private static StaattinenKomponentti objektinPeilausXLabel = new StaattinenKomponentti(0.025f, 0.05f, 0.1f, 0.8f, objektinPeilausValittuKuvake);
     private static StaattinenKomponentti objektinPeilausYLabel = new StaattinenKomponentti(0.025f, 0.05f, 0.2f, 0.8f, objektinPeilausValittuKuvake);
     
+    protected static void alustaGrafiikat() {
+        otsikkoTeksti = new Teksti("Kenttä", Color.white, 400, 48);
+        otsikko.päivitäSisältö(otsikkoTeksti);
+        valitunEsineenNimiTeksti = new Teksti("Valitse esine", Color.magenta, 1200, 36);
+        valitunMaastonKuvaTeksti = new Teksti("", Color.blue, 1200, 36);
+        objektinKääntöAsteetTeksti = new Teksti("" + EditoriRuutu.kääntöAsteet, Color.orange, 100, 36);
+        objektinKääntöAsteetLabel.päivitäSisältö(objektinKääntöAsteetTeksti);
+        objektinPeilausXLabel.päivitäSisältö(objektinPeilausValittuKuvake);
+        objektinPeilausYLabel.päivitäSisältö(objektinPeilausValittuKuvake);
+    }
+
     public static void tarkistaHover(int hiiriX, int hiiriY) {
         valittuObjektiNappi.hiiriSisällä(hiiriX, hiiriY);
         valitunEsineenTekstuuriNappi.hiiriSisällä(hiiriX, hiiriY);
@@ -73,12 +84,10 @@ public class YläpalkkiKenttä {
 
     public static void asetaValittuObjekti(PeliObjekti objekti) {
         if (objekti != null) {
-            valitunEsineenNimiTeksti.päivitäTeksti(objekti.annaNimi());
             if (objekti instanceof KenttäKohde || objekti instanceof Entity) {
                 valitunEsineenTekstuuri = objekti.annaTekstuuri();
             }
             else if (objekti instanceof Maasto) {
-                valitunMaastonKuvaTeksti.päivitäTeksti(((Maasto)objekti).annaKuvanTiedostoNimi());
                 valitunEsineenTekstuuri = EditoriRuutu.tileTextures.get(((Maasto)objekti).annaTekstuurinNimi());
             }
         }
@@ -97,7 +106,6 @@ public class YläpalkkiKenttä {
         if (valitunEsineenTekstuuri != null) {
             valitunEsineenTekstuuriNappi.päivitäSisältö(valitunEsineenTekstuuri);
             valitunEsineenTekstuuriNappi.renderöiRotaatio(shader, ikkuna, EditoriRuutu.kääntöAsteet, EditoriRuutu.peilausX, EditoriRuutu.peilausY);
-            //valitunEsineenTekstuuriNappi.renderöi(shader, window);
             if (EditoriRuutu.kopioitu) kopioituTekstuuriLabel.renderöi(shader, ikkuna);
         }
 
@@ -105,6 +113,12 @@ public class YläpalkkiKenttä {
             float scaleX = 0.2f, scaleY = 0.0125f;
             float offsetX = -0.05f, offsetY = 1f - 0.180f;
             valitunEsineenNimiTeksti.bind(0);
+            if (EditoriRuutu.valittuEsine != null) {
+                valitunEsineenNimiTeksti.päivitäTeksti(EditoriRuutu.valittuEsine.annaNimi());
+                if (EditoriRuutu.valittuEsine instanceof Maasto) {
+                    valitunMaastonKuvaTeksti.päivitäTeksti(((Maasto)EditoriRuutu.valittuEsine).annaKuvanTiedostoNimi());
+                }
+            }
             renderöiKomponentti(shader, valitunEsineenNimiTeksti, ikkuna, scaleX, scaleY, 1, offsetX, offsetY, 0);
             
             scaleX = 0.2f; scaleY = 0.0125f;
@@ -146,7 +160,7 @@ public class YläpalkkiKenttä {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.setUniform("projection", sijaintiMatriisi);
+        shader.asetaSijainti(sijaintiMatriisi);
         shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
         tekstuuri.bind(0);
         Assets.getModel().render();

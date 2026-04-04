@@ -1,13 +1,13 @@
 package keimo.seikkailupeli.menu;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyöteLaitteet;
+import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
 import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -26,6 +26,7 @@ public class TarinaRuutu {
     private static ArrayList<String> tarinanTekstit = new ArrayList<>();
     private static MenuKomponentti kuvaLabel = new MenuKomponentti(1, 0.5f, 0, 0.5f, kuvaTexture);
     private static MenuKomponentti tekstiLabel = new MenuKomponentti(1, 1f/3f, 0, -1f/3f, tekstiTexture);
+    private static MenuKomponentti jatkaLabel = new MenuKomponentti(1, 1f/6f, 0, -5f/6f, jatkaNappiTexture, 0, 1, 0);
 
     private static int klikkaustenMäärä;
     private static int tarinanPituusRuutuina;
@@ -64,16 +65,49 @@ public class TarinaRuutu {
             tarinanTekstit.add("Ei voitu ladata tarinapätkää " + "\"" + tarinanTunniste + "\"" + "\n" + "Onkohan default.kst-tiedosto vioittunut?");
             tarinanKuvat.add(new Tekstuuri("tiedostot/kuvat/tarina/tarina_placeholder.png"));
         }
+        if (tarinanTunniste.equals("alku")) Musat.toistaPeliMusa("tarina");
+		else Musat.toistaPeliMusa("välitarina");
     }
 
     public static void jatka() {
-        klikkaustenMäärä++;
+        if (klikkaustenMäärä < tarinanPituusRuutuina) {
+            klikkaustenMäärä++;
+        }
+        Äänet.toistaSFX("Valinta");
+        Pelaaja.käyttöViive = 50;
+    }
+
+    public static void renderöi(Shader shader, Ikkuna window) {
+        shader.bind();
+        shader.nollaaShaderEfektit();
+
+        tarkistaSiirtymä();
+
+        if (klikkaustenMäärä < tarinanPituusRuutuina) {
+            kuvaLabel.päivitäSisältö(tarinanKuvat.get(klikkaustenMäärä));
+            kuvaLabel.renderöi(shader, window);
+
+            tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä), 2);
+            tekstiLabel.renderöi(shader, window);
+
+            if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
+                jatkaNappiTexture.päivitäTeksti("Space: Jatka");
+            }
+            else if (Peli.viimeisinSyöteLaite == SyöteLaitteet.PELIOHJAIN) {
+                jatkaNappiTexture.päivitäTeksti("A: Jatka");
+            }
+        }
+
+        jatkaLabel.renderöiPyörivä(shader, window);
+    }
+
+    private static void tarkistaSiirtymä() {
         if (klikkaustenMäärä >= tarinanPituusRuutuina) {
-            if (!Peli.peliAloitettu) {
-                KeimoEngine.valitseAktiivinenRuutu("valikkoruutu");
+            if (!Peli.peliKäynnissä) {
+                Renderöinti.siirrySeuraavaanRuutuun("valikkoruutu");
             }
             else {
-                KeimoEngine.valitseAktiivinenRuutu("peliruutu");
+                Renderöinti.siirrySeuraavaanRuutuun("peliruutu");
                 Pelaaja.pakotaPelaajanPysäytys();
                 if (Peli.huone != null) {
                     Musat.toistaPeliMusa(Peli.huone.annaHuoneenMusa());
@@ -81,26 +115,5 @@ public class TarinaRuutu {
                 Peli.pause = false;
             }
         }
-        Äänet.toistaSFX("Valinta");
-        Pelaaja.käyttöViive = 50;
-    }
-
-    public static void render(Shader shader, Ikkuna window) {
-        shader.bind();
-        shader.nollaaShaderEfektit();
-
-        kuvaLabel.päivitäSisältö(tarinanKuvat.get(klikkaustenMäärä));
-        kuvaLabel.renderöi(shader, window);
-
-        tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä), 2);
-        tekstiLabel.renderöi(shader, window);
-
-        if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
-            jatkaNappiTexture.päivitäTeksti("Space: Jatka");
-        }
-        else if (Peli.viimeisinSyöteLaite == SyöteLaitteet.PELIOHJAIN) {
-            jatkaNappiTexture.päivitäTeksti("A: Jatka");
-        }
-        Komponentti.renderöiKomponenttiRotaatio(shader, jatkaNappiTexture, window, 1, 1f/6f, 1, 0, -5f/6f, 0, 0, 1, 0);
     }
 }

@@ -1,10 +1,11 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.assets.EngineAssets;
 
+import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 
 /**
@@ -17,8 +18,10 @@ public class MenuKomponentti {
 
     private float scaleX, scaleY;
     private float offsetX, offsetY;
+    private float rotX, rotY, rotZ;
     private Renderöitävä tekstuuri;
     private Matrix4f sijaintiMatriisi = new Matrix4f();
+    private Matrix4f rotaatioMatriisi = new Matrix4f();
 
     public MenuKomponentti(float scaleX, float scaleY, float offsetX, float offsetY) {
         this.scaleX = scaleX;
@@ -41,6 +44,9 @@ public class MenuKomponentti {
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.tekstuuri = tekstuuri;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
     }
 
     public Renderöitävä annaSisältö() {
@@ -67,15 +73,23 @@ public class MenuKomponentti {
     }
 
     public void renderöi(Shader shader, Ikkuna window) {
-        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, 0, 0, 0);
     }
 
-    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
+    public void renderöiPyörivä(Shader shader, Ikkuna window) {
+        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, rotX, rotY, rotZ);
+    }
+
+    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, float rotX, float rotY, float rotZ) {
         sijaintiMatriisi.identity();
         sijaintiMatriisi = skaalaaPiirtoalueKuvasuhteenMukaan(sijaintiMatriisi, window);
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.setUniform("projection", sijaintiMatriisi);
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotX), 1, 0, 0));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotY), 0, 1, 0));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotZ), 0, 0, 1));
+        sijaintiMatriisi.mul(rotaatioMatriisi);
+        shader.asetaSijainti(sijaintiMatriisi);
         tekstuuri.bind(0);
         EngineAssets.getModel().render();
     }

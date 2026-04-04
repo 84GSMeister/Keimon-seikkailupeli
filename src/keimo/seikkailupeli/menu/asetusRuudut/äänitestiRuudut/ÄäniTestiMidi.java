@@ -1,15 +1,18 @@
 package keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.äänet.MidiToistin;
+import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
+import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
@@ -24,24 +27,35 @@ public class ÄäniTestiMidi {
     private static int valinta = 0;
     private static int asetustenMäärä = 3;
     private static Renderöitävä otsikkoTekstuuri = Assets.annaTekstuuri("menu_main_asetukset");
-    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
+    private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin2");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
     private static Renderöitävä hyväksyTekstuuri = Assets.annaTekstuuri("menu_asetukset_takaisin");
+    private static Teksti infoTeksti = new Teksti("info", Color.white, 2500, 300);
     private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/8f, 0, 0.75f, otsikkoTekstuuri);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -0.85f, 0, osoitinKuvake, 0, 10, 0);
+    private static MenuKomponentti infoTekstiLabel = new MenuKomponentti(1, 0.25f, 0, -0.75f, infoTeksti);
 
-    private static Teksti asetusMidiraitaTeksti = new Teksti("Midi-raita", Color.white, 400, 48);
-    private static Teksti asetusSoundfontTeksti = new Teksti("Soundfont", Color.white, 400, 48);
+    private static Teksti asetusMidiraitaTeksti;
+    private static Teksti asetusSoundfontTeksti;
 
-    private static Teksti tilaMidiraitaTeksti = new Teksti("Midi-raita", Color.white, 900, 48);
-    private static Teksti tilaSoundfontTeksti = new Teksti("Soundfont", Color.white, 900, 48);
+    private static Teksti tilaMidiraitaTeksti;
+    private static Teksti tilaSoundfontTeksti;
 
     private static List<File> midiTiedostot;
     private static List<File> soundfontTiedostot;
     private static int valittuMidi = 0;
     private static int valittuSoundfont = 0;
 
+    private static String infoTekstiNäppäimistöString = "Äänitesti\n" +
+    "Space: Toista, Esc: Pysäytä\n" +
+    "Kokeile viedä MIDI-tiedostoja hakemistoon \"tiedostot/äänet/midi\"\n" +
+    "tai Soundfont-tiedostoja hakemistoon \"tiedostot/äänet/soundfontit\"!";
+    private static String infoTekstiOhjainString = "Äänitesti\n" +
+    "A: Toista, B: Pysäytä\n" +
+    "Kokeile viedä MIDI-tiedostoja hakemistoon \"tiedostot/äänet/midi\"\n" +
+    "tai Soundfont-tiedostoja hakemistoon \"tiedostot/äänet/soundfontit\"!";
+
     public static void alusta() {
-        Musat.suljeMusa();
         listaaÄänet();
     }
 
@@ -58,6 +72,13 @@ public class ÄäniTestiMidi {
             System.out.println("Virhe ladatessa ääniä");
             e.printStackTrace();
         }
+    }
+
+    public static void alustaGrafiikat() {
+        asetusMidiraitaTeksti = new Teksti("Midi-raita", Color.white, 400, 48);
+        asetusSoundfontTeksti = new Teksti("Soundfont", Color.white, 400, 48);
+        tilaMidiraitaTeksti = new Teksti("Midi-raita", Color.white, 900, 48);
+        tilaSoundfontTeksti = new Teksti("Soundfont", Color.white, 900, 48);
     }
 
     public static void painaNäppäintä(String näppäin) {
@@ -88,6 +109,8 @@ public class ÄäniTestiMidi {
                 hyväksy(valinta);
             }
             case "esc" -> {
+                Äänet.suljeÄänet();
+                Musat.suljeMusa();
                 MidiToistin.suljeMusat();
             }
         }
@@ -102,7 +125,6 @@ public class ÄäniTestiMidi {
                 else {
                     if (valittuMidi > 0) valittuMidi--;
                 }
-                tilaMidiraitaTeksti.päivitäTeksti(midiTiedostot.get(valittuMidi).toString());
             }
             case 1 -> { // Soundfont
                 if (kasvata) {
@@ -123,13 +145,13 @@ public class ÄäniTestiMidi {
             toistaValittuÄäni();
         }
         if (valinta == 2) {
-            MidiToistin.suljeMusat();
-            KeimoEngine.valitseAktiivinenRuutu("asetusruutu_äänitesti");
+            AsetusRuutu.aktiivinenAsetusRuutu = AsetusRuudut.ÄÄNITESTI_VALIKKO;
             Äänet.toistaSFX("Valinta");
         }
     }
 
     private static void toistaValittuÄäni() {
+        Musat.suljeMusa();
         MidiToistin.suljeMusat();
         File valittuMidiTiedosto = midiTiedostot.get(valittuMidi);
         if (valittuSoundfont > 0) {
@@ -153,18 +175,26 @@ public class ÄäniTestiMidi {
         }
 
         otsikkoLabel.renderöi(shader, window);
+
+        osoitinLabel.muutaOffsetY(1f/3f - (float)((valinta) - (valinta == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f));
+        osoitinLabel.renderöiPyörivä(shader, window);
+
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaOsoitinKuvake(i), window, 1f/12f, 1f/12f, 1, -1f/12f -3f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
         }
         for (int i = 0; i < asetustenMäärä; i++) {
             float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaAsetusTekstuuri(i), window, 1f/2.5f, 1f/15f, 1, 1f/2.5f -3f/4f, offsetY, 0);
+            Komponentti.renderöiKomponenttiJaSkaalaa(shader, annaTilaTeksti(i), window, 1f/2.5f, 1f/15f, 1, 1f/2f +1f/10f, offsetY, 0);
         }
-        for (int i = 0; i < asetustenMäärä; i++) {
-            float offsetY = 1f/3f - (float)((i) - (i == asetustenMäärä-1 ? 0 : 1)) * (1f/7.5f);
-            Komponentti.renderöiKomponentti(shader, annaTilaTeksti(i), window, 1f/2.5f, 1f/15f, 1, 1f/2f +1f/10f, offsetY, 0);
+
+        if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
+            infoTeksti.päivitäTeksti(infoTekstiNäppäimistöString);
         }
+        else if (Peli.viimeisinSyöteLaite == SyöteLaitteet.PELIOHJAIN) {
+            infoTeksti.päivitäTeksti(infoTekstiOhjainString);
+        }
+        infoTekstiLabel.renderöi(shader, window);
     }
 
     private static Renderöitävä annaAsetusTekstuuri(int indeksi) {
@@ -174,11 +204,6 @@ public class ÄäniTestiMidi {
             case 2: return hyväksyTekstuuri;
             default: return hyväksyTekstuuri;
         }
-    }
-
-    private static Renderöitävä annaOsoitinKuvake(int valikkoElementti) {
-        if (valikkoElementti == valinta) return osoitinKuvake;
-        else return tyhjäTekstuuri;
     }
 
     private static Renderöitävä annaTilaTeksti(int indeksi) {

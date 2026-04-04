@@ -11,11 +11,12 @@ public class PelinAsetukset {
     public static int tavoiteTickrate = 60;
     public static AjoitusMuoto ajoitus = AjoitusMuoto.TARKKA;
     public static OhjainKuvakkeet ohjainKuvakkeet = OhjainKuvakkeet.XBOX;
-    public static double musaVolyymi = 0.5d;
-    public static double ääniVolyymi = 0.5d;
+    public static double musaVolyymi = 0.7d;
+    public static double ääniVolyymi = 0.7d;
     public static int pelinNopeus = 60;
     public static int resoluutioX, resoluutioY;
     public static float zoom = 1;
+    public static boolean vapaaKamera = true;
     public static boolean debugTiedot = false;
 
     public static void valitseVaikeusaste(String vaikeusAsteNimi) {

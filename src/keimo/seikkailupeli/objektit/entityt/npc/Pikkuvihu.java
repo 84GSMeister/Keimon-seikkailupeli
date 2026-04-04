@@ -3,12 +3,13 @@ package keimo.seikkailupeli.objektit.entityt.npc;
 import java.util.ArrayList;
 
 import keimo.keimoengine.grafiikat.*;
+import keimo.seikkailupeli.assets.Assets;
 
 public class Pikkuvihu extends Vihollinen {
 
-    private Renderöitävä vakioTekstuuri = new Animaatio(15, "tiedostot/kuvat/npc/pikkuvihu.gif");
-    private Renderöitävä ämpäröityTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/pikkuvihu_suutari.png");
-    private Renderöitävä lyötyTekstuuri = new Tekstuuri("tiedostot/kuvat/npc/pikkuvihu_lyöty.png");
+    private Renderöitävä vakioTekstuuri = Assets.annaTekstuuri("pikkuvihu");
+    private Renderöitävä ämpäröityTekstuuri = Assets.annaTekstuuri("pikkuvihu_ämpäröity");
+    private Renderöitävä lyötyTekstuuri = Assets.annaTekstuuri("pikkuvihu_lyöty");
 
     @Override
     public void kukista(String kukistusTapa) {

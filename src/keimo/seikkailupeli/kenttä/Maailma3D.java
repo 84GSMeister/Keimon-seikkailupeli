@@ -2,13 +2,13 @@ package keimo.seikkailupeli.kenttä;
 
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.grafiikat.objekti3d.Model3D;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
@@ -37,7 +37,7 @@ public class Maailma3D {
     public static ArrayList<KenttäKohde> kenttäObjektit = new ArrayList<>();
     public static ArrayList<Entity> entityt = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
-    private static Shader shader = new Shader("shader");
+    //private static Shader shader = new Shader("shader");
     static Matrix4f world;
     static int scale = 32;
     private static Huone3D ladattuHuone;
@@ -50,7 +50,7 @@ public class Maailma3D {
     private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
     private static Teksti voittoTeksti = new Teksti("VOITIT PELIN!", Color.yellow, 1400, 400, KeimoFontit.fontti_keimo_100, false);
     private static Teksti voittoTeksti2 = new Teksti("Salainen reitti on avattu", Color.yellow, 2800, 200, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti voittoTeksti3 = new Teksti("Paina Esc palataksesi peliin", Color.yellow, 3200, 100, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti voittoTeksti3 = new Teksti("Paina Esc sulkeaksesi päätteen", Color.yellow, 3400, 100, KeimoFontit.fontti_keimo_100, false);
     private static Teksti vihjeTeksti = new Teksti("Tavoite 1. rivi", Color.cyan, 3300, 125, KeimoFontit.fontti_keimo_100, false);
     private static Teksti vihjeTeksti2 = new Teksti("Tavoite 2. rivi", Color.cyan, 3300, 125, KeimoFontit.fontti_keimo_100, false);
 
@@ -188,34 +188,34 @@ public class Maailma3D {
         }
     }
 
-    public static void render(Ikkuna window) {
+    public static void renderöi(Ikkuna window, Shader shader) {
         if (voitto) {
             renderöiVoittoTeksti(window);
         }
         else {
-            renderöi3DSkene(window);
+            renderöi3DSkene(window, shader);
             //renderöiPyörivätObjektit();
-            renderöi3DMaailma();
+            if (Peli.huone != null) renderöi3DMaailma(shader);
             renderöiVihjeTeksti(window);
             DebugTeksti.renderöiDebugTeksti(window);
             DebugTeksti.renderöiLisäMoodiTekstit(window);
         }
     }
 
-    protected static void renderöi3DSkene(Ikkuna window) {
+    protected static void renderöi3DSkene(Ikkuna window, Shader shader) {
         if (ladattuHuone != null) {
             Model3D ladattuMalli = ladattuHuone.annaHuoneenModel();
             ArrayList<Model3D> ladatutObjektit = ladattuHuone.annaHuoneenObjektit();
-            if (ladattuMalli != null) renderöi3DMalli(ladattuMalli, window);
+            if (ladattuMalli != null) renderöi3DMalli(ladattuMalli, window, shader);
             if (ladatutObjektit != null) {
                 for (Model3D malli3D : ladatutObjektit) {
-                    renderöi3DMalli(malli3D, window);
+                    renderöi3DMalli(malli3D, window, shader);
                 }
             }
         }
     }
 
-    protected static void renderöi3DMalli(Model3D malli, Ikkuna window) {
+    protected static void renderöi3DMalli(Model3D malli, Ikkuna window, Shader shader) {
         if (malli != null) {
             Matrix4f modelMatrix = malli.getTransform().getTransformation();
             Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, window.getWidth()/window.getHeight(), 0.001f, 1000);
@@ -223,7 +223,7 @@ public class Maailma3D {
             Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrtix).mul(modelMatrix);
             
             shader.bind();
-            shader.setUniform("projection", resultMatrix);
+            shader.asetaSijainti(resultMatrix);
             malli.draw();
         }
     }
@@ -239,12 +239,12 @@ public class Maailma3D {
         transform3DTeksti.getRotation().rotateAxis((float)Math.toRadians(2 * 1f), 0, 1, 0);
         Matrix4f mat3DTeksti = new Matrix4f();
         mat3DTeksti.mul(transform3DTeksti.getTransformation());
-        teksti3dShader.setUniform("projection", mat3DTeksti);
+        teksti3dShader.asetaSijainti(mat3DTeksti);
         väriEfekti2(teksti3dShader);
         Assets.getModel3D("KeimoTeksti").draw();
     }
 
-    public static void renderöi3DMaailma() {
+    public static void renderöi3DMaailma(Shader shader) {
         try {
             for (int y = 0; y < Peli.annaMaastoKenttä().length; y++) {
                 for (int x = 0; x < Peli.annaMaastoKenttä().length; x++) {
@@ -252,7 +252,7 @@ public class Maailma3D {
                     if (m instanceof Tile) {
                         Tile t = (Tile)m;
                         if (t != null) {
-                            renderöiTile(t, x, Peli.annaMaastoKenttä().length/2 -y, world);
+                            renderöiTile(t, x, Peli.annaMaastoKenttä().length/2 -y, world, shader);
                         }
                     }
                 }
@@ -266,8 +266,8 @@ public class Maailma3D {
                 for (int x = 0; x < Peli.annaObjektiKenttä().length; x++) {
                     KenttäKohde k = Peli.annaObjektiKenttä()[x][y];
                     if (k != null) {
-                        if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, x, -y, 1, world);
-                        else renderöi3dKenttäObjekti(k, x, Peli.annaObjektiKenttä().length/2 -y, 0, world);
+                        if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, x, -y, 1, world, shader);
+                        else renderöi3dKenttäObjekti(k, x, Peli.annaObjektiKenttä().length/2 -y, 0, world, shader);
                     }
                 }
             }
@@ -278,7 +278,7 @@ public class Maailma3D {
         }
     }
 
-    protected static void renderöiTile(Tile tile, int x, int y, Matrix4f world) {
+    protected static void renderöiTile(Tile tile, int x, int y, Matrix4f world, Shader shader) {
         shader.bind();
         if (tileTextures.containsKey(tile.annaTekstuurinNimi())) tileTextures.get(tile.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
@@ -287,20 +287,20 @@ public class Maailma3D {
         Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, 1, 0.001f, 1000);
         Matrix4f lookAtMatrtix = new Matrix4f().setLookAt(xSij, kameranYSij, zSij, xKohde, yKohde, zKohde, upX, upY, upZ);
         Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrtix).mul(tilenSijainti);
-        shader.setUniform("projection", resultMatrix);
+        shader.asetaSijainti(resultMatrix);
 
         Model model = Assets.getModel(tile.annaKääntöAsteet(), tile.annaXPeilaus(), tile.annaYPeilaus());
         model.render();
 	}
 
-    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f world) {
+    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f world, Shader shader) {
         shader.bind();
 		Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, -24));
         Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, 1, 0.001f, 1000);
         Matrix4f lookAtMatrix = new Matrix4f().setLookAt(xSij, kameranYSij, zSij, xKohde, yKohde, zKohde, upX, upY, upZ);
 		
 		Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrix).mul(objektinSijainti);
-        shader.setUniform("projection", resultMatrix);
+        shader.asetaSijainti(resultMatrix);
         objekti.annaTekstuuri().bind(0);
         Assets.getModel(objekti.annaKääntöAsteet(), objekti.annaXPeilaus(), objekti.annaYPeilaus()).render();
     }
@@ -363,24 +363,32 @@ public class Maailma3D {
     public static float pitch = 0;
     public static float roll = 0;
     public static boolean moonJump = false;
+    private static boolean liikuEteenpäin = false;
+    private static boolean liikuTaaksepäin = false;
+    private static boolean liikuVasemmalle = false;
+    private static boolean liikuOikealle = false;
 
     public static void liiku(Liike liike) {
         switch (liike) {
             case ETEENPÄIN:
-                xSij += hNopeus * (float)Math.cos(Math.toRadians(yaw));
-                zSij += hNopeus * (float)Math.sin(Math.toRadians(yaw));
+                //xSij += hNopeus * (float)Math.cos(Math.toRadians(yaw));
+                //zSij += hNopeus * (float)Math.sin(Math.toRadians(yaw));
+                liikuEteenpäin = true;
             break;
             case TAAKSEPÄIN:
-                xSij -= hNopeus * (float)Math.cos(Math.toRadians(yaw));
-                zSij -= hNopeus * (float)Math.sin(Math.toRadians(yaw));
+                //xSij -= hNopeus * (float)Math.cos(Math.toRadians(yaw));
+                //zSij -= hNopeus * (float)Math.sin(Math.toRadians(yaw));
+                liikuTaaksepäin = true;
             break;
             case VASEN:
-                xSij += hNopeus * (float)Math.sin(Math.toRadians(yaw));
-                zSij -= hNopeus * (float)Math.cos(Math.toRadians(yaw));
+                //xSij += hNopeus * (float)Math.sin(Math.toRadians(yaw));
+                //zSij -= hNopeus * (float)Math.cos(Math.toRadians(yaw));
+                liikuVasemmalle = true;
             break;
             case OIKEA:
-                xSij -= hNopeus * (float)Math.sin(Math.toRadians(yaw));
-                zSij += hNopeus * (float)Math.cos(Math.toRadians(yaw));
+                //xSij -= hNopeus * (float)Math.sin(Math.toRadians(yaw));
+                //zSij += hNopeus * (float)Math.cos(Math.toRadians(yaw));
+                liikuOikealle = true;
             break;
             case ALAS:
                 ySij -= vNopeus;
@@ -389,10 +397,43 @@ public class Maailma3D {
                 ySij += vNopeus;
             break;
             case HYPPY:
-                if (ySij <= 0 || moonJump){
+                if (ySij <= 0 || moonJump) {
                     vNopeus = 0.1f;
                 }
             case null, default:
+            break;
+        }
+    }
+
+    public static void lopetaLiike(Liike liike) {
+        switch (liike) {
+            case ETEENPÄIN:
+                liikuEteenpäin = false;
+            break;
+            case TAAKSEPÄIN:
+                liikuTaaksepäin = false;
+            break;
+            case VASEN:
+                liikuVasemmalle = false;
+            break;
+            case OIKEA:
+                liikuOikealle = false;
+            break;
+            case ALAS:
+                ySij -= vNopeus;
+            break;
+            case YLÖS:
+                ySij += vNopeus;
+            break;
+            case HYPPY:
+                if (ySij <= 0 || moonJump) {
+                    vNopeus = 0.1f;
+                }
+            case null, default:
+                liikuEteenpäin = false;
+                liikuTaaksepäin = false;
+                liikuVasemmalle = false;
+                liikuOikealle = false;
             break;
         }
     }
@@ -404,6 +445,23 @@ public class Maailma3D {
     }
 
     private static void liikutaPelaajaa() {
+        if (liikuEteenpäin) {
+            xSij += hNopeus * (float)Math.cos(Math.toRadians(yaw));
+            zSij += hNopeus * (float)Math.sin(Math.toRadians(yaw));
+        }
+        if (liikuTaaksepäin) {
+            xSij -= hNopeus * (float)Math.cos(Math.toRadians(yaw));
+            zSij -= hNopeus * (float)Math.sin(Math.toRadians(yaw));
+        }
+        if (liikuVasemmalle) {
+            xSij += hNopeus * (float)Math.sin(Math.toRadians(yaw));
+            zSij -= hNopeus * (float)Math.cos(Math.toRadians(yaw));
+        }
+        if (liikuOikealle) {
+            xSij -= hNopeus * (float)Math.sin(Math.toRadians(yaw));
+            zSij += hNopeus * (float)Math.cos(Math.toRadians(yaw));
+        }
+
         ySij += vNopeus;
         if (ySij > 0) {
             if (vNopeus > -0.1f) vNopeus -= putoamisKiihtyvyys;
@@ -438,12 +496,12 @@ public class Maailma3D {
                 if (pitch < -90) pitch = -90;
             }
             case PYÖRITÄ_VASEN -> {
-                roll -= kääntöNopeus;
-                if (roll < 0) roll += 360;
+                roll += kääntöNopeus;
                 roll %= 360;
             }
             case PYÖRITÄ_OIKEA -> {
-                roll += kääntöNopeus;
+                roll -= kääntöNopeus;
+                if (roll < 0) roll += 360;
                 roll %= 360;
             }
         }
@@ -468,20 +526,20 @@ public class Maailma3D {
 
     private static void renderöiVoittoTeksti(Ikkuna window) {
         float skaalaX = 0.5f, skaalaY = 0.25f;
-        Komponentti.renderöiKomponentti(objekti3dShader, voittoTeksti, window, skaalaX, skaalaY, 1, 0, 0, 0);
+        Komponentti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti, window, skaalaX, skaalaY, 1, 0, 0, 0);
 
         skaalaX = 0.5f; skaalaY = 1/16f;
-        Komponentti.renderöiKomponentti(objekti3dShader, voittoTeksti2, window, skaalaX, skaalaY, 1, 0, -0.25f, 0);
+        Komponentti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti2, window, skaalaX, skaalaY, 1, 0, -0.125f, 0);
 
         skaalaX = 0.5f; skaalaY = 1/64f;
-        Komponentti.renderöiKomponentti(objekti3dShader, voittoTeksti3, window, skaalaX, skaalaY, 1, 0, -0.5f, 0);
+        Komponentti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti3, window, skaalaX, skaalaY, 1, 0, -0.25f, 0);
     }
 
     private static void renderöiVihjeTeksti(Ikkuna window) {
         vihjeTeksti.päivitäTeksti("Tavoite: Etsi Keimon koti");
-        HUD.renderöiTeksti(vihjeTeksti, (int)(window.getWidth()/2), 60, window);
+        HUD.renderöiTeksti(vihjeTeksti, (int)(window.getWidth()/2), 400, window);
         vihjeTeksti2.päivitäTeksti("Yo-kylä 46 A 24");
-        HUD.renderöiTeksti(vihjeTeksti2, (int)(window.getWidth()/2), 80, window);
+        HUD.renderöiTeksti(vihjeTeksti2, (int)(window.getWidth()/2), 420, window);
     }
 
     public class DebugTeksti {
@@ -500,7 +558,7 @@ public class Maailma3D {
         public static void renderöiDebugTeksti(Ikkuna window) {
             if (debugTiedotNäkyvissä) {
                 try {
-                    int sijx = (int)(window.getWidth()/5.5);
+                    int sijx = (int)(window.getWidth()/1.75f);
                     debugInfoTekstit[0].päivitäTeksti("Keimo3D Simulaattori v0.3");
                     HUD.renderöiTeksti(debugInfoTekstit[0], sijx, 40, window);
                     debugInfoTekstit[1].päivitäTeksti("ESC: Poistu simulaattorista");
@@ -508,8 +566,9 @@ public class Maailma3D {
                     debugInfoTekstit[2].päivitäTeksti("F5: Huijauskoodit");
                     HUD.renderöiTeksti(debugInfoTekstit[2], sijx, 80, window);
 
-                    if (KeimoEngine.frameTime > 0) debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
-                    else debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
+                    //if (KeimoEngine.frameTime > 0) debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
+                    //else debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
+                    debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d /KeimoEngine.keskivertoFrameAika));
                     HUD.renderöiTeksti(debugInfoTekstit[3], sijx, 120, window);
                     if (ladattuHuone != null) debugInfoTekstit[4].päivitäTeksti("Kenttä: " + ladattuHuone.annaNimi() + " (" + ladattuHuone.annaId() + ")");
                     else debugInfoTekstit[4].päivitäTeksti("Kenttä: " + "Ei määritetty" + " (+ / - : vaihda)");

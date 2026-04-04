@@ -1,10 +1,8 @@
 package keimo.seikkailupeli.objektit;
 
 import keimo.keimoengine.collision.Neliö;
-import keimo.liikkuminen.*;
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.Peli.SyöteLaitteet;
-import keimo.seikkailupeli.io.OhjainKomennot;
+import keimo.seikkailupeli.liikkuminen.*;
 import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
 import keimo.seikkailupeli.objektit.kenttäkohteet.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.*;
@@ -613,12 +611,6 @@ public class Pelaaja extends PeliObjekti {
         pelaajaLiikkuuYlös = false;
         pelaajaLiikkuuAlas = false;
         keimonState = KeimonState.IDLE;
-        if (Peli.viimeisinSyöteLaite == SyöteLaitteet.PELIOHJAIN) {
-            OhjainKomennot.lAnalogVasenPainettu = false;
-            OhjainKomennot.lAnalogOikeaPainettu = false;
-            OhjainKomennot.lAnalogYlösPainettu = false;
-            OhjainKomennot.lAnalogAlasPainettu = false;
-        }
     }
     
     public static boolean pelaajaLiikkuuVasen = false;

@@ -58,6 +58,7 @@ public class MidiToistin {
                 }
             }
 
+            // Toista käyttäen järjestelmän vakio-MIDI-kirjastoa
             if (soundFont == null) {
                 Transmitter transmitter = sequencer.getTransmitter();
                 transmitter.setReceiver(receiver);
@@ -67,11 +68,13 @@ public class MidiToistin {
                 sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
                 sequencer.start();
             }
+            // Toista käyttäen valittua sounfonttia
             else {
                 Soundbank soundfont = MidiSystem.getSoundbank(soundFont);
 
                 Transmitter transmitter = sequencer.getTransmitter();
                 transmitter.setReceiver(receiver);
+                // Tyhjennetään vakio-midiäänikirjasto ja ladataan äänikirjasto soundfontista
                 synthesizer.unloadAllInstruments(synthesizer.getDefaultSoundbank());
                 synthesizer.loadAllInstruments(soundfont);
                 synthesizer.open();

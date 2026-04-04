@@ -125,9 +125,7 @@ public class PeliKenttäMetodit {
                 for (KenttäKohde k : kk) {
                     if (k instanceof AvattavaEste) {
                         AvattavaEste este = (AvattavaEste)k;
-                        //if (!este.onkoAvattu()) {
-                            este.tarkistaTriggerit();
-                        //}
+                        este.tarkistaTriggerit();
                     }
                 }
             }

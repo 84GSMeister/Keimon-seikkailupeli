@@ -1,12 +1,12 @@
 package keimo.seikkailupeli.menu.editori.gui.yläpalkki;
 
-import keimo.keimoengine.grafiikat.Shader;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Nappi;
 import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
 import keimo.keimoengine.grafiikat.guikomponentit.TooltipTeksti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
 import keimo.seikkailupeli.menu.editori.EditoriRuutu;
@@ -22,11 +22,17 @@ import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 public class YläpalkkiTiedosto {
 
-    private static StaattinenKomponentti otsikko = new StaattinenKomponentti(0.5f, 0.05f, 0.25f, 0.95f, new Teksti("Tiedosto", Color.white, 400, 48));
-    private static Nappi uusiTiedostoNappi = new Nappi(0.05f, 0.05f, -0.3f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/tiedosto_uusi.png"), new TooltipTeksti("Uusi kenttä"));
-    private static Nappi avaaTiedostoNappi = new Nappi(0.05f, 0.05f, -0.2f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/tiedosto_avaa.png"), new TooltipTeksti("Avaa tiedosto"));
-    private static Nappi tallennaTiedostoNappi = new Nappi(0.05f, 0.05f, -0.1f, 0.8f, new Tekstuuri("tiedostot/kuvat/editori/tiedosto_tallenna.png"), new TooltipTeksti("Tallenna tiedosto"));
+    private static Teksti otsikkoTeksti;
+    private static StaattinenKomponentti otsikko = new StaattinenKomponentti(0.5f, 0.05f, 0.25f, 0.95f, otsikkoTeksti);
+    private static Nappi uusiTiedostoNappi = new Nappi(0.05f, 0.05f, -0.3f, 0.8f, Assets.annaTekstuuri("editori_tiedosto_uusi"), new TooltipTeksti("Uusi kenttä"));
+    private static Nappi avaaTiedostoNappi = new Nappi(0.05f, 0.05f, -0.2f, 0.8f, Assets.annaTekstuuri("editori_tiedosto_avaa"), new TooltipTeksti("Avaa tiedosto"));
+    private static Nappi tallennaTiedostoNappi = new Nappi(0.05f, 0.05f, -0.1f, 0.8f, Assets.annaTekstuuri("editori_tiedosto_tallenna"), new TooltipTeksti("Tallenna tiedosto"));
     
+    protected static void alustaGrafiikat() {
+        otsikkoTeksti = new Teksti("Tiedosto", Color.white, 400, 48);
+        otsikko.päivitäSisältö(otsikkoTeksti);
+    }
+
     public static void tarkistaHover(int hiiriX, int hiiriY) {
         uusiTiedostoNappi.hiiriSisällä(hiiriX, hiiriY);
         avaaTiedostoNappi.hiiriSisällä(hiiriX, hiiriY);

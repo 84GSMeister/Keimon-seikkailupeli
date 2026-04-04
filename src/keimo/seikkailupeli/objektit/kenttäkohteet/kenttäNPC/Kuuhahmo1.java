@@ -14,7 +14,7 @@ public class Kuuhahmo1 extends NPC_KenttäKohde{
         super.tekstuuri = Assets.annaTekstuuri("kuuhahmo1");
         super.katsomisTeksti = "Erikoinen, mutta harmittoman oloinen kaveri";
         super.dialogit.add("vakio");
-        if (ominaisuusLista == null) super.valitseVakioDialogi();
+        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 

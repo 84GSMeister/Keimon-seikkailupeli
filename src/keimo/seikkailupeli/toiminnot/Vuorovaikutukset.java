@@ -1,6 +1,5 @@
 package keimo.seikkailupeli.toiminnot;
 
-import keimo.Sovellus;
 import keimo.TarkistettavatArvot;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.TavoiteLista;
@@ -292,6 +291,7 @@ public class Vuorovaikutukset {
                     case 2: MinipeliIkkunaPokeri.avaaToimintoIkkuna(); break;
                     case 3: MinipeliIkkunaTetris.avaaToimintoIkkuna(); break;
                     case 4: MinipeliIkkunaOverflow.avaaToimintoIkkuna(); break;
+                    case 5: MinipeliIkkunaKeimoäly.avaaToimintoIkkuna(); break;
                     default: Dialogit.avaaDialogi("", "Minipeliä " + pk.annaTyyppi() + " ei löytynyt.", pk.annaNimi()); break;
                 }
             }
@@ -361,7 +361,10 @@ public class Vuorovaikutukset {
                                 Pelaaja.sijX > 24 && Pelaaja.sijX < 28 &&
                                 Pelaaja.sijY > 9 && Pelaaja.sijY < 14
                             ) {
-                                Sovellus.engine.lataaHuone(12, 29, 6, false);
+                                //PeliRuutu.lataaHuone(12, 29, 6, false);
+                                Peli.uusiHuone = 12;
+                                Peli.huoneVaihdettava = true;
+                                Pelaaja.teleport(29, 6);
                             }
                             else {
                                 Dialogit.avaaDialogi(e.annaDialogiTekstuuri(), "Pitäisiköhän vetää tämä Jumal Velhon luona...", e.annaNimi());

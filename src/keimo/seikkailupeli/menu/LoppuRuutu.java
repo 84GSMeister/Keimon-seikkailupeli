@@ -2,9 +2,10 @@ package keimo.seikkailupeli.menu;
 
 import keimo.TarkistettavatArvot;
 import keimo.TarkistettavatArvot.PelinLopetukset;
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
 import keimo.keimoengine.grafiikat.*;
+import keimo.keimoengine.grafiikat.guikomponentit.MenuKomponentti;
+import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
@@ -12,7 +13,6 @@ import keimo.seikkailupeli.äänet.Äänet;
 
 import java.awt.Color;
 
-import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 public class LoppuRuutu {
@@ -20,17 +20,21 @@ public class LoppuRuutu {
     private static int valinta = 0;
     private static int vaihtoehtojenMäärä = 2;
     private static int kelausViive = 0;
-    private static Shader loppuRuutuShader = new Shader("staattinen");
     private static Renderöitävä otsikkoTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/vakio_otsikko.png");
     private static Renderöitävä kuvaTekstuuri = new Tekstuuri("tiedostot/kuvat/tarina/loppu/voitto_normaali.jpg");
     private static Teksti tekstiTexture = new Teksti("Tarinan teksti 1", Color.WHITE, 800, 150, KeimoFontit.fontti_keimo_36, false);
-    private static Teksti tilastotTeksti = new Teksti("Tilastot:", Color.WHITE, 1600, 150, KeimoFontit.fontti_keimo_36, false);
-    private static Teksti tappolaskuriTeksti = new Teksti("Vihollisia tapettu: 0", Color.WHITE, 1600, 150, KeimoFontit.fontti_keimo_36, false);
+    private static Teksti tilastotTeksti = new Teksti("Tilastot:", Color.WHITE, 1100, 250, KeimoFontit.fontti_keimo_36, false);
     private static String häviönSyyTeksti = "Häviön syy";
     private static Renderöitävä valintaUusiPeliTekstuuri = Assets.annaTekstuuri("menu_loppu_uusipeli");
     private static Renderöitävä valintaLopetaTekstuuri = Assets.annaTekstuuri("menu_main_lopeta");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin");
-    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");
+
+    private static MenuKomponentti otsikkoLabel = new MenuKomponentti(1, 1f/5f, 0, 4f/5f, otsikkoTekstuuri);
+    private static MenuKomponentti kuvaLabel = new MenuKomponentti(1, 2f/5f, 0, 1f/5f, kuvaTekstuuri);
+    private static MenuKomponentti tekstiLabel = new MenuKomponentti(1, 1f/5f, 0, -2f/5f, tekstiTexture);
+    private static MenuKomponentti osoitinLabel = new MenuKomponentti(1f/10f, 1f/10f, -1f/10f -1f/2f, 0, osoitinKuvake, 10, 0, 0);
+    private static MenuKomponentti valintaLabel = new MenuKomponentti(1f/2f, 1f/10f, 0, 0);
+    private static MenuKomponentti tilastotLabel = new MenuKomponentti(1f/3f, 1f/5f, 2f/3f, -4f/5f, tilastotTeksti);
 
     public static void painaNäppäintä(String näppäin) {
         if (kelausViive <= 0) {
@@ -171,105 +175,43 @@ public class LoppuRuutu {
 
     public static void jatka() {
         Äänet.toistaSFX("Valinta");
-        Peli.nollaaPeli();
-        KeimoEngine.lataaTarinaRuutu("alku");
+        Peli.vaatiiUudelleenkäynnistyksen = true;
     }
 
-    public static void render(Ikkuna window) {
-        loppuRuutuShader.bind();
-        loppuRuutuShader.setUniform("sampler", 0);
-        loppuRuutuShader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
+    public static void renderöi(Shader shader, Ikkuna window) {
+        shader.bind();
+        shader.setUniform("color", new Vector4f(0f, 0f, 0f, 0f));
         if (kelausViive > 0) kelausViive--;
 
-        float scaleX = 1;
-        if (window.getWidth() > 0 && window.getHeight() > 0) scaleX = window.getWidth()/ (window.getWidth()*2/window.getHeight());
-        float scaleYOtsikko = window.getHeight()/10;
-        float scaleYKuva = window.getHeight()/5;
-        float scaleYTeksti = window.getHeight()/10;
+        otsikkoLabel.päivitäSisältö(otsikkoTekstuuri);
+        otsikkoLabel.renderöi(shader, window);
 
-        float scaleXValinnat = window.getWidth()/4;
-        float scaleYValinnat = window.getHeight()/20;
-        float scaleXOsoitin = window.getHeight()/20;
-        float scaleYOsoitin = scaleYValinnat;
-        float keskitysX = window.getWidth()/4;
-        float offsetYValinta = window.getHeight()/10;
+        kuvaLabel.päivitäSisältö(kuvaTekstuuri);
+        kuvaLabel.renderöi(shader, window);
 
-        Matrix4f matOtsikko = new Matrix4f();
-        window.getView().scale(1, matOtsikko);
-        matOtsikko.translate(0, scaleYOtsikko*4f, 0);
-        matOtsikko.scale(scaleX, scaleYOtsikko, 0);
-        loppuRuutuShader.setUniform("projection", matOtsikko);
-        otsikkoTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matKuva = new Matrix4f();
-        window.getView().scale(1, matKuva);
-        matKuva.translate(0, scaleYKuva*0.5f, 0);
-        matKuva.scale(scaleX, scaleYKuva, 0);
-        loppuRuutuShader.setUniform("projection", matKuva);
-        kuvaTekstuuri.bind(0);
-        Assets.getModel().render();
-
-        Matrix4f matTeksti = new Matrix4f();
-        window.getView().scale(1, matTeksti);
-        matTeksti.translate(0, -scaleYTeksti*2f, 0);
-        matTeksti.scale(scaleX, scaleYTeksti, 0);
-        loppuRuutuShader.setUniform("projection", matTeksti);
         tekstiTexture.päivitäTeksti(häviönSyyTeksti, 2);
-        tekstiTexture.bind(0);
-        Assets.getModel().render();
+        tekstiLabel.renderöi(shader, window);
 
         if (kelausViive <= 0) {
-            Matrix4f matValintaUusipeli = new Matrix4f();
-            window.getView().scale(1, matValintaUusipeli);
-            matValintaUusipeli.translate(scaleXValinnat - keskitysX, -scaleYKuva -1*offsetYValinta, 0);
-            matValintaUusipeli.scale(scaleXValinnat, scaleYValinnat, 0);
-            loppuRuutuShader.setUniform("projection", matValintaUusipeli);
-            valintaUusiPeliTekstuuri.bind(0);
-            Assets.getModel().render();
+            osoitinLabel.muutaOffsetY(-3.5f/5f -valinta*(1f/5f));
+            osoitinLabel.renderöiPyörivä(shader, window);
 
-            Matrix4f matValintaLopeta = new Matrix4f();
-            window.getView().scale(1, matValintaLopeta);
-            matValintaLopeta.translate(scaleXValinnat - keskitysX, -scaleYKuva -2*offsetYValinta, 0);
-            matValintaLopeta.scale(scaleXValinnat, scaleYValinnat, 0);
-            loppuRuutuShader.setUniform("projection", matValintaLopeta);
-            valintaLopetaTekstuuri.bind(0);
-            Assets.getModel().render();
-
-            Matrix4f matOsoitin1 = new Matrix4f();
-            window.getView().scale(1, matOsoitin1);
-            matOsoitin1.translate(-scaleXOsoitin - keskitysX, -scaleYKuva -1*offsetYValinta, 0);
-            matOsoitin1.scale(scaleXOsoitin, scaleYOsoitin, 0);
-            loppuRuutuShader.setUniform("projection", matOsoitin1);
-            if (valinta == 0) osoitinKuvake.bind(0);
-            else tyhjäTekstuuri.bind(0);
-            Assets.getModel().render();
-
-            Matrix4f matOsoitin2 = new Matrix4f();
-            window.getView().scale(1, matOsoitin2);
-            matOsoitin2.translate(-scaleXOsoitin - keskitysX, -scaleYKuva -2*offsetYValinta, 0);
-            matOsoitin2.scale(scaleXOsoitin, scaleYOsoitin, 0);
-            loppuRuutuShader.setUniform("projection", matOsoitin2);
-            if (valinta == 1) osoitinKuvake.bind(0);
-            else tyhjäTekstuuri.bind(0);
-            Assets.getModel().render();
+            for (int i = 0; i < vaihtoehtojenMäärä; i++) {
+                valintaLabel.muutaOffsetY(-3.5f/5f -i*(1f/5f));
+                valintaLabel.päivitäSisältö(annaValikkoTeksti(i));
+                valintaLabel.renderöi(shader, window);
+            }
         }
 
-        Matrix4f matTilastotTeksti = new Matrix4f();
-        window.getView().scale(1, matTilastotTeksti);
-        matTilastotTeksti.translate(scaleXValinnat*1.5f, -scaleYKuva -offsetYValinta, 0);
-        matTilastotTeksti.scale(scaleXValinnat, scaleYValinnat, 0);
-        loppuRuutuShader.setUniform("projection", matTilastotTeksti);
-        tilastotTeksti.bind(0);
-        Assets.getModel().render();
+        tilastotTeksti.päivitäTeksti("Tilastot:\n\n" + "Mukiloit raa'asti " + TarkistettavatArvot.annaLyödytVihut() + " vihollista\nsekä ärsytit " + TarkistettavatArvot.annaÄmpäröidytVihut() + " vihollista.");
+        tilastotLabel.renderöi(shader, window);
+    }
 
-        Matrix4f matTilastotTeksti2 = new Matrix4f();
-        window.getView().scale(1, matTilastotTeksti2);
-        matTilastotTeksti2.translate(scaleXValinnat*1.5f, -scaleYKuva -2*offsetYValinta, 0);
-        matTilastotTeksti2.scale(scaleXValinnat, scaleYValinnat, 0);
-        loppuRuutuShader.setUniform("projection", matTilastotTeksti2);
-        tappolaskuriTeksti.päivitäTeksti("Mukiloit raa'asti " + TarkistettavatArvot.annaLyödytVihut() + " vihollista\nsekä ärsytit " + TarkistettavatArvot.annaÄmpäröidytVihut() + " vihollista.");
-        tappolaskuriTeksti.bind(0);
-        Assets.getModel().render();
+    private static Renderöitävä annaValikkoTeksti(int valikkoElementti) {
+        switch (valikkoElementti) {
+            case 0: return valintaUusiPeliTekstuuri;
+            case 1: return valintaLopetaTekstuuri;
+            default: return valintaUusiPeliTekstuuri;
+        }
     }
 }

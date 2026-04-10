@@ -13,9 +13,9 @@ import java.text.DecimalFormat;
 
 public class DebugTeksti {
 
-    static Teksti versioInfoTeksti = new Teksti("debug", Color.white, 1200, 48);
-    static Teksti näppäinInfoTeksti1 = new Teksti("debug", Color.gray, 1500, 48);
-    static Teksti näppäinInfoTeksti2 = new Teksti("debug", Color.gray, 1200, 48);
+    static Teksti versioInfoTeksti = new Teksti("debug", Color.cyan, 1200, 48);
+    static Teksti näppäinInfoTeksti1 = new Teksti("debug", Color.white, 1500, 48);
+    static Teksti näppäinInfoTeksti2 = new Teksti("debug", Color.white, 1200, 48);
 
     static Teksti debugInfoTekstiFPS = new Teksti("debug", Color.red, 1200, 48);
     static Teksti debugInfoTekstiMaailmaMs = new Teksti("debug", Color.red, 1200, 48);
@@ -49,7 +49,7 @@ public class DebugTeksti {
             int sijx = (int)(window.getWidth()/5.5);
             int sijy = (int)(window.getHeight()/8f);
             int sijyOffset = (int)(window.getHeight()/54f);
-            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.2.2 Alfa");
+            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.2.3 Alfa");
             HUD.renderöiTeksti(versioInfoTeksti, sijx, sijy, window);
             näppäinInfoTeksti1.päivitäTeksti("F1: Käynistä uudelleen, F2: Kaada peli");
             HUD.renderöiTeksti(näppäinInfoTeksti1, sijx, sijy + sijyOffset, window);

@@ -9,8 +9,7 @@ import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.gui.hud.HUD;
-import keimo.seikkailupeli.kenttä.KenttäShaderEfektit;
-import keimo.seikkailupeli.kenttä.Maailma;
+import keimo.seikkailupeli.kenttä.Tausta;
 import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.menu.editori.gui.HuoneenLuontiIkkuna;
 import keimo.seikkailupeli.menu.editori.gui.MuokkausIkkuna;
@@ -59,17 +58,13 @@ public class EditoriRuutu {
     private static Shader kiintopisteShader;
     private static Shader tileShader;
     private static Shader entityShader;
-    private static Shader erikoisEfektiShader;
     private static Shader valikkoShader;
-    //Tausta tausta;
-    private static int scale = 32;
     public static int tileMäärä, objektiMäärä, entityMäärä;
     public static float rotZ = 0;
     public static boolean debugTiedotNäkyvissä = false;
     public static boolean estäVahinkoPainallukset = false;
     private static boolean grafiikatAlustettu = false;
 
-	public static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
 	private static Tekstuuri virheTekstuuri;
     private static Tekstuuri tyhjäTileTekstuuri;
     private static Tekstuuri entityHpPalkkiPunainenTekstuuri;
@@ -144,7 +139,6 @@ public class EditoriRuutu {
             kiintopisteShader = new Shader("shader");
             tileShader = new Shader("shader");
             entityShader = new Shader("shader");
-            erikoisEfektiShader = new Shader("shader");
             valikkoShader = new Shader("shader");
             virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
             tyhjäTileTekstuuri = new Tekstuuri("tiedostot/kuvat/editori/tyhjä_tile.png");
@@ -273,32 +267,7 @@ public class EditoriRuutu {
             }
         }
 
-        for (int i = 0; i < Maailma.tilet.size(); i++) {
-			if (Maailma.tilet.get(i) != null) {
-				Maasto m = Maailma.tilet.get(i);
-                if (!tileTextures.containsKey(m.annaTekstuurinNimi())) {
-					String tex = Maailma.tilet.get(i).annaTekstuurinNimi();
-					if (m instanceof Tile) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/" + tex + ".png"));
-                    else if (m instanceof IsoLaatta) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/isot_laatat/" + tex + ".png"));
-				}
-			}
-		}
-		for (String s : Maailma.taustakuvat) {
-			try {
-				String taustanNimi = s.substring(0, s.length()-4);
-				//Tausta.taustaTekstuurit.put(taustanNimi, new Tekstuuri("tiedostot/kuvat/taustat/" + s));
-			}
-			catch (StringIndexOutOfBoundsException sioobe) {
-				System.out.println("Virheellinen tausta: " + s);
-				sioobe.printStackTrace();
-			}
-		}
-        //tausta = new Tausta();
         DebugTeksti.luoDebugTekstit();
-    }
-
-    public void cleanup() {
-        tileTextures.values().forEach(Tekstuuri::cleanup);
     }
 
     public static void lataaHuone(int huoneenId) {
@@ -351,6 +320,7 @@ public class EditoriRuutu {
             cameraMatrix = asetaKameranSijaintiVanha(cameraMatrix, ikkuna);
 
             laskeNäköetäisyys(ikkuna);
+            if (taustaNäkyvissä) renderöiTausta(0, 0, 1, new Matrix4f(), fade);
 
             if (maastoNäkyvissä) {
                 int etäisyys = laskeIsonLaatanNäköetäisyys();
@@ -470,14 +440,14 @@ public class EditoriRuutu {
         return kameranSijainti;
     }
 
-    // private void renderöiTausta(int x, int y, int z, Matrix4f cameraMatrix, float fade) {
-	// 	if (Peli.huone != null && Peli.huone.annaTaustanPolku() != null) {
-    //         tausta.render(Peli.huone.annaTaustanPolku(), x, y, z, cameraMatrix, fade);
-	// 	}
-	// }
+    private static void renderöiTausta(int x, int y, int z, Matrix4f cameraMatrix, float fade) {
+		if (ladattuHuone != null && ladattuHuone.annaTaustanPolku() != null) {
+            Tausta.render(ladattuHuone.annaTaustanPolku(), x, y, z, cameraMatrix, fade);
+		}
+	}
 
     protected static void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix) {
-		if (tileTextures.containsKey(tile.annaTekstuurinNimi())) tileTextures.get(tile.annaTekstuurinNimi()).bind(0);
+		if (Assets.annaTileTekstuurit().containsKey(tile.annaTekstuurinNimi())) Assets.annaTileTekstuurit().get(tile.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
 		Matrix4f tilenSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
@@ -494,7 +464,7 @@ public class EditoriRuutu {
 	}
 
     protected static void renderöiLaatta(Maasto maasto, int x, int y, int z, Matrix4f cameraMatrix) {
-        if (tileTextures.containsKey(maasto.annaTekstuurinNimi())) tileTextures.get(maasto.annaTekstuurinNimi()).bind(0);
+        if (Assets.annaTileTekstuurit().containsKey(maasto.annaTekstuurinNimi())) Assets.annaTileTekstuurit().get(maasto.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
         int l = 1, k = 1;
@@ -685,6 +655,12 @@ public class EditoriRuutu {
             case MUOKKAUSIKKUNA -> {
                 avaaMuokkausIkkuna(false);
             }
+            case HUONEENLUONTIIKKUNA -> {
+                HuoneenLuontiIkkuna.sulje();
+            }
+            case VALIKKO -> {
+
+            }
         }
     }
 
@@ -710,6 +686,9 @@ public class EditoriRuutu {
             }
             case MAAILMA -> {
                 
+            }
+            case VALIKKO -> {
+
             }
         }
     }
@@ -739,6 +718,9 @@ public class EditoriRuutu {
                     kopioiObjekti();
                 }
             }
+            case VALIKKO -> {
+
+            }
         }
     }
 
@@ -766,6 +748,9 @@ public class EditoriRuutu {
                 tarkistettavaEsine = ladattuHuone.annaHuoneenKenttäSisältö()[tileX][tileY];
                 PopupValikko.päivitäSijainti(hiiriX, hiiriY);
                 EditoriRuutu.avaaPopup(true);
+            }
+            case VALIKKO -> {
+
             }
         }
     }
@@ -1045,6 +1030,9 @@ public class EditoriRuutu {
             }
             case HUONEENLUONTIIKKUNA -> {
                 HuoneenLuontiIkkuna.renderöi(shader, window);
+            }
+            case VALIKKO -> {
+                
             }
         }
         Yläpalkki.renderöi(shader, window);

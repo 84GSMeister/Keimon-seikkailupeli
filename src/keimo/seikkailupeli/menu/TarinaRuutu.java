@@ -84,11 +84,19 @@ public class TarinaRuutu {
         tarkistaSiirtymä();
 
         if (klikkaustenMäärä < tarinanPituusRuutuina) {
-            kuvaLabel.päivitäSisältö(tarinanKuvat.get(klikkaustenMäärä));
-            kuvaLabel.renderöi(shader, window);
+            if (tarinanKuvat.size() > klikkaustenMäärä) {
+                if (tarinanKuvat.get(klikkaustenMäärä) != null) {
+                    kuvaLabel.päivitäSisältö(tarinanKuvat.get(klikkaustenMäärä));
+                    kuvaLabel.renderöi(shader, window);
+                }
+            }
 
-            tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä), 2);
-            tekstiLabel.renderöi(shader, window);
+            if (tarinanTekstit.size() > klikkaustenMäärä) {
+                if (tarinanTekstit.get(klikkaustenMäärä) != null) {
+                    tekstiTexture.päivitäTeksti(tarinanTekstit.get(klikkaustenMäärä), 2);
+                    tekstiLabel.renderöi(shader, window);
+                }
+            }
 
             if (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ) {
                 jatkaNappiTexture.päivitäTeksti("Space: Jatka");

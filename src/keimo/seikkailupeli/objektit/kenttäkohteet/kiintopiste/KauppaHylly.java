@@ -1,9 +1,9 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste;
 
+import keimo.seikkailupeli.assets.Assets;
+
 import java.io.File;
 import java.util.ArrayList;
-
-import keimo.seikkailupeli.assets.Assets;
 
 public final class KauppaHylly extends Säiliö {
 

@@ -771,7 +771,7 @@ public class Pelaaja extends PeliObjekti {
                 Pelaaja.ostostenHintaYhteensä += ostettavaEsine.annaHinta();
             }
             nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * pelaajanKokoPx / 64f);
-            Äänet.toistaSFX("Pudota", true);
+            Äänet.toistaSFX("Kerää", true, -1, 1, true);
         }
     }
 

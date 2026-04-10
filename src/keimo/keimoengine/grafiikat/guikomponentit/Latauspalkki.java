@@ -1,8 +1,8 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
 import keimo.keimoengine.assets.EngineAssets;
+import keimo.keimoengine.assets.GUITekstuurit;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 
@@ -14,8 +14,8 @@ public class Latauspalkki {
     protected float scaleX, scaleY;
     protected float offsetX, offsetY;
     protected float latausProsentti = 0;
-    protected Tekstuuri palkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
-    protected Tekstuuri palkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
+    protected Renderöitävä palkkiPunainenTekstuuri = GUITekstuurit.annaTekstuuri("lataus_punainen");
+    protected Renderöitävä palkkiVihreäTekstuuri = GUITekstuurit.annaTekstuuri("lataus_vihreä");
 
     public Latauspalkki(float scaleX, float scaleY, float offsetX, float offsetY) {
         this.scaleX = scaleX;

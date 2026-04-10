@@ -90,7 +90,7 @@ public class ObjektiValikkoIkkuna {
             float offsetY = scaleYObjekti * (-objSijY + rivit/2) * 2;
             String objNimiIlmanTiedostopäätettä = objNimi.substring(0, objNimi.length()-4);
             Teksti objektinNimiTeksti = new Teksti(objNimiIlmanTiedostopäätettä, Color.white, 800, 48);
-            Renderöitävä objektinKuvake = EditoriRuutu.tileTextures.get(objNimiIlmanTiedostopäätettä);
+            Renderöitävä objektinKuvake = Assets.annaTileTekstuurit().get(objNimiIlmanTiedostopäätettä);
             maastoValikko.put(i, new ObjektiListaNappi(i, objNimi, scaleXObjekti, scaleYObjekti, offsetX, offsetY, objektinNimiTeksti, objektinKuvake));
             maastoKuvat.put(kuvaLista.get(i).annaNimi(), kuvaLista.get(i));
         }

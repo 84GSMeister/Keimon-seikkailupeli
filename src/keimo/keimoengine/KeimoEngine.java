@@ -18,6 +18,7 @@ import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaOve
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPokeri;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPong;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaTetris;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.Maailma3D;
 import keimo.seikkailupeli.io.SyöteYhdistetty;
 import keimo.seikkailupeli.kenttä.*;
 import keimo.seikkailupeli.menu.*;
@@ -114,7 +115,8 @@ public class KeimoEngine extends Thread {
 				while (!latausValmis) {
 					try {
 						// Odota renderöintisäiettä, jotta pelisäie ei ehdi alustaa GL-elementtejä
-						Thread.sleep(50);
+						glfwPollEvents();
+						Thread.sleep(20);
 					}
 					catch (InterruptedException e) {
 						e.printStackTrace();
@@ -159,7 +161,7 @@ public class KeimoEngine extends Thread {
 				glDepthFunc(GL_LEQUAL);
 				glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 				Renderöinti.alusta(window);
-				
+
 				renderöiLatausRuutu("Ladataan grafiikkaa", 20);
 				Assets.lataaTekstuurit();
 				Assets.lataa3DMallit();
@@ -179,7 +181,7 @@ public class KeimoEngine extends Thread {
 				KenttäKohde.nollaaObjektiId();
 				Dialogit.luoTekstuurit();
 				HuoneLista.lataaPelitiedosto();
-				
+
 				renderöiLatausRuutu("Mukautetaan kenttiä", 75);
 				if (Peli.huoneKartta != null) {
 					if (Peli.huoneKartta.get(0) != null) {

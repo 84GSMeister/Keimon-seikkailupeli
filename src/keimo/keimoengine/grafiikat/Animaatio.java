@@ -66,6 +66,18 @@ public class Animaatio extends Renderöitävä {
         }
     }
 
+    public ArrayList<Tekstuuri> annaFramet() {
+        return frames;
+    }
+
+    public double annaFps() {
+        return fps;
+    }
+
+    public int annaToistot() {
+        return toistot;
+    }
+
     public void bind() {
         bind(0);
     }

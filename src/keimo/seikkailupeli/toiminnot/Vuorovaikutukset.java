@@ -5,6 +5,7 @@ import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.gui.toimintoIkkunat.*;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.*;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.MinipeliIkkuna3D;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.avattavaEste.*;
@@ -79,7 +80,18 @@ public class Vuorovaikutukset {
                             n.sytytä(false);
                             Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("sammuta"), n.annaNimi());
                         }
-                        else Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
+                        else if (e instanceof Kaasusytytin) {
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), "Sytytintä ei enää tarvi.", n.annaNimi());
+                        }
+                        else if (e instanceof Hiili || e instanceof Paperi) {
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.haeDialogiTeksti("sytyke_eitarvi"), n.annaNimi());
+                        }
+                        else if (e != null) {
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), e.annaNimiSijamuodossa("partitiivi") + " ei voi käyttää " + n.annaNimiSijamuodossa("illatiivi"), n.annaNimi());
+                        }
+                        else {
+                            Dialogit.avaaDialogi(n.annaDialogiTekstuuri(), n.katso(), n.annaNimi());
+                        }
                     }
                 }
             }
@@ -361,7 +373,6 @@ public class Vuorovaikutukset {
                                 Pelaaja.sijX > 24 && Pelaaja.sijX < 28 &&
                                 Pelaaja.sijY > 9 && Pelaaja.sijY < 14
                             ) {
-                                //PeliRuutu.lataaHuone(12, 29, 6, false);
                                 Peli.uusiHuone = 12;
                                 Peli.huoneVaihdettava = true;
                                 Pelaaja.teleport(29, 6);

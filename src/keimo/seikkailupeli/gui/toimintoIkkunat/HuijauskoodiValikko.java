@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import org.joml.Vector4f;
 
 public class HuijauskoodiValikko {
-    //private static Shader peliShader = new Shader("shader");
-
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
     private static Renderöitävä osoitinKuvake = Assets.annaTekstuuri("menu_osoitin_vanha");
     private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("menu_tyhjä");

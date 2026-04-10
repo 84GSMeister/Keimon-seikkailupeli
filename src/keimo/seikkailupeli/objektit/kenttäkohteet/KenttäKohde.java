@@ -3,6 +3,7 @@ package keimo.seikkailupeli.objektit.kenttäkohteet;
 import keimo.keimoengine.collision.Neliö;
 import keimo.keimoengine.collision.Piste;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
+import keimo.seikkailupeli.assets.KuvaObjekti;
 import keimo.seikkailupeli.objektit.PeliObjekti;
 import keimo.seikkailupeli.objektit.kenttäkohteet.avattavaEste.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.*;
@@ -17,7 +18,7 @@ import java.util.Random;
 
 public abstract class KenttäKohde extends PeliObjekti {
     
-    public static String[] kenttäkohdeLista = {"Avain", "Baariovi", "Baariruutu", "Hiili", "Huume", "Jallupullo", "Juhani", "Jumal Velho", "Jumal Yoda", "Juomalasi", "Kaasupullo", "Kaasusytytin", "Kalja-automaatti", "Kartta", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Kolikko", "Koriste-esine", "Koristeovi", "Kuparilager", "Kuuhahmo1", "Kuuhahmo2", "Kuuhahmo3", "Makkara", "Nappi", "Nuotio", "Oviruutu", "Painelaatta", "Paperi", "Pasi", "Paskanmarjabooli", "Paskanmarjat", "Pelikone", "Penkki", "Pesäpallomaila", "Pontikka-ainekset", "Portti", "Pulloautomaatti", "Puuovi", "Salaovi", "Seteli", "Sieni", "Silta", "Suklaalevy", "Sänky", "Tynnyri", "Vesiämpäri", "Ämpärikone"};
+    public static String[] kenttäkohdeLista = {"Avain", "Baariovi", "Baariruutu", "Hiili", "Huume", "Jallupullo", "Juhani", "Jumal Velho", "Jumal Yoda", "Juomalasi", "Kaasupullo", "Kaasusytytin", "Kalja-automaatti", "Kartta", "Kauppahylly", "Kauppaovi", "Kaupparuutu", "Kauppias", "Kilpi", "Kirstu", "Kolikko", "Koriste-esine", "Koristeovi", "Kuparilager", "Kuuhahmo1", "Kuuhahmo2", "Kuuhahmo3", "Leivonta-ainekset", "Makkara", "Nappi", "Nuotio", "Oviruutu", "Painelaatta", "Paperi", "Pasi", "Paskanmarjabooli", "Paskanmarjat", "Pelikone", "Penkki", "Pesäpallomaila", "Portti", "Pulloautomaatti", "Puuovi", "Salaovi", "Seteli", "Sieni", "Silta", "Suklaalevy", "Sänky", "Tynnyri", "Vesiämpäri", "Ämpärikone"};
 
     protected int objektinId = 0;
     private static int seuraavaObjektinId = 0;
@@ -30,6 +31,7 @@ public abstract class KenttäKohde extends PeliObjekti {
     public float liikeY = 0;
     protected float liikeNopeus = 4f;
     protected float pyörimisNopeus = 1f;
+    protected int animaatioFrame = 0;
 
     public KenttäKohde(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         this.sijX = sijX;
@@ -38,6 +40,7 @@ public abstract class KenttäKohde extends PeliObjekti {
         seuraavaObjektinId++;
         this.hitbox = new Neliö(64, 64);
         this.hitbox.setLocation(sijX * 64, sijY * 64);
+        this.tekstuuriObjekti = new KuvaObjekti(this.tekstuuri);
         if (ominaisuusLista != null) {
             for (String ominaisuus : ominaisuusLista) {
                 if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
@@ -106,6 +109,14 @@ public abstract class KenttäKohde extends PeliObjekti {
         return pyörimisNopeus;
     }
 
+    public int annaAnimaatioFrame() {
+        return animaatioFrame;
+    }
+
+    public void kasvataFramea() {
+        animaatioFrame++;
+    }
+
     @Override
     public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
         super.päivitäLisäOminaisuudet(ominaisuusLista);
@@ -151,7 +162,7 @@ public abstract class KenttäKohde extends PeliObjekti {
             case "Pelikone": return new Pelikone(sijX, sijY, ominaisuusLista);
             case "Penkki": return new Puistonpenkki(sijX, sijY, ominaisuusLista);
             case "Pesäpallomaila": return new Pesäpallomaila(sijX, sijY);
-            case "Pontikka-ainekset": return new Ponuainekset(sijX, sijY);
+            case "Pontikka-ainekset", "Leivonta-ainekset": return new Ponuainekset(sijX, sijY);
             case "Portti": return new Portti(sijX, sijY, ominaisuusLista);
             case "Pulloautomaatti": return new Pulloautomaatti(sijX, sijY, ominaisuusLista);
             case "Puuovi": return new PuuOvi(sijX, sijY, ominaisuusLista);

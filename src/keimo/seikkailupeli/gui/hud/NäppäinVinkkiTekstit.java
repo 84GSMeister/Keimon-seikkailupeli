@@ -55,8 +55,12 @@ public class NäppäinVinkkiTekstit {
     private static Renderöitävä ohjainNuoliTekstuuri = Assets.annaTekstuuri("ohjain_nuoli");
     private static Renderöitävä ohjainAnalogTekstuuri = Assets.annaTekstuuri("ohjain_analog");
 
+    private static Shader staattinenShader = Assets.annaShader("staattinen");
+    private static Shader tekstiShaderYlempi = Assets.annaShader("teksti");
+    private static Shader tekstiShaderAlempi = Assets.annaShader("teksti2");
     private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
     private static Teksti näppäinVihjeTeksti = new Teksti("näppäin", Color.white, 900, 48);
+    private static Renderöitävä vinkkiPohjaTekstuuri = Assets.annaTekstuuri("vinkki_teksti_pohja");
     private static int käytettävänEsineenVinkkiAjastin = 150;
     private static Esine viimeisinEsine;
 
@@ -72,7 +76,8 @@ public class NäppäinVinkkiTekstit {
         OHJAIN_YLÄ;
     }
 
-    public static void renderöiNäppäinVinkki(KenttäKohde objektiKohdalla, Shader shader, Kamera camera, Transform transform) {
+    public static void renderöiNäppäinVinkki(KenttäKohde objektiKohdalla, Kamera camera, Transform transform) {
+        
         if (objektiKohdalla instanceof Esine) {
             String teksti = "";
             Color väri;
@@ -84,46 +89,46 @@ public class NäppäinVinkkiTekstit {
                 teksti = "Poimi";
                 väri = Color.white;
             }
-            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, teksti, 0, väri, 0, 36, shader, camera, transform);
-            renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, teksti, 0, väri, 0, 36, camera, transform);
+            renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
         }
         else if (objektiKohdalla instanceof Kiintopiste) {
             if (objektiKohdalla instanceof Nuotio) {
                 if (Peli.valittuEsine != null) {
                     if (Peli.valittuEsine instanceof Makkara) {
-                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Paista makkara", shader, camera, transform);
-                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Paista makkara", camera, transform);
+                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
                     }
                     else if (Peli.valittuEsine instanceof Hiili || Peli.valittuEsine instanceof Paperi) {
-                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Lisää nuotioon", shader, camera, transform);
-                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Lisää nuotioon", camera, transform);
+                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
                     }
                     else {
-                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Kokeile esinettä", shader, camera, transform);
-                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Kokeile esinettä", camera, transform);
+                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
                     }
                 }
                 else {
-                    renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", shader, camera, transform);
+                    renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", camera, transform);
                 }
             }
             else if (objektiKohdalla instanceof Kirstu) {
                 if (Peli.valittuEsine != null) {
                     if (Peli.valittuEsine instanceof Avain) {
-                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Avaa", shader, camera, transform);
-                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Avaa", camera, transform);
+                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
                     }
                     else {
-                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Kokeile esinettä", shader, camera, transform);
-                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                        renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Kokeile esinettä", camera, transform);
+                        renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
                     }
                 }
                 else {
-                    renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", shader, camera, transform);
+                    renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", camera, transform);
                 }
             }
             else if (objektiKohdalla instanceof Lepopaikka) {
-                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Nuku", shader, camera, transform);
+                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Nuku", camera, transform);
             }
             else if (objektiKohdalla instanceof KauppaRuutu || objektiKohdalla instanceof BaariRuutu) {
                 String teksti = "";
@@ -136,43 +141,43 @@ public class NäppäinVinkkiTekstit {
                     teksti = "Asioi";
                     väri = Color.white;
                 }
-                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, teksti, 0, väri, 0, 36, shader, camera, transform);
+                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, teksti, 0, väri, 0, 36, camera, transform);
             }
             else if (objektiKohdalla instanceof KauppaHylly) {
-                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Lisää koriin", shader, camera, transform);
-                renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_Q_OHJAIN_RT, "Poista korista", shader, camera, transform);
+                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Lisää koriin", camera, transform);
+                renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_Q_OHJAIN_RT, "Poista korista", camera, transform);
             }
             else if (objektiKohdalla instanceof Pulloautomaatti) {
-                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Palauta pullot", shader, camera, transform);
+                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Palauta pullot", camera, transform);
             }
             else if (objektiKohdalla instanceof Ämpärikone) {
-                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Jonota", shader, camera, transform);
+                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Jonota", camera, transform);
             }
             else if (objektiKohdalla instanceof Pelikone) {
-                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Pelaa", shader, camera, transform);
+                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Pelaa", camera, transform);
             }
             else if (objektiKohdalla instanceof Silta || objektiKohdalla instanceof KoristeOvi) {
-                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", shader, camera, transform);
+                renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", camera, transform);
             }
         }
         else if (objektiKohdalla instanceof NPC_KenttäKohde) {
-            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Juttele", shader, camera, transform);
-            renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Juttele", camera, transform);
+            renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
         }
         else if (objektiKohdalla instanceof Triggeri) {
             if (objektiKohdalla instanceof Nappi) {
-                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Paina", shader, camera, transform);
-                renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Paina", camera, transform);
+                renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
             }
             else {
-                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Kokeile", shader, camera, transform);
-                renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", shader, camera, transform);
+                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Kokeile", camera, transform);
+                renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
             }
         }
         else if (objektiKohdalla instanceof VisuaalinenObjekti) {
             VisuaalinenObjekti vo = (VisuaalinenObjekti)objektiKohdalla;
             if (vo.onkoKatsottava()) {
-                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", shader, camera, transform);
+                renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", camera, transform);
             }
         }
         else if (objektiKohdalla instanceof AvattavaEste) {
@@ -188,10 +193,10 @@ public class NäppäinVinkkiTekstit {
                 case YLÖS: kääntöAsteet = 0; break;
                 default: break;
             }
-            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_NUOLI_OHJAIN_ANALOG, "", kääntöAsteet, Color.white, 0, 36, shader, camera, transform);
+            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_NUOLI_OHJAIN_ANALOG, "", kääntöAsteet, Color.white, 0, 36, camera, transform);
         }
         else {
-            renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", shader, camera, transform);
+            renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", camera, transform);
         }
     }
 
@@ -225,52 +230,73 @@ public class NäppäinVinkkiTekstit {
         viimeisinEsine = esineKädessä;
     }
 
-    private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, Shader shader, Kamera camera, Transform transform) {
-        renderöiYlempiVinkki(näppäin, teksti, 0, Color.white, 0, 36, shader, camera, transform);
+    private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, Kamera camera, Transform transform) {
+        renderöiYlempiVinkki(näppäin, teksti, 0, Color.white, 0, 36, camera, transform);
     }
 
-    private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, int kääntöAsteet, Color väri, int tekstiTyyppi, int tekstinKoko, Shader shader, Kamera camera, Transform transform) {
-        shader.bind();
+    private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, int kääntöAsteet, Color väri, int tekstiTyyppi, int tekstinKoko, Kamera camera, Transform transform) {
+        staattinenShader.bind();
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;
         float translateY = 3f;
-        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+        staattinenShader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
         valitseTekstuuri(näppäin).bind(0);
         Assets.getModel(kääntöAsteet, false, false).render();
+
         if (teksti != null && !teksti.equals("")) {
-            shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+            staattinenShader.asetaSijainti(transform.getProjection(camera.getProjection()).translate((1f/3f)*teksti.length(), translateY, 0).scale((1f/3f)*teksti.length(), scaleYTeksti, 1));
+            vinkkiPohjaTekstuuri.bind(0);
+            Assets.getModel().render();
+
+            tekstiShaderYlempi.bind();
+            tekstiShaderYlempi.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
             näppäinVihjeTeksti.päivitäTeksti(teksti, 0, 36, väri);
             näppäinVihjeTeksti.bind(0);
             Assets.getModel().render();
         }
+        tekstiShaderYlempi.loop();
     }
 
-    private static void renderöiKeskiVinkki(Näppäimet näppäin, String teksti, Shader shader, Kamera camera, Transform transform) {
-        shader.bind();
+    private static void renderöiKeskiVinkki(Näppäimet näppäin, String teksti, Kamera camera, Transform transform) {
+        staattinenShader.bind();
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;
         float translateY = 2.5f;
-        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+        staattinenShader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
         valitseTekstuuri(näppäin).bind(0);
         Assets.getModel().render();
-        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+
+        staattinenShader.asetaSijainti(transform.getProjection(camera.getProjection()).translate((1f/3f)*teksti.length(), translateY, 0).scale((1f/3f)*teksti.length(), scaleYTeksti, 1));
+        vinkkiPohjaTekstuuri.bind(0);
+        Assets.getModel().render();
+
+        tekstiShaderYlempi.bind();
+        tekstiShaderYlempi.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
         näppäinVihjeTeksti.päivitäTeksti(teksti);
         näppäinVihjeTeksti.bind(0);
         Assets.getModel().render();
+        tekstiShaderYlempi.loop();
     }
 
-    private static void renderöiAlempiVinkki(Näppäimet näppäin, String teksti, Shader shader, Kamera camera, Transform transform) {
-        shader.bind();
+    private static void renderöiAlempiVinkki(Näppäimet näppäin, String teksti, Kamera camera, Transform transform) {
+        staattinenShader.bind();
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;
         float translateY = 2f;
-        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
+        staattinenShader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(-1f, translateY, 0).scale(0.5f, 0.5f, 1));
         valitseTekstuuri(näppäin).bind(0);
         Assets.getModel().render();
-        shader.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
+
+        staattinenShader.asetaSijainti(transform.getProjection(camera.getProjection()).translate((1f/3f)*teksti.length(), translateY, 0).scale((1f/3f)*teksti.length(), scaleYTeksti, 1));
+        vinkkiPohjaTekstuuri.bind(0);
+        Assets.getModel().render();
+
+        tekstiShaderAlempi.bind();
+        tekstiShaderAlempi.asetaSijainti(transform.getProjection(camera.getProjection()).translate(scaleXTeksti, translateY, 0).scale(scaleXTeksti, scaleYTeksti, 1));
         näppäinVihjeTeksti.päivitäTeksti(teksti);
         näppäinVihjeTeksti.bind(0);
         Assets.getModel().render();
+        tekstiShaderAlempi.loop();
     }
 
     private static void renderöiKäyttöVinkki(float ySij, Näppäimet näppäin, String teksti, Shader shader, Kamera camera, Transform transform) {

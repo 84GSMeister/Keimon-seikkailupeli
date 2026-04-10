@@ -5,6 +5,7 @@ import keimo.keimoengine.Kello;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.assets.huone.HuoneLista;
+import keimo.seikkailupeli.gui.toimintoIkkunat.YhdistämisIkkuna;
 import keimo.seikkailupeli.io.SyöteYhdistetty;
 import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.menu.PeliRuutu;
@@ -117,6 +118,7 @@ public class Peli {
         ÄMPÄRIJONO,
         KARTTA,
         OHJEET,
+        YHDISTÄMINEN,
         HUIJAUSKOODIT,
         MINIPELI_3D,
         MINIPELI_PONG,
@@ -221,8 +223,9 @@ public class Peli {
             yhdistettäväTavarapaikka = -1;
         }    
         else if (tarkistaYhdistettävyys(esineValInt)) {
-            yhdistettäväTavarapaikka = esineValInt;
+            yhdistettäväTavarapaikka = 0;
             yhdistäminenKäynnissä = true;
+            YhdistämisIkkuna.avaaValikko();
         }
         else {
             if (Pelaaja.esineet[esineValInt] == null) {
@@ -263,6 +266,23 @@ public class Peli {
             }
             else {
                 return false;
+            }
+        }
+    }
+
+    public static void yhdistäValittuunEsineeseen(int yhdistysValinta) {
+        if (!(yhdistysValinta < 0)) {
+            if (Pelaaja.esineet[yhdistysValinta] != null) {
+                if (kokeileYhdistämistä(yhdistysValinta, esineValInt)) {
+                    YhdistämisIkkuna.näytäOnnistunutYhdistäminen(Pelaaja.esineet[esineValInt], Pelaaja.esineet[yhdistysValinta]);
+                    Pelaaja.esineet[esineValInt] = Esine.yhdistä2Esinettä(Pelaaja.esineet[esineValInt], Pelaaja.esineet[yhdistysValinta]);
+                    Pelaaja.esineet[yhdistysValinta] = null;
+                }
+                else {
+                    Dialogit.avaaDialogi("", "Yhdistäminen ei onnistunut.", "Yhdistäminen");
+                }
+                yhdistäminenKäynnissä = false;
+                yhdistettäväTavarapaikka = -1;
             }
         }
     }

@@ -5,11 +5,6 @@ import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.grafiikat.shaderit.EfektiShader;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
-import keimo.keimoengine.grafiikat.shaderit.TestiShader;
-import keimo.keimoengine.grafiikat.shaderit.TrippiShader;
-import keimo.keimoengine.grafiikat.shaderit.VäriliukuShader;
-import keimo.keimoengine.grafiikat.shaderit.VärinvaihtoShader;
-import keimo.keimoengine.grafiikat.shaderit.VärinvaihtoShaderKuu;
 import keimo.keimoengine.ikkuna.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.PelinAsetukset;
@@ -32,7 +27,6 @@ import keimo.seikkailupeli.objektit.maastot.Maasto;
 import keimo.seikkailupeli.objektit.maastot.Tile;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -42,15 +36,8 @@ public class Maailma {
     private static int viewX;
 	private static int viewY;
     public static ArrayList<Maasto> tilet = new ArrayList<>();
-    public static ArrayList<String> taustakuvat = new ArrayList<>();
     public static AABB[][] boundingBoxes;
-    //private static Shader objektiShader = new Shader("shader");
-    //public static Shader objekti3dShader = new Shader("shader");
-    //public static Shader esineShader = new Shader("shader");
     private static Shader kiintopisteShader = Assets.annaShader("kiintopiste");
-    //private static Shader tileShader = new Shader("shader");
-    //private static Shader entityShader = new Shader("shader");
-    //private static Shader erikoisEfektiShader = new Shader("shader");
 
     private static Shader vakioShader = Assets.annaShader("vakio");
     private static Shader värinvaihtoShaderBaari = Assets.annaShader("värinvaihto");
@@ -60,12 +47,10 @@ public class Maailma {
     private static Shader kuuShader = Assets.annaShader("kuu");
     private static Shader testiShader = Assets.annaShader("testi");
 
-    static Tausta tausta;
     private static int scale = 32;
     public static int tileMäärä, objektiMäärä, entityMäärä;
     public static float rotZ = 0;
 
-	private static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
 	private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
     private static Tekstuuri entityHpPalkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
     private static Tekstuuri entityHpPalkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
@@ -89,36 +74,7 @@ public class Maailma {
                     }
                 }
             }
-            if (huone.annaTaustanPolku() != null && huone.annaTaustanPolku() != "") {
-                taustakuvat.add(huone.annaTaustanPolku());
-            }
         }
-
-        for (int i = 0; i < Maailma.tilet.size(); i++) {
-			if (Maailma.tilet.get(i) != null) {
-				Maasto m = Maailma.tilet.get(i);
-                if (!tileTextures.containsKey(m.annaTekstuurinNimi())) {
-					String tex = Maailma.tilet.get(i).annaTekstuurinNimi();
-					if (m instanceof Tile) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/" + tex + ".png"));
-                    else if (m instanceof IsoLaatta) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/isot_laatat/" + tex + ".png"));
-				}
-			}
-		}
-		for (String s : Maailma.taustakuvat) {
-			try {
-				String taustanNimi = s.substring(0, s.length()-4);
-				Tausta.taustaTekstuurit.put(taustanNimi, new Tekstuuri("tiedostot/kuvat/taustat/" + s));
-			}
-			catch (StringIndexOutOfBoundsException sioobe) {
-				System.out.println("Virheellinen tausta: " + s);
-				sioobe.printStackTrace();
-			}
-		}
-        tausta = new Tausta();
-    }
-
-    public void cleanup() {
-        tileTextures.values().forEach(Tekstuuri::cleanup);
     }
 
     public static void render(Kamera camera, Ikkuna window) {
@@ -204,10 +160,6 @@ public class Maailma {
                 KenttäShaderEfektit.luoErikoisEfektit();
                 KenttäShaderEfektit.luoKenttäVäriEfekti();
                 KenttäShaderEfektit.renderöiKenttäVäriEfekti(vakioShader);
-                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(objekti3dShader);
-                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(esineShader);
-                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(tileShader);
-                //KenttäShaderEfektit.renderöiKenttäVäriEfekti(entityShader);
                 KenttäShaderEfektit.renderöiKenttäVäriEfekti(kiintopisteShader);
                 KenttäShaderEfektit.kimmellysEfekti(kiintopisteShader);
 
@@ -288,12 +240,12 @@ public class Maailma {
 
     private static void renderöiTausta(int x, int y, int z, Matrix4f cameraMatrix, float fade) {
 		if (Peli.huone != null && Peli.huone.annaTaustanPolku() != null) {
-            tausta.render(Peli.huone.annaTaustanPolku(), x, y, z, cameraMatrix, fade);
+            Tausta.render(Peli.huone.annaTaustanPolku(), x, y, z, cameraMatrix, fade);
 		}
 	}
 
     protected static void renderöiTile(Tile tile, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
-		if (tileTextures.containsKey(tile.annaTekstuurinNimi())) tileTextures.get(tile.annaTekstuurinNimi()).bind(0);
+		if (Assets.annaTileTekstuurit().containsKey(tile.annaTekstuurinNimi())) Assets.annaTileTekstuurit().get(tile.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
 		Matrix4f tilenSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
@@ -302,7 +254,6 @@ public class Maailma {
         
         shader.bind();
 		shader.asetaSampler(0);
-        //shader.asetaKamera(cameraMatrix);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
 		
@@ -311,7 +262,7 @@ public class Maailma {
 	}
 
     protected static void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
-        if (tileTextures.containsKey(laatta.annaTekstuurinNimi())) tileTextures.get(laatta.annaTekstuurinNimi()).bind(0);
+        if (Assets.annaTileTekstuurit().containsKey(laatta.annaTekstuurinNimi())) Assets.annaTileTekstuurit().get(laatta.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
         int l = laatta.annaLeveys(), k = laatta.annaKorkeus();
@@ -428,7 +379,12 @@ public class Maailma {
 
     protected static void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
         if (objekti instanceof VisuaalinenObjekti) ErikoisTileMuutokset.annaSpesiaaliTekstuuri(objekti.annaTekstuuri(), objekti.annaKuvanTiedostoNimi(), (int)x, (int)y).bind(0);
-        else if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
+        else if (objekti.annaTekstuuriObjekti() != null) {
+            objekti.annaTekstuuriObjekti().bind(0);
+        }
+        else if (objekti.annaTekstuuri() != null) { 
+            objekti.annaTekstuuri().bind(0);
+        }
         else virheTekstuuri.bind(0);
         
         Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));

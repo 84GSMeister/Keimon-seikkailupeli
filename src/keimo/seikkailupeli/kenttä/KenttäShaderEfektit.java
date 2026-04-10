@@ -1,6 +1,6 @@
 package keimo.seikkailupeli.kenttä;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.seikkailupeli.Peli;
@@ -16,7 +16,7 @@ import org.joml.Vector4f;
 public class KenttäShaderEfektit {
 
     static Random random = new Random();
-    static Tekstuuri mustaTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/tiili.png");
+    static Renderöitävä mustaTekstuuri = Assets.annaTekstuuri("tiili");
     
     static float punainen = 0f, vihreä = 0.5f, sininen = 1f;
     static boolean lisääPun = true, lisääVihr = true, lisääSin = false;
@@ -24,6 +24,7 @@ public class KenttäShaderEfektit {
     static float lisäysAskelVäriBaari = 0.01f;
     static float lisäysAskelVäriBaariSala = 0.2f;
     static float lisäysAskelVäriKuu = 0.04f;
+
     protected static void renderöiKenttäVäriEfekti(Shader shader) {
         shader.bind();
         if (Peli.huone != null) {
@@ -33,35 +34,14 @@ public class KenttäShaderEfektit {
             else if (Peli.huone.annaNimi().equals("Metsä")) {
                 shader.setUniform("himmennys", new Vector4f(0.7f, 0.7f, 0.7f, 0f));
             }
-            // else if (Peli.huone.annaNimi().equals("Keimo-baari")) {
-            //     shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
-            // }
             else if (Peli.huone.annaNimi().equals("Baari_salahuone")) {
                 shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
             }
-            // else if (Peli.huone.annaNimi().equals("Kuu")) {
-            //     shader.setUniform("himmennys", new Vector4f(punainen, vihreä, sininen, 0f));
-            // }
             else shader.setUniform("himmennys", new Vector4f(0f, 0f, 0f, 0f));
         }
     }
 
     protected static void luoKenttäVäriEfekti() {
-        // if (Peli.huone.annaNimi().equals("Keimo-baari")) {
-        //     if (lisääPun) punainen += lisäysAskelVäriBaari;
-        //     else punainen -= lisäysAskelVäriBaari;
-        //     if (lisääVihr) vihreä += lisäysAskelVäriBaari;
-        //     else vihreä -= lisäysAskelVäriBaari;
-        //     if (lisääSin) sininen += lisäysAskelVäriBaari;
-        //     else sininen -= lisäysAskelVäriBaari;
-            
-        //     if (punainen >= 1f) lisääPun = false;
-        //     else if (punainen <= 0f) lisääPun = true;
-        //     if (vihreä >= 1f) lisääVihr = false;
-        //     else if (vihreä <= 0f) lisääVihr = true;
-        //     if (sininen >= 1f) lisääSin = false;
-        //     else if (sininen <= 0f) lisääSin = true;
-        // }
         if (Peli.huone.annaNimi().equals("Baari_salahuone")) {
             if (lisättäväVäri.equals("punainen")) {
                 if (lisääPun) punainen += lisäysAskelVäriBaariSala;
@@ -97,21 +77,6 @@ public class KenttäShaderEfektit {
                 }
             }
         }
-        // else if (Peli.huone.annaNimi().equals("Kuu")) {
-        //     if (lisääPun) punainen += lisäysAskelVäriKuu*0.731;
-        //     else punainen -= lisäysAskelVäriKuu*0.641;
-        //     if (lisääVihr) vihreä += lisäysAskelVäriKuu*0.985;
-        //     else vihreä -= lisäysAskelVäriKuu*0.652;
-        //     if (lisääSin) sininen += lisäysAskelVäriKuu*0.421;
-        //     else sininen -= lisäysAskelVäriKuu*0.794;
-            
-        //     if (punainen >= 1f) lisääPun = false;
-        //     else if (punainen <= 0f) lisääPun = true;
-        //     if (vihreä >= 1f) lisääVihr = false;
-        //     else if (vihreä <= 0f) lisääVihr = true;
-        //     if (sininen >= 1f) lisääSin = false;
-        //     else if (sininen <= 0f) lisääSin = true;
-        // }
     }
 
     static float xHeilunnanNopeus = 0f;
@@ -121,6 +86,7 @@ public class KenttäShaderEfektit {
     static float zHeilunnanNopeus = 0f;
     static float zHeilunnanPituus = 0f;
     public static float känniScaleX = 0;
+
     protected static Matrix4f känniEfekti(Matrix4f projection) {
         if (Pelaaja.känninVoimakkuusFloat > 0f) {
             float känniHajontaX = random.nextFloat(0.001f + Pelaaja.känninVoimakkuusFloat);
@@ -142,6 +108,7 @@ public class KenttäShaderEfektit {
 
     static float rotZ = 0f;
     static float rotaationNopeus = 0f;
+
     protected static Matrix4f känniEfektiRotaatio(Matrix4f projection) {
         if (Pelaaja.känninVoimakkuusFloat > 6f) {
             rotaationNopeus = (Pelaaja.känninVoimakkuusFloat * Pelaaja.känninVoimakkuusFloat)/20f - (Pelaaja.känninVoimakkuusFloat * 6f)/20f;
@@ -155,6 +122,7 @@ public class KenttäShaderEfektit {
     static float lisäysVäri = 0f;
     static boolean lisääVäri = true;
     static float lisäysAskelKimmellys = 0.01f;
+
     protected static void kimmellysEfekti(Shader shader) {
         shader.bind();
         if (lisääVäri) lisäysVäri += lisäysAskelKimmellys;
@@ -180,6 +148,7 @@ public class KenttäShaderEfektit {
     static float mustatPalkitParillinenFade = 0f;
     static float mustatPalkitParitonFade = 1f;
     static float mustatPalkitFadeAskel = 0.01f;
+
     protected static void renderöiMustatPalkitEfekti(Shader shader, int x, int y, int z, Matrix4f cameraMatrix) {
         shader.bind();
         Matrix4f tilenSijainti = new Matrix4f();

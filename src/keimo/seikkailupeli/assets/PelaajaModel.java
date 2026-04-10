@@ -122,7 +122,7 @@ public class PelaajaModel {
         if (Peli.annaObjektiKenttä() != null) {
             if (Pelaaja.sijX < Peli.annaObjektiKenttä().length && Pelaaja.sijY < Peli.annaObjektiKenttä().length) {
                 if (Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY] != null) {
-                    NäppäinVinkkiTekstit.renderöiNäppäinVinkki(Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY], pelaajaShaderStaattinen, camera, transform);
+                    NäppäinVinkkiTekstit.renderöiNäppäinVinkki(Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY], camera, transform);
                 }
             }
         }

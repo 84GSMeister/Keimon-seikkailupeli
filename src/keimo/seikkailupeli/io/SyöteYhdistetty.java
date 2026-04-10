@@ -8,12 +8,13 @@ import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.Peli.SyöteLaitteet;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.gui.toimintoIkkunat.*;
-import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkuna3D;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaKeimoäly;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaOverflow;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPokeri;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPong;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaTetris;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.Maailma3D;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.MinipeliIkkuna3D;
 import keimo.seikkailupeli.kenttä.*;
 import keimo.seikkailupeli.menu.*;
 import keimo.seikkailupeli.menu.asetusRuudut.*;
@@ -219,6 +220,47 @@ public class SyöteYhdistetty extends Input {
                             case ÄMPÄRIJONO -> {
                                 if (isKeyPressed(GLFW_KEY_SPACE) || isKeyPressed(GLFW_KEY_ENTER) || isJoystickButtonPressed(NÄPPÄIN_A) || isJoystickButtonPressed(NÄPPÄIN_START)) {
                                     ÄmpäriJonoIkkuna.keskeytetty = true;
+                                }
+                            }
+                            case YHDISTÄMINEN -> {
+                                if (isKeyPressed(GLFW_KEY_ESCAPE)) {
+                                    YhdistämisIkkuna.suljeValikko();
+                                }
+                                else if (isKeyPressed(GLFW_KEY_1)) {
+                                    Peli.yhdistäValittuunEsineeseen(0);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_2)) {
+                                    Peli.yhdistäValittuunEsineeseen(1);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_3)) {
+                                    Peli.yhdistäValittuunEsineeseen(2);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_4)) {
+                                    Peli.yhdistäValittuunEsineeseen(3);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_5)) {
+                                    Peli.yhdistäValittuunEsineeseen(4);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_6)) {
+                                    Peli.yhdistäValittuunEsineeseen(5);
+                                }
+                                else if (isKeyHeld(GLFW_KEY_W) || isKeyPressed(GLFW_KEY_UP) || isJoystickAnalogHeld(ANALOG_L_YLÖS) || isJoystickHatPressed(DPAD_YLÖS)) {
+                                    yhdistettävänTavarapaikanVaihto(-3);
+                                }
+                                else if (isKeyHeld(GLFW_KEY_S) || isKeyPressed(GLFW_KEY_DOWN) || isJoystickAnalogHeld(ANALOG_L_ALAS) || isJoystickHatPressed(DPAD_ALAS)) {
+                                    yhdistettävänTavarapaikanVaihto(3);
+                                }
+                                else if (isKeyHeld(GLFW_KEY_A) || isKeyPressed(GLFW_KEY_LEFT) || isJoystickAnalogHeld(ANALOG_L_VASEN) || isJoystickHatPressed(DPAD_VASEN)) {
+                                    yhdistettävänTavarapaikanVaihto(-1);
+                                }
+                                else if (isKeyHeld(GLFW_KEY_D) || isKeyPressed(GLFW_KEY_RIGHT) || isJoystickAnalogHeld(ANALOG_L_OIKEA) || isJoystickHatPressed(DPAD_OIKEA)) {
+                                    yhdistettävänTavarapaikanVaihto(1);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_Z) || isJoystickButtonPressed(NÄPPÄIN_SELECT)) {
+                                    Peli.yhdistäValittuunEsineeseen(Peli.yhdistettäväTavarapaikka);
+                                }
+                                else if (isKeyPressed(GLFW_KEY_SPACE) || isKeyPressed(GLFW_KEY_ENTER) || isJoystickButtonPressed(NÄPPÄIN_A)) {
+                                    Peli.yhdistäValittuunEsineeseen(Peli.yhdistettäväTavarapaikka);
                                 }
                             }
                             case MINIPELI_3D -> {
@@ -532,7 +574,7 @@ public class SyöteYhdistetty extends Input {
                 if (isKeyHeld(GLFW_KEY_W) || isKeyPressed(GLFW_KEY_UP) || isJoystickAnalogHeld(ANALOG_L_YLÖS) || isJoystickHatPressed(DPAD_YLÖS)) {
                     LoppuRuutu.painaNäppäintä("ylös");
                 }
-                if (isKeyPressed(GLFW_KEY_SPACE) || isKeyPressed(GLFW_KEY_ENTER)) {
+                if (isKeyPressed(GLFW_KEY_SPACE) || isKeyPressed(GLFW_KEY_ENTER) || isJoystickButtonPressed(NÄPPÄIN_A) || isJoystickButtonPressed(NÄPPÄIN_START)) {
                     LoppuRuutu.painaNäppäintä("enter");
                 }
             }
@@ -747,6 +789,12 @@ public class SyöteYhdistetty extends Input {
         if (Peli.esineValInt < 0) Peli.esineValInt += Pelaaja.esineet.length;
         Peli.esineValInt %= Pelaaja.esineet.length;
         Peli.valittuEsine = Pelaaja.esineet[Peli.esineValInt];
+    }
+
+    private static void yhdistettävänTavarapaikanVaihto(int määrä) {
+        Peli.yhdistettäväTavarapaikka += määrä;
+        if (Peli.yhdistettäväTavarapaikka < 0) Peli.yhdistettäväTavarapaikka += Pelaaja.esineet.length;
+        Peli.yhdistettäväTavarapaikka %= Pelaaja.esineet.length;
     }
 
     private void avaaMidiLaitteet() {

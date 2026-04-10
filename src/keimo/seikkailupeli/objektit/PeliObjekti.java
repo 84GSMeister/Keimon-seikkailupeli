@@ -4,6 +4,7 @@ import keimo.keimoengine.collision.Neliö;
 import keimo.keimoengine.collision.Piste;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
+import keimo.seikkailupeli.assets.KuvaObjekti;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public abstract class PeliObjekti implements Käännettävä {
     public Neliö hitbox;
     protected Suunta suunta = Suunta.YLÖS;
     protected String tiedostonNimi;
+    protected KuvaObjekti tekstuuriObjekti;
     protected Renderöitävä tekstuuri;
     protected Renderöitävä dialogiTekstuuri;
     protected int kääntöAsteet = 0;
@@ -135,6 +137,10 @@ public abstract class PeliObjekti implements Käännettävä {
     public Renderöitävä annaDialogiTekstuuri() {
         if (dialogiTekstuuri == null) return tekstuuri;
         else return dialogiTekstuuri;
+    }
+
+    public KuvaObjekti annaTekstuuriObjekti() {
+        return tekstuuriObjekti;
     }
 
     public void asetaSuunta(Suunta suunta) {

@@ -1,6 +1,7 @@
 package keimo.seikkailupeli.objektit.entityt;
 
 import keimo.TarkistettavatArvot;
+import keimo.seikkailupeli.assets.KuvaObjekti;
 import keimo.seikkailupeli.objektit.PeliObjekti;
 import keimo.seikkailupeli.objektit.entityt.npc.Asevihu;
 import keimo.seikkailupeli.objektit.entityt.npc.Boss;
@@ -31,6 +32,7 @@ public abstract class Entity extends PeliObjekti {
         this.alkuSijX = sijX;
         this.alkuSijY = sijY;
         this.id = TarkistettavatArvot.luoNpcId();
+        this.tekstuuriObjekti = new KuvaObjekti(this.tekstuuri);
         asetaTiedot();
     }
 

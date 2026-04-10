@@ -1,7 +1,6 @@
 package keimo.seikkailupeli.objektit.entityt.npc;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.seikkailupeli.assets.Assets;
 
 import java.util.ArrayList;
@@ -94,7 +93,7 @@ public class Vartija extends Vihollinen {
         super.nopeus = 9;
         super.tekeeVahinkoa = false;
         super.tiedostonNimi = "tiedostot/kuvat/npc/vartija_off.png";
-        super.tekstuuri = new Tekstuuri(tiedostonNimi);
+        super.tekstuuri = offTekstuuri;
         super.kilpiTehoaa = false;
         super.sijX = sijX;
         super.sijY = sijY;

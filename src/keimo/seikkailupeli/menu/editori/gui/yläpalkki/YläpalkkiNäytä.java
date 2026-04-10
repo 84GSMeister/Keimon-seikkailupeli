@@ -23,10 +23,12 @@ public class YläpalkkiNäytä {
     private static StaattinenKomponentti näytäEntitytLabel = new StaattinenKomponentti(0.025f, 0.03f, -0.25f, 0.74f, Assets.annaTekstuuri("editori_näytä_entityt"));
     private static ValintaLaatikko näytäEntitytNappi = new ValintaLaatikko(true, 0.025f, 0.03f, -0.2f, 0.74f, new TooltipTeksti("Näytä entityt", 500, 48));
 
-    private static StaattinenKomponentti näytäOsoitinLabel = new StaattinenKomponentti(0.025f, 0.03f, -0.1f, 0.86f, Assets.annaTekstuuri("editori_näytä_osoitin"));
-    private static ValintaLaatikko näytäOsoitinNappi = new ValintaLaatikko(true, 0.025f, 0.03f, -0.05f, 0.86f, new TooltipTeksti("Näytä osoittimen sijainti", 500, 48));
-    private static StaattinenKomponentti näytäDebugLabel = new StaattinenKomponentti(0.025f, 0.03f, -0.1f, 0.8f, Assets.annaTekstuuri("editori_näytä_debug"));
-    private static ValintaLaatikko näytäDebugNappi = new ValintaLaatikko(false, 0.025f, 0.03f, -0.05f, 0.8f, new TooltipTeksti("Näytä Debug-tiedot (F3)", 500, 48));
+    private static StaattinenKomponentti näytäTaustaLabel = new StaattinenKomponentti(0.025f, 0.03f, -0.1f, 0.86f, Assets.annaTekstuuri("editori_näytä_tausta"));
+    private static ValintaLaatikko näytäTaustaNappi = new ValintaLaatikko(true, 0.025f, 0.03f, -0.05f, 0.86f, new TooltipTeksti("Näytä tausta", 500, 48));
+    private static StaattinenKomponentti näytäOsoitinLabel = new StaattinenKomponentti(0.025f, 0.03f, -0.1f, 0.8f, Assets.annaTekstuuri("editori_näytä_osoitin"));
+    private static ValintaLaatikko näytäOsoitinNappi = new ValintaLaatikko(true, 0.025f, 0.03f, -0.05f, 0.8f, new TooltipTeksti("Näytä osoittimen sijainti", 500, 48));
+    private static StaattinenKomponentti näytäDebugLabel = new StaattinenKomponentti(0.025f, 0.03f, -0.1f, 0.74f, Assets.annaTekstuuri("editori_näytä_debug"));
+    private static ValintaLaatikko näytäDebugNappi = new ValintaLaatikko(false, 0.025f, 0.03f, -0.05f, 0.74f, new TooltipTeksti("Näytä Debug-tiedot (F3)", 500, 48));
     
     protected static void alustaGrafiikat() {
         otsikkoTeksti = new Teksti("Näytä", Color.white, 400, 48);
@@ -37,6 +39,7 @@ public class YläpalkkiNäytä {
         näytäMaastoNappi.hiiriSisällä(hiiriX, hiiriY);
         näytäObjektitNappi.hiiriSisällä(hiiriX, hiiriY);
         näytäEntitytNappi.hiiriSisällä(hiiriX, hiiriY);
+        näytäTaustaNappi.hiiriSisällä(hiiriX, hiiriY);
         näytäOsoitinNappi.hiiriSisällä(hiiriX, hiiriY);
         näytäDebugNappi.hiiriSisällä(hiiriX, hiiriY);
     }
@@ -53,6 +56,10 @@ public class YläpalkkiNäytä {
         else if (näytäEntitytNappi.hiiriSisällä(hiiriX, hiiriY)) {
             näytäEntitytNappi.valitse();
             EditoriRuutu.entitytNäkyvissä = näytäEntitytNappi.valittu();
+        }
+        else if (näytäTaustaNappi.hiiriSisällä(hiiriX, hiiriY)) {
+            näytäTaustaNappi.valitse();
+            EditoriRuutu.taustaNäkyvissä = näytäTaustaNappi.valittu();
         }
         else if (näytäOsoitinNappi.hiiriSisällä(hiiriX, hiiriY)) {
             näytäOsoitinNappi.valitse();
@@ -79,6 +86,8 @@ public class YläpalkkiNäytä {
         näytäEntitytLabel.renderöi(shader, ikkuna);
         näytäEntitytNappi.renderöi(shader, ikkuna);
 
+        näytäTaustaLabel.renderöi(shader, ikkuna);
+        näytäTaustaNappi.renderöi(shader, ikkuna);
         näytäOsoitinLabel.renderöi(shader, ikkuna);
         näytäOsoitinNappi.renderöi(shader, ikkuna);
         näytäDebugLabel.renderöi(shader, ikkuna);
@@ -89,6 +98,7 @@ public class YläpalkkiNäytä {
         näytäMaastoNappi.renderöiTooltip(shader, ikkuna);
         näytäObjektitNappi.renderöiTooltip(shader, ikkuna);
         näytäEntitytNappi.renderöiTooltip(shader, ikkuna);
+        näytäTaustaNappi.renderöiTooltip(shader, ikkuna);
         näytäOsoitinNappi.renderöiTooltip(shader, ikkuna);
         näytäDebugNappi.renderöiTooltip(shader, ikkuna);
     }

@@ -19,13 +19,14 @@ import keimo.seikkailupeli.gui.toimintoIkkunat.HuijauskoodiValikko;
 import keimo.seikkailupeli.gui.toimintoIkkunat.KarttaIkkuna;
 import keimo.seikkailupeli.gui.toimintoIkkunat.OhjeIkkuna;
 import keimo.seikkailupeli.gui.toimintoIkkunat.PullonPalautusIkkuna;
+import keimo.seikkailupeli.gui.toimintoIkkunat.YhdistämisIkkuna;
 import keimo.seikkailupeli.gui.toimintoIkkunat.ÄmpäriJonoIkkuna;
-import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkuna3D;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaKeimoäly;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaOverflow;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPokeri;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPong;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaTetris;
+import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.MinipeliIkkuna3D;
 import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.kenttä.Tausta;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -131,12 +132,13 @@ public class PeliRuutu {
 					case OHJEET -> {
 						OhjeIkkuna.renderöiIkkuna(shader, window);
 					}
+                    case YHDISTÄMINEN -> {
+                        YhdistämisIkkuna.renderöi(shader, window);
+                    }
 					case HUIJAUSKOODIT -> {
 						HuijauskoodiValikko.renderöi(shader, window);
 					}
 					case MINIPELI_3D -> {
-                        //shaderVäri.bind();
-                        //shaderVäri.loop();
                         MinipeliIkkuna3D.renderöi(window, camera, shader);
 					}
 					case MINIPELI_PONG -> {

@@ -97,7 +97,7 @@ public abstract class Esine extends KenttäKohde {
                 return new Paperi(0, 0);
             case "Pesäpallomaila":
                 return new Pesäpallomaila(0, 0);
-            case "Pontikka-ainekset":
+            case "Pontikka-ainekset", "Leivonta-ainekset":
                 return new Ponuainekset(0, 0);
             case "Suklaalevy":
                 return new Suklaalevy(0, 0);

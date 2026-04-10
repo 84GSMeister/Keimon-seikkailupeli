@@ -1,6 +1,17 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (4.4.2026): 1.2.2 Alfa
+## Uusin versio (10.4.2026): 1.2.3 Alfa
+
+### Versio 1.2.3 Alfa
+ - Lisätty yhdistämisvalikko.
+ - Lisätty tuki animoiduille tileille ja taustoille
+ - Parannettu näppäinvinkkien näkyvyyttä
+ - Kaupan asettelua parannettu ja tarkoituksettomat ei-kiinteät tilet vaihdettu kiinteiksi.
+ - Korjattu joidenkin tile-tekstuurien puuttuminen editorista (tekstuurien lataus hakemistosta eikä kst-tiedostosta)
+ - Lisätty Jallu-kauppahyllyn kuvake ja korjattu puuttuvan tekstuurin aiheuttama kaatuminen.
+ - Pontikka-ainekset-esineen nimi muutettu -> Leivonta-ainekset
+ - Korjattu porttianimaatioiden puuttuminen temppelissä.
+ - Korjattu ostoskorista poistamisen ääniefektin puuttuminen.
 
 ### Versio 1.2.2 Alfa
  - Uusia Shader-efektejä.

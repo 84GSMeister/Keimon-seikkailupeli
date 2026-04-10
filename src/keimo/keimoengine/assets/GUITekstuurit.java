@@ -12,6 +12,8 @@ public class GUITekstuurit {
     public static void lataaTekstuurit() {
         tekstuurit.put("virhe", new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png"));
         tekstuurit.put("tooltip_pohja", new Tekstuuri("tiedostot/kuvat/gui/komponentit/tooltip_teksti_pohja.png"));
+        tekstuurit.put("lataus_punainen", new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png"));
+        tekstuurit.put("lataus_vihreä", new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png"));
     }
 
     public static Renderöitävä annaTekstuuri(String nimi) {

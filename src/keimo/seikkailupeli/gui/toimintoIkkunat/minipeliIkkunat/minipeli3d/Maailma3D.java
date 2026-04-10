@@ -1,4 +1,4 @@
-package keimo.seikkailupeli.kenttä;
+package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d;
 
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
@@ -46,7 +46,6 @@ public class Maailma3D {
     public static boolean debugTiedotNäkyvissä = false;
     private static boolean voitto = false;
 
-    private static HashMap<String, Tekstuuri> tileTextures = new HashMap<>();
     private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
     private static Teksti voittoTeksti = new Teksti("VOITIT PELIN!", Color.yellow, 1400, 400, KeimoFontit.fontti_keimo_100, false);
     private static Teksti voittoTeksti2 = new Teksti("Salainen reitti on avattu", Color.yellow, 2800, 200, KeimoFontit.fontti_keimo_100, false);
@@ -96,26 +95,16 @@ public class Maailma3D {
             }
         }
 
-        for (int i = 0; i < Maailma.tilet.size(); i++) {
-            if (Maailma.tilet.get(i) != null) {
-                Maasto m = Maailma.tilet.get(i);
-                if (!tileTextures.containsKey(m.annaTekstuurinNimi())) {
-                    String tex = m.annaTekstuurinNimi();
-                    if (m instanceof Tile) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/" + tex + ".png"));
-                    else if (m instanceof IsoLaatta) tileTextures.put(tex, new Tekstuuri("tiedostot/kuvat/maasto/isot_laatat/" + tex + ".png"));
-                }
-            }
-        }
-        for (String s : Maailma.taustakuvat) {
-            try {
-                String taustanNimi = s.substring(0, s.length()-4);
-                Tausta.taustaTekstuurit.put(taustanNimi, new Tekstuuri("tiedostot/kuvat/taustat/" + s));
-            }
-            catch (StringIndexOutOfBoundsException sioobe) {
-                System.out.println("Virheellinen tausta: " + s);
-                sioobe.printStackTrace();
-            }
-        }
+        // for (String s : Maailma.taustakuvat) {
+        //     try {
+        //         String taustanNimi = s.substring(0, s.length()-4);
+        //         Tausta.taustaTekstuurit.put(taustanNimi, new Tekstuuri("tiedostot/kuvat/taustat/" + s));
+        //     }
+        //     catch (StringIndexOutOfBoundsException sioobe) {
+        //         System.out.println("Virheellinen tausta: " + s);
+        //         sioobe.printStackTrace();
+        //     }
+        // }
         createWorld3D();
     }
 
@@ -257,11 +246,6 @@ public class Maailma3D {
                     }
                 }
             }
-            // for (Entity e : Peli.entityLista) {
-            //     if (e != null) {
-            //         renderöiEntity(e, (int)e.hitbox.getMinX(), (int)-e.hitbox.getMinY(), shader, world, camera);
-            //     }
-            // }
             for (int y = 0; y < Peli.annaObjektiKenttä().length; y++) {
                 for (int x = 0; x < Peli.annaObjektiKenttä().length; x++) {
                     KenttäKohde k = Peli.annaObjektiKenttä()[x][y];
@@ -280,7 +264,7 @@ public class Maailma3D {
 
     protected static void renderöiTile(Tile tile, int x, int y, Matrix4f world, Shader shader) {
         shader.bind();
-        if (tileTextures.containsKey(tile.annaTekstuurinNimi())) tileTextures.get(tile.annaTekstuurinNimi()).bind(0);
+        if (Assets.annaTileTekstuurit().containsKey(tile.annaTekstuurinNimi())) Assets.annaTileTekstuurit().get(tile.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
         Matrix4f tilenSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, -25));

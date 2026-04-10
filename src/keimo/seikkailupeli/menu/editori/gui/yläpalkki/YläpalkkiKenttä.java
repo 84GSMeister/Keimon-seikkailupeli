@@ -88,7 +88,7 @@ public class YläpalkkiKenttä {
                 valitunEsineenTekstuuri = objekti.annaTekstuuri();
             }
             else if (objekti instanceof Maasto) {
-                valitunEsineenTekstuuri = EditoriRuutu.tileTextures.get(((Maasto)objekti).annaTekstuurinNimi());
+                valitunEsineenTekstuuri = Assets.annaTileTekstuurit().get(((Maasto)objekti).annaTekstuurinNimi());
             }
         }
     }

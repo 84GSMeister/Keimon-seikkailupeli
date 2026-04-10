@@ -143,6 +143,7 @@ public final class Nuotio extends Kiintopiste {
             case "sammuta": return "Nuotio sammutettiin.";
             case "ei_toimiva": return "Kaasusytyttimessä ei ole kaasua. Löytyisiköhän jostain pullo sitä?";
             case "makkara_ei_sytytetty": return "Makkaraa ei voi paistaa ennen kuin nuotio on sytytetty.";
+            case "sytyke_eitarvi": return "Tässä universumissa voimme onneksi olettaa polttoaineen palavan ikuisesti, joten sitä ei tarvitse enää lisätä nuotioon. Lämmiteltyään nuotion äärellä hetken Keimo päättää lähteä hakemaan Pasia mukaan.";
             case null, default: return katso();
         }
     }

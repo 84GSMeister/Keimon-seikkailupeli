@@ -144,6 +144,12 @@ public class HuoneenLuontiIkkuna {
         }
     }
 
+    public static void sulje() {
+        if (ikkuna != null) {
+            ikkuna.dispose();
+        }
+    }
+
     private static void luoUusiHuone(int luontiId) {
         try {
             int luontiKoko = Integer.parseInt(huoneenKokoTeksti.getText());

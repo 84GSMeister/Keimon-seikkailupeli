@@ -1,4 +1,4 @@
-package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
+package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d;
 
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
@@ -8,7 +8,6 @@ import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
 import keimo.seikkailupeli.assets.Assets;
-import keimo.seikkailupeli.kenttä.Maailma3D;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
 import org.joml.Matrix4f;

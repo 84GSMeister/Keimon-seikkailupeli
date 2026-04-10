@@ -56,7 +56,7 @@ public final class JumalYoda extends NPC_KenttäKohde {
                         this.löydä(true);
                         Dialogit.avaaPitkäDialogiRuutu("goblin_alku");
                     }
-                    else Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), "Hrmm...", "Goblin");
+                    else Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), "Hrmm...\n\n(Parempi ehkä kokeilla tutustua muihin metsän asukkaisiin ensin.)", "Goblin");
                 }
             }
             case "kuu" -> {

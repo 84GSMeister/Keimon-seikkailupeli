@@ -5,6 +5,8 @@ import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
+import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.KauppaRuutu;
+import keimo.seikkailupeli.toiminnot.Dialogit;
 
 public class ErikoisTileMuutokset {
     private static Renderöitävä kassaVihkoauki = Assets.annaTekstuuri("kassa_vihkoauki");
@@ -17,7 +19,9 @@ public class ErikoisTileMuutokset {
             case "kassa_vihkokiinni_e.png":
                 if (Peli.huone.annaNimi().startsWith("Kauppa") &&
                     Peli.syötteenTila == SyötteenTila.DIALOGI &&
-                    (sijX == Pelaaja.sijX + 1 || sijX == Pelaaja.sijX - 1)
+                    (sijX == Pelaaja.sijX + 1 || sijX == Pelaaja.sijX - 1) &&
+                    (Peli.annaObjektiKenttä()[Pelaaja.sijX][Pelaaja.sijY] instanceof KauppaRuutu) &&
+                    Dialogit.dialogiNimi.annaTeksti().equals("ASS-Market kassa")
                 ) return kassaVihkoauki;
                 else return kassaVihkokiinni;
             case null:

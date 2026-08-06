@@ -1,19 +1,18 @@
 package keimo.seikkailupeli.gui.hud;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 
-import java.awt.Color;
-
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 public class TavoitePopup {
-    private static Teksti tavoiteTeksti = new Teksti("tavoite", Color.black, 1200, 48);
+    private static Teksti tavoiteTeksti = new Teksti("tavoite", Väri.black, 1200, 48);
     private static Shader shader = new Shader("shader");
-    private static Tekstuuri tavoiteKehysTekstuuri = new Tekstuuri("tiedostot/kuvat/hud/tavoitepopup.png");
+    private static Renderöitävä tavoiteKehysTekstuuri = Assets.annaTekstuuri("hud_tavoite_popup");
     
     public static String suoritettuTavoite = "";
     public static int popupAjastin = 0;
@@ -47,7 +46,7 @@ public class TavoitePopup {
             shader.asetaSijainti(matTavoiteTeksti);
             if (popupAjastin < 50) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 1f - popupAjastin/50f));
             else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));
-            tavoiteTeksti.päivitäTeksti(suoritettuTavoite, 0, 36, Color.black);
+            tavoiteTeksti.päivitäTeksti(suoritettuTavoite, 0, 36, Väri.black);
             tavoiteTeksti.bind(0);
             Assets.getModel().render();
 

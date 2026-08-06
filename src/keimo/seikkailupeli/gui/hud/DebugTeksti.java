@@ -2,44 +2,45 @@ package keimo.seikkailupeli.gui.hud;
 
 import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.Kello;
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.kenttä.Maailma;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 
 public class DebugTeksti {
 
-    static Teksti versioInfoTeksti = new Teksti("debug", Color.cyan, 1200, 48);
-    static Teksti näppäinInfoTeksti1 = new Teksti("debug", Color.white, 1500, 48);
-    static Teksti näppäinInfoTeksti2 = new Teksti("debug", Color.white, 1200, 48);
+    static Teksti versioInfoTeksti = new Teksti("debug", Väri.cyan, 1200, 48);
+    static Teksti näppäinInfoTeksti1 = new Teksti("debug", Väri.white, 1500, 48);
+    static Teksti näppäinInfoTeksti2 = new Teksti("debug", Väri.white, 1200, 48);
 
-    static Teksti debugInfoTekstiFPS = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiMaailmaMs = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiPelaajaMs = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiHudMs = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiGlobaaliTickit = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiHuone = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiSijX = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiSijY = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiTileMäärä = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiObjektiMäärä = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiEntityMäärä = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKeimonToiminto = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKeimonKylläisyys = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKeimonTerveys = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKeimonSuunta = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiReaktioaika = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKuolemattomuusaika = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKänniKuolemattomuus = new Teksti("debug", Color.red, 1200, 48);
-    static Teksti debugInfoTekstiKänninVoimakkuus = new Teksti("debug", Color.red, 1200, 48);
+    static Teksti debugInfoTekstiFPS = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiMaailmaMs = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiPelaajaMs = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiHudMs = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiGlobaaliTickit = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiHuone = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiSijX = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiSijY = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiTileMäärä = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiObjektiMäärä = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiEntityMäärä = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKeimonToiminto = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKeimonKylläisyys = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKeimonTerveys = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKeimonSuunta = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiReaktioaika = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKuolemattomuusaika = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKänniKuolemattomuus = new Teksti("debug", Väri.red, 1200, 48);
+    static Teksti debugInfoTekstiKänninVoimakkuus = new Teksti("debug", Väri.red, 1200, 48);
 
-    static Teksti huijauskoodiTeksti1 = new Teksti("koodi", Color.orange, 1000, 48);
-    static Teksti huijauskoodiTeksti2 = new Teksti("koodi", Color.orange, 1000, 48);
-    static Teksti huijauskoodiTeksti3 = new Teksti("koodi", Color.orange, 1000, 48);
+    static Teksti huijauskoodiTeksti1 = new Teksti("koodi", Väri.orange, 1000, 48);
+    static Teksti huijauskoodiTeksti2 = new Teksti("koodi", Väri.orange, 1000, 48);
+    static Teksti huijauskoodiTeksti3 = new Teksti("koodi", Väri.orange, 1000, 48);
+    static Teksti huijauskoodiTeksti4 = new Teksti("koodi", Väri.orange, 1000, 48);
 
     static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
 	static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
@@ -49,7 +50,7 @@ public class DebugTeksti {
             int sijx = (int)(window.getWidth()/5.5);
             int sijy = (int)(window.getHeight()/8f);
             int sijyOffset = (int)(window.getHeight()/54f);
-            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.2.3 Alfa");
+            versioInfoTeksti.päivitäTeksti("Keimon seikkailupeli v1.2.4 Alfa");
             HUD.renderöiTeksti(versioInfoTeksti, sijx, sijy, window);
             näppäinInfoTeksti1.päivitäTeksti("F1: Käynistä uudelleen, F2: Kaada peli");
             HUD.renderöiTeksti(näppäinInfoTeksti1, sijx, sijy + sijyOffset, window);
@@ -121,6 +122,10 @@ public class DebugTeksti {
         if (Pelaaja.loputonRaha) {
             huijauskoodiTeksti3.päivitäTeksti("Loputon raha");
             HUD.renderöiTeksti(huijauskoodiTeksti3, sijx, sijy + 2*sijyOffset, window);
+        }
+        if (Pelaaja.vapaaWarp) {
+            huijauskoodiTeksti4.päivitäTeksti("Warp (Numpad +/-)");
+            HUD.renderöiTeksti(huijauskoodiTeksti4, sijx, sijy + 3*sijyOffset, window);
         }
     }
 }

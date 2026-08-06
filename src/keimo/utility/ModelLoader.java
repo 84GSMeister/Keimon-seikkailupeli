@@ -1,5 +1,11 @@
 package keimo.utility;
 
+import keimo.keimoengine.grafiikat.objekti3d.Material;
+import keimo.keimoengine.grafiikat.objekti3d.Mesh3D;
+import keimo.keimoengine.grafiikat.objekti3d.Model3D;
+import keimo.keimoengine.grafiikat.objekti3d.TextureCache;
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
+
 import java.io.File;
 import java.nio.IntBuffer;
 import java.util.*;
@@ -8,14 +14,7 @@ import org.joml.Vector4f;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
 import org.lwjgl.system.MemoryStack;
-
-import keimo.keimoengine.grafiikat.objekti3d.Material;
-import keimo.keimoengine.grafiikat.objekti3d.Mesh3D;
-import keimo.keimoengine.grafiikat.objekti3d.Model3D;
-import keimo.keimoengine.grafiikat.objekti3d.TextureCache;
-
 import static org.lwjgl.assimp.Assimp.*;
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class ModelLoader {
 
@@ -84,7 +83,7 @@ public class ModelLoader {
             if (!defaultMaterial.getMeshList().isEmpty()) {
                 materialList.add(defaultMaterial);
             }
-            tinyfd_messageBox("Virhe ladatessa 3D-mallia", "Tiedostoa " + modelPath + " ei voitu ladata", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa 3D-mallia", "Tiedostoa " + modelPath + " ei voitu ladata", "ok", "error", false);
             return new Model3D(modelId, materialList);
         }
     }

@@ -28,7 +28,6 @@ public class Boss extends Vihollinen {
     public void vahingoita(Ase ase) {
         if (bossTila == BossState.NORMAALI) {
             this.hp -= ase.annaVahinko();
-            System.out.println(this.annaNimi() + ", hp: " + this.annaHp());
             if (this.hp <= 0) {
                 this.hurtAika = 240;
                 this.kukista(ase.annaNimi());

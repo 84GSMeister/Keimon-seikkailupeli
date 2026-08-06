@@ -158,7 +158,7 @@ public class Vuorovaikutukset {
                             }
                         }
                         if (Pelaaja.ostosKori.size() - tyhjätPaikat > 0) {
-                            Dialogit.avaaDialogi("", "Ostokset ei mahdu tavaraluetteloon.", "");
+                            Dialogit.avaaDialogi("Ostokset ei mahdu tavaraluetteloon.", "");
                         }
                         else {
                             if (!Pelaaja.loputonRaha) Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
@@ -183,7 +183,7 @@ public class Vuorovaikutukset {
                             }
                         }
                         if (Pelaaja.ostosKori.size() - tyhjätPaikat > 0) {
-                            Dialogit.avaaDialogi("", "Ostokset ei mahdu tavaraluetteloon.", "");
+                            Dialogit.avaaDialogi("Ostokset ei mahdu tavaraluetteloon.", "");
                         }
                         else {
                             if (!Pelaaja.loputonRaha) Pelaaja.raha -= Pelaaja.ostostenHintaYhteensä;
@@ -288,7 +288,7 @@ public class Vuorovaikutukset {
                         }
                     }
                     case null, default -> {
-                        Dialogit.avaaDialogi("", ruutu.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty tyyppiä " + ruutu.annaTyyppi(), "Virheellinen tyyppi");
+                        Dialogit.avaaDialogi(ruutu.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty tyyppiä " + ruutu.annaTyyppi(), "Virheellinen tyyppi");
                     }
                 }
             }
@@ -304,7 +304,7 @@ public class Vuorovaikutukset {
                     case 3: MinipeliIkkunaTetris.avaaToimintoIkkuna(); break;
                     case 4: MinipeliIkkunaOverflow.avaaToimintoIkkuna(); break;
                     case 5: MinipeliIkkunaKeimoäly.avaaToimintoIkkuna(); break;
-                    default: Dialogit.avaaDialogi("", "Minipeliä " + pk.annaTyyppi() + " ei löytynyt.", pk.annaNimi()); break;
+                    default: Dialogit.avaaDialogi("Minipeliä " + pk.annaTyyppi() + " ei löytynyt.", pk.annaNimi()); break;
                 }
             }
             else if (kp instanceof Pulloautomaatti) {
@@ -330,7 +330,6 @@ public class Vuorovaikutukset {
         }
         else if (k instanceof Triggeri) {
             Triggeri trg = (Triggeri)k;
-            System.out.println(trg.annaNimi());
             if (trg.annaVaadittuVihollinen() != null) {
                 Dialogit.avaaDialogi(trg.annaDialogiTekstuuri(), "Tähän tarvitaan jokin vihollinen.", trg.annaNimi());
             }

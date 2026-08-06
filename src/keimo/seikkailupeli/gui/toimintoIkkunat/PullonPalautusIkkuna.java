@@ -1,9 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -16,7 +17,6 @@ import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Pulloautomaatti;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Pulloautomaatti.PulloautomaatinKuvake;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -25,11 +25,11 @@ public class PullonPalautusIkkuna {
     private static Renderöitävä taustaTekstuuri = Assets.annaTekstuuri("toimintoikkuna_pullonpalautus");
     private static Teksti tölkkiMääräTeksti;
     private static Teksti pullonPalautusTeksti;
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
-    private static StaattinenKomponentti taustaLabel = new StaattinenKomponentti(0.4f, 0.4f, 0, 0, taustaTekstuuri);
-    private static StaattinenKomponentti tölkkiMääräLabel;
+    private static LabelKomponentti kehysKomponentti = new LabelKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
+    private static LabelKomponentti taustaLabel = new LabelKomponentti(0.4f, 0.4f, 0, 0, taustaTekstuuri);
+    private static LabelKomponentti tölkkiMääräLabel;
     private static Latauspalkki edistymispalkki = new Latauspalkki(1f/3f, 0.05f, 0.0f, -0.2f);
-    private static StaattinenKomponentti virheLabel;
+    private static LabelKomponentti virheLabel;
 
     private static Random r = new Random();
     private static String statusTeksti1 = "0/0";
@@ -45,10 +45,10 @@ public class PullonPalautusIkkuna {
     private static int virhe;
 
     public static void alustaGrafiikat() {
-        tölkkiMääräTeksti = new Teksti("0 / 0", Color.black, 350, 48);
-        pullonPalautusTeksti = new Teksti("Palautetaan", Color.black, 600, 192);
-        tölkkiMääräLabel = new StaattinenKomponentti(0.15f, 0.1f, 0.275f, 0.2f, tölkkiMääräTeksti);
-        virheLabel = new StaattinenKomponentti(0.125f, 0.1f, 0.15f, 0, pullonPalautusTeksti);
+        tölkkiMääräTeksti = new Teksti("0 / 0", Väri.black, 350, 48);
+        pullonPalautusTeksti = new Teksti("Palautetaan", Väri.black, 600, 192);
+        tölkkiMääräLabel = new LabelKomponentti(0.15f, 0.1f, 0.275f, 0.2f, tölkkiMääräTeksti);
+        virheLabel = new LabelKomponentti(0.125f, 0.1f, 0.15f, 0, pullonPalautusTeksti);
     }
     
     public static void renderöiIkkuna(Shader peliShader, Ikkuna window) {
@@ -113,46 +113,48 @@ public class PullonPalautusIkkuna {
     
     public static void simuloiPullonpalautus() {
         if (pullonPalautuksenPituus > 0) {
-            statusTeksti1 = "" + (Pelaaja.kuparit - pullonPalautuksenPituus) + "/" + Pelaaja.kuparit;
-            statusTeksti2 = "Palautetaan...";
-            switch (virhe) {
-                case 0:
-                    pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
-                    virheenTyyppi = VirheenTyyppi.PAKKAUS;
-                    statusTeksti2 = "Poista pakkaus ja yritä uudelleen tai hävitä se muuten.\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Space)" : "A)");
-                    if (!jatkoSyöteAnnettu) return;
-                    else virhe = r.nextInt(0, 10);
-                break;
-                case 1:
-                    pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
-                    virheenTyyppi = VirheenTyyppi.MUOTO;
-                    statusTeksti2 = "Palauta pakkaus alkuperäiseen muotoon ja yritä uudelleen.\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "X)" : "Y)");
-                    if (!jatkoSyöteAnnettu) return;
-                    else virhe = r.nextInt(0, 10);
-                break;
-                case 2:
-                    pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
-                    virheenTyyppi = VirheenTyyppi.KÄSI;
-                    statusTeksti2 = "Älä työnnä kättä automaattiin!\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "C)" : "X)");
-                    if (!jatkoSyöteAnnettu) return;
-                    else virhe = r.nextInt(0, 10);
-                break;
-                case 3:
-                    pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
-                    virheenTyyppi = VirheenTyyppi.MERKKI;
-                    statusTeksti2 = "Kauppa ei hyväksy tätä merkkiä!\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Z)" : "B)");
-                    if (!jatkoSyöteAnnettu) return;
-                    else virhe = r.nextInt(0, 10);
-                break;
-                default:
-                    if (toistot % 20 == 0) {
-                        pulloautomaatti.valitseTila(PulloautomaatinKuvake.AKTIIVINEN);    
-                        pullonPalautuksenPituus --;
-                        jatkoSyöteAnnettu = false;
-                        virhe = r.nextInt(0, 10);
-                    }
-                    toistot++;
-                break;
+            if (venytäX >= 1) {
+                statusTeksti1 = "" + (Pelaaja.kuparit - pullonPalautuksenPituus) + "/" + Pelaaja.kuparit;
+                statusTeksti2 = "Palautetaan...";
+                switch (virhe) {
+                    case 0:
+                        pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
+                        virheenTyyppi = VirheenTyyppi.PAKKAUS;
+                        statusTeksti2 = "Poista pakkaus ja yritä uudelleen tai hävitä se muuten.\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Space)" : "A)");
+                        if (!jatkoSyöteAnnettu) return;
+                        else virhe = r.nextInt(0, 10);
+                    break;
+                    case 1:
+                        pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
+                        virheenTyyppi = VirheenTyyppi.MUOTO;
+                        statusTeksti2 = "Palauta pakkaus alkuperäiseen muotoon ja yritä uudelleen.\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "X)" : "Y)");
+                        if (!jatkoSyöteAnnettu) return;
+                        else virhe = r.nextInt(0, 10);
+                    break;
+                    case 2:
+                        pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
+                        virheenTyyppi = VirheenTyyppi.KÄSI;
+                        statusTeksti2 = "Älä työnnä kättä automaattiin!\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "C)" : "X)");
+                        if (!jatkoSyöteAnnettu) return;
+                        else virhe = r.nextInt(0, 10);
+                    break;
+                    case 3:
+                        pulloautomaatti.valitseTila(PulloautomaatinKuvake.VIRHE);
+                        virheenTyyppi = VirheenTyyppi.MERKKI;
+                        statusTeksti2 = "Kauppa ei hyväksy tätä merkkiä!\n(Paina " + (Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Z)" : "B)");
+                        if (!jatkoSyöteAnnettu) return;
+                        else virhe = r.nextInt(0, 10);
+                    break;
+                    default:
+                        if (toistot % 20 == 0) {
+                            pulloautomaatti.valitseTila(PulloautomaatinKuvake.AKTIIVINEN);    
+                            pullonPalautuksenPituus --;
+                            jatkoSyöteAnnettu = false;
+                            virhe = r.nextInt(0, 10);
+                        }
+                        toistot++;
+                    break;
+                }
             }
         }
         else valmis = true;

@@ -8,6 +8,11 @@ import keimo.seikkailupeli.assets.KuvaObjekti;
 
 import java.util.ArrayList;
 
+/**
+ * PeliObjekti on yläluokka kaikille pelin esineille, maastolaatoille, entityille ja muille vuorovaikutettaville kohteille.
+ * Kaikilla PeliObjekteilla on sijainti XY-kentällä sekä lista ominaisuuksista, jotka tarkentavat objektin toimintaa.
+ */
+
 public abstract class PeliObjekti implements Käännettävä {
 
     protected String nimi = "";
@@ -15,19 +20,79 @@ public abstract class PeliObjekti implements Käännettävä {
     protected int alkuSijY;
     protected int sijX;
     protected int sijY;
-    protected boolean lisäOminaisuuksia = false;
-    protected ArrayList<String> lisäOminaisuudet;
+    protected ArrayList<String> lisäOminaisuudet = new ArrayList<>();
     public Neliö hitbox;
-    protected Suunta suunta = Suunta.YLÖS;
     protected String tiedostonNimi;
     protected KuvaObjekti tekstuuriObjekti;
     protected Renderöitävä tekstuuri;
     protected Renderöitävä dialogiTekstuuri;
     protected int kääntöAsteet = 0;
-    public boolean xPeilaus = false;
+    protected boolean xPeilaus = false;
     protected boolean yPeilaus = false;
     protected String katsomisTeksti = "vakioteksti";
     protected Transform3D transform = new Transform3D();
+
+    /**
+     * Yläkonstruktori, jota kutsutaan jokaisen alaluokan luonnissa. Asettaa perusominaisuudet objektille.
+     * @param sijX objektin sijainti X alussa
+     * @param sijY objektin sijainti Y alussa
+     * @param ominaisuusLista Jos lista on null, luodaan uusi tyhjä lista.
+     */
+
+    public PeliObjekti(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        this.sijX = sijX;
+        this.sijY = sijY;
+        this.lisäOminaisuudet.clear();
+        
+        if (ominaisuusLista != null) {
+            this.lisäOminaisuudet = new ArrayList<>();
+            for (String s : ominaisuusLista) {
+                this.lisäOminaisuudet.add(new String(s));
+            }
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("kääntö=")) {
+                    try {
+                        this.kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
+                    }
+                    catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (ominaisuus.startsWith("x-peilaus=")) {
+                    if (ominaisuus.substring(10).startsWith("kyllä")) {
+                        this.xPeilaus = true;
+                    }
+                    else {
+                        this.xPeilaus = false;
+                    }
+                }
+                else if (ominaisuus.startsWith("y-peilaus=")) {
+                    if (ominaisuus.substring(10).startsWith("kyllä")) {
+                        this.yPeilaus = true;
+                    }
+                    else {
+                        this.yPeilaus = false;
+                    }
+                }
+                else if (ominaisuus.startsWith("peilaus=")) {
+                    if (ominaisuus.substring(8).startsWith("xy")) {
+                        this.xPeilaus = true;
+                        this.yPeilaus = true;
+                    }
+                    else if (ominaisuus.substring(8).startsWith("x")) {
+                        this.xPeilaus = true;
+                    }
+                    else if (ominaisuus.substring(8).startsWith("y")) {
+                        this.yPeilaus = true;
+                    }
+                }
+            }
+        }
+        else {
+            this.lisäOminaisuudet = new ArrayList<>();
+        }
+        päivitäLisäOminaisuudet();
+    }
 
     /**
      * Objektin tilen X-koordinaatti
@@ -53,10 +118,6 @@ public abstract class PeliObjekti implements Käännettävä {
         return sijainti;
     }
 
-    public boolean onkoLisäOminaisuuksia() {
-        return lisäOminaisuuksia;
-    }
-
     public ArrayList<String> annaLisäOminaisuudet() {
         return lisäOminaisuudet;
     }
@@ -72,28 +133,17 @@ public abstract class PeliObjekti implements Käännettävä {
         return mjono;
     }
 
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        if (ominaisuusLista != null) {
-            if (this.annaNimi() != null && this.annaNimi() != "") {
-                for (int i = 0; i < ominaisuusLista.size(); i++) {
-                    this.lisäOminaisuudet.add(ominaisuusLista.get(i));
-                }
-            }
-            if (this.lisäOminaisuudet != null) {
-                if (this.lisäOminaisuudet.size() == 0) {
-                    this.lisäOminaisuuksia = false;
-                }
-                else {
-                    this.lisäOminaisuuksia = true;
-                    this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
-                    if (kääntöAsteet != 0) this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
-                    this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
-                    if (xPeilaus) this.lisäOminaisuudet.add("x-peilaus=" + (xPeilaus ? "kyllä" : "ei"));
-                    this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
-                    if (yPeilaus)this.lisäOminaisuudet.add("y-peilaus=" + (yPeilaus ? "kyllä" : "ei"));
-                }
-            }
-        }
+    private void päivitäLisäOminaisuudet() {
+        if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
+
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kääntö="));
+        if (kääntöAsteet != 0) this.lisäOminaisuudet.add("kääntö=" + kääntöAsteet);
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("x-peilaus="));
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("y-peilaus="));
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("peilaus="));
+        if (xPeilaus & yPeilaus) this.lisäOminaisuudet.add("peilaus=xy");
+        else if (xPeilaus) this.lisäOminaisuudet.add("peilaus=x");
+        else if (yPeilaus) this.lisäOminaisuudet.add("peilaus=y");
     }
 
     public int annaKääntöAsteet() {
@@ -106,10 +156,6 @@ public abstract class PeliObjekti implements Käännettävä {
 
     public boolean annaYPeilaus() {
         return yPeilaus;
-    }
-
-    public Suunta annaSuunta() {
-        return suunta;
     }
 
     public String katso() {
@@ -141,9 +187,5 @@ public abstract class PeliObjekti implements Käännettävä {
 
     public KuvaObjekti annaTekstuuriObjekti() {
         return tekstuuriObjekti;
-    }
-
-    public void asetaSuunta(Suunta suunta) {
-        this.suunta = suunta;
     }
 }

@@ -1,13 +1,13 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
-import org.joml.Matrix4f;
-import org.joml.Vector4f;
-
 import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
+
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 public class ObjektiListaNappi extends Nappi {
 
@@ -45,7 +45,7 @@ public class ObjektiListaNappi extends Nappi {
         this.renderöiKomponentti(shader, teksti, kuvake, window, scaleX, scaleY, 1, offsetX, offsetY, 0, 0, false, false);
     }
 
-    private void renderöiKomponentti(Shader shader, Teksti teksti, Renderöitävä kuvake, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+    private void renderöiKomponentti(Shader shader, Renderöitävä teksti, Renderöitävä kuvake, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
         Matrix4f sijaintiMatriisi = new Matrix4f();
         sijaintiMatriisi.translate(offsetX + 0.06f, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);

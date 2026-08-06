@@ -17,11 +17,10 @@ public final class JumalYoda extends NPC_KenttäKohde {
         super.nimi = "Jumal Yoda";
         super.tiedostonNimi = "goblin.png";
         super.tekstuuri = pimeäTekstuuri;
-        super.dialogiTekstuuri = Assets.annaTekstuuri("jumalyoda_dialogi");
+        super.dialogiTekstuuri = Assets.annaDialogiTekstuuri("dialogi_yoda");
         super.katsomisTeksti = "Polku pimeälle puolelle?";
         super.dialogit.add("metsä");
         super.dialogit.add("kuu");
-        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -56,14 +55,16 @@ public final class JumalYoda extends NPC_KenttäKohde {
                         this.löydä(true);
                         Dialogit.avaaPitkäDialogiRuutu("goblin_alku");
                     }
-                    else Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), "Hrmm...\n\n(Parempi ehkä kokeilla tutustua muihin metsän asukkaisiin ensin.)", "Goblin");
+                    else {
+                        Dialogit.avaaPitkäDialogiRuutu("goblin_pimeä");
+                    }
                 }
             }
             case "kuu" -> {
                 Dialogit.avaaPitkäDialogiRuutu("yoda_kuu");
             }
             case null, default -> {
-                Dialogit.avaaDialogi("", "Objektille ei ole määritetty dialogia", "Virheellinen dialogi");
+                Dialogit.avaaDialogi(this.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
             }
         }
     }

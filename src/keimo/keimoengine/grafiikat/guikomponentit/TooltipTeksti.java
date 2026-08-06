@@ -1,14 +1,14 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
 import keimo.keimoengine.assets.GUITekstuurit;
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 
-import java.awt.Color;
-
 public class TooltipTeksti {
+
     protected float scaleX;
     protected float scaleY;
     protected float offsetX;
@@ -19,10 +19,9 @@ public class TooltipTeksti {
     private int korkeus;
 
     protected Renderöitävä tooltipValikkoTekstuuri = GUITekstuurit.annaTekstuuri("tooltip_pohja");
-
-    protected StaattinenKomponentti tooltipPohjaLabel;
+    protected LabelKomponentti tooltipPohjaLabel;
     protected Teksti tooltipTeksti;
-    protected StaattinenKomponentti tooltipTekstiLabel;
+    protected LabelKomponentti tooltipTekstiLabel;
 
     public TooltipTeksti(String teksti) {
         this.scaleX = 0.2f;
@@ -32,8 +31,8 @@ public class TooltipTeksti {
         this.teksti = teksti;
         this.leveys = 600;
         this.korkeus = 48;
-        tooltipTekstiLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipTeksti);
-        tooltipPohjaLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipValikkoTekstuuri);
+        tooltipTekstiLabel = new LabelKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipTeksti);
+        tooltipPohjaLabel = new LabelKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipValikkoTekstuuri);
     }
 
     public TooltipTeksti(String teksti, int leveys, int korkeus) {
@@ -44,8 +43,15 @@ public class TooltipTeksti {
         this.teksti = teksti;
         this.leveys = leveys;
         this.korkeus = korkeus;
-        tooltipTekstiLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipTeksti);
-        tooltipPohjaLabel = new StaattinenKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipValikkoTekstuuri);
+        tooltipTekstiLabel = new LabelKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipTeksti);
+        tooltipPohjaLabel = new LabelKomponentti(0.2f, 0.1f, offsetX, offsetY, tooltipValikkoTekstuuri);
+    }
+
+    public void päivitäTeksti(String uusiTeksti) {
+        if (tooltipTeksti != null) {
+            tooltipTeksti.päivitäTeksti(uusiTeksti);
+            this.teksti = uusiTeksti;
+        }
     }
 
     public void päivitäSijainti(int hiiriX, int hiiriY) {
@@ -65,7 +71,7 @@ public class TooltipTeksti {
         window1 = window;
         tooltipPohjaLabel.renderöi(shader, window);
         if (tooltipTeksti == null) {
-            tooltipTeksti = new Teksti(teksti, Color.white, leveys, korkeus);
+            tooltipTeksti = new Teksti(teksti, Väri.white, leveys, korkeus);
             tooltipTekstiLabel.päivitäSisältö(tooltipTeksti);
         }
         tooltipTeksti.päivitäTeksti(teksti);

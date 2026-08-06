@@ -2,7 +2,7 @@ package keimo.seikkailupeli.liikesimulaatiot;
 
 import keimo.keimoengine.collision.Piste;
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
 import keimo.seikkailupeli.objektit.entityt.Ammus;
 import keimo.seikkailupeli.objektit.entityt.npc.Boss;
 import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
@@ -206,12 +206,6 @@ public class BossSimulaatio {
             bossLiikeSuunta = valitseLiikeSuunta(vihollinen);
             arvoLiikeSuunta = false;
         }
-        if (bossLiikeSuunta == 0 || bossLiikeSuunta == 4 || bossLiikeSuunta == 5) {
-            vihollinen.xPeilaus = false;
-        }
-        else if (bossLiikeSuunta == 1 || bossLiikeSuunta == 6 || bossLiikeSuunta == 7) {
-            vihollinen.xPeilaus = true;
-        }
         switch (bossLiikeSuunta) {
             case 0: if (vihollinen.kokeileLiikkumista(Suunta.VASEN)) break; else tilanKesto = 0; return;
             case 1: if (vihollinen.kokeileLiikkumista(Suunta.OIKEA)) break; else tilanKesto = 0; return;
@@ -245,14 +239,12 @@ public class BossSimulaatio {
                     ympyräNopeusX = -ympyräLiikkeenSuuruus;
                     kasvataYmpyräXNopeutta = true;
                     kasvataYmpyräYNopeutta = false;
-                    boss.xPeilaus = true;
                     boss.asetaSuunta(Suunta.VASEN);
                 } 
                 else {
                     ympyräNopeusX = ympyräLiikkeenSuuruus;
                     kasvataYmpyräXNopeutta = false;
                     kasvataYmpyräYNopeutta = false;
-                    boss.xPeilaus = false;
                     boss.asetaSuunta(Suunta.OIKEA);
                 }
             }
@@ -261,14 +253,12 @@ public class BossSimulaatio {
                     ympyräNopeusX = -ympyräLiikkeenSuuruus;
                     kasvataYmpyräXNopeutta = true;
                     kasvataYmpyräYNopeutta = true;
-                    boss.xPeilaus = true;
                     boss.asetaSuunta(Suunta.OIKEA);
                 } 
                 else {
                     ympyräNopeusX = ympyräLiikkeenSuuruus;
                     kasvataYmpyräXNopeutta = false;
                     kasvataYmpyräYNopeutta = true;
-                    boss.xPeilaus = false;
                     boss.asetaSuunta(Suunta.VASEN);
                 }
             }
@@ -278,7 +268,6 @@ public class BossSimulaatio {
 
         int alkupNopeus = boss.nopeus;
         boss.nopeus = 1;
-        boss.xPeilaus = false;
         if (ympyräNopeusX < 0) {
             for (int i = 0; i > ympyräNopeusX; i--) {
                 boss.kokeileLiikkumista(Suunta.VASEN, false, true);
@@ -314,7 +303,6 @@ public class BossSimulaatio {
     }
 
     private static void bossLiikeHyperMyötäpäivään(Vihollinen vihollinen) {
-        vihollinen.xPeilaus = false;
         int alkupNopeus = vihollinen.nopeus;
         vihollinen.nopeus = 1;
 
@@ -370,7 +358,6 @@ public class BossSimulaatio {
     }
 
     private static void bossLiikeHyperVastapäivään(Vihollinen vihollinen) {
-        vihollinen.xPeilaus = true;
         int alkupNopeus = vihollinen.nopeus;
         vihollinen.nopeus = 1;
         if (tilanKesto > 0) {

@@ -1,10 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d;
 
-import keimo.keimoengine.KeimoEngine;
 import keimo.keimoengine.fontit.KeimoFontit;
+import keimo.keimoengine.fontit.Väri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenRenderöinti;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.grafiikat.objekti3d.Model3D;
 import keimo.keimoengine.grafiikat.objekti3d.Transform3D;
@@ -16,13 +16,17 @@ import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.assets.huone.Huone3D;
 import keimo.seikkailupeli.gui.hud.HUD;
+import keimo.seikkailupeli.kenttä.ErikoisTileMuutokset;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
-import keimo.seikkailupeli.objektit.maastot.IsoLaatta;
+import keimo.seikkailupeli.objektit.kenttäkohteet.VisuaalinenObjekti;
+import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Esine;
+import keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
+import keimo.seikkailupeli.objektit.kenttäkohteet.kerättävä.Kerättävä;
+import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Kiintopiste;
 import keimo.seikkailupeli.objektit.maastot.Maasto;
 import keimo.seikkailupeli.objektit.maastot.Tile;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +41,6 @@ public class Maailma3D {
     public static ArrayList<KenttäKohde> kenttäObjektit = new ArrayList<>();
     public static ArrayList<Entity> entityt = new ArrayList<>();
     public static ArrayList<String> taustakuvat = new ArrayList<>();
-    //private static Shader shader = new Shader("shader");
     static Matrix4f world;
     static int scale = 32;
     private static Huone3D ladattuHuone;
@@ -46,17 +49,17 @@ public class Maailma3D {
     public static boolean debugTiedotNäkyvissä = false;
     private static boolean voitto = false;
 
-    private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
-    private static Teksti voittoTeksti = new Teksti("VOITIT PELIN!", Color.yellow, 1400, 400, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti voittoTeksti2 = new Teksti("Salainen reitti on avattu", Color.yellow, 2800, 200, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti voittoTeksti3 = new Teksti("Paina Esc sulkeaksesi päätteen", Color.yellow, 3400, 100, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti vihjeTeksti = new Teksti("Tavoite 1. rivi", Color.cyan, 3300, 125, KeimoFontit.fontti_keimo_100, false);
-    private static Teksti vihjeTeksti2 = new Teksti("Tavoite 2. rivi", Color.cyan, 3300, 125, KeimoFontit.fontti_keimo_100, false);
+    private static Renderöitävä virheTekstuuri = Assets.annaTekstuuri("vakio");
+    private static Teksti voittoTeksti = new Teksti("VOITIT PELIN!", Väri.yellow, 1400, 400, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti voittoTeksti2 = new Teksti("Salainen reitti on avattu", Väri.yellow, 2800, 200, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti voittoTeksti3 = new Teksti("Paina Esc sulkeaksesi päätteen", Väri.yellow, 3400, 100, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti vihjeTeksti = new Teksti("Tavoite 1. rivi", Väri.cyan, 3300, 125, KeimoFontit.fontti_keimo_100, false);
+    private static Teksti vihjeTeksti2 = new Teksti("Tavoite 2. rivi", Väri.cyan, 3300, 125, KeimoFontit.fontti_keimo_100, false);
 
     public static void createWorld() {
         world = new Matrix4f().setTranslation(new Vector3f(0));
         world.scale(scale);
-        for (Huone huone : Peli.huoneKartta.values()) {
+        for (Huone huone : Peli.annaHuoneKartta().values()) {
             for (int y = 0; y < huone.annaKoko(); y++) {
                 for (int x = 0; x < huone.annaKoko(); x++) {
                     if (huone.annaHuoneenMaastoSisältö()[x][y] != null) {
@@ -67,7 +70,6 @@ public class Maailma3D {
                             ominaisuusLista.add("kuva=" + tiedostonNimi);
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             if (m instanceof Tile) tilet.add(Maasto.luoMaastoTiedoilla("Tile", x, y, ominaisuusLista));
-                            else if (m instanceof IsoLaatta) tilet.add(Maasto.luoMaastoTiedoilla("IsoLaatta", x, y, ominaisuusLista));
                         }
                     }
                     if (huone.annaHuoneenKenttäSisältö()[x][y] != null) {
@@ -184,7 +186,7 @@ public class Maailma3D {
         else {
             renderöi3DSkene(window, shader);
             //renderöiPyörivätObjektit();
-            if (Peli.huone != null) renderöi3DMaailma(shader);
+            if (Peli.huone != null) renderöi3DMaailma(shader, window);
             renderöiVihjeTeksti(window);
             DebugTeksti.renderöiDebugTeksti(window);
             DebugTeksti.renderöiLisäMoodiTekstit(window);
@@ -207,7 +209,7 @@ public class Maailma3D {
     protected static void renderöi3DMalli(Model3D malli, Ikkuna window, Shader shader) {
         if (malli != null) {
             Matrix4f modelMatrix = malli.getTransform().getTransformation();
-            Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, window.getWidth()/window.getHeight(), 0.001f, 1000);
+            Matrix4f perspectiveMatrix = new Matrix4f().setPerspective((float)Math.toRadians(90), window.getWidth()/window.getHeight(), 0.001f, 1000);
             Matrix4f lookAtMatrtix = new Matrix4f().setLookAt(xSij, kameranYSij, zSij, xKohde, yKohde, zKohde, upX, upY, upZ);
             Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrtix).mul(modelMatrix);
             
@@ -233,7 +235,7 @@ public class Maailma3D {
         Assets.getModel3D("KeimoTeksti").draw();
     }
 
-    public static void renderöi3DMaailma(Shader shader) {
+    public static void renderöi3DMaailma(Shader shader, Ikkuna window) {
         try {
             for (int y = 0; y < Peli.annaMaastoKenttä().length; y++) {
                 for (int x = 0; x < Peli.annaMaastoKenttä().length; x++) {
@@ -250,8 +252,9 @@ public class Maailma3D {
                 for (int x = 0; x < Peli.annaObjektiKenttä().length; x++) {
                     KenttäKohde k = Peli.annaObjektiKenttä()[x][y];
                     if (k != null) {
-                        if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, x, -y, 1, world, shader);
-                        else renderöi3dKenttäObjekti(k, x, Peli.annaObjektiKenttä().length/2 -y, 0, world, shader);
+                        //if (k.onkoKolmiUlotteinen()) renderöi3dKenttäObjekti(k, x, -y, 1, world, shader);
+                        //else renderöiKenttäObjekti(k, x, Peli.annaObjektiKenttä().length/2 -y, 0, shader);
+                        renderöiKenttäObjekti(k, x, Peli.annaObjektiKenttä().length/2 -y, -24, shader);
                     }
                 }
             }
@@ -268,7 +271,7 @@ public class Maailma3D {
 		else virheTekstuuri.bind(0);
 
         Matrix4f tilenSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, -25));
-        Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, 1, 0.001f, 1000);
+        Matrix4f perspectiveMatrix = new Matrix4f().setPerspective((float)Math.toRadians(90), 1, 0.001f, 1000);
         Matrix4f lookAtMatrtix = new Matrix4f().setLookAt(xSij, kameranYSij, zSij, xKohde, yKohde, zKohde, upX, upY, upZ);
         Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrtix).mul(tilenSijainti);
         shader.asetaSijainti(resultMatrix);
@@ -277,16 +280,88 @@ public class Maailma3D {
         model.render();
 	}
 
-    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f world, Shader shader) {
-        shader.bind();
-		Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, -24));
-        Matrix4f perspectiveMatrix = new Matrix4f().setPerspective(70, 1, 0.001f, 1000);
+    protected static void renderöiKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Shader shader) {
+        Matrix4f perspectiveMatrix = new Matrix4f().setPerspective((float)Math.toRadians(90), 1, 0.001f, 1000);
         Matrix4f lookAtMatrix = new Matrix4f().setLookAt(xSij, kameranYSij, zSij, xKohde, yKohde, zKohde, upX, upY, upZ);
-		
-		Matrix4f resultMatrix = perspectiveMatrix.mul(lookAtMatrix).mul(objektinSijainti);
-        shader.asetaSijainti(resultMatrix);
-        objekti.annaTekstuuri().bind(0);
-        Assets.getModel(objekti.annaKääntöAsteet(), objekti.annaXPeilaus(), objekti.annaYPeilaus()).render();
+		Matrix4f cameraMatrix = perspectiveMatrix.mul(lookAtMatrix);
+
+        if (objekti.onkoKolmiUlotteinen()) {
+            renderöi3dKenttäObjekti(objekti, x, y, z, cameraMatrix, shader);
+        }
+        else {
+            if (objekti instanceof Esine || objekti instanceof Kerättävä) {
+                renderöiEsinePyörivä(objekti, x, y, z, cameraMatrix, shader);
+            }
+            else if (objekti instanceof Kiintopiste || objekti instanceof NPC_KenttäKohde) {
+                renderöiKiintopisteKiiluva(objekti, x, y, z, cameraMatrix, shader);
+            }
+            else {
+                renderöiKenttäkohdeStaattinen(objekti, x, y, z, cameraMatrix, shader);
+            }
+            Model model = Assets.getModel(objekti.annaKääntöAsteet(), objekti.annaXPeilaus(), objekti.annaYPeilaus());
+		    model.render();
+        }
+	}
+
+    protected static void renderöiEsinePyörivä(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
+        if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
+        else virheTekstuuri.bind(0);
+        
+        Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
+        Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
+        resultMatrix.mul(objektinSijainti);
+        resultMatrix.mul(objekti.transform.getTransformation());
+
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
+    }
+
+    protected static void renderöiKiintopisteKiiluva(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
+        if (objekti.annaTekstuuri() != null) objekti.annaTekstuuri().bind(0);
+        else virheTekstuuri.bind(0);
+        
+        Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, 0));
+        Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
+        resultMatrix.mul(objektinSijainti);
+
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
+    }
+
+    protected static void renderöiKenttäkohdeStaattinen(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
+        if (objekti instanceof VisuaalinenObjekti) ErikoisTileMuutokset.annaSpesiaaliTekstuuri(objekti.annaTekstuuri(), objekti.annaKuvanTiedostoNimi(), (int)x, (int)y).bind(0);
+        else if (objekti.annaTekstuuriObjekti() != null) {
+            objekti.annaTekstuuriObjekti().bind(0);
+        }
+        else if (objekti.annaTekstuuri() != null) { 
+            objekti.annaTekstuuri().bind(0);
+        }
+        else virheTekstuuri.bind(0);
+        
+        Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
+        Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
+        resultMatrix.mul(objektinSijainti);
+
+        shader.bind();
+		shader.asetaSampler( 0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
+    }
+
+    protected static void renderöi3dKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
+        Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
+		Matrix4f resultMatrix = cameraMatrix.mul(objektinSijainti);
+        resultMatrix.mul(objekti.transform.getTransformation());
+
+        shader.bind();
+		shader.asetaSampler(0);
+		shader.asetaSijainti(resultMatrix);
+        shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, 0f));
+        Assets.getModel3D(objekti.anna3dMallinTunniste()).draw();
     }
 
     static float punainen = 0f, vihreä = 0.5f, sininen = 1f;
@@ -510,69 +585,74 @@ public class Maailma3D {
 
     private static void renderöiVoittoTeksti(Ikkuna window) {
         float skaalaX = 0.5f, skaalaY = 0.25f;
-        Komponentti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti, window, skaalaX, skaalaY, 1, 0, 0, 0);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti, window, skaalaX, skaalaY, 1, 0, 0, 0);
 
         skaalaX = 0.5f; skaalaY = 1/16f;
-        Komponentti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti2, window, skaalaX, skaalaY, 1, 0, -0.125f, 0);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti2, window, skaalaX, skaalaY, 1, 0, -0.125f, 0);
 
         skaalaX = 0.5f; skaalaY = 1/64f;
-        Komponentti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti3, window, skaalaX, skaalaY, 1, 0, -0.25f, 0);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(objekti3dShader, voittoTeksti3, window, skaalaX, skaalaY, 1, 0, -0.25f, 0);
     }
 
     private static void renderöiVihjeTeksti(Ikkuna window) {
+        int sijx = (int)(window.getWidth()/2f);
+        int sijy = (int)(window.getHeight()/3.75f);
+        int sijyOffset = (int)(window.getHeight()/54f);
         vihjeTeksti.päivitäTeksti("Tavoite: Etsi Keimon koti");
-        HUD.renderöiTeksti(vihjeTeksti, (int)(window.getWidth()/2), 400, window);
+        HUD.renderöiTeksti(vihjeTeksti, sijx, sijy, window);
         vihjeTeksti2.päivitäTeksti("Yo-kylä 46 A 24");
-        HUD.renderöiTeksti(vihjeTeksti2, (int)(window.getWidth()/2), 420, window);
+        HUD.renderöiTeksti(vihjeTeksti2, sijx, sijy + sijyOffset, window);
     }
 
     public class DebugTeksti {
 
         static Teksti[] debugInfoTekstit = new Teksti[13];
-        static Teksti lisäMoodiTeksti = new Teksti("moodi", Color.orange, 1200, 48);
+        static Teksti lisäMoodiTeksti = new Teksti("moodi", Väri.orange, 1200, 48);
         static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
         static DecimalFormat neljäDesimaalia = new DecimalFormat("##.####");
 
         public static void luoDebugTekstit() {
             for (int i = 0; i < debugInfoTekstit.length; i++) {
-                debugInfoTekstit[i] = new Teksti("debug", Color.green, 1200, 48);
+                debugInfoTekstit[i] = new Teksti("debug", Väri.green, 1200, 48);
             }
         }
 
         public static void renderöiDebugTeksti(Ikkuna window) {
             if (debugTiedotNäkyvissä) {
                 try {
-                    int sijx = (int)(window.getWidth()/1.75f);
+                    int sijx = (int)(window.getWidth()/2f);
+                    int sijy = (int)(window.getHeight()/3.75f);
+                    int sijyOffset = (int)(window.getHeight()/54f);
                     debugInfoTekstit[0].päivitäTeksti("Keimo3D Simulaattori v0.3");
-                    HUD.renderöiTeksti(debugInfoTekstit[0], sijx, 40, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[0], sijx, sijy + 3*sijyOffset, window);
                     debugInfoTekstit[1].päivitäTeksti("ESC: Poistu simulaattorista");
-                    HUD.renderöiTeksti(debugInfoTekstit[1], sijx, 60, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[1], sijx, sijy + 4*sijyOffset, window);
                     debugInfoTekstit[2].päivitäTeksti("F5: Huijauskoodit");
-                    HUD.renderöiTeksti(debugInfoTekstit[2], sijx, 80, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[2], sijx, sijy + 5*sijyOffset, window);
 
                     //if (KeimoEngine.frameTime > 0) debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime / KeimoEngine.frames)));
                     //else debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d / (KeimoEngine.frameTime+0.00001 / KeimoEngine.frames)));
-                    debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d /KeimoEngine.keskivertoFrameAika));
-                    HUD.renderöiTeksti(debugInfoTekstit[3], sijx, 120, window);
+                    //debugInfoTekstit[3].päivitäTeksti("fps: " + kaksiDesimaalia.format(1d /KeimoEngine.keskivertoFrameAika));
+                    //HUD.renderöiTeksti(debugInfoTekstit[3], sijx, 120, window);
                     if (ladattuHuone != null) debugInfoTekstit[4].päivitäTeksti("Kenttä: " + ladattuHuone.annaNimi() + " (" + ladattuHuone.annaId() + ")");
                     else debugInfoTekstit[4].päivitäTeksti("Kenttä: " + "Ei määritetty" + " (+ / - : vaihda)");
-                    HUD.renderöiTeksti(debugInfoTekstit[4], sijx, 140, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[4], sijx, sijy + 6*sijyOffset, window);
                     debugInfoTekstit[5].päivitäTeksti("sij X: " + xSij);
-                    HUD.renderöiTeksti(debugInfoTekstit[5], sijx, 180, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[5], sijx, sijy + 7*sijyOffset, window);
                     debugInfoTekstit[6].päivitäTeksti("sij Y: " + ySij);
-                    HUD.renderöiTeksti(debugInfoTekstit[6], sijx, 200, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[6], sijx, sijy + 8*sijyOffset, window);
                     debugInfoTekstit[7].päivitäTeksti("sij Z: " + zSij);
-                    HUD.renderöiTeksti(debugInfoTekstit[7], sijx, 220, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[7], sijx, sijy + 9*sijyOffset, window);
                     debugInfoTekstit[8].päivitäTeksti("H-nopeus: " + hNopeus);
-                    HUD.renderöiTeksti(debugInfoTekstit[8], sijx, 240, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[8], sijx, sijy + 10*sijyOffset, window);
                     debugInfoTekstit[9].päivitäTeksti("V-nopeus: " + vNopeus);
-                    HUD.renderöiTeksti(debugInfoTekstit[9], sijx, 260, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[9], sijx, sijy + 11*sijyOffset, window);
                     debugInfoTekstit[10].päivitäTeksti("Kulma Y (Yaw): " + yaw);
-                    HUD.renderöiTeksti(debugInfoTekstit[10], sijx, 280, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[10], sijx, sijy + 12*sijyOffset, window);
                     debugInfoTekstit[11].päivitäTeksti("Kulma X (Pitch): " + pitch);
-                    HUD.renderöiTeksti(debugInfoTekstit[11], sijx, 300, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[11], sijx, sijy + 13*sijyOffset, window);
                     debugInfoTekstit[12].päivitäTeksti("Kulma Z (Roll): " + roll);
-                    HUD.renderöiTeksti(debugInfoTekstit[12], sijx, 320, window);
+                    HUD.renderöiTeksti(debugInfoTekstit[12], sijx, sijy + 14*sijyOffset, window);
         
                 }
                 catch (NullPointerException npe) {

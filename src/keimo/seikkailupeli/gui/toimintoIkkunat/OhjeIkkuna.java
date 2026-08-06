@@ -1,5 +1,6 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
@@ -12,21 +13,19 @@ import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
-import java.awt.Color;
-
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 public class OhjeIkkuna {
     public static boolean näytäOhjeet = true;
     private static Renderöitävä pohjaTekstuuri = Assets.annaTekstuuri("isokartta_tyhjä");
-    private static Teksti otsikkoTeksti = new Teksti("Näppäimet", Color.black, 600, 48);
-    private static Teksti ohjeTeksti = new Teksti("ohje", Color.black, 1000, 48);
+    private static Teksti otsikkoTeksti;
+    private static Teksti ohjeTeksti;
 
     private static Renderöitävä[] näppäinTekstuurit = {
         Assets.annaTekstuuri("näppäin_wasd"),
         Assets.annaTekstuuri("näppäin_e"),
-        Assets.annaTekstuuri("näppäin_nuoli"),
+        Assets.annaTekstuuri("näppäin_1-6"),
         Assets.annaTekstuuri("näppäin_space"),
         Assets.annaTekstuuri("näppäin_q"),
         Assets.annaTekstuuri("näppäin_z"),
@@ -78,8 +77,16 @@ public class OhjeIkkuna {
         "Katso kohdetta",
     };
     private static float siirtymäY = -600;
+
+    private static void alustaGrafiikat() {
+        if (otsikkoTeksti == null) {
+            otsikkoTeksti = new Teksti("Näppäimet", Väri.black, 600, 48);
+            ohjeTeksti = new Teksti("ohje", Väri.black, 1000, 48);
+        }
+    }
     
     public static void renderöiIkkuna(Shader peliShader, Ikkuna window) {
+        alustaGrafiikat();
         if (siirtymäY < 0) siirtymäY += 20;
         float scaleXPohja = window.getWidth()/4f;
         float scaleYPohja = window.getHeight()/2f;

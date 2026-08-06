@@ -1,5 +1,7 @@
 package keimo.keimoengine.grafiikat.shaderit;
 
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,10 +13,11 @@ import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class Shader {
     protected int vs, fs, program;
+    protected float aika = 0;
+    protected float loopNopeus = 0;
 
     public Shader(String fileName) {
         vs = glCreateShader(GL_VERTEX_SHADER);
@@ -99,7 +102,15 @@ public class Shader {
     }
 
     public void loop() {
+        int location = glGetUniformLocation(program, "time");
+        glUniform1f(location, aika);
+        aika += loopNopeus;
+    }
 
+    public void loop(float nopeus) {
+        int location = glGetUniformLocation(program, "time");
+        glUniform1f(location, aika);
+        aika += nopeus;
     }
 
     public void bind() {
@@ -144,7 +155,7 @@ public class Shader {
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
-            tinyfd_messageBox("Virhe ladatessa shader-tiedostoa", "Ei voitu ladata tiedostoa " + tiedostopolku + "\n\nKäytetään vakiovarjostinohjelmaa.\nKaikki visuaalit eivät välttämättä toimi.", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa shader-tiedostoa", "Ei voitu ladata tiedostoa " + tiedostopolku + "\n\nKäytetään vakiovarjostinohjelmaa.\nKaikki visuaalit eivät välttämättä toimi.", "ok", "error", false);
         }
         return string.toString();
     }

@@ -1,9 +1,10 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
-import keimo.keimoengine.grafiikat.Tekstuuri;
+import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.assets.EngineAssets;
+import keimo.keimoengine.assets.GUITekstuurit;
 
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -11,8 +12,8 @@ import org.joml.Vector4f;
 public class ValintaLaatikko extends Nappi {
     
     private boolean valittu;
-    private Tekstuuri valittuTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/checkbox_valittu.png");
-    private Tekstuuri eiValittuTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/checkbox_eivalittu.png");
+    private Renderöitävä valittuTekstuuri = GUITekstuurit.annaTekstuuri("checkbox_valittu");
+    private Renderöitävä eiValittuTekstuuri = GUITekstuurit.annaTekstuuri("checkbox_eivalittu");
 
     public ValintaLaatikko(boolean valittu, float scaleX, float scaleY, float offsetX, float offsetY) {
         super(scaleX, scaleY, offsetX, offsetY);

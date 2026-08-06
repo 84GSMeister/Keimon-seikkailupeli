@@ -15,8 +15,6 @@ public abstract class Ikkuna {
     protected int windowedWidth, windowedHeight;
     protected int width, height;
     protected boolean fullscreen, vsync;
-    protected Input näppäimistöSyöte;
-    protected Input ohjainSyöte;
     protected Input syöte;
     protected boolean hasResized;
     protected Matrix4f view;
@@ -54,14 +52,6 @@ public abstract class Ikkuna {
         this.height = height;
     }
 
-    public void asetaNäppäimistöSyöte(Input input) {
-        this.näppäimistöSyöte = input;
-    }
-
-    public void asetaOhjainSyöte(Input input) {
-        this.ohjainSyöte = input;
-    }
-
     public void asetaSyöte(Input input) {
         this.syöte = input;
     }
@@ -80,7 +70,5 @@ public abstract class Ikkuna {
     public boolean isVsync() {return vsync;}
     public boolean hasResized() {return hasResized;}
     public long getWindow() {return window;}
-    public Input annaNäppäimistöSyöte() {return näppäimistöSyöte;}
-    public Input annaOhjainSyöte() {return ohjainSyöte;}
     public Input annaSyöte() {return syöte;}
 }

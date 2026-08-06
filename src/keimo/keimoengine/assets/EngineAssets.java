@@ -8,6 +8,7 @@ public class EngineAssets {
     private static Model model90, model90X, model90Y, model90XY;
     private static Model model180, model180X, model180Y, model180XY;
     private static Model model270, model270X, model270Y, model270XY;
+
     public static Model getModel() {return model0;}
     
     public static Model getModel(int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {

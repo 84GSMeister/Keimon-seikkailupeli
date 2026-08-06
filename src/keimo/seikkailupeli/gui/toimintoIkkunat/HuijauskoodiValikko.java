@@ -1,9 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenRenderöinti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -13,7 +14,6 @@ import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Äänet;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import org.joml.Vector4f;
@@ -26,8 +26,8 @@ public class HuijauskoodiValikko {
     private static Teksti tilaTeksti;
     private static String otsikkoTeksti = "";
     private static ArrayList<String> valintaTekstit = new ArrayList<>();
-    private static StaattinenKomponentti kehysKomponentti;
-    private static StaattinenKomponentti valintaOtsikkoKomponentti;
+    private static LabelKomponentti kehysKomponentti;
+    private static LabelKomponentti valintaOtsikkoKomponentti;
 
     public static int valintaInt = 0;
     private static int valintojenMäärä = 0;
@@ -35,10 +35,10 @@ public class HuijauskoodiValikko {
 
     private static void alustaGrafiikat() {
         if (vaihtoehtoTeksti == null) {
-            vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
-            tilaTeksti = new Teksti("tila", Color.green, 200, 70);
-            kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
-            valintaOtsikkoKomponentti = new StaattinenKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
+            vaihtoehtoTeksti = new Teksti("vaihtoehto", Väri.green, 400, 70);
+            tilaTeksti = new Teksti("tila", Väri.green, 200, 70);
+            kehysKomponentti = new LabelKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
+            valintaOtsikkoKomponentti = new LabelKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
         }
     }
 
@@ -60,18 +60,18 @@ public class HuijauskoodiValikko {
             if (i == valintaInt) osoitin = osoitinKuvake;
             else osoitin = tyhjäTekstuuri;
             float offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, osoitin, window, 1f/18f, 1f/15f, 1, -0.25f, offsetY + siirräY, 0);
+            StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, osoitin, window, 1f/18f, 1f/15f, 1, -0.25f, offsetY + siirräY, 0);
 
             String uusiTeksti = valintaTekstit.get(i) + ": ";
-            vaihtoehtoTeksti.päivitäTeksti(uusiTeksti, 1, 13, Color.yellow);
+            vaihtoehtoTeksti.päivitäTeksti(uusiTeksti, 1, 13, Väri.yellow);
             offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, vaihtoehtoTeksti, window, 1f/6f, 1f/15f, 1, 0f, offsetY + siirräY, 0);
+            StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, vaihtoehtoTeksti, window, 1f/6f, 1f/15f, 1, 0f, offsetY + siirräY, 0);
 
             uusiTeksti = (koodiValittu(i) ? "Kyllä" : "Ei");
-            if (koodiValittu(i)) tilaTeksti.päivitäTeksti(uusiTeksti, 0, 5, Color.green);
-            else tilaTeksti.päivitäTeksti(uusiTeksti, 0, 30, Color.red);
+            if (koodiValittu(i)) tilaTeksti.päivitäTeksti(uusiTeksti, 0, 5, Väri.green);
+            else tilaTeksti.päivitäTeksti(uusiTeksti, 0, 30, Väri.red);
             offsetY = 0.25f - i * 1f/8f - 1f/8f;
-            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, tilaTeksti, window, 1f/12f, 1f/15f, 1, 0.3f, offsetY + siirräY, 0);
+            StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, tilaTeksti, window, 1f/12f, 1f/15f, 1, 0.3f, offsetY + siirräY, 0);
         }
     }
 
@@ -93,6 +93,7 @@ public class HuijauskoodiValikko {
             case 0: return Pelaaja.noclip;
             case 1: return Pelaaja.ohitaTavoitteet;
             case 2: return Pelaaja.loputonRaha;
+            case 3: return Pelaaja.vapaaWarp;
             default: return false;
         }
     }
@@ -100,10 +101,11 @@ public class HuijauskoodiValikko {
     private static void luoValinnat() {
         valintaTekstit.clear();
         otsikkoTeksti = "Huijauskoodit";
-        valintojenMäärä = 3;
+        valintojenMäärä = 4;
         valintaTekstit.add("Noclip");
         valintaTekstit.add("Ohita tavoitteet");
         valintaTekstit.add("Loputon raha");
+        valintaTekstit.add("Vapaa warp");
     }
 
     public static void pienennäValintaa() {
@@ -127,6 +129,9 @@ public class HuijauskoodiValikko {
             }
             case 2 -> { // Loputon raha
                 Pelaaja.loputonRaha = !Pelaaja.loputonRaha;
+            }
+            case 3 -> { // Vapaa warp
+                Pelaaja.vapaaWarp = !Pelaaja.vapaaWarp;
             }
         }
         Äänet.toistaSFX("Valinta");

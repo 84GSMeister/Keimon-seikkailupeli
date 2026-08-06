@@ -22,7 +22,6 @@ public final class Nuotio extends Kiintopiste {
         super.tekstuuri = sammunutTekstuuri;
         super.katsomisTeksti = "Nuotio on tyhjä. Löytyisiköhän lähistöltä siihen jotain palavaa?";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
     
     public String kokeileEsinettä(Esine e) {

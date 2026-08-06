@@ -8,16 +8,29 @@ public abstract class Säiliö extends Kiintopiste {
 
     protected Esine sisältö;
 
-    public Säiliö(int sijX, int sijY, ArrayList<String> lisäOminaisuudet) {
-        super(sijX, sijY, lisäOminaisuudet);
+    public Säiliö(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
+        if (ominaisuusLista != null) {
+            String esineenNimi = "";
+            for (String ominaisuus : ominaisuusLista) {
+                if (ominaisuus.startsWith("sisältö=")) {
+                    esineenNimi = ominaisuus.substring(8);
+                }
+            }
+            this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
+            päivitäLisäOminaisuudet();
+        }
     }
 
     protected Esine luoSisältö(String esineenNimi, ArrayList<String> ominaisuusLista) {
         return Esine.luoEsine(esineenNimi, ominaisuusLista);
     }
 
-    public void asetaSisältö(String esineenNimi, ArrayList<String> ominaisuusLista) {
-        this.sisältö = luoSisältö(esineenNimi, null);
+    private void päivitäLisäOminaisuudet() {
+        if (this.lisäOminaisuudet != null) {
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("sisältö="));
+            this.lisäOminaisuudet.add("sisältö=" + this.annaSisältö());
+        }
     }
 
     public String annaSisältö() {

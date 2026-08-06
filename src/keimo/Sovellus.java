@@ -1,9 +1,8 @@
 package keimo;
 
 import keimo.keimoengine.KeimoEngine;
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
 import keimo.seikkailupeli.Peli;
-
-import javax.swing.JOptionPane;
 
 public class Sovellus {
 
@@ -20,10 +19,9 @@ public class Sovellus {
         else {
             String viesti = "Sovellus on yritetty käynnistää virheellisillä argumenteilla. Tämä voi tapahtua, jos sovellus on käynnistetty jar-tiedostosta suoraan.\n" +
                             "Versio 0.8.2:sta eteenpäin mukana tulee exe-tiedosto, joka käynnistää sovelluksen automaattisesti oikeilla argumenteilla.\n\n" +
-                            "Peli on mahdollista käynnistää komentoriviltä vivulla \"-peli\", jos tiedät mitä teet (varaudu ongelmiin).";
+                            "Peli on mahdollista käynnistää komentoriviltä vivulla -peli, jos tiedät mitä teet (varaudu ongelmiin).";
             String otsikko = "Virheelliset argumentit";
-            int virheTyyppi = JOptionPane.ERROR_MESSAGE;
-            JOptionPane.showMessageDialog(null, viesti, otsikko, virheTyyppi);
+            DialogiIkkunat.viestiIkkuna(otsikko, viesti, "ok", "error", false);
         }
     }
 

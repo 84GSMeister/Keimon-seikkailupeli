@@ -43,7 +43,7 @@ public class Tynnyri extends Esine {
             Scanner sc = new Scanner(new File("src/keimo/seikkailupeli/objektit/kenttäkohteet/esine/Tynnyri.java"));
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                if (line != null && line != "" && line.length() > 0 && !line.startsWith("import")) {
+                if (line != null && line != "" && line.length() > 0) {
                     koodi += line;
                 }
             }

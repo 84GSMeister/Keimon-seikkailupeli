@@ -11,14 +11,13 @@ public final class Pulloautomaatti extends Kiintopiste {
     private Renderöitävä aktiivinenTekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
     private Renderöitävä virheTekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
 
-    public Pulloautomaatti (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public Pulloautomaatti(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Pulloautomaatti";
         super.tiedostonNimi = "pullonpalautus_idle.png";
         super.tekstuuri = Assets.annaTekstuuri("pullonpalautus_idle");
         super.katsomisTeksti = "Tänne voi palauttaa tölkit";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     public PulloautomaatinKuvake tila = PulloautomaatinKuvake.IDLE;

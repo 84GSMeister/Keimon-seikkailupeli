@@ -34,7 +34,7 @@ public class Vartija extends Vihollinen {
     }
 
     public void päivitäLisäOminaisuudet(LiikeTapa liikeTapa) {
-        this.lisäOminaisuuksia = true;
+        //this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
         this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("näköalue1="));

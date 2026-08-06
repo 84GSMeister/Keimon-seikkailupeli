@@ -8,7 +8,7 @@ public final class BaariRuutu extends Kiintopiste {
 
     private String tyyppi = "";
 
-    public BaariRuutu (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public BaariRuutu(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Baariruutu";
         super.tiedostonNimi = "baariruutu.png";
@@ -16,14 +16,13 @@ public final class BaariRuutu extends Kiintopiste {
         super.dialogiTekstuuri = Assets.annaTekstuuri("kauppias_dialogi");
         super.katsomisTeksti = "Tästä tilataan.";
         if (ominaisuusLista != null) {
-            this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("tyyppi=")) {
                     this.tyyppi = ominaisuus.substring(7);
                 }
             }
+            päivitäLisäOminaisuudet();
         }
-        päivitäLisäOminaisuudet(ominaisuusLista);
         super.asetaTiedot();
     }
 
@@ -45,14 +44,10 @@ public final class BaariRuutu extends Kiintopiste {
         }
     }
 
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
+    private void päivitäLisäOminaisuudet() {
         if (this.lisäOminaisuudet != null) {
-            this.lisäOminaisuuksia = true;
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("tyyppi="));
             this.lisäOminaisuudet.add("tyyppi=" + tyyppi);
-            super.asetaTiedot();
         }
     }
 

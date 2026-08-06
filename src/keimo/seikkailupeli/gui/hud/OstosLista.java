@@ -1,12 +1,12 @@
 package keimo.seikkailupeli.gui.hud;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 
 import org.joml.Matrix4f;
@@ -14,10 +14,10 @@ import org.joml.Vector4f;
 
 public class OstosLista {
 
-    private static Teksti otsikkoTeksti = new Teksti("Ostoskori", Color.black, 360, 96);
-    private static Tekstuuri tyhjäTekstuuri = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
-    private static Teksti esineenNimiTeksti = new Teksti("Esine", Color.black, 480, 96);
-    private static Teksti hintaTeksti = new Teksti("Yht.", Color.black, 450, 96);
+    private static Teksti otsikkoTeksti = new Teksti("Ostoskori", Väri.black, 360, 96);
+    private static Renderöitävä tyhjäTekstuuri = Assets.annaTekstuuri("tyhjä");
+    private static Teksti esineenNimiTeksti = new Teksti("Esine", Väri.black, 480, 96);
+    private static Teksti hintaTeksti = new Teksti("Yht.", Väri.black, 450, 96);
     private static DecimalFormat kaksiDesimaalia = new DecimalFormat("##.##");
     private static Shader shader1 = new Shader("shader");
 

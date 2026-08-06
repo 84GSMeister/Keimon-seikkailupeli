@@ -1,7 +1,7 @@
 package keimo.seikkailupeli.liikesimulaatiot;
 
 import keimo.seikkailupeli.objektit.Pelaaja;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
 import keimo.seikkailupeli.objektit.entityt.npc.Vartija;
 
 public class VartijaSimulaatio {

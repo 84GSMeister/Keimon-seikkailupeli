@@ -1,6 +1,8 @@
 package keimo.seikkailupeli.kenttä;
 
+import keimo.keimoengine.assets.GUITekstuurit;
 import keimo.keimoengine.collision.AABB;
+import keimo.keimoengine.collision.Neliö;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.grafiikat.objekti2d.Model;
 import keimo.keimoengine.grafiikat.shaderit.EfektiShader;
@@ -11,7 +13,7 @@ import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.huone.Huone;
 import keimo.seikkailupeli.objektit.Pelaaja;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
 import keimo.seikkailupeli.objektit.entityt.Entity;
 import keimo.seikkailupeli.objektit.entityt.npc.Boss;
 import keimo.seikkailupeli.objektit.entityt.npc.NPC;
@@ -22,7 +24,7 @@ import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Esine;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kerättävä.Kerättävä;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Kiintopiste;
-import keimo.seikkailupeli.objektit.maastot.IsoLaatta;
+import keimo.seikkailupeli.objektit.kenttäkohteet.triggeri.Triggeri;
 import keimo.seikkailupeli.objektit.maastot.Maasto;
 import keimo.seikkailupeli.objektit.maastot.Tile;
 
@@ -51,13 +53,16 @@ public class Maailma {
     public static int tileMäärä, objektiMäärä, entityMäärä;
     public static float rotZ = 0;
 
-	private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
-    private static Tekstuuri entityHpPalkkiPunainenTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_punainen.png");
-    private static Tekstuuri entityHpPalkkiVihreäTekstuuri = new Tekstuuri("tiedostot/kuvat/gui/komponentit/palkki_vihreä.png");
+	private static Renderöitävä virheTekstuuri = Assets.annaTekstuuri("vakio");
+    private static Renderöitävä entityHpPalkkiPunainenTekstuuri = GUITekstuurit.annaTekstuuri("palkki_punainen");
+    private static Renderöitävä entityHpPalkkiVihreäTekstuuri = GUITekstuurit.annaTekstuuri("palkki_vihreä");
+    private static Renderöitävä shaderPohjaTekstuuri = Assets.annaTekstuuri("shader_kerros");
+    private static Renderöitävä entityHitboxKehysTekstuuri = Assets.annaTekstuuri("entity_hitbox_kehys");
+    private static Renderöitävä objektiHitboxKehysTekstuuri = Assets.annaTekstuuri("objekti_hitbox_kehys");
 	public static float fade = 0f;
 
     public static void createWorld() {
-        for (Huone huone : Peli.huoneKartta.values()) {
+        for (Huone huone : Peli.annaHuoneKartta().values()) {
             boundingBoxes = new AABB[huone.annaKoko()][huone.annaKoko()];
             for (int y = 0; y < huone.annaKoko(); y++) {
                 for (int x = 0; x < huone.annaKoko(); x++) {
@@ -69,7 +74,6 @@ public class Maailma {
                             ominaisuusLista.add("kuva=" + tiedostonNimi);
                             tiedostonNimi = tiedostonNimi.substring(0, tiedostonNimi.length()-4);
                             if (m instanceof Tile) tilet.add(Maasto.luoMaastoTiedoilla("Tile", x, y, ominaisuusLista));
-                            else if (m instanceof IsoLaatta) tilet.add(Maasto.luoMaastoTiedoilla("IsoLaatta", x, y, ominaisuusLista));
                         }
                     }
                 }
@@ -105,11 +109,13 @@ public class Maailma {
                         int maxY = Peli.annaObjektiKenttä().length;
                         if (renderX >= 0 && renderY >= 0 && renderX < maxX && renderY < maxY) {
                             Maasto m = Peli.annaMaastoKenttä()[renderX][renderY];
-                            if (m instanceof IsoLaatta) {
-                                IsoLaatta l = (IsoLaatta)m;
-                                if (l != null) {
-                                    renderöiIsoLaatta(l, renderX, -renderY, 0, cameraMatrix, shader);
-                                    tileMäärä++;
+                            if (m instanceof Tile) {
+                                Tile t = (Tile)m;
+                                if (t != null) {
+                                    if (t.annaLeveys() > 1 || t.annaKorkeus() > 1) {
+                                        renderöiIsoLaatta(t, renderX, -renderY, 0, cameraMatrix, shader);
+                                        tileMäärä++;
+                                    }
                                 }
                             }
                         }
@@ -126,8 +132,10 @@ public class Maailma {
                             if (m instanceof Tile) {
                                 Tile t = (Tile)m;
                                 if (t != null) {
-                                    renderöiTile(t, renderX, -renderY, 0, cameraMatrix, shader);
-                                    tileMäärä++;
+                                    if (t.annaLeveys() == 1 && t.annaKorkeus() == 1) {
+                                        renderöiTile(t, renderX, -renderY, 0, cameraMatrix, shader);
+                                        tileMäärä++;
+                                    }
                                 }
                             }
                         }
@@ -192,7 +200,6 @@ public class Maailma {
             e.printStackTrace();
         }
     }
-    static Tekstuuri shaderPohjaTekstuuri = new Tekstuuri("tiedostot/kuvat/menu/shader_kerros.png");
 
     public static void laskeNäköetäisyys(Ikkuna window) {
         viewX = (int)(window.getWidth()/64f * PelinAsetukset.zoom) +4;
@@ -253,6 +260,7 @@ public class Maailma {
         resultMatrix.mul(tilenSijainti);
         
         shader.bind();
+        shader.nollaaShaderEfektit();
 		shader.asetaSampler(0);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
@@ -261,7 +269,7 @@ public class Maailma {
 		model.render();
 	}
 
-    protected static void renderöiIsoLaatta(IsoLaatta laatta, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
+    protected static void renderöiIsoLaatta(Tile laatta, int x, int y, int z, Matrix4f cameraMatrix, Shader shader) {
         if (Assets.annaTileTekstuurit().containsKey(laatta.annaTekstuurinNimi())) Assets.annaTileTekstuurit().get(laatta.annaTekstuurinNimi()).bind(0);
 		else virheTekstuuri.bind(0);
 
@@ -271,6 +279,7 @@ public class Maailma {
         resultMatrix.mul(tilenSijainti);
         
         shader.bind();
+        shader.nollaaShaderEfektit();
 		shader.asetaSampler(0);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(fade, fade, fade, 0f));
@@ -296,6 +305,7 @@ public class Maailma {
         }
 
         shader.bind();
+        shader.nollaaShaderEfektit();
 		shader.asetaSampler(0);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
@@ -305,6 +315,10 @@ public class Maailma {
 		if (entity instanceof Boss) model = Assets.getModel(entity.suuntaVasenOikea);
         else model = Assets.getModel(entity.annaSuunta());
 		model.render();
+
+        if (PelinAsetukset.debugTiedot) {
+            renderöiHitboxKehys(entity.hitbox, entityHitboxKehysTekstuuri);
+        }
 
         if (entity instanceof NPC) {
             NPC npc = (NPC)entity;
@@ -326,14 +340,14 @@ public class Maailma {
 	}
 
 	protected static void renderöiKenttäObjekti(KenttäKohde objekti, float x, float y, float z, Matrix4f cameraMatrix, Shader shader) {
-		if (objekti.onkoKolmiUlotteinen()) {
+        if (objekti.onkoKolmiUlotteinen()) {
             renderöi3dKenttäObjekti(objekti, x, y, z, cameraMatrix, shader);
         }
         else {
             if (objekti instanceof Esine || objekti instanceof Kerättävä) {
                 renderöiEsinePyörivä(objekti, x, y, z, cameraMatrix, shader);
             }
-            else if (objekti instanceof Kiintopiste || objekti instanceof NPC_KenttäKohde) {
+            else if (objekti instanceof Kiintopiste || objekti instanceof NPC_KenttäKohde || objekti instanceof Triggeri) {
                 renderöiKiintopisteKiiluva(objekti, x, y, 0, cameraMatrix, kiintopisteShader);
             }
             else {
@@ -341,6 +355,14 @@ public class Maailma {
             }
             Model model = Assets.getModel(objekti.annaKääntöAsteet(), objekti.annaXPeilaus(), objekti.annaYPeilaus());
 		    model.render();
+        }
+
+        if (PelinAsetukset.debugTiedot) {
+            Matrix4f objektinSijainti = new Matrix4f().translate(new Vector3f(x * 2, y * 2, z));
+            Matrix4f resultMatrix = new Matrix4f(cameraMatrix);
+            resultMatrix.mul(objektinSijainti);
+            shader.asetaSijainti(resultMatrix);
+            renderöiHitboxKehys(objekti.hitbox, objektiHitboxKehysTekstuuri);
         }
 	}
 
@@ -358,6 +380,7 @@ public class Maailma {
         resultMatrix.mul(objekti.transform.getTransformation());
 
         shader.bind();
+        shader.nollaaShaderEfektit();
 		shader.asetaSampler(0);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
@@ -392,7 +415,8 @@ public class Maailma {
         resultMatrix.mul(objektinSijainti);
 
         shader.bind();
-		shader.asetaSampler( 0);
+        shader.nollaaShaderEfektit();
+		shader.asetaSampler(0);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
     }
@@ -407,10 +431,16 @@ public class Maailma {
         resultMatrix.mul(objekti.transform.getTransformation());
 
         shader.bind();
+        shader.nollaaShaderEfektit();
 		shader.asetaSampler(0);
 		shader.asetaSijainti(resultMatrix);
         shader.setUniform("subcolor", new Vector4f(0f, 0f, 0f, fade));
         Assets.getModel3D(objekti.anna3dMallinTunniste()).draw();
+    }
+
+    private static void renderöiHitboxKehys(Neliö hitbox, Renderöitävä tekstuuri) {
+        tekstuuri.bind(0);
+        Assets.getModel().render();
     }
 
     protected static void renderöiShaderEfekti() {

@@ -10,33 +10,6 @@ public abstract class Kiintopiste extends KenttäKohde {
 
     public Kiintopiste(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
-        // if (ominaisuusLista != null) {
-        //     for (String ominaisuus : ominaisuusLista) {
-        //         if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
-        //         if (ominaisuus.startsWith("kääntö=")) {
-        //             try {
-        //                 kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
-        //             }
-        //             catch (NumberFormatException e) {
-        //                 System.out.println("virheellinen syöte: " + kääntöAsteet);
-        //                 e.printStackTrace();
-        //                 kääntöAsteet = 0;
-        //             }
-        //         }
-        //         else if (ominaisuus.startsWith("x-peilaus=")) {
-        //             if (ominaisuus.substring(10).startsWith("kyllä")) xPeilaus = true;
-        //             else xPeilaus = false;
-        //         }
-        //         else if (ominaisuus.startsWith("y-peilaus=")) {
-        //             if (ominaisuus.substring(10).startsWith("kyllä")) yPeilaus = true;
-        //             else yPeilaus = false;
-        //         }
-        //     }
-        //     päivitäLisäOminaisuudet(ominaisuusLista);
-        // }
-        // else {
-        //     this.lisäOminaisuuksia = false;
-        // }
         super.asetaTiedot();
     }
 
@@ -56,9 +29,5 @@ public abstract class Kiintopiste extends KenttäKohde {
             case "allatiivi":    return "Tälle kohteelle";
             default:             return "Tämä kohde";
         }
-    }
-
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 }

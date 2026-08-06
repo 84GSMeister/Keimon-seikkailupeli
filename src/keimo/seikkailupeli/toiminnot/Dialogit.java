@@ -3,9 +3,11 @@ package keimo.seikkailupeli.toiminnot;
 import keimo.TarkistettavatArvot;
 import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoengine.fontit.KeimoFontit;
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.*;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.SyötteenTila;
+import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
 import keimo.seikkailupeli.gui.toimintoIkkunat.DialogiValintaIkkuna;
@@ -14,24 +16,20 @@ import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Juomalasi;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC.Juhani;
 import keimo.seikkailupeli.äänet.Äänet;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Dialogit {
 
-    public static Renderöitävä dialogiKuvake;
+    public static Renderöitävä dialogiKuvake = Assets.annaDialogiTekstuuri("vakio");
     public static Teksti dialogiTeksti;
     public static Teksti dialogiNimi;
-    public static Tekstuuri vakiokuva;
+    public static Renderöitävä vakiokuva = Assets.annaDialogiTekstuuri("vakio");
     
 
     public static void luoTekstuurit() {
-        dialogiKuvake = new Tekstuuri("tiedostot/kuvat/tyhjä.png");
-        dialogiTeksti = new Teksti("teksti", Color.black, 1500, 224, KeimoFontit.fontti_keimo_36, false);
+        dialogiTeksti = new Teksti("teksti", Väri.black, 1500, 224, KeimoFontit.fontti_keimo_36, false);
         dialogiNimi = new Teksti("nimi", 1500, 48);
-        vakiokuva = new Tekstuuri("tiedostot/kuvat/pelaaja_og.png");
     }
 
     /**
@@ -52,18 +50,11 @@ public class Dialogit {
     /**
      * Avaa ruudun alareunassa näkyvä dialogilaatikko. Kaikki pelin varsinainen tekstisisältö näytetään tässä.
      * Jos tekstuuria ei ole saatavilla, käyetään vakiona pelaaja_og-kuvaketta.
-     * @param tekstuuri Puhuvan NPC:n / objektin kuva
      * @param teksti dialogiteksti
      * @param nimi puhujan nimi / otsikko
      */
-    public static void avaaDialogi(String tekstuurinPolku, String teksti, String nimi) {
-        if (tekstuurinPolku == null || tekstuurinPolku == "") {
-            avaaDialogi(vakiokuva, teksti, nimi);
-        }
-        else {
-            Tekstuuri tekstuuri = new Tekstuuri(tekstuurinPolku);
-            avaaDialogi(tekstuuri, teksti, nimi);
-        }
+    public static void avaaDialogi(String teksti, String nimi) {
+        avaaDialogi(vakiokuva, teksti, nimi);
     }
 
     public static int tekstiäJäljellä;
@@ -73,15 +64,15 @@ public class Dialogit {
     static String kelattuTeksti = "";
     public static int dialogiaJäljellä = 0;
     public static boolean useitaRuutuja = false;
+    public static boolean äläSuljeNuolilla = false;
+    public static String valintaTulossa = null;
+    static String tulostettavaTeksti;
 
     public static void avaaPitkäDialogiRuutu(String vuoropuheRuudunTunniste) {
         if (PitkätDialogit.luoYksityiskohtainenVuoropuheRuutu(vuoropuheRuudunTunniste)) {
-            avaaDialogi(PitkätDialogit.dialogiKuvakkeet.get(PitkätDialogit.vuoropuheTunniste + "_0"), PitkätDialogit.dialogiTekstit[0], PitkätDialogit.dialogiPuhujat[0]);
+            avaaDialogi(Assets.annaDialogiTekstuuri(PitkätDialogit.dialogiKuvienTiedostoNimet[0]), PitkätDialogit.dialogiTekstit[0], PitkätDialogit.dialogiPuhujat[0]);
         }
     }
-
-    public static boolean äläSuljeNuolilla = false;
-    public static String valintaTulossa = null;
 
     /**
      * Kelatessa pelaaja voi aina ensimmäisellä painalluksella scrollata dialogin loppuun, jos scrollaus on kesken.
@@ -110,7 +101,7 @@ public class Dialogit {
             PitkätDialogit.siirrySeuraavaanDialogiRuutuun(PitkätDialogit.dialoginPituus - dialogiaJäljellä + 1);
         }
         else if (valintaTulossa != null) {
-            VuoropuheDialogiPätkä vdp = PitkätDialogit.vuoropuheDialogiKartta.get(valintaTulossa);
+            VuoropuheDialogiPätkä vdp = Peli.peliTiedosto.annaDialogiKartta().get(valintaTulossa);
             if (vdp != null) {
                 if (vdp.onkoValinta()) {
                     DialogiValintaIkkuna.avaaToimintoIkkuna(valintaTulossa);
@@ -144,7 +135,6 @@ public class Dialogit {
      * Lisää dialogilaatikkoon tulostettavaan tekstipätkään 1 merkki kerrallaan.
      */
 
-    static String tulostettavaTeksti;
     public static void scrollaaDialogiTeksti() {
         if (Peli.syötteenTila == SyötteenTila.DIALOGI) {
             if (tekstiäJäljellä > 0) {
@@ -157,7 +147,7 @@ public class Dialogit {
 
     public static void renderöiDialogiTeksti() {
         dialogiNimi.päivitäTeksti(dialogiNimiString);
-        dialogiTeksti.päivitäTeksti(tulostettavaTeksti, 2);
+        dialogiTeksti.päivitäTeksti(tulostettavaTeksti, 3);
     }
 
     /**
@@ -200,7 +190,7 @@ public class Dialogit {
                 tavoiteVinkki = "Huoneeseen warppaaminen vaatii tavoitteen " + tavoite;
             }
         }
-        Dialogit.avaaDialogi("", tavoiteVinkki, "Huone lukittu");
+        Dialogit.avaaDialogi(tavoiteVinkki, "Huone lukittu");
     }
 
     private static String haeDialogiÄäni(String puhuja) {
@@ -232,21 +222,10 @@ public class Dialogit {
         public static String[] valinnanVaihtoehtojenKohdeDialogit;
         public static String[] vaihtoehtojenTriggerit;
 
-        public static HashMap<String, VuoropuheDialogiPätkä> vuoropuheDialogiKartta = new HashMap<>();
-        public static HashMap<String, Renderöitävä> dialogiKuvakkeet = new HashMap<>();
-
-        public static void lataaDialogiKuvakkeet() {
-            for (VuoropuheDialogiPätkä vdp : vuoropuheDialogiKartta.values()) {
-                for (int i = 0; i < vdp.annaPituus(); i++) {
-                    dialogiKuvakkeet.put(vdp.annaTunniste() + "_" + i, new Tekstuuri(vdp.annaKuvienTiedostoNimet()[i]));
-                }
-            }
-        }
-
         public static void siirrySeuraavaanDialogiRuutuun(int ruudunNro) {
             if (ruudunNro >= 0) {
                 if (dialogiKuvienTiedostoNimet.length > ruudunNro && dialogiTekstit.length > ruudunNro && dialogiPuhujat.length > ruudunNro) {
-                    Dialogit.avaaDialogi(dialogiKuvakkeet.get(vuoropuheTunniste + "_" + ruudunNro), dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
+                    avaaDialogi(Assets.annaDialogiTekstuuri(dialogiKuvienTiedostoNimet[ruudunNro]), dialogiTekstit[ruudunNro], dialogiPuhujat[ruudunNro]);
                     dialogiaJäljellä--;
                 }
             }
@@ -257,8 +236,8 @@ public class Dialogit {
                 useitaRuutuja = true;
                 vuoropuheTunniste = vuoropuheRuudunTunniste;
                 // Hae dialogia dialogikartasta (kst-tiedostossa)
-                if (vuoropuheDialogiKartta.containsKey(vuoropuheRuudunTunniste)) {
-                    VuoropuheDialogiPätkä dp = vuoropuheDialogiKartta.get(vuoropuheRuudunTunniste);
+                if (Peli.peliTiedosto.annaDialogiKartta().containsKey(vuoropuheRuudunTunniste)) {
+                    VuoropuheDialogiPätkä dp = Peli.peliTiedosto.annaDialogiKartta().get(vuoropuheRuudunTunniste);
                     if (dp != null) {
                         dialogiaJäljellä = dp.annaPituus();
                         dialoginPituus = dp.annaPituus();
@@ -286,10 +265,10 @@ public class Dialogit {
                             dialogiTekstit = new String[dialoginPituus];
                             dialogiPuhujat = new String[dialoginPituus];
 
-                            dialogiKuvienTiedostoNimet[0] = "tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png";
-                            dialogiKuvienTiedostoNimet[1] = "tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png";
-                            dialogiKuvienTiedostoNimet[2] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
-                            dialogiKuvienTiedostoNimet[3] = "tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png";
+                            dialogiKuvienTiedostoNimet[0] = "dialogi_kauppias";
+                            dialogiKuvienTiedostoNimet[1] = "dialogi_kauppias";
+                            dialogiKuvienTiedostoNimet[2] = "dialogi_keimo";
+                            dialogiKuvienTiedostoNimet[3] = "dialogi_kauppias";
 
                             dialogiTekstit[0] = "Hyvää päivää!";
                             dialogiTekstit[1] = "Se tekisi " + df.format(Pelaaja.ostostenHintaYhteensä) + " euroa.";
@@ -308,10 +287,10 @@ public class Dialogit {
                             dialogiTekstit = new String[dialoginPituus];
                             dialogiPuhujat = new String[dialoginPituus];
 
-                            dialogiKuvienTiedostoNimet[0] = "tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png";
-                            dialogiKuvienTiedostoNimet[1] = "tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png";
-                            dialogiKuvienTiedostoNimet[2] = "tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png";
-                            dialogiKuvienTiedostoNimet[3] = "tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png";
+                            dialogiKuvienTiedostoNimet[0] = "dialogi_kauppias";
+                            dialogiKuvienTiedostoNimet[1] = "dialogi_kauppias";
+                            dialogiKuvienTiedostoNimet[2] = "dialogi_keimo";
+                            dialogiKuvienTiedostoNimet[3] = "dialogi_kauppias";
 
                             dialogiTekstit[0] = "Hyvää päivää!";
                             dialogiTekstit[1] = "Se tekisi " + df.format(Pelaaja.ostostenHintaYhteensä) + " euroa.";
@@ -324,7 +303,7 @@ public class Dialogit {
                             dialogiPuhujat[3] = "ASS-Market kassa";
                         return true;
                         case null, default:
-                            Dialogit.avaaDialogi("", "Dialogia ei löytynyt. Objekti on määritetty avaamaan dialogi " + "\"" + vuoropuheRuudunTunniste + "\"" + ", jota ei löytynyt dialogikartasta eikä vakiodialogivalikoimasta. Onkohan kst-tiedostoa menty käpelöimään muuten kuin pelinsisäisellä editorilla? :(", "Dialogia ei löytynyt");
+                            Dialogit.avaaDialogi("Dialogia ei löytynyt. Objekti on määritetty avaamaan dialogi " + "\"" + vuoropuheRuudunTunniste + "\"" + ", jota ei löytynyt dialogikartasta eikä vakiodialogivalikoimasta. Onkohan kst-tiedostoa menty käpälöimään muuten kuin pelinsisäisellä editorilla? :(", "Dialogia ei löytynyt");
                         return false;
                     }
                 }
@@ -340,7 +319,8 @@ public class Dialogit {
          * Triggerit löytyy kst-tiedostosta dialogin valinta-kohdasta
          * @param triggeri triggerin nimi
          */
-        public static void suoritaDialogiTriggeri(String triggeri) {
+        public static boolean suoritaDialogiTriggeri(String triggeri) {
+            boolean keskeytä = false;
             switch (triggeri) {
                 case "Avaa takahuone" -> {
                     TavoiteLista.suoritaTavoite("Avaa takahuone");
@@ -353,27 +333,55 @@ public class Dialogit {
                     ArrayList<String> ominaisuusLista = new ArrayList<>();
                     ominaisuusLista.add("juoma=OLUT");
                     Juomalasi juomalasi = new Juomalasi(0, 0, ominaisuusLista);
-                    if (!Pelaaja.loputonRaha) Pelaaja.raha -= juomalasi.annaHinta();
-                    Pelaaja.annaEsine(juomalasi);
+                    if (Pelaaja.loputonRaha) {
+                        Pelaaja.annaEsine(juomalasi);
+                    }
+                    else if (Pelaaja.raha > juomalasi.annaHinta()) {
+                        Pelaaja.raha -= juomalasi.annaHinta();
+                        Pelaaja.annaEsine(juomalasi);
+                    }
+                    else {
+                        avaaDialogi("Sinulla ei ole varaa tilata olutta.", "Ei varaa");
+                        keskeytä = true;
+                    }
                 }
                 case "baari_juoma2" -> {
                     ArrayList<String> ominaisuusLista = new ArrayList<>();
                     ominaisuusLista.add("juoma=LONKERO");
                     Juomalasi juomalasi = new Juomalasi(0, 0, ominaisuusLista);
-                    if (!Pelaaja.loputonRaha) Pelaaja.raha -= juomalasi.annaHinta();
-                    Pelaaja.annaEsine(juomalasi);
+                    if (Pelaaja.loputonRaha) {
+                        Pelaaja.annaEsine(juomalasi);
+                    }
+                    else if (Pelaaja.raha > juomalasi.annaHinta()) {
+                        Pelaaja.raha -= juomalasi.annaHinta();
+                        Pelaaja.annaEsine(juomalasi);
+                    }
+                    else {
+                        avaaDialogi("Sinulla ei ole varaa tilata lonkeroa.", "Ei varaa");
+                        keskeytä = true;
+                    }
                 }
                 case "baari_juoma3" -> {
                     ArrayList<String> ominaisuusLista = new ArrayList<>();
                     ominaisuusLista.add("juoma=SIIDERI");
                     Juomalasi juomalasi = new Juomalasi(0, 0, ominaisuusLista);
-                    if (!Pelaaja.loputonRaha) Pelaaja.raha -= juomalasi.annaHinta();
-                    Pelaaja.annaEsine(juomalasi);
+                    if (Pelaaja.loputonRaha) {
+                        Pelaaja.annaEsine(juomalasi);
+                    }
+                    else if (Pelaaja.raha > juomalasi.annaHinta()) {
+                        Pelaaja.raha -= juomalasi.annaHinta();
+                        Pelaaja.annaEsine(juomalasi);
+                    }
+                    else {
+                        avaaDialogi("Sinulla ei ole varaa tilata siideriä.", "Ei varaa");
+                        keskeytä = true;
+                    }
                 }
                 case "juhani_huumeostettu" -> {
                     Juhani.annaHuume();
                 }
             }
+            return keskeytä;
         }
     }
 }

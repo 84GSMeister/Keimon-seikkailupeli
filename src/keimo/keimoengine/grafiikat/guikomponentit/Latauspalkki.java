@@ -9,26 +9,14 @@ import keimo.keimoengine.ikkuna.Ikkuna;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
-public class Latauspalkki {
+public class Latauspalkki extends Komponentti {
 
-    protected float scaleX, scaleY;
-    protected float offsetX, offsetY;
     protected float latausProsentti = 0;
-    protected Renderöitävä palkkiPunainenTekstuuri = GUITekstuurit.annaTekstuuri("lataus_punainen");
-    protected Renderöitävä palkkiVihreäTekstuuri = GUITekstuurit.annaTekstuuri("lataus_vihreä");
+    protected Renderöitävä palkkiPunainenTekstuuri = GUITekstuurit.annaTekstuuri("palkki_punainen");
+    protected Renderöitävä palkkiVihreäTekstuuri = GUITekstuurit.annaTekstuuri("palkki_vihreä");
 
     public Latauspalkki(float scaleX, float scaleY, float offsetX, float offsetY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-    }
-
-    public void muutaKokoa(float scaleX, float scaleY, float offsetX, float offsetY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+        super(scaleX, scaleY, offsetX, offsetY);
     }
 
     public void päivitäLatausProsentti(float prosentti) {

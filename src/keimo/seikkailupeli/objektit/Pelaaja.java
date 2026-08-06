@@ -6,16 +6,15 @@ import keimo.seikkailupeli.liikkuminen.*;
 import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
 import keimo.seikkailupeli.objektit.kenttäkohteet.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.*;
-import keimo.seikkailupeli.objektit.maastot.IsoLaatta;
 import keimo.seikkailupeli.objektit.maastot.Maasto;
+import keimo.seikkailupeli.objektit.maastot.Tile;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 import keimo.seikkailupeli.äänet.Äänet;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Pelaaja extends PeliObjekti {
+public class Pelaaja implements Suunnallinen {
     
     public static final Esine[] esineet = new Esine[6];
     static int valittuEsine = 0;
@@ -32,7 +31,6 @@ public class Pelaaja extends PeliObjekti {
     public static int syödytRuoat;
     public static int nopeus;
     public static int vakionopeus = 8;
-    public static ImageIcon kuvake;
     public static int kuolemattomuusAika;
     public static int reaktioAika;
     public static int hyökkäysAika;
@@ -50,6 +48,8 @@ public class Pelaaja extends PeliObjekti {
     public static boolean noclip = false;
     public static boolean ohitaTavoitteet = false;
     public static boolean loputonRaha = false;
+    public static boolean vapaaWarp = false;
+    public static Suunta suunta;
 
     /**
      * Valitse tila, jonka mukaan kuvake valitaan grafiikkasäikeessä sekä
@@ -283,19 +283,22 @@ public class Pelaaja extends PeliObjekti {
                 }
                 for (Maasto[] mm : Peli.annaMaastoKenttä()) {
                     for (Maasto m : mm) {
-                        if (m instanceof IsoLaatta) {
-                            if (uusiSijainti.intersects(m.hitbox)) {
-                                if (uusiSijainti.getCenterX() > m.hitbox.getCenterX()) {
-                                    pelaajaVoiLiikkuaVasen = false;
-                                }
-                                else if (uusiSijainti.getCenterX() < m.hitbox.getCenterX()) {
-                                    pelaajaVoiLiikkuaOikea = false;
-                                }
-                                if (uusiSijainti.getCenterY() > m.hitbox.getCenterY()) {
-                                    pelaajaVoiLiikkuaYlös = false;
-                                }
-                                else if (uusiSijainti.getCenterY() < m.hitbox.getCenterY()) {
-                                    pelaajaVoiLiikkuaAlas = false;
+                        if (m instanceof Tile) {
+                            Tile t = (Tile)m;
+                            if (t.annaLeveys() > 1 && t.annaKorkeus() > 1) {
+                                if (uusiSijainti.intersects(m.hitbox)) {
+                                    if (uusiSijainti.getCenterX() > m.hitbox.getCenterX()) {
+                                        pelaajaVoiLiikkuaVasen = false;
+                                    }
+                                    else if (uusiSijainti.getCenterX() < m.hitbox.getCenterX()) {
+                                        pelaajaVoiLiikkuaOikea = false;
+                                    }
+                                    if (uusiSijainti.getCenterY() > m.hitbox.getCenterY()) {
+                                        pelaajaVoiLiikkuaYlös = false;
+                                    }
+                                    else if (uusiSijainti.getCenterY() < m.hitbox.getCenterY()) {
+                                        pelaajaVoiLiikkuaAlas = false;
+                                    }
                                 }
                             }
                         }
@@ -658,7 +661,7 @@ public class Pelaaja extends PeliObjekti {
             }
         }
         if (alkuX == 0 && alkuY == 0) {
-            Dialogit.avaaDialogi("", "Huoneessa ei ole turvallisia ruutuja", "Turvallinen teleporttaus epäonnistui");
+            Dialogit.avaaDialogi("Huoneessa ei ole turvallisia ruutuja", "Turvallinen teleporttaus epäonnistui");
         }
         else {
             teleporttaaLähimpäänTurvalliseenKohtaan(0, 0);
@@ -781,16 +784,6 @@ public class Pelaaja extends PeliObjekti {
         nopeus = Math.round((8 - Pelaaja.ostosKori.size()) * pelaajanKokoPx / 64f);
     }
 
-    @Override
-    public String annaNimiSijamuodossa(String sijamuoto) {
-        return "Pelaaja";
-    }
-
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-
-    }
-
     public Pelaaja() {
         hp = Peli.aloitusHp;
         raha = 0;
@@ -798,7 +791,6 @@ public class Pelaaja extends PeliObjekti {
         syödytRuoat = 0;
         nopeus = 8;
         for (int i = 0; i < esineet.length; i++) esineet[i] = null;
-        kuvake = new ImageIcon("tiedostot/kuvat/keimo_idle.gif");
         keimonState = KeimonState.IDLE;
         keimonKylläisyys = KeimonKylläisyys.LAIHA;
         keimonTerveys = KeimonTerveys.OK;
@@ -814,5 +806,15 @@ public class Pelaaja extends PeliObjekti {
         känninVoimakkuusFloat = 0;
         ostostenHintaYhteensä = 0;
         ostosKori.removeAll(ostosKori);
+    }
+
+    @Override
+    public Suunta annaSuunta() {
+        return suunta;
+    }
+
+    @Override
+    public void asetaSuunta(Suunta suunta1) {
+        suunta = suunta1;
     }
 }

@@ -13,10 +13,10 @@ public abstract class AvattavaEste extends KenttäKohde {
     protected ArrayList<Piste> vaaditutTriggerit = new ArrayList<>();
 
     public AvattavaEste(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
-        super(sijX, sijY);
+        super(sijX, sijY, ominaisuusLista);
         super.este = true;
         if (ominaisuusLista != null) {
-            this.lisäOminaisuudet = new ArrayList<>();
+            //this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("triggerit=")) {
                     String[] triggerit = ominaisuus.substring(10).split(";");
@@ -34,11 +34,11 @@ public abstract class AvattavaEste extends KenttäKohde {
                     }
                 }
             }
-            päivitäLisäOminaisuudet(ominaisuusLista);
+            päivitäLisäOminaisuudet();
         }
-        else {
-            this.lisäOminaisuuksia = false;
-        }
+        // else {
+        //     this.lisäOminaisuuksia = false;
+        // }
         
         super.asetaTiedot();
     }
@@ -84,10 +84,10 @@ public abstract class AvattavaEste extends KenttäKohde {
         super.asetaTiedot();
     }
 
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
+    private void päivitäLisäOminaisuudet() {
+        //super.päivitäLisäOminaisuudet(ominaisuusLista);
         if (this.lisäOminaisuudet != null) {
-            this.lisäOminaisuuksia = true;
+            //this.lisäOminaisuuksia = true;
             String triggeritString = "";
             for (Piste p : vaaditutTriggerit) {
                 triggeritString += "" + p.x + "_" + p.y + ";";

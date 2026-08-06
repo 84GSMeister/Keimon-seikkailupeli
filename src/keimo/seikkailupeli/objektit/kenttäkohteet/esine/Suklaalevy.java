@@ -4,7 +4,7 @@ import keimo.seikkailupeli.assets.Assets;
 
 public final class Suklaalevy extends Ruoka {
 
-    public Suklaalevy(int sijX, int sijY){
+    public Suklaalevy(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Suklaalevy";
         super.tiedostonNimi = "suklaalevy.png";

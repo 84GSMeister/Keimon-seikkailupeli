@@ -8,14 +8,13 @@ import java.util.ArrayList;
 
 public final class Puistonpenkki extends Lepopaikka {
 
-    public Puistonpenkki (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public Puistonpenkki(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Penkki";
         super.tiedostonNimi = "puistonpenkki.png";
         super.tekstuuri = Assets.annaTekstuuri("puistonpenkki");
         super.katsomisTeksti = "Nukuttaako?";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

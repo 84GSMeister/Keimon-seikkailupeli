@@ -16,10 +16,9 @@ public final class Juhani extends NPC_KenttäKohde {
         super.nimi = "Juhani";
         super.tiedostonNimi = "juhani.gif";
         super.tekstuuri = Assets.annaTekstuuri("juhani");
-        super.dialogiTekstuuri = Assets.annaTekstuuri("juhani_dialogi");
+        super.dialogiTekstuuri = Assets.annaDialogiTekstuuri("dialogi_juhani");
         super.katsomisTeksti = "Hämärän näköinen tyyppi. Mitähän se aikoo?";
         super.dialogit.add("vakio");
-        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -48,16 +47,14 @@ public final class Juhani extends NPC_KenttäKohde {
             case "vakio" -> {
                 if (Pelaaja.raha >= 20 || Pelaaja.loputonRaha) {
                     if (Pelaaja.annaEsineidenMäärä() < Pelaaja.annaTavaraluettelonKoko()) {
-                        // this.annaHuume();
-                        // Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("huume_ostettu"), this.annaNimi());
                         Dialogit.avaaPitkäDialogiRuutu("juhani_huume");
                     }
-                    else Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("invatäynnä"), this.annaNimi());
+                    else Dialogit.avaaDialogi(this.annaTekstuuri(), this.haeDialogiTeksti("invatäynnä"), "");
                 }
                 else Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("osta_huume"), this.annaNimi());
             }
             case null, default -> {
-                Dialogit.avaaDialogi("", "Objektille " + this.annaNimi() + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
+                Dialogit.avaaDialogi(this.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
             }
         }
     }

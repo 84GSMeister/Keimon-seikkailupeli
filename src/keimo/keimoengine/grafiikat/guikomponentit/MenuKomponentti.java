@@ -9,67 +9,26 @@ import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 
 /**
- * Renderöityy muuten kuten tavallinen stattinen komponentti, mutta venyttää kuvasuhteen aina 4:3 niin,
+ * Renderöityy muuten kuten tavallinen staattinen komponentti, mutta venyttää kuvasuhteen aina 4:3 niin,
  * että laajalla resoluutiolla tulee mustat palkit sivuille.
  * Suunniteltu valikoissa käytettäväksi.
  */
 
-public class MenuKomponentti {
-
-    private float scaleX, scaleY;
-    private float offsetX, offsetY;
-    private float rotX, rotY, rotZ;
-    private Renderöitävä tekstuuri;
-    private Matrix4f sijaintiMatriisi = new Matrix4f();
-    private Matrix4f rotaatioMatriisi = new Matrix4f();
+public class MenuKomponentti extends Komponentti {
 
     public MenuKomponentti(float scaleX, float scaleY, float offsetX, float offsetY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+        super(scaleX, scaleY, offsetX, offsetY);
     }
 
     public MenuKomponentti(float scaleX, float scaleY, float offsetX, float offsetY, Renderöitävä tekstuuri) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.tekstuuri = tekstuuri;
+        super(scaleX, scaleY, offsetX, offsetY, tekstuuri);
     }
 
     public MenuKomponentti(float scaleX, float scaleY, float offsetX, float offsetY, Renderöitävä tekstuuri, float rotX, float rotY, float rotZ) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.tekstuuri = tekstuuri;
+        this(scaleX, scaleY, offsetX, offsetY, tekstuuri);
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
-    }
-
-    public Renderöitävä annaSisältö() {
-        return tekstuuri;
-    }
-
-    public void päivitäSisältö(Renderöitävä tekstuuri) {
-        this.tekstuuri = tekstuuri;
-    }
-
-    public void muutaKokoa(float scaleX, float scaleY, float offsetX, float offsetY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-    }
-
-    public void muutaOffsetX(float offsetX) {
-        this.offsetX = offsetX;
-    }
-
-    public void muutaOffsetY(float offsetY) {
-        this.offsetY = offsetY;
     }
 
     public void renderöi(Shader shader, Ikkuna window) {

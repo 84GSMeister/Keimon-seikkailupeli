@@ -1,58 +1,53 @@
 package keimo.keimoengine.grafiikat.guikomponentit;
 
-import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.grafiikat.Renderöitävä;
-import keimo.keimoengine.grafiikat.shaderit.Shader;
-import keimo.keimoengine.ikkuna.Ikkuna;
 
-import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 
-public class Komponentti {
-
-    private static Matrix4f sijaintiMatriisi = new Matrix4f();
-    private static Matrix4f rotaatioMatriisi = new Matrix4f();
-
-    public static void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
-        sijaintiMatriisi.identity();
-        sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
-        sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.asetaSijainti(sijaintiMatriisi);
-        if (tekstuuri != null) tekstuuri.bind(0);
-        EngineAssets.getModel().render();
-    }
+public abstract class Komponentti {
     
-    public static void renderöiKomponenttiJaSkaalaa(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ) {
-        sijaintiMatriisi.identity();
-        sijaintiMatriisi = skaalaaPiirtoalueKuvasuhteenMukaan(sijaintiMatriisi, window);
-        sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
-        sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        shader.asetaSijainti(sijaintiMatriisi);
-        if (tekstuuri != null) tekstuuri.bind(0);
-        EngineAssets.getModel().render();
+    protected float scaleX, scaleY;
+    protected float offsetX, offsetY;
+    protected float rotX, rotY, rotZ;
+    protected Renderöitävä tekstuuri;
+    protected Matrix4f sijaintiMatriisi = new Matrix4f();
+    protected Matrix4f rotaatioMatriisi = new Matrix4f();
+
+    public Komponentti(float scaleX, float scaleY, float offsetX, float offsetY) {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
     }
 
-    public static void renderöiKomponenttiRotaatio(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, float rotX, float rotY, float rotZ) {
-        sijaintiMatriisi.identity();
-        sijaintiMatriisi = skaalaaPiirtoalueKuvasuhteenMukaan(sijaintiMatriisi, window);
-        sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
-        sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
-        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotX), 1, 0, 0));
-        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotY), 0, 1, 0));
-        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotZ), 0, 0, 1));
-        sijaintiMatriisi.mul(rotaatioMatriisi);
-        shader.asetaSijainti(sijaintiMatriisi);
-        if (tekstuuri != null) tekstuuri.bind(0);
-        EngineAssets.getModel().render();
+    public Komponentti(float scaleX, float scaleY, float offsetX, float offsetY, Renderöitävä tekstuuri) {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.tekstuuri = tekstuuri;
     }
 
-    // Kuva venytetään aina 4:3 piirtoalueeseen valikoissa. Sen isommilla kuvasuhteilla tulee mustat palkit.
-    private static Matrix4f skaalaaPiirtoalueKuvasuhteenMukaan(Matrix4f sijaintiMatriisi, Ikkuna ikkuna) {
-        if (ikkuna.getWidth() > 0 && ikkuna.getHeight() > 0) {
-            if ((float)ikkuna.getWidth() / (float)ikkuna.getHeight() > 4f / 3f) {
-                sijaintiMatriisi.scale(((float)ikkuna.getHeight()/(float)ikkuna.getWidth()) * (4f/3f), 1f, 1f);
-            }
-        }
-        return sijaintiMatriisi;
+    public Renderöitävä annaSisältö() {
+        return tekstuuri;
+    }
+
+    public void päivitäSisältö(Renderöitävä tekstuuri) {
+        this.tekstuuri = tekstuuri;
+    }
+
+    public void muutaKokoa(float scaleX, float scaleY, float offsetX, float offsetY) {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+    }
+
+    public void muutaOffsetX(float offsetX) {
+        this.offsetX = offsetX;
+    }
+
+    public void muutaOffsetY(float offsetY) {
+        this.offsetY = offsetY;
     }
 }

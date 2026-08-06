@@ -4,7 +4,7 @@ import keimo.seikkailupeli.assets.Assets;
 
 public final class Kaasupullo extends Esine {
 
-    public Kaasupullo(int sijX, int sijY){
+    public Kaasupullo(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Kaasupullo";
         super.tiedostonNimi = "kaasupullo.png";

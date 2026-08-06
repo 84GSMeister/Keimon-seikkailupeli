@@ -1,8 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -12,7 +13,6 @@ import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Musat;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -31,7 +31,7 @@ public class MinipeliIkkunaPokeri {
     private static float ruudunKorkeus = 1;
 
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static LabelKomponentti kehysKomponentti = new LabelKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
     private static Renderöitävä alkuruutuTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_alkuruutu");
     private static Renderöitävä valkoinenTekstuuri = Assets.annaTekstuuri("minipeli_pokeri_valkoinen");
     private static float siirtymä = 0;
@@ -114,9 +114,9 @@ public class MinipeliIkkunaPokeri {
 
     private static void alustaGrafiikat() {
         if (ohjeTeksti == null) {
-            ohjeTeksti = new Teksti("ohje", Color.green, 600, 48);
-            voitotTekstiPelaaja = new Teksti("0", Color.green, 200, 48);
-            voitotTekstiVihollinen = new Teksti("0", Color.green, 200, 48);
+            ohjeTeksti = new Teksti("ohje", Väri.green, 600, 48);
+            voitotTekstiPelaaja = new Teksti("0", Väri.green, 200, 48);
+            voitotTekstiVihollinen = new Teksti("0", Väri.green, 200, 48);
         }
     }
 
@@ -124,6 +124,7 @@ public class MinipeliIkkunaPokeri {
         alustaGrafiikat();
         if (siirtymä < 1) siirtymä += 0.05;
         peliShader.bind();
+        peliShader.nollaaShaderEfektit();
         peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
         kehysKomponentti.muutaKokoa(2f/3f * siirtymä, 2f/2.4f * siirtymä, 0, -1f/6f);
         kehysKomponentti.renderöi(peliShader, window);
@@ -134,6 +135,7 @@ public class MinipeliIkkunaPokeri {
         ruudunKorkeus = window.getHeight();
         if (siirtymä >= 1) {
             peliShader.bind();
+            peliShader.nollaaShaderEfektit();
             peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
 
             if (valikko) {

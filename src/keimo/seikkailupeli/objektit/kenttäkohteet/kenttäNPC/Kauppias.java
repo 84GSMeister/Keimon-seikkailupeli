@@ -14,7 +14,6 @@ public final class Kauppias extends NPC_KenttäKohde {
         super.tekstuuri = Assets.annaTekstuuri("kauppias");
         super.katsomisTeksti = "Kylien kauppias";
         super.dialogit.add("vakio");
-        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -43,7 +42,7 @@ public final class Kauppias extends NPC_KenttäKohde {
                 Dialogit.avaaDialogi(this.annaDialogiTekstuuri(), this.haeDialogiTeksti("juttele"), this.annaNimi());
             }
             case null, default -> {
-                Dialogit.avaaDialogi("", "Objektille " + this.annaNimi() + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
+                Dialogit.avaaDialogi(this.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
             }
         }
     }

@@ -4,37 +4,38 @@ import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public abstract class Esine extends KenttäKohde {
 
-    Random r = new Random();
+    protected boolean poista = false;
+    protected boolean kenttäkäyttö = false;
+    protected boolean käyttö = false;
+    protected boolean yhdistettävä = false;
+    protected double hinta = Double.POSITIVE_INFINITY;
+    protected String käyttöTeksti = "Mitään ei tapahtunut.";
+    public ArrayList<String> kelvollisetYhdistettävät = new ArrayList<String>();
+    public ArrayList<String> sopiiKäytettäväksi = new ArrayList<String>();
 
     public Esine(int sijX, int sijY) {
-        super(sijX, sijY);
+        super(sijX, sijY, null);
     }
 
-    protected boolean poista = false;
     public boolean poistoon(){
         return poista;
     }
 
-    protected boolean kenttäkäyttö = false;
     public boolean onkoKenttäkäyttöön() {
         return kenttäkäyttö;
     }
 
-    protected boolean käyttö = false;
     public boolean onkoKäyttö() {
         return käyttö;
     }
 
-    protected boolean yhdistettävä = false;
     public boolean onkoYhdistettävä() {
         return yhdistettävä;
     }
 
-    protected double hinta = Double.POSITIVE_INFINITY;
     public double annaHinta() {
         return hinta;
     }
@@ -61,16 +62,8 @@ public abstract class Esine extends KenttäKohde {
         else return null;
     }
 
-    public ArrayList<String> kelvollisetYhdistettävät = new ArrayList<String>();
-    public ArrayList<String> sopiiKäytettäväksi = new ArrayList<String>();
-
-    String käyttöTeksti = "Mitään ei tapahtunut.";
     public String käytä() {
         return käyttöTeksti;
-    }
-
-    public String annaNimi() {
-        return nimi;
     }
 
     public static Esine luoEsine(String esineenNimi, ArrayList<String> ominaisuusLista) {

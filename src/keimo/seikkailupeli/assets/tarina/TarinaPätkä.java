@@ -1,22 +1,13 @@
 package keimo.seikkailupeli.assets.tarina;
 
-import javax.swing.ImageIcon;
-
 public class TarinaPätkä {
     
-    static int tarinaId = 0;
-
-    public static void nollaaTarinaId() {
-        tarinaId = 0;
-    }
-
-    protected int id;
-    protected String nimi;
-    protected int pituus;
-    protected ImageIcon[] kuvat;
-    protected String[] kuvatiedostot;
-    protected String[] tekstit;
-    protected String taustamusa;
+    private int id;
+    private String nimi;
+    private int pituus;
+    private String[] kuvatiedostot;
+    private String[] tekstit;
+    private String taustamusa;
 
     public int annaId() {
         return id;
@@ -34,10 +25,6 @@ public class TarinaPätkä {
         return kuvatiedostot;
     }
 
-    public ImageIcon[] annaKuvat() {
-        return kuvat;
-    }
-
     public String[] annaTekstit() {
         return tekstit;
     }
@@ -46,26 +33,11 @@ public class TarinaPätkä {
         return taustamusa;
     }
 
-    public TarinaPätkä(String nimi, int pituus, String[] kuvatiedostot, String[] tekstit) {
+    public TarinaPätkä(int id, String nimi, int pituus, String[] kuvatiedostot, String[] tekstit) {
         this.nimi = nimi;
         this.pituus = pituus;
-        kuvat = new ImageIcon[kuvatiedostot.length];
-        for (int i = 0; i < kuvatiedostot.length; i++) {
-            kuvat[i] = new ImageIcon(kuvatiedostot[i]); 
-        }
         this.kuvatiedostot = kuvatiedostot;
         this.tekstit = tekstit;
-        this.id = tarinaId;
-        tarinaId++;
-    }
-
-    public TarinaPätkä(String nimi, int pituus, String[] kuvatiedostot, ImageIcon[] kuvat, String[] tekstit) {
-        this.nimi = nimi;
-        this.pituus = pituus;
-        this.kuvat = kuvat;
-        this.kuvatiedostot = kuvatiedostot;
-        this.tekstit = tekstit;
-        this.id = tarinaId;
-        tarinaId++;
+        this.id = id;
     }
 }

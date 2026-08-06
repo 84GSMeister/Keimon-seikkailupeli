@@ -16,15 +16,18 @@ import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaTet
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.Maailma3D;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.MinipeliIkkuna3D;
 import keimo.seikkailupeli.kenttä.*;
-import keimo.seikkailupeli.menu.*;
-import keimo.seikkailupeli.menu.asetusRuudut.*;
-import keimo.seikkailupeli.menu.editori.EditoriRuutu;
-import keimo.seikkailupeli.menu.editori.EditoriRuutuVarmistus;
-import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.objektit.Pelaaja;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
-import keimo.seikkailupeli.objektit.Käännettävä.SuuntaVasenOikea;
 import keimo.seikkailupeli.objektit.Pelaaja.*;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.SuuntaVasenOikea;
+import keimo.seikkailupeli.ruudut.*;
+import keimo.seikkailupeli.ruudut.asetusRuudut.*;
+import keimo.seikkailupeli.ruudut.editori.EditoriRuutu;
+import keimo.seikkailupeli.ruudut.editori.EditoriRuutuVarmistus;
+import keimo.seikkailupeli.ruudut.editori.dialogieditori.DialogiEditoriRuutu;
+import keimo.seikkailupeli.ruudut.editori.gui.EditorinValikko;
+import keimo.seikkailupeli.ruudut.editori.gui.yläpalkki.YläpalkkiNäytä;
+import keimo.seikkailupeli.ruudut.editori.tarinaeditori.TarinaEditoriIkkuna;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
 import java.util.List;
@@ -93,28 +96,28 @@ public class SyöteYhdistetty extends Input {
                             HuijauskoodiValikko.avaaValikko();
                         }
 
-                        if (isKeyPressed(GLFW_KEY_A) || isKeyPressed(GLFW_KEY_LEFT) || isJoystickAnalogPressed(ANALOG_L_VASEN)) {
+                        if (isKeyDown(GLFW_KEY_A) || isKeyDown(GLFW_KEY_LEFT) || isJoystickAnalogDown(ANALOG_L_VASEN)) {
                             Maailma.liiku(Maailma.Liike.VASEN);
                         }
-                        if (isKeyReleased(GLFW_KEY_A) || isKeyReleased(GLFW_KEY_LEFT) || isJoystickAnalogReleased(ANALOG_L_VASEN)) {
+                        else {
                             Maailma.lopetaLiike(Maailma.Liike.VASEN);
                         }
-                        if (isKeyPressed(GLFW_KEY_D) || isKeyPressed(GLFW_KEY_RIGHT) || isJoystickAnalogPressed(ANALOG_L_OIKEA)) {
+                        if (isKeyDown(GLFW_KEY_D) || isKeyDown(GLFW_KEY_RIGHT) || isJoystickAnalogDown(ANALOG_L_OIKEA)) {
                             Maailma.liiku(Maailma.Liike.OIKEA);
                         }
-                        if (isKeyReleased(GLFW_KEY_D) || isKeyReleased(GLFW_KEY_RIGHT) || isJoystickAnalogReleased(ANALOG_L_OIKEA)) {
+                        else {
                             Maailma.lopetaLiike(Maailma.Liike.OIKEA);
                         }
-                        if (isKeyPressed(GLFW_KEY_W) || isKeyPressed(GLFW_KEY_UP) || isJoystickAnalogPressed(ANALOG_L_YLÖS)) {
+                        if (isKeyDown(GLFW_KEY_W) || isKeyDown(GLFW_KEY_UP) || isJoystickAnalogDown(ANALOG_L_YLÖS)) {
                             Maailma.liiku(Maailma.Liike.YLÖS);
                         }
-                        if (isKeyReleased(GLFW_KEY_W) || isKeyReleased(GLFW_KEY_UP) || isJoystickAnalogReleased(ANALOG_L_YLÖS)) {
+                        else {
                             Maailma.lopetaLiike(Maailma.Liike.YLÖS);
                         }
-                        if (isKeyPressed(GLFW_KEY_S) || isKeyPressed(GLFW_KEY_DOWN) || isJoystickAnalogPressed(ANALOG_L_ALAS)) {
+                        if (isKeyDown(GLFW_KEY_S) || isKeyDown(GLFW_KEY_DOWN) || isJoystickAnalogDown(ANALOG_L_ALAS)) {
                             Maailma.liiku(Maailma.Liike.ALAS);
                         }
-                        if (isKeyReleased(GLFW_KEY_S) || isKeyReleased(GLFW_KEY_DOWN) || isJoystickAnalogReleased(ANALOG_L_ALAS)) {
+                        else {
                             Maailma.lopetaLiike(Maailma.Liike.ALAS);
                         }
 
@@ -167,6 +170,18 @@ public class SyöteYhdistetty extends Input {
                         }
                         if (isKeyPressed(GLFW_KEY_Z) || isJoystickButtonPressed(NÄPPÄIN_SELECT)) {
                             Peli.painaZ();
+                        }
+                        if (isKeyPressed(47) || isKeyPressed(GLFW_KEY_KP_SUBTRACT)) {
+                            if (Pelaaja.vapaaWarp && Peli.huone.annaId() > 0) {
+                                Peli.huoneVaihdettava = true;
+                                Peli.uusiHuone = Peli.huone.annaId() - 1;
+                            }
+                        }
+                        if (isKeyPressed(GLFW_KEY_MINUS) || isKeyPressed(GLFW_KEY_KP_ADD)) {
+                            if (Pelaaja.vapaaWarp && Peli.huone.annaId() < Peli.annaHuoneKartta().size()-1) {
+                                Peli.huoneVaihdettava = true;
+                                Peli.uusiHuone = Peli.huone.annaId() + 1;
+                            }
                         }
                     }
                     case DIALOGI -> {
@@ -267,7 +282,7 @@ public class SyöteYhdistetty extends Input {
                                 if (isKeyPressed(GLFW_KEY_ESCAPE) || isKeyPressed(GLFW_KEY_ENTER) || isJoystickButtonPressed(NÄPPÄIN_START)) {
                                     MinipeliIkkuna3D.suljeToimintoIkkuna();
                                 }
-                                if (isKeyPressed(GLFW_KEY_F3)) {
+                                if (isKeyPressed(GLFW_KEY_F6)) {
                                     Maailma3D.debugTiedotNäkyvissä = !Maailma3D.debugTiedotNäkyvissä;
                                 }
                                 if (isKeyPressed(GLFW_KEY_F5)) {
@@ -401,101 +416,12 @@ public class SyöteYhdistetty extends Input {
                                 if (isKeyHeld(GLFW_KEY_BACKSPACE)) {
                                     MinipeliIkkunaKeimoäly.pyyhiKirjain();
                                 }
-                                if (isKeyPressed(GLFW_KEY_SPACE)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen(" ");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_Q)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("Q");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_W)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("W");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_E)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("E");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_R)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("R");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_T)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("T");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_Y)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("Y");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_U)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("U");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_I)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("I");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_O)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("O");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_P)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("P");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_LEFT_BRACKET)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("Å");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_A)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("A");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_S)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("S");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_D)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("D");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_F)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("F");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_G)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("G");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_H)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("H");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_J)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("J");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_K)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("K");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_L)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("L");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_SEMICOLON)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("Ö");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_APOSTROPHE)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("Ä");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_Z)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("Z");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_X)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("X");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_C)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("C");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_V)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("V");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_B)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("B");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_N)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("N");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_M)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen("M");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_COMMA)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen(",");
-                                }
-                                else if (isKeyPressed(GLFW_KEY_PERIOD)) {
-                                    MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen(".");
+                                else {
+                                    for (int i = 32; i < GLFW_KEY_LAST; i++) {
+                                        if (isKeyHeld(i)) {
+                                            MinipeliIkkunaKeimoäly.lisääKirjainSyötteeseen(haeSyötettyMerkki(i));
+                                        }
+                                    }
                                 }
                             }
                             case KARTTA -> {
@@ -581,37 +507,82 @@ public class SyöteYhdistetty extends Input {
             case EDITORIRUUTU -> {
                 switch (Peli.syötteenTila) {
                     case PELI -> {
-                        if (isKeyPressed(GLFW_KEY_ESCAPE)) {
-                            EditoriRuutu.painaEsc();
-                        }
-                        if (isKeyPressed(GLFW_KEY_F3)) {
-                            EditoriRuutu.debugTiedotNäkyvissä = !EditoriRuutu.debugTiedotNäkyvissä;
-                        }
-                        if (isKeyDown(GLFW_KEY_W) || isKeyHeld(GLFW_KEY_UP)) {
-                            EditoriRuutu.kameranSijY -= 1;
-                            if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
-                        }
-                        if (isKeyDown(GLFW_KEY_S) || isKeyHeld(GLFW_KEY_DOWN)) {
-                            EditoriRuutu.kameranSijY += 1;
-                            if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
-                        }
-                        if (isKeyDown(GLFW_KEY_A) || isKeyHeld(GLFW_KEY_LEFT)) {
-                            EditoriRuutu.kameranSijX += 1;
-                            if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
-                        }
-                        if (isKeyDown(GLFW_KEY_D) || isKeyHeld(GLFW_KEY_RIGHT)) {
-                            EditoriRuutu.kameranSijX -= 1;
-                            if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
-                        }
-                        if (isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
-                            EditoriRuutu.kopiointi = true;
-                        }
-                        else EditoriRuutu.kopiointi = false;
-                        if (isKeyPressed(47) || isKeyPressed(GLFW_KEY_KP_SUBTRACT)) {
-                            if (EditoriRuutu.zoom < 5) EditoriRuutu.zoom += 0.1;
-                        }
-                        if (isKeyPressed(GLFW_KEY_MINUS) || isKeyPressed(GLFW_KEY_KP_ADD)) {
-                            if (EditoriRuutu.zoom > 0.5) EditoriRuutu.zoom -= 0.1;
+                        switch (EditoriRuutu.aktiivinenKomponentti) {
+                            case MAAILMA, YLÄPALKKI, POPUP -> {
+                                if (isKeyPressed(GLFW_KEY_ESCAPE)) {
+                                    EditoriRuutu.painaEsc();
+                                }
+                                if (isKeyPressed(GLFW_KEY_F3)) {
+                                    YläpalkkiNäytä.näytäDebug();
+                                }
+                                if (isKeyDown(GLFW_KEY_W) || isKeyHeld(GLFW_KEY_UP)) {
+                                    EditoriRuutu.kameranSijY -= 1;
+                                    if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
+                                }
+                                if (isKeyDown(GLFW_KEY_S) || isKeyHeld(GLFW_KEY_DOWN)) {
+                                    EditoriRuutu.kameranSijY += 1;
+                                    if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
+                                }
+                                if (isKeyDown(GLFW_KEY_A) || isKeyHeld(GLFW_KEY_LEFT)) {
+                                    EditoriRuutu.kameranSijX += 1;
+                                    if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
+                                }
+                                if (isKeyDown(GLFW_KEY_D) || isKeyHeld(GLFW_KEY_RIGHT)) {
+                                    EditoriRuutu.kameranSijX -= 1;
+                                    if (EditoriRuutu.aktiivinenKomponentti == EditoriRuutu.EditorinTilat.POPUP) EditoriRuutu.avaaPopup(false);
+                                }
+                                if (isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+                                    EditoriRuutu.kopiointi = true;
+                                }
+                                else EditoriRuutu.kopiointi = false;
+                                if (isKeyPressed(47) || isKeyPressed(GLFW_KEY_KP_SUBTRACT)) {
+                                    if (EditoriRuutu.zoom < 5) EditoriRuutu.zoom += 0.1;
+                                }
+                                if (isKeyPressed(GLFW_KEY_MINUS) || isKeyPressed(GLFW_KEY_KP_ADD)) {
+                                    if (EditoriRuutu.zoom > 0.5) EditoriRuutu.zoom -= 0.1;
+                                }
+                            }
+                            case DIALOGIEDITORI -> {
+                                if (isKeyPressed(GLFW_KEY_ESCAPE)) {
+                                    EditoriRuutu.painaEsc();
+                                }
+                                switch (DialogiEditoriRuutu.dialogiEditorinTila) {
+                                    case TEKSTIN_MUOKKAUS -> {
+                                        if (isKeyHeld(GLFW_KEY_BACKSPACE)) {
+                                            DialogiEditoriRuutu.poistaMerkki();
+                                        }
+                                        else {
+                                            for (int i = 32; i < GLFW_KEY_LAST; i++) {
+                                                if (isKeyHeld(i)) {
+                                                    DialogiEditoriRuutu.lisääMerkki(haeSyötettyMerkki(i));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    case null, default -> {}
+                                }
+                            }
+                            case TARINAEDITORI -> {
+                                if (isKeyPressed(GLFW_KEY_ESCAPE)) {
+                                    EditoriRuutu.painaEsc();
+                                }
+                                switch (TarinaEditoriIkkuna.tarinaEditorinTila) {
+                                    case TEKSTIN_MUOKKAUS -> {
+                                        if (isKeyHeld(GLFW_KEY_BACKSPACE)) {
+                                            TarinaEditoriIkkuna.poistaMerkki();
+                                        }
+                                        else {
+                                            for (int i = 32; i < GLFW_KEY_LAST; i++) {
+                                                if (isKeyHeld(i)) {
+                                                    TarinaEditoriIkkuna.lisääMerkki(haeSyötettyMerkki(i));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    case null, default -> {}
+                                }
+                            }
+                            case null, default -> {}
                         }
                     }
                     case TOIMINTO -> {
@@ -686,7 +657,7 @@ public class SyöteYhdistetty extends Input {
                 }
                 EditoriRuutu.päivitäFokus(hiiriX, hiiriY);
                 if (updateScroll) {
-                    EditoriRuutu.päivitäZoom(scrollY);
+                    EditoriRuutu.scrollToiminto(scrollX, scrollY);
                     scrollX = 0;
                     scrollY = 0;
                     updateScroll = false;
@@ -795,6 +766,56 @@ public class SyöteYhdistetty extends Input {
         Peli.yhdistettäväTavarapaikka += määrä;
         if (Peli.yhdistettäväTavarapaikka < 0) Peli.yhdistettäväTavarapaikka += Pelaaja.esineet.length;
         Peli.yhdistettäväTavarapaikka %= Pelaaja.esineet.length;
+    }
+
+    private static String haeSyötettyMerkki(int glfwNäppäin) {
+        switch (glfwNäppäin) {
+            case GLFW_KEY_SPACE: return " ";
+            case GLFW_KEY_ENTER: return "\n";
+            case GLFW_KEY_0: return "0";
+            case GLFW_KEY_1: return "1";
+            case GLFW_KEY_2: return "2";
+            case GLFW_KEY_3: return "3";
+            case GLFW_KEY_4: return "4";
+            case GLFW_KEY_5: return "5";
+            case GLFW_KEY_6: return "6";
+            case GLFW_KEY_7: return "7";
+            case GLFW_KEY_8: return "8";
+            case GLFW_KEY_9: return "9";
+            case GLFW_KEY_Q: return "Q";
+            case GLFW_KEY_W: return "W";
+            case GLFW_KEY_E: return "E";
+            case GLFW_KEY_R: return "R";
+            case GLFW_KEY_T: return "T";
+            case GLFW_KEY_Y: return "Y";
+            case GLFW_KEY_U: return "U";
+            case GLFW_KEY_I: return "I";
+            case GLFW_KEY_O: return "O";
+            case GLFW_KEY_P: return "P";
+            case GLFW_KEY_LEFT_BRACKET: return "Å";
+            case GLFW_KEY_A: return "A";
+            case GLFW_KEY_S: return "S";
+            case GLFW_KEY_D: return "D";
+            case GLFW_KEY_F: return "F";
+            case GLFW_KEY_G: return "G";
+            case GLFW_KEY_H: return "H";
+            case GLFW_KEY_J: return "J";
+            case GLFW_KEY_K: return "K";
+            case GLFW_KEY_L: return "L";
+            case GLFW_KEY_SEMICOLON: return "Ö";
+            case GLFW_KEY_APOSTROPHE: return "Ä";
+            case GLFW_KEY_Z: return "Z";
+            case GLFW_KEY_X: return "X";
+            case GLFW_KEY_C: return "C";
+            case GLFW_KEY_V: return "V";
+            case GLFW_KEY_B: return "B";
+            case GLFW_KEY_N: return "N";
+            case GLFW_KEY_M: return "M";
+            case GLFW_KEY_COMMA: return ",";
+            case GLFW_KEY_PERIOD: return ".";
+            case GLFW_KEY_MINUS: return "-";
+            default: return "";
+        }
     }
 
     private void avaaMidiLaitteet() {

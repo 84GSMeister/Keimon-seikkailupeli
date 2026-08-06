@@ -13,7 +13,6 @@ public final class KaljaAutomaatti extends Kiintopiste {
         super.tekstuuri = Assets.annaTekstuuri("kalja-automaatti");
         super.katsomisTeksti = "Tähän spawnaa kaljaa";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

@@ -8,14 +8,13 @@ import java.util.ArrayList;
 
 public final class Sänky extends Lepopaikka {
 
-    public Sänky (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public Sänky(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Sänky";
         super.tiedostonNimi = "sänky.png";
         super.tekstuuri = Assets.annaTekstuuri("sänky");
         super.katsomisTeksti = "Nukuttaako?";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

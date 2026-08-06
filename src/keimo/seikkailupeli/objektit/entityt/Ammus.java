@@ -5,8 +5,6 @@ import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
 
-import java.util.ArrayList;
-
 public class Ammus extends Entity {
     
     public static int ammusId = 0;
@@ -58,11 +56,6 @@ public class Ammus extends Entity {
         this.tekstuuri = Assets.annaTekstuuri("ammus");
         this.ampuja = ampuja;
         this.suunta = suunta8;
-    }
-
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        // Tähän ei tarvita mitään, mutta metodin pitää olla olemassa.
     }
 
     public int annaSijX() {

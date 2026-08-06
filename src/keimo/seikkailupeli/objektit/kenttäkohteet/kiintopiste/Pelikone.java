@@ -17,7 +17,6 @@ public final class Pelikone extends Kiintopiste {
         super.katsomisTeksti = "Mitenkäs tätä pelataan?";
 
         if (ominaisuusLista != null) {
-            this.lisäOminaisuudet = new ArrayList<>();
             String tyyppiString = "";
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("tyyppi=")) {
@@ -31,12 +30,8 @@ public final class Pelikone extends Kiintopiste {
                 }
             }
             super.tekstuuri = valitseTekstuuri();
-            päivitäLisäOminaisuudet(ominaisuusLista);
+            päivitäLisäOminaisuudet();
         }
-        else {
-            this.lisäOminaisuuksia = false;
-        }
-
         super.asetaTiedot();
     }
 
@@ -59,12 +54,11 @@ public final class Pelikone extends Kiintopiste {
         }
     }
 
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("tyyppi="));
-        this.lisäOminaisuudet.add("tyyppi=" + this.annaTyyppi());
+    private void päivitäLisäOminaisuudet() {
+        if (this.lisäOminaisuudet != null) {
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("tyyppi="));
+            this.lisäOminaisuudet.add("tyyppi=" + this.annaTyyppi());
+        }
     }
 
     public enum PeliTyyppi {

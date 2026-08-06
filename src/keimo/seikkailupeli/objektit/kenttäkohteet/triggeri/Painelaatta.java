@@ -17,9 +17,7 @@ public class Painelaatta extends Triggeri {
     public Painelaatta(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY);
         super.nimi = "Painelaatta";
-
         if (ominaisuusLista != null) {
-            this.lisäOminaisuudet = new ArrayList<>();
             Vihollinen vihollinen = new Pikkuvihu(sijX, sijY, null);
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("vihollinen=")) {
@@ -35,16 +33,15 @@ public class Painelaatta extends Triggeri {
             else if (super.vaadittuVihollinen instanceof Pahavihu) {
                 super.tekstuuri = vakioTekstuuriPahavihu;
             }
-            päivitäLisäOminaisuudet();
         }
         else {
-            this.lisäOminaisuuksia = false;
             super.tiedostonNimi = "painelaatta.png";
             super.katsomisTeksti = "Tähän ei ole määritelty vihollista.";
             super.tekstuuri = eiVihuaTekstuuri;
         }
 
-        super.vaadittuEsine = null;        
+        super.vaadittuEsine = null;
+        päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -76,11 +73,10 @@ public class Painelaatta extends Triggeri {
         }
     }
 
-    public void päivitäLisäOminaisuudet() {
+    private void päivitäLisäOminaisuudet() {
         if (this.lisäOminaisuudet != null) {
-            this.lisäOminaisuuksia = true;
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("vihollinen="));
-            this.lisäOminaisuudet.add("vihollinen=" + this.annaVaadittuVihollinen().annaNimi());
+            if (this.annaVaadittuVihollinen() != null) this.lisäOminaisuudet.add("vihollinen=" + this.annaVaadittuVihollinen().annaNimi());
         }
     }
 }

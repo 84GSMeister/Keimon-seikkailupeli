@@ -1,10 +1,11 @@
 package keimo.seikkailupeli.objektit.kenttäkohteet.warp;
 
+import keimo.seikkailupeli.objektit.Suunnallinen;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 
 import java.util.ArrayList;
 
-public abstract class Warp extends KenttäKohde {
+public abstract class Warp extends KenttäKohde implements Suunnallinen {
 
     protected int kohdeHuone;
     protected int kohdeRuutuX;
@@ -12,8 +13,9 @@ public abstract class Warp extends KenttäKohde {
     protected Suunta suunta;
 
     public Warp(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
-        super(sijX, sijY);
+        super(sijX, sijY, ominaisuusLista);
         super.katsomisTeksti = "Paina nuolen suuntaista nuolinäppäintä tai wasd-näppäintä kulkeaksesi oviruudusta!";
+        super.tekstuuriObjekti = null;
         if (ominaisuusLista != null) {
             this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
@@ -38,14 +40,14 @@ public abstract class Warp extends KenttäKohde {
                 }
             }
             asetaSuunta(suunta);
-            päivitäLisäOminaisuudet(ominaisuusLista);
+            päivitäLisäOminaisuudet();
         }
         else {
             lisäOminaisuudet = new ArrayList<>();
             asetaKohdeHuone(0);
             asetaKohdeRuudut(0, 0);
             asetaSuunta(Suunta.YLÖS);
-            päivitäLisäOminaisuudet(ominaisuusLista);
+            päivitäLisäOminaisuudet();
         }
     }
 
@@ -79,9 +81,7 @@ public abstract class Warp extends KenttäKohde {
         }
     }
 
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
-        this.lisäOminaisuuksia = true;
+    public void päivitäLisäOminaisuudet() {
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kohdehuone="));
         this.lisäOminaisuudet.add("kohdehuone=" + kohdeHuone);
         this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("kohderuutuX="));

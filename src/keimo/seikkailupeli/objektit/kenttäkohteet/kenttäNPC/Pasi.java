@@ -17,7 +17,6 @@ public final class Pasi extends NPC_KenttäKohde {
         super.dialogit.add("baari");
         super.dialogit.add("baari_salahuone");
         super.dialogit.add("kuu");
-        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -49,7 +48,7 @@ public final class Pasi extends NPC_KenttäKohde {
             case "baari": Dialogit.avaaPitkäDialogiRuutu("pasi"); break;
             case "baari_salahuone": Dialogit.avaaPitkäDialogiRuutu("pasi_salahuone"); break;
             case "kuu": Dialogit.avaaPitkäDialogiRuutu("pasi_kuu"); break;
-            case null, default: Dialogit.avaaDialogi("", "Objektille " + this.annaNimi() + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi"); break;
+            case null, default: Dialogit.avaaDialogi(this.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi"); break;
         }
     }
 

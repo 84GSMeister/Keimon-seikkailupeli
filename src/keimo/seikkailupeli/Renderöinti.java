@@ -4,24 +4,24 @@ import keimo.TarkistettavatArvot.PelinLopetukset;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.ikkuna.Kamera;
+import keimo.keimoengine.ruudut.VirheRuutu;
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
 import keimo.seikkailupeli.gui.toimintoIkkunat.OhjeIkkuna;
 import keimo.seikkailupeli.io.SyöteYhdistetty;
 import keimo.seikkailupeli.kenttä.Maailma;
-import keimo.seikkailupeli.menu.KehittäjäRuutu;
-import keimo.seikkailupeli.menu.LoppuRuutu;
-import keimo.seikkailupeli.menu.PeliRuutu;
-import keimo.seikkailupeli.menu.PeliRuutuLataus;
-import keimo.seikkailupeli.menu.TarinaRuutu;
-import keimo.seikkailupeli.menu.ValikkoRuutu;
-import keimo.seikkailupeli.menu.VirheRuutu;
-import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
-import keimo.seikkailupeli.menu.editori.EditoriRuutu;
-import keimo.seikkailupeli.menu.editori.EditoriRuutuVarmistus;
-import keimo.seikkailupeli.menu.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.objektit.Pelaaja;
+import keimo.seikkailupeli.ruudut.KehittäjäRuutu;
+import keimo.seikkailupeli.ruudut.LoppuRuutu;
+import keimo.seikkailupeli.ruudut.PeliRuutu;
+import keimo.seikkailupeli.ruudut.PeliRuutuLataus;
+import keimo.seikkailupeli.ruudut.TarinaRuutu;
+import keimo.seikkailupeli.ruudut.ValikkoRuutu;
+import keimo.seikkailupeli.ruudut.asetusRuudut.AsetusRuutu;
+import keimo.seikkailupeli.ruudut.editori.EditoriRuutu;
+import keimo.seikkailupeli.ruudut.editori.EditoriRuutuVarmistus;
+import keimo.seikkailupeli.ruudut.editori.gui.EditorinValikko;
 import keimo.seikkailupeli.äänet.Musat;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -181,13 +181,11 @@ public class Renderöinti {
 			case "editoriruutu" -> {
 				try {
 					Peli.aktiivinenRuutu = Peli.Ruudut.EDITORIRUUTU;
+					Peli.syötteenTila = Peli.SyötteenTila.PELI;
 					Peli.pause = true;
-					//EditoriRuutu.luoEditoriRuutu();
-					//EditoriRuutu.lataaHuone(0);
-					//EditorinValikko.suljeValikko();
 				}
 				catch (Exception e) {
-					tinyfd_messageBox("Editoriin siirtyminen epäonnistui.", "Editoria ei voi käynnistää.\nEditori ei toimi, jos peli on käynnistetty Legacy-ikkunassa.", "ok", "error", false);
+					DialogiIkkunat.viestiIkkuna("Editoriin siirtyminen epäonnistui.", "Editoria ei voi käynnistää.\nEditori ei toimi, jos peli on käynnistetty Legacy-ikkunassa.", "ok", "error", false);
 				}
 			}
 			case "editoriruutu_varmistus" -> {

@@ -4,7 +4,7 @@ import keimo.seikkailupeli.assets.Assets;
 
 public final class Vesiämpäri extends Ase {
 
-    public Vesiämpäri(int sijX, int sijY){
+    public Vesiämpäri(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Vesiämpäri";
         super.tiedostonNimi = "vesiämpäri.png";

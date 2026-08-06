@@ -1,8 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -12,7 +13,6 @@ import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Musat;
 
-import java.awt.Color;
 import java.util.Random;
 
 import org.joml.Matrix4f;
@@ -22,7 +22,7 @@ public class MinipeliIkkunaTetris {
     private static Shader peliShader;
 
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static LabelKomponentti kehysKomponentti = new LabelKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
     private static Renderöitävä alkuruutuTekstuuri = Assets.annaTekstuuri("minipeli_tetris_alkuruutu");
     private static Renderöitävä palikkaTekstuuri = Assets.annaTekstuuri("minipeli_tetris_palikka");
     private static Renderöitävä hudTekstuuri = Assets.annaTekstuuri("minipeli_tetris_hud");
@@ -55,7 +55,7 @@ public class MinipeliIkkunaTetris {
     private static class Palikka {
         public Palikkatyypit tyyppi;
         public int tyyppiInt;
-        public Väri väri;
+        public PalikanVäri väri;
         public int leveys;
         public int korkeus;
         public boolean[][] osat;
@@ -69,49 +69,49 @@ public class MinipeliIkkunaTetris {
                     this.tyyppiInt = 1;
                     this.leveys = 2;
                     this.korkeus = 2;
-                    this.väri = Väri.KELTAINEN;
+                    this.väri = PalikanVäri.KELTAINEN;
                     this.osat = new boolean[][]{{true,true},{true,true}};
                 }
                 case L_PALIKKA -> {
                     this.tyyppiInt = 2;
                     this.leveys = 3;
                     this.korkeus = 2;
-                    this.väri = Väri.VIHREÄ;
+                    this.väri = PalikanVäri.VIHREÄ;
                     this.osat = new boolean[][]{{true,false},{true,false},{true,true}};
                 }
                 case L_PALIKKA_2 -> {
                     this.tyyppiInt = 3;
                     this.leveys = 3;
                     this.korkeus = 2;
-                    this.väri = Väri.PUNAINEN;
+                    this.väri = PalikanVäri.PUNAINEN;
                     this.osat = new boolean[][]{{true,true},{true,false},{true,false}};
                 }
                 case T_PALIKKA -> {
                     this.tyyppiInt = 4;
                     this.leveys = 3;
                     this.korkeus = 2;
-                    this.väri = Väri.TURKOOSI;
+                    this.väri = PalikanVäri.TURKOOSI;
                     this.osat = new boolean[][]{{true,false},{true,true},{true,false}};
                 }
                 case Z_PALIKKA -> {
                     this.tyyppiInt = 5;
                     this.leveys = 3;
                     this.korkeus = 2;
-                    this.väri = Väri.PINKKI;
+                    this.väri = PalikanVäri.PINKKI;
                     this.osat = new boolean[][]{{true,false},{true,true},{false,true}};
                 }
                 case Z_PALIKKA_2 -> {
                     this.tyyppiInt = 6;
                     this.leveys = 3;
                     this.korkeus = 2;
-                    this.väri = Väri.ORANSSI;
+                    this.väri = PalikanVäri.ORANSSI;
                     this.osat = new boolean[][]{{false,true},{true,true},{true,false}};
                 }
                 case SUORA -> {
                     this.tyyppiInt = 7;
                     this.leveys = 4;
                     this.korkeus = 1;
-                    this.väri = Väri.SININEN;
+                    this.väri = PalikanVäri.SININEN;
                     this.osat = new boolean[][]{{true},{true},{true},{true}};
                 }
             }
@@ -127,7 +127,7 @@ public class MinipeliIkkunaTetris {
         Z_PALIKKA_2,
         SUORA;
     }
-    private static enum Väri {
+    private static enum PalikanVäri {
         KELTAINEN,
         VIHREÄ,
         PUNAINEN,
@@ -146,9 +146,9 @@ public class MinipeliIkkunaTetris {
 
     private static void alustaGrafiikat() {
         if (teksti == null) {
-            teksti = new Teksti("Tähän tulee tetris", Color.green, 200, 48);
-            peliohiTeksti = new Teksti("Peli ohi!", Color.green, 350, 48);
-            ohjeTeksti = new Teksti("Ohjeet", Color.green, 500, 140);
+            teksti = new Teksti("Tähän tulee tetris", Väri.green, 200, 48);
+            peliohiTeksti = new Teksti("Peli ohi!", Väri.green, 350, 48);
+            ohjeTeksti = new Teksti("Ohjeet", Väri.green, 500, 140);
         }
     }
 

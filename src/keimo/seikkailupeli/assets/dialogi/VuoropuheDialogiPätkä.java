@@ -1,6 +1,7 @@
 package keimo.seikkailupeli.assets.dialogi;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class VuoropuheDialogiPätkä {
 
@@ -19,12 +20,6 @@ public class VuoropuheDialogiPätkä {
     private String[] valinnanVaihtoehtojenKohdeDialogit;
     private String[] triggerit;
 
-    static int tarinaId = 0;
-
-    public static void nollaaTarinaId() {
-        tarinaId = 0;
-    }
-
     public int annaId() {
         return id;
     }
@@ -38,11 +33,60 @@ public class VuoropuheDialogiPätkä {
     }
 
     public void lisääSivu() {
-        this.dialoginPituus++;
+        dialoginPituus++;
+        dialogiTekstit = Arrays.copyOf(dialogiTekstit, dialoginPituus);
+        dialogiTekstit[dialoginPituus-1] = "teksti " + (dialoginPituus-1);
+        dialogiPuhujat = Arrays.copyOf(dialogiPuhujat, dialoginPituus);
+        dialogiPuhujat[dialoginPituus-1] = "puhuja " + (dialoginPituus-1);
+        dialogiKuvienTiedostoNimet = Arrays.copyOf(dialogiKuvienTiedostoNimet, dialoginPituus);
+        dialogiKuvienTiedostoNimet[dialoginPituus-1] = "";
     }
 
-    public void poistaSivu() {
-        this.dialoginPituus--;
+    public void poistaSivu(int sivunumero) {
+        String[] dialogiTekstitAlku = Arrays.copyOfRange(dialogiTekstit, 0, sivunumero);
+        String[] dialogiTekstitLoppu = Arrays.copyOfRange(dialogiTekstit, sivunumero+1, dialoginPituus);
+        String[] dialogiTekstitUusi = new String[dialogiTekstitAlku.length + dialogiTekstitLoppu.length];
+        int i = 0;
+        for (String s : dialogiTekstitAlku) {
+            dialogiTekstitUusi[i] = s;
+            i++;
+        }
+        for (String s : dialogiTekstitLoppu) {
+            dialogiTekstitUusi[i] = s;
+            i++;
+        }
+        dialogiTekstit = dialogiTekstitUusi;
+
+
+        String[] dialogiPuhujatAlku = Arrays.copyOfRange(dialogiPuhujat, 0, sivunumero);
+        String[] dialogiPuhujatLoppu = Arrays.copyOfRange(dialogiPuhujat, sivunumero+1, dialoginPituus);
+        String[] dialogiPuhujatUusi = new String[dialogiPuhujatAlku.length + dialogiPuhujatLoppu.length];
+        i = 0;
+        for (String s : dialogiPuhujatAlku) {
+            dialogiPuhujatUusi[i] = s;
+            i++;
+        }
+        for (String s : dialogiPuhujatLoppu) {
+            dialogiPuhujatUusi[i] = s;
+            i++;
+        }
+        dialogiPuhujat = dialogiPuhujatUusi;
+
+
+        String[] dialogiKuvatAlku = Arrays.copyOfRange(dialogiKuvienTiedostoNimet, 0, sivunumero);
+        String[] dialogiKuvatLoppu = Arrays.copyOfRange(dialogiKuvienTiedostoNimet, sivunumero+1, dialoginPituus);
+        String[] dialogiKuvatUusi = new String[dialogiKuvatAlku.length + dialogiKuvatLoppu.length];
+        i = 0;
+        for (String s : dialogiKuvatAlku) {
+            dialogiKuvatUusi[i] = s;
+            i++;
+        }
+        for (String s : dialogiKuvatLoppu) {
+            dialogiKuvatUusi[i] = s;
+            i++;
+        }
+        dialogiKuvienTiedostoNimet = dialogiKuvatUusi;
+        dialoginPituus--;
     }
 
     public String[] annaKuvienTiedostoNimet() {
@@ -81,7 +125,7 @@ public class VuoropuheDialogiPätkä {
         return triggerit;
     }
 
-    public VuoropuheDialogiPätkä(String vuoropuheTunniste, int dialoginPituus, String[] dialogiKuvienTiedostoNimet, String[] dialogiTekstit, String[] dialogiPuhujat, String[] dialogiÄänet, boolean valinta, String valinnanNimi, String valinnanOtsikko, String[] valinnanVaihtoehdot, String[] valinnanVaihtoehtojenKohdeDialogit, String[] triggerit) {
+    public VuoropuheDialogiPätkä(int id, String vuoropuheTunniste, int dialoginPituus, String[] dialogiKuvienTiedostoNimet, String[] dialogiTekstit, String[] dialogiPuhujat, boolean valinta, String valinnanNimi, String valinnanOtsikko, String[] valinnanVaihtoehdot, String[] valinnanVaihtoehtojenKohdeDialogit, String[] triggerit) {
         this.vuoropuheTunniste = vuoropuheTunniste;
         this.dialoginPituus = dialoginPituus;
         this.dialogiKuvienTiedostoNimet = dialogiKuvienTiedostoNimet;
@@ -93,5 +137,6 @@ public class VuoropuheDialogiPätkä {
         this.valinnanVaihtoehdot = valinnanVaihtoehdot;
         this.valinnanVaihtoehtojenKohdeDialogit = valinnanVaihtoehtojenKohdeDialogit;
         this.triggerit = triggerit;
+        this.id = id;
     }
 }

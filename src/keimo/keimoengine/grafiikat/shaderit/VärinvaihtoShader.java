@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class VärinvaihtoShader extends Shader {
 
-    private float aika = 0;
     private int väriShaderTyyppi = 0;
 
     public VärinvaihtoShader(int tyyppi) {

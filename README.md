@@ -1,13 +1,35 @@
 # Keimon Seikkailupeli
 
-## Uusin versio (10.4.2026): 1.2.3 Alfa
+## Uusin versio (6.8.2026): 1.2.4 Alfa
+
+### Versio 1.2.4 Alfa: Keimon nimipäiväpäivitys
+ - Lisätty uusia taustoja.
+ - Kääntö- ja peilaustoiminto lisätty muille kenttäobjekteille paitsi esineille.
+ - Editoria paranneltu:
+   - Lisätty dialogieditori ja tarinaeditori.
+   - Käyttöliittymää paranneltu.
+   - Korjattu muistivuoto tallentaessa Warp-objektin muutokset.
+ - Lisätty pelimoottoriin uusia GUI-komponentteja, joita käytetään mm. editorissa.
+ - Lisätty Keimo Soundfont.
+ - Parannettu yhdistämisvalikkoa.
+ - Korjattu satunnainen kaatuminen tarinaruudussa pelin sisällä.
+ - Korjattu bugi, jossa asetukset eivät tallennu.
+ - Korjattu shadereiden esikatselu asetuksissa.
+ - Korjattu bugi, jossa kenttä ei renderöidy kunnolla, jos ikkunan korkeus on suurempi kuin leveys.
+ - Korjattu bugi, jossa pelaaja voi ostaa baarissa juoman, johon ei ole varaa ja saada tilin negatiiviseksi.
+ - Korjattu joidenkin animaatioiden latautuminen kahteen kertaan.
+ - Korjattu bugi, jossa vihollisten valkoinen shader-vahingoittamisefekti vuotaa muihin objekteihin.
+ - Korjattu kauppadialogin vihon aukeaminen jokaisessa dialogissa.
+ - Kaikkien tekstuurien ja animaatioiden luonti siirretty latausvaiheeseen. Tämä pidentää latausaikaa ja kasvattaa muistin käyttöä alussa, mutta sulavoittaa peliä ja vähentää muistin vuotoa.
+ - Objektien koodia siistitty ja ominaisuuksien käsittelyä yhtenäistetty.
+ - Lisää tölkkiääniä.
 
 ### Versio 1.2.3 Alfa
  - Lisätty yhdistämisvalikko.
- - Lisätty tuki animoiduille tileille ja taustoille
- - Parannettu näppäinvinkkien näkyvyyttä
+ - Lisätty tuki animoiduille tileille ja taustoille.
+ - Parannettu näppäinvinkkien näkyvyyttä.
  - Kaupan asettelua parannettu ja tarkoituksettomat ei-kiinteät tilet vaihdettu kiinteiksi.
- - Korjattu joidenkin tile-tekstuurien puuttuminen editorista (tekstuurien lataus hakemistosta eikä kst-tiedostosta)
+ - Korjattu joidenkin tile-tekstuurien puuttuminen editorista (tekstuurien lataus hakemistosta eikä kst-tiedostosta).
  - Lisätty Jallu-kauppahyllyn kuvake ja korjattu puuttuvan tekstuurin aiheuttama kaatuminen.
  - Pontikka-ainekset-esineen nimi muutettu -> Leivonta-ainekset
  - Korjattu porttianimaatioiden puuttuminen temppelissä.

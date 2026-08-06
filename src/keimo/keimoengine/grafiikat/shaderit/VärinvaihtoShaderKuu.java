@@ -4,17 +4,9 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class VärinvaihtoShaderKuu extends Shader {
 
-    private float aika = 0;
-
     public VärinvaihtoShaderKuu() {
         super("kuu");
-    }
-
-    @Override
-    public void loop() {
-        int location = glGetUniformLocation(program, "time");
-        glUniform1f(location, aika);
-        aika += 0.02f;
+        super.loopNopeus = 0.1f;
     }
 
     public void asetaFade(float fade) {

@@ -15,22 +15,6 @@ public final class Kirstu extends Säiliö {
         super.tiedostonNimi = "kirstu.png";
         super.tekstuuri = Assets.annaTekstuuri("kirstu");
         super.katsomisTeksti = "Kirstu on lukittu. Minneköhän sen avain on unohtunut?";
-
-        if (ominaisuusLista != null) {
-            this.lisäOminaisuudet = new ArrayList<>();
-            String esineenNimi = "";
-            for (String ominaisuus : ominaisuusLista) {
-                if (ominaisuus.startsWith("sisältö=")) {
-                    esineenNimi = ominaisuus.substring(8);
-                }
-            }
-            this.sisältö = luoSisältö(esineenNimi, ominaisuusLista);
-            päivitäLisäOminaisuudet(ominaisuusLista);
-        }
-        else {
-            this.lisäOminaisuuksia = false;
-        }
-        
         super.asetaTiedot();
     }
 
@@ -68,14 +52,6 @@ public final class Kirstu extends Säiliö {
             case "avaa": return "Kirstu avattiin. Sait " + sisältö.annaNimiSijamuodossa("genetiivi");
             case null, default: return katso();
         }
-    }
-    
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
-        this.lisäOminaisuuksia = true;
-        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("sisältö="));
-        this.lisäOminaisuudet.add("sisältö=" + this.annaSisältö());
     }
 
     public void avaa() {

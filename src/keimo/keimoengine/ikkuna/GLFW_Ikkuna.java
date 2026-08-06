@@ -206,9 +206,8 @@ public class GLFW_Ikkuna extends Ikkuna {
 
     @Override
     public void update() {
-        if (näppäimistöSyöte != null) näppäimistöSyöte.update();
-        if (ohjainSyöte != null) ohjainSyöte.update();
         if (syöte != null) syöte.update();
+        glfwPollEvents();
     }
 
     public void pollEvents() {

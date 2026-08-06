@@ -3,17 +3,19 @@ package keimo.keimoengine;
 import keimo.keimoengine.assets.EngineAssets;
 import keimo.keimoengine.assets.GUITekstuurit;
 import keimo.keimoengine.fontit.KeimoFontit;
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.*;
 import keimo.keimoengine.ikkuna.*;
 import keimo.keimoengine.ruudut.LatausRuutu;
+import keimo.keimoengine.ruudut.VirheRuutu;
 import keimo.seikkailupeli.Peli;
+import keimo.seikkailupeli.Peli.Ruudut;
 import keimo.seikkailupeli.PeliKenttäMetodit;
 import keimo.seikkailupeli.PelinAsetukset;
 import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.TavoiteLista;
 import keimo.seikkailupeli.assets.huone.HuoneLista;
-import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaOverflow;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPokeri;
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaPong;
@@ -21,13 +23,11 @@ import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.MinipeliIkkunaTet
 import keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat.minipeli3d.Maailma3D;
 import keimo.seikkailupeli.io.SyöteYhdistetty;
 import keimo.seikkailupeli.kenttä.*;
-import keimo.seikkailupeli.menu.*;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 import keimo.seikkailupeli.äänet.Musat;
 
-import java.awt.Color;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DecimalFormat;
@@ -37,9 +37,12 @@ import org.lwjgl.glfw.*;
 import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 public class KeimoEngine extends Thread {
+
+	/**
+	 * KeimoEngine Alpha versio 1.1.1
+	 */
 
     String ikkunaTeksti = "Keimon Seikkailupeli";
     int ikkunanLeveys = 800;
@@ -92,7 +95,7 @@ public class KeimoEngine extends Thread {
 								"Muut: ei varmaan toimi\n\n" +
 								"Sovellus sulkeutuu.";
 			String otsikko = "Virhe OpenGL-kirjaston luonnissa.";
-			tinyfd_messageBox(otsikko, viesti, "ok", "error", false);
+			DialogiIkkunat.viestiIkkuna(otsikko, viesti, "ok", "error", false);
 		}
 	}
 
@@ -177,15 +180,14 @@ public class KeimoEngine extends Thread {
 				renderöiLatausRuutu("Ladataan asetuksia", 35);
 				TavoiteLista.luoPääTavoiteLista();
 				TavoiteLista.luoTavoiteLista();
-				TarinaPätkä.nollaaTarinaId();
 				KenttäKohde.nollaaObjektiId();
 				Dialogit.luoTekstuurit();
 				HuoneLista.lataaPelitiedosto();
 
 				renderöiLatausRuutu("Mukautetaan kenttiä", 75);
-				if (Peli.huoneKartta != null) {
-					if (Peli.huoneKartta.get(0) != null) {
-						Peli.muutaKentänKokoa(Peli.huoneKartta.get(0).annaKoko());
+				if (Peli.annaHuoneKartta() != null) {
+					if (Peli.annaHuoneKartta().get(0) != null) {
+						Peli.muutaKentänKokoa(Peli.annaHuoneKartta().get(0).annaKoko());
 					}
 				}
 				Pelaaja.teleporttaaSpawniin();
@@ -195,7 +197,7 @@ public class KeimoEngine extends Thread {
 				Maailma3D.createWorld();
 
 				renderöiLatausRuutu("Ladataan", 90);
-				kaatoTeksti = new Teksti("null", Color.white, 1, 1);
+				kaatoTeksti = new Teksti("null", Väri.white, 1, 1);
 				glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Aseta tyhjennysväri mustaksi
 
 				renderöiLatausRuutu("Käynnistetään peliä", 95);
@@ -228,7 +230,6 @@ public class KeimoEngine extends Thread {
 					// Tapahtumankäsittely pääsäikeessä, jotta muut säikeet (renderöinti) eivät jumitu ikkunaa siirrettäessä yms.
 					window.annaSyöte().tarkistaSyöte();
 					window.update();
-					((GLFW_Ikkuna)window).pollEvents();
 				}
 				LockSupport.parkNanos(1_000_000);
 			}
@@ -306,6 +307,7 @@ public class KeimoEngine extends Thread {
 				glDisable(GL_STENCIL_TEST);
 				glDisable(GL_DEPTH_TEST);
 				Renderöinti.siirrySeuraavaanRuutuun("virheruutu");
+				Peli.aktiivinenRuutu = Ruudut.VIRHERUUTU;
 				VirheRuutu.siirryVirheruutuun(viesti);
 			}
 		}

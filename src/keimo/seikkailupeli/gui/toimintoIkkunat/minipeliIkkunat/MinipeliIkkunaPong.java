@@ -1,8 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -13,7 +14,6 @@ import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
-import java.awt.Color;
 import java.util.Random;
 
 import org.joml.Matrix4f;
@@ -21,7 +21,7 @@ import org.joml.Vector4f;
 
 public class MinipeliIkkunaPong {
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static LabelKomponentti kehysKomponentti = new LabelKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
     private static Renderöitävä alkuruutuTekstuuri = Assets.annaTekstuuri("minipeli_pong_alkuruutu");
     private static Renderöitävä valkoinenTekstuuri = Assets.annaTekstuuri("minipeli_pong_valkoinen");
     private static Teksti teksti;
@@ -52,7 +52,7 @@ public class MinipeliIkkunaPong {
 
     private static void alustaGrafiikat() {
         if (teksti == null) {
-            teksti = new Teksti("Tähän tulee pong", Color.green, 200, 48);
+            teksti = new Teksti("Tähän tulee pong", Väri.green, 200, 48);
         }
     }
 

@@ -2,7 +2,7 @@ package keimo.seikkailupeli.objektit.entityt;
 
 import keimo.TarkistettavatArvot;
 import keimo.seikkailupeli.assets.KuvaObjekti;
-import keimo.seikkailupeli.objektit.PeliObjekti;
+import keimo.seikkailupeli.objektit.SuunnallinenObjekti;
 import keimo.seikkailupeli.objektit.entityt.npc.Asevihu;
 import keimo.seikkailupeli.objektit.entityt.npc.Boss;
 import keimo.seikkailupeli.objektit.entityt.npc.NPC;
@@ -13,7 +13,7 @@ import keimo.seikkailupeli.objektit.entityt.npc.Vihollinen;
 
 import java.util.ArrayList;
 
-public abstract class Entity extends PeliObjekti {
+public abstract class Entity extends SuunnallinenObjekti {
 
     public static String[] entityLista = {"Asevihu", "IsoLaatikko", "Laatikko", "Pahavihu", "Pikkuvihu", "Pomo", "TestiEntity", "Vartija"};
 
@@ -27,8 +27,7 @@ public abstract class Entity extends PeliObjekti {
     public SuuntaVasenOikea suuntaVasenOikea = SuuntaVasenOikea.VASEN;
 
     protected Entity(int sijX, int sijY) {
-        this.sijX = sijX;
-        this.sijY = sijY;
+        super(sijX, sijY, null);
         this.alkuSijX = sijX;
         this.alkuSijY = sijY;
         this.id = TarkistettavatArvot.luoNpcId();

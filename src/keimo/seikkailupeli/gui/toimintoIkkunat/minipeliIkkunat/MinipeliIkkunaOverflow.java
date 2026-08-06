@@ -1,8 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenRenderöinti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
 import keimo.keimoengine.ikkuna.Ikkuna;
@@ -11,8 +12,6 @@ import keimo.seikkailupeli.Peli.SyötteenTila;
 import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.objektit.Pelaaja;
-
-import java.awt.Color;
 
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -33,22 +32,22 @@ public class MinipeliIkkunaOverflow {
     private static long overflow32 = 0L;
     private static long overflow64 = 0L;
 
-    private static Teksti info8TekstiLuku = new Teksti("", Color.green, 400, 48);
-    private static Teksti luku8Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info8TekstiOverflow = new Teksti("", Color.green, 400, 48);
-    private static Teksti overflow8Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info16TekstiLuku = new Teksti("", Color.green, 400, 48);
-    private static Teksti luku16Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info16TekstiOverflow = new Teksti("", Color.green, 400, 48);
-    private static Teksti overflow16Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info32TekstiLuku = new Teksti("", Color.green, 400, 48);
-    private static Teksti luku32Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info32TekstiOverflow = new Teksti("", Color.green, 400, 48);
-    private static Teksti overflow32Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info64TekstiLuku = new Teksti("", Color.green, 400, 48);
-    private static Teksti luku64Teksti = new Teksti("", Color.green, 400, 48);
-    private static Teksti info64TekstiOverflow = new Teksti("", Color.green, 400, 48);
-    private static Teksti overflow64Teksti = new Teksti("", Color.green, 400, 48);
+    private static Teksti info8TekstiLuku = new Teksti("", Väri.green, 400, 48);
+    private static Teksti luku8Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info8TekstiOverflow = new Teksti("", Väri.green, 400, 48);
+    private static Teksti overflow8Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info16TekstiLuku = new Teksti("", Väri.green, 400, 48);
+    private static Teksti luku16Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info16TekstiOverflow = new Teksti("", Väri.green, 400, 48);
+    private static Teksti overflow16Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info32TekstiLuku = new Teksti("", Väri.green, 400, 48);
+    private static Teksti luku32Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info32TekstiOverflow = new Teksti("", Väri.green, 400, 48);
+    private static Teksti overflow32Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info64TekstiLuku = new Teksti("", Väri.green, 400, 48);
+    private static Teksti luku64Teksti = new Teksti("", Väri.green, 400, 48);
+    private static Teksti info64TekstiOverflow = new Teksti("", Väri.green, 400, 48);
+    private static Teksti overflow64Teksti = new Teksti("", Väri.green, 400, 48);
 
     public static void renderöiKehys(Ikkuna window, Shader peliShader) {
         float ruudunLeveys = window.getWidth();
@@ -77,82 +76,82 @@ public class MinipeliIkkunaOverflow {
         float skaalaX = 1f/8f, skaalaY = 1f/16f, skaalaZ = 1;
         float offsetX = -1f/2.5f, offsetY = 1f/2f, offsetZ = 0;
         info8TekstiLuku.päivitäTeksti("byte 8");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info8TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info8TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/2.5f; offsetY = 1f/4f; offsetZ = 0;
         luku8Teksti.päivitäTeksti("" + luku8);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, luku8Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, luku8Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/2.5f; offsetY = -1f/4f; offsetZ = 0;
         info8TekstiOverflow.päivitäTeksti("b-yliv:");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info8TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info8TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/2.5f; offsetY = -1f/2f; offsetZ = 0;
         overflow8Teksti.päivitäTeksti("" + overflow8);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, overflow8Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, overflow8Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/6f; offsetY = 1f/2f; offsetZ = 0;
         info16TekstiLuku.päivitäTeksti("short 16");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info16TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info16TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/6f; offsetY = 1f/4f; offsetZ = 0;
         luku16Teksti.päivitäTeksti("" + luku16);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, luku16Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, luku16Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/6f; offsetY = -1f/4f; offsetZ = 0;
         info16TekstiOverflow.päivitäTeksti("s-yliv:");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info16TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info16TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = -1f/6f; offsetY = -1f/2f; offsetZ = 0;
         overflow16Teksti.päivitäTeksti("" + overflow16);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, overflow16Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, overflow16Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/6f; offsetY = 1f/2f; offsetZ = 0;
         info32TekstiLuku.päivitäTeksti("int 32");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info32TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info32TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/6f; offsetY = 1f/4f; offsetZ = 0;
         luku32Teksti.päivitäTeksti("" + luku32);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, luku32Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, luku32Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/6f; offsetY = -1f/4f; offsetZ = 0;
         info32TekstiOverflow.päivitäTeksti("i-yliv:");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info32TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info32TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/6f; offsetY = -1f/2f; offsetZ = 0;
         overflow32Teksti.päivitäTeksti("" + overflow32);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, overflow32Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, overflow32Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/2.5f; offsetY = 1f/2f; offsetZ = 0;
         info64TekstiLuku.päivitäTeksti("long 64");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info64TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info64TekstiLuku, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/2.5f; offsetY = 1f/4f; offsetZ = 0;
         luku64Teksti.päivitäTeksti("" + luku64);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, luku64Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, luku64Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/2.5f; offsetY = -1f/4f; offsetZ = 0;
         info64TekstiOverflow.päivitäTeksti("l-yliv:");
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, info64TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, info64TekstiOverflow, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
 
         skaalaX = 1f/8f; skaalaY = 1f/16f; skaalaZ = 1;
         offsetX = 1f/2.5f; offsetY = -1f/2f; offsetZ = 0;
         overflow64Teksti.päivitäTeksti("" + overflow64);
-        Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, overflow64Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
+        StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, overflow64Teksti, window, skaalaX, skaalaY, skaalaZ, offsetX, offsetY, offsetZ);
     }
 
     public static void pelaa() {

@@ -27,57 +27,18 @@ public abstract class KenttäKohde extends PeliObjekti {
     protected String obj3dMallinTunniste;
     protected boolean este = false;
     public boolean tavoiteSuoritettu = false;
-    boolean vaatiiPäivityksen = true;
     public float liikeY = 0;
     protected float liikeNopeus = 4f;
     protected float pyörimisNopeus = 1f;
     protected int animaatioFrame = 0;
 
     public KenttäKohde(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
-        this.sijX = sijX;
-        this.sijY = sijY;
+        super(sijX, sijY, ominaisuusLista);
         this.objektinId = seuraavaObjektinId;
         seuraavaObjektinId++;
         this.hitbox = new Neliö(64, 64);
         this.hitbox.setLocation(sijX * 64, sijY * 64);
         this.tekstuuriObjekti = new KuvaObjekti(this.tekstuuri);
-        if (ominaisuusLista != null) {
-            for (String ominaisuus : ominaisuusLista) {
-                if (this.lisäOminaisuudet == null) this.lisäOminaisuudet = new ArrayList<>();
-                if (ominaisuus.startsWith("kääntö=")) {
-                    try {
-                        kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("virheellinen syöte: " + kääntöAsteet);
-                        e.printStackTrace();
-                        kääntöAsteet = 0;
-                    }
-                }
-                else if (ominaisuus.startsWith("x-peilaus=")) {
-                    if (ominaisuus.substring(10).startsWith("kyllä")) xPeilaus = true;
-                    else xPeilaus = false;
-                }
-                else if (ominaisuus.startsWith("y-peilaus=")) {
-                    if (ominaisuus.substring(10).startsWith("kyllä")) yPeilaus = true;
-                    else yPeilaus = false;
-                }
-            }
-            päivitäLisäOminaisuudet(ominaisuusLista);
-        }
-        else {
-            this.lisäOminaisuuksia = false;
-        }
-        asetaTiedot();
-    }
-
-    public KenttäKohde(int sijX, int sijY) {
-        this.sijX = sijX;
-        this.sijY = sijY;
-        this.objektinId = seuraavaObjektinId;
-        seuraavaObjektinId++;
-        this.hitbox = new Neliö(64, 64);
-        this.hitbox.setLocation(sijX * 64, sijY * 64);
         asetaTiedot();
     }
 
@@ -117,66 +78,61 @@ public abstract class KenttäKohde extends PeliObjekti {
         animaatioFrame++;
     }
 
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
-    }
-
     public static KenttäKohde luoObjektiTiedoilla(String objektinNimi, int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         switch (objektinNimi) {
-            case "Avain": return new Avain(sijX, sijY);
-            case "Baariovi": return new Baariovi(sijX, sijY, ominaisuusLista);
-            case "Baariruutu": return new BaariRuutu(sijX, sijY, ominaisuusLista);
-            case "Hiili": return new Hiili(sijX, sijY);
-            case "Huume": return new Huume(sijX, sijY);
-            case "Jallupullo": return new Jallupullo(sijX, sijY);
-            case "Juhani": return new Juhani(sijX, sijY, ominaisuusLista);
-            case "Jumal Velho": return new JumalVelho(sijX, sijY, ominaisuusLista);
-            case "Jumal Yoda": return new JumalYoda(sijX, sijY, ominaisuusLista);
-            case "Juomalasi": return new Juomalasi(sijX, sijY, ominaisuusLista);
-            case "Kaasupullo": return new Kaasupullo(sijX, sijY);
-            case "Kaasusytytin": return new Kaasusytytin(sijX, sijY, ominaisuusLista);
-            case "Kalja-automaatti": return new KaljaAutomaatti(sijX, sijY, ominaisuusLista);
-            case "Kartta": return new Kartta(sijX, sijY);
-            case "Kauppahylly": return new KauppaHylly(sijX, sijY, ominaisuusLista);
-            case "Kauppaovi": return new Kauppaovi(sijX, sijY, ominaisuusLista);
-            case "Kaupparuutu": return new KauppaRuutu(sijX, sijY, ominaisuusLista);
-            case "Kauppias": return new Kauppias(sijX, sijY, ominaisuusLista);
-            case "Kilpi": return new Kilpi(sijX, sijY);
-            case "Kirstu": return new Kirstu(sijX, sijY, ominaisuusLista);
-            case "Kolikko": return new Kolikko(sijX, sijY);
-            case "Koriste-esine": return new VisuaalinenObjekti(sijX, sijY, ominaisuusLista);
-            case "Koristeovi": return new KoristeOvi(sijX, sijY, ominaisuusLista);
-            case "Kuparilager": return new Kuparilager(sijX, sijY);
-            case "Kuuhahmo1": return new Kuuhahmo1(sijX, sijY, ominaisuusLista);
-            case "Kuuhahmo2": return new Kuuhahmo2(sijX, sijY, ominaisuusLista);
-            case "Kuuhahmo3": return new Kuuhahmo3(sijX, sijY, ominaisuusLista);
-            case "Makkara": return new Makkara(sijX, sijY);
-            case "Nappi": return new Nappi(sijX, sijY);
-            case "Nuotio": return new Nuotio(sijX, sijY, ominaisuusLista);
-            case "Painelaatta": return new Painelaatta(sijX, sijY, ominaisuusLista);
-            case "Paperi": return new Paperi(sijX, sijY);
-            case "Pasi": return new Pasi(sijX, sijY, ominaisuusLista);
-            case "Paskanmarjabooli": return new Paskanmarjabooli(sijX, sijY);
-            case "Paskanmarjat": return new Paskanmarjat(sijX, sijY);
-            case "Pelikone": return new Pelikone(sijX, sijY, ominaisuusLista);
-            case "Penkki": return new Puistonpenkki(sijX, sijY, ominaisuusLista);
-            case "Pesäpallomaila": return new Pesäpallomaila(sijX, sijY);
+            case "Avain":               return new Avain(sijX, sijY);
+            case "Baariovi":            return new Baariovi(sijX, sijY, ominaisuusLista);
+            case "Baariruutu":          return new BaariRuutu(sijX, sijY, ominaisuusLista);
+            case "Hiili":               return new Hiili(sijX, sijY);
+            case "Huume":               return new Huume(sijX, sijY);
+            case "Jallupullo":          return new Jallupullo(sijX, sijY);
+            case "Juhani":              return new Juhani(sijX, sijY, ominaisuusLista);
+            case "Jumal Velho":         return new JumalVelho(sijX, sijY, ominaisuusLista);
+            case "Jumal Yoda":          return new JumalYoda(sijX, sijY, ominaisuusLista);
+            case "Juomalasi":           return new Juomalasi(sijX, sijY, ominaisuusLista);
+            case "Kaasupullo":          return new Kaasupullo(sijX, sijY);
+            case "Kaasusytytin":        return new Kaasusytytin(sijX, sijY, ominaisuusLista);
+            case "Kalja-automaatti":    return new KaljaAutomaatti(sijX, sijY, ominaisuusLista);
+            case "Kartta":              return new Kartta(sijX, sijY);
+            case "Kauppahylly":         return new KauppaHylly(sijX, sijY, ominaisuusLista);
+            case "Kauppaovi":           return new Kauppaovi(sijX, sijY, ominaisuusLista);
+            case "Kaupparuutu":         return new KauppaRuutu(sijX, sijY, ominaisuusLista);
+            case "Kauppias":            return new Kauppias(sijX, sijY, ominaisuusLista);
+            case "Kilpi":               return new Kilpi(sijX, sijY);
+            case "Kirstu":              return new Kirstu(sijX, sijY, ominaisuusLista);
+            case "Kolikko":             return new Kolikko(sijX, sijY);
+            case "Koriste-esine":       return new VisuaalinenObjekti(sijX, sijY, ominaisuusLista);
+            case "Koristeovi":          return new KoristeOvi(sijX, sijY, ominaisuusLista);
+            case "Kuparilager":         return new Kuparilager(sijX, sijY);
+            case "Kuuhahmo1":           return new Kuuhahmo1(sijX, sijY, ominaisuusLista);
+            case "Kuuhahmo2":           return new Kuuhahmo2(sijX, sijY, ominaisuusLista);
+            case "Kuuhahmo3":           return new Kuuhahmo3(sijX, sijY, ominaisuusLista);
+            case "Makkara":             return new Makkara(sijX, sijY);
+            case "Nappi":               return new Nappi(sijX, sijY, ominaisuusLista);
+            case "Nuotio":              return new Nuotio(sijX, sijY, ominaisuusLista);
+            case "Painelaatta":         return new Painelaatta(sijX, sijY, ominaisuusLista);
+            case "Paperi":              return new Paperi(sijX, sijY);
+            case "Pasi":                return new Pasi(sijX, sijY, ominaisuusLista);
+            case "Paskanmarjabooli":    return new Paskanmarjabooli(sijX, sijY);
+            case "Paskanmarjat":        return new Paskanmarjat(sijX, sijY);
+            case "Pelikone":            return new Pelikone(sijX, sijY, ominaisuusLista);
+            case "Penkki":              return new Puistonpenkki(sijX, sijY, ominaisuusLista);
+            case "Pesäpallomaila":      return new Pesäpallomaila(sijX, sijY);
             case "Pontikka-ainekset", "Leivonta-ainekset": return new Ponuainekset(sijX, sijY);
-            case "Portti": return new Portti(sijX, sijY, ominaisuusLista);
-            case "Pulloautomaatti": return new Pulloautomaatti(sijX, sijY, ominaisuusLista);
-            case "Puuovi": return new PuuOvi(sijX, sijY, ominaisuusLista);
-            case "Salaovi": return new Salaovi(sijX, sijY, ominaisuusLista);
-            case "Oviruutu": return new Oviruutu(sijX, sijY, ominaisuusLista);
-            case "Seteli": return new Seteli(sijX, sijY);
-            case "Sieni": return new Sieni(sijX, sijY);
-            case "Silta": return new Silta(sijX, sijY, ominaisuusLista);
-            case "Suklaalevy": return new Suklaalevy(sijX, sijY);
-            case "Sänky": return new Sänky(sijX, sijY, ominaisuusLista);
-            case "Tynnyri": return new Tynnyri(sijX, sijY);
-            case "Vesiämpäri": return new Vesiämpäri(sijX, sijY);
-            case "Ämpärikone": return new Ämpärikone(sijX, sijY, ominaisuusLista);
-            default: return null;
+            case "Portti":              return new Portti(sijX, sijY, ominaisuusLista);
+            case "Pulloautomaatti":     return new Pulloautomaatti(sijX, sijY, ominaisuusLista);
+            case "Puuovi":              return new PuuOvi(sijX, sijY, ominaisuusLista);
+            case "Salaovi":             return new Salaovi(sijX, sijY, ominaisuusLista);
+            case "Oviruutu":            return new Oviruutu(sijX, sijY, ominaisuusLista);
+            case "Seteli":              return new Seteli(sijX, sijY);
+            case "Sieni":               return new Sieni(sijX, sijY);
+            case "Silta":               return new Silta(sijX, sijY, ominaisuusLista);
+            case "Suklaalevy":          return new Suklaalevy(sijX, sijY);
+            case "Sänky":               return new Sänky(sijX, sijY, ominaisuusLista);
+            case "Tynnyri":             return new Tynnyri(sijX, sijY);
+            case "Vesiämpäri":          return new Vesiämpäri(sijX, sijY);
+            case "Ämpärikone":          return new Ämpärikone(sijX, sijY, ominaisuusLista);
+            case null, default:         return null;
         }
     }
 
@@ -226,9 +182,15 @@ public abstract class KenttäKohde extends PeliObjekti {
             tiedot += "Tyyppi: Kiintopiste";
             if (this instanceof Säiliö) {
                 tiedot += ", Säiliö";
+                Säiliö säiliö = (Säiliö)this;
+                tiedot += "\nSisältö: " + säiliö.annaSisältö();
             }
             else if (this instanceof Lepopaikka) {
                 tiedot += ", Lepopaikka";
+            }
+            else if (this instanceof Pelikone) {
+                Pelikone pk = (Pelikone)this;
+                tiedot += "\nPeli: " + pk.annaTyyppi();
             }
             tiedot += "\n";
         }

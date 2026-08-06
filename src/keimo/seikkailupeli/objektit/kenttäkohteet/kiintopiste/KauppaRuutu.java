@@ -6,15 +6,14 @@ import java.util.ArrayList;
 
 public final class KauppaRuutu extends Kiintopiste {
 
-    public KauppaRuutu (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public KauppaRuutu(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Kaupparuutu";
         super.tiedostonNimi = "kaupparuutu.png";
         super.tekstuuri = Assets.annaTekstuuri("kaupparuutu");
-        super.dialogiTekstuuri = Assets.annaTekstuuri("kauppias_dialogi");
+        super.dialogiTekstuuri = Assets.annaDialogiTekstuuri("dialogi_kauppias");
         super.katsomisTeksti = "Kylien kauppias";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

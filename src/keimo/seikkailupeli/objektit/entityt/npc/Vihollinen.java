@@ -92,7 +92,7 @@ public abstract class Vihollinen extends NPC {
 
     public void päivitäLisäOminaisuudet() {
         if (this.lisäOminaisuudet != null) {
-            this.lisäOminaisuuksia = true;
+            //this.lisäOminaisuuksia = true;
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("liiketapa="));
             this.lisäOminaisuudet.add("liiketapa=" + liikeTapa);
             this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("suunta="));

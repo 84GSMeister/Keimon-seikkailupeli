@@ -1,8 +1,8 @@
 package keimo.seikkailupeli.gui.hud;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.objekti2d.Transform;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
@@ -16,12 +16,11 @@ import keimo.seikkailupeli.objektit.kenttäkohteet.VisuaalinenObjekti;
 import keimo.seikkailupeli.objektit.kenttäkohteet.avattavaEste.AvattavaEste;
 import keimo.seikkailupeli.objektit.kenttäkohteet.esine.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kenttäNPC.NPC_KenttäKohde;
+import keimo.seikkailupeli.objektit.kenttäkohteet.kerättävä.Kerättävä;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.triggeri.Nappi;
 import keimo.seikkailupeli.objektit.kenttäkohteet.triggeri.Triggeri;
 import keimo.seikkailupeli.objektit.kenttäkohteet.warp.Warp;
-
-import java.awt.Color;
 
 import org.joml.Vector4f;
 
@@ -58,8 +57,8 @@ public class NäppäinVinkkiTekstit {
     private static Shader staattinenShader = Assets.annaShader("staattinen");
     private static Shader tekstiShaderYlempi = Assets.annaShader("teksti");
     private static Shader tekstiShaderAlempi = Assets.annaShader("teksti2");
-    private static Tekstuuri virheTekstuuri = new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png");
-    private static Teksti näppäinVihjeTeksti = new Teksti("näppäin", Color.white, 900, 48);
+    private static Renderöitävä virheTekstuuri = Assets.annaTekstuuri("vakio");
+    private static Teksti näppäinVihjeTeksti = new Teksti("näppäin", Väri.white, 900, 48);
     private static Renderöitävä vinkkiPohjaTekstuuri = Assets.annaTekstuuri("vinkki_teksti_pohja");
     private static int käytettävänEsineenVinkkiAjastin = 150;
     private static Esine viimeisinEsine;
@@ -80,14 +79,14 @@ public class NäppäinVinkkiTekstit {
         
         if (objektiKohdalla instanceof Esine) {
             String teksti = "";
-            Color väri;
+            Väri väri;
             if (Pelaaja.annaEsineidenMäärä() >= Pelaaja.esineet.length) {
                 teksti = "Tavaraluettelo täynnä!";
-                väri = Color.red;
+                väri = Väri.red;
             }
             else {
                 teksti = "Poimi";
-                väri = Color.white;
+                väri = Väri.white;
             }
             renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, teksti, 0, väri, 0, 36, camera, transform);
             renderöiAlempiVinkki(Näppäimet.NÄPPÄIN_C_OHJAIN_VASEN, "Katso", camera, transform);
@@ -132,14 +131,14 @@ public class NäppäinVinkkiTekstit {
             }
             else if (objektiKohdalla instanceof KauppaRuutu || objektiKohdalla instanceof BaariRuutu) {
                 String teksti = "";
-                Color väri;
+                Väri väri;
                 if (Pelaaja.annaEsineidenMäärä() >= 6) {
                     teksti = "Tavaraluettelo täynnä!";
-                    väri = Color.red;
+                    väri = Väri.red;
                 }
                 else {
                     teksti = "Asioi";
-                    väri = Color.white;
+                    väri = Väri.white;
                 }
                 renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, teksti, 0, väri, 0, 36, camera, transform);
             }
@@ -183,6 +182,9 @@ public class NäppäinVinkkiTekstit {
         else if (objektiKohdalla instanceof AvattavaEste) {
             
         }
+        else if (objektiKohdalla instanceof Kerättävä) {
+            
+        }
         else if (objektiKohdalla instanceof Warp) {
             Warp warp = (Warp)objektiKohdalla;
             int kääntöAsteet = 0;
@@ -193,7 +195,7 @@ public class NäppäinVinkkiTekstit {
                 case YLÖS: kääntöAsteet = 0; break;
                 default: break;
             }
-            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_NUOLI_OHJAIN_ANALOG, "", kääntöAsteet, Color.white, 0, 36, camera, transform);
+            renderöiYlempiVinkki(Näppäimet.NÄPPÄIN_NUOLI_OHJAIN_ANALOG, "", kääntöAsteet, Väri.white, 0, 36, camera, transform);
         }
         else {
             renderöiKeskiVinkki(Näppäimet.NÄPPÄIN_E_OHJAIN_ALA, "Katso", camera, transform);
@@ -231,10 +233,10 @@ public class NäppäinVinkkiTekstit {
     }
 
     private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, Kamera camera, Transform transform) {
-        renderöiYlempiVinkki(näppäin, teksti, 0, Color.white, 0, 36, camera, transform);
+        renderöiYlempiVinkki(näppäin, teksti, 0, Väri.white, 0, 36, camera, transform);
     }
 
-    private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, int kääntöAsteet, Color väri, int tekstiTyyppi, int tekstinKoko, Kamera camera, Transform transform) {
+    private static void renderöiYlempiVinkki(Näppäimet näppäin, String teksti, int kääntöAsteet, Väri väri, int tekstiTyyppi, int tekstinKoko, Kamera camera, Transform transform) {
         staattinenShader.bind();
         float scaleXTeksti = 7f;
         float scaleYTeksti = 0.5f;

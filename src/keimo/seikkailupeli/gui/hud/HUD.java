@@ -1,16 +1,11 @@
 package keimo.seikkailupeli.gui.hud;
 
-import java.awt.Color;
-import java.text.DecimalFormat;
-
-import org.joml.Matrix4f;
-import org.joml.Vector4f;
-
 import keimo.keimoengine.Kello;
 import keimo.keimoengine.fontit.KeimoFontit;
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Kamera;
 import keimo.keimoengine.ikkuna.Ikkuna;
@@ -21,6 +16,11 @@ import keimo.seikkailupeli.gui.toimintoIkkunat.PullonPalautusIkkuna;
 import keimo.seikkailupeli.gui.toimintoIkkunat.ÄmpäriJonoIkkuna;
 import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.toiminnot.Dialogit;
+
+import java.text.DecimalFormat;
+
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 public class HUD {
 
@@ -33,46 +33,46 @@ public class HUD {
     // Pohja
     private static Renderöitävä taustaOhjeTekstuuri = Assets.annaTekstuuri("hud_paneeli_tyhjä");
     private static Renderöitävä taustaTavaraluetteloTekstuuri = Assets.annaTekstuuri("hud_paneeli_tavaraluettelo");
-    private static StaattinenKomponentti hudPohjaVasenYläLabel = new StaattinenKomponentti(1f/6f, 1f/3f, -5f/6f, 2f/3f, taustaOhjeTekstuuri);
-    private static StaattinenKomponentti hudPohjaVasenKeskiLabel = new StaattinenKomponentti(1f/6f, 1f/3f, -5f/6f, 0, taustaOhjeTekstuuri);
-    private static StaattinenKomponentti hudPohjaVasenAlaLabel = new StaattinenKomponentti(1f/6f, 1f/3f, -5f/6f, -2f/3f, taustaTavaraluetteloTekstuuri);
-    private static StaattinenKomponentti hudPohjaOikeaYläLabel = new StaattinenKomponentti(1f/6f, 1f/3f, 5f/6f, 2f/3f, taustaOhjeTekstuuri);
-    private static StaattinenKomponentti hudPohjaOikeaKeskiLabel = new StaattinenKomponentti(1f/6f, 1f/3f, 5f/6f, 0, taustaOhjeTekstuuri);
-    private static StaattinenKomponentti hudPohjaOikeaAlaLabel = new StaattinenKomponentti(1f/6f, 1f/3f, 5f/6f, -2f/3f, taustaOhjeTekstuuri);
+    private static LabelKomponentti hudPohjaVasenYläLabel = new LabelKomponentti(1f/6f, 1f/3f, -5f/6f, 2f/3f, taustaOhjeTekstuuri);
+    private static LabelKomponentti hudPohjaVasenKeskiLabel = new LabelKomponentti(1f/6f, 1f/3f, -5f/6f, 0, taustaOhjeTekstuuri);
+    private static LabelKomponentti hudPohjaVasenAlaLabel = new LabelKomponentti(1f/6f, 1f/3f, -5f/6f, -2f/3f, taustaTavaraluetteloTekstuuri);
+    private static LabelKomponentti hudPohjaOikeaYläLabel = new LabelKomponentti(1f/6f, 1f/3f, 5f/6f, 2f/3f, taustaOhjeTekstuuri);
+    private static LabelKomponentti hudPohjaOikeaKeskiLabel = new LabelKomponentti(1f/6f, 1f/3f, 5f/6f, 0, taustaOhjeTekstuuri);
+    private static LabelKomponentti hudPohjaOikeaAlaLabel = new LabelKomponentti(1f/6f, 1f/3f, 5f/6f, -2f/3f, taustaOhjeTekstuuri);
 
     // HP & Juomat
     private static Renderöitävä hpTekstuuri = Assets.annaTekstuuri("hud_hp");
     private static Renderöitävä juomatTekstuuri = Assets.annaTekstuuri("hud_juomat");
-    private static Teksti hpTeksti = new Teksti("HP", Color.black, 100, 48, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti juomatTeksti = new Teksti("Juomat", Color.black, 200, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti hpTeksti = new Teksti("HP", Väri.black, 100, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti juomatTeksti = new Teksti("Juomat", Väri.black, 200, 48, KeimoFontit.fontti_keimo_36, true);
     private static Renderöitävä ruokaTekstuuri = Assets.annaTekstuuri("hud_ruoka");
     private static Renderöitävä pelaajaStatus0Tekstuuri = Assets.annaTekstuuri("hud_pelaaja0");
     private static Renderöitävä pelaajaStatus1Tekstuuri = Assets.annaTekstuuri("hud_pelaaja1");
     private static Renderöitävä pelaajaStatus2Tekstuuri = Assets.annaTekstuuri("hud_pelaaja2");
     private static Renderöitävä pelaajaStatus3Tekstuuri = Assets.annaTekstuuri("hud_pelaaja3");
     private static Renderöitävä pelaajaStatus4Tekstuuri = Assets.annaTekstuuri("hud_pelaaja_ylensyönti");
-    private static Teksti syödytRuoatTeksti = new Teksti("" + Pelaaja.syödytRuoat, Color.black, 100, 48, KeimoFontit.fontti_keimo_36, true);
-    private static StaattinenKomponentti hpKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 5f/6f, hpTekstuuri);
-    private static StaattinenKomponentti hpTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 5f/6f, hpTeksti);
-    private static StaattinenKomponentti juomatKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 4f/6f, juomatTekstuuri);
-    private static StaattinenKomponentti juomatTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 4f/6f, juomatTeksti);
-    private static StaattinenKomponentti pelaajaKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 3f/6f, pelaajaStatus0Tekstuuri);
-    private static StaattinenKomponentti ruokaKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 3f/6f, ruokaTekstuuri);
-    private static StaattinenKomponentti ruokaTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 3f/6f, syödytRuoatTeksti);
+    private static Teksti syödytRuoatTeksti = new Teksti("" + Pelaaja.syödytRuoat, Väri.black, 100, 48, KeimoFontit.fontti_keimo_36, true);
+    private static LabelKomponentti hpKuvakeLabel = new LabelKomponentti(1f/24f, 1f/15f, -22f/24f, 5f/6f, hpTekstuuri);
+    private static LabelKomponentti hpTekstiLabel = new LabelKomponentti(1f/12f, 1f/15f, -19f/24f, 5f/6f, hpTeksti);
+    private static LabelKomponentti juomatKuvakeLabel = new LabelKomponentti(1f/24f, 1f/15f, -22f/24f, 4f/6f, juomatTekstuuri);
+    private static LabelKomponentti juomatTekstiLabel = new LabelKomponentti(1f/12f, 1f/15f, -19f/24f, 4f/6f, juomatTeksti);
+    private static LabelKomponentti pelaajaKuvakeLabel = new LabelKomponentti(1f/24f, 1f/15f, -22f/24f, 3f/6f, pelaajaStatus0Tekstuuri);
+    private static LabelKomponentti ruokaKuvakeLabel = new LabelKomponentti(1f/24f, 1f/15f, -22f/24f, 3f/6f, ruokaTekstuuri);
+    private static LabelKomponentti ruokaTekstiLabel = new LabelKomponentti(1f/12f, 1f/15f, -19f/24f, 3f/6f, syödytRuoatTeksti);
 
     // Statsit
     private static Renderöitävä aikaTekstuuri = Assets.annaTekstuuri("hud_aika");
     private static Renderöitävä rahaTekstuuri = Assets.annaTekstuuri("hud_rahet");
     private static Renderöitävä tölksTekstuuri = Assets.annaTekstuuri("hud_tölks");
-    private static Teksti aikaTeksti = new Teksti("aika", Color.black, 500, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti rahaTeksti = new Teksti("" + Pelaaja.raha, Color.black, 180, 100, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti tölksTeksti = new Teksti("" + Pelaaja.kuparit, Color.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
-    private static StaattinenKomponentti aikaKuvakeLabel = new StaattinenKomponentti(1f/24f, 1f/15f, -22f/24f, 1f/6f, aikaTekstuuri);
-    private static StaattinenKomponentti aikaTekstiLabel = new StaattinenKomponentti(1f/12f, 1f/15f, -19f/24f, 1f/6f, aikaTeksti);
-    private static StaattinenKomponentti rahetKuvakeLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -27f/30f, 0, rahaTekstuuri);
-    private static StaattinenKomponentti rahetTekstiLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -23f/30f, 0, rahaTeksti);
-    private static StaattinenKomponentti tölksKuvakeLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -27f/30f, -1f/6f, tölksTekstuuri);
-    private static StaattinenKomponentti tölksTekstiLabel = new StaattinenKomponentti(1f/15f, 1f/15f, -23f/30f, -1f/6f, tölksTeksti);
+    private static Teksti aikaTeksti = new Teksti("aika", Väri.black, 500, 100, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti rahaTeksti = new Teksti("" + Pelaaja.raha, Väri.black, 180, 100, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti tölksTeksti = new Teksti("" + Pelaaja.kuparit, Väri.black, 120, 100, KeimoFontit.fontti_keimo_36, true);
+    private static LabelKomponentti aikaKuvakeLabel = new LabelKomponentti(1f/24f, 1f/15f, -22f/24f, 1f/6f, aikaTekstuuri);
+    private static LabelKomponentti aikaTekstiLabel = new LabelKomponentti(1f/12f, 1f/15f, -19f/24f, 1f/6f, aikaTeksti);
+    private static LabelKomponentti rahetKuvakeLabel = new LabelKomponentti(1f/15f, 1f/15f, -27f/30f, 0, rahaTekstuuri);
+    private static LabelKomponentti rahetTekstiLabel = new LabelKomponentti(1f/15f, 1f/15f, -23f/30f, 0, rahaTeksti);
+    private static LabelKomponentti tölksKuvakeLabel = new LabelKomponentti(1f/15f, 1f/15f, -27f/30f, -1f/6f, tölksTekstuuri);
+    private static LabelKomponentti tölksTekstiLabel = new LabelKomponentti(1f/15f, 1f/15f, -23f/30f, -1f/6f, tölksTeksti);
 
     // Tavaraluettelo
     private static Teksti tavaraluetteloTeksti = new Teksti("Tavaraluettelo", 550, 48);
@@ -86,20 +86,20 @@ public class HUD {
     private static Renderöitävä tavarapaikka1Tekstuuri4 = Assets.annaTekstuuri("hud_tavarapaikka_4");
     private static Renderöitävä tavarapaikka1Tekstuuri5 = Assets.annaTekstuuri("hud_tavarapaikka_5");
     private static Renderöitävä tavarapaikka1Tekstuuri6 = Assets.annaTekstuuri("hud_tavarapaikka_6");
-    private static StaattinenKomponentti tavaraluetteloOtsikkoLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, -5f/6f, -4f/9f, tavaraluetteloTeksti);
-    private static StaattinenKomponentti valittuEsineTekstiLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, -5f/6f, -8f/9f, valittuEsineTeksti);
-    private static StaattinenKomponentti tavarapaikka1Label = new StaattinenKomponentti(1f/24f, 1f/15f, -11f/12f, -9f/15f, tavarapaikka1Tekstuuri1);
-    private static StaattinenKomponentti tavarapaikka2Label = new StaattinenKomponentti(1f/24f, 1f/15f, -5f/6f, -9f/15f, tavarapaikka1Tekstuuri2);
-    private static StaattinenKomponentti tavarapaikka3Label = new StaattinenKomponentti(1f/24f, 1f/15f, -3f/4f, -9f/15f, tavarapaikka1Tekstuuri3);
-    private static StaattinenKomponentti tavarapaikka4Label = new StaattinenKomponentti(1f/24f, 1f/15f, -11f/12f, -11f/15f, tavarapaikka1Tekstuuri4);
-    private static StaattinenKomponentti tavarapaikka5Label = new StaattinenKomponentti(1f/24f, 1f/15f, -5f/6f, -11f/15f, tavarapaikka1Tekstuuri5);
-    private static StaattinenKomponentti tavarapaikka6Label = new StaattinenKomponentti(1f/24f, 1f/15f, -3f/4f, -11f/15f, tavarapaikka1Tekstuuri6);
-    private static StaattinenKomponentti valittuTavarapaikkaLabel = new StaattinenKomponentti(1f/24f, 1f/12f, 0, 0, valittuSlotTekstuuri);
-    private static StaattinenKomponentti yhdistettäväTavarapaikkaLabel = new StaattinenKomponentti(1f/24f, 1f/12f, 0, 0, yhdistettäväSlotTekstuuri);
+    private static LabelKomponentti tavaraluetteloOtsikkoLabel = new LabelKomponentti(1f/7.5f, 1f/18f, -5f/6f, -4f/9f, tavaraluetteloTeksti);
+    private static LabelKomponentti valittuEsineTekstiLabel = new LabelKomponentti(1f/7.5f, 1f/18f, -5f/6f, -8f/9f, valittuEsineTeksti);
+    private static LabelKomponentti tavarapaikka1Label = new LabelKomponentti(1f/24f, 1f/15f, -11f/12f, -9f/15f, tavarapaikka1Tekstuuri1);
+    private static LabelKomponentti tavarapaikka2Label = new LabelKomponentti(1f/24f, 1f/15f, -5f/6f, -9f/15f, tavarapaikka1Tekstuuri2);
+    private static LabelKomponentti tavarapaikka3Label = new LabelKomponentti(1f/24f, 1f/15f, -3f/4f, -9f/15f, tavarapaikka1Tekstuuri3);
+    private static LabelKomponentti tavarapaikka4Label = new LabelKomponentti(1f/24f, 1f/15f, -11f/12f, -11f/15f, tavarapaikka1Tekstuuri4);
+    private static LabelKomponentti tavarapaikka5Label = new LabelKomponentti(1f/24f, 1f/15f, -5f/6f, -11f/15f, tavarapaikka1Tekstuuri5);
+    private static LabelKomponentti tavarapaikka6Label = new LabelKomponentti(1f/24f, 1f/15f, -3f/4f, -11f/15f, tavarapaikka1Tekstuuri6);
+    private static LabelKomponentti valittuTavarapaikkaLabel = new LabelKomponentti(1f/24f, 1f/12f, 0, 0, valittuSlotTekstuuri);
+    private static LabelKomponentti yhdistettäväTavarapaikkaLabel = new LabelKomponentti(1f/24f, 1f/12f, 0, 0, yhdistettäväSlotTekstuuri);
 
     // Kartta
-    private static Teksti alueTeksti = new Teksti("Alue", Color.black, 192, 48, KeimoFontit.fontti_keimo_36, true);
-    private static Teksti huoneTeksti = new Teksti("Huone", Color.black, 192, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti alueTeksti = new Teksti("Alue", Väri.black, 192, 48, KeimoFontit.fontti_keimo_36, true);
+    private static Teksti huoneTeksti = new Teksti("Huone", Väri.black, 192, 48, KeimoFontit.fontti_keimo_36, true);
     private static Renderöitävä karttaTekstuuri;
     private static Renderöitävä pelaajaKartallaKuvake = Assets.annaTekstuuri("kartta_pelaajakuvake");
     private static Renderöitävä karttaAsuintalotTekstuuri = Assets.annaTekstuuri("kartta_asuintalot");
@@ -116,28 +116,28 @@ public class HUD {
     private static Renderöitävä karttaTemppeliBossTekstuuri = Assets.annaTekstuuri("kartta_temppeli_boss");
     private static Renderöitävä karttaYokyläTekstuuri = Assets.annaTekstuuri("kartta_yo-kylä");
     private static Renderöitävä eiKarttaaTekstuuri = Assets.annaTekstuuri("kartta_eikarttaa");
-    private static StaattinenKomponentti alueLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, 5f/6f, 8f/9f, alueTeksti);
-    private static StaattinenKomponentti karttaLabel = new StaattinenKomponentti(1f/7.5f, 1f/6f, 5f/6f, 2f/3f, karttaTekstuuri);
-    private static StaattinenKomponentti huoneLabel = new StaattinenKomponentti(1f/7.5f, 1f/18f, 5f/6f, 4f/9f, huoneTeksti);
-    private static StaattinenKomponentti pelaajanKuvakeLabel = new StaattinenKomponentti(1f/32f, 1f/32f, 5f/6f, 2f/3f, pelaajaKartallaKuvake);
+    private static LabelKomponentti alueLabel = new LabelKomponentti(1f/7.5f, 1f/18f, 5f/6f, 8f/9f, alueTeksti);
+    private static LabelKomponentti karttaLabel = new LabelKomponentti(1f/7.5f, 1f/6f, 5f/6f, 2f/3f, karttaTekstuuri);
+    private static LabelKomponentti huoneLabel = new LabelKomponentti(1f/7.5f, 1f/18f, 5f/6f, 4f/9f, huoneTeksti);
+    private static LabelKomponentti pelaajanKuvakeLabel = new LabelKomponentti(1f/32f, 1f/32f, 5f/6f, 2f/3f, pelaajaKartallaKuvake);
 
     // Tavoitelaatikko
     private static Renderöitävä taustaTavoitelistaTekstuuri = Assets.annaTekstuuri("hud_seuraava_tavoite");
-    private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", Color.black, 1000, 48);
-    private static StaattinenKomponentti tavoitelaatikkoKehysLabel = new StaattinenKomponentti(2f/3f, 1f/12f, 0, 11f/12f, taustaTavoitelistaTekstuuri);
-    private static StaattinenKomponentti seuraavaTavoiteLabel = new StaattinenKomponentti(1.75f/3f, 1f/27.5f, 0, 8f/9f, seuraavaTavoiteTeksti);
+    private static Teksti seuraavaTavoiteTeksti = new Teksti("Tavoite", Väri.black, 1000, 48);
+    private static LabelKomponentti tavoitelaatikkoKehysLabel = new LabelKomponentti(2f/3f, 1f/12f, 0, 11f/12f, taustaTavoitelistaTekstuuri);
+    private static LabelKomponentti seuraavaTavoiteLabel = new LabelKomponentti(1.75f/3f, 1f/27.5f, 0, 8f/9f, seuraavaTavoiteTeksti);
 
     // Dialogilaatikko
     private static Renderöitävä dialogiKuvakeKehysTekstuuri = Assets.annaTekstuuri("dialogi_kuvake_kehys");
     private static Renderöitävä dialogiTekstiKehysTekstuuri = Assets.annaTekstuuri("dialogi_teksti_kehys");
     private static Renderöitävä dialogiNimiKehysTekstuuri = Assets.annaTekstuuri("dialogi_nimi_kehys");
-    private static StaattinenKomponentti dialogiPohjaLabel = new StaattinenKomponentti(2f/3f, 1f/6f, 0, -5f/6f, tyhjäTekstuuri);
-    private static StaattinenKomponentti dialogiKuvakeKehysLabel = new StaattinenKomponentti(1f/6f, 1f/6f, -1f/2f, -5f/6f, dialogiKuvakeKehysTekstuuri);
-    private static StaattinenKomponentti dialogiKuvakeLabel = new StaattinenKomponentti(3f/20f, 3f/20f, -1f/2f, -5f/6f);
-    private static StaattinenKomponentti dialogiTekstiKehysLabel = new StaattinenKomponentti(1f/2f, 1f/8f, 1f/6f, -7f/8f, dialogiTekstiKehysTekstuuri);
-    private static StaattinenKomponentti dialogiTekstiLabel = new StaattinenKomponentti(29f/60f, 9f/80f, 1f/6f, -7f/8f);
-    private static StaattinenKomponentti dialogiPuhujaKehysLabel = new StaattinenKomponentti(1f/2f, 1f/24f, 1f/6f, -17/24f, dialogiNimiKehysTekstuuri);
-    private static StaattinenKomponentti dialogiPuhujaLabel = new StaattinenKomponentti(29f/60f, 3f/80f, 1f/6f, -17f/24f);
+    private static LabelKomponentti dialogiPohjaLabel = new LabelKomponentti(2f/3f, 1f/6f, 0, -5f/6f, tyhjäTekstuuri);
+    private static LabelKomponentti dialogiKuvakeKehysLabel = new LabelKomponentti(1f/6f, 1f/6f, -1f/2f, -5f/6f, dialogiKuvakeKehysTekstuuri);
+    private static LabelKomponentti dialogiKuvakeLabel = new LabelKomponentti(3f/20f, 3f/20f, -1f/2f, -5f/6f);
+    private static LabelKomponentti dialogiTekstiKehysLabel = new LabelKomponentti(1f/2f, 1f/8f, 1f/6f, -7f/8f, dialogiTekstiKehysTekstuuri);
+    private static LabelKomponentti dialogiTekstiLabel = new LabelKomponentti(29f/60f, 9f/80f, 1f/6f, -7f/8f);
+    private static LabelKomponentti dialogiPuhujaKehysLabel = new LabelKomponentti(1f/2f, 1f/24f, 1f/6f, -17/24f, dialogiNimiKehysTekstuuri);
+    private static LabelKomponentti dialogiPuhujaLabel = new LabelKomponentti(29f/60f, 3f/80f, 1f/6f, -17f/24f);
 
     private static void alustaHUDGrafiikat() {
         if (!hudGrafiikatAlustettu) {
@@ -206,11 +206,11 @@ public class HUD {
 
     private static void renderöiHp(Shader shader, Ikkuna window) {
         hpKuvakeLabel.renderöi(shader, window);
-        hpTeksti.päivitäTeksti("" + Pelaaja.hp, 0, 50, Color.black);
+        hpTeksti.päivitäTeksti("" + Pelaaja.hp, 0, 50, Väri.black);
         hpTekstiLabel.renderöi(shader, window);
 
         juomatKuvakeLabel.renderöi(shader, window);
-        juomatTeksti.päivitäTeksti(kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat*(1.5f/4f)) + "‰", 0, 50, Color.black);
+        juomatTeksti.päivitäTeksti(kaksiDesimaalia.format(Pelaaja.känninVoimakkuusFloat*(1.5f/4f)) + "‰", 0, 50, Väri.black);
         juomatTekstiLabel.renderöi(shader, window);
 
         ruokaKuvakeLabel.renderöi(shader, window);

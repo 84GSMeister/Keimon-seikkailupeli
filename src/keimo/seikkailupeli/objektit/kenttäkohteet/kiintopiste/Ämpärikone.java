@@ -13,7 +13,6 @@ public final class Ämpärikone extends Kiintopiste {
         super.tekstuuri = Assets.annaTekstuuri("ämpärikone");
         super.katsomisTeksti = "Täältä saa ilmaisia ämpäreitä";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

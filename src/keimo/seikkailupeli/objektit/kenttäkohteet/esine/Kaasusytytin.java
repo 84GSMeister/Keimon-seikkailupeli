@@ -13,8 +13,6 @@ public final class Kaasusytytin extends Esine {
         this.nimi = "Kaasusytytin";
         String toimivuus = "tyhjä";
         if (ominaisuusLista != null) {
-            this.lisäOminaisuuksia = true;
-            this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("toimivuus=")) {
                     toimivuus = ominaisuus.substring(10);
@@ -26,6 +24,7 @@ public final class Kaasusytytin extends Esine {
         super.liikeNopeus = 6f;
         super.pyörimisNopeus = 2f;
         super.hinta = 12.9;
+        päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -66,10 +65,14 @@ public final class Kaasusytytin extends Esine {
         }
     }
 
+    private void päivitäLisäOminaisuudet() {
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("toimivuus="));
+        this.lisäOminaisuudet.add("toimivuus=" + (this.toimiva ? "toimiva" : "tyhjä"));
+    }
+
     public void asetaToimivuus(String toimivuus) {
         this.kelvollisetYhdistettävät.clear();
         this.sopiiKäytettäväksi.clear();
-        this.lisäOminaisuuksia = true;
         this.lisäOminaisuudet = new ArrayList<>();
         switch (toimivuus) {
             case "tyhjä":

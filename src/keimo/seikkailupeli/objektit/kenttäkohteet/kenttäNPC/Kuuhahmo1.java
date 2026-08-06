@@ -14,7 +14,6 @@ public class Kuuhahmo1 extends NPC_KenttäKohde{
         super.tekstuuri = Assets.annaTekstuuri("kuuhahmo1");
         super.katsomisTeksti = "Erikoinen, mutta harmittoman oloinen kaveri";
         super.dialogit.add("vakio");
-        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -44,7 +43,7 @@ public class Kuuhahmo1 extends NPC_KenttäKohde{
                 Dialogit.avaaDialogi(this.annaTekstuuri(), this.haeDialogiTeksti("yee"), this.annaNimi());
             }
             case null, default -> {
-                Dialogit.avaaDialogi("", "Objektille " + this.annaNimi() + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
+                Dialogit.avaaDialogi(this.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
             }
         }
     }

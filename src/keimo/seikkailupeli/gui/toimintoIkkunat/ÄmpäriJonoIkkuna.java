@@ -1,10 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.Tekstuuri;
 import keimo.keimoengine.grafiikat.guikomponentit.Latauspalkki;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -17,21 +17,20 @@ import keimo.seikkailupeli.objektit.kenttäkohteet.esine.Vesiämpäri;
 import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.Ämpärikone;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 
-import java.awt.Color;
 import java.util.Random;
 
 public class ÄmpäriJonoIkkuna {
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("ikkuna_kehys_musta");
     private static Renderöitävä taustaTekstuuri = Assets.annaTekstuuri("toimintoikkuna_ämpärijono");
-    private static Teksti ämpäriJonoTeksti = new Teksti("Jonossa", Color.black, 900, 48);
-    private static Teksti ohjeTeksti = new Teksti("Poistu", Color.black, 500, 48);
-    private static Tekstuuri surunaamaTekstuuri;
-    private static Tekstuuri keimoTekstuuri;
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
-    private static StaattinenKomponentti taustaLabel = new StaattinenKomponentti(0.4f, 0.4f, 0, 0, taustaTekstuuri);
-    private static StaattinenKomponentti OhjeLabel;
+    private static Teksti ämpäriJonoTeksti;
+    private static Teksti ohjeTeksti;
+    private static Renderöitävä surunaamaTekstuuri = Assets.annaTekstuuri("surunaama");
+    private static Renderöitävä keimoTekstuuri = Assets.annaDialogiTekstuuri("dialogi_keimo");
+    private static LabelKomponentti kehysKomponentti = new LabelKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
+    private static LabelKomponentti taustaLabel = new LabelKomponentti(0.4f, 0.4f, 0, 0, taustaTekstuuri);
+    private static LabelKomponentti OhjeLabel;
     private static Latauspalkki edistymispalkki = new Latauspalkki(1f/3f, 0.05f, 0.0f, -0.2f);
-    private static StaattinenKomponentti jonossaLabel;
+    private static LabelKomponentti jonossaLabel;
 
     private static Random r = new Random();
     private static String statusTeksti = "Jonotetaan";
@@ -44,12 +43,12 @@ public class ÄmpäriJonoIkkuna {
     private static float venytäX;
 
     public static void alustaGrafiikat() {
-        ämpäriJonoTeksti = new Teksti("Jonossa", Color.black, 900, 48);
-        ohjeTeksti = new Teksti("Poistu", Color.black, 500, 48);
-        surunaamaTekstuuri = new Tekstuuri("tiedostot/kuvat/surunaama.png");
-        keimoTekstuuri = new Tekstuuri("tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png");
-        OhjeLabel = new StaattinenKomponentti(0.15f, 0.05f, 0.15f, 0.2f, ohjeTeksti);
-        jonossaLabel = new StaattinenKomponentti(1f/3f, 0.05f, 0, -0.1f, ämpäriJonoTeksti);
+        ämpäriJonoTeksti = new Teksti("Jonossa", Väri.black, 900, 48);
+        ohjeTeksti = new Teksti("Poistu", Väri.black, 500, 48);
+        OhjeLabel = new LabelKomponentti(0.15f, 0.05f, 0.15f, 0.2f, ohjeTeksti);
+        jonossaLabel = new LabelKomponentti(1f/3f, 0.05f, 0, -0.1f, ämpäriJonoTeksti);
+        ämpäriJonoTeksti = new Teksti("Jonossa", Väri.black, 900, 48);
+        ohjeTeksti = new Teksti("Poistu", Väri.black, 500, 48);
     }
     
     public static void renderöiIkkuna(Shader peliShader, Ikkuna window) {
@@ -65,10 +64,12 @@ public class ÄmpäriJonoIkkuna {
 
         if (venytäX >= 1) {
             ohjeTeksti.päivitäTeksti((Peli.viimeisinSyöteLaite == SyöteLaitteet.NÄPPÄIMISTÖ ? "Space: " : "A: ") + "Poistu");
+            OhjeLabel.päivitäSisältö(ohjeTeksti);
             OhjeLabel.renderöi(peliShader, window);
             edistymispalkki.päivitäLatausProsentti(100f * ((float)(ämpäriJononPituusAlussa-ämpäriJononPituus) / (float)ämpäriJononPituusAlussa));
             edistymispalkki.renderöi(peliShader, window);
             ämpäriJonoTeksti.päivitäTeksti(statusTeksti);
+            jonossaLabel.päivitäSisältö(ämpäriJonoTeksti);
             jonossaLabel.renderöi(peliShader, window);
         }
     }

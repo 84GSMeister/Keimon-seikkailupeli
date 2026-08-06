@@ -5,54 +5,32 @@ import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.keimoengine.assets.EngineAssets;
 
-import org.joml.Matrix4f;
+import org.joml.AxisAngle4f;
 import org.joml.Vector4f;
 
 /**
  * Komponentti, jolle voidaan määrittää toiminto klikatessa. 
  */
 
-public class Nappi {
+public class Nappi extends Komponentti {
 
     protected int minX, minY;
     protected int maxX, maxY;
-    protected float scaleX, scaleY;
-    protected float offsetX, offsetY;
-    protected Renderöitävä tekstuuri;
     protected boolean hover;
     protected Ikkuna window;
     protected TooltipTeksti tooltipTeksti;
 
     public Nappi(float scaleX, float scaleY, float offsetX, float offsetY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+        super(scaleX, scaleY, offsetX, offsetY);
     }
 
     public Nappi(float scaleX, float scaleY, float offsetX, float offsetY, Renderöitävä tekstuuri) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.tekstuuri = tekstuuri;
+        super(scaleX, scaleY, offsetX, offsetY, tekstuuri);
     }
 
     public Nappi(float scaleX, float scaleY, float offsetX, float offsetY, Renderöitävä tekstuuri, TooltipTeksti tooltipTeksti) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.tekstuuri = tekstuuri;
+        this(scaleX, scaleY, offsetX, offsetY, tekstuuri);
         this.tooltipTeksti = tooltipTeksti;
-    }
-
-    public Renderöitävä annaSisältö() {
-        return tekstuuri;
-    }
-
-    public void päivitäSisältö(Renderöitävä tekstuuri) {
-        this.tekstuuri = tekstuuri;
     }
     
     public boolean hiiriSisällä(int hiiriX, int hiiriY) {
@@ -83,43 +61,39 @@ public class Nappi {
         hover = false;
     }
 
-    public void muutaKokoa(float scaleX, float scaleY, float offsetX, float offsetY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-    }
-
-    public void muutaOffsetX(float offsetX) {
-        this.offsetX = offsetX;
-    }
-
-    public void muutaOffsetY(float offsetY) {
-        this.offsetY = offsetY;
-    }
-
-    public void muutaSisältöä(Renderöitävä tekstuuri) {
-        this.tekstuuri = tekstuuri;
-    }
-
     public void renderöi(Shader shader, Ikkuna window) {
         this.window = window;
-        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, 0, false, false);
+        rotaatioMatriisi.identity();
+        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, false, 0, 0, 0, 0, false, false);
     }
 
-    public void renderöiRotaatio(Shader shader, Ikkuna window, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+    public void renderöiTekstuuriKääntö(Shader shader, Ikkuna window, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
         this.window = window;
-        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, kääntöAsteet, xPeilaus, yPeilaus);
+        rotaatioMatriisi.identity();
+        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, false, 0, 0, 0, kääntöAsteet, xPeilaus, yPeilaus);
+    }
+
+    public void renderöiPyörivä(Shader shader, Ikkuna window, float rotX, float rotY, float rotZ) {
+        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, true, rotX, rotY, rotZ, 0, false, false);
+    }
+
+    public void renderöiRotaatio(Shader shader, Ikkuna window, float rotX, float rotY, float rotZ) {
+        renderöiKomponentti(shader, tekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0, false, rotX, rotY, rotZ, 0, false, false);
     }
 
     public void renderöiTooltip(Shader shader, Ikkuna window) {
         if (hover && tooltipTeksti != null) tooltipTeksti.renderöi(shader, window);
     }
 
-    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
-        Matrix4f sijaintiMatriisi = new Matrix4f();
+    private void renderöiKomponentti(Shader shader, Renderöitävä tekstuuri, Ikkuna window, float skaalaX, float skaalaY, float skaalaZ, float offsetX, float offsetY, float offsetZ, boolean pyörivä, float rotX, float rotY, float rotZ, int kääntöAsteet, boolean xPeilaus, boolean yPeilaus) {
+        sijaintiMatriisi.identity();
         sijaintiMatriisi.translate(offsetX, offsetY, offsetZ);
         sijaintiMatriisi.scale(skaalaX, skaalaY, skaalaZ);
+        if (!pyörivä) rotaatioMatriisi.identity();
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotX), 1, 0, 0));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotY), 0, 1, 0));
+        rotaatioMatriisi.rotate(new AxisAngle4f((float)Math.toRadians(rotZ), 0, 0, 1));
+        sijaintiMatriisi.mul(rotaatioMatriisi);
         shader.asetaSijainti(sijaintiMatriisi);
         if (hover) shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0.5f));
         else shader.setUniform("subcolor", new Vector4f(0, 0, 0, 0f));

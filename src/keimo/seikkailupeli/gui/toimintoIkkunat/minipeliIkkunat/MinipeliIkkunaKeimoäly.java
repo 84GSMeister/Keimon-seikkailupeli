@@ -1,9 +1,10 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat.minipeliIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.Renderöitävä;
 import keimo.keimoengine.grafiikat.Teksti;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenRenderöinti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -14,16 +15,15 @@ import keimo.seikkailupeli.objektit.Pelaaja;
 import keimo.seikkailupeli.äänet.Musat;
 import keimo.seikkailupeli.äänet.Äänet;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MinipeliIkkunaKeimoäly {
 
     private static Renderöitävä kehysTekstuuri = Assets.annaTekstuuri("minipeli_kehys");
-    private static StaattinenKomponentti kehysKomponentti = new StaattinenKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
+    private static LabelKomponentti kehysKomponentti = new LabelKomponentti(2f/3f, 2f/2.4f, 0, -1f/6f, kehysTekstuuri);
     private static Renderöitävä taustaTekstuuri = Assets.annaTekstuuri("minipeli_keimoäly_tausta");
-    private static StaattinenKomponentti taustaKomponentti = new StaattinenKomponentti(1f/2f, 1f/2f, 0, 0, taustaTekstuuri);
+    private static LabelKomponentti taustaKomponentti = new LabelKomponentti(1f/2f, 1f/2f, 0, 0, taustaTekstuuri);
     private static Renderöitävä puhekuplaVastausTekstuuri = Assets.annaTekstuuri("minipeli_keimoäly_puhekupla_vastaus");
     private static Renderöitävä puhekuplaKysymysTekstuuri = Assets.annaTekstuuri("minipeli_keimoäly_puhekupla_kysymys");
     private static Teksti aloitusTeksti;
@@ -51,9 +51,9 @@ public class MinipeliIkkunaKeimoäly {
 
     private static void alustaGrafiikat() {
         if (teksti == null) {
-            teksti = new Teksti("Tähän tulee Keimoäly", Color.black, 300, 48);
-            aloitusTeksti = new Teksti("Hei! Olen Keimoäly.", Color.green, 2400, 96);
-            syöteTeksti = new Teksti(syöteTekstiString, Color.red, 1000, 48);
+            teksti = new Teksti("Tähän tulee Keimoäly", Väri.black, 300, 48);
+            aloitusTeksti = new Teksti("Hei! Olen Keimoäly.", Väri.green, 2400, 96);
+            syöteTeksti = new Teksti(syöteTekstiString, Väri.red, 1000, 48);
         }
     }
 
@@ -62,7 +62,6 @@ public class MinipeliIkkunaKeimoäly {
         if (siirtymä < 1) siirtymä += 0.05;
         peliShader.bind();
         peliShader.nollaaShaderEfektit();
-        //peliShader.setUniform("color", new Vector4f(1f, 1f, 1f, 1f));
         kehysKomponentti.muutaKokoa(2f/3f * siirtymä, 2f/2.4f * siirtymä, 0, -1f/6f);
         kehysKomponentti.renderöi(peliShader, window);
     }
@@ -77,7 +76,7 @@ public class MinipeliIkkunaKeimoäly {
             float offsetX = 0;
             float offsetY = 0.45f;
             aloitusTeksti.päivitäTeksti("Hei! Olen Keimo-Äly, huipputyhmä keinoälyalgoritmi. Voit kysyä minulta mitä vain - todennäköisesti en osaa vastata.", 2);
-            Komponentti.renderöiKomponentti(peliShader, aloitusTeksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+            StaattinenRenderöinti.renderöiKomponentti(peliShader, aloitusTeksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
 
             // Renderöi vastaustekstit
             scaleX = 1f/4f;
@@ -88,9 +87,9 @@ public class MinipeliIkkunaKeimoäly {
                 scaleY = 0.05f;
                 offsetY = 0.25f - i * scaleY * 4 + (scroll-2) * scaleY * 4;
                 teksti.päivitäTeksti(vastausViestit.get(i), 1, 10);
-                Komponentti.renderöiKomponentti(peliShader, puhekuplaVastausTekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+                StaattinenRenderöinti.renderöiKomponentti(peliShader, puhekuplaVastausTekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
                 scaleY = 0.03f;
-                Komponentti.renderöiKomponentti(peliShader, teksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+                StaattinenRenderöinti.renderöiKomponentti(peliShader, teksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
             }
 
             // Renderöi pyyntötekstit
@@ -99,9 +98,9 @@ public class MinipeliIkkunaKeimoäly {
                 scaleY = 0.05f;
                 offsetY = 0.35f - i * scaleY * 4 + (scroll-2) * scaleY * 4;
                 teksti.päivitäTeksti(pyyntöViestit.get(i), 1, 10);
-                Komponentti.renderöiKomponentti(peliShader, puhekuplaKysymysTekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+                StaattinenRenderöinti.renderöiKomponentti(peliShader, puhekuplaKysymysTekstuuri, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
                 scaleY = 0.03f;
-                Komponentti.renderöiKomponentti(peliShader, teksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+                StaattinenRenderöinti.renderöiKomponentti(peliShader, teksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
             }
 
             if (viestiAjastin > 0) {
@@ -117,13 +116,15 @@ public class MinipeliIkkunaKeimoäly {
             offsetX = 0;
             offsetY = -0.45f;
             syöteTeksti.päivitäTeksti(syöteTekstiString + "_", 0);
-            Komponentti.renderöiKomponentti(peliShader, syöteTeksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
+            StaattinenRenderöinti.renderöiKomponentti(peliShader, syöteTeksti, window, scaleX, scaleY, 1, offsetX, offsetY, 0);
         }
     }
 
     public static void lisääKirjainSyötteeseen(String kirjain) {
         if (syöteTekstiString.length() < 28) {
-            syöteTekstiString += kirjain;
+            if (!(kirjain.contains("\\") || kirjain.contains("\n"))) {
+                syöteTekstiString += kirjain;
+            }
         }
     }
 

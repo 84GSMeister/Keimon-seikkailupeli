@@ -61,20 +61,20 @@ public class Kauppaovi extends Warp {
         if (saatujenTuotteidenNimet.length() > 0 && pudotettujenTuotteidenNimet.length() > 0) {
             saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
             pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-            Dialogit.avaaDialogi("", "Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ",\n\n mutta sinulta putosi: " + pudotettujenTuotteidenNimet, "Juoksukalja (reppu täynnä!)");
+            Dialogit.avaaDialogi("Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet +  ",\n\n mutta sinulta putosi: " + pudotettujenTuotteidenNimet, "Juoksukalja (reppu täynnä!)");
         }
         else if (saatujenTuotteidenNimet.length() > 0) {
             saatujenTuotteidenNimet = saatujenTuotteidenNimet.substring(0, saatujenTuotteidenNimet.length()-2);
-            Dialogit.avaaDialogi("", "Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet, "Juoksukalja");
+            Dialogit.avaaDialogi("Juoksit onnistuneesti kaupasta: " + saatujenTuotteidenNimet, "Juoksukalja");
         }
         else if (pudotettujenTuotteidenNimet.length() > 0) {
             if (pudotettujenTuotteidenNimet.split(",").length > 2) {
                 pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-                Dialogit.avaaDialogi("", "Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",\n\nmutta ne putosivat, sillä reppusi on täynnä.", "Juoksukalja (reppu täynnä!)");
+                Dialogit.avaaDialogi("Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",\n\nmutta ne putosivat, sillä reppusi on täynnä.", "Juoksukalja (reppu täynnä!)");
             }
             else {
                 pudotettujenTuotteidenNimet = pudotettujenTuotteidenNimet.substring(0, pudotettujenTuotteidenNimet.length()-2);
-                Dialogit.avaaDialogi("", "Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",\n\nmutta se putosi, sillä reppusi on täynnä.", "Juoksukalja (reppu täynnä!)");
+                Dialogit.avaaDialogi("Yritit varastaa kaupasta: " + pudotettujenTuotteidenNimet + ",\n\nmutta se putosi, sillä reppusi on täynnä.", "Juoksukalja (reppu täynnä!)");
             }
         }
         Pelaaja.tyhjennäOstoskori();

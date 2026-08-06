@@ -3,9 +3,11 @@ package keimo.seikkailupeli.objektit.kenttäkohteet.triggeri;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.äänet.Äänet;
 
+import java.util.ArrayList;
+
 public class Nappi extends Triggeri {
 
-    public Nappi(int sijX, int sijY) {
+    public Nappi(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY);
         super.nimi = "Nappi";
         super.tiedostonNimi = "nappi.png";
@@ -20,6 +22,7 @@ public class Nappi extends Triggeri {
         if (!super.onkoTriggeröity()) {
             super.triggeröi();
             super.tekstuuri = Assets.annaTekstuuri("nappi_painettu");
+            super.katsomisTeksti = "Nappi on painettu.";
             Äänet.toistaSFX("nappi");
         }
     }

@@ -3,10 +3,10 @@ package keimo.seikkailupeli.io;
 import keimo.keimoengine.io.Input;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.Peli.Ruudut;
-import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
-import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu.AsetusRuudut;
-import keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut.ÄäniTestiRuutu;
-import keimo.seikkailupeli.menu.asetusRuudut.äänitestiRuudut.ÄäniTestiWoof;
+import keimo.seikkailupeli.ruudut.asetusRuudut.AsetusRuutu;
+import keimo.seikkailupeli.ruudut.asetusRuudut.AsetusRuutu.AsetusRuudut;
+import keimo.seikkailupeli.ruudut.asetusRuudut.äänitestiRuudut.ÄäniTestiRuutu;
+import keimo.seikkailupeli.ruudut.asetusRuudut.äänitestiRuudut.ÄäniTestiWoof;
 
 import javax.sound.midi.*;
 

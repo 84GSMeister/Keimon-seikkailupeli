@@ -6,14 +6,13 @@ import java.util.ArrayList;
 
 public final class Silta extends Kiintopiste {
 
-    public Silta (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public Silta(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Silta";
         super.tiedostonNimi = "asfaltti_silta.png";
         super.tekstuuri = Assets.annaTekstuuri("silta");
         super.katsomisTeksti = "Kiva näkymä";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

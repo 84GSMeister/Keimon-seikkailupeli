@@ -18,11 +18,10 @@ public final class JumalVelho extends NPC_KenttäKohde {
         super.nimi = "Jumal Velho";
         super.tiedostonNimi = "velho.png";
         super.tekstuuri = Assets.annaTekstuuri("jumalvelho");
-        super.dialogiTekstuuri = Assets.annaTekstuuri("jumalvelho_dialogi");
+        super.dialogiTekstuuri = Assets.annaDialogiTekstuuri("dialogi_velho");
         super.katsomisTeksti = "No se on se Jumal Velho!";
         super.dialogit.add("metsä");
         super.dialogit.add("kuu");
-        super.päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -82,7 +81,7 @@ public final class JumalVelho extends NPC_KenttäKohde {
                 Dialogit.avaaPitkäDialogiRuutu("velho_kuu");
             }
             case null, default -> {
-                Dialogit.avaaDialogi("", "Objektille " + this.annaNimi() + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
+                Dialogit.avaaDialogi(this.annaNimiSijamuodossa("allatiivi") + " ei ole määritetty dialogia " + "\"" + this.annaDialogi() + "\".", "Virheellinen dialogi");
             }
         }
     }

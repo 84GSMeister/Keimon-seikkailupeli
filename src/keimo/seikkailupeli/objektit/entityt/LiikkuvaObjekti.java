@@ -1,7 +1,5 @@
 package keimo.seikkailupeli.objektit.entityt;
 
-import java.util.ArrayList;
-
 import keimo.keimoengine.collision.Neliö;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.objektit.Pelaaja;
@@ -16,11 +14,6 @@ public abstract class LiikkuvaObjekti extends Entity {
 
     LiikkuvaObjekti(int sijX, int sijY) {
         super(sijX, sijY);
-    }
-
-    @Override
-    public void päivitäLisäOminaisuudet(ArrayList<String> ominaisuusLista) {
-        // Tähän ei tarvita mitään, mutta metodin pitää olla olemassa.
     }
 
     private boolean siirrä(Suunta suunta) {

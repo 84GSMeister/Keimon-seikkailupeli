@@ -1,8 +1,9 @@
 package keimo.seikkailupeli.gui.toimintoIkkunat;
 
+import keimo.keimoengine.fontit.Väri;
 import keimo.keimoengine.grafiikat.*;
-import keimo.keimoengine.grafiikat.guikomponentit.Komponentti;
-import keimo.keimoengine.grafiikat.guikomponentit.StaattinenKomponentti;
+import keimo.keimoengine.grafiikat.guikomponentit.StaattinenRenderöinti;
+import keimo.keimoengine.grafiikat.guikomponentit.LabelKomponentti;
 import keimo.keimoengine.grafiikat.shaderit.Shader;
 import keimo.keimoengine.ikkuna.Ikkuna;
 import keimo.seikkailupeli.Peli;
@@ -12,12 +13,11 @@ import keimo.seikkailupeli.Peli.ToimintoIkkunanTyyppi;
 import keimo.seikkailupeli.Renderöinti;
 import keimo.seikkailupeli.assets.Assets;
 import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
-import keimo.seikkailupeli.menu.asetusRuudut.AsetusRuutu;
 import keimo.seikkailupeli.objektit.Pelaaja;
+import keimo.seikkailupeli.ruudut.asetusRuudut.AsetusRuutu;
 import keimo.seikkailupeli.toiminnot.Dialogit;
 import keimo.seikkailupeli.äänet.Äänet;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import org.joml.Vector4f;
@@ -32,8 +32,8 @@ public class DialogiValintaIkkuna {
     private static Teksti vaihtoehtoTeksti;
     private static String otsikkoTeksti = "";
     private static ArrayList<String> valintaTekstit = new ArrayList<>();
-    private static StaattinenKomponentti kehysKomponentti;
-    private static StaattinenKomponentti valintaOtsikkoKomponentti;
+    private static LabelKomponentti kehysKomponentti;
+    private static LabelKomponentti valintaOtsikkoKomponentti;
 
     public static int valintaInt = 0;
     private static int valintojenMäärä = 0;
@@ -42,9 +42,9 @@ public class DialogiValintaIkkuna {
 
     private static void alustaGrafiikat() {
         if (vaihtoehtoTeksti == null) {
-            vaihtoehtoTeksti = new Teksti("vaihtoehto", Color.green, 400, 70);
-            kehysKomponentti = new StaattinenKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
-            valintaOtsikkoKomponentti = new StaattinenKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
+            vaihtoehtoTeksti = new Teksti("vaihtoehto", Väri.green, 400, 70);
+            kehysKomponentti = new LabelKomponentti(0.5f, 0.5f, 0, 0, kehysTekstuuri);
+            valintaOtsikkoKomponentti = new LabelKomponentti(0.25f, 1f/15f, 0, 0.25f, vaihtoehtoTeksti);
         }
     }
 
@@ -69,11 +69,11 @@ public class DialogiValintaIkkuna {
             if (valintojenMäärä >= 4) scaleY = 1f / (3.25f*valintojenMäärä);
             else scaleY = 1f/15f;
             float offsetY = 0.25f - i * scaleY*1.75f - scaleY*1.75f;
-            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, osoitin, window, 1f/18f, scaleY, 1, -1/8f -1/6f, offsetY + siirräY, 0);
+            StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, osoitin, window, 1f/18f, scaleY, 1, -1/8f -1/6f, offsetY + siirräY, 0);
 
             vaihtoehtoTeksti.päivitäTeksti(valintaTekstit.get(i), 1, 7);
             offsetY = 0.25f - i * scaleY*1.75f - scaleY*1.75f;
-            Komponentti.renderöiKomponenttiJaSkaalaa(peliShader, vaihtoehtoTeksti, window, 0.25f, scaleY, 1, -1/8f +1/6f, offsetY + siirräY, 0);
+            StaattinenRenderöinti.renderöiKomponenttiJaSkaalaa(peliShader, vaihtoehtoTeksti, window, 0.25f, scaleY, 1, -1/8f +1/6f, offsetY + siirräY, 0);
         }
     }
 
@@ -81,8 +81,8 @@ public class DialogiValintaIkkuna {
         siirräY = 1.5f; // Laatikko liikkuu 3/4 ruudun verran (kokonaan näytön yläpuolelle)
         valintaDialoginTunniste = valinta;
         valintaInt = 0;
-        if (Dialogit.PitkätDialogit.vuoropuheDialogiKartta != null) {
-            vdp = Dialogit.PitkätDialogit.vuoropuheDialogiKartta.get(valinta);
+        if (Peli.peliTiedosto.annaDialogiKartta() != null) {
+            vdp = Peli.peliTiedosto.annaDialogiKartta().get(valinta);
             luoValinnat();
             Peli.syötteenTila = SyötteenTila.TOIMINTO;
             Peli.toimintoIkkuna = ToimintoIkkunanTyyppi.VALINTADIALOGI;
@@ -155,14 +155,17 @@ public class DialogiValintaIkkuna {
             }
         }
         else {
+            boolean dialogiKeskeytettiin = false;
             if (vdp.annaTriggerit() != null) {
                 if (vdp.annaTriggerit()[valintaInt] != null) {
-                    Dialogit.DialogiTriggerit.suoritaDialogiTriggeri(vdp.annaTriggerit()[valintaInt]);
+                    dialogiKeskeytettiin = Dialogit.DialogiTriggerit.suoritaDialogiTriggeri(vdp.annaTriggerit()[valintaInt]);
                 }
             }
-            suljeToimintoIkkuna();
-            if (vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt] != null && vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt] != "") {
-                Dialogit.avaaPitkäDialogiRuutu(vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt]);
+            if (!dialogiKeskeytettiin) {
+                suljeToimintoIkkuna();
+                if (vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt] != null && vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt] != "") {
+                    Dialogit.avaaPitkäDialogiRuutu(vdp.annaValinnanVaihtoehtojenKohdeDialogit()[valintaInt]);
+                }
             }
         }
         Äänet.toistaSFX("Hyväksy");

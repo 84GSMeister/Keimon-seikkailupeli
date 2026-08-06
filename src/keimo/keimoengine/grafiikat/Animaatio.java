@@ -1,6 +1,7 @@
 package keimo.keimoengine.grafiikat;
 
 import keimo.keimoengine.Kello;
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,7 +20,6 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class Animaatio extends Renderöitävä {
     private int pointer;
@@ -31,7 +31,7 @@ public class Animaatio extends Renderöitävä {
     private int toistot;
     private int toistettu;
 
-    public Animaatio(int fps, String tiedostonNimi, int toistot) {
+    public Animaatio(String tiedostonNimi, int fps, int toistot) {
         this.pointer = 0;
         this.elapsedTime = 0;
         this.currentTime = 0;
@@ -44,26 +44,27 @@ public class Animaatio extends Renderöitävä {
         if (images != null) {
             for (ImageFrame image : images) {
                 frames.add(new Tekstuuri(image.getImage()));
+                if (fps == 0) this.fps = image.getDelay()/100d;
             }
         }
     }
 
-    public Animaatio(int fps, String tiedostonNimi) {
-        this(fps, tiedostonNimi, 0);
+    public Animaatio(String tiedostonNimi, int fps) {
+        this(tiedostonNimi, fps, 0);
     }
 
     public Animaatio(String tiedostonNimi) {
-        this(15, tiedostonNimi, 0);
-        ArrayList<ImageFrame> images = loadGif(tiedostonNimi);
-        try {
-            for (ImageFrame image : images) {
-                frames.add(new Tekstuuri(image.getImage()));
-                this.fps = image.getDelay()/100d;
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        this(tiedostonNimi, 0, 0);
+        // ArrayList<ImageFrame> images = loadGif(tiedostonNimi);
+        // try {
+        //     for (ImageFrame image : images) {
+        //         frames.add(new Tekstuuri(image.getImage()));
+        //         this.fps = image.getDelay()/100d;
+        //     }
+        // }
+        // catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 
     public ArrayList<Tekstuuri> annaFramet() {
@@ -115,7 +116,7 @@ public class Animaatio extends Renderöitävä {
      * GIF-kuvan framet tallennetaan PNG-formaatissa kansioon.
      * @param tiedostonNimi lähdetiedosto
      */
-    public static void exportGifFramesAnPng(String tiedostonNimi) {
+    public static void exportGifFramesAsPng(String tiedostonNimi) {
         ArrayList<ImageFrame> loadedGif = loadGif(tiedostonNimi);
         System.out.println("puretaan gif: " + tiedostonNimi);
         try {
@@ -150,7 +151,7 @@ public class Animaatio extends Renderöitävä {
         }
         catch (IOException e) {
             e.printStackTrace();
-            tinyfd_messageBox("Virhe ladatessa kuvatiedostoa", "Tiedostoa " + tiedostonNimi + " ei voitu ladata", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa kuvatiedostoa", "Tiedostoa " + tiedostonNimi + " ei voitu ladata", "ok", "error", false);
             return null;
         }
     }

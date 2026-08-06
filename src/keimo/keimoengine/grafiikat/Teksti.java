@@ -1,6 +1,7 @@
 package keimo.keimoengine.grafiikat;
 
 import keimo.keimoengine.fontit.KeimoFontit;
+import keimo.keimoengine.fontit.Väri;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -20,7 +21,7 @@ import static org.lwjgl.opengl.GL13.*;
 public class Teksti extends Renderöitävä {
     
     private int alkuLeveys;
-    private Color väri;
+    private Väri väri;
     private Font fontti;
     private int fonttiKoko;
     private String edellinenTeksti = "";
@@ -31,16 +32,17 @@ public class Teksti extends Renderöitävä {
     public static final int LEIKKAA = 0;
     public static final int VENYTÄ = 1;
     public static final int RIVITÄ = 2;
+    public static final int RIVITÄ_JA_SCROLLAA = 3;
 
     public Teksti(String teksti, int leveys, int korkeus) {
-        this(teksti, Color.BLACK, leveys, korkeus);
+        this(teksti, Väri.BLACK, leveys, korkeus);
     }
 
-    public Teksti(String teksti, Color väri, int leveys, int korkeus) {
+    public Teksti(String teksti, Väri väri, int leveys, int korkeus) {
         this(teksti, väri, leveys, korkeus, KeimoFontit.fontti_keimo_36, false);
     }
 
-    public Teksti(String teksti, Color väri, int leveys, int korkeus, Font fontti, boolean keskitäY) {
+    public Teksti(String teksti, Väri väri, int leveys, int korkeus, Font fontti, boolean keskitäY) {
         try {
             this.leveys = leveys;
             this.korkeus = korkeus;
@@ -48,6 +50,7 @@ public class Teksti extends Renderöitävä {
             this.väri = väri;
             this.fontti = fontti;
             this.fonttiKoko = fontti.getSize();
+            this.edellinenTeksti = teksti;
             if (leveys > 0 && korkeus > 0) {
                 this.b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
                 this.g = this.b.createGraphics();
@@ -97,11 +100,6 @@ public class Teksti extends Renderöitävä {
                 }
 
                 pixels.flip();
-                // id = glGenTextures();
-                // glBindTexture(GL_TEXTURE_2D, id);
-                // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
                 if (Thread.currentThread().getName().equals("Keimo Engine -Renderöintisäie")) {
                     luoTekstuuri(leveys, korkeus, pixels, GL_LINEAR);
                 }
@@ -139,7 +137,7 @@ public class Teksti extends Renderöitävä {
     /**
      * Tekstin tyypillä määritetään, mitä tehdään, kun tekstin pituus ylittää sille varatun alueen vaakasuunnassa.
      * @param teksti Renderöitävä teksti
-     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ
+     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ; 3 = RIVITÄ JA SCROLLAA
      */
 
     public void päivitäTeksti(String teksti, int tekstiTyyppi) {
@@ -150,7 +148,7 @@ public class Teksti extends Renderöitävä {
      * Tekstin tyypillä määritetään, mitä tehdään, kun tekstin pituus ylittää sille varatun alueen vaakasuunnassa.
      * Rivittäessä tekstin korkeus tulee olla oikein määritelty; Fonttikoolla 36: 1 rivi - korkeus 48, 2 riviä - korkeus 96 jne.
      * @param teksti Renderöitävä teksti
-     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ
+     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ; 3 = RIVITÄ JA SCROLLAA
      * @param minimiLeveys Kuinka monta merkkiä vaaditaan ennen kuin tekstiä aletaan rivittämään/venyttämään. Ei vaikuta tyypillä 0.
      */
 
@@ -162,27 +160,28 @@ public class Teksti extends Renderöitävä {
      * Tekstin tyypillä määritetään, mitä tehdään, kun tekstin pituus ylittää sille varatun alueen vaakasuunnassa.
      * Rivittäessä tekstin korkeus tulee olla oikein määritelty; Fonttikoolla 36: 1 rivi - korkeus 48, 2 riviä - korkeus 96 jne.
      * @param teksti Renderöitävä teksti
-     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ
+     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ; 3 = RIVITÄ JA SCROLLAA
      * @param minimiLeveys Kuinka monta merkkiä vaaditaan ennen kuin tekstiä aletaan rivittämään/venyttämään. Ei vaikuta tyypillä 0.
      * @param color Tekstin väri - Käytä AWT:n mukaisia värejä.
      */
 
-    public void päivitäTeksti(String teksti, int tekstiTyyppi, int minimiLeveys, Color color) {
-        päivitäTeksti(teksti, tekstiTyyppi, minimiLeveys, color, 0, 0);
+    public void päivitäTeksti(String teksti, int tekstiTyyppi, int minimiLeveys, Väri color) {
+        päivitäTeksti(teksti, tekstiTyyppi, minimiLeveys, 6, color, 0, 0);
     }
 
     /**
      * Tekstin tyypillä määritetään, mitä tehdään, kun tekstin pituus ylittää sille varatun alueen vaakasuunnassa.
      * Rivittäessä tekstin korkeus tulee olla oikein määritelty; Fonttikoolla 36: 1 rivi - korkeus 48, 2 riviä - korkeus 96 jne.
      * @param teksti Renderöitävä teksti
-     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ
+     * @param tekstiTyyppi 0 = LEIKKAA; 1 = VENYTÄ; 2 = RIVITÄ; 3 = RIVITÄ JA SCROLLAA
      * @param minimiLeveys Kuinka monta merkkiä vaaditaan ennen kuin tekstiä aletaan rivittämään/venyttämään. Ei vaikuta tyypillä 0.
+     * @param riviMäärä Kuinka monta riviä tekstiä näytetään kerrallaan ennen scrollausta. Vaikuttaa vain tyypillä 3.
      * @param color Tekstin väri - Käytä AWT:n mukaisia värejä.
      * @param offsetX Tyhjiä pikseleitä vasemmalla ennen tekstiä.
      * @param offsetY Tyhjiä pikseleitä ylhäällä ennen tekstiä.
      */
 
-    public void päivitäTeksti(String teksti, int tekstiTyyppi, int minimiLeveys, Color color, int offsetX, int offsetY) {
+    public void päivitäTeksti(String teksti, int tekstiTyyppi, int minimiLeveys, int riviMäärä, Väri color, int offsetX, int offsetY) {
         if (teksti != null && !teksti.equals(edellinenTeksti) && fontti != null) {
             poistaTekstuuri(id);
             BufferedImage b = new BufferedImage(leveys, korkeus, BufferedImage.TYPE_4BYTE_ABGR);
@@ -304,6 +303,67 @@ public class Teksti extends Renderöitävä {
                         }
                     }
                 }
+                case RIVITÄ_JA_SCROLLAA -> {
+                    String tulostettava = "";
+                    int merkkejäEnnenVäliä = 0;
+                    String merkitEnnenVäliä = "";
+                    int rivit = 0;
+                    int scroll = 0;
+                    for (int i = 0; i < teksti.length(); i++) {
+                        tulostettava += teksti.charAt(i);
+                        if (teksti.charAt(i) == ' ') {
+                            merkkejäEnnenVäliä = 0;
+                            merkitEnnenVäliä = "";
+                        }
+                        else {
+                            merkkejäEnnenVäliä++;
+                            merkitEnnenVäliä += teksti.charAt(i);
+                        }
+
+                        if (tulostettava.contains("\n")) {
+                            tulostettava = tulostettava.substring(0, tulostettava.length()-1);
+                            rivit++;
+                            if (rivit >= riviMäärä) scroll = rivit - riviMäärä +1;
+                            else scroll = 0;
+                            g.drawString(tulostettava, offsetX, (int)((rivit - scroll) * fonttiKoko) + offsetY);
+                            tulostettava = "";
+                        }
+                        else if (tulostettava.contains("\\n")) {
+                            tulostettava = tulostettava.substring(0, tulostettava.length()-2);
+                            rivit++;
+                            if (rivit >= riviMäärä) scroll = rivit - riviMäärä +1;
+                            else scroll = 0;
+                            g.drawString(tulostettava, offsetX, (int)((rivit - scroll) * fonttiKoko) + offsetY);
+                            tulostettava = "";
+                        }
+                        else if ((tulostettava.length() > minimiLeveys)) {
+                            
+                            rivit++;
+                            if (rivit >= riviMäärä) scroll = rivit - riviMäärä +1;
+                            else scroll = 0;
+
+                            if (merkkejäEnnenVäliä > minimiLeveys) {
+                                g.drawString(tulostettava.substring(0, minimiLeveys), offsetX, (int)((rivit - scroll) * fonttiKoko) + offsetY);
+                                if (merkitEnnenVäliä.length() >= 1) {
+                                    merkitEnnenVäliä = merkitEnnenVäliä.substring(merkitEnnenVäliä.length()-1, merkitEnnenVäliä.length());
+                                }
+                            }
+                            else {
+                                g.drawString(tulostettava.substring(0, minimiLeveys - merkkejäEnnenVäliä), offsetX, (int)((rivit - scroll) * fonttiKoko) + offsetY);
+                            }
+                            tulostettava = merkitEnnenVäliä;
+                            merkitEnnenVäliä = "";
+
+                            if (i == teksti.length()-1) {
+                                g.drawString(tulostettava, offsetX, (int)((rivit +1 - scroll) * fonttiKoko) + offsetY);
+                            }
+                        }
+
+                        else if (i == teksti.length()-1) {
+                            g.drawString(tulostettava, offsetX, (int)((rivit +1 - scroll) * fonttiKoko) + offsetY);
+                        }   
+                    }
+                }
             }
 
             int[] pixels_raw = new int[leveys * korkeus * 4];
@@ -326,11 +386,6 @@ public class Teksti extends Renderöitävä {
                 }
             }
             pixels.flip();
-            // id = glGenTextures();
-            // glBindTexture(GL_TEXTURE_2D, id);
-            // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, leveys, korkeus, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
             luoTekstuuri(leveys, korkeus, pixels, GL_LINEAR);
             edellinenTeksti = teksti;
         }

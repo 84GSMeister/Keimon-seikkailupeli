@@ -6,14 +6,13 @@ import java.util.ArrayList;
 
 public class KoristeOvi extends Kiintopiste {
     
-    public KoristeOvi (int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+    public KoristeOvi(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
         super(sijX, sijY, ominaisuusLista);
         super.nimi = "Koristeovi";
         super.tiedostonNimi = "koristeovi.png";
         super.tekstuuri = Assets.annaTekstuuri("koristeovi");
         super.katsomisTeksti = "Tästä ei pääse";
         super.asetaTiedot();
-        super.päivitäLisäOminaisuudet(ominaisuusLista);
     }
 
     @Override

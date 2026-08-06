@@ -1,11 +1,14 @@
 package keimo.seikkailupeli.assets.huone;
 
 import keimo.keimoengine.KeimoEngine;
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
 import keimo.keimoengine.ruudut.LatausRuutu;
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
+import keimo.seikkailupeli.assets.PeliTiedosto;
+import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
+import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.objektit.Pelaaja;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
 import keimo.seikkailupeli.objektit.entityt.*;
 import keimo.seikkailupeli.objektit.entityt.npc.Pikkuvihu;
 import keimo.seikkailupeli.objektit.kenttäkohteet.KenttäKohde;
@@ -14,7 +17,6 @@ import keimo.seikkailupeli.objektit.kenttäkohteet.kiintopiste.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.warp.*;
 import keimo.seikkailupeli.objektit.maastot.Maasto;
 import keimo.seikkailupeli.objektit.maastot.Tile;
-import keimo.seikkailupeli.toiminnot.Dialogit;
 import keimo.utility.KSTLoader;
 
 import java.util.ArrayList;
@@ -22,11 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 public class HuoneLista {
 
-    public static HashMap<Integer, Huone> huoneKarttaReferenssi = new HashMap<>();
+    public static HashMap<Integer, Huone> ladattuHuoneKartta = new HashMap<>();
+    public static HashMap<String, TarinaPätkä> ladattuTarinaKartta = new HashMap<>();
+    public static HashMap<String, VuoropuheDialogiPätkä> ladattuDialogiKartta = new HashMap<>();
     public static boolean huoneKarttaLadattu = false;
 
         public static void lataaPelitiedosto() {
@@ -39,7 +42,7 @@ public class HuoneLista {
             catch (Exception e) {
                 e.printStackTrace();
                 String viesti = "Ei voitu ladata tiedostoa default.kst\nLadataanko failsafe-kenttä?";
-                boolean vastaus = tinyfd_messageBox("Virhe kentän luonnissa", viesti, "yesno", "error", true);
+                boolean vastaus = DialogiIkkunat.viestiIkkuna("Virhe kentän luonnissa", viesti, "yesno", "error", true);
                 if (vastaus) lataaFailsafe();
                 else System.exit(1);
             }
@@ -241,19 +244,20 @@ public class HuoneLista {
             KSTLoader.lataaAsetuksetKST(tiedostoPolku);
 
             renderöiLatausRuutu("Ladataan kenttiä", 40);
-            huoneKarttaReferenssi = KSTLoader.lataaKentätKST(tiedostoPolku);
+            ladattuHuoneKartta = KSTLoader.lataaKentätKST(tiedostoPolku);
 
             renderöiLatausRuutu("Ladataan tarinaa", 50);
-            TarinaDialogiLista.tarinaKartta = KSTLoader.lataaTarinatKST(tiedostoPolku);
+            ladattuTarinaKartta = KSTLoader.lataaTarinatKST(tiedostoPolku);
 
             renderöiLatausRuutu("Ladataan dialogeja", 60);
-            Dialogit.PitkätDialogit.vuoropuheDialogiKartta = KSTLoader.lataaDialogitKST(tiedostoPolku);
-            Dialogit.PitkätDialogit.lataaDialogiKuvakkeet();
+            ladattuDialogiKartta = KSTLoader.lataaDialogitKST(tiedostoPolku);
+
+            Peli.peliTiedosto = new PeliTiedosto(ladattuHuoneKartta, ladattuTarinaKartta, ladattuDialogiKartta);
         }
         catch (Exception e) {
             e.printStackTrace();
             String viesti = "Ei voitu ladata tiedostoa default.kst Ladataanko failsafe-kenttä?";
-            boolean vastaus = tinyfd_messageBox("Virhe kentän luonnissa", viesti, "yesno", "error", false);
+            boolean vastaus = DialogiIkkunat.viestiIkkuna("Virhe kentän luonnissa", viesti, "yesno", "error", false);
             if (vastaus) HuoneLista.lataaFailsafe();
             else System.exit(1);
         }
@@ -267,7 +271,7 @@ public class HuoneLista {
 	}
 
     public static void lataaFailsafe() {
-        huoneKarttaReferenssi = lataaHuonelistaLegacy();
+        Peli.peliTiedosto = new PeliTiedosto(lataaHuonelistaLegacy(), ladattuTarinaKartta, ladattuDialogiKartta);
         luoTestiHuone();
         debugSpawn();
         lataaReferenssiHuonekartta();
@@ -277,7 +281,7 @@ public class HuoneLista {
      * Testihuone
      */
     private static void luoTestiHuone() {
-        int testiHuoneenId = huoneKarttaReferenssi.size();
+        int testiHuoneenId = Peli.peliTiedosto.annaHuoneKartta().size();
         System.out.println("Testihuoneen id: " + testiHuoneenId);
         int testihuoneenKoko = 30;
         ArrayList<KenttäKohde> kenttäKohdeLista = new ArrayList<>();
@@ -293,7 +297,7 @@ public class HuoneLista {
             }
         }
         Huone testiHuone = new Huone(testiHuoneenId, testihuoneenKoko, "testihuone", null, "testialue", kenttäKohdeLista, maastoLista, null, null, null, null);
-        huoneKarttaReferenssi.put(testiHuoneenId, testiHuone);
+        Peli.peliTiedosto.annaHuoneKartta().put(testiHuoneenId, testiHuone);
     }
 
     /**
@@ -305,9 +309,9 @@ public class HuoneLista {
 
     public static void lataaReferenssiHuonekartta() {
         huoneKarttaLadattu = false;
-        Peli.huoneKartta.clear();
-        for (int i = 0; i < huoneKarttaReferenssi.size(); i++) {
-            Huone h = huoneKarttaReferenssi.get(i);
+        Peli.annaHuoneKartta().clear();
+        for (int i = 0; i < Peli.peliTiedosto.annaHuoneKartta().size(); i++) {
+            Huone h = Peli.peliTiedosto.annaHuoneKartta().get(i);
             if (h != null) {
                 ArrayList<KenttäKohde> kenttäKohteet = new ArrayList<>();
                 for (KenttäKohde[] kk : h.annaHuoneenKenttäSisältö()) {
@@ -346,7 +350,7 @@ public class HuoneLista {
                                                     h.annaReunaWarpinKohdeId(Suunta.ALAS),
                                                     h.annaReunaWarppiTiedot(Suunta.YLÖS),
                                                     h.annaReunaWarpinKohdeId(Suunta.YLÖS));
-                Peli.huoneKartta.put(i, uusiHuone);
+                Peli.annaHuoneKartta().put(i, uusiHuone);
             }
         }
         huoneKarttaLadattu = true;

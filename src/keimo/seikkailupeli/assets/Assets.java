@@ -14,8 +14,9 @@ import keimo.keimoengine.grafiikat.shaderit.TrippiShader;
 import keimo.keimoengine.grafiikat.shaderit.VäriliukuShader;
 import keimo.keimoengine.grafiikat.shaderit.VärinvaihtoShader;
 import keimo.keimoengine.grafiikat.shaderit.VärinvaihtoShaderKuu;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
-import keimo.seikkailupeli.objektit.Käännettävä.SuuntaVasenOikea;
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.SuuntaVasenOikea;
 import keimo.utility.ModelLoader;
 
 import java.io.File;
@@ -27,8 +28,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
-
 public class Assets {
 
     private static HashMap<String, Model3D> models3d = new HashMap<>();
@@ -38,6 +37,8 @@ public class Assets {
     private static HashMap<String, Renderöitävä> tekstuurit = new HashMap<>();
     private static HashMap<String, Renderöitävä> tileTekstuurit = new HashMap<>();
     private static HashMap<String, Renderöitävä> taustaTekstuurit = new HashMap<>();
+    private static HashMap<String, Renderöitävä> tarinaTekstuurit = new HashMap<>();
+    private static HashMap<String, Renderöitävä> dialogiTekstuurit = new HashMap<>();
     private static HashMap<String, Shader> shaderit = new HashMap<>();
     private static Random random = new Random();
 
@@ -93,6 +94,18 @@ public class Assets {
         return taustaTekstuurit;
     }
 
+    public static HashMap<String, Renderöitävä> annaTarinaTekstuurit() {
+        return tarinaTekstuurit;
+    }
+
+    public static HashMap<String, Renderöitävä> annaDialogiTekstuurit() {
+        return dialogiTekstuurit;
+    }
+
+    public static HashMap<String, Shader> annaShaderit() {
+        return shaderit;
+    }
+
     public static Renderöitävä annaTileTekstuuri(String nimi) {
         if (tileTekstuurit.containsKey(nimi)) {
             return tileTekstuurit.get(nimi);
@@ -113,6 +126,26 @@ public class Assets {
         }
     }
 
+    public static Renderöitävä annaTarinaTekstuuri(String nimi) {
+        if (tarinaTekstuurit.containsKey(nimi)) {
+            return tarinaTekstuurit.get(nimi);
+        }
+        else {
+            assert false : "Tekstuuria ei löytynyt: " + nimi;
+            return tarinaTekstuurit.get("vakio");
+        }
+    }
+
+    public static Renderöitävä annaDialogiTekstuuri(String nimi) {
+        if (dialogiTekstuurit.containsKey(nimi)) {
+            return dialogiTekstuurit.get(nimi);
+        }
+        else {
+            assert false : "Tekstuuria ei löytynyt: " + nimi;
+            return dialogiTekstuurit.get("vakio");
+        }
+    }
+
     public static Shader annaShader(String nimi) {
         if (shaderit.containsKey(nimi)) {
             return shaderit.get(nimi);
@@ -128,7 +161,7 @@ public class Assets {
             ääniTiedostot.put(ääni, ääniTiedosto);
         }
         else {
-            tinyfd_messageBox("Virhe ladatessa äänitiedostoa", "Tiedostoa " + ääniTiedosto + " ei voitu ladata", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa äänitiedostoa", "Tiedostoa " + ääniTiedosto + " ei voitu ladata", "ok", "error", false);
         }
     }
 
@@ -137,7 +170,7 @@ public class Assets {
             musaTiedostot.put(musa, ääniTiedosto);
         }
         else {
-            tinyfd_messageBox("Virhe ladatessa äänitiedostoa", "Tiedostoa " + ääniTiedosto + " ei voitu ladata", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa äänitiedostoa", "Tiedostoa " + ääniTiedosto + " ei voitu ladata", "ok", "error", false);
         }
     }
 
@@ -187,6 +220,7 @@ public class Assets {
     public static void lataaTekstuurit() {
         // Vakiotekstuurit
         tekstuurit.put("vakio", new Tekstuuri("tiedostot/kuvat/muut/virhetekstuuri.png"));
+        tekstuurit.put("tyhjä", new Tekstuuri("tiedostot/kuvat/muut/tyhjä.png"));
         tekstuurit.put("tiili", new Tekstuuri("tiedostot/kuvat/muut/tiili.png"));
 
         // Objekteihin liittyvät tekstuurit
@@ -196,16 +230,12 @@ public class Assets {
         tekstuurit.put("hiili", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/hiili.png"));
         tekstuurit.put("huume", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/huume.png"));
         tekstuurit.put("portti", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/portti.png"));
-        tekstuurit.put("portti_auki", new Animaatio(30, "tiedostot/kuvat/kenttäkohteet/portti_auki.gif", 1));
+        tekstuurit.put("portti_auki", new Animaatio("tiedostot/kuvat/kenttäkohteet/portti_auki.gif", 30, 1));
         tekstuurit.put("jallupullo", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/jallupullo.png"));
         tekstuurit.put("juhani", new Animaatio("tiedostot/kuvat/kenttäkohteet/juhani.gif"));
-        tekstuurit.put("juhani_dialogi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png"));
         tekstuurit.put("jumalvelho", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/velho.png"));
-        tekstuurit.put("jumalvelho_dialogi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png"));
         tekstuurit.put("jumalyoda", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/yoda.png"));
-        tekstuurit.put("jumalyoda_dialogi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png"));
         tekstuurit.put("jumalyoda_goblin", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/goblin.png"));
-        tekstuurit.put("jumalyoda_goblin_dialogi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/goblin_dialogi.png"));
         tekstuurit.put("juomalasi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/juomalasi.png"));
         tekstuurit.put("juomalasi_olut", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/juomalasi_olut.png"));
         tekstuurit.put("juomalasi_lonkero", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/juomalasi_lonkero.png"));
@@ -227,7 +257,6 @@ public class Assets {
         tekstuurit.put("kauppaovi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/oviruutu_kauppa.png"));
         tekstuurit.put("kaupparuutu", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kaupparuutu.png"));
         tekstuurit.put("kauppias", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kauppias.png"));
-        tekstuurit.put("kauppias_dialogi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png"));
         tekstuurit.put("kilpi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kilpi.png"));
         tekstuurit.put("kirstu", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kirstu.png"));
         tekstuurit.put("kirstu_avattu", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/kirstu_avattu.png"));
@@ -252,7 +281,6 @@ public class Assets {
         tekstuurit.put("painelaatta_pikkuvihu_painettu", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/painelaatta_pikkuvihu_painettu.png"));
         tekstuurit.put("paperi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/paperi.png"));
         tekstuurit.put("pasi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/pasi.png"));
-        tekstuurit.put("pasi_dialogi", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png"));
         tekstuurit.put("paskanmarjabooli", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/paskanmarjabooli.png"));
         tekstuurit.put("paskanmarjat", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/paskanmarjat.png"));
         tekstuurit.put("pelikone", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/pelikone.png"));
@@ -294,12 +322,13 @@ public class Assets {
         tekstuurit.put("laatikko", new Tekstuuri("tiedostot/kuvat/entity/työnnettävä_laatikko.png"));
         tekstuurit.put("laatikko_iso", new Tekstuuri("tiedostot/kuvat/entity/iso_laatikko.png"));
         tekstuurit.put("testi_entity", new Tekstuuri("tiedostot/kuvat/entity/apu_pesukone.png"));
+        tekstuurit.put("hyökkäys_sprite", new Tekstuuri("tiedostot/kuvat/entity/hyökkäys_sprite.png"));
 
         // Erikoistiletekstuurit
         tekstuurit.put("kassa_vihkoauki", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/kassa_vihkoauki_e.png"));
         tekstuurit.put("kassa_vihkokiinni", new Tekstuuri("tiedostot/kuvat/kenttäkohteet/visuaaliset_objektit/kassa_vihkokiinni_e.png"));
 
-        // Valikoiden tekstuurit
+        // Valikot ja asetukset
         tekstuurit.put("menu_logo", new Tekstuuri("tiedostot/kuvat/menu/KEIMON_logo.png"));
         tekstuurit.put("menu_main_aloita", new Tekstuuri("tiedostot/kuvat/menu/main_aloita.png"));
         tekstuurit.put("menu_main_asetukset", new Tekstuuri("tiedostot/kuvat/menu/main_asetukset.png"));
@@ -314,6 +343,12 @@ public class Assets {
         tekstuurit.put("menu_osoitin3", new Tekstuuri("tiedostot/kuvat/menu/osoitin3.png"));
         tekstuurit.put("menu_osoitin_vanha", new Animaatio("tiedostot/kuvat/menu/osoitin_vanha.gif"));
         tekstuurit.put("menu_tyhjä", new Tekstuuri("tiedostot/kuvat/menu/tyhjä.png"));
+        tekstuurit.put("asetukset_ohjaimet_xbox", new Tekstuuri("tiedostot/kuvat/gui/asetukset/ohjainkuvakkeet_xbox.png"));
+        tekstuurit.put("asetukset_ohjaimet_nintendo", new Tekstuuri("tiedostot/kuvat/gui/asetukset/ohjainkuvakkeet_nintendo.png"));
+        tekstuurit.put("asetukset_ohjaimet_playstation", new Tekstuuri("tiedostot/kuvat/gui/asetukset/ohjainkuvakkeet_playstation.png"));
+        tekstuurit.put("shader_kerros", new Tekstuuri("tiedostot/kuvat/menu/shader_kerros.png"));
+        tekstuurit.put("entity_hitbox_kehys", new Tekstuuri("tiedostot/kuvat/gui/entity_hitbox_kehys.png"));
+        tekstuurit.put("objekti_hitbox_kehys", new Tekstuuri("tiedostot/kuvat/gui/objekti_hitbox_kehys.png"));
 
         // HUD
         tekstuurit.put("hud_paneeli_tyhjä", new Tekstuuri("tiedostot/kuvat/hud/paneeli_tausta_tyhjä.png"));
@@ -353,9 +388,12 @@ public class Assets {
         tekstuurit.put("kartta_yo-kylä", new Tekstuuri("tiedostot/kuvat/hud/kartat/yo-kylä.png"));
         tekstuurit.put("kartta_eikarttaa", new Tekstuuri("tiedostot/kuvat/hud/kartat/ei_karttaa.png"));
         tekstuurit.put("hud_seuraava_tavoite", new Tekstuuri("tiedostot/kuvat/hud/seuraavatavoite.png"));
+        tekstuurit.put("hud_tavoite_popup", new Tekstuuri("tiedostot/kuvat/hud/tavoitepopup.png"));
         tekstuurit.put("dialogi_kuvake_kehys", new Tekstuuri("tiedostot/kuvat/hud/dialogi_kuvake_kehys.png"));
         tekstuurit.put("dialogi_teksti_kehys", new Tekstuuri("tiedostot/kuvat/hud/dialogi_teksti_kehys.png"));
         tekstuurit.put("dialogi_nimi_kehys", new Tekstuuri("tiedostot/kuvat/hud/dialogi_nimi_kehys.png"));
+        tekstuurit.put("dialogi_järjestäminen", new Tekstuuri("tiedostot/kuvat/hud/järjestäminen.png"));
+        tekstuurit.put("surunaama", new Tekstuuri("tiedostot/kuvat/muut/surunaama.png"));
 
         // Toimintoikkunat ja minipelit
         tekstuurit.put("ikkuna_kehys", new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/toimintoikkuna_kehys.png"));
@@ -390,18 +428,14 @@ public class Assets {
         tekstuurit.put("minipeli_keimoäly_puhekupla_kysymys", new Tekstuuri("tiedostot/kuvat/gui/minipelit/keimoäly/puhekupla_kysymys.png"));
         tekstuurit.put("isokartta", new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/kartta/kartta.png"));
         tekstuurit.put("isokartta_tyhjä", new Tekstuuri("tiedostot/kuvat/gui/toimintoikkunat/kartta/kartta_pohja_kädet.png"));
-
-        // Valikot ja asetukset
-        tekstuurit.put("asetukset_ohjaimet_xbox", new Tekstuuri("tiedostot/kuvat/gui/asetukset/ohjainkuvakkeet_xbox.png"));
-        tekstuurit.put("asetukset_ohjaimet_nintendo", new Tekstuuri("tiedostot/kuvat/gui/asetukset/ohjainkuvakkeet_nintendo.png"));
-        tekstuurit.put("asetukset_ohjaimet_playstation", new Tekstuuri("tiedostot/kuvat/gui/asetukset/ohjainkuvakkeet_playstation.png"));
-
+        
         // Näppäin- ja Ohjainkuvakkeet
         tekstuurit.put("vinkki_teksti_pohja", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/vinkki_teksti_pohja.png"));
         tekstuurit.put("näppäin_wasd", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/wasd_näppäimet.png"));
         tekstuurit.put("näppäin_e", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_e.png"));
         tekstuurit.put("näppäin_nuoli", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_nuoli.png"));
         tekstuurit.put("näppäin_space", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_space.png"));
+        tekstuurit.put("näppäin_1-6", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_1-6.png"));
         tekstuurit.put("näppäin_q", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_q.png"));
         tekstuurit.put("näppäin_z", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_z.png"));
         tekstuurit.put("näppäin_x", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/näppäin_x.png"));
@@ -426,11 +460,33 @@ public class Assets {
         tekstuurit.put("ohjain_playstation_neliö", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_neliö.png"));
         tekstuurit.put("ohjain_playstation_r2", new Tekstuuri("tiedostot/kuvat/gui/näppäinkuvakkeet/ohjain_playstation_r2.png"));
 
+        // Loppuruutu
+        tekstuurit.put("loppu_otsikko_vakio", new Tekstuuri("tiedostot/kuvat/loppuruudut/otsikko_vakio.png"));
+        tekstuurit.put("loppu_otsikko_voitto", new Tekstuuri("tiedostot/kuvat/loppuruudut/otsikko_voitto.png"));
+        tekstuurit.put("loppu_otsikko_häviö", new Tekstuuri("tiedostot/kuvat/loppuruudut/otsikko_häviö.png"));
+        tekstuurit.put("loppu_vakio", new Tekstuuri("tiedostot/kuvat/loppuruudut/vakioloppuruutu.png"));
+        tekstuurit.put("loppu_voitto_normaali", new Tekstuuri("tiedostot/kuvat/loppuruudut/voitto_normaali.jpg"));
+        tekstuurit.put("loppu_häviö_ylensyönti", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_ylensyönti.gif"));
+        tekstuurit.put("loppu_häviö_asevihu_passiivinen", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_asevihu_passiivinen.gif"));
+        tekstuurit.put("loppu_häviö_asevihu_ämpäröity", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_asevihu_ämpäröity.gif"));
+        tekstuurit.put("loppu_häviö_asevihu_lyöty", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_asevihu_lyöty.gif"));
+        tekstuurit.put("loppu_häviö_pahavihu_passiivinen", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_pahavihu_passiivinen.gif"));
+        tekstuurit.put("loppu_häviö_pahavihu_ämpäröity", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_pahavihu_ämpäröity.gif"));
+        tekstuurit.put("loppu_häviö_pahavihu_lyöty", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_pahavihu_lyöty.gif"));
+        tekstuurit.put("loppu_häviö_pikkuvihu_passiivinen", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_pikkuvihu_passiivinen.gif"));
+        tekstuurit.put("loppu_häviö_pikkuvihu_ämpäröity", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_pikkuvihu_ämpäröity.gif"));
+        tekstuurit.put("loppu_häviö_pikkuvihu_lyöty", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_pikkuvihu_lyöty.gif"));
+        tekstuurit.put("loppu_häviö_boss", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_boss.gif"));
+        tekstuurit.put("loppu_häviö_juhani", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_juhani.gif", 12, 1));
+        tekstuurit.put("loppu_häviö_silta", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_kuolema_silta.gif", 30, 1));
+        tekstuurit.put("loppu_häviö_vartija", new Animaatio("tiedostot/kuvat/loppuruudut/häviö_vartija.gif"));
+
         // Editori
         tekstuurit.put("editori_popup_pohja", new Tekstuuri("tiedostot/kuvat/editori/popup_valinta_pohja.png"));
         tekstuurit.put("editori_valittu", new Tekstuuri("tiedostot/kuvat/editori/valittu.png"));
         tekstuurit.put("editori_yläpalkki_pohja_vasen", new Tekstuuri("tiedostot/kuvat/editori/yläpalkki_pohja_vasen.png"));
         tekstuurit.put("editori_yläpalkki_pohja_oikea", new Tekstuuri("tiedostot/kuvat/editori/yläpalkki_pohja_oikea.png"));
+        tekstuurit.put("editori_yläpalkki_pohja_keski", new Tekstuuri("tiedostot/kuvat/editori/yläpalkki_pohja_keski.png"));
         tekstuurit.put("editori_kopioi_ominaisuudet", new Tekstuuri("tiedostot/kuvat/editori/kopioi_ominaisuudet.png"));
         tekstuurit.put("editori_välilehti_tiedosto", new Tekstuuri("tiedostot/kuvat/editori/välilehti_tiedosto.png"));
         tekstuurit.put("editori_välilehti_huone", new Tekstuuri("tiedostot/kuvat/editori/välilehti_huone.png"));
@@ -456,9 +512,22 @@ public class Assets {
         tekstuurit.put("editori_lisäosat_dialogieditori", new Tekstuuri("tiedostot/kuvat/editori/lisäosat_dialogieditori.png"));
         tekstuurit.put("editori_lisäosat_tarinaeditori", new Tekstuuri("tiedostot/kuvat/editori/lisäosat_tarinaeditori.png"));
         tekstuurit.put("editori_lisäosat_tavoite-editori", new Tekstuuri("tiedostot/kuvat/editori/lisäosat_tavoite-editori.png"));
+        tekstuurit.put("editori_lisäikkuna_pohja", new Tekstuuri("tiedostot/kuvat/editori/lisäikkuna_pohja.png"));
+        tekstuurit.put("editori_nappi_ok", new Tekstuuri("tiedostot/kuvat/editori/ok_nappi.png"));
+        tekstuurit.put("editori_nappi_peruuta", new Tekstuuri("tiedostot/kuvat/editori/peruuta_nappi.png"));
+        tekstuurit.put("editori_nappi_nuoli", new Tekstuuri("tiedostot/kuvat/editori/scroll_nuoli.png"));
+        tekstuurit.put("editori_tyhjä_tile", new Tekstuuri("tiedostot/kuvat/editori/tyhjä_tile.png"));
+        tekstuurit.put("editori_objektivalikko_pohja", new Tekstuuri("tiedostot/kuvat/editori/objektivalikko_pohja.png"));
+        tekstuurit.put("editori_objektivalikko_välilehti", new Tekstuuri("tiedostot/kuvat/editori/objektivalikko_välilehti.png"));
+        tekstuurit.put("editori_dialogi_uusi", new Tekstuuri("tiedostot/kuvat/editori/dialogi_uusi.png"));
+        tekstuurit.put("editori_dialogi_poista", new Tekstuuri("tiedostot/kuvat/editori/dialogi_poista.png"));
 
         lataaTileTekstuurit();
         lataaTaustaTekstuurit();
+        lataaTarinaTekstuurit();
+        lataaDialogiTekstuurit();
+
+        //Animaatio.exportGifFramesAsPng("tiedostot/kuvat/pelaaja/idle/idle_neutraali_laiha_32.gif");
     }
 
     private static void lataaTileTekstuurit() {
@@ -468,7 +537,7 @@ public class Assets {
             File[] kuvatiedostotYhdistetty = Stream.concat(Arrays.stream(tileKuvaTiedostot), Arrays.stream(tileKuvaTiedostotIsot)).toArray(File[]::new);
             for (File f : kuvatiedostotYhdistetty) {
                 if (!f.isDirectory()) {
-                    if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg")) {
+                    if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".bmp") || f.getName().endsWith(".tga")) {
                         String tekstuurinNimi = f.getName().substring(0, f.getName().length() -4);
                         if (!tileTekstuurit.containsKey(tekstuurinNimi)) {
                             tileTekstuurit.put(tekstuurinNimi, new Tekstuuri(f.getPath()));
@@ -493,7 +562,7 @@ public class Assets {
             File[] taustaKuvaTiedostot = new File("tiedostot/kuvat/taustat").listFiles();
             for (File f : taustaKuvaTiedostot) {
                 if (!f.isDirectory()) {
-                    if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg")) {
+                    if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".bmp") || f.getName().endsWith(".tga")) {
                         String tekstuurinNimi = f.getName().substring(0, f.getName().length() -4);
                         if (!taustaTekstuurit.containsKey(tekstuurinNimi)) {
                             taustaTekstuurit.put(tekstuurinNimi, new Tekstuuri(f.getPath()));
@@ -513,6 +582,60 @@ public class Assets {
             e.printStackTrace();
         }
         taustaTekstuurit.put("vakio", new Tekstuuri("tiedostot/kuvat/taustat/tausta_virhe.png"));
+    }
+
+    private static void lataaTarinaTekstuurit() {
+        try {
+            File[] tarinaKuvaTiedostot = new File("tiedostot/kuvat/tarina").listFiles();
+            for (File f : tarinaKuvaTiedostot) {
+                if (!f.isDirectory()) {
+                    if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".bmp") || f.getName().endsWith(".tga")) {
+                        String tekstuurinNimi = f.getName().substring(0, f.getName().length() -4);
+                        if (!tarinaTekstuurit.containsKey(tekstuurinNimi)) {
+                            tarinaTekstuurit.put(tekstuurinNimi, new Tekstuuri(f.getPath()));
+                        }
+                    }
+                    else if (f.getName().endsWith(".gif")) {
+                        String tekstuurinNimi = f.getName().substring(0, f.getName().length() -4);
+                        if (!tarinaTekstuurit.containsKey(tekstuurinNimi)) {
+                            tarinaTekstuurit.put(tekstuurinNimi, new Animaatio(f.getPath()));
+                        }
+                    }
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        tarinaTekstuurit.put("vakio", new Tekstuuri("tiedostot/kuvat/tarina/tarina_placeholder.png"));
+    }
+
+    private static void lataaDialogiTekstuurit() {
+        try {
+            File[] dialogiKuvaTiedostot = new File("tiedostot/kuvat/vuoropuhe").listFiles();
+            for (File f : dialogiKuvaTiedostot) {
+                if (!f.isDirectory()) {
+                    if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".bmp") || f.getName().endsWith(".tga")) {
+                        String tekstuurinNimi = f.getName().substring(0, f.getName().length() -4);
+                        if (!dialogiTekstuurit.containsKey(tekstuurinNimi)) {
+                            dialogiTekstuurit.put(tekstuurinNimi, new Tekstuuri(f.getPath()));
+                        }
+                    }
+                    else if (f.getName().endsWith(".gif")) {
+                        String tekstuurinNimi = f.getName().substring(0, f.getName().length() -4);
+                        if (!dialogiTekstuurit.containsKey(tekstuurinNimi)) {
+                            dialogiTekstuurit.put(tekstuurinNimi, new Animaatio(f.getPath()));
+                        }
+                    }
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        dialogiTekstuurit.put("vakio", new Tekstuuri("tiedostot/kuvat/vuoropuhe/dialogi_placeholder.png"));
     }
 
     public static void lataaShaderit() {

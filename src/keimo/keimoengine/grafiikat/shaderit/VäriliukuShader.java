@@ -4,17 +4,9 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class VäriliukuShader extends EfektiShader {
 
-    private float aika = 0;
-
     public VäriliukuShader() {
         super("väriliuku");
-    }
-
-    @Override
-    public void loop() {
-        int location = glGetUniformLocation(program, "time");
-        glUniform1f(location, aika);
-        aika += 0.02f;
+        super.loopNopeus = 0.02f;
     }
 
     public void asetaFade(float fade) {

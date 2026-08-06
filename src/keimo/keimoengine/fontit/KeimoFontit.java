@@ -1,10 +1,10 @@
 package keimo.keimoengine.fontit;
 
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
+
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
-
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_messageBox;
 
 public class KeimoFontit {
 
@@ -34,7 +34,7 @@ public class KeimoFontit {
             return true;
         }
         catch (Exception e) {
-            tinyfd_messageBox("Virhe ladatessa fonttia", "Fonttia " + fonttiTiedosto + " ei voitu ladata.", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa fonttia", "Fonttia " + fonttiTiedosto + " ei voitu ladata.", "ok", "error", false);
             e.printStackTrace();
             return false;
         }

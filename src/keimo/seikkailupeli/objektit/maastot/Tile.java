@@ -6,45 +6,34 @@ import java.util.ArrayList;
 
 public class Tile extends Maasto {
 
+    private int leveys = 1;
+    private int korkeus = 1;
+
     public Tile(int sijX, int sijY, ArrayList<String> ominaisuusLista) {
+        super(sijX, sijY, ominaisuusLista);
         super.nimi = "Tile";
         super.estääLiikkumisen = false;
-        super.sijX = sijX;
-        super.sijY = sijY;
         
         if (ominaisuusLista != null) {
-            super.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
-                if (ominaisuus.startsWith("kuva=")) {
-                    this.tiedostonNimi = ominaisuus.substring(5);
-                    this.katsomisTeksti = ominaisuus.substring(5, ominaisuus.length()-4);
-                    this.tekstuurinNimi = katsomisTeksti;
-                }
-                else if (ominaisuus.startsWith("kääntö=")) {
+                if (ominaisuus.startsWith("leveys=")) {
                     try {
-                        this.kääntöAsteet = Integer.parseInt(ominaisuus.substring(7));
+                        this.leveys = Integer.parseInt(ominaisuus.substring(7));
                     }
                     catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
                 }
-                else if (ominaisuus.startsWith("x-peilaus=")) {
-                    if (ominaisuus.substring(10).startsWith("kyllä")) {
-                        super.xPeilaus = true;
+                else if (ominaisuus.startsWith("korkeus=")) {
+                    try {
+                        this.korkeus = Integer.parseInt(ominaisuus.substring(8));
                     }
-                    else {
-                        super.xPeilaus = false;
+                    catch (NumberFormatException e) {
+                        e.printStackTrace();
                     }
                 }
-                else if (ominaisuus.startsWith("y-peilaus=")) {
-                    if (ominaisuus.substring(10).startsWith("kyllä")) {
-                        super.yPeilaus = true;
-                    }
-                    else {
-                        super.yPeilaus = false;
-                    }
-                }   
             }
+            
 
             if (katsomisTeksti.endsWith("_e")) {
                 this.estääLiikkumisen = true;
@@ -61,15 +50,25 @@ public class Tile extends Maasto {
 
         päivitäLisäOminaisuudet();
 
-        super.hitbox = new Neliö(64, 64);
+        super.hitbox = new Neliö(leveys * 64, korkeus * 64);
         super.hitbox.setLocation(sijX * 64, sijY * 64);
         super.asetaTiedot();
     }
 
+    public int annaLeveys() {
+        return leveys;
+    }
+
+    public int annaKorkeus() {
+        return korkeus;
+    }
+
     public void päivitäLisäOminaisuudet() {
-        super.päivitäLisäOminaisuudet();
         if (this.lisäOminaisuudet != null) {
-            super.lisäOminaisuuksia = true;
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("leveys="));
+            if (leveys > 1) this.lisäOminaisuudet.add("leveys=" + leveys);
+            this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("korkeus="));
+            if (korkeus > 1) this.lisäOminaisuudet.add("korkeus=" + korkeus);
         }
     }
 

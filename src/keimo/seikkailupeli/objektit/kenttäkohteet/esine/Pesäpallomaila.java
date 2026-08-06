@@ -4,7 +4,7 @@ import keimo.seikkailupeli.assets.Assets;
 
 public final class Pesäpallomaila extends Ase {
 
-    public Pesäpallomaila(int sijX, int sijY){
+    public Pesäpallomaila(int sijX, int sijY) {
         super(sijX, sijY);
         super.nimi = "Pesäpallomaila";
         super.tiedostonNimi = "pesäpallomaila.png";

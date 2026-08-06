@@ -9,7 +9,7 @@ Huone 0:
     #koko: 30;
     #nimi: Jatkuva_puisto;
     #alue: Puisto;
-    #tausta: tausta_puisto.png;
+    #tausta: tausta_puisto;
     #musa: puisto;
     #warp_vasen: 1;
     #warp_oikea: ;
@@ -946,8 +946,8 @@ Huone 0:
     #npc: {
         Pikkuvihu_2_14+ominaisuudet:[liiketapa=LOOP_YLÖS_ALAS,suunta=Ylös],
         Laatikko_6_15,
-        Pahavihu_13_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Ylös],
-        Pikkuvihu_14_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=Ylös],
+        Pikkuvihu_13_22+ominaisuudet:[liiketapa=LOOP_NELIÖ_VASTAPÄIVÄÄN,suunta=Ylös],
+        Pahavihu_14_23+ominaisuudet:[liiketapa=LOOP_VASEN_OIKEA,suunta=Ylös],
         Laatikko_26_16;
     }
 /Huone
@@ -955,7 +955,7 @@ Huone 1:
     #koko: 20;
     #nimi: Asuintalot;
     #alue: Asuintalot;
-    #tausta: tausta_asuintalot.png;
+    #tausta: tausta_asuintalot;
     #musa: overworld;
     #warp_vasen: ;
     #warp_oikea: 0;
@@ -965,22 +965,22 @@ Huone 1:
     #tavoite: Sytytä nuotio;
     #kenttä: {
         Koriste-esine_0_15+ominaisuudet:[kuva=auto_harmaa_e.png],
-        Koriste-esine_0_19+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=180],
+        Koriste-esine_0_19+ominaisuudet:[kääntö=180,kuva=auto_punainen_e.png],
         Koriste-esine_1_16+ominaisuudet:[kuva=auto_sininen_e.png],
         Koriste-esine_1_19+ominaisuudet:[kuva=auto_sininen_e.png],
         Kuparilager_2_13,
-        Koriste-esine_2_15+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=180],
+        Koriste-esine_2_15+ominaisuudet:[kääntö=180,kuva=auto_sininen_e.png],
         Koriste-esine_2_16+ominaisuudet:[kuva=auto_harmaa_e.png],
         Kolikko_2_17,
-        Koriste-esine_2_19+ominaisuudet:[kuva=auto_harmaa_e.png,kääntö=180],
+        Koriste-esine_2_19+ominaisuudet:[kääntö=180,kuva=auto_harmaa_e.png],
         Kolikko_3_1,
         Koriste-esine_3_15+ominaisuudet:[kuva=auto_punainen_e.png],
         Koriste-esine_6_16+ominaisuudet:[kuva=auto_harmaa_e.png],
-        Koriste-esine_7_15+ominaisuudet:[kuva=auto_punainen_e.png,kääntö=180],
+        Koriste-esine_7_15+ominaisuudet:[kääntö=180,kuva=auto_punainen_e.png],
         Kuparilager_7_19,
         Suklaalevy_8_1,
         Koriste-esine_8_16+ominaisuudet:[kuva=auto_sininen_e.png],
-        Koriste-esine_9_16+ominaisuudet:[kuva=auto_sininen_e.png,kääntö=180],
+        Koriste-esine_9_16+ominaisuudet:[kääntö=180,kuva=auto_sininen_e.png],
         Kolikko_13_8,
         Kuparilager_14_10,
         Puuovi_17_1+ominaisuudet:[kohdehuone=9,kohderuutuX=15,kohderuutuY=29,suunta=Ylös],
@@ -1399,7 +1399,7 @@ Huone 2:
     #koko: 40;
     #nimi: Pelto;
     #alue: Pelto;
-    #tausta: tausta_pelto.png;
+    #tausta: tausta_pelto;
     #musa: overworld;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -1408,7 +1408,7 @@ Huone 2:
     #tarina: ;
     #tavoite: Etsi Pasi;
     #kenttä: {
-        Pontikka-ainekset_0_0,
+        Leivonta-ainekset_0_0,
         Kuparilager_1_27,
         Kolikko_1_29,
         Kolikko_2_14,
@@ -1422,24 +1422,24 @@ Huone 2:
         Kuparilager_15_34,
         Kuparilager_15_38,
         Oviruutu_16_12+ominaisuudet:[kohdehuone=4,kohderuutuX=24,kohderuutuY=0,suunta=Alas],
-        Koriste-esine_19_21+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_22+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_23+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_24+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_25+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_26+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_27+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_28+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_29+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_30+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_31+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_32+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_33+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_34+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_35+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_36+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_37+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
-        Koriste-esine_19_38+ominaisuudet:[kuva=jalkakäytävä_puolikas.png,kääntö=180],
+        Koriste-esine_19_21+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_22+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_23+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_24+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_25+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_26+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_27+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_28+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_29+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_30+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_31+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_32+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_33+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_34+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_35+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_36+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_37+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
+        Koriste-esine_19_38+ominaisuudet:[kääntö=180,kuva=jalkakäytävä_puolikas.png],
         Oviruutu_19_39+ominaisuudet:[kohdehuone=8,kohderuutuX=95,kohderuutuY=0,suunta=Alas],
         Silta_20_31,
         Silta_20_32,
@@ -2970,7 +2970,7 @@ Huone 3:
     #koko: 30;
     #nimi: Metsä;
     #alue: Metsä;
-    #tausta: tausta_metsä.png;
+    #tausta: tausta_metsä;
     #musa: metsä;
     #warp_vasen: ;
     #warp_oikea: 7;
@@ -3917,7 +3917,7 @@ Huone 4:
     #koko: 30;
     #nimi: Kauppa;
     #alue: Kauppa;
-    #tausta: tausta_kauppa_piha.png;
+    #tausta: tausta_kauppa_piha;
     #musa: kauppa;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -3926,228 +3926,228 @@ Huone 4:
     #tarina: ;
     #tavoite: ;
     #kenttä: {
-        Pontikka-ainekset_0_0,
-        Koriste-esine_1_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=180],
-        Koriste-esine_1_7+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_1_8+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_1_9+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_1_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90],
-        Kauppahylly_1_14+ominaisuudet:[sisältö=Kuparilager,kääntö=270,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_1_15+ominaisuudet:[sisältö=Kuparilager,kääntö=270,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_1_16+ominaisuudet:[sisältö=Kuparilager,kääntö=270,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_1_17+ominaisuudet:[sisältö=Kuparilager,kääntö=270,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_1_18+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Kauppahylly_1_19+ominaisuudet:[sisältö=Jallupullo,kääntö=270,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_1_20+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_1_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_1_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_1_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_1_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_1_25+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Kauppahylly_1_26+ominaisuudet:[sisältö=Leivonta-ainekset,kääntö=270,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_1_27+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_2_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,x-peilaus=kyllä,y-peilaus=kyllä],
+        Leivonta-ainekset_0_0,
+        Koriste-esine_1_6+ominaisuudet:[kääntö=180,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_1_7+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_1_8+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_1_9+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_1_10+ominaisuudet:[kääntö=90,kuva=pöydännurkka_vapaa_e.png],
+        Kauppahylly_1_14+ominaisuudet:[kääntö=270,sisältö=Kuparilager],
+        Kauppahylly_1_15+ominaisuudet:[kääntö=270,sisältö=Kuparilager],
+        Kauppahylly_1_16+ominaisuudet:[kääntö=270,sisältö=Kuparilager],
+        Kauppahylly_1_17+ominaisuudet:[kääntö=270,sisältö=Kuparilager],
+        Koriste-esine_1_18+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Kauppahylly_1_19+ominaisuudet:[kääntö=270,sisältö=Jallupullo],
+        Koriste-esine_1_20+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_1_21+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_1_22+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_1_23+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_1_24+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_1_25+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Kauppahylly_1_26+ominaisuudet:[kääntö=270,sisältö=Leivonta-ainekset],
+        Koriste-esine_1_27+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_2_6+ominaisuudet:[peilaus=xy,kuva=pöydänreuna_vapaa_e.png],
         Kauppias_2_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_2_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Koriste-esine_2_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_3_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270],
-        Koriste-esine_3_7+ominaisuudet:[kuva=kassa_vihkokiinni_e.png,kääntö=270,x-peilaus=kyllä],
-        Koriste-esine_3_8+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=270],
-        Koriste-esine_3_9+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=270],
+        Koriste-esine_2_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_3_6+ominaisuudet:[kääntö=270,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_3_7+ominaisuudet:[kääntö=270,peilaus=x,kuva=kassa_vihkokiinni_e.png],
+        Koriste-esine_3_8+ominaisuudet:[kääntö=270,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_3_9+ominaisuudet:[kääntö=270,kuva=kassa_liukuhihna_e.png],
         Koriste-esine_3_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png],
-        Koriste-esine_3_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Koriste-esine_3_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kaupparuutu_4_7,
-        Kauppahylly_4_14+ominaisuudet:[sisältö=Kuparilager,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_4_15+ominaisuudet:[sisältö=Kuparilager,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_4_16+ominaisuudet:[sisältö=Kuparilager,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_4_17+ominaisuudet:[sisältö=Kuparilager,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_4_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_4_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_4_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_4_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_4_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Kauppahylly_4_14+ominaisuudet:[kääntö=90,sisältö=Kuparilager],
+        Kauppahylly_4_15+ominaisuudet:[kääntö=90,sisältö=Kuparilager],
+        Kauppahylly_4_16+ominaisuudet:[kääntö=90,sisältö=Kuparilager],
+        Kauppahylly_4_17+ominaisuudet:[kääntö=90,sisältö=Kuparilager],
+        Koriste-esine_4_21+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_4_22+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_4_23+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_4_24+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_4_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kaupparuutu_5_7,
-        Koriste-esine_5_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_5_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_6_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=180],
-        Koriste-esine_6_7+ominaisuudet:[kuva=kassa_vihkokiinni_e.png,kääntö=90],
-        Koriste-esine_6_8+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=90],
-        Koriste-esine_6_9+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=90],
-        Koriste-esine_6_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90],
-        Koriste-esine_6_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_7_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,y-peilaus=kyllä],
+        Koriste-esine_5_14+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_15+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_16+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_17+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_21+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_22+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_23+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_24+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_5_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_6_6+ominaisuudet:[kääntö=180,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_6_7+ominaisuudet:[kääntö=90,kuva=kassa_vihkokiinni_e.png],
+        Koriste-esine_6_8+ominaisuudet:[kääntö=90,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_6_9+ominaisuudet:[kääntö=90,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_6_10+ominaisuudet:[kääntö=90,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_6_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_7_6+ominaisuudet:[peilaus=y,kuva=pöydänreuna_vapaa_e.png],
         Kauppias_7_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_7_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Koriste-esine_7_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_8_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270],
-        Koriste-esine_8_7+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
-        Koriste-esine_8_8+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
-        Koriste-esine_8_9+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
+        Koriste-esine_7_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_8_6+ominaisuudet:[kääntö=270,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_8_7+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_8_8+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_8_9+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
         Koriste-esine_8_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png],
-        Koriste-esine_8_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_9_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=180],
-        Koriste-esine_9_7+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_9_8+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_9_9+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_9_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90],
-        Koriste-esine_9_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_9_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_9_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_9_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_9_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_9_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_9_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Kauppahylly_9_24+ominaisuudet:[sisältö=Kaasusytytin,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_9_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_10_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,x-peilaus=kyllä,y-peilaus=kyllä],
+        Koriste-esine_8_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_9_6+ominaisuudet:[kääntö=180,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_9_7+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_9_8+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_9_9+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_9_10+ominaisuudet:[kääntö=90,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_9_14+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_9_15+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_9_16+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_9_17+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_9_21+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_9_22+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_9_23+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Kauppahylly_9_24+ominaisuudet:[kääntö=90,sisältö=Kaasusytytin],
+        Koriste-esine_9_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_10_6+ominaisuudet:[peilaus=xy,kuva=pöydänreuna_vapaa_e.png],
         Kauppias_10_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_10_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Koriste-esine_10_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_10_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_11_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270],
-        Koriste-esine_11_7+ominaisuudet:[kuva=kassa_vihkokiinni_e.png,kääntö=270,x-peilaus=kyllä],
-        Koriste-esine_11_8+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=270],
-        Koriste-esine_11_9+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=270],
+        Koriste-esine_10_14+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_15+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_16+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_17+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_21+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_22+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_23+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_24+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_10_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_11_6+ominaisuudet:[kääntö=270,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_11_7+ominaisuudet:[kääntö=270,peilaus=x,kuva=kassa_vihkokiinni_e.png],
+        Koriste-esine_11_8+ominaisuudet:[kääntö=270,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_11_9+ominaisuudet:[kääntö=270,kuva=kassa_liukuhihna_e.png],
         Koriste-esine_11_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png],
-        Koriste-esine_11_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Koriste-esine_11_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kaupparuutu_12_7,
-        Koriste-esine_12_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Koriste-esine_12_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kaupparuutu_13_7,
-        Koriste-esine_13_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_14_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=180],
-        Koriste-esine_14_7+ominaisuudet:[kuva=kassa_vihkokiinni_e.png,kääntö=90],
-        Koriste-esine_14_8+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=90],
-        Koriste-esine_14_9+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=90],
-        Koriste-esine_14_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90],
-        Koriste-esine_14_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_14_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_15_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,y-peilaus=kyllä],
+        Koriste-esine_13_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_14_6+ominaisuudet:[kääntö=180,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_14_7+ominaisuudet:[kääntö=90,kuva=kassa_vihkokiinni_e.png],
+        Koriste-esine_14_8+ominaisuudet:[kääntö=90,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_14_9+ominaisuudet:[kääntö=90,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_14_10+ominaisuudet:[kääntö=90,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_14_14+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_15+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_16+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_17+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_21+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_22+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_23+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_24+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_14_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_15_6+ominaisuudet:[peilaus=y,kuva=pöydänreuna_vapaa_e.png],
         Kauppias_15_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_15_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Koriste-esine_15_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_15_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_16_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270],
-        Koriste-esine_16_7+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
-        Koriste-esine_16_8+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
-        Koriste-esine_16_9+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
+        Koriste-esine_15_14+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_15+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_16+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_17+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_21+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_22+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_23+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_24+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_15_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_16_6+ominaisuudet:[kääntö=270,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_16_7+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_16_8+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_16_9+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
         Koriste-esine_16_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png],
-        Koriste-esine_16_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_17_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=180],
-        Koriste-esine_17_7+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_17_8+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_17_9+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_17_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90],
-        Koriste-esine_17_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_18_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,x-peilaus=kyllä,y-peilaus=kyllä],
+        Koriste-esine_16_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_17_6+ominaisuudet:[kääntö=180,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_17_7+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_17_8+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_17_9+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_17_10+ominaisuudet:[kääntö=90,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_17_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_18_6+ominaisuudet:[peilaus=xy,kuva=pöydänreuna_vapaa_e.png],
         Kauppias_18_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_18_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Koriste-esine_18_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_19_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270],
-        Koriste-esine_19_7+ominaisuudet:[kuva=kassa_vihkokiinni_e.png,kääntö=270,x-peilaus=kyllä],
-        Koriste-esine_19_8+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=270],
-        Koriste-esine_19_9+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=270],
+        Koriste-esine_18_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_19_6+ominaisuudet:[kääntö=270,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_19_7+ominaisuudet:[kääntö=270,peilaus=x,kuva=kassa_vihkokiinni_e.png],
+        Koriste-esine_19_8+ominaisuudet:[kääntö=270,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_19_9+ominaisuudet:[kääntö=270,kuva=kassa_liukuhihna_e.png],
         Koriste-esine_19_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Kauppahylly_19_14+ominaisuudet:[sisältö=Suklaalevy,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_19_15+ominaisuudet:[sisältö=Suklaalevy,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_19_16+ominaisuudet:[sisältö=Suklaalevy,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_19_17+ominaisuudet:[sisältö=Suklaalevy,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_19_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_19_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_19_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_19_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_19_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Kauppahylly_19_14+ominaisuudet:[kääntö=90,sisältö=Suklaalevy],
+        Kauppahylly_19_15+ominaisuudet:[kääntö=90,sisältö=Suklaalevy],
+        Kauppahylly_19_16+ominaisuudet:[kääntö=90,sisältö=Suklaalevy],
+        Kauppahylly_19_17+ominaisuudet:[kääntö=90,sisältö=Suklaalevy],
+        Koriste-esine_19_21+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_19_22+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_19_23+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_19_24+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_19_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kaupparuutu_20_7,
-        Koriste-esine_20_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_20_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Koriste-esine_20_14+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_15+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_16+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_17+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_21+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_22+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_23+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_24+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_20_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kaupparuutu_21_7,
-        Koriste-esine_21_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_22_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=180],
-        Koriste-esine_22_7+ominaisuudet:[kuva=kassa_vihkokiinni_e.png,kääntö=90],
-        Koriste-esine_22_8+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=90],
-        Koriste-esine_22_9+ominaisuudet:[kuva=kassa_liukuhihna_e.png,kääntö=90],
-        Koriste-esine_22_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=90],
-        Koriste-esine_22_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_23_6+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,y-peilaus=kyllä],
+        Koriste-esine_21_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_22_6+ominaisuudet:[kääntö=180,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_22_7+ominaisuudet:[kääntö=90,kuva=kassa_vihkokiinni_e.png],
+        Koriste-esine_22_8+ominaisuudet:[kääntö=90,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_22_9+ominaisuudet:[kääntö=90,kuva=kassa_liukuhihna_e.png],
+        Koriste-esine_22_10+ominaisuudet:[kääntö=90,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_22_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_23_6+ominaisuudet:[peilaus=y,kuva=pöydänreuna_vapaa_e.png],
         Kauppias_23_7+ominaisuudet:[dialogi=vakio],
         Koriste-esine_23_10+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
-        Koriste-esine_23_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
+        Koriste-esine_23_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
         Kauppaovi_24_0+ominaisuudet:[kohdehuone=2,kohderuutuX=16,kohderuutuY=12,suunta=Ylös],
-        Koriste-esine_24_6+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png,kääntö=270],
-        Koriste-esine_24_7+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
-        Koriste-esine_24_8+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
-        Koriste-esine_24_9+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=270],
+        Koriste-esine_24_6+ominaisuudet:[kääntö=270,kuva=pöydännurkka_vapaa_e.png],
+        Koriste-esine_24_7+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_24_8+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_24_9+ominaisuudet:[kääntö=270,kuva=pöydänkeskus_vapaa_e.png],
         Koriste-esine_24_10+ominaisuudet:[kuva=pöydännurkka_vapaa_e.png],
-        Koriste-esine_24_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_24_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_25_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_24+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=270],
-        Koriste-esine_25_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_26_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Koriste-esine_27_28+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=180],
-        Pulloautomaatti_28_2,
-        Pulloautomaatti_28_4,
-        Koriste-esine_28_14+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_15+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_16+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_17+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_18+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_19+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_20+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_21+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_22+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Koriste-esine_28_23+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90],
-        Kauppahylly_28_24+ominaisuudet:[sisältö=Makkara,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_28_25+ominaisuudet:[sisältö=Makkara,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Kauppahylly_28_26+ominaisuudet:[sisältö=Makkara,kääntö=90,x-peilaus=ei,y-peilaus=ei],
-        Koriste-esine_28_27+ominaisuudet:[kuva=kauppahylly_e.png,kääntö=90];
+        Koriste-esine_24_14+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_15+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_16+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_17+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_21+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_22+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_23+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_24+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_24_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_25_14+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_15+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_16+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_17+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_21+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_22+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_23+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_24+ominaisuudet:[kääntö=270,kuva=kauppahylly_e.png],
+        Koriste-esine_25_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_26_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Koriste-esine_27_28+ominaisuudet:[kääntö=180,kuva=kauppahylly_e.png],
+        Pulloautomaatti_28_2+ominaisuudet:[kääntö=90],
+        Pulloautomaatti_28_4+ominaisuudet:[kääntö=90],
+        Koriste-esine_28_14+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_15+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_16+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_17+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_18+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_19+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_20+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_21+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_22+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Koriste-esine_28_23+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png],
+        Kauppahylly_28_24+ominaisuudet:[kääntö=90,sisältö=Makkara],
+        Kauppahylly_28_25+ominaisuudet:[kääntö=90,sisältö=Makkara],
+        Kauppahylly_28_26+ominaisuudet:[kääntö=90,sisältö=Makkara],
+        Koriste-esine_28_27+ominaisuudet:[kääntö=90,kuva=kauppahylly_e.png];
     }
     #maasto: {
         Tile_0_0+ominaisuudet:[kuva=seinä_e.png],
@@ -5059,7 +5059,7 @@ Huone 5:
     #koko: 20;
     #nimi: Koti;
     #alue: Koti;
-    #tausta: tausta_koti.png;
+    #tausta: tausta_koti;
     #musa: koti;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -5075,20 +5075,20 @@ Huone 5:
         Koriste-esine_2_1+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png],
         Oviruutu_2_19+ominaisuudet:[kohdehuone=8,kohderuutuX=50,kohderuutuY=15,suunta=Alas],
         Koriste-esine_3_1+ominaisuudet:[kuva=pöydänkeskus_tv1_e.png],
-        Koriste-esine_4_1+ominaisuudet:[kuva=pöydänreuna_vapaa_e.png,x-peilaus=kyllä],
+        Koriste-esine_4_1+ominaisuudet:[peilaus=x,kuva=pöydänreuna_vapaa_e.png],
         Koriste-esine_4_16+ominaisuudet:[kuva=tuoli.png],
         Kaasusytytin_4_18+ominaisuudet:[toimivuus=tyhjä],
         Kirstu_5_8+ominaisuudet:[sisältö=Pesäpallomaila],
         Koriste-esine_5_16+ominaisuudet:[kuva=pöytä_e.png],
-        Koriste-esine_6_16+ominaisuudet:[kuva=tuoli.png,x-peilaus=kyllä],
+        Koriste-esine_6_16+ominaisuudet:[peilaus=x,kuva=tuoli.png],
         Kartta_7_12,
-        Koriste-esine_8_7+ominaisuudet:[kuva=sänky2.png,y-peilaus=kyllä],
+        Koriste-esine_8_7+ominaisuudet:[peilaus=y,kuva=sänky2.png],
         Sänky_8_8,
         Koriste-esine_11_4+ominaisuudet:[kuva=wc_pönttö.png],
         Seteli_12_4,
         Koriste-esine_13_4+ominaisuudet:[kuva=wc_lavuaari.png],
         Koriste-esine_15_4+ominaisuudet:[kuva=pyykkinaru_e.png],
-        Koriste-esine_16_2+ominaisuudet:[kuva=wc_suihku.png,kääntö=90],
+        Koriste-esine_16_2+ominaisuudet:[kääntö=90,kuva=wc_suihku.png],
         Koriste-esine_16_4+ominaisuudet:[kuva=pyykkinaru_e.png];
     }
     #maasto: {
@@ -5160,9 +5160,9 @@ Huone 5:
         Tile_3_5+ominaisuudet:[kuva=lattia.png],
         Tile_3_6+ominaisuudet:[kuva=lattia.png],
         Tile_3_7+ominaisuudet:[kuva=kaappi_e.png,kääntö=90],
-        Tile_3_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=270,y-peilaus=kyllä],
+        Tile_3_8+ominaisuudet:[kuva=kaappi_e.png,kääntö=270,peilaus=y],
         Tile_3_9+ominaisuudet:[kuva=seinä_e.png],
-        Tile_3_10+ominaisuudet:[kuva=kylmiö_e.png,y-peilaus=kyllä],
+        Tile_3_10+ominaisuudet:[kuva=kylmiö_e.png,peilaus=y],
         Tile_3_11+ominaisuudet:[kuva=kylmiö_e.png],
         Tile_3_12+ominaisuudet:[kuva=lattia.png],
         Tile_3_13+ominaisuudet:[kuva=lattia.png],
@@ -5202,8 +5202,8 @@ Huone 5:
         Tile_5_7+ominaisuudet:[kuva=lattia.png],
         Tile_5_8+ominaisuudet:[kuva=lattia.png],
         Tile_5_9+ominaisuudet:[kuva=seinä_e.png],
-        Tile_5_10+ominaisuudet:[kuva=kaappi_e.png,x-peilaus=kyllä],
-        Tile_5_11+ominaisuudet:[kuva=kaappi_e.png,x-peilaus=kyllä],
+        Tile_5_10+ominaisuudet:[kuva=kaappi_e.png,peilaus=x],
+        Tile_5_11+ominaisuudet:[kuva=kaappi_e.png,peilaus=x],
         Tile_5_12+ominaisuudet:[kuva=lattia.png],
         Tile_5_13+ominaisuudet:[kuva=lattia.png],
         Tile_5_14+ominaisuudet:[kuva=lattia.png],
@@ -5242,8 +5242,8 @@ Huone 5:
         Tile_7_7+ominaisuudet:[kuva=lattia.png],
         Tile_7_8+ominaisuudet:[kuva=lattia.png],
         Tile_7_9+ominaisuudet:[kuva=seinä_e.png],
-        Tile_7_10+ominaisuudet:[kuva=kaappi_e.png,x-peilaus=kyllä],
-        Tile_7_11+ominaisuudet:[kuva=kaappi_e.png,x-peilaus=kyllä],
+        Tile_7_10+ominaisuudet:[kuva=kaappi_e.png,peilaus=x],
+        Tile_7_11+ominaisuudet:[kuva=kaappi_e.png,peilaus=x],
         Tile_7_12+ominaisuudet:[kuva=lattia.png],
         Tile_7_13+ominaisuudet:[kuva=lattia.png],
         Tile_7_14+ominaisuudet:[kuva=lattia.png],
@@ -5265,12 +5265,12 @@ Huone 5:
         Tile_8_10+ominaisuudet:[kuva=seinä_e.png],
         Tile_8_11+ominaisuudet:[kuva=keittiötaso_e.png],
         Tile_8_12+ominaisuudet:[kuva=kaappi_e.png,kääntö=90],
-        Tile_8_13+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä],
+        Tile_8_13+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,peilaus=x],
         Tile_8_14+ominaisuudet:[kuva=uuni_e.png,kääntö=90],
         Tile_8_15+ominaisuudet:[kuva=kaappi_e.png,kääntö=90],
-        Tile_8_16+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä],
+        Tile_8_16+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,peilaus=x],
         Tile_8_17+ominaisuudet:[kuva=kaappi_e.png,kääntö=90],
-        Tile_8_18+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,x-peilaus=kyllä],
+        Tile_8_18+ominaisuudet:[kuva=kaappi_e.png,kääntö=90,peilaus=x],
         Tile_8_19+ominaisuudet:[kuva=keittiötaso_e.png],
         Tile_9_0+ominaisuudet:[kuva=seinä_e.png],
         Tile_9_1+ominaisuudet:[kuva=lattia.png],
@@ -5286,7 +5286,7 @@ Huone 5:
         Tile_9_11+ominaisuudet:[kuva=keittiötaso_e.png],
         Tile_9_12+ominaisuudet:[kuva=keittiötaso_e.png],
         Tile_9_13+ominaisuudet:[kuva=keittiötaso_e.png],
-        Tile_9_14+ominaisuudet:[kuva=tiskiallas_e.png,y-peilaus=kyllä],
+        Tile_9_14+ominaisuudet:[kuva=tiskiallas_e.png,peilaus=y],
         Tile_9_15+ominaisuudet:[kuva=tiskiallas_e.png],
         Tile_9_16+ominaisuudet:[kuva=keittiötaso_e.png],
         Tile_9_17+ominaisuudet:[kuva=keittiötaso_e.png],
@@ -5310,8 +5310,8 @@ Huone 5:
         Tile_11_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90],
         Tile_11_6+ominaisuudet:[kuva=seinä_e.png],
         Tile_11_7+ominaisuudet:[kuva=seinä_e.png],
-        Tile_11_8+ominaisuudet:[kuva=kylmiö_e.png,x-peilaus=kyllä],
-        Tile_11_9+ominaisuudet:[kuva=kylmiö_e.png,x-peilaus=kyllä],
+        Tile_11_8+ominaisuudet:[kuva=kylmiö_e.png,peilaus=x],
+        Tile_11_9+ominaisuudet:[kuva=kylmiö_e.png,peilaus=x],
         Tile_12_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270],
         Tile_12_1+ominaisuudet:[kuva=wc_lattia.png],
         Tile_12_2+ominaisuudet:[kuva=wc_lattia.png],
@@ -5320,8 +5320,8 @@ Huone 5:
         Tile_12_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90],
         Tile_12_6+ominaisuudet:[kuva=seinä_e.png],
         Tile_12_7+ominaisuudet:[kuva=seinä_e.png],
-        Tile_12_8+ominaisuudet:[kuva=kaappi_e.png,y-peilaus=kyllä],
-        Tile_12_9+ominaisuudet:[kuva=kaappi_e.png,y-peilaus=kyllä],
+        Tile_12_8+ominaisuudet:[kuva=kaappi_e.png,peilaus=y],
+        Tile_12_9+ominaisuudet:[kuva=kaappi_e.png,peilaus=y],
         Tile_13_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270],
         Tile_13_1+ominaisuudet:[kuva=wc_lattia.png],
         Tile_13_2+ominaisuudet:[kuva=wc_lattia.png],
@@ -5330,8 +5330,8 @@ Huone 5:
         Tile_13_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90],
         Tile_13_6+ominaisuudet:[kuva=seinä_e.png],
         Tile_13_7+ominaisuudet:[kuva=seinä_e.png],
-        Tile_13_8+ominaisuudet:[kuva=kaappi_e.png,y-peilaus=kyllä],
-        Tile_13_9+ominaisuudet:[kuva=kaappi_e.png,y-peilaus=kyllä],
+        Tile_13_8+ominaisuudet:[kuva=kaappi_e.png,peilaus=y],
+        Tile_13_9+ominaisuudet:[kuva=kaappi_e.png,peilaus=y],
         Tile_14_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270],
         Tile_14_1+ominaisuudet:[kuva=wc_lattia.png],
         Tile_14_2+ominaisuudet:[kuva=wc_lattia.png],
@@ -5340,8 +5340,8 @@ Huone 5:
         Tile_14_5+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=90],
         Tile_14_6+ominaisuudet:[kuva=seinä_e.png],
         Tile_14_7+ominaisuudet:[kuva=seinä_e.png],
-        Tile_14_8+ominaisuudet:[kuva=kaappi_e.png,x-peilaus=kyllä,y-peilaus=kyllä],
-        Tile_14_9+ominaisuudet:[kuva=kaappi_e.png,x-peilaus=kyllä,y-peilaus=kyllä],
+        Tile_14_8+ominaisuudet:[kuva=kaappi_e.png,peilaus=xy],
+        Tile_14_9+ominaisuudet:[kuva=kaappi_e.png,peilaus=xy],
         Tile_15_0+ominaisuudet:[kuva=wc_seinä_e.png,kääntö=270],
         Tile_15_1+ominaisuudet:[kuva=wc_lattia.png],
         Tile_15_2+ominaisuudet:[kuva=wc_lattiakaivo.png],
@@ -5400,7 +5400,7 @@ Huone 6:
     #koko: 10;
     #nimi: Metsä_kalja;
     #alue: Metsä;
-    #tausta: tausta_metsä.png;
+    #tausta: tausta_metsä;
     #musa: metsä;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -5583,7 +5583,7 @@ Huone 7:
     #koko: 10;
     #nimi: Metsä_boss;
     #alue: Metsä;
-    #tausta: tausta_metsä.png;
+    #tausta: tausta_metsä;
     #musa: metsä;
     #warp_vasen: 3;
     #warp_oikea: ;
@@ -5704,7 +5704,7 @@ Huone 8:
     #koko: 100;
     #nimi: Yo-kylä_Itä;
     #alue: Asuintalot;
-    #tausta: tausta_asuintalot.png;
+    #tausta: tausta_asuintalot;
     #musa: overworld;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -9028,7 +9028,7 @@ Huone 8:
         Tile_51_50+ominaisuudet:[kuva=autotie.png],
         Tile_51_51+ominaisuudet:[kuva=ruoho.png],
         Tile_51_52+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_51_53+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_51_53+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_51_55+ominaisuudet:[kuva=pensas_e.png],
         Tile_51_56+ominaisuudet:[kuva=ruoho.png],
         Tile_51_57+ominaisuudet:[kuva=ruoho.png],
@@ -9133,7 +9133,7 @@ Huone 8:
         Tile_52_63+ominaisuudet:[kuva=ruoho.png],
         Tile_52_64+ominaisuudet:[kuva=ruoho.png],
         Tile_52_65+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_52_66+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_52_66+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_52_68+ominaisuudet:[kuva=pensas_e.png],
         Tile_52_69+ominaisuudet:[kuva=ruoho.png],
         Tile_52_70+ominaisuudet:[kuva=ruoho.png],
@@ -9304,7 +9304,7 @@ Huone 8:
         Tile_54_47+ominaisuudet:[kuva=autotie.png],
         Tile_54_48+ominaisuudet:[kuva=ruoho.png],
         Tile_54_49+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_54_50+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_54_50+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_54_52+ominaisuudet:[kuva=pensas_e.png],
         Tile_54_53+ominaisuudet:[kuva=ruoho.png],
         Tile_54_54+ominaisuudet:[kuva=ruoho.png],
@@ -9585,7 +9585,7 @@ Huone 8:
         Tile_57_44+ominaisuudet:[kuva=autotie.png],
         Tile_57_45+ominaisuudet:[kuva=ruoho.png],
         Tile_57_46+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_57_47+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_57_47+ominaisuudet:[kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_57_49+ominaisuudet:[kuva=pensas_e.png],
         Tile_57_50+ominaisuudet:[kuva=ruoho.png],
         Tile_57_51+ominaisuudet:[kuva=ruoho.png],
@@ -9598,7 +9598,7 @@ Huone 8:
         Tile_57_58+ominaisuudet:[kuva=ruoho.png],
         Tile_57_59+ominaisuudet:[kuva=ruoho.png],
         Tile_57_60+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_57_61+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_57_61+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_57_63+ominaisuudet:[kuva=pensas_e.png],
         Tile_57_64+ominaisuudet:[kuva=pensas_e.png],
         Tile_57_65+ominaisuudet:[kuva=ruoho.png],
@@ -9963,7 +9963,7 @@ Huone 8:
         Tile_61_40+ominaisuudet:[kuva=autotie.png],
         Tile_61_41+ominaisuudet:[kuva=ruoho.png],
         Tile_61_42+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_61_43+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_61_43+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_61_45+ominaisuudet:[kuva=pensas_e.png],
         Tile_61_46+ominaisuudet:[kuva=pensas_e.png],
         Tile_61_47+ominaisuudet:[kuva=ruoho.png],
@@ -10068,7 +10068,7 @@ Huone 8:
         Tile_62_53+ominaisuudet:[kuva=ruoho.png],
         Tile_62_54+ominaisuudet:[kuva=ruoho.png],
         Tile_62_55+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_62_56+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_62_56+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_62_58+ominaisuudet:[kuva=pensas_e.png],
         Tile_62_59+ominaisuudet:[kuva=pensas_e.png],
         Tile_62_60+ominaisuudet:[kuva=pensas_e.png],
@@ -10232,7 +10232,7 @@ Huone 8:
         Tile_64_37+ominaisuudet:[kuva=autotie.png],
         Tile_64_38+ominaisuudet:[kuva=ruoho.png],
         Tile_64_39+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_64_40+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_64_40+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_64_42+ominaisuudet:[kuva=pensas_e.png],
         Tile_64_43+ominaisuudet:[kuva=ruoho.png],
         Tile_64_44+ominaisuudet:[kuva=ruoho.png],
@@ -10504,7 +10504,7 @@ Huone 8:
         Tile_67_48+ominaisuudet:[kuva=ruoho.png],
         Tile_67_49+ominaisuudet:[kuva=ruoho.png],
         Tile_67_50+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_67_51+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_67_51+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_67_53+ominaisuudet:[kuva=pensas_e.png],
         Tile_67_54+ominaisuudet:[kuva=pensas_e.png],
         Tile_67_55+ominaisuudet:[kuva=ruoho.png],
@@ -10933,7 +10933,7 @@ Huone 8:
         Tile_72_43+ominaisuudet:[kuva=ruoho.png],
         Tile_72_44+ominaisuudet:[kuva=ruoho.png],
         Tile_72_45+ominaisuudet:[kuva=pensas_e.png],
-        IsoLaatta_72_46+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
+        Tile_72_46+ominaisuudet:[kuva=talo_sininen_iso_e.png,leveys=2,korkeus=2],
         Tile_72_48+ominaisuudet:[kuva=pensas_e.png],
         Tile_72_49+ominaisuudet:[kuva=pensas_e.png],
         Tile_72_50+ominaisuudet:[kuva=ruoho.png],
@@ -13219,7 +13219,7 @@ Huone 9:
     #koko: 30;
     #nimi: Keimo-baari;
     #alue: Baari;
-    #tausta: tausta_baari.png;
+    #tausta: tausta_baari;
     #musa: baari;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -13228,110 +13228,110 @@ Huone 9:
     #tarina: baari;
     #tavoite: Sytytä nuotio;
     #kenttä: {
-        Koriste-esine_1_3+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_1_6+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_1_8+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_1_11+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_1_13+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_1_16+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_1_18+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_1_21+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_1_23+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_1_26+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
+        Koriste-esine_1_3+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_1_6+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_1_8+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_1_11+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_1_13+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_1_16+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_1_18+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_1_21+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_1_23+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_1_26+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
         Pasi_2_8+ominaisuudet:[dialogi=baari],
-        Koriste-esine_3_3+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_3_6+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_3_8+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_3_11+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_3_13+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_3_16+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_3_18+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_3_21+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_3_23+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_3_26+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_5_3+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_5_6+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_5_8+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_5_11+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_5_13+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_5_16+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_5_18+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_5_21+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_5_23+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_5_26+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_7_3+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_7_6+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_7_8+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_7_11+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_7_13+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_7_16+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_7_18+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_7_21+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_7_23+ominaisuudet:[kuva=tuoli.png,kääntö=90,y-peilaus=kyllä],
-        Koriste-esine_7_26+ominaisuudet:[kuva=tuoli.png,kääntö=90,x-peilaus=kyllä,y-peilaus=kyllä],
+        Koriste-esine_3_3+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_3_6+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_3_8+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_3_11+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_3_13+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_3_16+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_3_18+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_3_21+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_3_23+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_3_26+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_5_3+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_5_6+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_5_8+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_5_11+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_5_13+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_5_16+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_5_18+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_5_21+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_5_23+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_5_26+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_7_3+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_7_6+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_7_8+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_7_11+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_7_13+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_7_16+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_7_18+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_7_21+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_7_23+ominaisuudet:[kääntö=90,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_7_26+ominaisuudet:[kääntö=90,peilaus=xy,kuva=tuoli.png],
         Salaovi_8_0+ominaisuudet:[kohdehuone=13,kohderuutuX=15,kohderuutuY=29,suunta=Ylös],
-        Koriste-esine_11_1+ominaisuudet:[kuva=wc_pönttö.png,kääntö=270,y-peilaus=kyllä],
+        Koriste-esine_11_1+ominaisuudet:[kääntö=270,peilaus=y,kuva=wc_pönttö.png],
         Koriste-esine_11_2+ominaisuudet:[kuva=pyykkinaru_e.png],
         Puuovi_11_6+ominaisuudet:[kohdehuone=9,kohderuutuX=11,kohderuutuY=5,suunta=Ylös],
         Kauppias_11_16+ominaisuudet:[dialogi=vakio],
         Baariruutu_11_18+ominaisuudet:[tyyppi=normaali],
-        Koriste-esine_13_1+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=90],
-        Koriste-esine_13_2+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=90],
+        Koriste-esine_13_1+ominaisuudet:[kääntö=90,kuva=pyykkinaru_e.png],
+        Koriste-esine_13_2+ominaisuudet:[kääntö=90,kuva=pyykkinaru_e.png],
         Koriste-esine_13_5+ominaisuudet:[kuva=wc_lavuaari.png],
         Baariovi_14_29+ominaisuudet:[kohdehuone=1,kohderuutuX=17,kohderuutuY=1,suunta=Alas],
-        Koriste-esine_15_1+ominaisuudet:[kuva=wc_pönttö.png,kääntö=90,y-peilaus=kyllä],
+        Koriste-esine_15_1+ominaisuudet:[kääntö=90,peilaus=y,kuva=wc_pönttö.png],
         Koriste-esine_15_2+ominaisuudet:[kuva=pyykkinaru_e.png],
         Koriste-esine_15_5+ominaisuudet:[kuva=wc_lavuaari.png],
         Baariovi_15_29+ominaisuudet:[kohdehuone=1,kohderuutuX=17,kohderuutuY=1,suunta=Alas],
-        Koriste-esine_16_1+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=90],
-        Koriste-esine_16_2+ominaisuudet:[kuva=pyykkinaru_e.png,kääntö=90],
-        Koriste-esine_18_1+ominaisuudet:[kuva=wc_suihku.png,kääntö=90],
-        Koriste-esine_18_2+ominaisuudet:[kuva=wc_suihku.png,kääntö=90],
-        Koriste-esine_18_3+ominaisuudet:[kuva=wc_suihku.png,kääntö=90],
-        Koriste-esine_18_4+ominaisuudet:[kuva=wc_suihku.png,kääntö=90],
-        Koriste-esine_18_5+ominaisuudet:[kuva=wc_suihku.png,kääntö=90],
+        Koriste-esine_16_1+ominaisuudet:[kääntö=90,kuva=pyykkinaru_e.png],
+        Koriste-esine_16_2+ominaisuudet:[kääntö=90,kuva=pyykkinaru_e.png],
+        Koriste-esine_18_1+ominaisuudet:[kääntö=90,kuva=wc_suihku.png],
+        Koriste-esine_18_2+ominaisuudet:[kääntö=90,kuva=wc_suihku.png],
+        Koriste-esine_18_3+ominaisuudet:[kääntö=90,kuva=wc_suihku.png],
+        Koriste-esine_18_4+ominaisuudet:[kääntö=90,kuva=wc_suihku.png],
+        Koriste-esine_18_5+ominaisuudet:[kääntö=90,kuva=wc_suihku.png],
         Kauppias_18_16+ominaisuudet:[dialogi=vakio],
         Baariruutu_18_18+ominaisuudet:[tyyppi=normaali],
-        Pelikone_22_3,
-        Koriste-esine_22_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä];
+        Pelikone_22_3+ominaisuudet:[tyyppi=0],
+        Koriste-esine_22_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png];
     }
     #maasto: {
         Tile_0_0+ominaisuudet:[kuva=keittiötaso_e.png],
@@ -13399,27 +13399,27 @@ Huone 9:
         Tile_2_2+ominaisuudet:[kuva=lattia.png],
         Tile_2_3+ominaisuudet:[kuva=lattia.png],
         Tile_2_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_2_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_2_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_2_6+ominaisuudet:[kuva=lattia.png],
         Tile_2_7+ominaisuudet:[kuva=lattia.png],
         Tile_2_8+ominaisuudet:[kuva=lattia.png],
         Tile_2_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_2_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_2_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_2_11+ominaisuudet:[kuva=lattia.png],
         Tile_2_12+ominaisuudet:[kuva=lattia.png],
         Tile_2_13+ominaisuudet:[kuva=lattia.png],
         Tile_2_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_2_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_2_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_2_16+ominaisuudet:[kuva=lattia.png],
         Tile_2_17+ominaisuudet:[kuva=lattia.png],
         Tile_2_18+ominaisuudet:[kuva=lattia.png],
         Tile_2_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_2_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_2_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_2_21+ominaisuudet:[kuva=lattia.png],
         Tile_2_22+ominaisuudet:[kuva=lattia.png],
         Tile_2_23+ominaisuudet:[kuva=lattia.png],
         Tile_2_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_2_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_2_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_2_26+ominaisuudet:[kuva=lattia.png],
         Tile_2_27+ominaisuudet:[kuva=lattia.png],
         Tile_2_28+ominaisuudet:[kuva=lattia.png],
@@ -13429,27 +13429,27 @@ Huone 9:
         Tile_3_2+ominaisuudet:[kuva=lattia.png],
         Tile_3_3+ominaisuudet:[kuva=lattia.png],
         Tile_3_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_3_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_3_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_3_6+ominaisuudet:[kuva=lattia.png],
         Tile_3_7+ominaisuudet:[kuva=lattia.png],
         Tile_3_8+ominaisuudet:[kuva=lattia.png],
         Tile_3_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_3_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_3_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_3_11+ominaisuudet:[kuva=lattia.png],
         Tile_3_12+ominaisuudet:[kuva=lattia.png],
         Tile_3_13+ominaisuudet:[kuva=lattia.png],
         Tile_3_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_3_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_3_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_3_16+ominaisuudet:[kuva=lattia.png],
         Tile_3_17+ominaisuudet:[kuva=lattia.png],
         Tile_3_18+ominaisuudet:[kuva=lattia.png],
         Tile_3_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_3_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_3_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_3_21+ominaisuudet:[kuva=lattia.png],
         Tile_3_22+ominaisuudet:[kuva=lattia.png],
         Tile_3_23+ominaisuudet:[kuva=lattia.png],
         Tile_3_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_3_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_3_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_3_26+ominaisuudet:[kuva=lattia.png],
         Tile_3_27+ominaisuudet:[kuva=lattia.png],
         Tile_3_28+ominaisuudet:[kuva=lattia.png],
@@ -13459,27 +13459,27 @@ Huone 9:
         Tile_4_2+ominaisuudet:[kuva=lattia.png],
         Tile_4_3+ominaisuudet:[kuva=lattia.png],
         Tile_4_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_4_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_4_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_4_6+ominaisuudet:[kuva=lattia.png],
         Tile_4_7+ominaisuudet:[kuva=lattia.png],
         Tile_4_8+ominaisuudet:[kuva=lattia.png],
         Tile_4_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_4_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_4_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_4_11+ominaisuudet:[kuva=lattia.png],
         Tile_4_12+ominaisuudet:[kuva=lattia.png],
         Tile_4_13+ominaisuudet:[kuva=lattia.png],
         Tile_4_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_4_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_4_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_4_16+ominaisuudet:[kuva=lattia.png],
         Tile_4_17+ominaisuudet:[kuva=lattia.png],
         Tile_4_18+ominaisuudet:[kuva=lattia.png],
         Tile_4_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_4_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_4_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_4_21+ominaisuudet:[kuva=lattia.png],
         Tile_4_22+ominaisuudet:[kuva=lattia.png],
         Tile_4_23+ominaisuudet:[kuva=lattia.png],
         Tile_4_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_4_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_4_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_4_26+ominaisuudet:[kuva=lattia.png],
         Tile_4_27+ominaisuudet:[kuva=lattia.png],
         Tile_4_28+ominaisuudet:[kuva=lattia.png],
@@ -13489,27 +13489,27 @@ Huone 9:
         Tile_5_2+ominaisuudet:[kuva=lattia.png],
         Tile_5_3+ominaisuudet:[kuva=lattia.png],
         Tile_5_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_5_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_5_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_5_6+ominaisuudet:[kuva=lattia.png],
         Tile_5_7+ominaisuudet:[kuva=lattia.png],
         Tile_5_8+ominaisuudet:[kuva=lattia.png],
         Tile_5_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_5_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_5_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_5_11+ominaisuudet:[kuva=lattia.png],
         Tile_5_12+ominaisuudet:[kuva=lattia.png],
         Tile_5_13+ominaisuudet:[kuva=lattia.png],
         Tile_5_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_5_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_5_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_5_16+ominaisuudet:[kuva=lattia.png],
         Tile_5_17+ominaisuudet:[kuva=lattia.png],
         Tile_5_18+ominaisuudet:[kuva=lattia.png],
         Tile_5_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_5_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_5_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_5_21+ominaisuudet:[kuva=lattia.png],
         Tile_5_22+ominaisuudet:[kuva=lattia.png],
         Tile_5_23+ominaisuudet:[kuva=lattia.png],
         Tile_5_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_5_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_5_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_5_26+ominaisuudet:[kuva=lattia.png],
         Tile_5_27+ominaisuudet:[kuva=lattia.png],
         Tile_5_28+ominaisuudet:[kuva=lattia.png],
@@ -13519,27 +13519,27 @@ Huone 9:
         Tile_6_2+ominaisuudet:[kuva=lattia.png],
         Tile_6_3+ominaisuudet:[kuva=lattia.png],
         Tile_6_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_6_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_6_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_6_6+ominaisuudet:[kuva=lattia.png],
         Tile_6_7+ominaisuudet:[kuva=lattia.png],
         Tile_6_8+ominaisuudet:[kuva=lattia.png],
         Tile_6_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_6_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_6_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_6_11+ominaisuudet:[kuva=lattia.png],
         Tile_6_12+ominaisuudet:[kuva=lattia.png],
         Tile_6_13+ominaisuudet:[kuva=lattia.png],
         Tile_6_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_6_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_6_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_6_16+ominaisuudet:[kuva=lattia.png],
         Tile_6_17+ominaisuudet:[kuva=lattia.png],
         Tile_6_18+ominaisuudet:[kuva=lattia.png],
         Tile_6_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_6_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_6_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_6_21+ominaisuudet:[kuva=lattia.png],
         Tile_6_22+ominaisuudet:[kuva=lattia.png],
         Tile_6_23+ominaisuudet:[kuva=lattia.png],
         Tile_6_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_6_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_6_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_6_26+ominaisuudet:[kuva=lattia.png],
         Tile_6_27+ominaisuudet:[kuva=lattia.png],
         Tile_6_28+ominaisuudet:[kuva=lattia.png],
@@ -14029,27 +14029,27 @@ Huone 9:
         Tile_23_2+ominaisuudet:[kuva=lattia.png],
         Tile_23_3+ominaisuudet:[kuva=lattia.png],
         Tile_23_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_6+ominaisuudet:[kuva=lattia.png],
         Tile_23_7+ominaisuudet:[kuva=lattia.png],
         Tile_23_8+ominaisuudet:[kuva=lattia.png],
         Tile_23_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_11+ominaisuudet:[kuva=lattia.png],
         Tile_23_12+ominaisuudet:[kuva=lattia.png],
         Tile_23_13+ominaisuudet:[kuva=lattia.png],
         Tile_23_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_16+ominaisuudet:[kuva=lattia.png],
         Tile_23_17+ominaisuudet:[kuva=lattia.png],
         Tile_23_18+ominaisuudet:[kuva=lattia.png],
         Tile_23_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_21+ominaisuudet:[kuva=lattia.png],
         Tile_23_22+ominaisuudet:[kuva=lattia.png],
         Tile_23_23+ominaisuudet:[kuva=lattia.png],
         Tile_23_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_26+ominaisuudet:[kuva=lattia.png],
         Tile_23_27+ominaisuudet:[kuva=lattia.png],
         Tile_23_28+ominaisuudet:[kuva=lattia.png],
@@ -14059,27 +14059,27 @@ Huone 9:
         Tile_24_2+ominaisuudet:[kuva=lattia.png],
         Tile_24_3+ominaisuudet:[kuva=lattia.png],
         Tile_24_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_6+ominaisuudet:[kuva=lattia.png],
         Tile_24_7+ominaisuudet:[kuva=lattia.png],
         Tile_24_8+ominaisuudet:[kuva=lattia.png],
         Tile_24_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_11+ominaisuudet:[kuva=lattia.png],
         Tile_24_12+ominaisuudet:[kuva=lattia.png],
         Tile_24_13+ominaisuudet:[kuva=lattia.png],
         Tile_24_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_16+ominaisuudet:[kuva=lattia.png],
         Tile_24_17+ominaisuudet:[kuva=lattia.png],
         Tile_24_18+ominaisuudet:[kuva=lattia.png],
         Tile_24_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_21+ominaisuudet:[kuva=lattia.png],
         Tile_24_22+ominaisuudet:[kuva=lattia.png],
         Tile_24_23+ominaisuudet:[kuva=lattia.png],
         Tile_24_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_26+ominaisuudet:[kuva=lattia.png],
         Tile_24_27+ominaisuudet:[kuva=lattia.png],
         Tile_24_28+ominaisuudet:[kuva=lattia.png],
@@ -14089,27 +14089,27 @@ Huone 9:
         Tile_25_2+ominaisuudet:[kuva=lattia.png],
         Tile_25_3+ominaisuudet:[kuva=lattia.png],
         Tile_25_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_6+ominaisuudet:[kuva=lattia.png],
         Tile_25_7+ominaisuudet:[kuva=lattia.png],
         Tile_25_8+ominaisuudet:[kuva=lattia.png],
         Tile_25_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_11+ominaisuudet:[kuva=lattia.png],
         Tile_25_12+ominaisuudet:[kuva=lattia.png],
         Tile_25_13+ominaisuudet:[kuva=lattia.png],
         Tile_25_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_16+ominaisuudet:[kuva=lattia.png],
         Tile_25_17+ominaisuudet:[kuva=lattia.png],
         Tile_25_18+ominaisuudet:[kuva=lattia.png],
         Tile_25_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_21+ominaisuudet:[kuva=lattia.png],
         Tile_25_22+ominaisuudet:[kuva=lattia.png],
         Tile_25_23+ominaisuudet:[kuva=lattia.png],
         Tile_25_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_26+ominaisuudet:[kuva=lattia.png],
         Tile_25_27+ominaisuudet:[kuva=lattia.png],
         Tile_25_28+ominaisuudet:[kuva=lattia.png],
@@ -14119,27 +14119,27 @@ Huone 9:
         Tile_26_2+ominaisuudet:[kuva=lattia.png],
         Tile_26_3+ominaisuudet:[kuva=lattia.png],
         Tile_26_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_6+ominaisuudet:[kuva=lattia.png],
         Tile_26_7+ominaisuudet:[kuva=lattia.png],
         Tile_26_8+ominaisuudet:[kuva=lattia.png],
         Tile_26_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_11+ominaisuudet:[kuva=lattia.png],
         Tile_26_12+ominaisuudet:[kuva=lattia.png],
         Tile_26_13+ominaisuudet:[kuva=lattia.png],
         Tile_26_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_16+ominaisuudet:[kuva=lattia.png],
         Tile_26_17+ominaisuudet:[kuva=lattia.png],
         Tile_26_18+ominaisuudet:[kuva=lattia.png],
         Tile_26_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_21+ominaisuudet:[kuva=lattia.png],
         Tile_26_22+ominaisuudet:[kuva=lattia.png],
         Tile_26_23+ominaisuudet:[kuva=lattia.png],
         Tile_26_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_26+ominaisuudet:[kuva=lattia.png],
         Tile_26_27+ominaisuudet:[kuva=lattia.png],
         Tile_26_28+ominaisuudet:[kuva=lattia.png],
@@ -14149,27 +14149,27 @@ Huone 9:
         Tile_27_2+ominaisuudet:[kuva=lattia.png],
         Tile_27_3+ominaisuudet:[kuva=lattia.png],
         Tile_27_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_6+ominaisuudet:[kuva=lattia.png],
         Tile_27_7+ominaisuudet:[kuva=lattia.png],
         Tile_27_8+ominaisuudet:[kuva=lattia.png],
         Tile_27_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_11+ominaisuudet:[kuva=lattia.png],
         Tile_27_12+ominaisuudet:[kuva=lattia.png],
         Tile_27_13+ominaisuudet:[kuva=lattia.png],
         Tile_27_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_16+ominaisuudet:[kuva=lattia.png],
         Tile_27_17+ominaisuudet:[kuva=lattia.png],
         Tile_27_18+ominaisuudet:[kuva=lattia.png],
         Tile_27_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_21+ominaisuudet:[kuva=lattia.png],
         Tile_27_22+ominaisuudet:[kuva=lattia.png],
         Tile_27_23+ominaisuudet:[kuva=lattia.png],
         Tile_27_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_26+ominaisuudet:[kuva=lattia.png],
         Tile_27_27+ominaisuudet:[kuva=lattia.png],
         Tile_27_28+ominaisuudet:[kuva=lattia.png],
@@ -14243,7 +14243,7 @@ Huone 10:
     #koko: 60;
     #nimi: Temppeli;
     #alue: Temppeli;
-    #tausta: tausta_temppeli.png;
+    #tausta: tausta_temppeli;
     #musa: temppeli;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -14256,41 +14256,41 @@ Huone 10:
         Nappi_1_21,
         Painelaatta_3_13+ominaisuudet:[vihollinen=Pikkuvihu],
         Koriste-esine_3_21+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_3_22+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_3_23+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_3_22+ominaisuudet:[kääntö=270,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_3_23+ominaisuudet:[peilaus=x,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
         Painelaatta_3_26+ominaisuudet:[vihollinen=Pikkuvihu],
-        Koriste-esine_4_16+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=180],
-        Koriste-esine_4_17+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270],
-        Koriste-esine_4_21+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_4_16+ominaisuudet:[kääntö=180,kuva=temppeli_pyykkikasa2.png],
+        Koriste-esine_4_17+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa1.png],
+        Koriste-esine_4_21+ominaisuudet:[kääntö=90,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
         Koriste-esine_4_22+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_4_23+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_5_16+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=180],
-        Koriste-esine_5_18+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=90],
-        Koriste-esine_5_21+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=90,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_5_22+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_4_23+ominaisuudet:[kääntö=270,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_5_16+ominaisuudet:[kääntö=180,kuva=temppeli_roskakasa1.png],
+        Koriste-esine_5_18+ominaisuudet:[kääntö=90,kuva=temppeli_pyykkikasa2.png],
+        Koriste-esine_5_21+ominaisuudet:[kääntö=90,peilaus=x,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_5_22+ominaisuudet:[peilaus=x,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
         Koriste-esine_5_23+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
         Koriste-esine_6_15+ominaisuudet:[kuva=temppeli_roskakasa1.png],
-        Koriste-esine_6_18+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270],
+        Koriste-esine_6_18+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa1.png],
         Koriste-esine_6_21+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_6_22+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=180,katsottava=kyllä,dialogi=temppeli_pyykki2],
-        Koriste-esine_7_16+ominaisuudet:[kuva=temppeli_pyykkikasa2.png,kääntö=90],
+        Koriste-esine_6_22+ominaisuudet:[kääntö=180,kuva=temppeli_pyykkikasa2.png,katsottava=kyllä,dialogi=temppeli_pyykki2],
+        Koriste-esine_7_16+ominaisuudet:[kääntö=90,kuva=temppeli_pyykkikasa2.png],
         Koriste-esine_7_18+ominaisuudet:[kuva=temppeli_pyykkikasa2.png],
         Portti_9_13+ominaisuudet:[triggerit=3_13;],
         Portti_9_26+ominaisuudet:[triggerit=3_26;],
-        Koriste-esine_16_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_16_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_16_34+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
-        Koriste-esine_17_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_17_32+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_pyykki1],
-        Koriste-esine_17_33+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_pyykki1],
-        Koriste-esine_17_34+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_pyykki1],
+        Koriste-esine_17_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_17_32+ominaisuudet:[kääntö=270,kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
+        Koriste-esine_17_33+ominaisuudet:[peilaus=x,kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
+        Koriste-esine_17_34+ominaisuudet:[kääntö=90,kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
         Koriste-esine_17_35+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
-        Koriste-esine_18_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_18_32+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_pyykki1],
+        Koriste-esine_18_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_18_32+ominaisuudet:[kääntö=90,kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
         Koriste-esine_18_33+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
         Koriste-esine_18_34+ominaisuudet:[kuva=temppeli_pyykkikasa1.png,katsottava=kyllä,dialogi=temppeli_pyykki1],
-        Koriste-esine_19_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_20_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_21_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_19_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_20_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_21_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_22_18+ominaisuudet:[kuva=temppeli_kaide_ulkokulma_e.png],
         Koriste-esine_22_19+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_22_20+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png],
@@ -14299,82 +14299,82 @@ Huone 10:
         Koriste-esine_22_23+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_22_24+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_22_25+ominaisuudet:[kuva=temppeli_kaide_sisäkulma_e.png],
-        Koriste-esine_22_29+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_23_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_22_29+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_23_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_23_30+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_23_31+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_23_31+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Koriste-esine_23_35+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_24_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_24_29+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_24_30+ominaisuudet:[kuva=temppeli_roskakasa1.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_24_31+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_24_32+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_24_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_24_29+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_24_30+ominaisuudet:[peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_24_31+ominaisuudet:[kääntö=90,peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_24_32+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Koriste-esine_24_33+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_25_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_25_30+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_25_31+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_25_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_25_30+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_25_31+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Koriste-esine_25_32+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_25_33+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_25_34+ominaisuudet:[kuva=temppeli_roskakasa1.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_26_29+ominaisuudet:[kuva=temppeli_roskakasa1.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_25_33+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_25_34+ominaisuudet:[peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_26_29+ominaisuudet:[peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Koriste-esine_26_31+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_26_35+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_27_31+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=90,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_26_35+ominaisuudet:[kääntö=90,peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_27_31+ominaisuudet:[kääntö=90,peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Koriste-esine_27_32+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
-        Koriste-esine_27_33+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_27_33+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Koriste-esine_28_35+ominaisuudet:[kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Puuovi_29_1+ominaisuudet:[kohdehuone=11,kohderuutuX=7,kohderuutuY=15,suunta=Ylös],
         Portti_29_7+ominaisuudet:[triggerit=1_18;1_21;],
-        Koriste-esine_29_36+ominaisuudet:[kuva=temppeli_roskakasa1.png,kääntö=270,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska1],
+        Koriste-esine_29_36+ominaisuudet:[kääntö=270,peilaus=x,kuva=temppeli_roskakasa1.png,katsottava=kyllä,dialogi=temppeli_roska1],
         Oviruutu_29_39+ominaisuudet:[kohdehuone=7,kohderuutuX=6,kohderuutuY=1,suunta=Alas],
         Puuovi_30_1+ominaisuudet:[kohdehuone=11,kohderuutuX=8,kohderuutuY=15,suunta=Ylös],
         Portti_30_7+ominaisuudet:[triggerit=58_18;58_21;],
         Oviruutu_30_39+ominaisuudet:[kohdehuone=7,kohderuutuX=7,kohderuutuY=1,suunta=Alas],
-        Koriste-esine_32_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_33_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_32_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_33_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_33_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_33_31+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_33_32+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_33_33+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_33_34+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
-        Koriste-esine_34_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_34_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_34_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_34_31+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_34_32+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_34_33+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_34_34+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
-        Koriste-esine_35_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_35_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_35_29+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_35_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_35_31+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_35_32+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_35_33+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_35_34+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
-        Koriste-esine_36_18+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_36_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_36_28+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_36_29+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_36_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_36_31+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
-        Koriste-esine_36_36+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
-        Koriste-esine_37_18+ominaisuudet:[kuva=temppeli_kaide_ulkokulma_e.png,kääntö=90],
-        Koriste-esine_37_19+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=180],
-        Koriste-esine_37_20+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=180],
-        Koriste-esine_37_21+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=180],
-        Koriste-esine_37_22+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=180],
-        Koriste-esine_37_23+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=180],
-        Koriste-esine_37_24+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=180],
-        Koriste-esine_37_25+ominaisuudet:[kuva=temppeli_kaide_sisäkulma_e.png,kääntö=90],
+        Koriste-esine_36_36+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
+        Koriste-esine_37_18+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_ulkokulma_e.png],
+        Koriste-esine_37_19+ominaisuudet:[kääntö=180,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_37_20+ominaisuudet:[kääntö=180,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_37_21+ominaisuudet:[kääntö=180,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_37_22+ominaisuudet:[kääntö=180,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_37_23+ominaisuudet:[kääntö=180,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_37_24+ominaisuudet:[kääntö=180,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_37_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sisäkulma_e.png],
         Koriste-esine_37_28+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_37_29+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_37_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_37_31+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
-        Koriste-esine_37_35+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
-        Koriste-esine_37_37+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
+        Koriste-esine_37_35+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
+        Koriste-esine_37_37+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
         Koriste-esine_38_21+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_38_22+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_38_23+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_38_24+ominaisuudet:[kuva=temppeli_tölkkipino.png],
-        Koriste-esine_38_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_38_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_38_28+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_38_29+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_38_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
@@ -14386,16 +14386,16 @@ Huone 10:
         Koriste-esine_39_22+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_39_23+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_39_24+ominaisuudet:[kuva=temppeli_tölkkipino.png],
-        Koriste-esine_39_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_39_35+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
+        Koriste-esine_39_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_39_35+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
         Koriste-esine_40_21+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_40_22+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_40_23+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_40_24+ominaisuudet:[kuva=temppeli_tölkkipino.png],
-        Koriste-esine_40_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_40_29+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
-        Koriste-esine_40_32+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
-        Koriste-esine_40_33+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
+        Koriste-esine_40_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_40_29+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
+        Koriste-esine_40_32+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
+        Koriste-esine_40_33+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
         Koriste-esine_40_37+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_40_38+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_41_20+ominaisuudet:[kuva=temppeli_tölkkipino.png],
@@ -14403,8 +14403,8 @@ Huone 10:
         Koriste-esine_41_22+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_41_23+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_41_24+ominaisuudet:[kuva=temppeli_tölkkipino.png],
-        Koriste-esine_41_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
-        Koriste-esine_41_30+ominaisuudet:[kuva=temppeli_tölkkipino.png,kääntö=90],
+        Koriste-esine_41_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
+        Koriste-esine_41_30+ominaisuudet:[kääntö=90,kuva=temppeli_tölkkipino.png],
         Koriste-esine_41_34+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_41_35+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_41_36+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
@@ -14417,7 +14417,7 @@ Huone 10:
         Koriste-esine_42_22+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_42_23+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_42_24+ominaisuudet:[kuva=temppeli_tölkkipino.png],
-        Koriste-esine_42_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_42_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_42_34+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_42_35+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_42_36+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
@@ -14429,7 +14429,7 @@ Huone 10:
         Koriste-esine_43_22+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_43_23+ominaisuudet:[kuva=temppeli_tölkkipino.png],
         Koriste-esine_43_24+ominaisuudet:[kuva=temppeli_tölkkipino.png],
-        Koriste-esine_43_25+ominaisuudet:[kuva=temppeli_kaide_sivu_e.png,kääntö=90],
+        Koriste-esine_43_25+ominaisuudet:[kääntö=90,kuva=temppeli_kaide_sivu_e.png],
         Koriste-esine_43_34+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_43_35+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
         Koriste-esine_43_36+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit2],
@@ -14441,35 +14441,35 @@ Huone 10:
         Koriste-esine_51_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_51_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_51_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
-        Koriste-esine_51_21+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_51_21+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_51_22+ominaisuudet:[kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_51_23+ominaisuudet:[kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_52_15+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_52_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_52_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_52_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
-        Koriste-esine_52_21+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska2],
-        Koriste-esine_52_22+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska2],
-        Koriste-esine_52_23+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_52_21+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_52_22+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_52_23+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_53_15+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_53_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_53_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_53_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
-        Koriste-esine_53_21+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=270,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_53_21+ominaisuudet:[kääntö=270,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_53_22+ominaisuudet:[kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
-        Koriste-esine_53_23+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=270,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_53_23+ominaisuudet:[kääntö=270,peilaus=x,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_54_15+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_54_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_54_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_54_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
-        Koriste-esine_54_21+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=90,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska2],
-        Koriste-esine_54_22+ominaisuudet:[kuva=temppeli_roskakasa2.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska2],
-        Koriste-esine_54_23+ominaisuudet:[kuva=temppeli_roskakasa2.png,kääntö=90,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_54_21+ominaisuudet:[kääntö=90,peilaus=x,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_54_22+ominaisuudet:[peilaus=x,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_54_23+ominaisuudet:[kääntö=90,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Koriste-esine_55_15+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_55_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_55_17+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_55_18+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
-        Koriste-esine_55_21+ominaisuudet:[kuva=temppeli_roskakasa2.png,x-peilaus=kyllä,katsottava=kyllä,dialogi=temppeli_roska2],
+        Koriste-esine_55_21+ominaisuudet:[peilaus=x,kuva=temppeli_roskakasa2.png,katsottava=kyllä,dialogi=temppeli_roska2],
         Painelaatta_56_13+ominaisuudet:[vihollinen=Pikkuvihu],
         Koriste-esine_56_15+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
         Koriste-esine_56_16+ominaisuudet:[kuva=temppeli_tölkkipino.png,katsottava=kyllä,dialogi=temppeli_tölkit1],
@@ -15930,7 +15930,7 @@ Huone 11:
     #koko: 16;
     #nimi: Temppeli_boss;
     #alue: Temppeli;
-    #tausta: tausta_kaboom.png;
+    #tausta: tausta_kaboom;
     #musa: boss;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -16213,7 +16213,7 @@ Huone 12:
     #koko: 50;
     #nimi: Kuu;
     #alue: Kuu;
-    #tausta: tausta_kuu.png;
+    #tausta: tausta_kuu;
     #musa: kuu;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -16224,55 +16224,55 @@ Huone 12:
     #kenttä: {
         Oviruutu_2_0+ominaisuudet:[kohdehuone=3,kohderuutuX=25,kohderuutuY=12,suunta=Ylös],
         Koriste-esine_2_2+ominaisuudet:[kuva=kuu_exit_kyltti.png],
-        Koriste-esine_3_9+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_3_11+ominaisuudet:[kuva=tuoli.png,kääntö=270],
+        Koriste-esine_3_9+ominaisuudet:[kääntö=270,kuva=tuoli.png],
+        Koriste-esine_3_11+ominaisuudet:[kääntö=270,kuva=tuoli.png],
         Kuuhahmo2_3_27+ominaisuudet:[dialogi=vakio],
         Kuuhahmo2_4_5+ominaisuudet:[dialogi=vakio],
         Baariruutu_4_7+ominaisuudet:[tyyppi=kuu],
-        Koriste-esine_4_9+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_4_11+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_5_9+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_5_11+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_6_9+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_6_11+ominaisuudet:[kuva=tuoli.png,kääntö=270],
+        Koriste-esine_4_9+ominaisuudet:[kääntö=270,kuva=tuoli.png],
+        Koriste-esine_4_11+ominaisuudet:[kääntö=270,kuva=tuoli.png],
+        Koriste-esine_5_9+ominaisuudet:[kääntö=270,kuva=tuoli.png],
+        Koriste-esine_5_11+ominaisuudet:[kääntö=270,kuva=tuoli.png],
+        Koriste-esine_6_9+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_6_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
         Kuuhahmo2_7_5+ominaisuudet:[dialogi=vakio],
         Baariruutu_7_7+ominaisuudet:[tyyppi=kuu],
-        Koriste-esine_7_9+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_7_11+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_8_9+ominaisuudet:[kuva=tuoli.png,kääntö=270],
-        Koriste-esine_8_11+ominaisuudet:[kuva=tuoli.png,kääntö=270],
+        Koriste-esine_7_9+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_7_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_8_9+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_8_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
         Kuuhahmo3_10_48+ominaisuudet:[dialogi=vakio],
         Jumal Yoda_12_42+ominaisuudet:[dialogi=kuu],
         Kuuhahmo2_16_26+ominaisuudet:[dialogi=vakio],
         Kuuhahmo3_19_1+ominaisuudet:[dialogi=vakio],
-        Koriste-esine_19_14+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_19_15+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_19_16+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_19_17+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_19_18+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
+        Koriste-esine_19_14+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_19_15+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_19_16+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_19_17+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_19_18+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
         Kuuhahmo1_20_9+ominaisuudet:[dialogi=vakio],
         Kuuhahmo3_24_4+ominaisuudet:[dialogi=vakio],
         Koriste-esine_25_30+ominaisuudet:[kuva=ovi_lukittu_e.png],
-        Koriste-esine_25_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180],
+        Koriste-esine_25_34+ominaisuudet:[kääntö=180,kuva=ovi_lukittu_e.png],
         Koriste-esine_26_30+ominaisuudet:[kuva=numero_1.png],
         Koriste-esine_26_34+ominaisuudet:[kuva=numero_1.png],
         Jumal Velho_27_16+ominaisuudet:[dialogi=kuu],
         Koriste-esine_27_34+ominaisuudet:[kuva=numero_2.png],
         Koriste-esine_29_30+ominaisuudet:[kuva=ovi_lukittu_e.png],
-        Koriste-esine_29_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180],
+        Koriste-esine_29_34+ominaisuudet:[kääntö=180,kuva=ovi_lukittu_e.png],
         Kuuhahmo1_30_7+ominaisuudet:[dialogi=vakio],
-        Koriste-esine_30_14+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_30_15+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_30_16+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_30_17+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
-        Koriste-esine_30_18+ominaisuudet:[kuva=pöydänkeskus_vapaa_e.png,kääntö=90],
+        Koriste-esine_30_14+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_30_15+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_30_16+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_30_17+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
+        Koriste-esine_30_18+ominaisuudet:[kääntö=90,kuva=pöydänkeskus_vapaa_e.png],
         Koriste-esine_30_30+ominaisuudet:[kuva=numero_2.png],
         Koriste-esine_30_34+ominaisuudet:[kuva=numero_1.png],
         Koriste-esine_31_34+ominaisuudet:[kuva=numero_1.png],
         Kuuhahmo1_32_13+ominaisuudet:[dialogi=vakio],
         Kuuhahmo1_32_19+ominaisuudet:[dialogi=vakio],
         Koriste-esine_33_30+ominaisuudet:[kuva=ovi_lukittu_e.png],
-        Koriste-esine_33_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180],
+        Koriste-esine_33_34+ominaisuudet:[kääntö=180,kuva=ovi_lukittu_e.png],
         Koriste-esine_34_30+ominaisuudet:[kuva=numero_3.png],
         Koriste-esine_34_34+ominaisuudet:[kuva=numero_1.png],
         Kuuhahmo1_35_3+ominaisuudet:[dialogi=vakio],
@@ -16280,23 +16280,23 @@ Huone 12:
         Kuuhahmo2_36_23+ominaisuudet:[dialogi=vakio],
         Kuuhahmo3_37_1+ominaisuudet:[dialogi=vakio],
         Koriste-esine_37_30+ominaisuudet:[kuva=ovi_lukittu_e.png],
-        Koriste-esine_37_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180],
+        Koriste-esine_37_34+ominaisuudet:[kääntö=180,kuva=ovi_lukittu_e.png],
         Juhani_38_12+ominaisuudet:[dialogi=vakio],
         Koriste-esine_38_30+ominaisuudet:[kuva=numero_4.png],
         Koriste-esine_38_34+ominaisuudet:[kuva=numero_9.png],
         Pelikone_41_5+ominaisuudet:[tyyppi=0],
         Koriste-esine_41_30+ominaisuudet:[kuva=ovi_lukittu_e.png],
-        Koriste-esine_41_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180],
+        Koriste-esine_41_34+ominaisuudet:[kääntö=180,kuva=ovi_lukittu_e.png],
         Kuuhahmo3_41_41+ominaisuudet:[dialogi=vakio],
         Koriste-esine_42_30+ominaisuudet:[kuva=numero_5.png],
         Koriste-esine_42_34+ominaisuudet:[kuva=numero_8.png],
         Kuuhahmo1_44_23+ominaisuudet:[dialogi=vakio],
-        Pelikone_45_5+ominaisuudet:[tyyppi=1],
         Pasi_45_13+ominaisuudet:[dialogi=kuu],
         Koriste-esine_45_30+ominaisuudet:[kuva=ovi_lukittu_e.png],
-        Koriste-esine_45_34+ominaisuudet:[kuva=ovi_lukittu_e.png,kääntö=180],
-        Pelikone_46_10+ominaisuudet:[x-peilaus=kyllä,tyyppi=2],
-        Pelikone_46_13+ominaisuudet:[x-peilaus=kyllä,tyyppi=3],
+        Koriste-esine_45_34+ominaisuudet:[kääntö=180,kuva=ovi_lukittu_e.png],
+        Pelikone_46_5+ominaisuudet:[peilaus=x,tyyppi=1],
+        Pelikone_46_10+ominaisuudet:[peilaus=x,tyyppi=2],
+        Pelikone_46_13+ominaisuudet:[peilaus=x,tyyppi=3],
         Koriste-esine_46_30+ominaisuudet:[kuva=numero_6.png],
         Koriste-esine_46_34+ominaisuudet:[kuva=numero_7.png];
     }
@@ -17262,7 +17262,7 @@ Huone 12:
         Tile_19_8+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_19_9+ominaisuudet:[kuva=kuu_kivi.png],
         Tile_19_10+ominaisuudet:[kuva=kuu_kivi.png],
-        IsoLaatta_19_11+ominaisuudet:[kuva=kyltti_kuubileet_e.png,leveys=12,korkeus=3],
+        Tile_19_11+ominaisuudet:[kuva=kyltti_kuubileet_e.png,leveys=12,korkeus=3],
         Tile_19_14+ominaisuudet:[kuva=kuu_kivi.png],
         Tile_19_15+ominaisuudet:[kuva=kuu_kivi.png],
         Tile_19_16+ominaisuudet:[kuva=kuu_kivi.png],
@@ -18266,10 +18266,10 @@ Huone 12:
         Tile_39_47+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_39_48+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_39_49+ominaisuudet:[kuva=kuu_juusto.png],
-        Tile_40_0+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_40_1+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_40_2+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_40_3+ominaisuudet:[kuva=kuu_kivi.png],
+        Tile_40_0+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_40_1+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_40_2+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_40_3+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
         Tile_40_4+ominaisuudet:[kuva=kauppa_katto_2sivua_e.png],
         Tile_40_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=270],
         Tile_40_6+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,kääntö=270],
@@ -18317,9 +18317,9 @@ Huone 12:
         Tile_40_48+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_40_49+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_41_0+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_41_1+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_41_2+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_41_3+ominaisuudet:[kuva=kuu_kivi.png],
+        Tile_41_1+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_41_2+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_41_3+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
         Tile_41_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
         Tile_41_5+ominaisuudet:[kuva=lattia.png],
         Tile_41_6+ominaisuudet:[kuva=lattia.png],
@@ -18367,9 +18367,9 @@ Huone 12:
         Tile_41_48+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_41_49+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_42_0+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_42_1+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_42_2+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_42_3+ominaisuudet:[kuva=kuu_kivi.png],
+        Tile_42_1+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_42_2+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
+        Tile_42_3+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
         Tile_42_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
         Tile_42_5+ominaisuudet:[kuva=lattia.png],
         Tile_42_6+ominaisuudet:[kuva=lattia.png],
@@ -18417,7 +18417,7 @@ Huone 12:
         Tile_42_48+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_42_49+ominaisuudet:[kuva=kuu_juusto.png],
         Tile_43_0+ominaisuudet:[kuva=kuu_kivi.png],
-        Tile_43_1+ominaisuudet:[kuva=kuu_kivi.png],
+        Tile_43_1+ominaisuudet:[kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png,kuva=kuu_kivi.png],
         Tile_43_2+ominaisuudet:[kuva=kuu_kivi.png],
         Tile_43_3+ominaisuudet:[kuva=kuu_kivi.png],
         Tile_43_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
@@ -18774,7 +18774,7 @@ Huone 13:
     #koko: 30;
     #nimi: Baari_salahuone;
     #alue: Baari;
-    #tausta: tausta_baari.png;
+    #tausta: tausta_baari;
     #musa: baari_sala;
     #warp_vasen: ;
     #warp_oikea: ;
@@ -18792,46 +18792,46 @@ Huone 13:
         Baariruutu_11_15+ominaisuudet:[tyyppi=normaali],
         Baariruutu_11_19+ominaisuudet:[tyyppi=normaali],
         Oviruutu_15_29+ominaisuudet:[kohdehuone=9,kohderuutuX=8,kohderuutuY=0,suunta=Alas],
-        Koriste-esine_22_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_22_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_22_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_24_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_24_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_26_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_26_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_3+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_6+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_8+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_11+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_13+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_16+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_18+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_21+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä],
-        Koriste-esine_28_23+ominaisuudet:[kuva=tuoli.png,kääntö=270,x-peilaus=kyllä,y-peilaus=kyllä],
-        Koriste-esine_28_26+ominaisuudet:[kuva=tuoli.png,kääntö=270,y-peilaus=kyllä];
+        Koriste-esine_22_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_22_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_22_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_24_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_24_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_26_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_26_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_3+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_6+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_8+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_11+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_13+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_16+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_18+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_21+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png],
+        Koriste-esine_28_23+ominaisuudet:[kääntö=270,peilaus=xy,kuva=tuoli.png],
+        Koriste-esine_28_26+ominaisuudet:[kääntö=270,peilaus=y,kuva=tuoli.png];
     }
     #maasto: {
         Tile_0_0+ominaisuudet:[kuva=keittiötaso_e.png],
@@ -19529,27 +19529,27 @@ Huone 13:
         Tile_23_2+ominaisuudet:[kuva=lattia.png],
         Tile_23_3+ominaisuudet:[kuva=lattia.png],
         Tile_23_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_6+ominaisuudet:[kuva=lattia.png],
         Tile_23_7+ominaisuudet:[kuva=lattia.png],
         Tile_23_8+ominaisuudet:[kuva=lattia.png],
         Tile_23_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_11+ominaisuudet:[kuva=lattia.png],
         Tile_23_12+ominaisuudet:[kuva=lattia.png],
         Tile_23_13+ominaisuudet:[kuva=lattia.png],
         Tile_23_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_16+ominaisuudet:[kuva=lattia.png],
         Tile_23_17+ominaisuudet:[kuva=lattia.png],
         Tile_23_18+ominaisuudet:[kuva=lattia.png],
         Tile_23_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_21+ominaisuudet:[kuva=lattia.png],
         Tile_23_22+ominaisuudet:[kuva=lattia.png],
         Tile_23_23+ominaisuudet:[kuva=lattia.png],
         Tile_23_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_23_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_23_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_23_26+ominaisuudet:[kuva=lattia.png],
         Tile_23_27+ominaisuudet:[kuva=lattia.png],
         Tile_23_28+ominaisuudet:[kuva=lattia.png],
@@ -19559,27 +19559,27 @@ Huone 13:
         Tile_24_2+ominaisuudet:[kuva=lattia.png],
         Tile_24_3+ominaisuudet:[kuva=lattia.png],
         Tile_24_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_6+ominaisuudet:[kuva=lattia.png],
         Tile_24_7+ominaisuudet:[kuva=lattia.png],
         Tile_24_8+ominaisuudet:[kuva=lattia.png],
         Tile_24_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_11+ominaisuudet:[kuva=lattia.png],
         Tile_24_12+ominaisuudet:[kuva=lattia.png],
         Tile_24_13+ominaisuudet:[kuva=lattia.png],
         Tile_24_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_16+ominaisuudet:[kuva=lattia.png],
         Tile_24_17+ominaisuudet:[kuva=lattia.png],
         Tile_24_18+ominaisuudet:[kuva=lattia.png],
         Tile_24_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_21+ominaisuudet:[kuva=lattia.png],
         Tile_24_22+ominaisuudet:[kuva=lattia.png],
         Tile_24_23+ominaisuudet:[kuva=lattia.png],
         Tile_24_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_24_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_24_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_24_26+ominaisuudet:[kuva=lattia.png],
         Tile_24_27+ominaisuudet:[kuva=lattia.png],
         Tile_24_28+ominaisuudet:[kuva=lattia.png],
@@ -19589,27 +19589,27 @@ Huone 13:
         Tile_25_2+ominaisuudet:[kuva=lattia.png],
         Tile_25_3+ominaisuudet:[kuva=lattia.png],
         Tile_25_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_6+ominaisuudet:[kuva=lattia.png],
         Tile_25_7+ominaisuudet:[kuva=lattia.png],
         Tile_25_8+ominaisuudet:[kuva=lattia.png],
         Tile_25_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_11+ominaisuudet:[kuva=lattia.png],
         Tile_25_12+ominaisuudet:[kuva=lattia.png],
         Tile_25_13+ominaisuudet:[kuva=lattia.png],
         Tile_25_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_16+ominaisuudet:[kuva=lattia.png],
         Tile_25_17+ominaisuudet:[kuva=lattia.png],
         Tile_25_18+ominaisuudet:[kuva=lattia.png],
         Tile_25_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_21+ominaisuudet:[kuva=lattia.png],
         Tile_25_22+ominaisuudet:[kuva=lattia.png],
         Tile_25_23+ominaisuudet:[kuva=lattia.png],
         Tile_25_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_25_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_25_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_25_26+ominaisuudet:[kuva=lattia.png],
         Tile_25_27+ominaisuudet:[kuva=lattia.png],
         Tile_25_28+ominaisuudet:[kuva=lattia.png],
@@ -19619,27 +19619,27 @@ Huone 13:
         Tile_26_2+ominaisuudet:[kuva=lattia.png],
         Tile_26_3+ominaisuudet:[kuva=lattia.png],
         Tile_26_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_6+ominaisuudet:[kuva=lattia.png],
         Tile_26_7+ominaisuudet:[kuva=lattia.png],
         Tile_26_8+ominaisuudet:[kuva=lattia.png],
         Tile_26_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_11+ominaisuudet:[kuva=lattia.png],
         Tile_26_12+ominaisuudet:[kuva=lattia.png],
         Tile_26_13+ominaisuudet:[kuva=lattia.png],
         Tile_26_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_16+ominaisuudet:[kuva=lattia.png],
         Tile_26_17+ominaisuudet:[kuva=lattia.png],
         Tile_26_18+ominaisuudet:[kuva=lattia.png],
         Tile_26_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_21+ominaisuudet:[kuva=lattia.png],
         Tile_26_22+ominaisuudet:[kuva=lattia.png],
         Tile_26_23+ominaisuudet:[kuva=lattia.png],
         Tile_26_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_26_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_26_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_26_26+ominaisuudet:[kuva=lattia.png],
         Tile_26_27+ominaisuudet:[kuva=lattia.png],
         Tile_26_28+ominaisuudet:[kuva=lattia.png],
@@ -19649,27 +19649,27 @@ Huone 13:
         Tile_27_2+ominaisuudet:[kuva=lattia.png],
         Tile_27_3+ominaisuudet:[kuva=lattia.png],
         Tile_27_4+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_5+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_6+ominaisuudet:[kuva=lattia.png],
         Tile_27_7+ominaisuudet:[kuva=lattia.png],
         Tile_27_8+ominaisuudet:[kuva=lattia.png],
         Tile_27_9+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_10+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_11+ominaisuudet:[kuva=lattia.png],
         Tile_27_12+ominaisuudet:[kuva=lattia.png],
         Tile_27_13+ominaisuudet:[kuva=lattia.png],
         Tile_27_14+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_15+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_16+ominaisuudet:[kuva=lattia.png],
         Tile_27_17+ominaisuudet:[kuva=lattia.png],
         Tile_27_18+ominaisuudet:[kuva=lattia.png],
         Tile_27_19+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_20+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_21+ominaisuudet:[kuva=lattia.png],
         Tile_27_22+ominaisuudet:[kuva=lattia.png],
         Tile_27_23+ominaisuudet:[kuva=lattia.png],
         Tile_27_24+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png],
-        Tile_27_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,y-peilaus=kyllä],
+        Tile_27_25+ominaisuudet:[kuva=kauppa_katto_1sivu_e.png,peilaus=y],
         Tile_27_26+ominaisuudet:[kuva=lattia.png],
         Tile_27_27+ominaisuudet:[kuva=lattia.png],
         Tile_27_28+ominaisuudet:[kuva=lattia.png],
@@ -19738,73 +19738,73 @@ Huone 13:
     #npc: {
     }
 /Huone
-Tarina 0:
+Tarina 4:
     #nimi: metsä;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\metsä\tarina_metsä.png;
+        kuva 0: tarina_metsä;
         teksti 0: Ennen kuin huomaatkaan, saavut velhometsän suulle. Omituiset otukset vaikuttaisivat tulevan sieltäpäin. Tästä eteenpäin kannattaa olla varuillaan: Sokkeloisessa metsässä on helppo eksyä, eikä koskaan tiedä, millaisia hyypiöitä tulee vastaan.;
     }
 /Tarina
-Tarina 1:
+Tarina 6:
     #nimi: boss;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\boss\tarina_boss_1.gif;
+        kuva 0: tarina_boss;
         teksti 0: Koluttuasi temppeliä kohtaat ilkeän hahmon, joka on tämän kaiken takana. Hän yrittää johdattaa sinut pois kaidalta tieltä hirveiden pelien äärelle. Sinun täytyy pysyä lujana ja vastustaa hänen houkutuksia. Torju hänen häveliäät pyyntönsä kaikin keinoin!;
     }
 /Tarina
-Tarina 2:
+Tarina 0:
     #nimi: alku;
     #pituus: 3;
     #sivut: {
-        kuva 0: tiedostot/kuvat/tarina/alku/tarina_alku_1.png;
+        kuva 0: tarina_alku_1;
         teksti 0: Keimo herää auringon säteiden aiheuttamaan kipuun. Nämä normaalisti harmittomat luonnonilmiöt olivat päättäneet, että juuri Keimon tulisi kärsiä seuraamuksia eilispäivän nautinnosta. Yksikään kuolevainen ei ole kokenut yhtä murhaavaa krapulaa, kuin sitä, joka yritti paraikaa pitää Keimon maassa. Keimo ei kuitenkaan ollut tavallinen kuolevainen, ja hän kykeni yli-inhimillisellä tahdonvoimallaan avaamaan silmänsä ja katsomaan ympärilleen.;
-        kuva 1: tiedostot/kuvat/tarina/alku/tarina_alku_2.gif;
+        kuva 1: tarina_alku_2;
         teksti 1: Valonsäteet jatkoivat Keimon kiusaamista myös sen jälkeen, kun hän oli saanut silmänsä auki. Säteet eivät tuoneet hänen verkkokalvoilleen kuvia, joita hän olisi tunnistanut. Sen sijaan Keimon verkkokalvot täyttyivät kuvista, jotka olisivat tuhonneet heikomman mielen.;
-        kuva 2: tiedostot/kuvat/tarina/alku/tarina_alku_3.png;
+        kuva 2: tarina_alku_3;
         teksti 2: Puisto on autioitunut tavallisista ihmisistä. Niiden sijaan puistot ja kadut ovat tulvillaan ilkeän näköisiä, aseistautuneita hyypiöitä. Ne ryntäilevät nopeasti pensaiden välillä, kuin etsien vankikarkuria. Tunnelma on uhkaava, ja huolestuttavat ajatukset vaivaavat sankariamme. -Etsivätkö ne minua? Ovatko ne hävittäneet jo kaikki muut? Mitä hirveyksiä täällä tapahtuu? Minun on heti päästävä kotiin! pohtii Keimo hätääntyneenä.;
     }
 /Tarina
-Tarina 3:
+Tarina 7:
     #nimi: kuu;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\kuu\tarina_kuu.png;
+        kuva 0: tarina_kuu;
         teksti 0: Mitä nyt tapahtuu? Tuntuu kuin irtoaisit kehostasi.;
     }
 /Tarina
-Tarina 4:
+Tarina 5:
     #nimi: temppeli;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\temppeli\tarina_temppeli.png;
+        kuva 0: tarina_pelto;
         teksti 0: Mikäs paikka tämä on?;
     }
 /Tarina
-Tarina 5:
+Tarina 1:
     #nimi: koti;
     #pituus: 2;
     #sivut: {
-        kuva 0: tiedostot/kuvat/tarina/koti/tarina_koti.png;
+        kuva 0: tarina_koti;
         teksti 0: Keimo saapuu kotiin ja huomaa kaikkien tavaroiden olevan sekaisin pitkin lattioita. Koti on täydellisessä kaaoksessa. Löydettyään levällään olevien tavaroiden seasta kaasusytyttimen Keimo muistaakin, että hänen oli tarkoitus mennä nuotiolle Pasin kanssa tänään.;
-        kuva 1: tiedostot/kuvat/tarina/koti/tarina_koti_2.png;
+        kuva 1: tarina_alku_3;
         teksti 1: -Ulos ei tosin uskalla mennä varustautumatta. Mitä jos vaikka kohtaan nuo hämärät olennot uudestaan? Keimo pohtii. -Parempi siis napata jotain kättä pidempää ihan varmuuden vuoksi.;
     }
 /Tarina
-Tarina 6:
+Tarina 2:
     #nimi: baari;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\baari\tarina_baari.png;
+        kuva 0: tarina_baari;
         teksti 0: Keimo-baarissa näyttäisi olevan tyypillinen arki-illan tunnelma. Pasi on varmaan jossain siellä ryyppäämässä tavalliseen tapaan.;
     }
 /Tarina
-Tarina 7:
+Tarina 3:
     #nimi: pelto;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\pelto\tarina_pelto.png;
+        kuva 0: tarina_pelto;
         teksti 0: Otukset vaikuttaisivat tulevan pohjoisen suunnalta sieltä, missä metsäkin on. Pitäisiköhän seurata niitä sinne?;
     }
 /Tarina
@@ -19812,7 +19812,7 @@ Tarina 8:
     #nimi: baari_salahuone;
     #pituus: 1;
     #sivut: {
-        kuva 0: tiedostot\kuvat\tarina\baari\tarina_baari.png;
+        kuva 0: tarina_baari_salahuone;
         teksti 0: Löysit reitin Keimo-baarin salaiseen kellariin!;
     }
 /Tarina
@@ -19820,7 +19820,7 @@ Dialogi 0:
     #nimi: silta;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/silta_dialogi.png;
+        kuva 0: dialogi_silta;
         teksti 0: Onpas kiva näkymä;
         puhuja 0: Silta;
     }
@@ -19828,73 +19828,73 @@ Dialogi 0:
         valinnan_nimi: silta_hyppää;
         valinnan_otsikko: Hyppää?;
         vaihtoehdot: 2;
-        vaihtoehto 0: Ei;
-        triggeri 0: ;
+        vaihtoehto 0: Kyllä;
+        triggeri 0: silta_hyppää;
         kohde 0: ;
-        vaihtoehto 1: Kyllä;
-        triggeri 1: silta_hyppää;
+        vaihtoehto 1: Ei;
+        triggeri 1: ;
         kohde 1: ;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 1:
     #nimi: kuu_baari_2;
     #pituus: 3;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Iltaa. Yksi kuuolut.;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        kuva 1: dialogi_kuubaari;
         teksti 1: Tässä, olkaa hyvä.;
         puhuja 1: Kuu-baarin tarjoilija;
-        kuva 2: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 2: dialogi_keimo;
         teksti 2: Kiitos.;
         puhuja 2: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 2:
     #nimi: temppeli_pyykki1;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_pyykki1.png;
+        kuva 0: dialogi_temppeli_pyykki1;
         teksti 0: Näitä lakanoita ei ole vaihdettu\nvarmaankaan ikinä.;
         puhuja 0: ???;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 3:
     #nimi: baari_juoma1;
     #pituus: 4;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Iltaa. Yksi hanaolut.;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 1: dialogi_kauppias;
         teksti 1: Se tekisi 4.95 euroa.;
         puhuja 1: Keimo-baarin tarjoilija;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 2: dialogi_kauppias;
         teksti 2: Tässä, olkaa hyvä.;
         puhuja 2: Keimo-baarin tarjoilija;
-        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 3: dialogi_keimo;
         teksti 3: Kiitos.;
         puhuja 3: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 4:
     #nimi: goblin_ei;
     #pituus: 2;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Ei kiinosta  virhe;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
+        kuva 1: dialogi_yoda;
         teksti 1: Ison virheen teet ja mahtavan tilaisuuden menetät.;
         puhuja 1: Jumal Yoda;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 5:
     #nimi: baari_normaali;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 0: dialogi_kauppias;
         teksti 0: Iltaa! Mitä saisi olla?;
         puhuja 0: Keimo-baarin tarjoilija;
     }
@@ -19905,55 +19905,55 @@ Dialogi 0:
         vaihtoehto 0: Hanaolut 4,95€;
         triggeri 0: baari_juoma1;
         kohde 0: baari_juoma1;
-		vaihtoehto 1: Hanalonkero 6,95€;
+        vaihtoehto 1: Hanalonkero 6,95€;
         triggeri 1: baari_juoma2;
         kohde 1: baari_juoma2;
-		vaihtoehto 2: Hanasiideri 5,95€;
+        vaihtoehto 2: Hanasiideri 5,95€;
         triggeri 2: baari_juoma3;
         kohde 2: baari_juoma3;
-		vaihtoehto 3: Peruuta;
+        vaihtoehto 3: Peruuta;
         triggeri 3: ;
         kohde 3: ;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 6:
     #nimi: juhani_huumeostettu;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png;
+        kuva 0: dialogi_juhani;
         teksti 0: Njuu. Kyllä tää fiitti nyt siltä näyttää, että sinä annat minulle yhden massin, ja minä annan sinulle yhden huumeen.;
         puhuja 0: Juhani;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 7:
     #nimi: pasi_kuu;
     #pituus: 5;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 0: dialogi_pasi;
         teksti 0: Hei, kato, sääkin löysit tänne!;
         puhuja 0: Pasi;
-        kuva 1: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 1: dialogi_keimo;
         teksti 1: Olit oikeessa, täällä on paremmat bileet.;
         puhuja 1: Keimo;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 2: dialogi_pasi;
         teksti 2: Kyllähän se näin on. Missä bileet, siellä mää. Kannattaa kuulua parempiin piireihin - saa juomatkin ilmaseks. Ootko muuten testannu kuuolutta?;
         puhuja 2: Pasi;
-        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 3: dialogi_keimo;
         teksti 3: Jahas. Sitä seuraavaks.;
         puhuja 3: Keimo;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 4: dialogi_pasi;
         teksti 4: Mää jään vartoon et ne saa tän pelin toimiin.;
         puhuja 4: Pasi;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 8:
     #nimi: goblin_alku;
     #pituus: 2;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
+        kuva 0: dialogi_yoda;
         teksti 0: Hrmm...;
         puhuja 0: Jumal Yoda;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
+        kuva 1: dialogi_yoda;
         teksti 1: Polku pimeälle puolelle, onko? Velhon tuttuja olet, joten reitin voin näyttää;
         puhuja 1: Jumal Yoda;
     }
@@ -19969,242 +19969,242 @@ Dialogi 0:
         kohde 1: goblin_ei;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 9:
     #nimi: temppeli_roska2;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_roska1.png;
+        kuva 0: dialogi_temppeli_roska1;
         teksti 0: Nämä roskat ovat lojuneet\ntässä kuukausitolkulla. Minkähänlaisia eliöitä niiden seassa muhii?;
         puhuja 0: ???;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 10:
     #nimi: temppeli_roska1;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_roska1.png;
+        kuva 0: dialogi_temppeli_roska1;
         teksti 0: Hirveä lemu. Vetää melkein vertoja\nhapansilakalle.;
         puhuja 0: ???;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 11:
     #nimi: baari_juoma2;
     #pituus: 4;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Iltaa. Yksi hanalonkero.;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 1: dialogi_kauppias;
         teksti 1: Se tekisi 6.95 euroa.;
         puhuja 1: Keimo-baarin tarjoilija;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 2: dialogi_kauppias;
         teksti 2: Tässä, olkaa hyvä.;
         puhuja 2: Keimo-baarin tarjoilija;
-        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 3: dialogi_keimo;
         teksti 3: Kiitos.;
         puhuja 3: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 12:
     #nimi: baari_juoma3;
     #pituus: 4;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Iltaa. Yksi hanasiideri.;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 1: dialogi_kauppias;
         teksti 1: Se tekisi 5.95 euroa.;
         puhuja 1: Keimo-baarin tarjoilija;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 2: dialogi_kauppias;
         teksti 2: Tässä, olkaa hyvä.;
         puhuja 2: Keimo-baarin tarjoilija;
-        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 3: dialogi_keimo;
         teksti 3: Kiitos.;
         puhuja 3: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 13:
     #nimi: temppeli_pyykki2;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_pyykki2.png;
+        kuva 0: dialogi_temppeli_pyykki2;
         teksti 0: Tätä likapyykkiä ei ole pesty ainakaan kuukauteen.;
         puhuja 0: ???;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 14:
     #nimi: goblin_kyllä;
     #pituus: 2;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Kiinnostunut.;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
+        kuva 1: dialogi_yoda;
         teksti 1: Siinä tapauksessa reitin pimeälle puolelle sinulle avaan.;
         puhuja 1: Jumal Yoda;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 15:
     #nimi: pasi_salahuone;
     #pituus: 4;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 0: dialogi_pasi;
         teksti 0: Kato, sääkin pääsit pelin läpi!;
         puhuja 0: Pasi;
-        kuva 1: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 1: dialogi_keimo;
         teksti 1: Sehän oli helppo peli.;
         puhuja 1: Keimo;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 2: dialogi_pasi;
         teksti 2: Täälä alakerrassa on aina vähä rajumpi meno. Ei sovi herkimmille.;
         puhuja 2: Pasi;
-        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 3: dialogi_keimo;
         teksti 3: Tätähän voi kutsua jo menoksi.;
         puhuja 3: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 16:
     #nimi: kuu_baari;
     #pituus: 6;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        kuva 0: dialogi_kuubaari;
         teksti 0: Hyvää iltaa! Mitä saisi olla?;
         puhuja 0: Kuu-baarin tarjoilija;
-        kuva 1: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 1: dialogi_keimo;
         teksti 1: Hmm... Tää on mulle uus paikka. Mitä suosittelet?;
         puhuja 1: Keimo;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        kuva 2: dialogi_kuubaari;
         teksti 2: Kuuolut on klassikko. Talo tarjoaa.;
         puhuja 2: Kuu-baarin tarjoilija;
-        kuva 3: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 3: dialogi_keimo;
         teksti 3: Oikeasti? No jumalauta, laitetaan sellainen.;
         puhuja 3: Keimo;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/kuuhahmo_2.png;
+        kuva 4: dialogi_kuubaari;
         teksti 4: Tässä, olkaa hyvä.;
         puhuja 4: Kuu-baarin tarjoilija;
-        kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 5: dialogi_keimo;
         teksti 5: Kiitos.;
         puhuja 5: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 17:
     #nimi: kyläkauppa;
     #pituus: 9;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Vihko auki!;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 1: dialogi_kauppias;
         teksti 1: 8 hiivaa...;
         puhuja 1: ASS-Market kassa;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 2: ...4 kiloa taloussokeria;
+        kuva 2: dialogi_kauppias;
+        teksti 2: ...4 kiloa taloussokeria...;
         puhuja 2: ASS-Market kassa;
-        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 3: ...ja Mennen;
+        kuva 3: dialogi_kauppias;
+        teksti 3: ...ja Mennen...;
         puhuja 3: ASS-Market kassa;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 4: dialogi_kauppias;
         teksti 4: ...;
         puhuja 4: ASS-Market kassa;
-        kuva 5: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 5: dialogi_kauppias;
         teksti 5: Meinasit ruveta ponua keittelemään?;
         puhuja 5: ASS-Market kassa;
-        kuva 6: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 6: dialogi_keimo;
         teksti 6: Hiljaa saatana!;
         puhuja 6: Keimo;
-        kuva 7: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 7: dialogi_kauppias;
         teksti 7: Ei noilla vielä kuuhun mennä.;
         puhuja 7: ASS-Market kassa;
-        kuva 8: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 8: dialogi_keimo;
         teksti 8: Haista sinä mursu paska!;
         puhuja 8: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 18:
     #nimi: pasi;
     #pituus: 10;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: No katos, täällähän sitä ollaan!;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 1: dialogi_pasi;
         teksti 1: No mutta sehän on itse Keimo!;
         puhuja 1: Pasi;
-        kuva 2: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 2: dialogi_keimo;
         teksti 2: Pasi, sulla on kengät isonneet.;
         puhuja 2: Keimo;
-        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 3: dialogi_pasi;
         teksti 3: ?;
         puhuja 3: Pasi;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 4: dialogi_pasi;
         teksti 4: Ootko muuten kuullu velhomettästä? Sielä on kuulemma hemmetin kovat menot.;
         puhuja 4: Pasi;
-        kuva 5: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 5: dialogi_keimo;
         teksti 5: Jahas, ekaa kertaa kuulen, missäs se on?;
         puhuja 5: Keimo;
-        kuva 6: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 6: dialogi_pasi;
         teksti 6: Yo-kylästä pohjoseen, ASS-marketin jälkeen itään. Nähään sielä illemmalla.;
         puhuja 6: Pasi;
-        kuva 7: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 7: dialogi_keimo;
         teksti 7: Mitähän muuten nää omituiset otukset on joita täällä kylillä pyörii?;
         puhuja 7: Keimo;
-        kuva 8: tiedostot/kuvat/kenttäkohteet/dialogi/pasi_dialogi.png;
+        kuva 8: dialogi_pasi;
         teksti 8: Niitä kutsutaan ihmisiksi. Koskettasit sääkin ruohoo välillä. Ha ha! Enivei, velhomettässä illalla.;
         puhuja 8: Pasi;
-        kuva 9: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 9: dialogi_keimo;
         teksti 9: Noni, siellä siis.;
         puhuja 9: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 19:
     #nimi: velho_kuu;
     #pituus: 2;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png;
+        kuva 0: dialogi_velho;
         teksti 0: Jumal Velhon boolilla pääsee kuuhun!;
         puhuja 0: Jumal Velho;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/velho_dialogi.png;
+        kuva 1: dialogi_velho;
         teksti 1: Jumal Velhon bileissä voit:\n -Juoda vitun hyvää kaljaa\n -Pelata uhkapelejä\n -Tunkea rahaa huoran perseeseen\n -Reivata kuussa;
         puhuja 1: Jumal Velho;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 20:
     #nimi: kyläkauppa2;
     #pituus: 9;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Vihko auki!;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 1: dialogi_kauppias;
         teksti 1: Jallu...;
         puhuja 1: ASS-Market kassa;
-        kuva 2: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 2: dialogi_kauppias;
         teksti 2: ...iso Nivea...;
         puhuja 2: ASS-Market kassa;
-        kuva 3: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
-        teksti 3: ...ja rotanloukku;
+        kuva 3: dialogi_kauppias;
+        teksti 3: ...ja rotanloukku...;
         puhuja 3: ASS-Market kassa;
-        kuva 4: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 4: dialogi_kauppias;
         teksti 4: ...;
         puhuja 4: ASS-Market kassa;
-        kuva 5: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 5: dialogi_kauppias;
         teksti 5: Taitaa olla poikamiesilta?;
         puhuja 5: ASS-Market kassa;
-        kuva 6: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 6: dialogi_keimo;
         teksti 6: Hiljaa munapää!;
         puhuja 6: Keimo;
-        kuva 7: tiedostot/kuvat/kenttäkohteet/dialogi/kauppias_dialogi.png;
+        kuva 7: dialogi_kauppias;
         teksti 7: Noillahan pääsee kuuhun asti.;
         puhuja 7: ASS-Market kassa;
-        kuva 8: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 8: dialogi_keimo;
         teksti 8: Haista sinä paska!;
         puhuja 8: Keimo;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 21:
     #nimi: juhani_huume;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/juhani_dialogi.png;
+        kuva 0: dialogi_juhani;
         teksti 0: Osta Juhanilta kahel kybäl yksi huume pois;
         puhuja 0: Juhani;
     }
@@ -20220,42 +20220,54 @@ Dialogi 0:
         kohde 1: ;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 22:
     #nimi: yoda_kuu;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/yoda_dialogi.png;
-        teksti 0: Hrmm... hyvältä maistui... \n\n...\nJallu;
+        kuva 0: dialogi_yoda;
+        teksti 0: Hrmm... hyvältä maistui... \n\n...\n\n...JALLU;
         puhuja 0: Jumal Yoda;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 23:
     #nimi: temppeli_tölkit1;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_tölkit1.png;
+        kuva 0: dialogi_temppeli_tölkit1;
         teksti 0: Näillä tölkeillä pystyisi rakentamaan sillan joen yli.;
         puhuja 0: ???;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 24:
     #nimi: temppeli_tölkit2;
     #pituus: 1;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/kenttäkohteet/dialogi/temppeli_tölkit1.png;
+        kuva 0: dialogi_temppeli_tölkit1;
         teksti 0: Jos nämä tölkit laittaisi jonoon, se olisi melkein yhtä pitkä kuin Ass-Marketin ämpärijono.;
         puhuja 0: ???;
     }
 /Dialogi
-Dialogi 0:
+Dialogi 25:
     #nimi: pasi_eikotona;
     #pituus: 2;
     #dialogit: {
-        kuva 0: tiedostot/kuvat/vuoropuhe/keimo_lähikuva.png;
+        kuva 0: dialogi_keimo;
         teksti 0: Pasi tuu avaan! Mulla on kytät perässä.;
         puhuja 0: Keimo;
-        kuva 1: tiedostot/kuvat/kenttäkohteet/koristeovi.png;
+        kuva 1: dialogi_ovilukossa;
         teksti 1: Pasi ei ole kotona. Se on erittäin todennäköisesti Keimo-baarissa. Parasta lähteä siis sinnepäin;
+        puhuja 1: ...;
+    }
+/Dialogi
+Dialogi 26:
+    #nimi: goblin_pimeä;
+    #pituus: 2;
+    #dialogit: {
+        kuva 0: dialogi_goblin;
+        teksti 0: Hrmmm...;
+        puhuja 0: Goblin;
+        kuva 1: dialogi_vakio;
+        teksti 1: Ehkä kannattaa kokeilla tutustua muihin metsän asukkaisiin ensin.;
         puhuja 1: ...;
     }
 /Dialogi

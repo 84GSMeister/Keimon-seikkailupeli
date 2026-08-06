@@ -1,16 +1,15 @@
 package keimo.seikkailupeli.assets.huone;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
 import keimo.seikkailupeli.Peli;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
 import keimo.seikkailupeli.objektit.entityt.*;
 import keimo.seikkailupeli.objektit.entityt.npc.NPC;
 import keimo.seikkailupeli.objektit.kenttäkohteet.*;
 import keimo.seikkailupeli.objektit.maastot.*;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Huone {
     
@@ -215,13 +214,13 @@ public class Huone {
             }
             else {
                 String viesti = "Ei voi sijoittaa " + k.annaNimiSijamuodossa("partitiivi") + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä ruudussa on " + huoneenKenttäSisältö[sijX][sijY].annaNimiSijamuodossa("nominatiivi");
-                tinyfd_messageBox("Virheellinen sijainti", viesti, "ok", "error", false);
+                DialogiIkkunat.viestiIkkuna("Virheellinen sijainti", viesti, "ok", "error", false);
             }
         }
         else {
             String viesti = "Ei voi sijoittaa " + k.annaNimiSijamuodossa("partitiivi") + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenKenttäSisältö.length;
             viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
-            tinyfd_messageBox("Virheellinen sijainti", viesti, "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virheellinen sijainti", viesti, "ok", "error", false);
         }
     }
 
@@ -233,7 +232,7 @@ public class Huone {
             }
             else {
                 String viesti = "Ei voi sijoittaa " + m.annaNimiSijamuodossa("partitiivi") + " (kuva: " + m.annaKuvanTiedostoNimi() + ") ruutuun (" + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä ruudussa on " + huoneenMaastoSisältö[sijX][sijY].annaKuvanTiedostoNimi();
-                tinyfd_messageBox("Virheellinen sijainti", viesti, "ok", "error", false);
+                DialogiIkkunat.viestiIkkuna("Virheellinen sijainti", viesti, "ok", "error", false);
             }
         }
         else {
@@ -247,7 +246,7 @@ public class Huone {
             }
             String viesti = "Ei voi sijoittaa " + m.annaNimiSijamuodossa("partitiivi") + " (kuva: " + kuvanNimi + ") ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenMaastoSisältö.length;
             viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
-            tinyfd_messageBox("Virheellinen sijainti", viesti, "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virheellinen sijainti", viesti, "ok", "error", false);
         }
     }
 
@@ -268,13 +267,13 @@ public class Huone {
             }
             else {
                 String viesti = "Ei voi sijoittaa " + n.annaNimiSijamuodossa("partitiivi") + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä ruudussa on " + huoneenNPCSisältö[sijX][sijY].annaNimiSijamuodossa("nominatiivi");
-                tinyfd_messageBox("Virheellinen sijainti", viesti, "ok", "error", false);
+                DialogiIkkunat.viestiIkkuna("Virheellinen sijainti", viesti, "ok", "error", false);
             }
         }
         else {
             String viesti = "Ei voi sijoittaa " + n.annaNimiSijamuodossa("partitiivi") + " ruutuun (" + sijX + ", " + sijY + ") huoneessa " + this.id + ", sillä kentän koko on " + huoneenNPCSisältö.length;
             viesti += "\n\nTarkista, että default.kst -tiedosto on yhteensopiva nykyisen pelin version kanssa, ja että sitä ei ole muokattu muuten, kuin pelinsisäisellä editorilla.";
-            tinyfd_messageBox("Virheellinen sijainti", viesti, "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virheellinen sijainti", viesti, "ok", "error", false);
         }
     }
 

@@ -1,16 +1,15 @@
 package keimo.utility;
 
+import keimo.keimoengine.ikkuna.DialogiIkkunat;
 import keimo.seikkailupeli.Peli;
 import keimo.seikkailupeli.assets.dialogi.VuoropuheDialogiPätkä;
 import keimo.seikkailupeli.assets.huone.Huone;
-import keimo.seikkailupeli.assets.tarina.TarinaDialogiLista;
 import keimo.seikkailupeli.assets.tarina.TarinaPätkä;
 import keimo.seikkailupeli.objektit.Pelaaja;
-import keimo.seikkailupeli.objektit.Käännettävä.Suunta;
+import keimo.seikkailupeli.objektit.Suunnallinen.Suunta;
 import keimo.seikkailupeli.objektit.entityt.*;
 import keimo.seikkailupeli.objektit.kenttäkohteet.*;
 import keimo.seikkailupeli.objektit.maastot.*;
-import keimo.seikkailupeli.toiminnot.Dialogit;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,8 +20,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 public class KSTLoader {
 
@@ -61,7 +58,7 @@ public class KSTLoader {
                 }
             }
             read.close();
-            Peli.huoneKartta.clear();
+            Peli.annaHuoneKartta().clear();
             lataaAsetuksetMerkkijonosta(asetuksetMerkkijonona);
         }
         catch (Exception e) {
@@ -294,7 +291,6 @@ public class KSTLoader {
         String idTarkistus = "";
         try {
             KenttäKohde.nollaaObjektiId();
-            TarinaPätkä.nollaaTarinaId();
             for (String s : huoneMerkkijonot) {
                 Scanner sc = new Scanner(s);
                 try {
@@ -310,7 +306,7 @@ public class KSTLoader {
                                 uusiHuoneenKoko = Integer.parseInt(tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1));
                             }
                             catch (NumberFormatException nfe) {
-                                tinyfd_messageBox("Virheellinen koko", "Virhe parsiessa kst-tiedostoa!\n\nVirheellinen koko huoneessa " + uusiHuoneenId + " (rivi " + rivejäTarkastettu +")\n" + "Asetetaan huoneen kooksi 10.", "ok", "error", false);
+                                DialogiIkkunat.viestiIkkuna("Virheellinen koko", "Virhe parsiessa kst-tiedostoa!\n\nVirheellinen koko huoneessa " + uusiHuoneenId + " (rivi " + rivejäTarkastettu +")\n" + "Asetetaan huoneen kooksi 10.", "ok", "error", false);
                                 uusiHuoneenKoko = 10;
                             }
                         }
@@ -572,7 +568,7 @@ public class KSTLoader {
                 }
                 catch (NumberFormatException e) {
                     e.printStackTrace();
-                    tinyfd_messageBox("Virheellinen huoneen ID", "Virhe parsiessa kst-tiedostoa!\n\nVirheellinen huoneen ID: " + idTarkistus + " (rivi " + rivejäTarkastettu +")\nVain positiiviset kokonaisluvut kelpaavat huoneen ID:ksi.\nOhitetaan huoneen luonti.", "ok", "error", false);
+                    DialogiIkkunat.viestiIkkuna("Virheellinen huoneen ID", "Virhe parsiessa kst-tiedostoa!\n\nVirheellinen huoneen ID: " + idTarkistus + " (rivi " + rivejäTarkastettu +")\nVain positiiviset kokonaisluvut kelpaavat huoneen ID:ksi.\nOhitetaan huoneen luonti.", "ok", "error", false);
                 }
             }
         }
@@ -595,8 +591,7 @@ public class KSTLoader {
             virheViesti += ("npc:n Y: " + luotavanNPCnY + "\n\n");
             virheViesti += ("^^Tyhjä, 0, 0 -> todennäköinen virhe");
             System.out.println(virheViesti);
-            //JOptionPane.showMessageDialog(null, "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "Virhe ladatessa tiedostoa.", JOptionPane.ERROR_MESSAGE);
-            tinyfd_messageBox("Virhe ladatessa tiedostoa.", "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa tiedostoa.", "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "ok", "error", false);
         }
         return uusiHuoneKartta;
     }
@@ -641,7 +636,6 @@ public class KSTLoader {
         int rivejäTarkastettu = 0;
         try {
             KenttäKohde.nollaaObjektiId();
-            TarinaPätkä.nollaaTarinaId();
             //for (String s : huoneMerkkijonot) {
                 Scanner sc = new Scanner(merkkijono);
                 while (sc.hasNextLine()) {
@@ -905,8 +899,6 @@ public class KSTLoader {
                 }
                 Huone huone = new Huone(uusiHuoneenId, uusiHuoneenKoko, uusiHuoneenNimi, uusiHuoneenTaustanPolku, uusiHuoneenAlue, uusiObjektiLista, uusiMaastoLista, uusiNPCLista, uusiMusa, uusiHuoneenTarinanTunniste, uusiHuoneenVaadittuTavoite);
                 huone.päivitäReunawarppienTiedot(uusiWarpVasen, uusiWarpVasenHuoneId, uusiWarpOikea, uusiWarpOikeaHuoneId, uusiWarpAlas, uusiWarpAlasHuoneId, uusiWarpYlös, uusiWarpYlösHuoneId);
-                //System.out.println("huone: " + huone.annaId() + ", vasen warp: " + huone.warpVasen + huone.warpVasenHuoneId + ", oikea warp: " + huone.warpOikea + huone.warpOikeaHuoneId + ", alas warp: " + huone.warpAlas + huone.warpAlasHuoneId + ", ylös warp: " + huone.warpYlös + huone.warpYlösHuoneId);
-                //uusiHuoneKartta.put(uusiHuoneenId, huone);
                 uusiObjektiLista.clear();
                 uusiMaastoLista.clear();
                 uusiNPCLista.clear();
@@ -938,8 +930,7 @@ public class KSTLoader {
             virheViesti += ("npc:n Y: " + luotavanNPCnY + "\n\n");
             virheViesti += ("^^Tyhjä, 0, 0 -> todennäköinen virhe");
             System.out.println(virheViesti);
-            //JOptionPane.showMessageDialog(null, "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "Virhe ladatessa tiedostoa.", JOptionPane.ERROR_MESSAGE);
-            tinyfd_messageBox("Virhe ladatessa tiedostoa.", "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe ladatessa tiedostoa.", "Tiedostossa on virheellinen asettelu eikä kaikkia elementtejä voitu ladata.\nTämä johtuu todennäköisesti siitä, että tiedostoa on muokattu muuten kuin pelinsisäisellä editorilla tai tiedosto on yhteensopimaton nykyisen pelin/editorin version kanssa.\n\n" + virheViesti, "ok", "error", false);
             return null;
         }
     }
@@ -947,11 +938,11 @@ public class KSTLoader {
     public static HashMap<String, TarinaPätkä> luoTarinaKarttaMerkkijonosta(String[] tarinaMerkkijonot) {
         
         HashMap<String, TarinaPätkä> uusiTarinaKartta = new HashMap<>();
+        ArrayList<Integer> käytetytIdt = new ArrayList<>();
 
-        TarinaDialogiLista.tarinaKartta.clear();
+        int uusiTarinanId = 0;
         String uusiTarinanNimi = "";
         int uusiTarinanPituus = 0;
-        //ImageIcon[] uudetTarinaPätkänKuvat = new ImageIcon[uusiTarinanPituus];
         String[] uudetTarinaPätkänKuvatiedostot = new String[uusiTarinanPituus];
         String[] uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
 
@@ -962,7 +953,9 @@ public class KSTLoader {
                     String tarkastettavaRivi = "";
                     tarkastettavaRivi = sc.nextLine();
                     if (tarkastettavaRivi.startsWith("Tarina")) {
-
+                        uusiTarinanId = Integer.parseInt(tarkastettavaRivi.substring(7, tarkastettavaRivi.length() -1));
+                        while (käytetytIdt.contains(uusiTarinanId)) uusiTarinanId++;
+                        käytetytIdt.add(uusiTarinanId);
                     }
                     else if (tarkastettavaRivi.contains("#nimi:")) {
                         uusiTarinanNimi = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
@@ -971,7 +964,6 @@ public class KSTLoader {
                         uusiTarinanPituus = Integer.parseInt(tarkastettavaRivi.substring(13, tarkastettavaRivi.length() -1));
                     }
                     else if (tarkastettavaRivi.contains("sivut:")) {
-                        //uudetTarinaPätkänKuvat = new ImageIcon[uusiTarinanPituus];
                         uudetTarinaPätkänKuvatiedostot = new String[uusiTarinanPituus];
                         uudetTarinaPätkänTekstit = new String[uusiTarinanPituus];
                         for (int i = 0; i < uusiTarinanPituus*2; i++) {
@@ -981,7 +973,6 @@ public class KSTLoader {
                                     int alkuIndeksi = tarkastettavaRivi.indexOf("kuva ") +5;
                                     int loppuIndeksi = tarkastettavaRivi.indexOf(":");
                                     int kuvanNumero = Integer.parseInt(tarkastettavaRivi.substring(alkuIndeksi, loppuIndeksi));
-                                    //uudetTarinaPätkänKuvat[kuvanNumero] = new ImageIcon(tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1));
                                     uudetTarinaPätkänKuvatiedostot[kuvanNumero] = tarkastettavaRivi.substring(tarkastettavaRivi.indexOf(":") +2, tarkastettavaRivi.length() -1);
                                 }
                                 else if (tarkastettavaRivi.contains("teksti ")) {
@@ -994,7 +985,7 @@ public class KSTLoader {
                         }
                     }
                 }
-                uusiTarinaKartta.put(uusiTarinanNimi, new TarinaPätkä(uusiTarinanNimi, uusiTarinanPituus, uudetTarinaPätkänKuvatiedostot, uudetTarinaPätkänTekstit));
+                uusiTarinaKartta.put(uusiTarinanNimi, new TarinaPätkä(uusiTarinanId, uusiTarinanNimi, uusiTarinanPituus, uudetTarinaPätkänKuvatiedostot, uudetTarinaPätkänTekstit));
                 sc.close();
             }
         }
@@ -1012,7 +1003,9 @@ public class KSTLoader {
     public static HashMap<String, VuoropuheDialogiPätkä> luoDialogiKarttaMerkkijonosta(String[] dialogiMerkkijonot) {
         
         HashMap<String, VuoropuheDialogiPätkä> uusiDialogiKartta = new HashMap<>();
+        ArrayList<Integer> käytetytIdt = new ArrayList<>();
 
+        int uusiDialoginId = 0;
         String uusiDialoginNimi = "";
         int uusiDialoginPituus = 0;
         String[] uudetDialogiPätkänKuvatiedostot = new String[uusiDialoginPituus];
@@ -1033,7 +1026,9 @@ public class KSTLoader {
                     String tarkastettavaRivi = "";
                     tarkastettavaRivi = sc.nextLine();
                     if (tarkastettavaRivi.startsWith("Dialogi")) {
-
+                        uusiDialoginId = Integer.parseInt(tarkastettavaRivi.substring(8, tarkastettavaRivi.length() -1));
+                        while (käytetytIdt.contains(uusiDialoginId)) uusiDialoginId++;
+                        käytetytIdt.add(uusiDialoginId);
                     }
                     else if (tarkastettavaRivi.contains("#nimi:")) {
                         uusiDialoginNimi = tarkastettavaRivi.substring(11, tarkastettavaRivi.length() -1);
@@ -1108,8 +1103,8 @@ public class KSTLoader {
                         }
                     }
                 }
-                if (valinta) uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, null, true, valinnanNimi, valinnanOtsikko, valinnanVaihtoehdot, vaihtoehtojenKohdedialogit, valinnanTriggerit));
-                else uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, null, false, null, null, null, null, null));
+                if (valinta) uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginId, uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, true, valinnanNimi, valinnanOtsikko, valinnanVaihtoehdot, vaihtoehtojenKohdedialogit, valinnanTriggerit));
+                else uusiDialogiKartta.put(uusiDialoginNimi, new VuoropuheDialogiPätkä(uusiDialoginId, uusiDialoginNimi, uusiDialoginPituus, uudetDialogiPätkänKuvatiedostot, uudetDialogiPätkänTekstit, uudetDialogiPätkänPuhujat, false, null, null, null, null, null));
                 sc.close();
             }
         }
@@ -1199,7 +1194,8 @@ public class KSTLoader {
                     for (KenttäKohde k : kk) {
                         if (k != null) {
                             huoneetMerkkijonoina[i] += "        " + k.annaNimi() + "_" + k.annaSijX() + "_" + k.annaSijY();
-                            if (k.onkoLisäOminaisuuksia()) {
+                            //if (k.onkoLisäOminaisuuksia()) {
+                            if (k.annaLisäOminaisuudet().size() > 0) {
                                 huoneetMerkkijonoina[i] += "+ominaisuudet:[";
                                 for (String s : k.annaLisäOminaisuudet()) {
                                     huoneetMerkkijonoina[i] += s + ",";
@@ -1218,7 +1214,7 @@ public class KSTLoader {
                 huoneetMerkkijonoina[i] += "    }\n    ";
             }
             catch (NullPointerException e) {
-                tinyfd_messageBox("Virhe tallentaessa objekteja", "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+                DialogiIkkunat.viestiIkkuna("Virhe tallentaessa objekteja", "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                 huoneetMerkkijonoina[i] += "\n    }\n";
             }
 
@@ -1228,7 +1224,8 @@ public class KSTLoader {
                     for (Maasto m : mm) {
                         if (m != null) {
                             huoneetMerkkijonoina[i] += "        " + m.annaNimi() + "_" + m.annaSijX() + "_" + m.annaSijY();
-                            if (m.onkoLisäOminaisuuksia()) {
+                            //if (m.onkoLisäOminaisuuksia()) {
+                            if (m.annaLisäOminaisuudet().size() > 0) {
                                 huoneetMerkkijonoina[i] += "+ominaisuudet:[";
                                 for (String s : m.annaLisäOminaisuudet()) {
                                     huoneetMerkkijonoina[i] += s + ",";
@@ -1247,7 +1244,7 @@ public class KSTLoader {
                 huoneetMerkkijonoina[i] += "    }\n    ";
             }
             catch (NullPointerException e) {
-                tinyfd_messageBox("Virhe tallentaessa maastoa", "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+                DialogiIkkunat.viestiIkkuna("Virhe tallentaessa maastoa", "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                 huoneetMerkkijonoina[i] += "\n    }\n";
             }
 
@@ -1262,7 +1259,8 @@ public class KSTLoader {
                             else {
                                 huoneetMerkkijonoina[i] += "        " + n.annaNimi();
                             }
-                            if (n.onkoLisäOminaisuuksia()) {
+                            //if (n.onkoLisäOminaisuuksia()) {
+                            if (n.annaLisäOminaisuudet().size() > 0) {
                                 huoneetMerkkijonoina[i] += "+ominaisuudet:[";
                                 for (String s : n.annaLisäOminaisuudet()) {
                                     huoneetMerkkijonoina[i] += s + ",";
@@ -1282,7 +1280,7 @@ public class KSTLoader {
                 huoneetMerkkijonoina[i] += "    }\n";
             }
             catch (NullPointerException e) {
-                tinyfd_messageBox("Virhe tallentaessa entityjä", "Ei voitu tallentaa entityjä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+                DialogiIkkunat.viestiIkkuna("Virhe tallentaessa entityjä", "Ei voitu tallentaa entityjä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                 huoneetMerkkijonoina[i] += "\n    }\n";
             }
 
@@ -1290,9 +1288,9 @@ public class KSTLoader {
             kokoTiedostoMerkkijonona += "/Huone" + "\n";
         }
         if (tarinaKartta != null) {
-            String[] tarinaDialogitMerkkijonoina = new String[TarinaDialogiLista.tarinaKartta.size()];
+            String[] tarinaDialogitMerkkijonoina = new String[Peli.peliTiedosto.annaTarinaKartta().size()];
             Object[] tarinanTunnisteet = tarinaKartta.keySet().toArray();
-            for (int i = 0; i < TarinaDialogiLista.tarinaKartta.size(); i++) {
+            for (int i = 0; i < Peli.peliTiedosto.annaTarinaKartta().size(); i++) {
                 tarinaDialogitMerkkijonoina[i] = "";
                 tarinaDialogitMerkkijonoina[i] += "Tarina " + tarinaKartta.get(tarinanTunnisteet[i]).annaId() + ":" + "\n    ";
                 tarinaDialogitMerkkijonoina[i] += "#nimi: " + tarinaKartta.get(tarinanTunnisteet[i]).annaNimi() + ";" + "\n    ";
@@ -1311,7 +1309,7 @@ public class KSTLoader {
                     tarinaDialogitMerkkijonoina[i] += "    }\n";
                 }
                 catch (NullPointerException e) {
-                    tinyfd_messageBox("Virhe tallentaessa tarinaa", "Ei voitu tallentaa tarinan sivuja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+                    DialogiIkkunat.viestiIkkuna("Virhe tallentaessa tarinaa", "Ei voitu tallentaa tarinan sivuja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                     tarinaDialogitMerkkijonoina[i] += "\n    }\n";
                 }
                 kokoTiedostoMerkkijonona += tarinaDialogitMerkkijonoina[i];
@@ -1319,9 +1317,9 @@ public class KSTLoader {
             }
         }
         if (dialogiKartta != null) {
-            String[] vuoropuheDialogitMerkkijonoina = new String[Dialogit.PitkätDialogit.vuoropuheDialogiKartta.size()];
+            String[] vuoropuheDialogitMerkkijonoina = new String[Peli.peliTiedosto.annaDialogiKartta().size()];
             Object[] dialoginTunnisteet = dialogiKartta.keySet().toArray();
-            for (int i = 0; i < Dialogit.PitkätDialogit.vuoropuheDialogiKartta.size(); i++) {
+            for (int i = 0; i < Peli.peliTiedosto.annaDialogiKartta().size(); i++) {
                 vuoropuheDialogitMerkkijonoina[i] = "";
                 vuoropuheDialogitMerkkijonoina[i] += "Dialogi " + dialogiKartta.get(dialoginTunnisteet[i]).annaId() + ":" + "\n    ";
                 vuoropuheDialogitMerkkijonoina[i] += "#nimi: " + dialogiKartta.get(dialoginTunnisteet[i]).annaTunniste() + ";" + "\n    ";
@@ -1353,7 +1351,7 @@ public class KSTLoader {
                     }
                 }
                 catch (NullPointerException e) {
-                    tinyfd_messageBox("Virhe tallentaessa dialogeja", "Ei voitu tallentaa dialogeja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+                    DialogiIkkunat.viestiIkkuna("Virhe tallentaessa dialogeja", "Ei voitu tallentaa dialogeja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
                     vuoropuheDialogitMerkkijonoina[i] += "\n    }\n";
                 }
                 kokoTiedostoMerkkijonona += vuoropuheDialogitMerkkijonoina[i];
@@ -1421,7 +1419,8 @@ public class KSTLoader {
                 for (KenttäKohde k : kk) {
                     if (k != null) {
                         huoneetMerkkijonoina += "        " + k.annaNimi() + "_" + k.annaSijX() + "_" + k.annaSijY();
-                        if (k.onkoLisäOminaisuuksia()) {
+                        //if (k.onkoLisäOminaisuuksia()) {
+                        if (k.annaLisäOminaisuudet().size() > 0) {
                             huoneetMerkkijonoina += "+ominaisuudet:[";
                             for (String s : k.annaLisäOminaisuudet()) {
                                 huoneetMerkkijonoina += s + ",";
@@ -1440,7 +1439,7 @@ public class KSTLoader {
             huoneetMerkkijonoina += "    }\n    ";
         }
         catch (NullPointerException e) {
-            tinyfd_messageBox("Virhe tallentaessa objekteja", "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe tallentaessa objekteja", "Ei voitu tallentaa objekteja.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
             huoneetMerkkijonoina += "\n    }\n";
         }
 
@@ -1450,7 +1449,8 @@ public class KSTLoader {
                 for (Maasto m : mm) {
                     if (m != null) {
                         huoneetMerkkijonoina += "        " + m.annaNimi() + "_" + m.annaSijX() + "_" + m.annaSijY();
-                        if (m.onkoLisäOminaisuuksia()) {
+                        //if (m.onkoLisäOminaisuuksia()) {
+                        if (m.annaLisäOminaisuudet().size() > 0) {
                             huoneetMerkkijonoina += "+ominaisuudet:[";
                             for (String s : m.annaLisäOminaisuudet()) {
                                 huoneetMerkkijonoina += s + ",";
@@ -1469,7 +1469,7 @@ public class KSTLoader {
             huoneetMerkkijonoina += "    }\n    ";
         }
         catch (NullPointerException e) {
-            tinyfd_messageBox("Virhe tallentaessa maastoa", "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe tallentaessa maastoa", "Ei voitu tallentaa maastoa.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
             huoneetMerkkijonoina += "\n    }\n";
         }
 
@@ -1484,7 +1484,8 @@ public class KSTLoader {
                         else {
                             huoneetMerkkijonoina += "        " + n.annaNimi();
                         }
-                        if (n.onkoLisäOminaisuuksia()) {
+                        //if (n.onkoLisäOminaisuuksia()) {
+                        if (n.annaLisäOminaisuudet().size() > 0) {
                             huoneetMerkkijonoina += "+ominaisuudet:[";
                             for (String s : n.annaLisäOminaisuudet()) {
                                 huoneetMerkkijonoina += s + ",";
@@ -1504,7 +1505,7 @@ public class KSTLoader {
             huoneetMerkkijonoina += "    }\n";
         }
         catch (NullPointerException e) {
-            tinyfd_messageBox("Virhe tallentaessa entityjä", "Ei voitu tallentaa entityjä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
+            DialogiIkkunat.viestiIkkuna("Virhe tallentaessa entityjä", "Ei voitu tallentaa entityjä.\n\nNull pointer Exception\n\nTämä voi tapahtua, jos olet ladannut vanhentuneen kst-tiedoston editoriin.", "ok", "error", false);
             huoneetMerkkijonoina += "\n    }\n";
         }
 

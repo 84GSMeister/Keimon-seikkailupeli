@@ -1,0 +1,5 @@
+Vanhan editorin koodi on aivan kamalaa ja siinä on lukuisia bugeja.
+Tätä ei enää ylläpidetä. Suosittelen käyttämään pelinsisäistä editoria.
+
+Jos kuitenkin haluat käyttää tätä, kopioi default.kst (tai mikä tahansa .kst-tiedosto)
+pelin hakemistosta "tiedostot/pelitiedostot" editorin samannimiseen hakemistoon.

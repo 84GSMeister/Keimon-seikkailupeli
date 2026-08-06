@@ -14,8 +14,8 @@ public class Juomalasi extends Juoma {
         super.nimi = "Juomalasi";
         String juomaTyyppi = "";
         if (ominaisuusLista != null) {
-            this.lisäOminaisuuksia = true;
-            this.lisäOminaisuudet = new ArrayList<>();
+            //this.lisäOminaisuuksia = true;
+            //this.lisäOminaisuudet = new ArrayList<>();
             for (String ominaisuus : ominaisuusLista) {
                 if (ominaisuus.startsWith("juoma=")) {
                     juomaTyyppi = ominaisuus.substring(6);
@@ -24,6 +24,7 @@ public class Juomalasi extends Juoma {
             asetaJuoma(juomaTyyppi);
         }
         else asetaJuoma("TYHJÄ");
+        päivitäLisäOminaisuudet();
         super.asetaTiedot();
     }
 
@@ -51,6 +52,11 @@ public class Juomalasi extends Juoma {
             case "allatiivi":    return "Juomalasille";
             default:             return "Juomalasi";
         }
+    }
+
+    private void päivitäLisäOminaisuudet() {
+        this.lisäOminaisuudet.removeIf(ominaisuus -> ominaisuus.startsWith("juoma="));
+        this.lisäOminaisuudet.add("juoma=" + this.juoma);
     }
 
     public String annaJuoma() {
